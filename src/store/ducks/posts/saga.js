@@ -384,7 +384,8 @@ function* postsCreateRequest(req) {
  */
 function* postsCreateSchedulerRequest() {
   const data = yield select(state => state.posts.postsCreateQueue)
-  const posts = Object.values(data)
+  
+  const allFailedPosts = Object.values(data)
     .filter(post => path(['status'])(post) !== 'idle')
     .filter(post => dayjs(path(['payload', 'createdAt'])(post)).diff(dayjs(), 'minute') > 10)
 
@@ -398,7 +399,18 @@ function* postsCreateSchedulerRequest() {
     }))
   }
 
-  posts.forEach(createPost)
+  function* storePost(post) {
+    const postId = uuid()
+    const mediaId = uuid()
+  }
+
+  allFailedPosts
+    .filter(post => path(['payload', 'attempt'])(post) < 10)
+    .forEach(createPost)
+
+  allFailedPosts
+    .filter(post => path(['payload', 'attempt'])(post) >= 10)
+    .forEach(storePost)
 }
 
 /**
