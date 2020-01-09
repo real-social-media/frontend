@@ -28,6 +28,7 @@ const PostCreateService = ({ children, navigation }) => {
       takenInReal: path(['data', 'takenInReal'])(cameraCapture),
       originalFormat: path(['data', 'originalFormat'])(cameraCapture),
       createdAt: dayjs().toJSON(),
+      attempt: 0,
     }))
     dispatch(cameraActions.cameraCaptureIdle())
     navigation.navigate('Feed')

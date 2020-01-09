@@ -295,16 +295,16 @@ function initPostsCreateUploadChannel({ image, imageUrl }) {
   const imagePath = RNFetchBlob.wrap(image.replace('file://', ''))
 
   return eventChannel(emitter => {
-    promiseRetry((retry, number) => {
-      emitter({ status: 'retry', progress: 0 })
+    promiseRetry((retry, attempt) => {
+      emitter({ status: 'retry', progress: 0, attempt })
 
       return RNFetchBlob
         .fetch('PUT', imageUrl, { 'Content-Type' : 'application/octet-stream' }, imagePath)
         .uploadProgress((written, total) => {
-          emitter({ status: 'progress', progress: parseInt(written / total * 100, 10) })
+          emitter({ status: 'progress', progress: parseInt(written / total * 100, 10), attempt })
         })
         .catch(retry)
-    }, { retries: 1 })
+    }, { retries: 10 })
     .then((resp) => {
       emitter({ status: 'success', progress: 100 })
     })
@@ -349,17 +349,24 @@ function* postsCreateRequest(req) {
 
     try {
       yield takeEvery(channel, function *(upload) {
-        if (upload.status === 'progress') {
-          yield put(actions.postsCreateProgress({ data: {}, payload: req.payload, meta: { progress: parseInt(upload.progress, 10) } }))
+        const meta = {
+          attempt: upload.attempt || req.payload.attempt,
+          progress: parseInt(upload.progress, 10),
         }
+
+        if (upload.status === 'progress') {
+          yield put(actions.postsCreateProgress({ data: {}, payload: req.payload, meta }))
+        }
+
         if (upload.status === 'success') {
           yield delay(3000)
-          yield put(actions.postsCreateSuccess({ data: {}, payload: req.payload, meta: { progress: parseInt(upload.progress, 10) } }))
+          yield put(actions.postsCreateSuccess({ data: {}, payload: req.payload, meta }))
           yield delay(5000)
-          yield put(actions.postsCreateIdle({ data: {}, payload: req.payload, meta: { progress: parseInt(upload.progress, 10) } }))
+          yield put(actions.postsCreateIdle({ data: {}, payload: req.payload, meta }))
         }
+
         if (upload.status === 'failure') {
-          yield put(actions.postsCreateFailure({ data: {}, payload: req.payload, meta: { progress: parseInt(upload.progress, 10) } }))
+          yield put(actions.postsCreateFailure({ data: {}, payload: req.payload, meta }))
         }
       })
     } catch (error) {
@@ -380,7 +387,7 @@ function* postsCreateSchedulerRequest() {
   const posts = Object.values(data)
     .filter(post => path(['status'])(post) !== 'idle')
     .filter(post => dayjs(path(['payload', 'createdAt'])(post)).diff(dayjs(), 'minute') > 10)
-  
+
   function* createPost(post) {
     const postId = uuid()
     const mediaId = uuid()
