@@ -45,7 +45,7 @@ export const AuthProvider = ({
   useEffect(() => {
     BackgroundTimer.runBackgroundTimer(() => { 
       dispatch(postsActions.postsCreateSchedulerRequest({}))
-    }, 3000)
+    }, 60000 * 10)
   }, [])
 
   /**

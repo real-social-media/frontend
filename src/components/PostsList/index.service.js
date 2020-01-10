@@ -70,6 +70,9 @@ const PostsService = ({ children, navigation }) => {
     }))
   }
 
+  const postsCreateIdle = (payload) =>
+    dispatch(postsActions.postsCreateIdle({ payload }))
+
   const scrollToTop = () => {
     if (!feedRef.current || typeof feedRef.current.scrollToOffset !== 'function') { return }
     feedRef.current.scrollToOffset({ animated: true, offset: 0 })
@@ -85,6 +88,7 @@ const PostsService = ({ children, navigation }) => {
   useEffect(() => {
     if (postsCreate.status === 'success') {
       dispatch(postsActions.postsFeedGetRequest({}))
+      dispatch(postsActions.postsCreateIdle({ payload: postsCreate.payload }))
     }
 
     if (postsDelete.status === 'success') {
@@ -155,6 +159,7 @@ const PostsService = ({ children, navigation }) => {
     postsDeleteRequest,
     postsCreate,
     postsCreateRequest,
+    postsCreateIdle,
     postsCreateQueue,
     layoutPostsListItemSuccess,
     layoutPostsListItem,

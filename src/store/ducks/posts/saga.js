@@ -15,6 +15,7 @@ import promiseRetry from 'promise-retry'
 import Icon from 'assets/images/icon.png'
 import dayjs from 'dayjs'
 import uuid from 'uuid/v4'
+import RNFS from 'react-native-fs'
 
 /**
  *
@@ -303,8 +304,11 @@ function initPostsCreateUploadChannel({ image, imageUrl }) {
         .uploadProgress((written, total) => {
           emitter({ status: 'progress', progress: parseInt(written / total * 100, 10), attempt })
         })
-        .catch(retry)
-    }, { retries: 10 })
+        .catch((error) => {
+          emitter({ status: 'progress', progress: 0, attempt })
+          retry(error)
+        })
+    }, { retries: 5 })
     .then((resp) => {
       emitter({ status: 'success', progress: 100 })
     })
@@ -320,10 +324,15 @@ function initPostsCreateUploadChannel({ image, imageUrl }) {
 function* handlePostsCreateRequest(payload) {
   const AwsAPI = yield getContext('AwsAPI')
   
-  const data = yield promiseRetry((retry, number) =>
-    AwsAPI.graphql(graphqlOperation(queries.addPost, payload))
-      .catch(retry)
-  )
+  function* createPost() {
+    try {
+      return yield AwsAPI.graphql(graphqlOperation(queries.getPost, req.payload))
+    } catch (error) {
+      return yield AwsAPI.graphql(graphqlOperation(queries.addPost, payload))
+    }
+  }
+
+  const data = yield createPost()
 
   const currentIndex = 0
   const selector = path(['data', 'addPost', 'mediaObjects', currentIndex, 'uploadUrl'])
@@ -347,34 +356,32 @@ function* postsCreateRequest(req) {
       image: data.image,
     })
 
-    try {
-      yield takeEvery(channel, function *(upload) {
-        const meta = {
-          attempt: upload.attempt || req.payload.attempt,
-          progress: parseInt(upload.progress, 10),
-        }
+    yield takeEvery(channel, function *(upload) {
+      const meta = {
+        attempt: upload.attempt || req.payload.attempt,
+        progress: parseInt(upload.progress, 10),
+      }
 
-        if (upload.status === 'progress') {
-          yield put(actions.postsCreateProgress({ data: {}, payload: req.payload, meta }))
-        }
+      if (upload.status === 'progress') {
+        yield put(actions.postsCreateProgress({ data: {}, payload: req.payload, meta }))
+      }
 
-        if (upload.status === 'success') {
-          yield delay(3000)
-          yield put(actions.postsCreateSuccess({ data: {}, payload: req.payload, meta }))
-          yield delay(5000)
-          yield put(actions.postsCreateIdle({ data: {}, payload: req.payload, meta }))
-        }
+      if (upload.status === 'success') {
+        yield delay(3000)
+        yield put(actions.postsCreateSuccess({ data: {}, payload: req.payload, meta }))
+        yield delay(5000)
+        yield put(actions.postsCreateIdle({ data: {}, payload: req.payload, meta }))
+      }
 
-        if (upload.status === 'failure') {
-          yield put(actions.postsCreateFailure({ data: {}, payload: req.payload, meta }))
-        }
-      })
-    } catch (error) {
-    }
+      if (upload.status === 'failure') {
+        yield put(actions.postsCreateFailure({ data: {}, payload: req.payload, meta }))
+      }
+    })
   } catch (error) {
     yield put(actions.postsCreateFailure({
       message: error.message,
       payload: req.payload,
+      meta: { attempt: 0, progress: 0 },
     }))
   }
 }
@@ -384,33 +391,54 @@ function* postsCreateRequest(req) {
  */
 function* postsCreateSchedulerRequest() {
   const data = yield select(state => state.posts.postsCreateQueue)
-  
-  const allFailedPosts = Object.values(data)
-    .filter(post => path(['status'])(post) !== 'idle')
-    .filter(post => dayjs(path(['payload', 'createdAt'])(post)).diff(dayjs(), 'minute') > 10)
+    
+  const failedPosts = Object.values(data)
+    .filter(post => path(['status'])(post) === 'failure')
 
-  function* createPost(post) {
+  const idlePosts = Object.values(data)
+    .filter(post => path(['status'])(post) === 'idle')
+
+  const successPosts = Object.values(data)
+    .filter(post => path(['status'])(post) === 'success')
+
+  function createPost(post) {
     const postId = uuid()
     const mediaId = uuid()
-    yield put(actions.postsCreateRequest({
-      ...post,
+    return put(actions.postsCreateRequest({
+      ...path(['payload'])(post),
       postId,
       mediaId,
     }))
   }
 
-  function* storePost(post) {
-    const postId = uuid()
-    const mediaId = uuid()
+  function removePost(post) {
+    return put(actions.postsCreateIdle({
+      payload: path(['payload'])(post),
+    }))
   }
 
-  allFailedPosts
-    .filter(post => path(['payload', 'attempt'])(post) < 10)
-    .forEach(createPost)
+  function storePost(post) {
+    return RNFS.copyFile(
+      path(['payload', 'images', '0'])(post),
+      `${RNFS.DocumentDirectory}/REAL/${path(['payload', 'mediaId'])(post)}.jpg`
+    )
+  }
 
-  allFailedPosts
-    .filter(post => path(['payload', 'attempt'])(post) >= 10)
-    .forEach(storePost)
+  yield successPosts
+    .map(removePost)
+
+  yield idlePosts
+    .map(removePost)
+
+  yield failedPosts
+    .filter(post => dayjs(dayjs()).diff(path(['payload', 'createdAt'])(post), 'minute') > 10)
+    .filter(post => path(['payload', 'attempt'])(post) < 5)
+    .map(createPost)
+
+  yield failedPosts
+    .filter(post => dayjs(dayjs()).diff(path(['payload', 'createdAt'])(post), 'minute') > 10)
+    .filter(post => path(['payload', 'attempt'])(post) >= 5)
+    .map(storePost)
 }
 
 /**

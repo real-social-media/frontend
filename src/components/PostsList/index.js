@@ -100,6 +100,7 @@ const PostsList = ({
   usersGetFollowedUsersWithStories,
   usersGetFollowedUsersWithStoriesRequest,
   postsCreateRequest,
+  postsCreateIdle,
   postsCreateQueue,
   handleProfilePress,
   layoutPostsListItem,
@@ -173,6 +174,7 @@ const PostsList = ({
                     key={key}
                     post={post}
                     postsCreateRequest={postsCreateRequest}
+                    postsCreateIdle={postsCreateIdle}
                   />
                 ))}
               </View>

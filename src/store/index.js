@@ -45,6 +45,11 @@ const composeEnhancers = composeWithDevTools({
     'CACHE_FETCH_SUCCESS',
     'CACHE_FETCH_FAILURE',
     'CACHE_FETCH_IDLE',
+
+    'CACHE_FETCH_64P_REQUEST',
+    'CACHE_FETCH_480P_REQUEST',
+    'CACHE_FETCH_1080P_REQUEST',
+    'CACHE_FETCH_4K_REQUEST',
   ],
 })
 

@@ -59,11 +59,8 @@ extend('$feedPostRemove', ({ postId }, original) => {
 /**
  *
  */
-extend('$postsCreateQueueRequest', ({ payload }, original) => {
-  const failedPosts = Object.values(original)
-    .filter(post => path(['payload', 'images', '0'])(post) !== path(['images', '0'])(payload))
-
-  return update(failedPosts, {
+extend('$postsCreateQueueRequest', ({ payload }, original) =>
+  update(original, {
     [payload.postId]: {
       $set: {
         data: {},
@@ -74,7 +71,7 @@ extend('$postsCreateQueueRequest', ({ payload }, original) => {
       },
     },
   })
-})
+)
 
 /**
  *

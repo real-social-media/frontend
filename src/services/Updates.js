@@ -6,9 +6,9 @@ export const versionCheck = (async () => {
   try {
     if (Config.ENVIRONMENT !== 'production') { return }
 
-    const isNeeded = !getReadableVersion().includes('1.0.5')
+    const isNeeded = !getReadableVersion().includes('1.1.0')
 
-    if (false) {
+    if (isNeeded) {
       Alert.alert(
         'App Update Available',
         'Please update REAL to continue proceeding',
