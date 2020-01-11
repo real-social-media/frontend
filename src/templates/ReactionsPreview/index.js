@@ -22,36 +22,36 @@ const ReactionsPreviewTemplate = ({
   return (
     <View style={styling.root}>
       <View style={styling.likes}>
-        {path(['lastOnymouslyLikedBy', 'username'])(post) ?
+        {path(['onymouslyLikedBy', '0', 'username'])(post) ?
           <View style={styling.profile}>
             <Avatar
               size="micro"
-              thumbnailSource={{ uri: path(['lastOnymouslyLikedBy', 'photoUrl64p'])(post) }}
-              imageSource={{ uri: path(['lastOnymouslyLikedBy', 'photoUrl64p'])(post) }}
+              thumbnailSource={{ uri: path(['onymouslyLikedBy', '0', 'photoUrl64p'])(post) }}
+              imageSource={{ uri: path(['onymouslyLikedBy', '0', 'photoUrl64p'])(post) }}
             />
           </View>
         : null}
 
-        {path(['lastOnymouslyLikedBy', 'username'])(post) ?
+        {path(['onymouslyLikedBy', '0', 'username'])(post) ?
           <React.Fragment>
             {path(['anonymousLikeCount'])(post) + path(['onymousLikeCount'])(post) > 1 ?
               <Text style={styling.text}>
                 {t('Liked by {{username}} and many others', {
-                  username: path(['lastOnymouslyLikedBy', 'username'])(post),
+                  username: path(['onymouslyLikedBy', '0', 'username'])(post),
                   // count: path(['anonymousLikeCount'])(post) + path(['onymousLikeCount'])(post) - 1,
                 })}
               </Text>
             :
               <Text style={styling.text}>
                 {t('Liked by {{username}}', {
-                  username: path(['lastOnymouslyLikedBy', 'username'])(post),
+                  username: path(['onymouslyLikedBy', '0', 'username'])(post),
                 })}
               </Text>
             }
           </React.Fragment>
         : null}
 
-        {!path(['lastOnymouslyLikedBy', 'username'])(post) ?
+        {!path(['onymouslyLikedBy', '0', 'username'])(post) ?
           <React.Fragment>
             {path(['anonymousLikeCount'])(post) + path(['onymousLikeCount'])(post) >= 1 ?
               <Text style={styling.text}>

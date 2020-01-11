@@ -59,7 +59,7 @@ const userPostFragment = `
     likeStatus
     onymousLikeCount
     anonymousLikeCount
-    lastOnymouslyLikedBy {
+    onymouslyLikedBy (limit: 1) {
       ...userFragment
     }
   }

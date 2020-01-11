@@ -61,7 +61,7 @@ const postFragment = `
     likesDisabled
     onymousLikeCount
     anonymousLikeCount
-    lastOnymouslyLikedBy {
+    onymouslyLikedBy (limit: 1) {
       ...postUserFragment
     }
   }
