@@ -47,9 +47,14 @@ const cacheFetchIdle = (state, action) => update(state, {
   },
 })
 
+const cacheFetchProgress = (state, action) => {
+  return state
+}
+
 export default handleActions({
   [constants.CACHE_FETCH_REQUEST]: cacheFetchRequest,
   [constants.CACHE_FETCH_SUCCESS]: cacheFetchSuccess,
   [constants.CACHE_FETCH_FAILURE]: cacheFetchFailure,
+  [constants.CACHE_FETCH_PROGRESS]: cacheFetchProgress,
   [constants.CACHE_FETCH_IDLE]: cacheFetchIdle,
 }, initialState)

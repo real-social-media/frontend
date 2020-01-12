@@ -95,8 +95,6 @@ export default () => [
   fork(cacheFetchSequentialRequest, buffer4k, constants.CACHE_FETCH_4K_REQUEST),
   
   fork(cacheFetchSequentialRequest, buffer64p, constants.CACHE_FETCH_64P_REQUEST),
-  fork(cacheFetchSequentialRequest, buffer64p, constants.CACHE_FETCH_64P_REQUEST),
-  fork(cacheFetchSequentialRequest, buffer64p, constants.CACHE_FETCH_64P_REQUEST),
 
   // takeEvery(constants.CACHE_FETCH_64P_REQUEST, cacheFetchParallelRequest),
 ]
