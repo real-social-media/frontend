@@ -1,31 +1,30 @@
 import React from 'react'
+import { Image } from 'react-native'
 import SimpleCacheService from './index.service'
-import Image from 'react-native-image-progress'
 
 const SimpleCache = ({
   source,
   style,
   resizeMode,
   cacheOnly,
+  children,
   ...props
 }) => {
   return (
-    <React.Fragment>
-      <Image
-        source={source}
-        style={style}
-        resizeMode={resizeMode}
-        cacheOnly={cacheOnly}
-        {...props}
-      />
-    </React.Fragment>
+    <Image
+      source={source}
+      style={style}
+      resizeMode={resizeMode}
+      cacheOnly={cacheOnly}
+      {...props}
+    />
   )
 }
 
 export default (props) => (
   <SimpleCacheService {...props}>
     {(service) => (
-      <SimpleCache {...service} {...props} />
+      <SimpleCache {...props} {...service} />
     )}
   </SimpleCacheService>
 )

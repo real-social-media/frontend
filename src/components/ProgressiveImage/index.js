@@ -46,6 +46,7 @@ export default class ProgressiveImage extends Component {
             source={this.props.thumbnailSource}
             onLoad={() => this.onLoadThumbnail()}
             priorityIndex={this.props.priorityIndex}
+            {...this.props}
             blurRadius={this.props.thumbnailBlurRadius}
           />
         </Animated.View>
@@ -58,6 +59,7 @@ export default class ProgressiveImage extends Component {
               source={this.props.imageSource}
               onLoad={() => this.onLoadImage()}
               priorityIndex={this.props.priorityIndex}
+              {...this.props}
             />
           </Animated.View>
         : null}

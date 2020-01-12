@@ -27,7 +27,6 @@ export const captureException = (error) => {
   try {
     Sentry.captureException(error)
   } catch (error) {
-    console.log(error)
   }
 }
 
@@ -38,7 +37,6 @@ export const captureMessage = (error) => {
   try {
     Sentry.captureMessage(error)
   } catch (error) {
-    console.log(error)
   }
 }
 

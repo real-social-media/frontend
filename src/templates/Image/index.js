@@ -6,19 +6,16 @@ import {
 } from 'react-native'
 import ProgressiveImage from 'components/ProgressiveImage'
 
-import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
-import { useTranslation } from 'react-i18next'
-
 const ImageTemplate = ({
-  theme,
   thumbnailSource,
   imageSource,
   resizeMode,
   shouldLoadImage,
   priorityIndex,
+  children,
+  ...props
 }) => {
-  const styling = styles(theme)
+  const styling = styles()
 
   return (
     <View style={styling.root}>
@@ -29,12 +26,13 @@ const ImageTemplate = ({
         resizeMode={resizeMode}
         shouldLoadImage={shouldLoadImage}
         priorityIndex={priorityIndex}
+        {...props}
       />
     </View>
   )
 }
 
-const styles = theme => StyleSheet.create({
+const styles = () => StyleSheet.create({
   root: {
     width: '100%',
     height: '100%',
@@ -55,4 +53,4 @@ ImageTemplate.propTypes = {
   resizeMode: PropTypes.any,
 }
 
-export default withTheme(ImageTemplate)
+export default ImageTemplate

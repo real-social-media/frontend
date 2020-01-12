@@ -77,4 +77,4 @@ const SimpleCacheService = ({ children, source }) => {
   })
 }
 
-export default memo(SimpleCacheService)
+export default SimpleCacheService
