@@ -4,8 +4,9 @@ import {
   Animated,
   View,
   StyleSheet,
+  Image,
 } from 'react-native'
-import SimpleCache from 'components/SimpleCache'
+import SimpleCacheService from 'components/SimpleCache/index.service'
 
 export default class ProgressiveImage extends Component {
   constructor(props) {
@@ -39,30 +40,34 @@ export default class ProgressiveImage extends Component {
   render() {
     return (
       <View style={this.props.style}>
-        <Animated.View style={[styles.image, { opacity: this.state.thumbnailOpacity }]}>
-          <SimpleCache
-            resizeMode={this.props.resizeMode}
-            style={styles.image}
-            source={this.props.thumbnailSource}
-            onLoad={() => this.onLoadThumbnail()}
-            priorityIndex={this.props.priorityIndex}
-            {...this.props}
-            blurRadius={this.props.thumbnailBlurRadius}
-          />
-        </Animated.View>
+        <SimpleCacheService source={this.props.thumbnailSource} priorityIndex={this.props.priorityIndex}>
+          {(cache) => (
+            <Animated.View style={[styles.image, { opacity: this.state.thumbnailOpacity }]}>
+              <Image
+                source={cache.source}
+                onError={cache.onError}
+                style={styles.image}
+                resizeMode={this.props.resizeMode}
+                onLoad={() => this.onLoadThumbnail()}
+                blurRadius={this.props.thumbnailBlurRadius}
+              />
+            </Animated.View>
+          )}
+        </SimpleCacheService>
 
-        {this.props.shouldLoadImage ?
-          <Animated.View style={[styles.image, { opacity: this.state.imageOpacity }]}>
-            <SimpleCache
-              resizeMode={this.props.resizeMode}
-              style={styles.image}
-              source={this.props.imageSource}
-              onLoad={() => this.onLoadImage()}
-              priorityIndex={this.props.priorityIndex}
-              {...this.props}
-            />
-          </Animated.View>
-        : null}
+        <SimpleCacheService source={this.props.imageSource} priorityIndex={this.props.priorityIndex}>
+          {(cache) => (
+            <Animated.View style={[styles.image, { opacity: this.state.imageOpacity }]}>
+              <Image
+                source={cache.source}
+                onError={cache.onError}
+                style={styles.image}
+                resizeMode={this.props.resizeMode}
+                onLoad={() => this.onLoadImage()}
+              />
+            </Animated.View>
+          )}
+        </SimpleCacheService>
       </View>
     )
   }
