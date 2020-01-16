@@ -52,7 +52,7 @@ const SearchForm = ({
   return (
     <View style={styling.root}>
       <View style={styling.input}>
-        <Field name="searchToken" component={TextField} placeholder={t('Search')} onSubmitEditing={handleSubmit} hideError />
+        <Field name="searchToken" component={TextField} placeholder={t('Search for username')} onSubmitEditing={handleSubmit} hideError />
       </View>
       {formFocus ?
         <TouchableOpacity style={styling.icon} onPress={close}>

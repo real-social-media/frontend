@@ -8,7 +8,7 @@ update.extend('$map', (value, nextObject) =>
 /**
  *
  */
-extend('$usersGetFollowedUsersCacheRequest', ({ payload }, original) =>
+extend('$userCacheRequest', ({ payload }, original) =>
   update(original, {
     [payload.userId]: {
       $set: {
@@ -25,7 +25,7 @@ extend('$usersGetFollowedUsersCacheRequest', ({ payload }, original) =>
 /**
  *
  */
-extend('$usersGetFollowedUsersCacheSuccess', ({ payload }, original) =>
+extend('$userCacheSuccess', ({ payload }, original) =>
   update(original, {
     [payload.payload.userId]: {
       $set: {
@@ -41,7 +41,7 @@ extend('$usersGetFollowedUsersCacheSuccess', ({ payload }, original) =>
 /**
  *
  */
-extend('$usersGetFollowedUsersCacheFailure', ({ payload }, original) =>
+extend('$userCacheFailure', ({ payload }, original) =>
   update(original, {
     [payload.payload.userId]: {
       $set: {
@@ -57,72 +57,7 @@ extend('$usersGetFollowedUsersCacheFailure', ({ payload }, original) =>
 /**
  *
  */
-extend('$usersGetFollowedUsersCacheIdle', ({ payload }, original) =>
-  update(original, {
-    [payload.payload.userId]: {
-      $set: {
-        data: [],
-        status: 'idle',
-        error: {},
-        payload: payload.payload || {},
-      },
-    },
-  })
-)
-
-/**
- *
- */
-extend('$usersGetFollowerUsersCacheRequest', ({ payload }, original) =>
-  update(original, {
-    [payload.userId]: {
-      $set: {
-        data: [],
-        status: 'loading',
-        error: {},
-        payload,
-        meta: {},
-      },
-    },
-  })
-)
-
-/**
- *
- */
-extend('$usersGetFollowerUsersCacheSuccess', ({ payload }, original) =>
-  update(original, {
-    [payload.payload.userId]: {
-      $set: {
-        data: payload.data,
-        status: 'success',
-        error: {},
-        payload: payload.payload || {},
-      },
-    },
-  })
-)
-
-/**
- *
- */
-extend('$usersGetFollowerUsersCacheFailure', ({ payload }, original) =>
-  update(original, {
-    [payload.payload.userId]: {
-      $set: {
-        data: [],
-        status: 'failure',
-        error: {},
-        payload: payload.payload || {},
-      },
-    },
-  })
-)
-
-/**
- *
- */
-extend('$usersGetFollowerUsersCacheIdle', ({ payload }, original) =>
+extend('$userCacheIdle', ({ payload }, original) =>
   update(original, {
     [payload.payload.userId]: {
       $set: {

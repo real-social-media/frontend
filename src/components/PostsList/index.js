@@ -10,6 +10,7 @@ import {
 import path from 'ramda/src/path'
 import PostComponent from 'components/PostsList/Post'
 import UploadingComponent from 'components/PostsList/Uploading'
+import PendingRequestsComponent from 'components/PostsList/PendingRequests'
 import NativeError from 'templates/NativeError'
 import StoriesComponent from 'components/Stories'
 
@@ -107,6 +108,7 @@ const PostsList = ({
   layoutPostsListItemSuccess,
   layoutPostsListScroll,
   layoutPostsListScrollSuccess,
+  usersGetPendingFollowers,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
@@ -143,6 +145,7 @@ const PostsList = ({
             postId: 'uploading',
             postsCreateQueue,
           },
+          { postId: 'requests' },
           ...path(['data'])(postsFeedGet),
           { postId: 'loading' },
         ])}
@@ -169,9 +172,9 @@ const PostsList = ({
           if (post.postId === 'uploading') {
             return (
               <View style={styling.uploading}>
-                {Object.entries(post.postsCreateQueue).map(([key, post]) => (
+                {Object.values(post.postsCreateQueue).map((post) => (
                   <UploadingComponent
-                    key={key}
+                    key={post.postId}
                     post={post}
                     postsCreateRequest={postsCreateRequest}
                     postsCreateIdle={postsCreateIdle}
@@ -180,6 +183,22 @@ const PostsList = ({
               </View>
             )
           }
+
+          if (post.postId === 'requests') {
+            if (!path(['data', 'length'])(usersGetPendingFollowers)) {
+              return null
+            }
+
+            return (
+              <View style={styling.uploading} key={post.postId}>
+                <PendingRequestsComponent
+                  usersGetPendingFollowers={usersGetPendingFollowers}
+                  key={post.postId}
+                />
+              </View>
+            )
+          }
+
 
           if (post.postId === 'loading') {
             if (path(['status'])(postsFeedGet) === 'loading' && !path(['data', 'length'])(postsFeedGet)) {

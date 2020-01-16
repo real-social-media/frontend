@@ -204,7 +204,7 @@ const usersGetFollowedUsersRequest = (state, action) => update(state, {
     payload: { $set: action.payload },
   },
   usersGetFollowedUsersCache: {
-    $usersGetFollowedUsersCacheRequest: action,
+    $userCacheRequest: action,
   },
 })
 
@@ -214,7 +214,7 @@ const usersGetFollowedUsersSuccess = (state, action) => update(state, {
     status: { $set: 'success' },
   },
   usersGetFollowedUsersCache: {
-    $usersGetFollowedUsersCacheSuccess: action,
+    $userCacheSuccess: action,
   },
 })
 
@@ -223,7 +223,7 @@ const usersGetFollowedUsersFailure = (state, action) => update(state, {
     status: { $set: 'failure' },
   },
   usersGetFollowedUsersCache: {
-    $usersGetFollowedUsersCacheFailure: action,
+    $userCacheFailure: action,
   },
 })
 
@@ -233,7 +233,7 @@ const usersGetFollowedUsersIdle = (state, action) => update(state, {
     status: { $set: 'idle' },
   },
   usersGetFollowedUsersCache: {
-    $usersGetFollowedUsersCacheIdle: action,
+    $userCacheIdle: action,
   },
 })
 
@@ -246,7 +246,7 @@ const usersGetFollowerUsersRequest = (state, action) => update(state, {
     payload: { $set: action.payload },
   },
   usersGetFollowerUsersCache: {
-    $usersGetFollowerUsersCacheRequest: action,
+    $userCacheRequest: action,
   },
 })
 
@@ -256,7 +256,7 @@ const usersGetFollowerUsersSuccess = (state, action) => update(state, {
     status: { $set: 'success' },
   },
   usersGetFollowerUsersCache: {
-    $usersGetFollowerUsersCacheSuccess: action,
+    $userCacheSuccess: action,
   },
 })
 
@@ -265,7 +265,7 @@ const usersGetFollowerUsersFailure = (state, action) => update(state, {
     status: { $set: 'failure' },
   },
   usersGetFollowerUsersCache: {
-    $usersGetFollowerUsersCacheFailure: action,
+    $userCacheFailure: action,
   },
 })
 
@@ -275,7 +275,7 @@ const usersGetFollowerUsersIdle = (state, action) => update(state, {
     status: { $set: 'idle' },
   },
   usersGetFollowerUsersCache: {
-    $usersGetFollowerUsersCacheIdle: action,
+    $userCacheIdle: action,
   },
 })
 
@@ -287,6 +287,9 @@ const usersGetPendingFollowersRequest = (state, action) => update(state, {
     status: { $set: 'loading' },
     payload: { $set: action.payload },
   },
+  usersGetFollowerUsersCache: {
+    $userCacheRequest: action,
+  },
 })
 
 const usersGetPendingFollowersSuccess = (state, action) => update(state, {
@@ -294,11 +297,17 @@ const usersGetPendingFollowersSuccess = (state, action) => update(state, {
     data: { $set: action.payload.data },
     status: { $set: 'success' },
   },
+  usersGetFollowerUsersCache: {
+    $userCacheSuccess: action,
+  },
 })
 
 const usersGetPendingFollowersFailure = (state, action) => update(state, {
   usersGetPendingFollowers: {
     status: { $set: 'failure' },
+  },
+  usersGetFollowerUsersCache: {
+    $userCacheFailure: action,
   },
 })
 
@@ -306,6 +315,9 @@ const usersGetPendingFollowersIdle = (state, action) => update(state, {
   usersGetPendingFollowers: {
     data: { $set: initialState.usersGetPendingFollowers.data },
     status: { $set: 'idle' },
+  },
+  usersGetFollowerUsersCache: {
+    $userCacheIdle: action,
   },
 })
 
@@ -389,12 +401,18 @@ const usersAcceptFollowerUserRequest = (state, action) => update(state, {
     status: { $set: 'loading' },
     payload: { $set: action.payload },
   },
+  usersGetProfileCache: {
+    $usersGetProfileCacheRequest: { ...action, initialState: initialState.usersGetProfile },
+  },
 })
 
 const usersAcceptFollowerUserSuccess = (state, action) => update(state, {
   usersAcceptFollowerUser: {
     data: { $set: action.payload.data },
     status: { $set: 'success' },
+  },
+  usersGetProfileCache: {
+    $usersGetProfileCacheSuccess: action,
   },
 })
 

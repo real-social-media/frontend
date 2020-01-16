@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import uuid from 'uuid/v4'
 import * as postsActions from 'store/ducks/posts/actions'
+import * as usersActions from 'store/ducks/users/actions'
 import * as layoutActions from 'store/ducks/layout/actions'
 import { withNavigation } from 'react-navigation'
 import useDebounce from 'react-use/lib/useDebounce'
@@ -21,6 +22,8 @@ const PostsService = ({ children, navigation }) => {
   const postsCreateQueue = useSelector(state => state.posts.postsCreateQueue)
   const layoutPostsListItem = useSelector(state => state.layout.layoutPostsListItem)
   const layoutPostsListScroll = useSelector(state => state.layout.layoutPostsListScroll)
+  const usersGetPendingFollowers = useSelector(state => state.users.usersGetPendingFollowers)
+  const usersAcceptFollowerUser = useSelector(state => state.users.usersAcceptFollowerUser)
 
   const feedRef = useRef(null)
 
@@ -60,6 +63,9 @@ const PostsService = ({ children, navigation }) => {
   const layoutPostsListScrollSuccess = (payload) =>
     dispatch(layoutActions.layoutPostsListScrollSuccess(payload))
 
+  const usersGetPendingFollowersRequest = (payload) => 
+    dispatch(usersActions.usersGetPendingFollowersRequest(payload))
+
   const postsCreateRequest = (post) => {
     const postId = uuid()
     const mediaId = uuid()
@@ -83,7 +89,12 @@ const PostsService = ({ children, navigation }) => {
       scrollToTop,
     })
     postsFeedGetRequest({ limit: 6 })
+    usersGetPendingFollowersRequest({ userId: authUser.userId })
   }, [])
+
+  useEffect(() => {
+    usersGetPendingFollowersRequest({ userId: authUser.userId })
+  }, [usersAcceptFollowerUser.status])
 
   useEffect(() => {
     if (postsCreate.status === 'success') {
@@ -165,6 +176,7 @@ const PostsService = ({ children, navigation }) => {
     layoutPostsListItem,
     layoutPostsListScroll,
     layoutPostsListScrollSuccess,
+    usersGetPendingFollowers,
   })
 }
 
