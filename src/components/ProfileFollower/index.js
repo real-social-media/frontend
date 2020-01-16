@@ -18,6 +18,8 @@ const ProfileFollower = ({
   usersUnfollow,
   usersUnfollowRequest,
   handleProfilePress,
+  usersAcceptFollowerUser,
+  usersAcceptFollowerUserRequest,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
@@ -31,6 +33,8 @@ const ProfileFollower = ({
         usersUnfollow={usersUnfollow}
         usersUnfollowRequest={usersUnfollowRequest}
         handleProfilePress={handleProfilePress}
+        usersAcceptFollowerUser={usersAcceptFollowerUser}
+        usersAcceptFollowerUserRequest={usersAcceptFollowerUserRequest}
       />
     </View>
   )

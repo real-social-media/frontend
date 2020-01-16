@@ -11,6 +11,7 @@ const ProfileFollowedService = ({ children, navigation }) => {
   const usersGetFollowedUsersCache = useSelector(state => state.users.usersGetFollowedUsersCache)
   const usersFollow = useSelector(state => state.users.usersFollow)
   const usersUnfollow = useSelector(state => state.users.usersUnfollow)
+  const usersAcceptFollowerUser = useSelector(state => state.users.usersAcceptFollowerUser)
 
   const usersGetFollowedUsersRequest = (payload) => 
     dispatch(usersActions.usersGetFollowedUsersRequest(payload))
@@ -20,6 +21,9 @@ const ProfileFollowedService = ({ children, navigation }) => {
   
   const usersUnfollowRequest = ({ userId }) =>
     dispatch(usersActions.usersUnfollowRequest({ userId }))
+  
+  const usersAcceptFollowerUserRequest = ({ userId }) =>
+    dispatch(usersActions.usersAcceptFollowerUserRequest({ userId }))
 
   useEffect(() => {
     if (usersFollow.status === 'success') {
@@ -40,6 +44,8 @@ const ProfileFollowedService = ({ children, navigation }) => {
     usersFollowRequest,
     usersUnfollow,
     usersUnfollowRequest,
+    usersAcceptFollowerUser,
+    usersAcceptFollowerUserRequest,
   })
 }
 

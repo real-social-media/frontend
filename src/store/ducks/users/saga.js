@@ -72,6 +72,22 @@ function* usersGetFollowedUsersRequest(req) {
 /**
  *
  */
+function* usersGetPendingFollowersRequest(req) {
+  const AwsAPI = yield getContext('AwsAPI')
+
+  try {
+    const data = yield AwsAPI.graphql(graphqlOperation(queries.getFollowerUsers, { ...req.payload, followStatus: 'REQUESTED' }))
+    const selector = path(['data', 'user', 'followerUsers', 'items'])
+
+    yield put(actions.usersGetPendingFollowersSuccess({ payload: req.payload, data: selector(data), meta: data }))
+  } catch (error) {
+    yield put(actions.usersGetPendingFollowersFailure({ payload: req.payload, message: error.message }))
+  }
+}
+
+/**
+ *
+ */
 function* usersGetFollowedUsersWithStoriesRequest(req) {
   const AwsAPI = yield getContext('AwsAPI')
 
@@ -262,6 +278,7 @@ export default () => [
   takeLatest(constants.USERS_GET_FOLLOWED_USERS_WITH_STORIES_REQUEST, usersGetFollowedUsersWithStoriesRequest),
   takeLatest(constants.USERS_GET_FOLLOWER_USERS_REQUEST, usersGetFollowerUsersRequest),
   takeLatest(constants.USERS_GET_FOLLOWED_USERS_REQUEST, usersGetFollowedUsersRequest),
+  takeLatest(constants.USERS_GET_PENDING_FOLLOWERS_REQUEST, usersGetPendingFollowersRequest),
   takeLatest(constants.USERS_ACCEPT_FOLLOWER_USER_REQUEST, usersAcceptFollowerUserRequest),
   takeLatest(constants.USERS_DECLINE_FOLLOWER_USER_REQUEST, usersDeclineFollowerUserRequest),
   takeLatest(constants.USERS_FOLLOW_REQUEST, usersFollowRequest),

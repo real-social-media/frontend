@@ -46,6 +46,14 @@ export const usersGetFollowedUsersFailure = createAction(constants.USERS_GET_FOL
 /**
  * 
  */
+export const usersGetPendingFollowersIdle = createAction(constants.USERS_GET_PENDING_FOLLOWERS_IDLE)
+export const usersGetPendingFollowersRequest = createAction(constants.USERS_GET_PENDING_FOLLOWERS_REQUEST)
+export const usersGetPendingFollowersSuccess = createAction(constants.USERS_GET_PENDING_FOLLOWERS_SUCCESS)
+export const usersGetPendingFollowersFailure = createAction(constants.USERS_GET_PENDING_FOLLOWERS_FAILURE)
+
+/**
+ * 
+ */
 export const usersAcceptFollowerUserIdle = createAction(constants.USERS_ACCEPT_FOLLOWER_USER_IDLE)
 export const usersAcceptFollowerUserRequest = createAction(constants.USERS_ACCEPT_FOLLOWER_USER_REQUEST)
 export const usersAcceptFollowerUserSuccess = createAction(constants.USERS_ACCEPT_FOLLOWER_USER_SUCCESS)

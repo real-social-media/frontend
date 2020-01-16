@@ -25,6 +25,8 @@ const Result = ({
   usersFollowRequest,
   usersUnfollow,
   usersUnfollowRequest,
+  usersAcceptFollowerUser,
+  usersAcceptFollowerUserRequest,
   handleProfilePress,
 }) => {
   const styling = styles(theme)
@@ -57,12 +59,18 @@ const Result = ({
                   followActive={path(['followedStatus'])(user) === 'NOT_FOLLOWING'}
                   followloading={usersFollow.status === 'loading' && path(['payload', 'userId'])(usersFollow) === path(['userId'])(user)}
                   onFollowPress={() => usersFollowRequest({ userId: path(['userId'])(user) })}
+
                   unfollowActive={path(['followedStatus'])(user) === 'FOLLOWING'}
                   unfollowloading={usersUnfollow.status === 'loading' && path(['payload', 'userId'])(usersUnfollow) === path(['userId'])(user)}
                   onUnfollowPress={() => usersUnfollowRequest({ userId: path(['userId'])(user) })}
+
                   requestActive={path(['followedStatus'])(user) === 'REQUESTED'}
                   requestloading={usersUnfollow.status === 'loading' && path(['payload', 'userId'])(usersUnfollow) === path(['userId'])(user)}
                   onRequestedPress={() => usersUnfollowRequest({ userId: path(['userId'])(user) })}
+
+                  replyActive={path(['followerStatus'])(user) === 'REQUESTED'}
+                  replyloading={usersAcceptFollowerUser.status === 'loading' && path(['payload', 'userId'])(usersAcceptFollowerUser) === path(['userId'])(user)}
+                  onReplyPress={() => usersAcceptFollowerUserRequest({ userId: path(['userId'])(user) })}
                 />
               }
             />

@@ -33,7 +33,19 @@ const initialState = {
     error: {},
     payload: {},
   },
+  usersGetPendingFollowers: {
+    data: [],
+    status: 'idle',
+    error: {},
+    payload: {},
+  },
   usersFollow: {
+    data: {},
+    status: 'idle',
+    error: {},
+    payload: {},
+  },
+  usersAcceptFollowerUser: {
     data: {},
     status: 'idle',
     error: {},
@@ -270,6 +282,36 @@ const usersGetFollowerUsersIdle = (state, action) => update(state, {
 /**
  *
  */
+const usersGetPendingFollowersRequest = (state, action) => update(state, {
+  usersGetPendingFollowers: {
+    status: { $set: 'loading' },
+    payload: { $set: action.payload },
+  },
+})
+
+const usersGetPendingFollowersSuccess = (state, action) => update(state, {
+  usersGetPendingFollowers: {
+    data: { $set: action.payload.data },
+    status: { $set: 'success' },
+  },
+})
+
+const usersGetPendingFollowersFailure = (state, action) => update(state, {
+  usersGetPendingFollowers: {
+    status: { $set: 'failure' },
+  },
+})
+
+const usersGetPendingFollowersIdle = (state, action) => update(state, {
+  usersGetPendingFollowers: {
+    data: { $set: initialState.usersGetPendingFollowers.data },
+    status: { $set: 'idle' },
+  },
+})
+
+/**
+ *
+ */
 const usersFollowRequest = (state, action) => update(state, {
   usersFollow: {
     status: { $set: 'loading' },
@@ -335,6 +377,36 @@ const usersUnfollowFailure = (state, action) => update(state, {
 const usersUnfollowIdle = (state, action) => update(state, {
   usersUnfollow: {
     data: { $set: initialState.usersUnfollow.data },
+    status: { $set: 'idle' },
+  },
+})
+
+/**
+ *
+ */
+const usersAcceptFollowerUserRequest = (state, action) => update(state, {
+  usersAcceptFollowerUser: {
+    status: { $set: 'loading' },
+    payload: { $set: action.payload },
+  },
+})
+
+const usersAcceptFollowerUserSuccess = (state, action) => update(state, {
+  usersAcceptFollowerUser: {
+    data: { $set: action.payload.data },
+    status: { $set: 'success' },
+  },
+})
+
+const usersAcceptFollowerUserFailure = (state, action) => update(state, {
+  usersAcceptFollowerUser: {
+    status: { $set: 'failure' },
+  },
+})
+
+const usersAcceptFollowerUserIdle = (state, action) => update(state, {
+  usersAcceptFollowerUser: {
+    data: { $set: initialState.usersAcceptFollowerUser.data },
     status: { $set: 'idle' },
   },
 })
@@ -593,6 +665,11 @@ export default handleActions({
   [constants.USERS_GET_FOLLOWED_USERS_FAILURE]: usersGetFollowedUsersFailure,
   [constants.USERS_GET_FOLLOWED_USERS_IDLE]: usersGetFollowedUsersIdle,
 
+  [constants.USERS_GET_PENDING_FOLLOWERS_REQUEST]: usersGetPendingFollowersRequest,
+  [constants.USERS_GET_PENDING_FOLLOWERS_SUCCESS]: usersGetPendingFollowersSuccess,
+  [constants.USERS_GET_PENDING_FOLLOWERS_FAILURE]: usersGetPendingFollowersFailure,
+  [constants.USERS_GET_PENDING_FOLLOWERS_IDLE]: usersGetPendingFollowersIdle,
+
   [constants.USERS_FOLLOW_REQUEST]: usersFollowRequest,
   [constants.USERS_FOLLOW_SUCCESS]: usersFollowSuccess,
   [constants.USERS_FOLLOW_FAILURE]: usersFollowFailure,
@@ -602,6 +679,11 @@ export default handleActions({
   [constants.USERS_UNFOLLOW_SUCCESS]: usersUnfollowSuccess,
   [constants.USERS_UNFOLLOW_FAILURE]: usersUnfollowFailure,
   [constants.USERS_UNFOLLOW_IDLE]: usersUnfollowIdle,
+
+  [constants.USERS_ACCEPT_FOLLOWER_USER_REQUEST]: usersAcceptFollowerUserRequest,
+  [constants.USERS_ACCEPT_FOLLOWER_USER_SUCCESS]: usersAcceptFollowerUserSuccess,
+  [constants.USERS_ACCEPT_FOLLOWER_USER_FAILURE]: usersAcceptFollowerUserFailure,
+  [constants.USERS_ACCEPT_FOLLOWER_USER_IDLE]: usersAcceptFollowerUserIdle,
 
   [constants.USERS_BLOCK_REQUEST]: usersBlockRequest,
   [constants.USERS_BLOCK_SUCCESS]: usersBlockSuccess,

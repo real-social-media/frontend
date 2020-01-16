@@ -21,6 +21,9 @@ const UserRowActionTemplate = ({
   requestActive,
   requestloading,
   onRequestedPress,
+  replyActive,
+  onReplyPress,
+  replyloading,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
@@ -28,16 +31,20 @@ const UserRowActionTemplate = ({
   return (
     <View style={styling.root}>
       <View style={styling.component}>
-        {followActive ?
+        {!replyActive && followActive ?
           <DefaultButton label={t('Follow')} onPress={onFollowPress} loading={followloading} mode="outlined" size="compact" />
         : null}
 
-        {unfollowActive ?
+        {!replyActive && unfollowActive ?
           <DefaultButton label={t('Unfollow')} onPress={onUnfollowPress} loading={unfollowloading} mode="outlined" size="compact" />
         : null}
 
-        {requestActive ?
+        {!replyActive && requestActive ?
           <DefaultButton label={t('Pending')} onPress={onRequestedPress} loading={requestloading} mode="outlined" size="compact" />
+        : null}
+
+        {replyActive ?
+          <DefaultButton label={t('Accept')} onPress={onReplyPress} loading={replyloading} mode="outlined" size="compact" />
         : null}
       </View>
     </View>

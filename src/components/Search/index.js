@@ -27,6 +27,8 @@ const SearchComponent = ({
   usersFollowRequest,
   usersUnfollow,
   usersUnfollowRequest,
+  usersAcceptFollowerUser,
+  usersAcceptFollowerUserRequest,
   handleProfilePress,
   usersGetTrendingUsers,
   postsGetTrendingPosts,
@@ -74,6 +76,8 @@ const SearchComponent = ({
             usersUnfollow={usersUnfollow}
             usersUnfollowRequest={usersUnfollowRequest}
             handleProfilePress={handleProfilePress}
+            usersAcceptFollowerUser={usersAcceptFollowerUser}
+            usersAcceptFollowerUserRequest={usersAcceptFollowerUserRequest}
           />
         </ScrollView>
       : null}
@@ -88,6 +92,8 @@ const SearchComponent = ({
             usersUnfollow={usersUnfollow}
             usersUnfollowRequest={usersUnfollowRequest}
             handleProfilePress={handleProfilePress}
+            usersAcceptFollowerUser={usersAcceptFollowerUser}
+            usersAcceptFollowerUserRequest={usersAcceptFollowerUserRequest}
           />
         </ScrollView>
       : null}

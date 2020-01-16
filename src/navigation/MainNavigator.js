@@ -20,6 +20,7 @@ import ProfilePhotoScreen from 'screens/ProfilePhotoScreen'
 import ProfileEditScreen from 'screens/ProfileEditScreen'
 import ProfileFollowedScreen from 'screens/ProfileFollowedScreen'
 import ProfileFollowerScreen from 'screens/ProfileFollowerScreen'
+import ProfileRequestsScreen from 'screens/ProfileRequestsScreen'
 import SettingsScreen from 'screens/SettingsScreen'
 import PrivacyScreen from 'screens/PrivacyScreen'
 import ThemeScreen from 'screens/ThemeScreen'
@@ -285,6 +286,7 @@ export default (screenProps) => createStackNavigator({
   FeedProfile: ProfileScreen,
   ProfileFollowed: ProfileFollowedScreen,
   ProfileFollower: ProfileFollowerScreen,
+  ProfileRequests: ProfileRequestsScreen,
   Verification: VerificationScreen,
 }, {
   mode: 'modal',

@@ -16,6 +16,7 @@ const SearchService = ({ children, navigation }) => {
   const usersGetTrendingUsers = useSelector(state => state.users.usersGetTrendingUsers)
   const postsGetTrendingPosts = useSelector(state => state.posts.postsGetTrendingPosts)
   const themeFetch = useSelector(state => state.theme.themeFetch)
+  const usersAcceptFollowerUser = useSelector(state => state.users.usersAcceptFollowerUser)
 
   const usersSearchRequest = ({ searchToken }) => {
     dispatch(usersActions.usersFollowIdle())
@@ -28,6 +29,9 @@ const SearchService = ({ children, navigation }) => {
   
   const usersUnfollowRequest = ({ userId }) =>
     dispatch(usersActions.usersUnfollowRequest({ userId }))
+  
+  const usersAcceptFollowerUserRequest = ({ userId }) =>
+    dispatch(usersActions.usersAcceptFollowerUserRequest({ userId }))
 
   useEffect(() => {
     dispatch(usersActions.usersGetTrendingUsersRequest({ limit: 30 }))
@@ -53,6 +57,8 @@ const SearchService = ({ children, navigation }) => {
     usersFollowRequest,
     usersUnfollow,
     usersUnfollowRequest,
+    usersAcceptFollowerUser,
+    usersAcceptFollowerUserRequest,
     usersGetTrendingUsers: usersServices.cachedUsersGetTrendingUsers(usersGetTrendingUsers, usersGetProfileCache),
     postsGetTrendingPosts,
     formFocus,

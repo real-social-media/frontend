@@ -1,45 +1,45 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as usersActions from 'store/ducks/users/actions'
-import * as usersServices from 'store/ducks/users/services'
+import * as authSelector from 'store/ducks/auth/selectors'
 import { withNavigation } from 'react-navigation'
 
 const ProfileFollowerService = ({ children, navigation }) => {
   const dispatch = useDispatch()
-  const userId = navigation.getParam('userId')
-  const usersGetFollowerUsers = useSelector(state => state.users.usersGetFollowerUsers)
-  const usersGetFollowerUsersCache = useSelector(state => state.users.usersGetFollowerUsersCache)
+  const user = useSelector(authSelector.authUserSelector)
+  const userId = user.userId
+  const usersGetPendingFollowers = useSelector(state => state.users.usersGetPendingFollowers)
   const usersFollow = useSelector(state => state.users.usersFollow)
   const usersUnfollow = useSelector(state => state.users.usersUnfollow)
   const usersAcceptFollowerUser = useSelector(state => state.users.usersAcceptFollowerUser)
 
-  const usersGetFollowerUsersRequest = (payload) => 
-    dispatch(usersActions.usersGetFollowerUsersRequest(payload))
+  const usersGetPendingFollowersRequest = (payload) => 
+    dispatch(usersActions.usersGetPendingFollowersRequest(payload))
 
   const usersFollowRequest = ({ userId }) =>
     dispatch(usersActions.usersFollowRequest({ userId }))
   
   const usersUnfollowRequest = ({ userId }) =>
     dispatch(usersActions.usersUnfollowRequest({ userId }))
-  
+
   const usersAcceptFollowerUserRequest = ({ userId }) =>
     dispatch(usersActions.usersAcceptFollowerUserRequest({ userId }))
 
   useEffect(() => {
     if (usersFollow.status === 'success') {
-      usersGetFollowerUsersRequest({ userId })
+      usersGetPendingFollowersRequest({ userId })
     }
     if (usersUnfollow.status === 'success') {
-      usersGetFollowerUsersRequest({ userId })
+      usersGetPendingFollowersRequest({ userId })
     }
   }, [usersFollow.status, usersUnfollow.status])
 
   useEffect(() => {
-    usersGetFollowerUsersRequest({ userId })
+    usersGetPendingFollowersRequest({ userId })
   }, [userId])
 
   return children({
-    usersGetFollowerUsers: usersServices.cachedUsersGetFollowerUsers(usersGetFollowerUsers, usersGetFollowerUsersCache, userId),
+    usersGetPendingFollowers,
     usersFollow,
     usersFollowRequest,
     usersUnfollow,
