@@ -22,7 +22,12 @@ For production build
 fastlane beta --env production
 ```
 
-For beta build
+For staging build
+```
+fastlane beta --env staging
+```
+
+For development build
 ```
 fastlane beta --env development
 ```

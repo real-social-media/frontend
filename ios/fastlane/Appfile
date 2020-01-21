@@ -1,5 +1,5 @@
 # The bundle identifier of your app
-app_identifier ENV["APP_IDENTIFIER"] || "app.real.mobile.beta"
+app_identifier ENV["APP_IDENTIFIER"] || "app.real.mobile.development"
 
 # Your Apple email address
 apple_id ENV["APPLE_ID"] || "mcloughlin.investments@gmail.com"

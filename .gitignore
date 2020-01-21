@@ -2,6 +2,7 @@
 #
 .env
 .env.development
+.env.staging
 .env.production
 ios/REAL.app.*.zip
 translations/

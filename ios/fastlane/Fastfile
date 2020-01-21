@@ -1,11 +1,11 @@
 default_platform(:ios)
 
 platform :ios do
-  desc "Push a new beta build to TestFlight"
+  desc "Push a new build to TestFlight"
   lane :beta do
     # register_devices(devices_file: "./devices.txt")
 
-    if ENV["APP_IDENTIFIER"] === "app.real.mobile.beta"
+    if ENV["APP_IDENTIFIER"] === "app.real.mobile.development"
       add_badge
     end
 
@@ -17,7 +17,7 @@ platform :ios do
 
     settings_to_override = {
       :BUNDLE_IDENTIFIER => ENV["APP_IDENTIFIER"],
-      :PROVISIONING_PROFILE_SPECIFIER => ENV["APP_IDENTIFIER"],
+      :PROVISIONING_PROFILE_SPECIFIER => ENV["MATCH_APP_PROVISIONING"],
       :DEVELOPMENT_TEAM => ENV["TEAM_ID"]
     }
 
