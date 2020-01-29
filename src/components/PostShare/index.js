@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next'
 
 const PostShare = ({
   theme,
+  authUser,
   postsSingleGet,
   postsShare,
   postsShareRequest,
@@ -24,6 +25,17 @@ const PostShare = ({
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+
+  const tagged = (path(['data', 'textTaggedUsers'])(postsSingleGet) || [])
+    .find(textTag => textTag.tag === `@${path(['username'])(authUser)}`)
+
+  /**
+   * Visibility of repost button, repost button will be visible if:
+   * - Post owner has tagged current authenticated user
+   */
+  const repostButtonVisibility = (
+    tagged
+  )
 
   return (
     <View style={styling.root}>
@@ -65,6 +77,18 @@ const PostShare = ({
           watermark,
         })} loading={postsShare.status === 'loading' && postsShare.payload.type === 'instagram'} />
       </View>
+
+      {repostButtonVisibility ?
+        <View style={styling.form}>
+          <DefaultButton label={t('Repost')} onPress={() => postsShareRequest({
+            photoUrl: path(['data', 'mediaObjects', '0', 'url'])(postsSingleGet),
+            type: 'repost',
+            title: 'Repost',
+            watermark,
+          })} loading={postsShare.status === 'loading' && postsShare.payload.type === 'instagram'} />
+        </View>
+      : null}
+
       <View style={styling.form}>
         <DefaultButton label={watermark ? t('Remove watermark') : t('Add watermark')} mode="outline" onPress={handleWatermark} />
       </View>

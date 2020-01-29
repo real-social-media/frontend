@@ -628,6 +628,58 @@ const postsCreateProgress = (state, action) => update(state, {
 /**
  *
  */
+const postsRepostRequest = (state, action) => update(state, {
+  postsRepost: {
+    status: { $set: 'loading' },
+    payload: { $set: action.payload },
+  },
+  postsRepostQueue: {
+    $postsRepostQueueRequest: action,
+  },
+})
+
+const postsRepostSuccess = (state, action) => update(state, {
+  postsRepost: {
+    data: { $set: action.payload.data },
+    status: { $set: 'success' },
+  },
+  postsRepostQueue: {
+    $postsRepostQueueSuccess: action,
+  },
+})
+
+const postsRepostFailure = (state, action) => update(state, {
+  postsRepost: {
+    status: { $set: 'failure' },
+  },
+  postsRepostQueue: {
+    $postsRepostQueueFailure: action,
+  },
+})
+
+const postsRepostIdle = (state, action) => update(state, {
+  postsRepost: {
+    data: { $set: initialState.postsRepost.data },
+    status: { $set: 'idle' },
+  },
+  postsRepostQueue: {
+    $postsRepostQueueIdle: action,
+  },
+})
+
+const postsRepostProgress = (state, action) => update(state, {
+  postsRepost: {
+    status: { $set: 'loading' },
+    meta: { $set: action.payload.meta },
+  },
+  postsRepostQueue: {
+    $postsRepostQueueProgress: action,
+  },
+})
+
+/**
+ *
+ */
 const postsOnymouslyLikeRequest = (state, action) => update(state, {
   postsOnymouslyLike: {
     status: { $set: 'loading' },
@@ -1026,6 +1078,12 @@ export default handleActions({
   [constants.POSTS_CREATE_FAILURE]: postsCreateFailure,
   [constants.POSTS_CREATE_IDLE]: postsCreateIdle,
   [constants.POSTS_CREATE_PROGRESS]: postsCreateProgress,
+
+  [constants.POSTS_REPOST_REQUEST]: postsRepostRequest,
+  [constants.POSTS_REPOST_SUCCESS]: postsRepostSuccess,
+  [constants.POSTS_REPOST_FAILURE]: postsRepostFailure,
+  [constants.POSTS_REPOST_IDLE]: postsRepostIdle,
+  [constants.POSTS_REPOST_PROGRESS]: postsRepostProgress,
 
   [constants.POSTS_ONYMOUSLY_LIKE_REQUEST]: postsOnymouslyLikeRequest,
   [constants.POSTS_ONYMOUSLY_LIKE_SUCCESS]: postsOnymouslyLikeSuccess,

@@ -116,6 +116,15 @@ export const postsCreateProgress = createAction(constants.POSTS_CREATE_PROGRESS)
 /**
  * 
  */
+export const postsRepostIdle = createAction(constants.POSTS_REPOST_IDLE)
+export const postsRepostRequest = createAction(constants.POSTS_REPOST_REQUEST)
+export const postsRepostSuccess = createAction(constants.POSTS_REPOST_SUCCESS)
+export const postsRepostFailure = createAction(constants.POSTS_REPOST_FAILURE)
+export const postsRepostProgress = createAction(constants.POSTS_REPOST_PROGRESS)
+
+/**
+ * 
+ */
 export const postsCreateSchedulerRequest = createAction(constants.POSTS_CREATE_SCHEDULER_REQUEST)
 export const postsCreateSchedulerSuccess = createAction(constants.POSTS_CREATE_SCHEDULER_SUCCESS)
 export const postsCreateSchedulerFailure = createAction(constants.POSTS_CREATE_SCHEDULER_FAILURE)

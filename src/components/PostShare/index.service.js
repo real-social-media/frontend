@@ -9,6 +9,7 @@ import path from 'ramda/src/path'
 const ShareService = ({ children, navigation }) => {
   const dispatch = useDispatch()
   const postId = path(['postId'])(navigation.getParam('post'))
+  const authUser = useSelector(state => state.auth.user)
   const postsSingleGet = useSelector(state => state.posts.postsSingleGet)
   const postsShare = useSelector(state => state.posts.postsShare)
 
@@ -32,6 +33,7 @@ const ShareService = ({ children, navigation }) => {
   }, [postsShare.status])
 
   return children({
+    authUser,
     postsSingleGet: postsServices.cachedPostsSingleGet(postsSingleGet, navigation.getParam('post')),
     postsSingleGetRequest,
     postsShare,

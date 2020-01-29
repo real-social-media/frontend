@@ -34,14 +34,10 @@ const PrivacyService = ({ children, navigation }) => {
       commentsDisabled: !user.commentsDisabled,
     }))
 
-  const toggleSharingDisabled = () => {
-    console.log(user.sharingDisabled)
-
+  const toggleSharingDisabled = () =>
     dispatch(usersActions.usersEditProfileRequest({
       sharingDisabled: !user.sharingDisabled,
     }))
-  }
-    
 
   const toggleVerificationHidden = () =>
     dispatch(usersActions.usersEditProfileRequest({

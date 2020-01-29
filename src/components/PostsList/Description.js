@@ -47,7 +47,8 @@ const Description = ({
                  * Tagged @username occurrences with attached user object
                  */
                 ...reactStringReplace(post.text, regex, (match, i) => {
-                  const tagged = (path(['textTaggedUsers'])(post) || []).find(textTag => textTag.tag === `@${match}`)
+                  const tagged = (path(['textTaggedUsers'])(post) || [])
+                    .find(textTag => textTag.tag === `@${match}`)
 
                   if (tagged) {
                     return (
