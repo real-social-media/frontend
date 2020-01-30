@@ -52,7 +52,10 @@ const ProfileAction = ({
                 label={t('Follow User')}
                 onPress={() => usersFollowRequest({ userId: path(['data', 'userId'])(usersGetProfile) })}
                 loading={path(['status'])(usersFollow) === 'loading'}
-                disabled={path(['data', 'blockedStatus'])(usersGetProfile) === 'BLOCKING'}
+                disabled={
+                  path(['data', 'blockedStatus'])(usersGetProfile) === 'BLOCKING' ||
+                  path(['data', 'blockerStatus'])(usersGetProfile) === 'BLOCKING'
+                }
               />
             : null}
             {path(['data', 'followedStatus'])(usersGetProfile) === 'FOLLOWING' ?
