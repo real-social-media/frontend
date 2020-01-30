@@ -151,8 +151,8 @@ function* postsViewsGetRequest(req) {
 
   try {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.viewedBy, req.payload))
-    const dataSelector = path(['data', 'getPost', 'viewedBy', 'items'])
-    const metaSelector = compose(omit(['items']), path(['data', 'getPost', 'viewedBy']))
+    const dataSelector = path(['data', 'post', 'viewedBy', 'items'])
+    const metaSelector = compose(omit(['items']), path(['data', 'post', 'viewedBy']))
 
     yield put(actions.postsViewsGetSuccess({ payload: req.payload, data: dataSelector(data), meta: metaSelector(data) }))
   } catch (error) {
@@ -300,7 +300,7 @@ function* postsSingleGetRequest(req) {
 
   try {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.getPost, req.payload))
-    const selector = path(['data', 'getPost'])
+    const selector = path(['data', 'post'])
 
     yield put(actions.postsSingleGetSuccess({ data: selector(data), meta: data }))
   } catch (error) {

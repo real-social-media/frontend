@@ -100,7 +100,7 @@ export const getPosts = `
 
 export const getPost = `
   query GetPost($postId: ID!) {
-    getPost(postId: $postId) {
+    post(postId: $postId) {
       ...postFragment
     }
   }
@@ -277,7 +277,7 @@ export const trendingPosts = `
 
 export const viewedBy = `
   query viewedBy($postId: ID!, $limit: Int, $nextToken: String) {
-    getPost(postId: $postId) {
+    post(postId: $postId) {
       viewedBy(limit: $limit, nextToken: $nextToken) {
         items {
           ...postUserFragment
