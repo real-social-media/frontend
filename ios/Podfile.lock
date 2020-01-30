@@ -67,7 +67,6 @@ PODS:
     - RNPermissions
   - Permission-PhotoLibrary (2.0.8):
     - RNPermissions
-  - QBImagePickerController (3.4.0)
   - RCTRequired (0.61.5)
   - RCTTypeSafety (0.61.5):
     - FBLazyVector (= 0.61.5)
@@ -235,13 +234,13 @@ PODS:
     - React
   - react-native-blur (0.8.0):
     - React
-  - react-native-camera (3.15.0):
+  - react-native-camera (3.16.0):
     - React
-    - react-native-camera/RCT (= 3.15.0)
-    - react-native-camera/RN (= 3.15.0)
-  - react-native-camera/RCT (3.15.0):
+    - react-native-camera/RCT (= 3.16.0)
+    - react-native-camera/RN (= 3.16.0)
+  - react-native-camera/RCT (3.16.0):
     - React
-  - react-native-camera/RN (3.15.0):
+  - react-native-camera/RN (3.16.0):
     - React
   - react-native-cameraroll (1.3.0):
     - React
@@ -264,9 +263,9 @@ PODS:
   - react-native-image-editor (2.2.0):
     - React
     - React-RCTImage
-  - react-native-image-picker (1.1.0):
+  - react-native-image-picker (2.2.1):
     - React
-  - react-native-netinfo (5.0.1):
+  - react-native-netinfo (5.3.3):
     - React
   - react-native-safe-area-context (0.6.2):
     - React
@@ -314,7 +313,7 @@ PODS:
     - React
   - RNCAsyncStorage (1.7.1):
     - React
-  - RNCMaskedView (0.1.5):
+  - RNCMaskedView (0.1.6):
     - React
   - RNDeviceInfo (5.4.0):
     - React
@@ -325,10 +324,14 @@ PODS:
   - RNGoogleSignin (3.0.4):
     - GoogleSignIn (~> 5.0.0)
     - React
-  - RNIap (4.4.0-rc.5):
+  - RNIap (4.4.0):
     - React
-  - RNImageCropPicker (0.26.1):
-    - QBImagePickerController
+  - RNImageCropPicker (0.28.0):
+    - React-Core
+    - React-RCTImage
+    - RNImageCropPicker/QBImagePickerController (= 0.28.0)
+    - RSKImageCropper
+  - RNImageCropPicker/QBImagePickerController (0.28.0):
     - React-Core
     - React-RCTImage
     - RSKImageCropper
@@ -336,16 +339,16 @@ PODS:
     - React
   - RNPermissions (2.0.8):
     - React
-  - RNReanimated (1.4.0):
+  - RNReanimated (1.7.0):
     - React
-  - RNScreens (2.0.0-alpha.23):
+  - RNScreens (2.0.0-alpha.32):
     - React
   - RNSentry (1.2.1):
     - React
     - Sentry (~> 4.4.0)
-  - RNShare (2.0.0):
+  - RNShare (3.0.0):
     - React
-  - RNSVG (10.0.0):
+  - RNSVG (11.0.1):
     - React
   - RSKImageCropper (2.0.0)
   - Sentry (4.4.3):
@@ -432,7 +435,6 @@ SPEC REPOS:
     - GTMSessionFetcher
     - JKBigInteger2
     - JWT
-    - QBImagePickerController
     - RSKImageCropper
     - Sentry
     - SSZipArchive
@@ -577,7 +579,6 @@ SPEC CHECKSUMS:
   Permission-Camera: f9a7b0b01c71febe320436aa74630f23c9483547
   Permission-Notifications: 0722c1cd783b86d2ae77a1a0c925d525f9170e7d
   Permission-PhotoLibrary: c15c7245aeb74aff3ad5edf70ce34adbcf02541b
-  QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
   RCTRequired: b153add4da6e7dbc44aebf93f3cf4fcae392ddf1
   RCTTypeSafety: 9aa1b91d7f9310fc6eadc3cf95126ffe818af320
   React: b6a59ef847b2b40bb6e0180a97d0ca716969ac78
@@ -589,13 +590,13 @@ SPEC CHECKSUMS:
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
   react-native-background-timer: 1b6e6b4e10f1b74c367a1fdc3c72b67c619b222b
   react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
-  react-native-camera: 52114c432860b89986c9ee4919d00a48a6ba7abb
+  react-native-camera: 705c7e9412436957b4dc894a1af61f43830787e2
   react-native-cameraroll: 463aff54e37cff27ea76eb792e6f1fa43b876320
   react-native-config: f2c2ae45625a068c35681a16b9bfb1ca58b0adc7
   react-native-fbsdk: b94a83971c496a35803f38b921aec6d637ba07b5
   react-native-image-editor: 2a796811bc48babcf2f1594b15d6bfe6968e7e63
-  react-native-image-picker: 7a85cf7b0a53845f03ae52fb4592a2748ded069b
-  react-native-netinfo: f85616b5f5819085624f2c26dcb98ff3ab013a41
+  react-native-image-picker: 23b053a5ac85fec5d95a6a2e3487c306682c12eb
+  react-native-netinfo: 8884d510fe67349940b4399c01db3e3591c922aa
   react-native-safe-area-context: 25260c5d0b9c53fd7aa88e569e2edae72af1f6a3
   react-native-slider: 3a1cfd00c9c31068251b536822f7192e8d1d6b6f
   React-RCTActionSheet: 600b4d10e3aea0913b5a92256d2719c0cdd26d76
@@ -611,20 +612,20 @@ SPEC CHECKSUMS:
   rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
   RNAWSCognito: 5c0df55a382a2f23ae81ec6e717975880002dd63
   RNCAsyncStorage: 44395cb9c7c1523104c2b499eb426ef7aff82bca
-  RNCMaskedView: dd13f9f7b146a9ad82f9b7eb6c9b5548fcf6e990
+  RNCMaskedView: a88953beefbd347a29072d9eba90e42945fe291e
   RNDeviceInfo: c7b1dc457611b9231bb780a882102e2c93edc7af
   RNFS: 0d4191b1052bef9ce70deff00a5b4169c62bbd9b
   RNGestureHandler: 946a7691e41df61e2c4b1884deab41a4cdc3afff
   RNGoogleSignin: a00f87261ea13df9a5cea8deafa6927d6f2c3562
-  RNIap: 498abb08d1697030e8d0af691b2fe5c07a799325
-  RNImageCropPicker: e1d8c3381e5b05a1bdcd13ea57a4f1c020a09cef
+  RNIap: 87f0bc97fb427d3f1773d5160966a8808f961c94
+  RNImageCropPicker: cf129d17e042ce3e96fb9ada967c28f21f977c82
   RNImageMarker: 3d2ad96afe3db0965ecff23ca97d65b812d06b47
   RNPermissions: 923c1506d0bde387fbcfc18a8f87945806d03c19
-  RNReanimated: b2ab0b693dddd2339bd2f300e770f6302d2e960c
-  RNScreens: 55c735f525774e894be67848c250c95a9c3194c0
+  RNReanimated: 031fe8d9ea93c2bd689a40f05320ef9d96f74d7f
+  RNScreens: a55364dc1833101f836cee70975ce1fea615a12f
   RNSentry: 9b1d983b2d5d1c215ba6490348fd2a4cc23a8a9d
-  RNShare: 8b171d4b43c1d886917fdd303bf7a4b87167b05c
-  RNSVG: 9d45f03136ecc9b5497e12f6f20838b568acb9f4
+  RNShare: 0e19ddb0bf338b62702ce1d9e001ee14effa68a8
+  RNSVG: 67f1f12dae2cef6ed59a42cae74a6b8f5a9e7b46
   RSKImageCropper: d9a1acbc0600bf8decc8f0d21895872c99a9e4cf
   Sentry: 14bdd673870e8cf64932b149fad5bbbf39a9b390
   SSZipArchive: fa16b8cc4cdeceb698e5e5d9f67e9558532fbf23
