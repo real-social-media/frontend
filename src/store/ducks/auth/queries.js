@@ -20,8 +20,8 @@ const authUserFragment = `
     postCount
     fullName
     themeCode
-    blockedAt
-    blockerAt
+    blockedStatus
+    blockerStatus
     bio
     email
     phoneNumber

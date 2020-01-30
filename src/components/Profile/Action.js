@@ -52,7 +52,7 @@ const ProfileAction = ({
                 label={t('Follow User')}
                 onPress={() => usersFollowRequest({ userId: path(['data', 'userId'])(usersGetProfile) })}
                 loading={path(['status'])(usersFollow) === 'loading'}
-                disabled={path(['data', 'blockedAt'])(usersGetProfile) !== null}
+                disabled={path(['data', 'blockedStatus'])(usersGetProfile) === 'BLOCKING'}
               />
             : null}
             {path(['data', 'followedStatus'])(usersGetProfile) === 'FOLLOWING' ?
@@ -72,7 +72,7 @@ const ProfileAction = ({
           </View>
 
           <View style={styling.item}>
-            {path(['data', 'blockedAt'])(usersGetProfile) === null ?
+            {path(['data', 'blockedStatus'])(usersGetProfile) === 'NOT_BLOCKING' ?
               <DefaultButton
                 label={t('Block User')}
                 onPress={() => usersBlockRequest({ userId: path(['data', 'userId'])(usersGetProfile) })}
