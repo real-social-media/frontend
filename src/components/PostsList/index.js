@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -22,7 +22,6 @@ const ScrollHelper = ({
   navigation,
   postsFeedGet,
   postsFeedGetMoreRequest,
-  layoutPostsListScrollSuccess,
   usersStoriesGet,
   usersGetFollowedUsersWithStories,
   postsFeedGetRequest,
@@ -43,10 +42,6 @@ const ScrollHelper = ({
     layoutMeasurement.height + contentOffset.y >= contentSize.height - 1000
 
   const handleScrollChange = ({ nativeEvent }) => {
-    if (navigation.state.routeName === 'Feed') {
-      layoutPostsListScrollSuccess(nativeEvent.contentOffset)
-    }
-
     if (isCloseToBottom(nativeEvent)) {
       handleLoadMore()
     }
@@ -104,11 +99,8 @@ const PostsList = ({
   postsCreateIdle,
   postsCreateQueue,
   handleProfilePress,
-  layoutPostsListItem,
-  layoutPostsListItemSuccess,
-  layoutPostsListScroll,
-  layoutPostsListScrollSuccess,
   usersGetPendingFollowers,
+  onViewableItemsChanged,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
@@ -117,12 +109,18 @@ const PostsList = ({
     navigation,
     postsFeedGet,
     postsFeedGetMoreRequest,
-    layoutPostsListScrollSuccess,
     usersStoriesGet,
     usersGetFollowedUsersWithStories,
     postsFeedGetRequest,
     usersStoriesGetRequest,
     usersGetFollowedUsersWithStoriesRequest,
+  })
+
+  const onViewableItemsChangedRef = useRef(onViewableItemsChanged)
+  const viewabilityConfigRef = useRef({
+    minimumViewTime: 500,
+    viewAreaCoveragePercentThreshold: 75,
+    waitForInteraction: true,
   })
 
   return (
@@ -158,6 +156,8 @@ const PostsList = ({
             refreshing={scroll.refreshing}
           />
         )}
+        onViewableItemsChanged={onViewableItemsChangedRef.current}
+        viewabilityConfig={viewabilityConfigRef.current}
         renderItem={({ item: post, index }) => {
           if (post.postId === 'story') {
             return (
@@ -221,9 +221,18 @@ const PostsList = ({
               postsOnymouslyLikeRequest={postsOnymouslyLikeRequest}
               postsDislikeRequest={postsDislikeRequest}
               handleProfilePress={handleProfilePress}
-              onMeasure={layoutPostsListItemSuccess}
-              scrollPosition={layoutPostsListScroll.data.y}
               priorityIndex={index}
+
+              handleScrollPrev={() => {
+                feedRef.current.scrollToIndex({
+                  index: index - 1,
+                })
+              }}
+              handleScrollNext={() => {
+                feedRef.current.scrollToIndex({
+                  index: index + 1,
+                })
+              }}
             />
           )
         }}

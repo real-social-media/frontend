@@ -3,9 +3,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import uuid from 'uuid/v4'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as usersActions from 'store/ducks/users/actions'
-import * as layoutActions from 'store/ducks/layout/actions'
 import { withNavigation } from 'react-navigation'
-import useDebounce from 'react-use/lib/useDebounce'
+import path from 'ramda/src/path'
 
 const PostsService = ({ children, navigation }) => {
   const dispatch = useDispatch()
@@ -20,8 +19,6 @@ const PostsService = ({ children, navigation }) => {
   const postsFlag = useSelector(state => state.posts.postsFlag)
   const postsCreate = useSelector(state => state.posts.postsCreate)
   const postsCreateQueue = useSelector(state => state.posts.postsCreateQueue)
-  const layoutPostsListItem = useSelector(state => state.layout.layoutPostsListItem)
-  const layoutPostsListScroll = useSelector(state => state.layout.layoutPostsListScroll)
   const usersGetPendingFollowers = useSelector(state => state.users.usersGetPendingFollowers)
   const usersAcceptFollowerUser = useSelector(state => state.users.usersAcceptFollowerUser)
 
@@ -56,12 +53,6 @@ const PostsService = ({ children, navigation }) => {
   
   const postsDeleteRequest = (payload) =>
     dispatch(postsActions.postsDeleteRequest(payload))
-
-  const layoutPostsListItemSuccess = (payload) =>
-    dispatch(layoutActions.layoutPostsListItemSuccess(payload))
-
-  const layoutPostsListScrollSuccess = (payload) =>
-    dispatch(layoutActions.layoutPostsListScrollSuccess(payload))
 
   const usersGetPendingFollowersRequest = (payload) => 
     dispatch(usersActions.usersGetPendingFollowersRequest(payload))
@@ -129,22 +120,12 @@ const PostsService = ({ children, navigation }) => {
   const handleEditPress = (post) =>
     navigation.navigate('PostEdit', { post })
 
-  /**
-   * 
-   */
-  useDebounce(() => {
-    const range = Object.keys(layoutPostsListItem.data)
-    const goal = layoutPostsListScroll.data.y
-    
-    if (!range.length || !goal) { return }
-    
-    const closest = range.reduce((prev, curr) =>
-      (Math.abs(curr - goal) < Math.abs(prev - goal) ? curr : prev)
-    )
-    
-    const postId = layoutPostsListItem.data[closest].postId
-    dispatch(postsActions.postsReportPostViewsRequest({ postIds: [postId] }))
-  }, 1000, [layoutPostsListScroll.data.y])
+  const onViewableItemsChanged = ({ viewableItems }) => {
+    const postIds = viewableItems.map(viewable => path(['item', 'postId'])(viewable))
+      .filter(item => item)
+
+    dispatch(postsActions.postsReportPostViewsRequest({ postIds }))
+  }
 
   return children({
     feedRef,
@@ -172,11 +153,8 @@ const PostsService = ({ children, navigation }) => {
     postsCreateRequest,
     postsCreateIdle,
     postsCreateQueue,
-    layoutPostsListItemSuccess,
-    layoutPostsListItem,
-    layoutPostsListScroll,
-    layoutPostsListScrollSuccess,
     usersGetPendingFollowers,
+    onViewableItemsChanged,
   })
 }
 

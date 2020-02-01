@@ -32,10 +32,7 @@ const PostMedia = ({
   postsOnymouslyLikeRequest,
   postsDislikeRequest,
   handleProfilePress,
-  layoutPostMediaItemSuccess,
-  layoutPostMediaScroll,
   postsSingleGet,
-  onScroll,
   viewMore,
   handleViewMorePosts,
   postsGetTrendingPosts,
@@ -45,9 +42,6 @@ const PostMedia = ({
   const { t } = useTranslation()
 
   const handleScrollChange = (event) => {
-    if (navigation.state.routeName === 'PostMedia') {
-      onScroll(event.nativeEvent.contentOffset)
-    }
   }
 
   /**
@@ -112,8 +106,6 @@ const PostMedia = ({
             postsOnymouslyLikeRequest={postsOnymouslyLikeRequest}
             postsDislikeRequest={postsDislikeRequest}
             handleProfilePress={handleProfilePress}
-            onMeasure={layoutPostMediaItemSuccess}
-            scrollPosition={layoutPostMediaScroll.data.y}
           />
         )}
       />

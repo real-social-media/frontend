@@ -2,6 +2,7 @@ import React, { useRef, useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
+  TouchableOpacity,
   View,
 } from 'react-native'
 import path from 'ramda/src/path'
@@ -31,32 +32,17 @@ const PostComponent = ({
   postsDislikeRequest,
   handleProfilePress,
   postsRestoreArchivedRequest,
-  onMeasure,
-  scrollPosition,
   priorityIndex,
+  handleScrollPrev,
+  handleScrollNext,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
 
   const ref = useRef(null)
-  const [position, setPosition] = useState(false)
-
-  const handleLayoutChange = useCallback(() => {
-    if (!['Feed', 'PostMedia'].includes(navigation.state.routeName)) { return }
-    ref.current.measure((fx, fy, width, height, px, py) => {
-      onMeasure({ postId: post.postId, measure: { fx, fy, width, height, px, py } })
-      setPosition({ py, height })
-    })
-  }, [])
-
-  // const shouldLoadImage = (
-  //   !['Feed', 'PostMedia'].includes(navigation.state.routeName) ||
-  //   Layout.window.height * 2 > position.py ||
-  //   (scrollPosition + position.height + Layout.window.height * 2 > position.py)
-  // )
 
   return (
-    <View style={styling.root} onLayout={handleLayoutChange} ref={ref}>
+    <View style={styling.root} ref={ref}>
       <HeaderComponent
         authUser={authUser}
         post={post}
@@ -68,13 +54,17 @@ const PostComponent = ({
         handleProfilePress={handleProfilePress}
         postsRestoreArchivedRequest={postsRestoreArchivedRequest}
       />
+
       <ListItemComponent post={post}>
         <ImageComponent
           thumbnailSource={{ uri: path(['mediaObjects', '0', 'url64p'])(post) }}
           imageSource={{ uri: path(['mediaObjects', '0', 'url4k'])(post) }}
           priorityIndex={priorityIndex}
         />
+        <TouchableOpacity style={styling.prev} onPress={handleScrollPrev} />
+        <TouchableOpacity style={styling.next} onPress={handleScrollNext} />
       </ListItemComponent>
+
       <ActionComponent
         authUser={authUser}
         post={post}
@@ -96,6 +86,20 @@ const styles = theme => StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: theme.colors.backgroundPrimary,
+  },
+  prev: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: '50%',
+    bottom: 0,
+  },
+  next: {
+    position: 'absolute',
+    top: 0,
+    left: '50%',
+    right: 0,
+    bottom: 0,
   },
 })
 
