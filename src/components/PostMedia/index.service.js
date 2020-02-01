@@ -16,7 +16,6 @@ const PostMediaService = ({ children, navigation, ...props }) => {
   const postsGetTrendingPosts = useSelector(state => state.posts.postsGetTrendingPosts)
   const postsGetCache = useSelector(state => state.posts.postsGetCache)
 
-  const [viewMore, setViewMore] = useState(true)
   const feedRef = useRef()
 
   const postsSingleGetRequest = ({ postId }) =>
@@ -41,7 +40,11 @@ const PostMediaService = ({ children, navigation, ...props }) => {
     }
   }, [postsDelete.status])
 
-  const handleViewMorePosts = () => {
+  const onViewableItemsChanged = ({ viewableItems }) => {
+    const postIds = viewableItems.map(viewable => path(['item', 'postId'])(viewable))
+      .filter(item => item)
+
+    dispatch(postsActions.postsReportPostViewsRequest({ postIds }))
   }
 
   return children({
@@ -50,10 +53,9 @@ const PostMediaService = ({ children, navigation, ...props }) => {
     postsSingleGetRequest,
     ...props,
     postsMediaFeedGet: postsServices.cachedPostsMediaFeedGet(postsGetCache, userId, postId),
-    viewMore,
-    handleViewMorePosts,
     feedRef,
     routeName: navigation.getParam('routeName'),
+    onViewableItemsChanged,
   })
 }
 

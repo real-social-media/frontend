@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -9,7 +9,6 @@ import path from 'ramda/src/path'
 import PostComponent from 'components/PostsList/Post'
 import NativeError from 'templates/NativeError'
 import PostsLoadingComponent from 'components/PostsList/PostsLoading'
-import MoreComponent from 'components/PostMedia/More'
 
 import { withTheme } from 'react-native-paper'
 import { withNavigation } from 'react-navigation'
@@ -33,16 +32,12 @@ const PostMedia = ({
   postsDislikeRequest,
   handleProfilePress,
   postsSingleGet,
-  viewMore,
-  handleViewMorePosts,
   postsGetTrendingPosts,
   routeName,
+  onViewableItemsChanged,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
-
-  const handleScrollChange = (event) => {
-  }
 
   /**
    * Component responsible for rendering a selected post + suggested post list
@@ -76,6 +71,13 @@ const PostMedia = ({
     return [path(['data'])(postsSingleGet)]
   })()
 
+  const onViewableItemsChangedRef = useRef(onViewableItemsChanged)
+  const viewabilityConfigRef = useRef({
+    minimumViewTime: 500,
+    viewAreaCoveragePercentThreshold: 75,
+    waitForInteraction: false,
+  })
+
   return (
     <View style={styling.root}>
       <NativeError
@@ -91,8 +93,9 @@ const PostMedia = ({
         ref={feedRef}
         keyExtractor={item => item.postId}
         data={flatListData.slice(0, 6)}
-        onScroll={handleScrollChange}
-        renderItem={({ item: post }) => (
+        onViewableItemsChanged={onViewableItemsChangedRef.current}
+        viewabilityConfig={viewabilityConfigRef.current}
+        renderItem={({ item: post, index }) => (
           <PostComponent
             authUser={authUser}
             post={post}
@@ -106,16 +109,28 @@ const PostMedia = ({
             postsOnymouslyLikeRequest={postsOnymouslyLikeRequest}
             postsDislikeRequest={postsDislikeRequest}
             handleProfilePress={handleProfilePress}
+            priorityIndex={index}
+
+            handleScrollPrev={() => {
+              const nextIndex = index - 1
+              if (nextIndex < 0) return
+              feedRef.current.scrollToIndex({
+                index: nextIndex,
+              })
+            }}
+            handleScrollNext={() => {
+              const nextIndex = index + 1
+              if (nextIndex > 5) return
+              feedRef.current.scrollToIndex({
+                index: nextIndex,
+              })
+            }}
           />
         )}
       />
 
       {flatListType && (path(['status'])(postsMediaFeedGet) === 'loading' && !path(['data', 'length'])(postsMediaFeedGet)) ?
         <PostsLoadingComponent />
-      : null}
-
-      {viewMore && flatListData.length > 1 ?
-        <MoreComponent onPress={handleViewMorePosts} />
       : null}
     </View>
   )
