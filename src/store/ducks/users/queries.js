@@ -248,11 +248,13 @@ export const denyFollowerUser = `
 
 export const getStories = `
   query GetStories {
-    getStories {
-      items {
-        ...userPostFragment
+    self {
+      stories {
+        items {
+          ...userPostFragment
+        }
+        nextToken
       }
-      nextToken
     }
   }
   ${userPostFragment}

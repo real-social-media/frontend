@@ -25,7 +25,7 @@ function* postsStoriesGetRequest(req) {
 
   try {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.getStories, req.payload))
-    const selector = path(['data', 'getStories', 'items'])
+    const selector = path(['data', 'user', 'stories', 'items'])
 
     yield put(actions.postsStoriesGetSuccess({ data: selector(data), meta: data }))
   } catch (error) {

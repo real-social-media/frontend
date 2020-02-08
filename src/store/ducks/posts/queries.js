@@ -40,11 +40,13 @@ export const getFeed = `
 
 export const getStories = `
   query GetStories($userId: ID, $limit: Int, $nextToken: String = null) {
-    getStories(userId: $userId, limit: $limit, nextToken: $nextToken) {
-      items {
-        ...postFragment
+    user(userId: $userId) {
+      stories(limit: $limit, nextToken: $nextToken) {
+        items {
+          ...postFragment
+        }
+        nextToken
       }
-      nextToken
     }
   }
   ${postFragment}
