@@ -5,11 +5,13 @@ import {
 
 export const getPosts = `
   query GetPosts($userId: ID, $postStatus: PostStatus, $nextToken: String = null) {
-    getPosts(userId: $userId, postStatus: $postStatus, nextToken: $nextToken) {
-      items {
-        ...postFragment
+    user(userId: $userId) {
+      posts(postStatus: $postStatus, nextToken: $nextToken) {
+        items {
+          ...postFragment
+        }
+        nextToken
       }
-      nextToken
     }
   }
   ${postFragment}
