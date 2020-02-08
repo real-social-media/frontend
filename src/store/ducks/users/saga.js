@@ -249,7 +249,7 @@ function* usersMediaObjectsGetRequest(req) {
 
   try {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.getMediaObjects, req.payload))
-    const selector = path(['data', 'getMediaObjects', 'items'])
+    const selector = path(['data', 'user', 'mediaObjects', 'items'])
 
     yield put(actions.usersMediaObjectsGetSuccess({ data: selector(data), meta: data }))
   } catch (error) {

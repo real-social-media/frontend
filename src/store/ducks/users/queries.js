@@ -176,11 +176,13 @@ export const setUserDetails = `
 
 export const getMediaObjects = `
   query GetMediaObjects($userId: ID) {
-    getMediaObjects(userId: $userId) {
-      items {
-        ...mediaObjectFragment
+    user(userId: $userId) {
+      mediaObjects {
+        items {
+          ...mediaObjectFragment
+        }
+        nextToken
       }
-      nextToken
     }
   }
   ${mediaObjectFragment}
