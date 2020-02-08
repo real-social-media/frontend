@@ -225,8 +225,8 @@ function* postsFeedGetRequest(req) {
 
   try {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.getFeed, req.payload))
-    const dataSelector = path(['data', 'getFeed', 'items'])
-    const metaSelector = compose(omit(['items']), path(['data', 'getFeed']))
+    const dataSelector = path(['data', 'self', 'feed', 'items'])
+    const metaSelector = compose(omit(['items']), path(['data', 'self', 'feed']))
 
     yield put(actions.postsFeedGetSuccess({ data: dataSelector(data), payload: req.payload, meta: metaSelector(data) }))
   } catch (error) {
@@ -239,8 +239,8 @@ function* postsFeedGetMoreRequest(req) {
 
   try {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.getFeed, req.payload))
-    const dataSelector = path(['data', 'getFeed', 'items'])
-    const metaSelector = compose(omit(['items']), path(['data', 'getFeed']))
+    const dataSelector = path(['data', 'self', 'feed', 'items'])
+    const metaSelector = compose(omit(['items']), path(['data', 'self', 'feed']))
 
     yield put(actions.postsFeedGetMoreSuccess({ data: dataSelector(data), payload: req.payload, meta: metaSelector(data) }))
   } catch (error) {

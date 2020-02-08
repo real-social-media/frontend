@@ -28,11 +28,13 @@ export const getPost = `
 
 export const getFeed = `
   query GetFeed($limit: Int = 20, $nextToken: String = null) {
-    getFeed(limit: $limit, nextToken: $nextToken) {
-      items {
-        ...postFragment
+    self {
+      feed(limit: $limit, nextToken: $nextToken) {
+        items {
+          ...postFragment
+        }
+        nextToken
       }
-      nextToken
     }
   }
   ${postFragment}
