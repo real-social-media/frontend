@@ -190,11 +190,13 @@ export const getMediaObjects = `
 
 export const getFollowedUsersWithStories = `
   query GetFollowedUsersWithStories($limit: Int, $nextToken: String) {
-    getFollowedUsersWithStories(limit: $limit, nextToken: $nextToken) {
-      items {
-        ...userFragment
+    self {
+      followedUsersWithStories(limit: $limit, nextToken: $nextToken) {
+        items {
+          ...userFragment
+        }
+        nextToken
       }
-      nextToken
     }
   }
   ${userFragment}
