@@ -6,20 +6,23 @@ import {
   View,
 } from 'react-native'
 import path from 'ramda/src/path'
+import pathOr from 'ramda/src/pathOr'
 import HeaderComponent from 'components/PostsList/Header'
 import ActionComponent from 'components/PostsList/Action'
 import DescriptionComponent from 'components/PostsList/Description'
+import CommentComponent from 'components/PostsList/Comment'
 import ListItemComponent from 'templates/ListItem'
 import ImageComponent from 'templates/Image'
 import ReactionsPreviewTemplate from 'templates/ReactionsPreview'
 import Carousel, { Pagination } from 'react-native-snap-carousel'
 import Layout from 'constants/Layout'
+import { Text } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
 import { withNavigation } from 'react-navigation'
 import { useTranslation } from 'react-i18next'
 
-const PickerItem = (
+const PostCarousel = (
   ref,
   theme,
   handleScrollPrev,
@@ -89,7 +92,7 @@ const PostComponent = ({
           firstItem={0}
           ref={carouselRef}
           data={path(['album', 'posts', 'items'])(post)}
-          renderItem={PickerItem(carouselRef, theme, handleScrollPrev, handleScrollNext)}
+          renderItem={PostCarousel(carouselRef, theme, handleScrollPrev, handleScrollNext)}
           sliderWidth={Layout.window.width}
           itemWidth={Layout.window.width}
           removeClippedSubviews={false}
@@ -147,6 +150,16 @@ const PostComponent = ({
       <DescriptionComponent
         post={post}
       />
+
+      {pathOr(0, ['commentCount'], post) > 3 ?
+        <TouchableOpacity onPress={() => navigation.navigate('Comments', { post })}>
+          <Text style={styling.commentCount}>{t('View all {{commentCount}} comments', { commentCount: pathOr(0, ['commentCount'], post) })}</Text>
+        </TouchableOpacity>
+      : null}
+
+      {pathOr([], ['comments', 'items'], post).map((comment, key) => (
+        <CommentComponent key={key} comment={comment} />
+      ))}
     </View>
   )
 }
@@ -168,6 +181,10 @@ const styles = theme => StyleSheet.create({
     left: '50%',
     right: 0,
     bottom: 0,
+  },
+  commentCount: {
+    padding: theme.spacing.base,
+    opacity: 0.6,
   },
 })
 

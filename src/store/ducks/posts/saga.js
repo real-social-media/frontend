@@ -611,6 +611,38 @@ function* postsGetTrendingPostsMoreRequest(req) {
   }
 }
 
+/**
+ *
+ */
+function* postsCommentsGetRequest(req) {
+  const AwsAPI = yield getContext('AwsAPI')
+
+  try {
+    const data = yield AwsAPI.graphql(graphqlOperation(queries.comments, req.payload))
+    const selector = path(['data', 'post', 'comments', 'items'])
+
+    yield put(actions.postsCommentsGetSuccess({ data: selector(data), payload: req.payload, meta: data }))
+  } catch (error) {
+    yield put(actions.postsCommentsGetFailure({ message: error.message, payload: req.payload }))
+  }
+}
+
+/**
+ *
+ */
+function* commentsAddRequest(req) {
+  const AwsAPI = yield getContext('AwsAPI')
+
+  try {
+    const data = yield AwsAPI.graphql(graphqlOperation(queries.addComment, req.payload))
+    const selector = path(['data', 'addComment'])
+
+    yield put(actions.commentsAddSuccess({ data: selector(data), payload: req.payload, meta: data }))
+  } catch (error) {
+    yield put(actions.commentsAddFailure({ message: error.message, payload: req.payload }))
+  }
+}
+
 export default () => [
   takeLatest(constants.POSTS_GET_REQUEST, postsGetRequest),
   takeLatest(constants.POSTS_GET_MORE_REQUEST, postsGetMoreRequest),
@@ -641,4 +673,7 @@ export default () => [
 
   takeLatest(constants.POSTS_GET_TRENDING_POSTS_REQUEST, postsGetTrendingPostsRequest),
   takeLatest(constants.POSTS_GET_TRENDING_POSTS_MORE_REQUEST, postsGetTrendingPostsMoreRequest),
+  
+  takeLatest(constants.POSTS_COMMENTS_GET_REQUEST, postsCommentsGetRequest),
+  takeLatest(constants.COMMENTS_ADD_REQUEST, commentsAddRequest),
 ]

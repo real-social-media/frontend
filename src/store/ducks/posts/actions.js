@@ -166,3 +166,16 @@ export const postsGetTrendingPostsMoreIdle = createAction(constants.POSTS_GET_TR
 export const postsGetTrendingPostsMoreRequest = createAction(constants.POSTS_GET_TRENDING_POSTS_MORE_REQUEST)
 export const postsGetTrendingPostsMoreSuccess = createAction(constants.POSTS_GET_TRENDING_POSTS_MORE_SUCCESS)
 export const postsGetTrendingPostsMoreFailure = createAction(constants.POSTS_GET_TRENDING_POSTS_MORE_FAILURE)
+
+/**
+ * 
+ */
+export const postsCommentsGetIdle = createAction(constants.POSTS_COMMENTS_GET_IDLE)
+export const postsCommentsGetRequest = createAction(constants.POSTS_COMMENTS_GET_REQUEST)
+export const postsCommentsGetSuccess = createAction(constants.POSTS_COMMENTS_GET_SUCCESS)
+export const postsCommentsGetFailure = createAction(constants.POSTS_COMMENTS_GET_FAILURE)
+
+export const commentsAddIdle = createAction(constants.COMMENTS_ADD_IDLE)
+export const commentsAddRequest = createAction(constants.COMMENTS_ADD_REQUEST)
+export const commentsAddSuccess = createAction(constants.COMMENTS_ADD_SUCCESS)
+export const commentsAddFailure = createAction(constants.COMMENTS_ADD_FAILURE)

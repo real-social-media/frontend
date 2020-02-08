@@ -113,9 +113,22 @@ const initialState = {
     error: {},
     payload: {},
   },
+  postsCommentsGet: {
+    data: [],
+    status: 'idle',
+    error: {},
+    payload: {},
+  },
+  commentsAdd: {
+    data: [],
+    status: 'idle',
+    error: {},
+    payload: {},
+  },
 
   postsCreateQueue: {},
   postsGetCache: {},
+  postsCommentsGetCache: {},
 }
 
 /**
@@ -961,6 +974,66 @@ const postsGetTrendingPostsIdle = (state, action) => update(state, {
   },
 })
 
+/**
+ *
+ */
+const postsCommentsGetRequest = (state, action) => update(state, {
+  postsCommentsGet: {
+    status: { $set: 'loading' },
+    payload: { $set: action.payload },
+  },
+})
+
+const postsCommentsGetSuccess = (state, action) => update(state, {
+  postsCommentsGet: {
+    data: { $set: action.payload.data },
+    status: { $set: 'success' },
+  },
+})
+
+const postsCommentsGetFailure = (state, action) => update(state, {
+  postsCommentsGet: {
+    status: { $set: 'failure' },
+  },
+})
+
+const postsCommentsGetIdle = (state, action) => update(state, {
+  postsCommentsGet: {
+    data: { $set: initialState.postsCommentsGet.data },
+    status: { $set: 'idle' },
+  },
+})
+
+/**
+ * 
+ */
+const commentsAddRequest = (state, action) => update(state, {
+  commentsAdd: {
+    status: { $set: 'loading' },
+    payload: { $set: action.payload },
+  },
+})
+
+const commentsAddSuccess = (state, action) => update(state, {
+  commentsAdd: {
+    data: { $set: action.payload.data },
+    status: { $set: 'success' },
+  },
+})
+
+const commentsAddFailure = (state, action) => update(state, {
+  commentsAdd: {
+    status: { $set: 'failure' },
+  },
+})
+
+const commentsAddIdle = (state, action) => update(state, {
+  commentsAdd: {
+    data: { $set: initialState.commentsAdd.data },
+    status: { $set: 'idle' },
+  },
+})
+
 export default handleActions({
   [constants.POSTS_GET_REQUEST]: postsGetRequest,
   [constants.POSTS_GET_SUCCESS]: postsGetSuccess,
@@ -1056,6 +1129,16 @@ export default handleActions({
   [constants.POSTS_GET_TRENDING_POSTS_SUCCESS]: postsGetTrendingPostsSuccess,
   [constants.POSTS_GET_TRENDING_POSTS_FAILURE]: postsGetTrendingPostsFailure,
   [constants.POSTS_GET_TRENDING_POSTS_IDLE]: postsGetTrendingPostsIdle,
+
+  [constants.POSTS_COMMENTS_GET_REQUEST]: postsCommentsGetRequest,
+  [constants.POSTS_COMMENTS_GET_SUCCESS]: postsCommentsGetSuccess,
+  [constants.POSTS_COMMENTS_GET_FAILURE]: postsCommentsGetFailure,
+  [constants.POSTS_COMMENTS_GET_IDLE]: postsCommentsGetIdle,
+
+  [constants.COMMENTS_ADD_REQUEST]: commentsAddRequest,
+  [constants.COMMENTS_ADD_SUCCESS]: commentsAddSuccess,
+  [constants.COMMENTS_ADD_FAILURE]: commentsAddFailure,
+  [constants.COMMENTS_ADD_IDLE]: commentsAddIdle,
 
   /**
    * Clear on logout

@@ -49,6 +49,24 @@ export const mediaObjectFragment = `
   }
 `
 
+export const commentFragment = `
+  fragment commentFragment on Comment {
+    commentId
+    commentedAt
+    commentedBy {
+      ...userFragment
+    }
+    text
+    textTaggedUsers {
+      tag
+      user {
+        ...userFragment
+      }
+    }
+  }
+  ${userFragment}
+`
+
 export const postFragment = `
   fragment postFragment on Post {
     postId
@@ -92,6 +110,7 @@ export const postFragment = `
       }
     }
     likeStatus
+    commentCount
     commentsDisabled
     likesDisabled
     sharingDisabled
@@ -104,6 +123,23 @@ export const postFragment = `
         ...userFragment
       }
       nextToken
+    }
+    comments (limit: 3) {
+      items {
+        commentId
+        commentedAt
+        commentedBy {
+          userId
+          username
+        }
+        text
+        textTaggedUsers {
+          tag
+          user {
+            userId
+          }
+        }
+      }
     }
   }
   ${mediaObjectFragment}

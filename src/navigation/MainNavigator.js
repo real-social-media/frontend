@@ -33,6 +33,7 @@ import VerificationScreen from 'screens/VerificationScreen'
 import MembershipScreen from 'screens/MembershipScreen'
 import AlbumsScreen from 'screens/AlbumsScreen'
 import AlbumCreateScreen from 'screens/AlbumCreateScreen'
+import CommentsScreen from 'screens/CommentsScreen'
 import ProfileArchivedPhotoScreen from 'screens/ProfileArchivedPhotoScreen'
 import { TabBarItem } from 'components/NavigationTab'
 import Layout from 'constants/Layout'
@@ -292,6 +293,7 @@ export default (screenProps) => createStackNavigator({
   FeedProfile: ProfileScreen,
   Albums: AlbumsScreen,
   AlbumCreate: AlbumCreateScreen,
+  Comments: CommentsScreen,
   ProfileFollowed: ProfileFollowedScreen,
   ProfileFollower: ProfileFollowerScreen,
   ProfileRequests: ProfileRequestsScreen,

@@ -31,15 +31,6 @@ const Action = ({
 
   const self = path(['postedBy', 'userId'])(post) === path(['userId'])(authUser)
 
-  const handleCommentPress = () => navigation.navigate('Modal', ({
-    cancelAction: () => navigation.goBack(null),
-    cancelLabel: t('Cancel'),
-    confirmLabel: t('OK'),
-    confirmAction: () => navigation.goBack(null),
-    text: `${t('REAL is fully Open Source & built by the people')}. ${t('Help us move faster by contributing code')}.`,
-    title: t('Comments Coming Soon'),
-  }))
-
   const handleViewsPress = () => {
     if (!self) { return }
     navigation.navigate({
@@ -107,7 +98,7 @@ const Action = ({
         : null}
         
         {commentButtonVisibility ?
-          <TouchableOpacity style={styling.actionLeftIcon} onPress={handleCommentPress}>
+          <TouchableOpacity style={styling.actionLeftIcon} onPress={() => navigation.navigate('Comments', { post })}>
             <BubbleIcon fill={theme.colors.primaryIcon} />
           </TouchableOpacity>
         : null}

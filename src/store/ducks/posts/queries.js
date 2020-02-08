@@ -1,6 +1,7 @@
 import {
   userFragment,
   postFragment,
+  commentFragment,
 } from 'store/fragments'
 
 export const getPosts = `
@@ -215,4 +216,35 @@ export const viewedBy = `
     }
   }
   ${userFragment}
+`
+
+export const addComment = `
+  mutation addComment(
+    $postId: ID!,
+    $commentId: ID!,
+    $text: String!,
+  ) {
+    addComment (
+      postId: $postId,
+      commentId: $commentId,
+      text: $text,
+    ) {
+      ...commentFragment
+    }
+  }
+  ${commentFragment}
+`
+
+export const comments = `
+  query comments($postId: ID!, $limit: Int, $nextToken: String) {
+    post(postId: $postId) {
+      comments(limit: $limit, nextToken: $nextToken) {
+        items {
+          ...commentFragment
+        }
+        nextToken
+      }
+    }
+  }
+  ${commentFragment}
 `
