@@ -12,7 +12,6 @@ import CameraRoll from '@react-native-community/cameraroll'
 import Share from 'react-native-share'
 import Marker from 'react-native-image-marker'
 import promiseRetry from 'promise-retry'
-import Icon from 'assets/images/icon.png'
 import dayjs from 'dayjs'
 import uuid from 'uuid/v4'
 import RNFS from 'react-native-fs'
@@ -22,6 +21,7 @@ import RNFS from 'react-native-fs'
  */
 function* postsStoriesGetRequest(req) {
   const AwsAPI = yield getContext('AwsAPI')
+  const errorWrapper = yield getContext('errorWrapper')
 
   try {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.getStories, req.payload))
@@ -29,7 +29,7 @@ function* postsStoriesGetRequest(req) {
 
     yield put(actions.postsStoriesGetSuccess({ data: selector(data), meta: data }))
   } catch (error) {
-    yield put(actions.postsStoriesGetFailure({ message: error.message }))
+    yield put(actions.postsStoriesGetFailure({ message: errorWrapper(error) }))
   }
 }
 
@@ -164,11 +164,13 @@ function* handlePostsShareRequest(payload) {
  *
  */
 function* postsShareRequest(req) {
+  const errorWrapper = yield getContext('errorWrapper')
+
   try {
     yield handlePostsShareRequest(req.payload)
     yield put(actions.postsShareSuccess({ data: {}, meta: {} }))
   } catch (error) {
-    yield put(actions.postsShareFailure({ message: error.message }))
+    yield put(actions.postsShareFailure({ message: errorWrapper(error) }))
   }
 }
 
@@ -177,6 +179,7 @@ function* postsShareRequest(req) {
  */
 function* postsGetRequest(req) {
   const AwsAPI = yield getContext('AwsAPI')
+  const errorWrapper = yield getContext('errorWrapper')
 
   try {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.getPosts, { ...req.payload, postStatus: 'COMPLETED' }))
@@ -185,12 +188,13 @@ function* postsGetRequest(req) {
 
     yield put(actions.postsGetSuccess({ payload: req.payload, data: dataSelector(data), meta: metaSelector(data) }))
   } catch (error) {
-    yield put(actions.postsGetFailure({ payload: req.payload, message: error.message }))
+    yield put(actions.postsGetFailure({ payload: req.payload, message: errorWrapper(error) }))
   }
 }
 
 function* postsGetMoreRequest(req) {
   const AwsAPI = yield getContext('AwsAPI')
+  const errorWrapper = yield getContext('errorWrapper')
 
   try {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.getPosts, { ...req.payload, postStatus: 'COMPLETED' }))
@@ -199,12 +203,13 @@ function* postsGetMoreRequest(req) {
 
     yield put(actions.postsGetMoreSuccess({ payload: req.payload, data: dataSelector(data), meta: metaSelector(data) }))
   } catch (error) {
-    yield put(actions.postsGetMoreFailure({ payload: req.payload, message: error.message }))
+    yield put(actions.postsGetMoreFailure({ payload: req.payload, message: errorWrapper(error) }))
   }
 }
 
 function* postsViewsGetRequest(req) {
   const AwsAPI = yield getContext('AwsAPI')
+  const errorWrapper = yield getContext('errorWrapper')
 
   try {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.viewedBy, req.payload))
@@ -213,7 +218,7 @@ function* postsViewsGetRequest(req) {
 
     yield put(actions.postsViewsGetSuccess({ payload: req.payload, data: dataSelector(data), meta: metaSelector(data) }))
   } catch (error) {
-    yield put(actions.postsViewsGetFailure({ payload: req.payload, message: error.message }))
+    yield put(actions.postsViewsGetFailure({ payload: req.payload, message: errorWrapper(error) }))
   }
 }
 
@@ -222,6 +227,7 @@ function* postsViewsGetRequest(req) {
  */
 function* postsFeedGetRequest(req) {
   const AwsAPI = yield getContext('AwsAPI')
+  const errorWrapper = yield getContext('errorWrapper')
 
   try {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.getFeed, req.payload))
@@ -230,12 +236,13 @@ function* postsFeedGetRequest(req) {
 
     yield put(actions.postsFeedGetSuccess({ data: dataSelector(data), payload: req.payload, meta: metaSelector(data) }))
   } catch (error) {
-    yield put(actions.postsFeedGetFailure({ message: error.message, payload: req.payload, }))
+    yield put(actions.postsFeedGetFailure({ message: errorWrapper(error), payload: req.payload, }))
   }
 }
 
 function* postsFeedGetMoreRequest(req) {
   const AwsAPI = yield getContext('AwsAPI')
+  const errorWrapper = yield getContext('errorWrapper')
 
   try {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.getFeed, req.payload))
@@ -244,7 +251,7 @@ function* postsFeedGetMoreRequest(req) {
 
     yield put(actions.postsFeedGetMoreSuccess({ data: dataSelector(data), payload: req.payload, meta: metaSelector(data) }))
   } catch (error) {
-    yield put(actions.postsFeedGetMoreFailure({ message: error.message, payload: req.payload, }))
+    yield put(actions.postsFeedGetMoreFailure({ message: errorWrapper(error), payload: req.payload, }))
   }
 }
 
@@ -253,6 +260,7 @@ function* postsFeedGetMoreRequest(req) {
  */
 function* postsGetArchivedRequest(req) {
   const AwsAPI = yield getContext('AwsAPI')
+  const errorWrapper = yield getContext('errorWrapper')
 
   try {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.getPosts, { ...req.payload, postStatus: 'ARCHIVED' }))
@@ -260,7 +268,7 @@ function* postsGetArchivedRequest(req) {
 
     yield put(actions.postsGetArchivedSuccess({ data: selector(data), meta: data }))
   } catch (error) {
-    yield put(actions.postsGetArchivedFailure({ message: error.message }))
+    yield put(actions.postsGetArchivedFailure({ message: errorWrapper(error) }))
   }
 }
 
@@ -276,13 +284,15 @@ function* handlePostsEditRequest(payload) {
  *
  */
 function* postsEditRequest(req) {
+  const errorWrapper = yield getContext('errorWrapper')
+
   try {
     const data = yield handlePostsEditRequest(req.payload)
     const selector = path(['data', 'editPost'])
 
     yield put(actions.postsEditSuccess({ data: selector(data), meta: data }))
   } catch (error) {
-    yield put(actions.postsEditFailure({ message: error.message }))
+    yield put(actions.postsEditFailure({ message: errorWrapper(error) }))
   }
 }
 
@@ -291,6 +301,7 @@ function* postsEditRequest(req) {
  */
 function* postsDeleteRequest(req) {
   const AwsAPI = yield getContext('AwsAPI')
+  const errorWrapper = yield getContext('errorWrapper')
 
   try {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.deletePost, req.payload))
@@ -298,7 +309,7 @@ function* postsDeleteRequest(req) {
 
     yield put(actions.postsDeleteSuccess({ data: selector(data), meta: data }))
   } catch (error) {
-    yield put(actions.postsDeleteFailure({ message: error.message }))
+    yield put(actions.postsDeleteFailure({ message: errorWrapper(error) }))
   }
 }
 
@@ -307,6 +318,7 @@ function* postsDeleteRequest(req) {
  */
 function* postsArchiveRequest(req) {
   const AwsAPI = yield getContext('AwsAPI')
+  const errorWrapper = yield getContext('errorWrapper')
 
   try {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.archivePost, req.payload))
@@ -314,7 +326,7 @@ function* postsArchiveRequest(req) {
 
     yield put(actions.postsArchiveSuccess({ data: selector(data), meta: data }))
   } catch (error) {
-    yield put(actions.postsArchiveFailure({ message: error.message }))
+    yield put(actions.postsArchiveFailure({ message: errorWrapper(error) }))
   }
 }
 
@@ -323,6 +335,7 @@ function* postsArchiveRequest(req) {
  */
 function* postsRestoreArchivedRequest(req) {
   const AwsAPI = yield getContext('AwsAPI')
+  const errorWrapper = yield getContext('errorWrapper')
 
   try {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.restoreArchivedPost, req.payload))
@@ -330,7 +343,7 @@ function* postsRestoreArchivedRequest(req) {
 
     yield put(actions.postsRestoreArchivedSuccess({ data: selector(data), meta: data }))
   } catch (error) {
-    yield put(actions.postsRestoreArchivedFailure({ message: error.message }))
+    yield put(actions.postsRestoreArchivedFailure({ message: errorWrapper(error) }))
   }
 }
 
@@ -339,6 +352,7 @@ function* postsRestoreArchivedRequest(req) {
  */
 function* postsFlagRequest(req) {
   const AwsAPI = yield getContext('AwsAPI')
+  const errorWrapper = yield getContext('errorWrapper')
 
   try {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.flagPost, req.payload))
@@ -346,7 +360,7 @@ function* postsFlagRequest(req) {
 
     yield put(actions.postsFlagSuccess({ data: selector(data), meta: data }))
   } catch (error) {
-    yield put(actions.postsFlagFailure({ message: error.message }))
+    yield put(actions.postsFlagFailure({ message: errorWrapper(error) }))
   }
 }
 
@@ -355,6 +369,7 @@ function* postsFlagRequest(req) {
  */
 function* postsSingleGetRequest(req) {
   const AwsAPI = yield getContext('AwsAPI')
+  const errorWrapper = yield getContext('errorWrapper')
 
   try {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.getPost, req.payload))
@@ -362,7 +377,7 @@ function* postsSingleGetRequest(req) {
 
     yield put(actions.postsSingleGetSuccess({ data: selector(data), meta: data }))
   } catch (error) {
-    yield put(actions.postsSingleGetFailure({ message: error.message }))
+    yield put(actions.postsSingleGetFailure({ message: errorWrapper(error) }))
   }
 }
 
@@ -425,6 +440,8 @@ function* handlePostsCreateRequest(payload) {
  *
  */
 function* postsCreateRequest(req) {
+  const errorWrapper = yield getContext('errorWrapper')
+
   try {
     const data = yield handlePostsCreateRequest(req.payload)
 
@@ -456,7 +473,7 @@ function* postsCreateRequest(req) {
     })
   } catch (error) {
     yield put(actions.postsCreateFailure({
-      message: error.message,
+      message: errorWrapper(error),
       payload: req.payload,
       meta: { attempt: 0, progress: 0 },
     }))
@@ -523,6 +540,7 @@ function* postsCreateSchedulerRequest() {
  */
 function* postsOnymouslyLikeRequest(req) {
   const AwsAPI = yield getContext('AwsAPI')
+  const errorWrapper = yield getContext('errorWrapper')
 
   try {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.onymouslyLikePost, req.payload))
@@ -530,7 +548,7 @@ function* postsOnymouslyLikeRequest(req) {
 
     yield put(actions.postsOnymouslyLikeSuccess({ data: selector(data), payload: req.payload, meta: data }))
   } catch (error) {
-    yield put(actions.postsOnymouslyLikeFailure({ message: error.message, payload: req.payload }))
+    yield put(actions.postsOnymouslyLikeFailure({ message: errorWrapper(error), payload: req.payload }))
   }
 }
 
@@ -539,6 +557,7 @@ function* postsOnymouslyLikeRequest(req) {
  */
 function* postsAnonymouslyLikeRequest(req) {
   const AwsAPI = yield getContext('AwsAPI')
+  const errorWrapper = yield getContext('errorWrapper')
 
   try {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.anonymouslyLikePost, req.payload))
@@ -546,7 +565,7 @@ function* postsAnonymouslyLikeRequest(req) {
 
     yield put(actions.postsAnonymouslyLikeSuccess({ data: selector(data), payload: req.payload, meta: data }))
   } catch (error) {
-    yield put(actions.postsAnonymouslyLikeFailure({ message: error.message, payload: req.payload }))
+    yield put(actions.postsAnonymouslyLikeFailure({ message: errorWrapper(error), payload: req.payload }))
   }
 }
 
@@ -555,6 +574,7 @@ function* postsAnonymouslyLikeRequest(req) {
  */
 function* postsDislikeRequest(req) {
   const AwsAPI = yield getContext('AwsAPI')
+  const errorWrapper = yield getContext('errorWrapper')
 
   try {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.dislikePost, req.payload))
@@ -562,7 +582,7 @@ function* postsDislikeRequest(req) {
 
     yield put(actions.postsDislikeSuccess({ data: selector(data), payload: req.payload, meta: data }))
   } catch (error) {
-    yield put(actions.postsDislikeFailure({ message: error.message, payload: req.payload, }))
+    yield put(actions.postsDislikeFailure({ message: errorWrapper(error), payload: req.payload, }))
   }
 }
 
@@ -571,6 +591,7 @@ function* postsDislikeRequest(req) {
  */
 function* postsReportPostViewsRequest(req) {
   const AwsAPI = yield getContext('AwsAPI')
+  const errorWrapper = yield getContext('errorWrapper')
 
   try {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.reportPostViews, req.payload))
@@ -578,7 +599,7 @@ function* postsReportPostViewsRequest(req) {
 
     yield put(actions.postsReportPostViewsSuccess({ data: selector(data), payload: req.payload, meta: data }))
   } catch (error) {
-    yield put(actions.postsReportPostViewsFailure({ message: error.message, payload: req.payload }))
+    yield put(actions.postsReportPostViewsFailure({ message: errorWrapper(error), payload: req.payload }))
   }
 }
 
@@ -587,6 +608,7 @@ function* postsReportPostViewsRequest(req) {
  */
 function* postsGetTrendingPostsRequest(req) {
   const AwsAPI = yield getContext('AwsAPI')
+  const errorWrapper = yield getContext('errorWrapper')
 
   try {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.trendingPosts, req.payload))
@@ -594,12 +616,13 @@ function* postsGetTrendingPostsRequest(req) {
 
     yield put(actions.postsGetTrendingPostsSuccess({ data: selector(data), payload: req.payload, meta: data }))
   } catch (error) {
-    yield put(actions.postsGetTrendingPostsFailure({ message: error.message, payload: req.payload }))
+    yield put(actions.postsGetTrendingPostsFailure({ message: errorWrapper(error), payload: req.payload }))
   }
 }
 
 function* postsGetTrendingPostsMoreRequest(req) {
   const AwsAPI = yield getContext('AwsAPI')
+  const errorWrapper = yield getContext('errorWrapper')
 
   try {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.trendingPosts, req.payload))
@@ -607,7 +630,7 @@ function* postsGetTrendingPostsMoreRequest(req) {
 
     yield put(actions.postsGetTrendingPostsMoreSuccess({ data: selector(data), payload: req.payload, meta: data }))
   } catch (error) {
-    yield put(actions.postsGetTrendingPostsMoreFailure({ message: error.message, payload: req.payload }))
+    yield put(actions.postsGetTrendingPostsMoreFailure({ message: errorWrapper(error), payload: req.payload }))
   }
 }
 
@@ -616,6 +639,7 @@ function* postsGetTrendingPostsMoreRequest(req) {
  */
 function* postsCommentsGetRequest(req) {
   const AwsAPI = yield getContext('AwsAPI')
+  const errorWrapper = yield getContext('errorWrapper')
 
   try {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.comments, req.payload))
@@ -623,7 +647,7 @@ function* postsCommentsGetRequest(req) {
 
     yield put(actions.postsCommentsGetSuccess({ data: selector(data), payload: req.payload, meta: data }))
   } catch (error) {
-    yield put(actions.postsCommentsGetFailure({ message: error.message, payload: req.payload }))
+    yield put(actions.postsCommentsGetFailure({ message: errorWrapper(error), payload: req.payload }))
   }
 }
 
@@ -632,6 +656,7 @@ function* postsCommentsGetRequest(req) {
  */
 function* commentsAddRequest(req) {
   const AwsAPI = yield getContext('AwsAPI')
+  const errorWrapper = yield getContext('errorWrapper')
 
   try {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.addComment, req.payload))
@@ -639,7 +664,7 @@ function* commentsAddRequest(req) {
 
     yield put(actions.commentsAddSuccess({ data: selector(data), payload: req.payload, meta: data }))
   } catch (error) {
-    yield put(actions.commentsAddFailure({ message: error.message, payload: req.payload }))
+    yield put(actions.commentsAddFailure({ message: errorWrapper(error), payload: req.payload }))
   }
 }
 

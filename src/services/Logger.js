@@ -47,3 +47,5 @@ export const captureMessage = (error) => {
 export const setUser = (payload) => {
   Sentry.setUser(payload)
 }
+
+export const withScope = Sentry.withScope

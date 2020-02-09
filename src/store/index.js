@@ -11,6 +11,7 @@ import * as Logger from 'services/Logger'
 import AsyncStorage from '@react-native-community/async-storage'
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly'
+import path from 'ramda/src/path'
 
 const persistConfig = {
   key: 'root',
@@ -19,12 +20,31 @@ const persistConfig = {
   stateReconciler: autoMergeLevel2,
 }
 
+const errorWrapper = (error) => {
+  /**
+   * basic error object handling
+   */
+  const errorMessage = path(['message'])(error)
+  if (typeof errorMessage === 'string' && errorMessage.length) {
+    return errorMessage
+  }
+
+  /**
+   * graphql api errors
+   */
+  const errorGraphql = path(['errors'])(error)
+  if (Array.isArray(errorGraphql) && errorGraphql.length) {
+    return errorGraphql
+  }
+}
+
 const sagaMiddleware = createSagaMiddleware({
   context: {
     AwsAuth: Auth,
     AwsAPI: API,
     AwsCache: Cache,
     AwsCredentials: Credentials,
+    errorWrapper,
   },
   onError: Logger.captureException,
 })
