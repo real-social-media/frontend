@@ -1,29 +1,38 @@
 import React from 'react'
-import {
-  createAppContainer,
-  createSwitchNavigator,
-} from 'react-navigation'
-import AuthNavigator from 'navigation/AuthNavigator'
-import MainNavigator from 'navigation/MainNavigator'
-import LoadingScreen from 'screens/LoadingScreen'
-import AuthOnboardScreen from 'screens/AuthOnboardScreen'
-import AvatarPickerScreen from 'screens/AvatarPickerScreen'
+import { NavigationContainer } from '@react-navigation/native'
+import { createStackNavigator } from '@react-navigation/stack'
+import DefaultNavigationComponent from 'components/NavigationPrimary/Default'
 
-export default ({ initialRouteName, ...props }) => {
-  const AppContainer = createAppContainer(
-    createSwitchNavigator({
-      Loading: LoadingScreen,
-      AuthOnboard: AuthOnboardScreen,
-      AvatarPicker: AvatarPickerScreen,
-      Auth: AuthNavigator(props.screenProps),
-      Main: MainNavigator(props.screenProps),
-    }, { initialRouteName }),
-  )
+import AuthScreen from 'screens/AuthScreen'
+import FeedScreen from 'screens/FeedScreen'
+import ProfileScreen from 'screens/ProfileScreen'
+
+const AppNavigator = ({ theme }) => {
+  const Stack = createStackNavigator()
 
   return (
-    <AppContainer
-      uriPrefix="real.app://"
-      {...props}
-    />
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={FeedScreen}
+          options={DefaultNavigationComponent(theme)}
+        />
+
+        <Stack.Screen
+          name="FeedProfile"
+          component={ProfileScreen}
+          options={DefaultNavigationComponent(theme)}
+        />
+
+        <Stack.Screen
+          name="Auth"
+          component={AuthScreen}
+          options={DefaultNavigationComponent(theme)}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   )
 }
+
+export default AppNavigator

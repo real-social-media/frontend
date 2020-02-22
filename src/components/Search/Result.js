@@ -15,12 +15,11 @@ import UserRowActionComponent from 'templates/UserRowAction'
 import Avatar from 'templates/Avatar'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const Result = ({
   theme,
-  navigation,
   usersSearch,
   usersFollow,
   usersFollowRequest,
@@ -107,7 +106,7 @@ const styles = theme => StyleSheet.create({
 
 Result.propTypes = {
   theme: PropTypes.any,
-  navigation: PropTypes.any,
+  
   usersSearch: PropTypes.any,
   usersFollow: PropTypes.any,
   usersFollowRequest: PropTypes.any,
@@ -115,6 +114,4 @@ Result.propTypes = {
   usersUnfollowRequest: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(Result)
-)
+export default withTheme(Result)

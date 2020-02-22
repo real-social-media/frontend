@@ -10,17 +10,17 @@ import Avatar from 'templates/Avatar'
 import { Caption } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const Stories = ({
   theme,
-  navigation,
   authUser,
   usersGetFollowedUsersWithStories,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
 
   const handleUserStoryPress = (user) => () => {
     navigation.navigate({
@@ -92,11 +92,8 @@ const styles = theme => StyleSheet.create({
 
 Stories.propTypes = {
   theme: PropTypes.any,
-  navigation: PropTypes.any,
   authUser: PropTypes.any,
   usersGetFollowedUsersWithStories: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(Stories)
-)
+export default withTheme(Stories)

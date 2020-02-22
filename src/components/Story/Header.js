@@ -10,7 +10,7 @@ import path from 'ramda/src/path'
 import dayjs from 'dayjs'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const Header = ({
@@ -62,6 +62,4 @@ Header.propTypes = {
   story: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(Header)
-)
+export default withTheme(Header)

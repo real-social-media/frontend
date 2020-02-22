@@ -3,9 +3,9 @@ import { useSelector, useDispatch } from 'react-redux'
 import * as themeActions from 'store/ducks/theme/actions'
 import * as usersActions from 'store/ducks/users/actions'
 import * as authSelector from 'store/ducks/auth/selectors'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 
-const ThemeService = ({ children, navigation }) => {
+const ThemeService = ({ children, }) => {
   const dispatch = useDispatch()
   const themeFetch = useSelector(state => state.theme.themeFetch)
   const user = useSelector(authSelector.authUserSelector)
@@ -37,4 +37,4 @@ const ThemeService = ({ children, navigation }) => {
   })
 }
 
-export default withNavigation(ThemeService)
+export default ThemeService

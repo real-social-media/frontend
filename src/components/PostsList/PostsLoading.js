@@ -9,7 +9,7 @@ import GridItemComponent from 'templates/GridItem'
 import * as Animatable from 'react-native-animatable'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const PostsGrid = ({
@@ -54,10 +54,8 @@ PostsGrid.defaultProps = {
 
 PostsGrid.propTypes = {
   theme: PropTypes.any,
-  navigation: PropTypes.any,
+  
   postsGet: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(PostsGrid)
-)
+export default withTheme(PostsGrid)

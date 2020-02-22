@@ -14,12 +14,11 @@ import ModalPreviewComponent from 'templates/ModalPreview'
 import dayjs from 'dayjs'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const PostShare = ({
   theme,
-  navigation,
   authUser,
   postsSingleGet,
   postsShare,
@@ -29,6 +28,7 @@ const PostShare = ({
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
 
   const tagged = (path(['data', 'textTaggedUsers'])(postsSingleGet) || [])
     .find(textTag => textTag.tag === `@${path(['username'])(authUser)}`)
@@ -156,6 +156,4 @@ PostShare.propTypes = {
   postsShareRequest: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(PostShare)
-)
+export default withTheme(PostShare)

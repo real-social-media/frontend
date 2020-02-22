@@ -12,7 +12,7 @@ import SuccessComponent from 'components/PostCreate/Success'
 import UploadingComponent from 'components/PostsList/Uploading'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const PostCreateComponent = ({
@@ -85,6 +85,4 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-export default withNavigation(
-  withTheme(PostCreateComponent)
-)
+export default withTheme(PostCreateComponent)

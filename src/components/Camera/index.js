@@ -18,7 +18,7 @@ import { BlurView } from '@react-native-community/blur'
 import Modal from 'components/Modal'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const usePulse = (fromValue, toValue) => {
@@ -30,7 +30,6 @@ const usePulse = (fromValue, toValue) => {
 
 const CameraComponent = ({
   theme,
-  navigation,
   photoSize,
   setPhotoSize,
   cameraRef,
@@ -49,6 +48,7 @@ const CameraComponent = ({
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
   
   /**
    * Size calc
@@ -171,7 +171,7 @@ const styles = theme => StyleSheet.create({
 
 CameraComponent.propTypes = {
   theme: PropTypes.any,
-  navigation: PropTypes.any,
+  
   cameraRef: PropTypes.any,
   flashMode: PropTypes.any,
   flipMode: PropTypes.any,
@@ -183,6 +183,4 @@ CameraComponent.propTypes = {
   postsCreate: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(CameraComponent)
-)
+export default withTheme(CameraComponent)

@@ -10,18 +10,18 @@ import { Text } from 'react-native-paper'
 import pathOr from 'ramda/src/pathOr'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const FormAlbums = ({
   theme,
-  navigation,
   values,
   setFieldValue,
   albumsGet,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
 
   const handleAlbumPress = (albumId) => () => {
     setFieldValue('albumId', albumId)
@@ -102,6 +102,4 @@ FormAlbums.propTypes = {
   setFieldValue: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(FormAlbums)
-)
+export default withTheme(FormAlbums)

@@ -9,15 +9,11 @@ import {
 import { Text, Paragraph } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const Disclaimer = ({
   theme,
-  navigation,
-  authSignout,
-  authSignoutRequest,
-  usersGetProfile,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
@@ -61,12 +57,6 @@ const styles = theme => StyleSheet.create({
 
 Disclaimer.propTypes = {
   theme: PropTypes.any,
-  navigation: PropTypes.any,
-  authSignout: PropTypes.any,
-  authSignoutRequest: PropTypes.any,
-  usersGetProfile: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(Disclaimer)
-)
+export default withTheme(Disclaimer)

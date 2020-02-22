@@ -3,10 +3,11 @@ import { useSelector, useDispatch } from 'react-redux'
 import * as usersActions from 'store/ducks/users/actions'
 import * as authSelector from 'store/ducks/auth/selectors'
 import * as authActions from 'store/ducks/auth/actions'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 
-const ProfileEditService = ({ children, navigation }) => {
+const ProfileEditService = ({ children, }) => {
   const dispatch = useDispatch()
+  const navigation = useNavigation()
   const user = useSelector(authSelector.authUserSelector)
   const usersEditProfile = useSelector(state => state.users.usersEditProfile)
   const authSignout = useSelector(state => state.auth.authSignout)
@@ -30,7 +31,6 @@ const ProfileEditService = ({ children, navigation }) => {
   useEffect(() => {
     if (usersEditProfile.status === 'success') {
       dispatch(usersActions.usersEditProfileIdle())
-      // navigation.navigate('ProfileSelf')
     }
   }, [usersEditProfile.status])
 
@@ -43,4 +43,4 @@ const ProfileEditService = ({ children, navigation }) => {
   })
 }
 
-export default withNavigation(ProfileEditService)
+export default ProfileEditService

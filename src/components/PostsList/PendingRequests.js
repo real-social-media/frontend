@@ -10,16 +10,16 @@ import CloseIcon from 'assets/svg/post/Close'
 import PendingIcon from 'assets/svg/post/Pending'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const PendingRequests = ({
   theme,
-  navigation,
   usersGetPendingFollowers,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
 
   return (
     <View style={styling.root}>
@@ -96,7 +96,7 @@ const styles = theme => StyleSheet.create({
 
 PendingRequests.propTypes = {
   theme: PropTypes.any,
-  navigation: PropTypes.any,
+  
   authUser: PropTypes.any,
   post: PropTypes.any,
   handleEditPress: PropTypes.any,
@@ -105,6 +105,4 @@ PendingRequests.propTypes = {
   postsDeleteRequest: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(PendingRequests)
-)
+export default withTheme(PendingRequests)

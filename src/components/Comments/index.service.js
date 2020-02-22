@@ -3,14 +3,16 @@ import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as postsServices from 'store/ducks/posts/services'
-import { withNavigation } from 'react-navigation'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import uuid from 'uuid/v4'
 import path from 'ramda/src/path'
 import { ifIphoneX } from 'react-native-iphone-x-helper'
 
-const CommentsService = ({ children, navigation }) => {
+const CommentsService = ({ children, }) => {
   const dispatch = useDispatch()
-  const postId = path(['postId'])(navigation.getParam('post'))
+  const navigation = useNavigation()
+  const route = useRoute()
+  const postId = path(['params', 'post', 'postId'])(route)
   const commentsAdd = useSelector(state => state.posts.commentsAdd)
   const postsCommentsGet = useSelector(state => state.posts.postsCommentsGet)
   const postsCommentsGetCache = useSelector(state => state.posts.postsCommentsGetCache)
@@ -66,4 +68,4 @@ const CommentsService = ({ children, navigation }) => {
   })
 }
 
-export default withNavigation(CommentsService)
+export default CommentsService

@@ -8,7 +8,7 @@ import Layout from 'constants/Layout'
 import { ifIphoneX } from 'react-native-iphone-x-helper'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const CameraComponent = ({
@@ -118,6 +118,4 @@ CameraComponent.propTypes = {
   wrapper: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(CameraComponent)
-)
+export default withTheme(CameraComponent)

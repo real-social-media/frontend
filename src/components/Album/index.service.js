@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 
-const AlbumService = ({ children, navigation }) => {
+const AlbumService = ({ children }) => {
   const authUser = useSelector(state => state.auth.user)
   const themeFetch = useSelector(state => state.theme.themeFetch)
 
@@ -11,4 +11,4 @@ const AlbumService = ({ children, navigation }) => {
   })
 }
 
-export default withNavigation(AlbumService)
+export default AlbumService

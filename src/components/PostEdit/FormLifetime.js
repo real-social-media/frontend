@@ -11,7 +11,7 @@ import LifetimeIndicator from 'components/PostCreate/LifetimeIndicator'
 import dayjs from 'dayjs'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const getIndexByValue = (lifetime) => {
@@ -101,6 +101,4 @@ FormLifetime.propTypes = {
   setFieldValue: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(FormLifetime)
-)
+export default withTheme(FormLifetime)

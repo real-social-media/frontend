@@ -1,14 +1,16 @@
 import { useEffect, useRef } from 'react'
+import { InteractionManager } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import uuid from 'uuid/v4'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as usersActions from 'store/ducks/users/actions'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import path from 'ramda/src/path'
 import intersection from 'ramda/src/intersection'
 
-const PostsService = ({ children, navigation }) => {
+const PostsService = ({ children, }) => {
   const dispatch = useDispatch()
+  const navigation = useNavigation()
   const authUser = useSelector(state => state.auth.user)
   const postsFeedGet = useSelector(state => state.posts.postsFeedGet)
   const postsDelete = useSelector(state => state.posts.postsDelete)
@@ -138,7 +140,9 @@ const PostsService = ({ children, navigation }) => {
       return
     }
 
-    dispatch(postsActions.postsReportPostViewsRequest({ postIds }))
+    InteractionManager.runAfterInteractions(() => {
+      dispatch(postsActions.postsReportPostViewsRequest({ postIds }))
+    })
   }
 
   const handleScrollPrev = (index) => () => {
@@ -190,4 +194,4 @@ const PostsService = ({ children, navigation }) => {
   })
 }
 
-export default withNavigation(PostsService)
+export default PostsService

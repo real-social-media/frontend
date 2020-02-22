@@ -13,7 +13,7 @@ import useDebounce from 'react-use/lib/useDebounce'
 import CloseIcon from 'assets/svg/camera/Close'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const formSchema = Yup.object().shape({

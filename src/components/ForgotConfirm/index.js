@@ -11,12 +11,11 @@ import { Subheading } from 'react-native-paper'
 import path from 'ramda/src/path'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const ForgotConfirm = ({
   theme,
-  navigation,
   authForgot,
   authForgotConfirm,
   authForgotConfirmRequest,
@@ -24,6 +23,7 @@ const ForgotConfirm = ({
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
 
   return (
     <View style={styling.wrapper}>
@@ -82,11 +82,8 @@ const styles = theme => StyleSheet.create({
 
 ForgotConfirm.propTypes = {
   theme: PropTypes.any,
-  navigation: PropTypes.any,
   authForgotConfirm: PropTypes.any,
   authForgotConfirmRequest: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(ForgotConfirm)
-)
+export default withTheme(ForgotConfirm)

@@ -20,7 +20,7 @@ import { Text } from 'react-native-paper'
 import LinearGradient from 'react-native-linear-gradient'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const PostCarousel = ({
@@ -77,7 +77,6 @@ const PostCarousel = ({
 
 const PostComponent = ({
   theme,
-  navigation,
   authUser,
   post,
   postsShareRequest,
@@ -96,6 +95,7 @@ const PostComponent = ({
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
 
   const ref = useRef(null)
   const carouselRef = useRef(null)
@@ -274,6 +274,4 @@ PostComponent.propTypes = {
   usersGetFollowedUsersWithStoriesRequest: PropTypes.any, 
 }
 
-export default withNavigation(
-  withTheme(PostComponent)
-)
+export default withTheme(PostComponent)

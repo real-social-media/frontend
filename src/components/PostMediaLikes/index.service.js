@@ -1,8 +1,8 @@
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 
-const VerificationService = ({ children, navigation }) => {
+const PostMediaLikesService = ({ children, }) => {
   return children({
   })
 }
 
-export default withNavigation(VerificationService)
+export default PostMediaLikesService

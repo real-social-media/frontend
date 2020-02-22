@@ -1,16 +1,17 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { InteractionManager } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as postsServices from 'store/ducks/posts/services'
-import * as layoutActions from 'store/ducks/layout/actions'
-import { withNavigation } from 'react-navigation'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import path from 'ramda/src/path'
 
-const PostMediaService = ({ children, navigation, ...props }) => {
+const PostMediaService = ({ children,, ...props }) => {
   const dispatch = useDispatch()
-  const postId = path(['postId'])(navigation.getParam('post'))
-  const userId = path(['postedBy', 'userId'])(navigation.getParam('post'))
+  const navigation = useNavigation()
+  const route = useRoute()
+  const postId = path(['params', 'post', 'postId'])(route)
+  const userId = path(['params', 'post', 'postedBy', 'userId'])(route)
   const postsSingleGet = useSelector(state => state.posts.postsSingleGet)
   const postsDelete = useSelector(state => state.posts.postsDelete)
   const postsGetTrendingPosts = useSelector(state => state.posts.postsGetTrendingPosts)
@@ -48,7 +49,9 @@ const PostMediaService = ({ children, navigation, ...props }) => {
       return
     }
 
-    dispatch(postsActions.postsReportPostViewsRequest({ postIds }))
+    InteractionManager.runAfterInteractions(() => {
+      dispatch(postsActions.postsReportPostViewsRequest({ postIds }))
+    })
   }
 
   const handleScrollPrev = (index) => () => {
@@ -68,17 +71,17 @@ const PostMediaService = ({ children, navigation, ...props }) => {
   }
 
   return children({
-    postsSingleGet: postsServices.cachedPostsSingleGet(postsSingleGet, navigation.getParam('post')),
+    postsSingleGet: postsServices.cachedPostsSingleGet(postsSingleGet, path(['params', 'post'])(route)),
     postsGetTrendingPosts: postsServices.cachedPostsGetTrendingPosts(postsGetTrendingPosts, postId),
     postsSingleGetRequest,
     ...props,
     postsMediaFeedGet: postsServices.cachedPostsMediaFeedGet(postsGetCache, userId, postId),
     feedRef,
-    routeName: navigation.getParam('routeName'),
+    routeName: route.name,
     onViewableItemsChanged,
     handleScrollPrev,
     handleScrollNext,
   })
 }
 
-export default withNavigation(PostMediaService)
+export default PostMediaService

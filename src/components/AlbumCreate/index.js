@@ -8,18 +8,18 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import AlbumCreateForm from 'components/AlbumCreate/Form'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const AlbumCreateComponent = ({
   theme,
-  navigation,
   authUser,
   albumsCreate,
   albumsCreateRequest,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
 
   return (
     <View style={styling.root}>
@@ -39,7 +39,6 @@ const AlbumCreateComponent = ({
 
 AlbumCreateComponent.propTypes = {
   theme: PropTypes.any,
-  navigation: PropTypes.any,
   authUser: PropTypes.any,
   albumsCreate: PropTypes.any,
   albumsCreateRequest: PropTypes.any,
@@ -55,6 +54,4 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-export default withNavigation(
-  withTheme(AlbumCreateComponent)
-)
+export default withTheme(AlbumCreateComponent)

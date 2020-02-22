@@ -9,12 +9,11 @@ import PrivacyForm from 'components/Privacy/Form'
 import Disclaimer from 'components/Privacy/Disclaimer'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const Privacy = ({
   theme,
-  navigation,
   user,
   togglePrivacyStatus,
   toggleFollowCountsHidden,
@@ -59,12 +58,9 @@ const styles = theme => StyleSheet.create({
 
 Privacy.propTypes = {
   theme: PropTypes.any,
-  navigation: PropTypes.any,
   user: PropTypes.any,
   togglePrivacyStatus: PropTypes.any,
   toggleFollowCountsHidden: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(Privacy)
-)
+export default withTheme(Privacy)

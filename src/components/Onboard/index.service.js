@@ -1,8 +1,8 @@
 import { useSelector, useDispatch } from 'react-redux'
 import * as authActions from 'store/ducks/auth/actions'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 
-const AuthOnboardService = ({ children, navigation }) => {
+const AuthOnboardService = ({ children, }) => {
   const dispatch = useDispatch()
   const authFacebook = useSelector(state => state.auth.authFacebook)
   const authSignin = useSelector(state => state.auth.authSignin)
@@ -33,4 +33,4 @@ const AuthOnboardService = ({ children, navigation }) => {
   })
 }
 
-export default withNavigation(AuthOnboardService)
+export default AuthOnboardService

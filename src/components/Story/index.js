@@ -18,7 +18,7 @@ import LinearGradient from 'react-native-linear-gradient'
 import pathOr from 'ramda/src/pathOr'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const StoryCarousel = ({
@@ -212,6 +212,4 @@ Story.propTypes = {
   onCloseStory: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(Story)
-)
+export default withTheme(Story)

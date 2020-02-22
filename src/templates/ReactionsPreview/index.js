@@ -11,16 +11,16 @@ import Avatar from 'templates/Avatar'
 import UserServiceProvider from 'services/providers/User'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const ReactionsPreviewTemplate = ({
   theme,
-  navigation,
   post,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
 
   if (path(['postedBy', 'likesDisabled'])(post) || post.likesDisabled) {
     return null
@@ -89,6 +89,4 @@ ReactionsPreviewTemplate.propTypes = {
   post: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(ReactionsPreviewTemplate)
-)
+export default withTheme(ReactionsPreviewTemplate)

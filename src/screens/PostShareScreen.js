@@ -3,7 +3,7 @@ import PostShareServiceComponent from 'components/PostShare/index.service'
 import PostShareComponent from 'components/PostShare'
 
 class PostShareScreen extends React.Component {
-  static navigationOptions = ({ navigation, screenProps }) => ({
+  static navigationOptions = ({ screenProps }) => ({
     headerShown: false,
   })
   

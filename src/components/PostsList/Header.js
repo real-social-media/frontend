@@ -14,12 +14,11 @@ import VerificationIcon from 'assets/svg/action/Verification'
 import dayjs from 'dayjs'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const Header = ({
   theme,
-  navigation,
   authUser,
   post,
   postsArchiveRequest,
@@ -31,6 +30,7 @@ const Header = ({
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
   const actionSheetRef = useRef(null)
 
   const handleOptionsPress = () => actionSheetRef.current.show()
@@ -174,7 +174,7 @@ const styles = theme => StyleSheet.create({
 
 Header.propTypes = {
   theme: PropTypes.any,
-  navigation: PropTypes.any,
+  
   authUser: PropTypes.any,
   post: PropTypes.any,
   handleEditPress: PropTypes.any,
@@ -183,6 +183,4 @@ Header.propTypes = {
   postsDeleteRequest: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(Header)
-)
+export default withTheme(Header)

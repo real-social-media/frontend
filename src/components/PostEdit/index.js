@@ -10,12 +10,11 @@ import FormLifetime from 'components/PostEdit/FormLifetime'
 import FormAlbums from 'components/PostEdit/FormAlbums'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const PostEditComponent = ({
   theme,
-  navigation,
   postsEditRequest,
   postsEdit,
   postsSingleGet,
@@ -23,6 +22,7 @@ const PostEditComponent = ({
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
 
   return (
     <View style={styling.root}>
@@ -45,7 +45,7 @@ const PostEditComponent = ({
 
 PostEditComponent.propTypes = {
   theme: PropTypes.any,
-  navigation: PropTypes.any,
+  
   postsEditRequest: PropTypes.any,
   postsEdit: PropTypes.any,
   postsSingleGet: PropTypes.any,
@@ -61,6 +61,4 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-export default withNavigation(
-  withTheme(PostEditComponent)
-)
+export default withTheme(PostEditComponent)

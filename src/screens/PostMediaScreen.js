@@ -8,14 +8,14 @@ import { Translation } from 'react-i18next'
 import { Provider as PaperProvider } from 'react-native-paper'
 
 class FeedScreen extends React.Component {
-  static navigationOptions = ({ navigation, screenProps }) => ({
+  static navigationOptions = ({ screenProps }) => ({
     headerShown: false,
   })
   
   render() {
     return (
       <>
-        <PaperProvider theme={this.props.navigation.state.params.theme}>
+        <PaperProvider theme={this.props.route.name}>
           <Translation>
             {(t) => (
               <NavigationSecondary

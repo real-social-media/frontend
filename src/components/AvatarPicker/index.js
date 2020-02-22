@@ -12,12 +12,11 @@ import Avatar from 'templates/Avatar'
 import { Text } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const AvatarPicker = ({
   theme,
-  navigation,
   avatar,
   postsCreate,
   postsCreateRequest,
@@ -25,6 +24,7 @@ const AvatarPicker = ({
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
 
   return (
     <View style={styling.root}>
@@ -121,6 +121,4 @@ AvatarPicker.propTypes = {
   postsShareRequest: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(AvatarPicker)
-)
+export default withTheme(AvatarPicker)

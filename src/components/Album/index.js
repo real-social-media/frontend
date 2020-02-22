@@ -11,18 +11,19 @@ import ModalProfileComponent from 'templates/ModalProfile'
 import path from 'ramda/src/path'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const Album = ({
   theme,
-  navigation,
   albumsGet,
   themeFetch,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
-  const album = navigation.getParam('album')
+  const navigation = useNavigation()
+  const route = useRoute()
+  const album = path(['params', 'album'])(route)
 
   return (
     <View style={styling.root}>
@@ -90,6 +91,4 @@ Album.propTypes = {
   postsShareRequest: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(Album)
-)
+export default withTheme(Album)

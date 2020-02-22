@@ -53,9 +53,7 @@ const App = () => (
 
           <AppNavigator
             initialRouteName={initialRouteName}
-            screenProps={{
-              theme,
-            }}
+            theme={theme}
           />
         </PaperProvider>
       )}

@@ -3,10 +3,10 @@ import { useSelector, useDispatch } from 'react-redux'
 import * as usersActions from 'store/ducks/users/actions'
 import * as usersServices from 'store/ducks/users/services'
 import * as postsActions from 'store/ducks/posts/actions'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import toLower from 'ramda/src/toLower'
 
-const SearchService = ({ children, navigation }) => {
+const SearchService = ({ children, }) => {
   const dispatch = useDispatch()
   const authUser = useSelector(state => state.auth.user)
   const usersSearch = useSelector(state => state.users.usersSearch)
@@ -68,4 +68,4 @@ const SearchService = ({ children, navigation }) => {
   })
 }
 
-export default withNavigation(SearchService)
+export default SearchService

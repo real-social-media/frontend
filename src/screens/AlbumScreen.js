@@ -5,7 +5,7 @@ import NavigationSecondary from 'components/NavigationSecondary/Default'
 import { Translation } from 'react-i18next'
 
 class AlbumScreen extends React.Component {
-  static navigationOptions = ({ navigation, screenProps }) => ({
+  static navigationOptions = ({ screenProps }) => ({
     headerShown: false,
   })
   

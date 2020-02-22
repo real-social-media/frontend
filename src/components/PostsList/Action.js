@@ -14,12 +14,11 @@ import { Caption } from 'react-native-paper'
 import dayjs from 'dayjs'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const Action = ({
   theme,
-  navigation,
   authUser,
   post,
   postsOnymouslyLikeRequest,
@@ -28,6 +27,7 @@ const Action = ({
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
 
   const self = path(['postedBy', 'userId'])(post) === path(['userId'])(authUser)
 
@@ -166,12 +166,10 @@ const styles = theme => StyleSheet.create({
 
 Action.propTypes = {
   theme: PropTypes.any,
-  navigation: PropTypes.any,
+  
   post: PropTypes.any,
   postsOnymouslyLikeRequest: PropTypes.any,
   postsDislikeRequest: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(Action)
-)
+export default withTheme(Action)

@@ -1,8 +1,8 @@
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 
-const NotificationsService = ({ children, navigation }) => {
+const NotificationsService = ({ children, }) => {
   return children({
   })
 }
 
-export default withNavigation(NotificationsService)
+export default NotificationsService

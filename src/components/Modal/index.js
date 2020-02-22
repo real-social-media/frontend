@@ -9,25 +9,27 @@ import {
   Title,
   Text,
 } from 'react-native-paper'
+import path from 'ramda/src/path'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const Modal = ({
   theme,
-  navigation,
   ...props
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
-  
-  const cancelAction = props.cancelAction || navigation.getParam('cancelAction')
-  const cancelLabel = props.cancelLabel || navigation.getParam('cancelLabel')
-  const confirmLabel = props.confirmLabel || navigation.getParam('confirmLabel')
-  const confirmAction = props.confirmAction || navigation.getParam('confirmAction')
-  const title = props.title || navigation.getParam('title')
-  const text = props.text || navigation.getParam('text')
+  const navigation = useNavigation()
+  const route = useRoute()
+
+  const cancelAction = props.cancelAction || path(['params', 'cancelAction'])(route)
+  const cancelLabel = props.cancelLabel || path(['params', 'cancelLabel'])(route)
+  const confirmLabel = props.confirmLabel || path(['params', 'confirmLabel'])(route)
+  const confirmAction = props.confirmAction || path(['params', 'confirmAction'])(route)
+  const title = props.title || path(['params', 'title'])(route)
+  const text = props.text || path(['params', 'text'])(route)
 
   return (
     <View style={styling.root}>
@@ -77,9 +79,6 @@ const styles = theme => StyleSheet.create({
 
 Modal.propTypes = {
   theme: PropTypes.any,
-  navigation: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(Modal)
-)
+export default withTheme(Modal)

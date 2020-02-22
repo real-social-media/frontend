@@ -13,11 +13,10 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { Subheading } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const Auth = ({
-  navigation,
   theme,
   authFacebook,
   authFacebookRequest,
@@ -29,6 +28,7 @@ const Auth = ({
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
 
   return (
     <KeyboardAwareScrollView contentContainerStyle={styling.wrapper} extraScrollHeight={160}>
@@ -102,7 +102,7 @@ const styles = theme => StyleSheet.create({
 })
 
 Auth.propTypes = {
-  navigation: PropTypes.any,
+  
   theme: PropTypes.any,
   authFacebook: PropTypes.any,
   authFacebookRequest: PropTypes.any,
@@ -112,6 +112,4 @@ Auth.propTypes = {
   authSigninRequest: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(Auth)
-)
+export default withTheme(Auth)

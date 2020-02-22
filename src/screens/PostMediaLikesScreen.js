@@ -4,7 +4,7 @@ import NavigationSecondary from 'components/NavigationSecondary/Default'
 import { Translation } from 'react-i18next'
 
 class PostMediaLikesScreen extends React.Component {
-  static navigationOptions = ({ navigation, screenProps }) => ({
+  static navigationOptions = ({ screenProps }) => ({
     headerShown: false,
   })
   

@@ -10,18 +10,19 @@ import ImageComponent from 'templates/Image'
 import path from 'ramda/src/path'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const PostsGrid = ({
   theme,
-  navigation,
   postsGet,
   themeFetch,
   themeCode,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
+  const route = useRoute()
 
   const themeSelector = (themeCode, themeFetch) =>
     (themeFetch.data.find(theme => theme.key === themeCode) || {}).theme
@@ -35,7 +36,7 @@ const PostsGrid = ({
             params: {
               post,
               theme: themeSelector(themeCode, themeFetch),
-              routeName: navigation.state.routeName,
+              routeName: route.name,
             },
             key: `PostMedia-postid${post.postId}`,
           })}>
@@ -67,10 +68,8 @@ PostsGrid.defaultProps = {
 
 PostsGrid.propTypes = {
   theme: PropTypes.any,
-  navigation: PropTypes.any,
+  
   postsGet: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(PostsGrid)
-)
+export default withTheme(PostsGrid)

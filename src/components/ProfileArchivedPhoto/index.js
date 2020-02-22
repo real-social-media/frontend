@@ -10,17 +10,18 @@ import GridItemComponent from 'templates/GridItem'
 import ImageComponent from 'templates/Image'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const ProfileArchivedPhoto = ({
   theme,
-  navigation,
   postsGetArchived,
   postsGetArchivedRequest,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
+  const route = useRoute()
 
   return (
     <ScrollView style={styling.root}>
@@ -32,7 +33,7 @@ const ProfileArchivedPhoto = ({
               params: {
                 post,
                 theme,
-                routeName: navigation.state.routeName,
+                routeName: route.name,
               },
               key: `PostMedia-postid${post.postId}`,
             })}
@@ -67,6 +68,4 @@ ProfileArchivedPhoto.propTypes = {
   postsGetArchivedRequest: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(ProfileArchivedPhoto)
-)
+export default withTheme(ProfileArchivedPhoto)

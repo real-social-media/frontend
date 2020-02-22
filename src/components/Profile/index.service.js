@@ -3,11 +3,13 @@ import { InteractionManager } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import * as usersActions from 'store/ducks/users/actions'
 import * as usersServices from 'store/ducks/users/services'
-import { withNavigation } from 'react-navigation'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import pathOr from 'ramda/src/pathOr'
 
-const ProfileService = ({ children, navigation }) => {
+const ProfileService = ({ children, }) => {
   const dispatch = useDispatch()
+  const navigation = useNavigation()
+  const route = useRoute()
   const authUser = useSelector(state => state.auth.user)
   const usersGetProfile = useSelector(state => state.users.usersGetProfile)
   const usersGetProfileCache = useSelector(state => state.users.usersGetProfileCache)
@@ -15,7 +17,7 @@ const ProfileService = ({ children, navigation }) => {
   const usersUnblock = useSelector(state => state.users.usersUnblock)
   const usersFollow = useSelector(state => state.users.usersFollow)
   const usersUnfollow = useSelector(state => state.users.usersUnfollow)
-  const userId = navigation.getParam('userId')
+  const userId = route.params.userId
 
   const usersGetProfileRequest = ({ userId }) => 
     dispatch(usersActions.usersGetProfileRequest({ userId }))
@@ -66,4 +68,4 @@ const ProfileService = ({ children, navigation }) => {
   })
 }
 
-export default withNavigation(ProfileService)
+export default ProfileService

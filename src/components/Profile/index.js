@@ -21,7 +21,7 @@ import ProfilePrivateComponent from 'components/Profile/Private'
 import pathOr from 'ramda/src/pathOr'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const ScrollHelper = ({
@@ -81,7 +81,6 @@ const ScrollHelper = ({
 
 const Profile = ({
   theme,
-  navigation,
   usersGetProfile,
   authUser,
   usersBlock,
@@ -101,6 +100,8 @@ const Profile = ({
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
+  const route = useRoute()
 
   const handleUserStoryPress = () => {
     if (!pathOr(0, ['data', 'stories', 'items', 'length'], usersGetProfile)) {
@@ -149,7 +150,7 @@ const Profile = ({
           />
         )}
       >
-        {navigation.state.routeName === 'ProfileSelf' ?
+        {route.name === 'ProfileSelf' ?
           <ProfileStatusComponent />
         : null}
 
@@ -249,7 +250,6 @@ const styles = theme => StyleSheet.create({
 
 Profile.propTypes = {
   theme: PropTypes.any,
-  navigation: PropTypes.any,
   usersGetProfile: PropTypes.any,
   authUser: PropTypes.any,
   usersBlock: PropTypes.any,
@@ -263,6 +263,4 @@ Profile.propTypes = {
   postsGet: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(Profile)
-)
+export default withTheme(Profile)

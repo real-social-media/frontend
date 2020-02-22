@@ -1,8 +1,8 @@
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 
-const PayoutService = ({ children, navigation }) => {
+const PayoutService = ({ children, }) => {
   return children({
   })
 }
 
-export default withNavigation(PayoutService)
+export default PayoutService

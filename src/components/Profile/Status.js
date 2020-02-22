@@ -8,15 +8,15 @@ import {
 import { Caption, Text } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const ProfileStatus = ({
   theme,
-  navigation,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
 
   return (
     <View style={styling.root}>
@@ -43,9 +43,7 @@ const styles = theme => StyleSheet.create({
 
 ProfileStatus.propTypes = {
   theme: PropTypes.any,
-  navigation: PropTypes.any,
+  
 }
 
-export default withNavigation(
-  withTheme(ProfileStatus)
-)
+export default withTheme(ProfileStatus)

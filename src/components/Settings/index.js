@@ -26,17 +26,17 @@ import Avatar from 'templates/Avatar'
 import path from 'ramda/src/path'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const Settings = ({
   theme,
-  navigation,
   authSignoutRequest,
   user,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
 
   return (
     <ScrollView style={styling.root}>
@@ -132,12 +132,9 @@ const styles = theme => StyleSheet.create({
 
 Settings.propTypes = {
   theme: PropTypes.any,
-  navigation: PropTypes.any,
   authSignout: PropTypes.any,
   authSignoutRequest: PropTypes.any,
   user: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(Settings)
-)
+export default withTheme(Settings)

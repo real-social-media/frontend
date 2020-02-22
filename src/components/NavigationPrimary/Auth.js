@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import LogoIcon from 'assets/svg/header/Logo'
 
-export default ({ navigation, screenProps }) => ({
+export default ({ screenProps }) => ({
   headerStyle: {
     backgroundColor: screenProps.theme.colors.backgroundPrimary,
     height: 70,

@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import useToggle from 'react-use/lib/useToggle'
 import * as cameraActions from 'store/ducks/camera/actions'
-import { withNavigation } from 'react-navigation'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { PERMISSIONS, RESULTS, check } from 'react-native-permissions'
 import CropPicker from 'react-native-image-crop-picker'
 import { getScreenAspectRatio } from 'services/Camera'
@@ -30,8 +30,10 @@ const cameraManager = (cameraRef) => ({
   },
 })
 
-const CameraService = ({ children, navigation }) => {
+const CameraService = ({ children, }) => {
   const dispatch = useDispatch()
+  const navigation = useNavigation()
+  const route = useRoute()
   const postsCreate = useSelector(state => state.posts.postsCreate)
   
   const [flashMode, handleFlashToggle] = useToggle(false)
@@ -117,7 +119,7 @@ const CameraService = ({ children, navigation }) => {
         originalFormat: snappedPhoto.uri.split('.').pop(),
       }])
   
-      navigation.navigate(navigation.getParam('nextRoute') || 'PostCreate', { photos: [croppedPhoto.path] })
+      navigation.navigate(path(['params', 'nextRoute'])(route) || 'PostCreate', { photos: [croppedPhoto.path] })
     } catch (error) {
 
     } finally {
@@ -154,7 +156,7 @@ const CameraService = ({ children, navigation }) => {
     }))
 
     cameraCaptureRequest(photos)
-    navigation.navigate(navigation.getParam('nextRoute') || 'PostCreate', { photos })
+    navigation.navigate(path(['params', 'nextRoute'])(route) || 'PostCreate', { photos })
   }
 
   return children({
@@ -176,4 +178,4 @@ const CameraService = ({ children, navigation }) => {
   })
 }
 
-export default withNavigation(CameraService)
+export default CameraService

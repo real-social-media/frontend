@@ -10,15 +10,15 @@ import UserServiceProvider from 'services/providers/User'
 import { Text } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const Description = ({
   theme,
-  navigation,
   post,
 }) => {
   const styling = styles(theme)
+  const navigation = useNavigation()
   const { t } = useTranslation()
   const regex = /(?:@)([A-Za-z0-9_](?:(?:[A-Za-z0-9_]|(?:\.(?!\.))){0,28}(?:[A-Za-z0-9_]))?)/g
   
@@ -85,6 +85,4 @@ Description.propTypes = {
   post: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(Description)
-)
+export default withTheme(Description)

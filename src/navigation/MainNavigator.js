@@ -205,7 +205,7 @@ const DatingStack = (screenProps) => {
     },
   })
   
-  Stack.navigationOptions = ({ navigation, screenProps }) => ({
+  Stack.navigationOptions = ({ screenProps }) => ({
     tabBarIcon: ({ focused }) => (
       <TabBarItem focused={focused}>
         <HeartIcon fill={screenProps.theme.colors.primaryIcon} />

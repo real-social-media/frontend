@@ -14,7 +14,7 @@ import { ifIphoneX } from 'react-native-iphone-x-helper'
 import * as Animatable from 'react-native-animatable'
 
 import { withTheme, Caption } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const PostsPreview = ({

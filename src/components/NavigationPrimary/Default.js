@@ -4,32 +4,32 @@ import LogoIcon from 'assets/svg/header/Logo'
 import CameraIcon from 'assets/svg/header/Camera'
 import DirectIcon from 'assets/svg/header/Direct'
 
-const headerLeft = ({ screenProps, navigation }) => () => (
+const headerLeft = ({ theme, navigation }) => () => (
   <TouchableOpacity style={{ padding: 12 }} onPress={() => navigation.navigate('Camera')}>
     <CameraIcon
-      fill={screenProps.theme.colors.primaryIcon}
+      fill={theme.colors.primaryIcon}
     />
   </TouchableOpacity>
 )
 
-const headerTitle = ({ screenProps }) => () => (
+const headerTitle = ({ theme }) => () => (
   <LogoIcon
     height="28"
-    fill={screenProps.theme.colors.primaryIcon}
+    fill={theme.colors.primaryIcon}
   />
 )
 
-const headerRight = ({ screenProps, navigation }) => () => (
+const headerRight = ({ theme, navigation }) => () => (
   <TouchableOpacity style={{ padding: 12 }} onPress={() => navigation.navigate('Chat')}>
     <DirectIcon
-      fill={screenProps.theme.colors.primaryIcon}
+      fill={theme.colors.primaryIcon}
     />
   </TouchableOpacity>
 )
 
-export default ({ navigation, screenProps }) => ({
+export default (theme) => ({ navigation }) => ({
   headerStyle: {
-    backgroundColor: screenProps.theme.colors.backgroundPrimary,
+    backgroundColor: theme.colors.backgroundPrimary,
     shadowRadius: 0,
     shadowOffset: {
       height: 0,
@@ -37,7 +37,7 @@ export default ({ navigation, screenProps }) => ({
     borderBottomWidth: 0,
     shadowColor: 'transparent',
   },
-  headerLeft: headerLeft({ screenProps, navigation }),
-  headerTitle: headerTitle({ screenProps, navigation }),
-  headerRight: headerRight({ screenProps, navigation }),
+  headerLeft: headerLeft({ navigation, theme }),
+  headerTitle: headerTitle({ navigation, theme }),
+  headerRight: headerRight({ navigation, theme }),
 })

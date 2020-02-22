@@ -19,7 +19,7 @@ import NextIcon from 'assets/svg/settings/Next'
 import Layout from 'constants/Layout'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const formSchema = Yup.object().shape({
@@ -29,7 +29,6 @@ const formSchema = Yup.object().shape({
 
 const PostCreateForm = ({
   theme,
-  navigation,
   handleSubmit,
   values,
   loading,
@@ -188,6 +187,4 @@ const FormWrapper = ({
   </Formik>
 )
 
-export default withNavigation(
-  withTheme(FormWrapper)
-)
+export default withTheme(FormWrapper)

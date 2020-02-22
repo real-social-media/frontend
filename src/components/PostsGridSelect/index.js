@@ -15,18 +15,18 @@ import { RNCamera } from 'react-native-camera'
 import CameraIcon from 'assets/svg/header/Camera'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const PostsGridSelect = ({
   theme,
-  navigation,
   usersMediaObjectsGet,
   handleMediaPress,
   selectedMedia,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
 
   return (
     <ScrollView style={styling.root}>
@@ -104,6 +104,4 @@ PostsGridSelect.propTypes = {
   selectedMedia: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(PostsGridSelect)
-)
+export default withTheme(PostsGridSelect)

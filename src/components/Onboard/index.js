@@ -10,7 +10,7 @@ import Footer from 'components/Auth/Footer'
 import Title from 'components/Auth/Title'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const Auth = ({

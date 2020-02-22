@@ -13,12 +13,11 @@ import CloseIcon from 'assets/svg/post/Close'
 import VerificationIcon from 'assets/svg/post/Verification'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const Uploading = ({
   theme,
-  navigation,
   authUser,
   post,
   postsCreateRequest,
@@ -26,6 +25,7 @@ const Uploading = ({
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
 
   if (!['loading', 'failure', 'success'].includes(post.status)) {
     return null
@@ -130,7 +130,7 @@ const styles = theme => StyleSheet.create({
 
 Uploading.propTypes = {
   theme: PropTypes.any,
-  navigation: PropTypes.any,
+  
   authUser: PropTypes.any,
   post: PropTypes.any,
   handleEditPress: PropTypes.any,
@@ -139,6 +139,4 @@ Uploading.propTypes = {
   postsDeleteRequest: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(Uploading)
-)
+export default withTheme(Uploading)

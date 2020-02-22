@@ -10,16 +10,16 @@ import path from 'ramda/src/path'
 import is from 'ramda/src/is'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const ProfileCounts = ({
   theme,
-  navigation,
   usersGetProfile,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
 
   const userId = path(['data', 'userId'])(usersGetProfile)
 
@@ -86,10 +86,7 @@ const styles = theme => StyleSheet.create({
 
 ProfileCounts.propTypes = {
   theme: PropTypes.any,
-  navigation: PropTypes.any,
   usersGetProfile: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(ProfileCounts)
-)
+export default withTheme(ProfileCounts)

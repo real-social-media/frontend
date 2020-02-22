@@ -12,7 +12,7 @@ import CommentComponent from 'components/Comments/Comment'
 import pathOr from 'ramda/src/pathOr'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const Comments = ({

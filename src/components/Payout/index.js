@@ -9,7 +9,7 @@ import { Text, Paragraph, Title, Caption, Subheading } from 'react-native-paper'
 import Formula from 'components/Payout/Formula'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const Payout = ({

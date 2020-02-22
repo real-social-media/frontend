@@ -17,7 +17,7 @@ class ProfileScreen extends React.Component {
         {(profileProps) => (
           <UserServiceProvider>
             {((userProps) => (
-              <PaperProvider theme={this.props.navigation.state.params.theme}>
+              <PaperProvider theme={this.props.route.params.theme}>
                 <>
                   <NavigationSecondary
                     onClosePress={() => this.props.navigation.goBack(null)}

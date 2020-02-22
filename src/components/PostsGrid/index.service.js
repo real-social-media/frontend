@@ -2,14 +2,16 @@ import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as postsServices from 'store/ducks/posts/services'
-import { withNavigation } from 'react-navigation'
+import { useNavigation, useRoute } from '@react-navigation/native'
 
-const PostsService = ({ children, navigation }) => {
+const PostsService = ({ children, }) => {
   const dispatch = useDispatch()
+  const navigation = useNavigation()
+  const route = useRoute()
   const postsGet = useSelector(state => state.posts.postsGet)
   const postsGetCache = useSelector(state => state.posts.postsGetCache)
   const themeFetch = useSelector(state => state.theme.themeFetch)
-  const userId = navigation.getParam('userId') || useSelector(state => state.auth.user.userId)
+  const userId = route.params.userId || useSelector(state => state.auth.user.userId)
 
   const postsGetRequest = ({ nextToken }) =>
     dispatch(postsActions.postsGetRequest({ userId, nextToken }))
@@ -29,4 +31,4 @@ const PostsService = ({ children, navigation }) => {
   })
 }
 
-export default withNavigation(PostsService)
+export default PostsService
