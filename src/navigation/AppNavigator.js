@@ -1,7 +1,8 @@
 import React from 'react'
-import { createStackNavigator, HeaderStyleInterpolators } from '@react-navigation/stack'
+import { createStackNavigator, HeaderStyleInterpolators, CardStyleInterpolators } from '@react-navigation/stack'
 
 import TabNavigator from 'navigation/TabNavigator'
+import Layout from 'constants/Layout'
 
 import ModalScreen from 'screens/ModalScreen'
 import StoryScreen from 'screens/StoryScreen'
@@ -27,11 +28,24 @@ const AppNavigator = ({ theme }) => {
     screenOptions: {
       headerStyleInterpolator: HeaderStyleInterpolators.forSlideUp,
     },
+    cardStyle: {
+      backgroundColor: theme.colors.backgroundPrimary,
+    },
   }
 
   const stackScreenProps = {
     options: {
       headerShown: false,
+      cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
+      gestureEnabled: true,
+      gestureResponseDistance: {
+        horizontal: Layout.window.width,
+        vertical: Layout.window.height,
+      },
+      gestureDirection: 'vertical',
+      cardStyle: {
+        backgroundColor: theme.colors.backgroundPrimary,
+      },
     },
   }
 

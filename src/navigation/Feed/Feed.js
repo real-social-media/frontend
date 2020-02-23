@@ -12,12 +12,21 @@ const FeedNavigator = (theme) => () => {
     },
   }
 
+  const stackScreenProps = {
+    options: (props) => ({
+      ...DefaultNavigationComponent(theme)(props),
+      cardStyle: {
+        backgroundColor: theme.colors.backgroundPrimary,
+      },
+    }),
+  }
+
   return (
     <Stack.Navigator {...stackNavigatorProps}>
       <Stack.Screen
         name="Feed"
         component={FeedScreen}
-        options={DefaultNavigationComponent(theme)}
+        {...stackScreenProps}
       />
     </Stack.Navigator>
   )

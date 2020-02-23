@@ -12,12 +12,21 @@ const DatingNavigator = (theme) => () => {
     },
   }
 
+  const stackScreenProps = {
+    options: (props) => ({
+      ...DefaultNavigationComponent(theme)(props),
+      cardStyle: {
+        backgroundColor: theme.colors.backgroundPrimary,
+      },
+    }),
+  }
+
   return (
     <Stack.Navigator {...stackNavigatorProps}>
       <Stack.Screen
         name="Dating"
         component={DatingScreen}
-        options={DefaultNavigationComponent(theme)}
+        {...stackScreenProps}
       />
     </Stack.Navigator>
   )

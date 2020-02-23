@@ -12,12 +12,21 @@ const MainNavigator = (theme) => () => {
     },
   }
 
+  const stackScreenProps = {
+    options: (props) => ({
+      ...DefaultNavigationComponent(theme)(props),
+      cardStyle: {
+        backgroundColor: theme.colors.backgroundPrimary,
+      },
+    }),
+  }
+
   return (
     <Stack.Navigator {...stackNavigatorProps}>
       <Stack.Screen
         name="Chat"
         component={ChatScreen}
-        options={DefaultNavigationComponent(theme)}
+        {...stackScreenProps}
       />
     </Stack.Navigator>
   )

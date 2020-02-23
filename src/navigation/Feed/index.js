@@ -9,6 +9,14 @@ import CameraScreen from 'screens/CameraScreen'
 const HomeNavigator = (theme) => ({ navigation, route }) => {
   const Tab = createMaterialTopTabNavigator()
 
+  const tabNavigatorProps = {
+    initialRouteName: 'Feed',
+    tabBar: () => null,
+    sceneContainerStyle: {
+      backgroundColor: theme.colors.backgroundPrimary,
+    },
+  }
+
   /**
    * Hiding parent bottom tab coming from createBottomTabNavigator programatically
    */
@@ -18,7 +26,7 @@ const HomeNavigator = (theme) => ({ navigation, route }) => {
   }
 
   return (
-    <Tab.Navigator initialRouteName="Feed" tabBar={() => null}>
+    <Tab.Navigator {...tabNavigatorProps}>
       <Tab.Screen
         name="Camera"
         component={CameraScreen}

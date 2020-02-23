@@ -1,4 +1,5 @@
 import React from 'react'
+import { TouchableOpacity } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import FeedNavigator from 'navigation/Feed'
@@ -14,7 +15,7 @@ import HeartIcon from 'assets/svg/footer/Heart'
 import UserIcon from 'assets/svg/footer/User'
 
 
-const TabNavigator = (theme) => () => {
+const TabNavigator = (theme) => ({ navigation }) => {
   const tabNavigatorProps = {
     tabBarOptions: {
       showLabel: false,
@@ -41,9 +42,14 @@ const TabNavigator = (theme) => () => {
   }
 
   const CameraTabIconComponent = ({ color }) => <CreateIcon fill={color} />
+  const CameraTabButtonComponent = (props) => {
+    const onPress = () => navigation.navigate('Feed', { screen: 'Camera' })
+    return <TouchableOpacity {...props} onPress={onPress} />
+  }
   const cameraTabScreenPropsCard = {
     options: {
       tabBarIcon: CameraTabIconComponent,
+      tabBarButton: CameraTabButtonComponent,
     },
   }
 

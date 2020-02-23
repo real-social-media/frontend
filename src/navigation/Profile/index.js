@@ -22,57 +22,66 @@ const ProfileNavigator = (theme) => () => {
     },
   }
 
+  const stackScreenProps = {
+    options: (props) => ({
+      ...DefaultNavigationComponent(theme)(props),
+      cardStyle: {
+        backgroundColor: theme.colors.backgroundPrimary,
+      },
+    }),
+  }
+
   return (
     <Stack.Navigator {...stackNavigatorProps}>
       <Stack.Screen
         name="ProfileSelf"
         component={ProfileSelfScreen}
-        options={DefaultNavigationComponent(theme)}
+        {...stackScreenProps}
       />
       <Stack.Screen
         name="ProfileEdit"
         component={ProfileEditScreen}
-        options={DefaultNavigationComponent(theme)}
+        {...stackScreenProps}
       />
       <Stack.Screen
         name="ProfilePhoto"
         component={ProfilePhotoScreen}
-        options={DefaultNavigationComponent(theme)}
+        {...stackScreenProps}
       />
       <Stack.Screen
         name="Theme"
         component={ThemeScreen}
-        options={DefaultNavigationComponent(theme)}
+        {...stackScreenProps}
       />
       <Stack.Screen
         name="Privacy"
         component={PrivacyScreen}
-        options={DefaultNavigationComponent(theme)}
+        {...stackScreenProps}
       />
       <Stack.Screen
         name="Translation"
         component={TranslationScreen}
-        options={DefaultNavigationComponent(theme)}
+        {...stackScreenProps}
       />
       <Stack.Screen
         name="Settings"
         component={SettingsScreen}
-        options={DefaultNavigationComponent(theme)}
+        {...stackScreenProps}
       />
       <Stack.Screen
         name="Payout"
         component={PayoutScreen}
-        options={DefaultNavigationComponent(theme)}
+        {...stackScreenProps}
       />
       <Stack.Screen
         name="Membership"
         component={MembershipScreen}
-        options={DefaultNavigationComponent(theme)}
+        {...stackScreenProps}
       />
       <Stack.Screen
         name="Archived"
         component={ArchivedScreen}
-        options={DefaultNavigationComponent(theme)}
+        {...stackScreenProps}
       />
     </Stack.Navigator>
   )
