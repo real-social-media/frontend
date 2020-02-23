@@ -31,14 +31,10 @@ const PostsGrid = ({
     <View style={styling.root}>
       <GridComponent items={path(['data'])(postsGet)}>
         {(post, priorityIndex) => (
-          <GridItemComponent onPress={() => navigation.navigate({
-            routeName: 'PostMedia',
-            params: {
-              post,
-              theme: themeSelector(themeCode, themeFetch),
-              routeName: route.name,
-            },
-            key: `PostMedia-postid${post.postId}`,
+          <GridItemComponent onPress={() => navigation.push('PostMedia', {
+            post,
+            theme: themeSelector(themeCode, themeFetch),
+            routeName: route.name,
           })}>
             <ImageComponent
               thumbnailSource={{ uri: path(['mediaObjects', '0', 'url64p'])(post) }}

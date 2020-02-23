@@ -118,10 +118,10 @@ const CameraComponent = ({
       {!cameraEnabled ?
         <View style={styling.modal}>
           <Modal
-            cancelAction={() => navigation.navigate('Feed')}
+            cancelAction={() => navigation.push('Feed')}
             cancelLabel={t('Cancel')}
             confirmLabel={t('OK')}
-            confirmAction={() => navigation.navigate('Feed')}
+            confirmAction={() => navigation.push('Feed')}
             title={t('Camera is blocked')}
             text={t('Please enabled camera access in your phone settings to continue')}
           />

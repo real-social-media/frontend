@@ -1,6 +1,7 @@
 import React from 'react'
 import { StatusBar, Text, TextInput } from 'react-native'
 import { Provider } from 'react-redux'
+import { NavigationContainer } from '@react-navigation/native'
 import { AuthProvider } from 'services/providers/App'
 import { Provider as PaperProvider } from 'react-native-paper'
 import codePush from 'react-native-code-push'
@@ -50,11 +51,12 @@ const App = () => (
       {({ initialRouteName, theme }) => (
         <PaperProvider theme={theme}>
           <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
-
-          <AppNavigator
-            initialRouteName={initialRouteName}
-            theme={theme}
-          />
+          <NavigationContainer>
+            <AppNavigator
+              initialRouteName={initialRouteName}
+              theme={theme}
+            />
+          </NavigationContainer>
         </PaperProvider>
       )}
     </AuthProvider>

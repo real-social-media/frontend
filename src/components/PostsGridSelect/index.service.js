@@ -4,7 +4,7 @@ import * as usersActions from 'store/ducks/users/actions'
 import * as authSelector from 'store/ducks/auth/selectors'
 import { useNavigation } from '@react-navigation/native'
 
-const PostsService = ({ children, }) => {
+const PostsGridSelectService = ({ children, }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const user = useSelector(authSelector.authUserSelector)
@@ -41,4 +41,4 @@ const PostsService = ({ children, }) => {
   })
 }
 
-export default PostsService
+export default PostsGridSelectService

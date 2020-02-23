@@ -8,7 +8,7 @@ const ProfileFollowerService = ({ children, }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const route = useRoute()
-  const userId = route.params.userId
+  const userId = route.params.user.userId
   const usersGetFollowerUsers = useSelector(state => state.users.usersGetFollowerUsers)
   const usersGetFollowerUsersCache = useSelector(state => state.users.usersGetFollowerUsersCache)
   const usersFollow = useSelector(state => state.users.usersFollow)

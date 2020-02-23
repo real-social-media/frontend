@@ -51,12 +51,8 @@ const PostCarousel = ({
       />
 
       <View style={styling.gradient}>
-        <TouchableOpacity style={styling.album} onPress={() => navigation.navigate({
-            routeName: 'Album',
-            params: {
-              album,
-            },
-            key: `Album-albumId${album.albumId}`,
+        <TouchableOpacity style={styling.album} onPress={() => navigation.navigate('Album', {
+            album,
           })}>
           <Text>{path(['name'])(album)}</Text>
         </TouchableOpacity>

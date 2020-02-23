@@ -35,7 +35,7 @@ import AlbumScreen from 'screens/AlbumScreen'
 import AlbumsScreen from 'screens/AlbumsScreen'
 import AlbumCreateScreen from 'screens/AlbumCreateScreen'
 import CommentsScreen from 'screens/CommentsScreen'
-import ProfileArchivedPhotoScreen from 'screens/ProfileArchivedPhotoScreen'
+import ArchivedScreen from 'screens/ArchivedScreen'
 import { TabBarItem } from 'components/NavigationTab'
 import Layout from 'constants/Layout'
 
@@ -230,7 +230,7 @@ const ProfileStack = (screenProps) => {
     Settings: SettingsScreen,
     Payout: PayoutScreen,
     Membership: MembershipScreen,
-    ProfileArchivedPhoto: ProfileArchivedPhotoScreen,
+    Archived: ArchivedScreen,
   }, {
     defaultNavigationOptions: {
       gestureEnabled: true,

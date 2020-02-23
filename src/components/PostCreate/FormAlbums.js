@@ -28,7 +28,7 @@ const FormAlbums = ({
   }
 
   const handleSeeMore = () => {
-    navigation.navigate('Albums')
+    navigation.push('Albums')
   }
 
   const seeMoreVisibility = (

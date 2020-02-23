@@ -81,7 +81,6 @@ const ScrollHelper = ({
 
 const Profile = ({
   theme,
-  usersGetProfile,
   authUser,
   usersBlock,
   usersBlockRequest,
@@ -95,6 +94,7 @@ const Profile = ({
   postsGetRequest,
   postsGetMoreRequest,
   themeFetch,
+  usersGetProfile,
   usersGetProfileRequest,
   usersGetProfileSelfRequest,
 }) => {
@@ -108,13 +108,9 @@ const Profile = ({
       return
     }
 
-    navigation.navigate({
-      routeName: 'Story',
-      params: {
-        user: usersGetProfile.data,
-        usersGetFollowedUsersWithStories: { data: [usersGetProfile.data] },
-      },
-      key: `Story-postid${usersGetProfile.data.userId}`,
+    navigation.push('Story', {
+      user: usersGetProfile.data,
+      usersGetFollowedUsersWithStories: { data: [usersGetProfile.data] },
     })
   }
 

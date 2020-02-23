@@ -71,7 +71,7 @@ const Auth = ({
         </View>
         <View style={styling.subtitle}>
           <Subtitle actions={[{
-            onPress: () => navigation.navigate('AuthForgot'),
+            onPress: () => navigation.push('AuthForgot'),
             title: t('Forgot Password'),
           }]} />
         </View>

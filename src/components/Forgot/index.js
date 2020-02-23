@@ -47,13 +47,13 @@ const Forgot = ({
         </View>
         <View style={styling.subtitle}>
           <Subtitle actions={[{
-            onPress: () => navigation.navigate('Auth'),
+            onPress: () => navigation.push('Auth'),
             title: t('Change Email Address'),
           }, {
             onPress: null,
             title: t('or'),
           }, {
-            onPress: () => navigation.navigate('Auth'),
+            onPress: () => navigation.push('Auth'),
             title: t('Resend Email'),
           }]} />
         </View>

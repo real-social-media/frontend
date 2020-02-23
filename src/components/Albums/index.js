@@ -31,7 +31,7 @@ const Album = ({
         </View>
 
         <View style={styling.content}>
-          <DefaultButton label={t('Create Album')} onPress={() => navigation.navigate('AlbumCreate')} />
+          <DefaultButton label={t('Create Album')} onPress={() => navigation.push('AlbumCreate')} />
         </View>
       </ScrollView>
     </View>

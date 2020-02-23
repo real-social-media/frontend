@@ -53,12 +53,8 @@ const AlbumLarge = ({
          * Albums list
          */}
         {items.map((album, key) => (
-          <TouchableOpacity key={key} onPress={() => navigation.navigate({
-            routeName: 'Album',
-            params: {
-              album,
-            },
-            key: `Album-albumId${album.albumId}`,
+          <TouchableOpacity key={key} onPress={() => navigation.push('Album' {
+            album,
           })}>
             <View style={styling.albumWrapper}>
               <View style={styling.album}>

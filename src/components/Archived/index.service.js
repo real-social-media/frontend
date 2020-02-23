@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import * as postsActions from 'store/ducks/posts/actions'
 import { useNavigation } from '@react-navigation/native'
 
-const PostsService = ({ children, }) => {
+const ProfileArchivedService = ({ children, }) => {
   const dispatch = useDispatch()
   const postsGetArchived = useSelector(state => state.posts.postsGetArchived)
 
@@ -20,4 +20,4 @@ const PostsService = ({ children, }) => {
   })
 }
 
-export default PostsService
+export default ProfileArchivedService

@@ -13,7 +13,7 @@ import { withTheme } from 'react-native-paper'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
-const ProfileArchivedPhoto = ({
+const Archived = ({
   theme,
   postsGetArchived,
   postsGetArchivedRequest,
@@ -28,14 +28,10 @@ const ProfileArchivedPhoto = ({
       <GridComponent items={path(['data'])(postsGetArchived)}>
         {(post, priorityIndex) => (
           <GridItemComponent
-            onPress={() => navigation.navigate({
-              routeName: 'PostMedia',
-              params: {
-                post,
-                theme,
-                routeName: route.name,
-              },
-              key: `PostMedia-postid${post.postId}`,
+            onPress={() => navigation.push('PostMedia', {
+              post,
+              theme,
+              routeName: route.name,
             })}
             active={false}
             activeIcon={null}
@@ -58,14 +54,14 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-ProfileArchivedPhoto.defaultProps = {
+Archived.defaultProps = {
   usersMediaObjectsGet: {},
 }
 
-ProfileArchivedPhoto.propTypes = {
+Archived.propTypes = {
   theme: PropTypes.any,
   postsGetArchived: PropTypes.any,
   postsGetArchivedRequest: PropTypes.any,
 }
 
-export default withTheme(ProfileArchivedPhoto)
+export default withTheme(Archived)

@@ -5,7 +5,7 @@ import CameraIcon from 'assets/svg/header/Camera'
 import DirectIcon from 'assets/svg/header/Direct'
 
 const headerLeft = ({ theme, navigation }) => () => (
-  <TouchableOpacity style={{ padding: 12 }} onPress={() => navigation.navigate('Camera')}>
+  <TouchableOpacity style={{ padding: 12 }} onPress={() => navigation.push('Camera')}>
     <CameraIcon
       fill={theme.colors.primaryIcon}
     />
@@ -20,7 +20,7 @@ const headerTitle = ({ theme }) => () => (
 )
 
 const headerRight = ({ theme, navigation }) => () => (
-  <TouchableOpacity style={{ padding: 12 }} onPress={() => navigation.navigate('Chat')}>
+  <TouchableOpacity style={{ padding: 12 }} onPress={() => navigation.push('Chat')}>
     <DirectIcon
       fill={theme.colors.primaryIcon}
     />

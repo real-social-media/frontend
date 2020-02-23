@@ -41,7 +41,7 @@ const AvatarPickerService = ({ children, }) => {
   useEffect(() => {
     if (usersEditProfile.status === 'success') {
       dispatch(usersActions.usersEditProfileIdle({ }))
-      navigation.navigate('Main')
+      navigation.push('Main')
     }
   }, [usersEditProfile.status])
 
@@ -65,7 +65,7 @@ const AvatarPickerService = ({ children, }) => {
   }
 
   const handleCameraPress = async () => {
-    navigation.navigate('Camera', { nextRoute: 'AvatarPicker' })
+    navigation.push('Camera', { nextRoute: 'AvatarPicker' })
   }
 
   return children({

@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import * as usersActions from 'store/ducks/users/actions'
 import * as usersServices from 'store/ducks/users/services'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import pathOr from 'ramda/src/pathOr'
+import path from 'ramda/src/path'
 
 const ProfileService = ({ children, }) => {
   const dispatch = useDispatch()
@@ -17,7 +17,7 @@ const ProfileService = ({ children, }) => {
   const usersUnblock = useSelector(state => state.users.usersUnblock)
   const usersFollow = useSelector(state => state.users.usersFollow)
   const usersUnfollow = useSelector(state => state.users.usersUnfollow)
-  const userId = route.params.userId
+  const userId = path(['params', 'user', 'userId'])(route)
 
   const usersGetProfileRequest = ({ userId }) => 
     dispatch(usersActions.usersGetProfileRequest({ userId }))
@@ -55,7 +55,7 @@ const ProfileService = ({ children, }) => {
 
   return children({
     authUser,
-    usersGetProfile: usersServices.cachedUsersGetProfile(usersGetProfile, usersGetProfileCache, pathOr({}, ['state', 'params'], navigation)),
+    usersGetProfile: usersServices.cachedUsersGetProfile(usersGetProfile, usersGetProfileCache, path(['params', 'user'])(route)),
     usersGetProfileRequest,
     usersUnblock,
     usersUnblockRequest,

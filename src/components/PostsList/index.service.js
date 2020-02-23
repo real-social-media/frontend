@@ -8,7 +8,7 @@ import { useNavigation } from '@react-navigation/native'
 import path from 'ramda/src/path'
 import intersection from 'ramda/src/intersection'
 
-const PostsService = ({ children, }) => {
+const PostsListService = ({ children, }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const authUser = useSelector(state => state.auth.user)
@@ -73,15 +73,15 @@ const PostsService = ({ children, }) => {
   const postsCreateIdle = (payload) =>
     dispatch(postsActions.postsCreateIdle({ payload }))
 
-  const scrollToTop = () => {
-    if (!feedRef.current || typeof feedRef.current.scrollToOffset !== 'function') { return }
-    feedRef.current.scrollToOffset({ animated: true, offset: 0 })
-  }
+  // const scrollToTop = () => {
+  //   if (!feedRef.current || typeof feedRef.current.scrollToOffset !== 'function') { return }
+  //   feedRef.current.scrollToOffset({ animated: true, offset: 0 })
+  // }
 
   useEffect(() => {
-    navigation.setParams({
-      scrollToTop,
-    })
+    // navigation.setParams({
+    //   scrollToTop,
+    // })
     postsFeedGetRequest({ limit: 6 })
     usersGetPendingFollowersRequest({ userId: authUser.userId })
   }, [])
@@ -194,4 +194,4 @@ const PostsService = ({ children, }) => {
   })
 }
 
-export default PostsService
+export default PostsListService

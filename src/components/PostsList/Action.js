@@ -33,12 +33,8 @@ const Action = ({
 
   const handleViewsPress = () => {
     if (!self) { return }
-    navigation.navigate({
-      routeName: 'PostMediaViews',
-      params: {
-        postId: path(['postId'])(post)
-      },
-      key: `PostMediaViews-postid${post.postId}`,
+    navigation.push('PostMediaViews', {
+      postId: path(['postId'])(post)
     })
   }
 
@@ -110,13 +106,13 @@ const Action = ({
         : null}
         
         {commentButtonVisibility ?
-          <TouchableOpacity style={styling.actionLeftIcon} onPress={() => navigation.navigate('Comments', { post })}>
+          <TouchableOpacity style={styling.actionLeftIcon} onPress={() => navigation.push('Comments', { post })}>
             <BubbleIcon fill={theme.colors.primaryIcon} />
           </TouchableOpacity>
         : null}
 
         {shareButtonVisibility ?
-          <TouchableOpacity style={styling.actionLeftIcon} onPress={() => navigation.navigate('PostShare', { post })}>
+          <TouchableOpacity style={styling.actionLeftIcon} onPress={() => navigation.push('PostShare', { post })}>
             <DirectIcon fill={theme.colors.primaryIcon} />
           </TouchableOpacity>
         : null}

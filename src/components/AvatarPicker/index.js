@@ -71,7 +71,7 @@ const AvatarPicker = ({
 
       {postsCreate.status !== 'loading' ?
         <View style={styling.form}>
-          <DefaultButton label={t('Skip')} mode="outline" onPress={() => navigation.navigate('Main')} />
+          <DefaultButton label={t('Skip')} mode="outline" onPress={() => navigation.push('Main')} />
         </View>
       : null}
 

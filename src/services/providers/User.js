@@ -11,7 +11,7 @@ const UserService = ({ children, }) => {
     const theme = themeSelector(user.themeCode, themeFetch)
     return () => {
       navigation.push('FeedProfile', {
-        ...user,
+        user,
         theme,
       })
     }

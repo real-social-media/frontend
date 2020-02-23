@@ -6,7 +6,7 @@ import * as postsServices from 'store/ducks/posts/services'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import path from 'ramda/src/path'
 
-const PostMediaService = ({ children,, ...props }) => {
+const PostMediaService = ({ children, ...props }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const route = useRoute()

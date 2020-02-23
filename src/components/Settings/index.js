@@ -70,7 +70,7 @@ const Settings = ({
         icon: <ThemeIcon fill={theme.colors.text} />,
       }, {
         label: t('Archived Photos'),
-        onPress: () => navigation.navigate('ProfileArchivedPhoto'),
+        onPress: () => navigation.navigate('Archived'),
         icon: <ArchiveIcon fill={theme.colors.text} />,
       }, {
         label: t('Mental Health & Privacy Settings'),

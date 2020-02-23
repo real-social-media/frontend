@@ -75,7 +75,7 @@ const CameraService = ({ children, }) => {
   }, [])
 
   const handleClosePress = () => {
-    navigation.navigate('Feed')
+    navigation.push('Feed')
   }
 
   const [photoSize, setPhotoSize] = useState('4:3')
@@ -119,7 +119,7 @@ const CameraService = ({ children, }) => {
         originalFormat: snappedPhoto.uri.split('.').pop(),
       }])
   
-      navigation.navigate(path(['params', 'nextRoute'])(route) || 'PostCreate', { photos: [croppedPhoto.path] })
+      navigation.push(path(['params', 'nextRoute'])(route) || 'PostCreate', { photos: [croppedPhoto.path] })
     } catch (error) {
 
     } finally {
@@ -156,7 +156,7 @@ const CameraService = ({ children, }) => {
     }))
 
     cameraCaptureRequest(photos)
-    navigation.navigate(path(['params', 'nextRoute'])(route) || 'PostCreate', { photos })
+    navigation.push(path(['params', 'nextRoute'])(route) || 'PostCreate', { photos })
   }
 
   return children({

@@ -1,16 +1,16 @@
 import React from 'react'
-import ProfileArchivedPhotoComponent from 'components/ProfileArchivedPhoto'
-import ProfileArchivedPhotoServiceComponent from 'components/ProfileArchivedPhoto/index.service'
+import ArchivedComponent from 'components/Archived'
+import ArchivedServiceComponent from 'components/Archived/index.service'
 import DefaultNavigationComponent from 'components/NavigationPrimary/Default'
 import NavigationSecondary from 'components/NavigationSecondary/Default'
 import { Translation } from 'react-i18next'
 
-class ProfileArchivedPhotoScreen extends React.Component {
+class ArchivedScreen extends React.Component {
   static navigationOptions = DefaultNavigationComponent
   
   render() {
     return (
-      <ProfileArchivedPhotoServiceComponent>
+      <ArchivedServiceComponent>
         {(props) => (
           <React.Fragment>
 
@@ -23,12 +23,12 @@ class ProfileArchivedPhotoScreen extends React.Component {
               )}
             </Translation>
             
-            <ProfileArchivedPhotoComponent {...props} />
+            <ArchivedComponent {...props} />
           </React.Fragment>
         )}
-      </ProfileArchivedPhotoServiceComponent>
+      </ArchivedServiceComponent>
     )
   }
 }
 
-export default ProfileArchivedPhotoScreen
+export default ArchivedScreen

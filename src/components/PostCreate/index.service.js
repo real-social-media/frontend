@@ -30,7 +30,7 @@ const PostCreateService = ({ children, }) => {
 
   useEffect(() => {
     if (postsDoneUploading) {
-      navigation.navigate('Feed')
+      navigation.push('Feed')
     }
   }, [postsDoneUploading])
 
@@ -72,7 +72,7 @@ const PostCreateService = ({ children, }) => {
   }
 
   const handleClosePress = () => {
-    navigation.navigate('Feed')
+    navigation.push('Feed')
   }
 
   return children({

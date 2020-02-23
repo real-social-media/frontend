@@ -23,13 +23,9 @@ const Stories = ({
   const navigation = useNavigation()
 
   const handleUserStoryPress = (user) => () => {
-    navigation.navigate({
-      routeName: 'Story',
-      params: {
-        user,
-        usersGetFollowedUsersWithStories,
-      },
-      key: `Story-postid${user.userId}`,
+    navigation.navigate('Story', {
+      user,
+      usersGetFollowedUsersWithStories,
     })
   }
 
