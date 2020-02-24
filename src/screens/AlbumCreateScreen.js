@@ -5,10 +5,6 @@ import NavigationSecondary from 'components/NavigationSecondary/Default'
 import { Translation } from 'react-i18next'
 
 class AlbumCreateScreen extends React.Component {
-  static navigationOptions = ({ screenProps }) => ({
-    headerShown: false,
-  })
-  
   render() {
     return (
       <>

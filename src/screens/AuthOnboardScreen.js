@@ -4,8 +4,6 @@ import FullnameComponent from 'components/Fullname'
 import AuthServiceComponent from 'components/Auth/index.service'
 
 class AuthOnboardScreen extends React.Component {
-  static navigationOptions = AuthNavigationComponent
-
   render() {
     return (
       <AuthServiceComponent>

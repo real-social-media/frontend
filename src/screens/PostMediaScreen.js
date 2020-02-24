@@ -8,10 +8,6 @@ import { Translation } from 'react-i18next'
 import { Provider as PaperProvider } from 'react-native-paper'
 
 class FeedScreen extends React.Component {
-  static navigationOptions = ({ screenProps }) => ({
-    headerShown: false,
-  })
-  
   render() {
     return (
       <>

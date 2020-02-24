@@ -4,8 +4,6 @@ import AuthServiceComponent from 'components/Auth/index.service'
 import AuthNavigationComponent from 'components/NavigationPrimary/Auth'
 
 class AuthSignupScreen extends React.Component {
-  static navigationOptions = AuthNavigationComponent
-  
   render() {
     return (
       <AuthServiceComponent>

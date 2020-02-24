@@ -53,7 +53,7 @@ const AppNavigator = ({ theme }) => {
   return (
     <Stack.Navigator {...stackNavigatorProps}>
       <Stack.Screen
-        name="Home"
+        name="App"
         component={TabNavigator}
         {...stackScreenProps}
       />
