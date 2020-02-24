@@ -10,7 +10,7 @@ const UserService = ({ children, }) => {
   const handleProfilePress = (user) => {
     const theme = themeSelector(user.themeCode, themeFetch)
     return () => {
-      navigation.push('FeedProfile', {
+      navigation.push('Profile', {
         user,
         theme,
       })

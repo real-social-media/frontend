@@ -1,14 +1,11 @@
 import React from 'react'
 import ProfileFollowedComponent from 'components/ProfileFollowed'
 import ProfileFollowedServiceComponent from 'components/ProfileFollowed/index.service'
-import DefaultNavigationComponent from 'components/NavigationPrimary/Default'
 import NavigationSecondary from 'components/NavigationSecondary/Default'
 import { Translation } from 'react-i18next'
 import UserServiceProvider from 'services/providers/User'
 
 class ProfileFollowed extends React.Component {
-  static navigationOptions = DefaultNavigationComponent
-  
   render() {
     return (
       <>

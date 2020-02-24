@@ -27,7 +27,7 @@ const headerRight = ({ theme, navigation }) => () => (
   </TouchableOpacity>
 )
 
-export default (theme) => ({ navigation }) => ({
+const DefaultNavigationHeader = ({ navigation, theme }) => ({
   headerStyle: {
     backgroundColor: theme.colors.backgroundPrimary,
     shadowRadius: 0,
@@ -41,3 +41,5 @@ export default (theme) => ({ navigation }) => ({
   headerTitle: headerTitle({ navigation, theme }),
   headerRight: headerRight({ navigation, theme }),
 })
+
+export default DefaultNavigationHeader

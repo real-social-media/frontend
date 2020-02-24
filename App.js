@@ -51,7 +51,7 @@ const App = () => (
       {({ initialRouteName, theme }) => (
         <PaperProvider theme={theme}>
           <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
-          <NavigationContainer>
+          <NavigationContainer theme={theme}>
             <AppNavigator
               initialRouteName={initialRouteName}
               theme={theme}

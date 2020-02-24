@@ -1,12 +1,12 @@
 import React from 'react'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
+import { withTheme } from 'react-native-paper'
 
 import FeedNavigator from 'navigation/Feed/Feed'
 import ChatNavigator from 'navigation/Feed/Chat'
+import CameraNavigator from 'navigation/Feed/Camera'
 
-import CameraScreen from 'screens/CameraScreen'
-
-const HomeNavigator = (theme) => ({ navigation, route }) => {
+const HomeNavigator = ({ navigation, route, theme }) => {
   const Tab = createMaterialTopTabNavigator()
 
   const tabNavigatorProps = {
@@ -29,18 +29,18 @@ const HomeNavigator = (theme) => ({ navigation, route }) => {
     <Tab.Navigator {...tabNavigatorProps}>
       <Tab.Screen
         name="Camera"
-        component={CameraScreen}
+        component={CameraNavigator}
       />
       <Tab.Screen
         name="Feed"
-        component={FeedNavigator(theme)}
+        component={FeedNavigator}
       />
       <Tab.Screen
         name="Chat"
-        component={ChatNavigator(theme)}
+        component={ChatNavigator}
       />
     </Tab.Navigator>
   )
 }
 
-export default HomeNavigator
+export default withTheme(HomeNavigator)

@@ -2,10 +2,9 @@ import React from 'react'
 import { createStackNavigator, HeaderStyleInterpolators } from '@react-navigation/stack'
 import { withTheme } from 'react-native-paper'
 
-import DefaultNavigationComponent from 'components/NavigationPrimary/Default'
-import FeedScreen from 'screens/FeedScreen'
+import CameraScreen from 'screens/CameraScreen'
 
-const FeedNavigator = ({ theme }) => {
+const MainNavigator = ({ theme }) => {
   const Stack = createStackNavigator()
   const stackNavigatorProps = {
     screenOptions: {
@@ -15,7 +14,7 @@ const FeedNavigator = ({ theme }) => {
 
   const stackScreenProps = {
     options: (props) => ({
-      ...DefaultNavigationComponent({ ...props, theme }),
+      headerShown: false,
       cardStyle: {
         backgroundColor: theme.colors.backgroundPrimary,
       },
@@ -25,12 +24,12 @@ const FeedNavigator = ({ theme }) => {
   return (
     <Stack.Navigator {...stackNavigatorProps}>
       <Stack.Screen
-        name="Feed"
-        component={FeedScreen}
+        name="Camera"
+        component={CameraScreen}
         {...stackScreenProps}
       />
     </Stack.Navigator>
   )
 }
 
-export default withTheme(FeedNavigator)
+export default withTheme(MainNavigator)

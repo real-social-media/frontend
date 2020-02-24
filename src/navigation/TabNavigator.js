@@ -1,6 +1,7 @@
 import React from 'react'
 import { TouchableOpacity } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { withTheme } from 'react-native-paper'
 
 import FeedNavigator from 'navigation/Feed'
 import SearchNavigator from 'navigation/Search'
@@ -15,7 +16,7 @@ import HeartIcon from 'assets/svg/footer/Heart'
 import UserIcon from 'assets/svg/footer/User'
 
 
-const TabNavigator = (theme) => ({ navigation }) => {
+const TabNavigator = ({ navigation, theme }) => {
   const tabNavigatorProps = {
     tabBarOptions: {
       showLabel: false,
@@ -69,41 +70,35 @@ const TabNavigator = (theme) => ({ navigation }) => {
 
   const Tab = createBottomTabNavigator()
   
-  const Feed = FeedNavigator(theme)
-  const Search = SearchNavigator(theme)
-  const Camera = CameraNavigator(theme)
-  const Dating = DatingNavigator(theme)
-  const Profile = ProfileNavigator(theme)
-  
   return (
     <Tab.Navigator {...tabNavigatorProps}>
       <Tab.Screen
         name="Feed"
-        component={Feed}
+        component={FeedNavigator}
         {...feedTabScreenPropsCard}
       />
       <Tab.Screen
         name="Search"
-        component={Search}
+        component={SearchNavigator}
         {...searchTabScreenPropsCard}
       />
       <Tab.Screen
         name="Camera"
-        component={Camera}
+        component={CameraNavigator}
         {...cameraTabScreenPropsCard}
       />
       <Tab.Screen
         name="Dating"
-        component={Dating}
+        component={DatingNavigator}
         {...datingTabScreenPropsCard}
       />
       <Tab.Screen
         name="Profile"
-        component={Profile}
+        component={ProfileNavigator}
         {...profileTabScreenPropsCard}
       />
     </Tab.Navigator>
   )
 }
 
-export default TabNavigator
+export default withTheme(TabNavigator)

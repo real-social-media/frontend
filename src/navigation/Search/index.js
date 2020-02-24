@@ -1,10 +1,11 @@
 import React from 'react'
 import { createStackNavigator, HeaderStyleInterpolators } from '@react-navigation/stack'
+import { withTheme } from 'react-native-paper'
 
 import DefaultNavigationComponent from 'components/NavigationPrimary/Default'
 import SearchScreen from 'screens/SearchScreen'
 
-const SearchNavigator = (theme) => () => {
+const SearchNavigator = ({ theme }) => {
   const Stack = createStackNavigator()
   const stackNavigatorProps = {
     screenOptions: {
@@ -14,7 +15,7 @@ const SearchNavigator = (theme) => () => {
 
   const stackScreenProps = {
     options: (props) => ({
-      ...DefaultNavigationComponent(theme)(props),
+      ...DefaultNavigationComponent({ ...props, theme }),
       cardStyle: {
         backgroundColor: theme.colors.backgroundPrimary,
       },
@@ -32,4 +33,4 @@ const SearchNavigator = (theme) => () => {
   )
 }
 
-export default SearchNavigator
+export default withTheme(SearchNavigator)

@@ -2,15 +2,12 @@ import React from 'react'
 import PostsGridServiceComponent from 'components/PostsGrid/index.service'
 import ProfileServiceComponent from 'components/Profile/index.service'
 import ProfileComponent from 'components/Profile'
-import DefaultNavigationComponent from 'components/NavigationPrimary/Default'
 import NavigationSecondary from 'components/NavigationSecondary/Default'
 import path from 'ramda/src/path'
 import { Provider as PaperProvider } from 'react-native-paper'
 import UserServiceProvider from 'services/providers/User'
 
 class ProfileScreen extends React.Component {
-  static navigationOptions = DefaultNavigationComponent
-  
   render() {
     return (
       <ProfileServiceComponent>

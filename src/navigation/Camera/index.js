@@ -1,4 +1,4 @@
-const CameraNavigator = (theme) => () => {
+const CameraNavigator = () => {
   return null
 }
 

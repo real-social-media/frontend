@@ -1,5 +1,4 @@
 import React from 'react'
-import DefaultNavigationComponent from 'components/NavigationPrimary/Default'
 import ThemeComponent from 'components/Theme'
 import ThemeServiceComponent from 'components/Theme/index.service'
 import NavigationSecondary from 'components/NavigationSecondary/Default'
@@ -9,8 +8,6 @@ import { Provider as PaperProvider } from 'react-native-paper'
 import { Translation } from 'react-i18next'
 
 class ThemeScreen extends React.Component {
-  static navigationOptions = DefaultNavigationComponent
-  
   render() {
     return (
       <ThemeServiceComponent>

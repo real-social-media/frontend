@@ -1,13 +1,10 @@
 import React from 'react'
 import PostsGridSelectComponent from 'components/PostsGridSelect'
 import PostsGridSelectServiceComponent from 'components/PostsGridSelect/index.service'
-import DefaultNavigationComponent from 'components/NavigationPrimary/Default'
 import NavigationSecondary from 'components/NavigationSecondary/Default'
 import { Translation } from 'react-i18next'
 
 class ProfilePhotoScreen extends React.Component {
-  static navigationOptions = DefaultNavigationComponent
-  
   render() {
     return (
       <PostsGridSelectServiceComponent>

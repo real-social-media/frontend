@@ -1,10 +1,11 @@
 import React from 'react'
 import { createStackNavigator, HeaderStyleInterpolators } from '@react-navigation/stack'
+import { withTheme } from 'react-native-paper'
 
 import DefaultNavigationComponent from 'components/NavigationPrimary/Default'
 import DatingScreen from 'screens/DatingScreen'
 
-const DatingNavigator = (theme) => () => {
+const DatingNavigator = ({ theme }) => {
   const Stack = createStackNavigator()
   const stackNavigatorProps = {
     screenOptions: {
@@ -14,7 +15,7 @@ const DatingNavigator = (theme) => () => {
 
   const stackScreenProps = {
     options: (props) => ({
-      ...DefaultNavigationComponent(theme)(props),
+      ...DefaultNavigationComponent({ ...props, theme }),
       cardStyle: {
         backgroundColor: theme.colors.backgroundPrimary,
       },
@@ -32,4 +33,4 @@ const DatingNavigator = (theme) => () => {
   )
 }
 
-export default DatingNavigator
+export default withTheme(DatingNavigator)

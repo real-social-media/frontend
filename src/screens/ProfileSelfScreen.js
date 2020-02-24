@@ -3,13 +3,10 @@ import PostsGridServiceComponent from 'components/PostsGrid/index.service'
 import ProfileSelfServiceComponent from 'components/ProfileSelf/index.service'
 import ProfileComponent from 'components/Profile'
 import NavigationSecondary from 'components/NavigationSecondary/Default'
-import DefaultNavigationComponent from 'components/NavigationPrimary/Default'
 import path from 'ramda/src/path'
 import UserServiceProvider from 'services/providers/User'
 
 class ProfileSelfScreen extends React.Component {
-  static navigationOptions = DefaultNavigationComponent
-  
   render() {
     return (
       <ProfileSelfServiceComponent>
