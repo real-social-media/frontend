@@ -5,8 +5,9 @@ import { NavigationContainer } from '@react-navigation/native'
 import { AuthProvider } from 'services/providers/App'
 import { Provider as PaperProvider } from 'react-native-paper'
 import codePush from 'react-native-code-push'
+import AuthNavigator from 'navigation/AuthNavigator'
 import AppNavigator from 'navigation/AppNavigator'
-import store from 'store/index'
+import store, { persistor } from 'store/index'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import 'services/Logger'
@@ -48,14 +49,17 @@ if (Text.defaultProps == null) {
 const App = () => (
   <Provider store={store}>
     <AuthProvider>
-      {({ initialRouteName, theme }) => (
+      {({ initialRouteName, theme, authenticated }) => (
         <PaperProvider theme={theme}>
           <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
           <NavigationContainer theme={theme}>
-            <AppNavigator
-              initialRouteName={initialRouteName}
-              theme={theme}
-            />
+            {authenticated ?
+              <AppNavigator />
+            : null}
+            
+            {!authenticated ?
+              <AuthNavigator />
+            : null}
           </NavigationContainer>
         </PaperProvider>
       )}

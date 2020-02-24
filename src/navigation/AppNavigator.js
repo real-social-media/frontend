@@ -1,5 +1,6 @@
 import React from 'react'
 import { createStackNavigator, HeaderStyleInterpolators, CardStyleInterpolators } from '@react-navigation/stack'
+import { withTheme } from 'react-native-paper'
 
 import TabNavigator from 'navigation/TabNavigator'
 import Layout from 'constants/Layout'
@@ -163,4 +164,4 @@ const AppNavigator = ({ theme }) => {
   )
 }
 
-export default AppNavigator
+export default withTheme(AppNavigator)

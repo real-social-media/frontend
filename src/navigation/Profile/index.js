@@ -88,4 +88,4 @@ const ProfileNavigator = ({ theme }) => {
   )
 }
 
-export default ProfileNavigator
+export default withTheme(ProfileNavigator)

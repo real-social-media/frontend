@@ -28,8 +28,16 @@ const postsPersistConfig = {
   ],
 }
 
+const authPersistConfig = {
+  key: 'auth',
+  storage: AsyncStorage,
+  whitelist: [
+    'user',
+  ],
+}
+
 export default combineReducers({
-  auth,
+  auth: persistReducer(authPersistConfig, auth),
   theme,
   camera,
   albums,

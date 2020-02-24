@@ -15,7 +15,7 @@ class FeedScreen extends React.Component {
   render() {
     return (
       <>
-        <PaperProvider theme={this.props.route.name}>
+        <PaperProvider theme={this.props.route.params.theme}>
           <Translation>
             {(t) => (
               <NavigationSecondary
