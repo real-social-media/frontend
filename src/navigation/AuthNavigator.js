@@ -2,8 +2,7 @@ import React from 'react'
 import { createStackNavigator, HeaderStyleInterpolators, CardStyleInterpolators } from '@react-navigation/stack'
 import { withTheme } from 'react-native-paper'
 
-import TabNavigator from 'navigation/TabNavigator'
-import Layout from 'constants/Layout'
+import AuthNavigationComponent from 'components/NavigationPrimary/Auth'
 
 import AuthScreen from 'screens/AuthScreen'
 import AuthForgotScreen from 'screens/AuthForgotScreen'
@@ -12,7 +11,7 @@ import AuthSignupScreen from 'screens/AuthSignupScreen'
 import AuthSignupConfirmScreen from 'screens/AuthSignupConfirmScreen'
 import AuthOnboardScreen from 'screens/AuthOnboardScreen'
 
-const AppNavigator = ({ theme }) => {
+const AuthNavigator = ({ theme }) => {
   const Stack = createStackNavigator()
   const stackNavigatorProps = {
     screenOptions: {
@@ -24,19 +23,12 @@ const AppNavigator = ({ theme }) => {
   }
 
   const stackScreenProps = {
-    options: {
-      headerShown: false,
-      cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
-      gestureEnabled: true,
-      gestureResponseDistance: {
-        horizontal: Layout.window.width,
-        vertical: Layout.window.height,
-      },
-      gestureDirection: 'vertical',
+    options: (props) => ({
+      ...AuthNavigationComponent({ ...props, theme }),
       cardStyle: {
         backgroundColor: theme.colors.backgroundPrimary,
       },
-    },
+    }),
   }
 
   return (
@@ -80,4 +72,4 @@ const AppNavigator = ({ theme }) => {
   )
 }
 
-export default withTheme(AppNavigator)
+export default withTheme(AuthNavigator)
