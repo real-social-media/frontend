@@ -12,6 +12,7 @@ import Avatar from 'templates/Avatar'
 import MoreIcon from 'assets/svg/action/More'
 import VerificationIcon from 'assets/svg/action/Verification'
 import dayjs from 'dayjs'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -59,7 +60,7 @@ const Header = ({
         : null}
 
         {!path(['mediaObjects', '0', 'isVerified'])(post) ?
-          <TouchableOpacity onPress={() => navigation.navigate('Verification', { post })} style={styling.verification}>
+          <TouchableOpacity onPress={navigationActions.navigateVerification(navigation, { post })} style={styling.verification}>
             <Caption style={styling.verificationStatus}>{t('Failed Verification')} - {t('Learn More')}</Caption>
             <VerificationIcon fill="#DC3644" />
           </TouchableOpacity>
@@ -98,10 +99,10 @@ const Header = ({
             destructiveButtonIndex={3}
             onPress={(index) => {
               if (index === 0) {
-                navigation.navigate('PostShare', { post })
+                navigationActions.navigatePostShare(navigation, { post })
               }
               if (index === 1) {
-                navigation.navigate('PostEdit', { post })
+                navigationActions.navigatePostEdit(navigation, { post })
               }
               if (index === 2) {
                 postsArchiveRequest({ postId: post.postId })
@@ -126,7 +127,7 @@ const Header = ({
             cancelButtonIndex={2}
             onPress={(index) => {
               if (index === 0) {
-                navigation.navigate('PostShare', { post })
+                navigationActions.navigatePostShare(navigation, { post })
               }
               if (index === 1) {
                 postsFlagRequest({ postId: post.postId })

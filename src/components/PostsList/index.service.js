@@ -7,6 +7,7 @@ import * as usersActions from 'store/ducks/users/actions'
 import { useNavigation } from '@react-navigation/native'
 import path from 'ramda/src/path'
 import intersection from 'ramda/src/intersection'
+import * as navigationActions from 'navigation/actions'
 
 const PostsListService = ({ children, }) => {
   const dispatch = useDispatch()
@@ -116,7 +117,7 @@ const PostsListService = ({ children, }) => {
 
     if (postsRestoreArchived.status === 'success') {
       dispatch(postsActions.postsRestoreArchivedIdle())
-      navigation.goBack()
+      navigationActions.navigateHome(navigation)()
     }
 
     if (postsFlag.status === 'success') {
@@ -130,7 +131,7 @@ const PostsListService = ({ children, }) => {
   ])
 
   const handleEditPress = (post) =>
-    navigation.navigate('PostEdit', { post })
+    navigationActions.navigatePostEdit(navigation, { post })()
 
   const onViewableItemsChanged = ({ viewableItems }) => {
     const postIds = viewableItems.map(viewable => path(['item', 'postId'])(viewable))

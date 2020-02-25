@@ -43,7 +43,7 @@ const ReactionsPreviewTemplate = ({
 
             {path(['onymouslyLikedBy', 'items', '0', 'username'])(post) ?
               <View style={styling.row}>
-                <TouchableOpacity onPress={() => navigation.navigate('PostMediaLikes')}>
+                <TouchableOpacity onPress={() => navigation.navigate('PostLikes')}>
                   <Text style={styling.text}>
                     {t('liked first by')}
                   </Text>

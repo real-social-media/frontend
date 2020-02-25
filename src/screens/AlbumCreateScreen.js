@@ -3,6 +3,7 @@ import AlbumCreateServiceComponent from 'components/AlbumCreate/index.service'
 import AlbumCreateComponent from 'components/AlbumCreate'
 import NavigationSecondary from 'components/NavigationSecondary/Default'
 import { Translation } from 'react-i18next'
+import * as navigationActions from 'navigation/actions'
 
 class AlbumCreateScreen extends React.Component {
   render() {
@@ -11,7 +12,7 @@ class AlbumCreateScreen extends React.Component {
         <Translation>
           {(t) => (
             <NavigationSecondary
-              onClosePress={() => this.props.navigation.goBack(null)}
+              onClosePress={navigationActions.navigateHome(this.props.navigation)}
               title={t('Edit Post')}
             />
           )}

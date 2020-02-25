@@ -3,23 +3,10 @@ import { TouchableOpacity } from 'react-native'
 import LogoIcon from 'assets/svg/header/Logo'
 import CameraIcon from 'assets/svg/header/Camera'
 import DirectIcon from 'assets/svg/header/Direct'
-
-const onChatPress = (navigation) => () => navigation.navigate('App', {
-  screen: 'Feed',
-  params: {
-    screen: 'Chat',
-  },
-})
-
-const onCameraPress = (navigation) => () => navigation.navigate('App', {
-  screen: 'Feed',
-  params: {
-    screen: 'Camera',
-  },
-})
+import * as navigationActions from 'navigation/actions'
 
 const headerLeft = ({ theme, navigation }) => () => (
-  <TouchableOpacity style={{ padding: 12 }} onPress={onCameraPress(navigation)}>
+  <TouchableOpacity style={{ padding: 12 }} onPress={navigationActions.navigateCamera(navigation)}>
     <CameraIcon
       fill={theme.colors.primaryIcon}
     />
@@ -34,7 +21,7 @@ const headerTitle = ({ theme }) => () => (
 )
 
 const headerRight = ({ theme, navigation }) => () => (
-  <TouchableOpacity style={{ padding: 12 }} onPress={onChatPress(navigation)}>
+  <TouchableOpacity style={{ padding: 12 }} onPress={navigationActions.navigateChat(navigation)}>
     <DirectIcon
       fill={theme.colors.primaryIcon}
     />

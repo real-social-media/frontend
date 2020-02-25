@@ -11,6 +11,7 @@ import path from 'ramda/src/path'
 import TickIcon from 'assets/svg/post/Tick'
 import CloseIcon from 'assets/svg/post/Close'
 import VerificationIcon from 'assets/svg/post/Verification'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -53,7 +54,7 @@ const Uploading = ({
 
       {post.status === 'loading' ?
         <View style={styling.status}>
-          <TouchableOpacity style={styling.content} onPress={() => navigation.navigate('Verification', { post: pseudoPost })}>
+          <TouchableOpacity style={styling.content} onPress={navigationActions.navigateVerification({ post: pseudoPost })}>
             <Text style={styling.title}>Uploading {post.meta.progress || 0}%</Text>
             <View style={styling.caption}>
               <Caption style={styling.subtitle}>{t('Pending Verification')} - {t('Learn More')}</Caption>

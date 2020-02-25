@@ -12,6 +12,7 @@ import ModalProfileComponent from 'templates/ModalProfile'
 import ModalHeaderComponent from 'templates/ModalHeader'
 import ModalPreviewComponent from 'templates/ModalPreview'
 import dayjs from 'dayjs'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -69,7 +70,7 @@ const PostShare = ({
     <View style={styling.root}>
       <View style={styling.header}>
         <ModalHeaderComponent
-          onPress={() => navigation.goBack()}
+          onPress={navigationActions.navigateHome(navigation)}
         />
       </View>
 

@@ -13,6 +13,7 @@ import CheckedIcon from 'assets/svg/other/Checked'
 import UncheckedIcon from 'assets/svg/other/Unchecked'
 import { RNCamera } from 'react-native-camera'
 import CameraIcon from 'assets/svg/header/Camera'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -35,7 +36,7 @@ const PostsGridSelect = ({
           if (!media) {
             return (
               <GridItemComponent
-                onPress={() => navigation.navigate('Camera')}
+                onPress={navigationActions.navigateCamera(navigation)}
                 active={false}
                 activeIcon={null}
                 inactiveIcon={null}

@@ -6,6 +6,7 @@ import NavigationSecondary from 'components/NavigationSecondary/Default'
 import path from 'ramda/src/path'
 import { Provider as PaperProvider } from 'react-native-paper'
 import UserServiceProvider from 'services/providers/User'
+import * as navigationActions from 'navigation/actions'
 
 class ProfileScreen extends React.Component {
   render() {

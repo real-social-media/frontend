@@ -3,6 +3,7 @@ import PostsListComponent from 'components/PostsList'
 import PostsListServiceComponent from 'components/PostsList/index.service'
 import StoriesServiceComponent from 'components/Stories/index.service'
 import UserServiceProvider from 'services/providers/User'
+import * as navigationActions from 'navigation/actions'
 
 class FeedScreen extends React.Component {
   render() {

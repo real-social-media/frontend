@@ -4,6 +4,7 @@ import ProfileRequestsServiceComponent from 'components/ProfileRequests/index.se
 import NavigationSecondary from 'components/NavigationSecondary/Default'
 import { Translation } from 'react-i18next'
 import UserServiceProvider from 'services/providers/User'
+import * as navigationActions from 'navigation/actions'
 
 class ProfileRequests extends React.Component {
   render() {

@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { View, TouchableOpacity, StyleSheet } from 'react-native'
 import CloseIcon from 'assets/svg/camera/Close'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -10,9 +11,9 @@ import { useTranslation } from 'react-i18next'
 const Header = ({
   theme,
   content,
-  handleClosePress,
 }) => {
   const styling = styles(theme)
+  const navigation = useNavigation()
   const { t } = useTranslation()
 
   return (
@@ -23,7 +24,7 @@ const Header = ({
 
       <View style={styling.action}>
         <View style={styling.actionItem} />
-        <TouchableOpacity style={styling.actionItem} onPress={handleClosePress}>
+        <TouchableOpacity style={styling.actionItem} onPress={navigationActions.navigateHome(navigation)}>
           <CloseIcon
             fill="#ffffff"
           />
@@ -61,7 +62,6 @@ const styles = theme => StyleSheet.create({
 Header.propTypes = {
   theme: PropTypes.any,
   content: PropTypes.any,
-  handleClosePress: PropTypes.any,
 }
 
 export default withTheme(Header)

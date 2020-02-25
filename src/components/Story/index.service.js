@@ -4,6 +4,7 @@ import * as usersActions from 'store/ducks/users/actions'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import useCounter from 'react-use/lib/useCounter'
 import pathOr from 'ramda/src/pathOr'
+import * as navigationActions from 'navigation/actions'
 
 const StoryService = ({ children, }) => {
   const dispatch = useDispatch()
@@ -45,7 +46,7 @@ const StoryService = ({ children, }) => {
       storyRef.current.snapToNext()
     } else {
       resetStory()
-      navigation.goBack()
+      navigationActions.navigateHome(navigation)()
     }
   }
     
@@ -62,13 +63,13 @@ const StoryService = ({ children, }) => {
       storyRef.current.snapToPrev()
     } else {
       resetStory()
-      navigation.goBack()
+      navigationActions.navigateHome(navigation)()
     }
   }
 
   const onCloseStory = () => {
     resetStory()
-    navigation.navigate('Feed')
+    navigationActions.navigateHome(navigation)()
   }
 
   return children({

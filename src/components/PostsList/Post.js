@@ -18,6 +18,7 @@ import Carousel, { Pagination } from 'react-native-snap-carousel'
 import Layout from 'constants/Layout'
 import { Text } from 'react-native-paper'
 import LinearGradient from 'react-native-linear-gradient'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -51,9 +52,7 @@ const PostCarousel = ({
       />
 
       <View style={styling.gradient}>
-        <TouchableOpacity style={styling.album} onPress={() => navigation.navigate('Album', {
-            album,
-          })}>
+        <TouchableOpacity style={styling.album} onPress={navigationActions.navigateAlbum({ album })}>
           <Text>{path(['name'])(album)}</Text>
         </TouchableOpacity>
       </View>
@@ -189,7 +188,7 @@ const PostComponent = ({
       />
 
       {pathOr(0, ['commentCount'], post) > 3 ?
-        <TouchableOpacity onPress={() => navigation.navigate('Comments', { post })}>
+        <TouchableOpacity onPress={navigationActions.navigateComments({ post })}>
           <Text style={styling.commentCount}>{t('View all {{commentCount}} comments', { commentCount: pathOr(0, ['commentCount'], post) })}</Text>
         </TouchableOpacity>
       : null}

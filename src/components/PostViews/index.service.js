@@ -5,7 +5,7 @@ import * as usersActions from 'store/ducks/users/actions'
 import * as postsServices from 'store/ducks/posts/services'
 import { useNavigation, useRoute } from '@react-navigation/native'
 
-const PostMediaViewsService = ({ children, }) => {
+const PostViewsService = ({ children, }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const route = useRoute()
@@ -53,4 +53,4 @@ const PostMediaViewsService = ({ children, }) => {
   })
 }
 
-export default PostMediaViewsService
+export default PostViewsService

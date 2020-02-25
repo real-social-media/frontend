@@ -10,8 +10,8 @@ import StoryScreen from 'screens/StoryScreen'
 import PostCreateScreen from 'screens/PostCreateScreen'
 import PostEditScreen from 'screens/PostEditScreen'
 import PostMediaScreen from 'screens/PostMediaScreen'
-import PostMediaLikesScreen from 'screens/PostMediaLikesScreen'
-import PostMediaViewsScreen from 'screens/PostMediaViewsScreen'
+import PostLikesScreen from 'screens/PostLikesScreen'
+import PostViewsScreen from 'screens/PostViewsScreen'
 import PostShareScreen from 'screens/PostShareScreen'
 import ProfileScreen from 'screens/ProfileScreen'
 import AlbumScreen from 'screens/AlbumScreen'
@@ -89,14 +89,14 @@ const AppNavigator = ({ theme }) => {
       />
 
       <Stack.Screen
-        name="PostMediaLikes"
-        component={PostMediaLikesScreen}
+        name="PostLikes"
+        component={PostLikesScreen}
         {...stackScreenProps}
       />
 
       <Stack.Screen
-        name="PostMediaViews"
-        component={PostMediaViewsScreen}
+        name="PostViews"
+        component={PostViewsScreen}
         {...stackScreenProps}
       />
 

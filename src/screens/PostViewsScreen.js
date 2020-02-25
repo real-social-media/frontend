@@ -1,11 +1,12 @@
 import React from 'react'
-import PostMediaViewsComponent from 'components/PostMediaViews'
-import PostMediaViewsServiceComponent from 'components/PostMediaViews/index.service'
+import PostViewsComponent from 'components/PostViews'
+import PostViewsServiceComponent from 'components/PostViews/index.service'
 import NavigationSecondary from 'components/NavigationSecondary/Default'
 import { Translation } from 'react-i18next'
 import UserServiceProvider from 'services/providers/User'
+import * as navigationActions from 'navigation/actions'
 
-class PostMediaViews extends React.Component {
+class PostViews extends React.Component {
   render() {
     return (
       <>
@@ -18,21 +19,21 @@ class PostMediaViews extends React.Component {
           )}
         </Translation>        
 
-        <PostMediaViewsServiceComponent>
+        <PostViewsServiceComponent>
           {(props) => (
             <UserServiceProvider navigation={this.props.navigation}>
               {((userProps) => (
-                <PostMediaViewsComponent
+                <PostViewsComponent
                   {...props}
                   {...userProps}
                 />
               ))}
             </UserServiceProvider>
           )}
-        </PostMediaViewsServiceComponent>
+        </PostViewsServiceComponent>
       </>
     )
   }
 }
 
-export default PostMediaViews
+export default PostViews

@@ -8,6 +8,7 @@ import * as albumsActions from 'store/ducks/albums/actions'
 import * as postsServices from 'store/ducks/posts/services'
 import { useNavigation } from '@react-navigation/native'
 import dayjs from 'dayjs'
+import * as navigationActions from 'navigation/actions'
 
 const PostCreateService = ({ children, }) => {
   const dispatch = useDispatch()
@@ -30,7 +31,7 @@ const PostCreateService = ({ children, }) => {
 
   useEffect(() => {
     if (postsDoneUploading) {
-      navigation.push('Feed')
+      navigationActions.navigateHome(navigation)()
     }
   }, [postsDoneUploading])
 
@@ -71,17 +72,12 @@ const PostCreateService = ({ children, }) => {
     dispatch(cameraActions.cameraCaptureIdle({ payload: { uri: images[0] } }))
   }
 
-  const handleClosePress = () => {
-    navigation.push('Feed')
-  }
-
   return children({
     albumsGet: postsServices.cachedPostsGet(albumsGet, albumsGetCache, user.userId),
     user,
     postsCreate,
     postsCreateRequest,
     postsCreateIdle,
-    handleClosePress,
     cameraCapture,
     postsCreateQueue,
   })

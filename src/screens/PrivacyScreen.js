@@ -3,6 +3,7 @@ import PrivacyComponent from 'components/Privacy'
 import PrivacyServiceComponent from 'components/Privacy/index.service'
 import NavigationSecondary from 'components/NavigationSecondary/Default'
 import { Translation } from 'react-i18next'
+import * as navigationActions from 'navigation/actions'
 
 class PrivacyScreen extends React.Component {
   render() {

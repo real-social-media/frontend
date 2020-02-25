@@ -20,11 +20,11 @@ const postsPersistConfig = {
   key: 'posts',
   storage: AsyncStorage,
   whitelist: [
-    // 'postsFeedGet',
-    // 'postsGet',
-    // 'postsGetCache',
-    // 'postsGetTrendingPosts',
-    // 'postsCreateQueue',
+    'postsFeedGet',
+    'postsGet',
+    'postsGetCache',
+    'postsGetTrendingPosts',
+    'postsCreateQueue',
   ],
 }
 

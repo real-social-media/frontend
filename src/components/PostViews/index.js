@@ -12,7 +12,7 @@ import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
-const PostMediaViews = ({
+const PostViews = ({
   theme,
   postsViewsGet,
   usersFollow,
@@ -57,7 +57,7 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-PostMediaViews.propTypes = {
+PostViews.propTypes = {
   theme: PropTypes.any,
   postsViewsGet: PropTypes.any,
   usersFollow: PropTypes.any,
@@ -66,4 +66,4 @@ PostMediaViews.propTypes = {
   usersUnfollowRequest: PropTypes.any,
 }
 
-export default withTheme(PostMediaViews)
+export default withTheme(PostViews)

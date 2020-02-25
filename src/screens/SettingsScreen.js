@@ -3,6 +3,7 @@ import SettingsComponent from 'components/Settings'
 import SettingsServiceComponent from 'components/Settings/index.service'
 import NavigationSecondary from 'components/NavigationSecondary/Default'
 import { Translation } from 'react-i18next'
+import * as navigationActions from 'navigation/actions'
 
 class SettingsScreen extends React.Component {
   render() {

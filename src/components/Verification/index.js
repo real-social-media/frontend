@@ -12,6 +12,7 @@ import ModalHeaderComponent from 'templates/ModalHeader'
 import ModalPreviewComponent from 'templates/ModalPreview'
 import dayjs from 'dayjs'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -40,7 +41,7 @@ const Verification = ({
     <View style={styling.root}>
       <View style={styling.header}>
         <ModalHeaderComponent
-          onPress={() => navigation.goBack()}
+          onPress={navigationActions.navigateHome(navigation)}
         />
       </View>
 

@@ -16,6 +16,7 @@ import usePrevious from 'react-use/lib/usePrevious'
 import { getCameraBonds } from 'services/Camera'
 import { BlurView } from '@react-native-community/blur'
 import Modal from 'components/Modal'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -36,7 +37,6 @@ const CameraComponent = ({
   flashMode,
   flipMode,
   handleFlipToggle,
-  handleClosePress,
   handleLibrarySnap,
   handleCameraSnap,
   handleFlashToggle,
@@ -62,7 +62,7 @@ const CameraComponent = ({
       <CameraTemplate
         header={(
           <CameraHeaderTemplate
-            handleClosePress={handleClosePress}
+            handleClosePress={navigationActions.navigateHome(navigation)}
             content={(
               <QualityComponent
                 photoQuality={photoQuality}
@@ -118,10 +118,10 @@ const CameraComponent = ({
       {!cameraEnabled ?
         <View style={styling.modal}>
           <Modal
-            cancelAction={() => navigation.push('Feed')}
+            cancelAction={navigationActions.navigateHome(navigation)}
             cancelLabel={t('Cancel')}
             confirmLabel={t('OK')}
-            confirmAction={() => navigation.push('Feed')}
+            confirmAction={navigationActions.navigateHome(navigation)}
             title={t('Camera is blocked')}
             text={t('Please enabled camera access in your phone settings to continue')}
           />
@@ -176,7 +176,6 @@ CameraComponent.propTypes = {
   flashMode: PropTypes.any,
   flipMode: PropTypes.any,
   handleFlipToggle: PropTypes.any,
-  handleClosePress: PropTypes.any,
   handleCameraSnap: PropTypes.any,
   handleFlashToggle: PropTypes.any,
   postsCreateRequest: PropTypes.any,

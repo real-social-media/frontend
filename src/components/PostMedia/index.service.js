@@ -5,6 +5,7 @@ import * as postsActions from 'store/ducks/posts/actions'
 import * as postsServices from 'store/ducks/posts/services'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import path from 'ramda/src/path'
+import * as navigationActions from 'navigation/actions'
 
 const PostMediaService = ({ children, ...props }) => {
   const dispatch = useDispatch()
@@ -37,7 +38,7 @@ const PostMediaService = ({ children, ...props }) => {
       dispatch(postsActions.postsDeleteIdle())
     }
     if (postsDelete.status === 'loading') {
-      navigation.goBack()
+      navigationActions.navigateHome(navigation)()
     }
   }, [postsDelete.status])
 

@@ -4,6 +4,7 @@ import * as authActions from 'store/ducks/auth/actions'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import toLower from 'ramda/src/toLower'
 import path from 'ramda/src/path'
+import * as navigationActions from 'navigation/actions'
 
 const AuthComponentService = ({ children, }) => {
   const guessUsernameType = (username) => {
@@ -123,7 +124,8 @@ const AuthComponentService = ({ children, }) => {
     }
 
     if (authOnboard.status === 'success') {
-      navigation.push('Feed')
+      navigationActions.navigateHome(navigation)()
+      
       dispatch(authActions.authSignupIdle())
       dispatch(authActions.authSigninIdle())
       dispatch(authActions.authSignupConfirmIdle())

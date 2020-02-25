@@ -6,6 +6,7 @@ import ThemeModalComponent from 'components/ThemeModal'
 import FeedScreen from 'screens/FeedScreen'
 import { Provider as PaperProvider } from 'react-native-paper'
 import { Translation } from 'react-i18next'
+import * as navigationActions from 'navigation/actions'
 
 class ThemeScreen extends React.Component {
   render() {

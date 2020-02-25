@@ -5,6 +5,7 @@ import ProfileComponent from 'components/Profile'
 import NavigationSecondary from 'components/NavigationSecondary/Default'
 import path from 'ramda/src/path'
 import UserServiceProvider from 'services/providers/User'
+import * as navigationActions from 'navigation/actions'
 
 class ProfileSelfScreen extends React.Component {
   render() {

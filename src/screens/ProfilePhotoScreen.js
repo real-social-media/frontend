@@ -3,6 +3,7 @@ import PostsGridSelectComponent from 'components/PostsGridSelect'
 import PostsGridSelectServiceComponent from 'components/PostsGridSelect/index.service'
 import NavigationSecondary from 'components/NavigationSecondary/Default'
 import { Translation } from 'react-i18next'
+import * as navigationActions from 'navigation/actions'
 
 class ProfilePhotoScreen extends React.Component {
   render() {

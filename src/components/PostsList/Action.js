@@ -33,7 +33,7 @@ const Action = ({
 
   const handleViewsPress = () => {
     if (!self) { return }
-    navigation.push('PostMediaViews', {
+    navigation.push('PostViews', {
       postId: path(['postId'])(post)
     })
   }

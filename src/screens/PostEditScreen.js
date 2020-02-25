@@ -3,6 +3,7 @@ import PostEditComponent from 'components/PostEdit'
 import PostEditServiceComponent from 'components/PostEdit/index.service'
 import NavigationSecondary from 'components/NavigationSecondary/Default'
 import { Translation } from 'react-i18next'
+import * as navigationActions from 'navigation/actions'
 
 class PostEditScreen extends React.Component {
   render() {

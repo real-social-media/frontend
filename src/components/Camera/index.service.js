@@ -8,6 +8,7 @@ import { PERMISSIONS, RESULTS, check } from 'react-native-permissions'
 import CropPicker from 'react-native-image-crop-picker'
 import { getScreenAspectRatio } from 'services/Camera'
 import series from 'async/series'
+import * as navigationActions from 'navigation/actions'
 
 const cameraManager = (cameraRef) => ({
   resumePreview: props => {
@@ -74,10 +75,6 @@ const CameraService = ({ children, }) => {
     }
   }, [])
 
-  const handleClosePress = () => {
-    navigation.push('Feed')
-  }
-
   const [photoSize, setPhotoSize] = useState('4:3')
   const [photoQuality, setPhotoQuality] = useState('default')
 
@@ -111,7 +108,6 @@ const CameraService = ({ children, }) => {
         compressImageQuality: 1,
       })
 
-  
       cameraCaptureRequest([{
         uri: croppedPhoto.path,
         photoSize,
@@ -119,7 +115,11 @@ const CameraService = ({ children, }) => {
         originalFormat: snappedPhoto.uri.split('.').pop(),
       }])
   
-      navigation.push(path(['params', 'nextRoute'])(route) || 'PostCreate', { photos: [croppedPhoto.path] })
+      if (route.params && route.params.nextRoute) {
+        navigation.navigate(path(['params', 'nextRoute'])(route), { photos: [croppedPhoto.path] })
+      } else {
+        navigationActions.navigatePostCreate(navigation, { photos: [croppedPhoto.path] })()
+      }
     } catch (error) {
 
     } finally {
@@ -156,7 +156,12 @@ const CameraService = ({ children, }) => {
     }))
 
     cameraCaptureRequest(photos)
-    navigation.push(path(['params', 'nextRoute'])(route) || 'PostCreate', { photos })
+    
+    if (route.params && route.params.nextRoute) {
+      navigation.navigate(path(['params', 'nextRoute'])(route), { photos })
+    } else {
+      navigationActions.navigatePostCreate(navigation, { photos })()
+    }
   }
 
   return children({
@@ -168,7 +173,6 @@ const CameraService = ({ children, }) => {
     setPhotoQuality,
     flashMode,
     flipMode,
-    handleClosePress,
     handleLibrarySnap,
     handleCameraSnap,
     handleLibrarySnap,

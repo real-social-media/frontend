@@ -5,6 +5,7 @@ import PostsPreviewComponent from 'components/PostsPreview/'
 import PostsPreviewServiceComponent from 'components/PostsPreview/index.service'
 import NavigationSecondary from 'components/NavigationSecondary/Default'
 import { Translation } from 'react-i18next'
+import * as navigationActions from 'navigation/actions'
 
 class PostCreateScreen extends React.Component {
   render() {
@@ -13,7 +14,7 @@ class PostCreateScreen extends React.Component {
         <Translation>
           {(t) => (
             <NavigationSecondary
-              onClosePress={() => this.props.navigation.navigate('Camera')}
+              onClosePress={navigationActions.navigateCamera(this.props.navigation)}
               title={t('New Photo')}
             />
           )}

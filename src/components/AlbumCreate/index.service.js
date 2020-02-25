@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import * as albumsActions from 'store/ducks/albums/actions'
 import { useNavigation } from '@react-navigation/native'
 import uuid from 'uuid/v4'
+import * as navigationActions from 'navigation/actions'
 
 const AlbumCreateService = ({ children, }) => {
   const dispatch = useDispatch()
@@ -22,7 +23,7 @@ const AlbumCreateService = ({ children, }) => {
     if (albumsCreate.status === 'success') {
       dispatch(albumsActions.albumsCreateIdle())
       dispatch(albumsActions.albumsGetRequest({ userId: authUser.userId }))
-      navigation.goBack()
+      navigationActions.navigateHome(navigation)()
     }
   }, [albumsCreate.status])
 

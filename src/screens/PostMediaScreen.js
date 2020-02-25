@@ -6,6 +6,7 @@ import PostsListServiceComponent from 'components/PostsList/index.service'
 import NavigationSecondary from 'components/NavigationSecondary/Default'
 import { Translation } from 'react-i18next'
 import { Provider as PaperProvider } from 'react-native-paper'
+import * as navigationActions from 'navigation/actions'
 
 class FeedScreen extends React.Component {
   render() {

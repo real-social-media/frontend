@@ -1,9 +1,10 @@
 import React from 'react'
-import PostMediaLikesComponent from 'components/PostMediaLikes'
+import PostLikesComponent from 'components/PostLikes'
 import NavigationSecondary from 'components/NavigationSecondary/Default'
 import { Translation } from 'react-i18next'
+import * as navigationActions from 'navigation/actions'
 
-class PostMediaLikesScreen extends React.Component {
+class PostLikesScreen extends React.Component {
   render() {
     return (
       <>
@@ -16,10 +17,10 @@ class PostMediaLikesScreen extends React.Component {
           )}
         </Translation>
 
-        <PostMediaLikesComponent />
+        <PostLikesComponent />
       </>
     )
   }
 }
 
-export default PostMediaLikesScreen
+export default PostLikesScreen

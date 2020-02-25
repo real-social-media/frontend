@@ -3,6 +3,7 @@ import AlbumServiceComponent from 'components/Album/index.service'
 import AlbumComponent from 'components/Album'
 import NavigationSecondary from 'components/NavigationSecondary/Default'
 import { Translation } from 'react-i18next'
+import * as navigationActions from 'navigation/actions'
 
 class AlbumScreen extends React.Component {
   render() {

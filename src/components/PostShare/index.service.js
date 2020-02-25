@@ -5,6 +5,7 @@ import * as postsServices from 'store/ducks/posts/services'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import useToggle from 'react-use/lib/useToggle'
 import path from 'ramda/src/path'
+import * as navigationActions from 'navigation/actions'
 
 const ShareService = ({ children, }) => {
   const dispatch = useDispatch()
@@ -30,7 +31,7 @@ const ShareService = ({ children, }) => {
   useEffect(() => {
     if (postsShare.status === 'success') {
       dispatch(postsActions.postsShareIdle())
-      navigation.goBack()
+      navigationActions.navigateHome(navigation)()
     }
   }, [postsShare.status])
 

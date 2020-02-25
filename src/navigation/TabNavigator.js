@@ -15,6 +15,7 @@ import CreateIcon from 'assets/svg/footer/Create'
 import HeartIcon from 'assets/svg/footer/Heart'
 import UserIcon from 'assets/svg/footer/User'
 
+import * as navigationActions from 'navigation/actions'
 
 const TabNavigator = ({ navigation, theme }) => {
   const tabNavigatorProps = {
@@ -43,10 +44,7 @@ const TabNavigator = ({ navigation, theme }) => {
   }
 
   const CameraTabIconComponent = ({ color }) => <CreateIcon fill={color} />
-  const CameraTabButtonComponent = (props) => {
-    const onPress = () => navigation.navigate('Feed', { screen: 'Camera' })
-    return <TouchableOpacity {...props} onPress={onPress} />
-  }
+  const CameraTabButtonComponent = (props) => <TouchableOpacity {...props} onPress={navigationActions.navigateCamera(navigation)} />
   const cameraTabScreenPropsCard = {
     options: {
       tabBarIcon: CameraTabIconComponent,

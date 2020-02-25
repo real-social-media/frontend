@@ -77,7 +77,6 @@ const styles = theme => StyleSheet.create({
 Quality.propTypes = {
   theme: PropTypes.any,
   content: PropTypes.any,
-  handleClosePress: PropTypes.any,
 }
 
 export default withTheme(Quality)
