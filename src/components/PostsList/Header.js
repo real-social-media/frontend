@@ -52,13 +52,13 @@ const Header = ({
           <Text style={styling.headerUsername}>{post.postedBy.username}</Text>
         </TouchableOpacity>
 
-        {path(['mediaObjects', '0', 'isVerified'])(post) && post.expiresAt ?
+        {path(['isVerified'])(post) && post.expiresAt ?
           <View style={styling.verification}>
             <Caption style={styling.headerStatus}>{t('Expires {{expiry}}', { expiry: dayjs(post.expiresAt).from(dayjs()) })}</Caption>
           </View>
         : null}
 
-        {!path(['mediaObjects', '0', 'isVerified'])(post) ?
+        {!path(['isVerified'])(post) ?
           <TouchableOpacity onPress={() => navigation.navigate('Verification', { post })} style={styling.verification}>
             <Caption style={styling.verificationStatus}>{t('Failed Verification')} - {t('Learn More')}</Caption>
             <VerificationIcon fill="#DC3644" />

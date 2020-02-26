@@ -74,6 +74,7 @@ export const user = `
           mediaObjects {
             ...mediaObjectFragment
           }
+          isVerified
           likeStatus
           onymousLikeCount
           anonymousLikeCount
@@ -135,6 +136,7 @@ export const setUserDetails = `
           mediaObjects {
             ...mediaObjectFragment
           }
+          isVerified
           likeStatus
           onymousLikeCount
           anonymousLikeCount
@@ -186,6 +188,7 @@ export const getFollowedUsersWithStories = `
               mediaObjects {
                 ...mediaObjectFragment
               }
+              isVerified
               likeStatus
               onymousLikeCount
               anonymousLikeCount
@@ -270,6 +273,7 @@ export const self = `
           mediaObjects {
             ...mediaObjectFragment
           }
+          isVerified
           likeStatus
           onymousLikeCount
           anonymousLikeCount

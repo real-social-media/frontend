@@ -95,7 +95,7 @@ function* handlePostsShareRequest(payload) {
       commentsDisabled: post.commentsDisabled,
       likesDisabled: post.likesDisabled,
       sharingDisabled: post.sharingDisabled,
-      takenInReal: path(['mediaObjects', '0', 'isVerified'])(post),
+      takenInReal: path(['isVerified'])(post),
       originalFormat: 'jpg',
     }))
   }
