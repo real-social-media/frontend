@@ -81,7 +81,7 @@ const initialState = {
     error: {},
     payload: {},
   },
-  usersMediaObjectsGet: {
+  usersImagePostsGet: {
     data: [],
     status: 'idle',
     error: {},
@@ -660,29 +660,29 @@ const usersEditProfileIdle = (state, action) => update(state, {
 /**
  *
  */
-const usersMediaObjectsGetRequest = (state, action) => update(state, {
-  usersMediaObjectsGet: {
+const usersImagePostsGetRequest = (state, action) => update(state, {
+  usersImagePostsGet: {
     status: { $set: 'loading' },
     payload: { $set: action.payload },
   },
 })
 
-const usersMediaObjectsGetSuccess = (state, action) => update(state, {
-  usersMediaObjectsGet: {
+const usersImagePostsGetSuccess = (state, action) => update(state, {
+  usersImagePostsGet: {
     data: { $set: action.payload.data },
     status: { $set: 'success' },
   },
 })
 
-const usersMediaObjectsGetFailure = (state, action) => update(state, {
-  usersMediaObjectsGet: {
+const usersImagePostsGetFailure = (state, action) => update(state, {
+  usersImagePostsGet: {
     status: { $set: 'failure' },
   },
 })
 
-const usersMediaObjectsGetIdle = (state, action) => update(state, {
-  usersMediaObjectsGet: {
-    data: { $set: initialState.usersMediaObjectsGet.data },
+const usersImagePostsGetIdle = (state, action) => update(state, {
+  usersImagePostsGet: {
+    data: { $set: initialState.usersImagePostsGet.data },
     status: { $set: 'idle' },
   },
 })
@@ -783,10 +783,10 @@ export default handleActions({
   [constants.USERS_EDIT_PROFILE_FAILURE]: usersEditProfileFailure,
   [constants.USERS_EDIT_PROFILE_IDLE]: usersEditProfileIdle,
 
-  [constants.USERS_MEDIA_OBJECTS_GET_REQUEST]: usersMediaObjectsGetRequest,
-  [constants.USERS_MEDIA_OBJECTS_GET_SUCCESS]: usersMediaObjectsGetSuccess,
-  [constants.USERS_MEDIA_OBJECTS_GET_FAILURE]: usersMediaObjectsGetFailure,
-  [constants.USERS_MEDIA_OBJECTS_GET_IDLE]: usersMediaObjectsGetIdle,
+  [constants.USERS_IMAGE_POSTS_GET_REQUEST]: usersImagePostsGetRequest,
+  [constants.USERS_IMAGE_POSTS_GET_SUCCESS]: usersImagePostsGetSuccess,
+  [constants.USERS_IMAGE_POSTS_GET_FAILURE]: usersImagePostsGetFailure,
+  [constants.USERS_IMAGE_POSTS_GET_IDLE]: usersImagePostsGetIdle,
 
   [constants.USERS_GET_TRENDING_USERS_REQUEST]: usersGetTrendingUsersRequest,
   [constants.USERS_GET_TRENDING_USERS_SUCCESS]: usersGetTrendingUsersSuccess,

@@ -1,5 +1,6 @@
 import {
   mediaObjectFragment,
+  postFragment,
   userFragment,
 } from 'store/fragments'
 
@@ -90,7 +91,7 @@ export const setUserDetails = `
   mutation setUserDetails(
     $fullName: String,
     $bio: String,
-    $photoMediaId: ID,
+    $photoPostId: ID,
     $privacyStatus: PrivacyStatus,
     $followCountsHidden: Boolean,
     $viewCountsHidden: Boolean,
@@ -104,7 +105,7 @@ export const setUserDetails = `
     setUserDetails(
       fullName: $fullName,
       bio: $bio,
-      photoMediaId: $photoMediaId,
+      photoPostId: $photoPostId,
       privacyStatus: $privacyStatus,
       followCountsHidden: $followCountsHidden,
       viewCountsHidden: $viewCountsHidden,
@@ -147,12 +148,12 @@ export const setUserDetails = `
   ${mediaObjectFragment}
 `
 
-export const getMediaObjects = `
-  query GetMediaObjects($userId: ID!) {
+export const getImagePosts = `
+  query GetImagePosts($userId: ID!) {
     user(userId: $userId) {
-      mediaObjects {
+      posts(postType: 'IMAGE') {
         items {
-          ...mediaObjectFragment
+          ...postFragment
         }
         nextToken
       }

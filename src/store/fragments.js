@@ -53,6 +53,23 @@ export const mediaObjectFragment = `
   }
 `
 
+export const imageFragment = `
+  fragment imageFragment on Image {
+    url
+    url64p
+    url480p
+    url1080p
+    url4k
+    width
+    height
+    colors {
+      r
+      g
+      b
+    }
+  }
+`
+
 export const commentFragment = `
   fragment commentFragment on Comment {
     commentId
@@ -88,6 +105,9 @@ export const postFragment = `
     }
     mediaObjects {
       ...mediaObjectFragment
+    }
+    image {
+      ...imageFragment
     }
     imageUploadUrl
     likeStatus

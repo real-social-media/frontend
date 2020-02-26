@@ -248,17 +248,17 @@ function* usersUnblockRequest(req) {
 /**
  *
  */
-function* usersMediaObjectsGetRequest(req) {
+function* usersImagePostsGetRequest(req) {
   const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.getMediaObjects, req.payload))
-    const selector = path(['data', 'user', 'mediaObjects', 'items'])
+    const data = yield AwsAPI.graphql(graphqlOperation(queries.getImagePosts, req.payload))
+    const selector = path(['data', 'user', 'posts', 'items'])
 
-    yield put(actions.usersMediaObjectsGetSuccess({ data: selector(data), meta: data }))
+    yield put(actions.usersImagePostsGetSuccess({ data: selector(data), meta: data }))
   } catch (error) {
-    yield put(actions.usersMediaObjectsGetFailure({ message: errorWrapper(error) }))
+    yield put(actions.usersImagePostsGetFailure({ message: errorWrapper(error) }))
   }
 }
 
@@ -294,6 +294,6 @@ export default () => [
   takeLatest(constants.USERS_GET_PROFILE_REQUEST, usersGetProfileRequest),
   takeLatest(constants.USERS_GET_PROFILE_SELF_REQUEST, usersGetProfileSelfRequest),
   takeLatest(constants.USERS_EDIT_PROFILE_REQUEST, usersEditProfileRequest),
-  takeLatest(constants.USERS_MEDIA_OBJECTS_GET_REQUEST, usersMediaObjectsGetRequest),
+  takeLatest(constants.USERS_IMAGE_POSTS_GET_REQUEST, usersImagePostsGetRequest),
   takeLatest(constants.USERS_GET_TRENDING_USERS_REQUEST, usersGetTrendingUsersRequest),
 ]

@@ -52,7 +52,7 @@ const styles = theme => StyleSheet.create({
 })
 
 Archived.defaultProps = {
-  usersMediaObjectsGet: {},
+  usersImagePostsGet: {},
 }
 
 Archived.propTypes = {
