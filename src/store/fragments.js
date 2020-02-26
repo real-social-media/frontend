@@ -44,7 +44,6 @@ export const mediaObjectFragment = `
     url4k
     width
     height
-    isVerified
     colors {
       r
       g
@@ -110,6 +109,7 @@ export const postFragment = `
       ...imageFragment
     }
     imageUploadUrl
+    isVerified
     likeStatus
     commentCount
     commentsDisabled
@@ -175,6 +175,7 @@ export const postFragment = `
           mediaObjects {
             ...mediaObjectFragment
           }
+          isVerified
           likeStatus
           commentCount
           commentsDisabled
