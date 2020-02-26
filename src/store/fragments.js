@@ -150,6 +150,9 @@ export const postFragment = `
               ...userFragment
             }
           }
+          image {
+            ...imageFragment
+          }
           isVerified
           likeStatus
           commentCount
@@ -188,6 +191,7 @@ export const postFragment = `
       }
     }
   }
+  ${imageFragment}
   ${userFragment}
 `
 

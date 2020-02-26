@@ -1,4 +1,5 @@
 import {
+  imageFragment,
   postFragment,
   userFragment,
 } from 'store/fragments'
@@ -71,6 +72,9 @@ export const user = `
               ...userFragment
             }
           }
+          image {
+            ...imageFragment
+          }
           isVerified
           likeStatus
           onymousLikeCount
@@ -81,6 +85,7 @@ export const user = `
       }
     }
   }
+  ${imageFragment}
   ${userFragment}
 `
 
@@ -130,6 +135,9 @@ export const setUserDetails = `
               ...userFragment
             }
           }
+          image {
+            ...imageFragment
+          }
           isVerified
           likeStatus
           onymousLikeCount
@@ -140,6 +148,7 @@ export const setUserDetails = `
       }
     }
   }
+  ${imageFragment}
   ${userFragment}
 `
 
@@ -179,6 +188,9 @@ export const getFollowedUsersWithStories = `
                   ...userFragment
                 }
               }
+              image {
+                ...imageFragment
+              }
               isVerified
               likeStatus
               onymousLikeCount
@@ -192,6 +204,7 @@ export const getFollowedUsersWithStories = `
       }
     }
   }
+  ${imageFragment}
   ${userFragment}
 `
 
@@ -261,6 +274,9 @@ export const self = `
               ...userFragment
             }
           }
+          image {
+            ...imageFragment
+          }
           isVerified
           likeStatus
           onymousLikeCount
@@ -271,6 +287,7 @@ export const self = `
       }
     }
   }
+  ${imageFragment}
   ${userFragment}
 `
 
