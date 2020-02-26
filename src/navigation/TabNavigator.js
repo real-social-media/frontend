@@ -1,6 +1,7 @@
 import React from 'react'
 import { TouchableOpacity } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import { withTheme } from 'react-native-paper'
 
 import * as navigationOptions from 'navigation/options'
@@ -8,6 +9,7 @@ import * as navigationOptions from 'navigation/options'
 import FeedNavigator from 'navigation/Feed'
 import SearchNavigator from 'navigation/Search'
 import CameraNavigator from 'navigation/Camera'
+import ChatNavigator from 'navigation/Chat'
 import DatingNavigator from 'navigation/Dating'
 import ProfileNavigator from 'navigation/Profile'
 
@@ -18,6 +20,36 @@ import HeartIcon from 'assets/svg/footer/Heart'
 import UserIcon from 'assets/svg/footer/User'
 
 import * as navigationActions from 'navigation/actions'
+
+
+const HomeNavigator = ({ theme }) => {
+  const Tab = createMaterialTopTabNavigator()
+
+  const tabNavigatorProps = {
+    initialRouteName: 'Feed',
+    tabBar: () => null,
+    sceneContainerStyle: {
+      backgroundColor: 'transparent',
+    },
+  }
+
+  return (
+    <Tab.Navigator {...tabNavigatorProps}>
+      <Tab.Screen
+        name="Camera"
+        component={CameraNavigator}
+      />
+      <Tab.Screen
+        name="Feed"
+        component={FeedNavigator}
+      />
+      <Tab.Screen
+        name="Chat"
+        component={ChatNavigator}
+      />
+    </Tab.Navigator>
+  )
+}
 
 const TabNavigator = ({ navigation, route, theme }) => {
   const tabNavigatorProps = navigationOptions.tabNavigatorProps({ theme, route })
@@ -65,7 +97,7 @@ const TabNavigator = ({ navigation, route, theme }) => {
     <Tab.Navigator {...tabNavigatorProps}>
       <Tab.Screen
         name="Feed"
-        component={FeedNavigator}
+        component={HomeNavigator}
         {...feedTabScreenPropsCard}
       />
       <Tab.Screen

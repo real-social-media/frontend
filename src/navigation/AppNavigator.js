@@ -1,40 +1,25 @@
 import React from 'react'
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
+import { createStackNavigator } from '@react-navigation/stack'
 import { withTheme } from 'react-native-paper'
-import Layout from 'constants/Layout'
+
+import * as navigationOptions from 'navigation/options'
 
 import TabNavigator from 'navigation/TabNavigator'
-import CameraNavigator from 'navigation/Camera'
-import ChatNavigator from 'navigation/Chat'
 
-const HomeNavigator = ({ theme }) => {
-  const Tab = createMaterialTopTabNavigator()
-
-  const tabNavigatorProps = {
-    initialRouteName: 'Feed',
-    tabBar: () => null,
-    sceneContainerStyle: {
-      backgroundColor: 'transparent',
-      width: Layout.window.width,
-    },
-  }
+const AppNavigator = ({ theme }) => {
+  const Stack = createStackNavigator()
+  const stackNavigatorCardProps = navigationOptions.stackNavigatorCardProps({ theme })
+  const stackScreenBlankProps = navigationOptions.stackScreenBlankProps({ theme })
 
   return (
-    <Tab.Navigator {...tabNavigatorProps}>
-      <Tab.Screen
-        name="Camera"
-        component={CameraNavigator}
-      />
-      <Tab.Screen
+    <Stack.Navigator {...stackNavigatorCardProps}>
+      <Stack.Screen
         name="Feed"
         component={TabNavigator}
+        {...stackScreenBlankProps}
       />
-      <Tab.Screen
-        name="Chat"
-        component={ChatNavigator}
-      />
-    </Tab.Navigator>
+    </Stack.Navigator>
   )
 }
 
-export default withTheme(HomeNavigator)
+export default withTheme(AppNavigator)
