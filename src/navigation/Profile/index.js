@@ -17,59 +17,59 @@ import ArchivedScreen from 'screens/ArchivedScreen'
 const ProfileNavigator = ({ theme }) => {
   const Stack = createStackNavigator()
   const stackNavigatorDefaultProps = navigationOptions.stackNavigatorDefaultProps({ theme })
-  const stackScreenDefaultProps = navigationOptions.stackScreenDefaultProps({ theme })
+  const stackScreenPageProps = navigationOptions.stackScreenPageProps({ theme })
 
   return (
     <Stack.Navigator {...stackNavigatorDefaultProps}>
       <Stack.Screen
         name="ProfileSelf"
         component={ProfileSelfScreen}
-        {...stackScreenDefaultProps}
+        {...stackScreenPageProps({ options: { title: 'Profile' } })}
       />
       <Stack.Screen
         name="ProfileEdit"
         component={ProfileEditScreen}
-        {...stackScreenDefaultProps}
+        {...stackScreenPageProps({ options: { title: 'Edit Profile' } })}
       />
       <Stack.Screen
         name="ProfilePhoto"
         component={ProfilePhotoScreen}
-        {...stackScreenDefaultProps}
+        {...stackScreenPageProps({ options: { title: 'Change Profile Photo' } })}
       />
       <Stack.Screen
         name="Theme"
         component={ThemeScreen}
-        {...stackScreenDefaultProps}
+        {...stackScreenPageProps({ options: { title: 'Choose Theme' } })}
       />
       <Stack.Screen
         name="Privacy"
         component={PrivacyScreen}
-        {...stackScreenDefaultProps}
+        {...stackScreenPageProps({ options: { title: 'Mental Health & Privacy Settings' } })}
       />
       <Stack.Screen
         name="Translation"
         component={TranslationScreen}
-        {...stackScreenDefaultProps}
+        {...stackScreenPageProps({ options: { title: 'Change Language' } })}
       />
       <Stack.Screen
         name="Settings"
         component={SettingsScreen}
-        {...stackScreenDefaultProps}
+        {...stackScreenPageProps({ options: { title: 'Settings' } })}
       />
       <Stack.Screen
         name="Payout"
         component={PayoutScreen}
-        {...stackScreenDefaultProps}
+        {...stackScreenPageProps({ options: { title: 'Diamond Payout' } })}
       />
       <Stack.Screen
         name="Membership"
         component={MembershipScreen}
-        {...stackScreenDefaultProps}
+        {...stackScreenPageProps({ options: { title: 'Join Diamond' } })}
       />
       <Stack.Screen
         name="Archived"
         component={ArchivedScreen}
-        {...stackScreenDefaultProps}
+        {...stackScreenPageProps({ options: { title: 'Archived Photos' } })}
       />
     </Stack.Navigator>
   )

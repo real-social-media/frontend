@@ -21,8 +21,14 @@ const ProfileService = ({ children, }) => {
 
   const profileRef = useRef(null)
 
+  const usersGetProfileCached = usersServices.cachedUsersGetProfile(
+    usersGetProfile,
+    usersGetProfileCache,
+    path(['params', 'user'])(route)
+  )
+
   navigation.setOptions({
-    title: path(['params', 'user', 'username'])(route),
+    title: path(['data', 'username'])(usersGetProfileCached),
   })
 
   const usersGetProfileRequest = ({ userId }) => 
@@ -62,7 +68,7 @@ const ProfileService = ({ children, }) => {
   return children({
     profileRef,
     authUser,
-    usersGetProfile: usersServices.cachedUsersGetProfile(usersGetProfile, usersGetProfileCache, path(['params', 'user'])(route)),
+    usersGetProfile,
     usersGetProfileRequest,
     usersUnblock,
     usersUnblockRequest,

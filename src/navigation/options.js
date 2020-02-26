@@ -19,7 +19,7 @@ const getActiveRouteName = (item) => {
 
 export const stackNavigatorDefaultProps = ({ theme }) => ({
   screenOptions: {
-    headerStyleInterpolator: HeaderStyleInterpolators.forSlideUp,
+    headerStyleInterpolator: HeaderStyleInterpolators.forUIKit,
   },
   cardStyle: {
     backgroundColor: theme.colors.backgroundPrimary,
@@ -65,7 +65,7 @@ export const stackScreenBlankProps = ({ theme }) => ({
 /**
  * Used for Profile Screens without application logo but text
  */
-export const stackScreenPageProps = ({ theme }) => ({
+export const stackScreenPageProps = ({ theme }) => ({ options } = {}) => ({
   options: (props) => {
     const backgroundColor = (
       path(['route', 'params', 'theme', 'colors', 'backgroundPrimary'])(props) ||
@@ -87,7 +87,7 @@ export const stackScreenPageProps = ({ theme }) => ({
       },
       headerLeft: () => null,
       headerRight: () => null,
-      tabBarVisible: false,
+      ...options,
     })
   },
 })

@@ -40,7 +40,7 @@ const AppNavigator = ({ theme }) => {
       <Stack.Screen
         name="Profile"
         component={ProfileScreen}
-        {...stackScreenPageProps}
+        {...stackScreenPageProps({ options: { title: 'Profile' } })}
       />
 
       <Stack.Screen
