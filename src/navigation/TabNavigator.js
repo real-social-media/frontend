@@ -19,8 +19,8 @@ import UserIcon from 'assets/svg/footer/User'
 
 import * as navigationActions from 'navigation/actions'
 
-const TabNavigator = ({ navigation, theme }) => {
-  const tabNavigatorProps = navigationOptions.tabNavigatorProps({ theme })
+const TabNavigator = ({ navigation, route, theme }) => {
+  const tabNavigatorProps = navigationOptions.tabNavigatorProps({ theme, route })
 
   const FeedTabIconComponent = ({ color }) => <HomeIcon fill={color} />
   const feedTabScreenPropsCard = {

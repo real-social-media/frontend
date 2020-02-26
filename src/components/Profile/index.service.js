@@ -21,6 +21,10 @@ const ProfileService = ({ children, }) => {
 
   const profileRef = useRef(null)
 
+  navigation.setOptions({
+    title: path(['params', 'user', 'username'])(route),
+  })
+
   const usersGetProfileRequest = ({ userId }) => 
     dispatch(usersActions.usersGetProfileRequest({ userId }))
 

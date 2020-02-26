@@ -8,14 +8,14 @@ import CameraScreen from 'screens/CameraScreen'
 const CameraNavigator = ({ theme }) => {
   const Stack = createStackNavigator()
   const stackNavigatorDefaultProps = navigationOptions.stackNavigatorDefaultProps({ theme })
-  const stackScreenDefaultProps = navigationOptions.stackScreenDefaultProps({ theme })
+  const stackScreenBlankProps = navigationOptions.stackScreenBlankProps({ theme })
   
   return (
     <Stack.Navigator {...stackNavigatorDefaultProps}>
       <Stack.Screen
         name="Camera"
         component={CameraScreen}
-        {...stackScreenDefaultProps}
+        {...stackScreenBlankProps}
       />
     </Stack.Navigator>
   )

@@ -16,24 +16,15 @@ class ProfileScreen extends React.Component {
           <UserServiceProvider>
             {((userProps) => (
               <PaperProvider theme={this.props.route.params.theme}>
-                <>
-                  <NavigationSecondary
-                    onClosePress={() => this.props.navigation.goBack(null)}
-                    title={(
-                      path(['data', 'username'])(profileProps.usersGetProfile) ||
-                      path(['username'])(profileProps.authUser)
-                    )}
-                  />
-                  <PostsGridServiceComponent>
-                    {(postsProps) => (
-                      <ProfileComponent
-                        {...profileProps}
-                        {...postsProps}
-                        {...userProps}
-                      />
-                    )}
-                  </PostsGridServiceComponent>
-                </>
+                <PostsGridServiceComponent>
+                  {(postsProps) => (
+                    <ProfileComponent
+                      {...profileProps}
+                      {...postsProps}
+                      {...userProps}
+                    />
+                  )}
+                </PostsGridServiceComponent>
               </PaperProvider>
             ))}
           </UserServiceProvider>

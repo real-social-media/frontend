@@ -27,13 +27,20 @@ const AppNavigator = ({ theme }) => {
   const stackNavigatorCardProps = navigationOptions.stackNavigatorCardProps({ theme })
   const stackScreenDefaultProps = navigationOptions.stackScreenDefaultProps({ theme })
   const stackScreenCardProps = navigationOptions.stackScreenCardProps({ theme })
-  
+  const stackScreenPageProps = navigationOptions.stackScreenPageProps({ theme })
+
   return (
     <Stack.Navigator {...stackNavigatorCardProps}>
       <Stack.Screen
         name="Feed"
         component={FeedScreen}
         {...stackScreenDefaultProps}
+      />
+
+      <Stack.Screen
+        name="Profile"
+        component={ProfileScreen}
+        {...stackScreenPageProps}
       />
 
       <Stack.Screen
@@ -75,12 +82,6 @@ const AppNavigator = ({ theme }) => {
       <Stack.Screen
         name="PostShare"
         component={PostShareScreen}
-        {...stackScreenCardProps}
-      />
-
-      <Stack.Screen
-        name="Profile"
-        component={ProfileScreen}
         {...stackScreenCardProps}
       />
 
