@@ -1,5 +1,4 @@
 import {
-  mediaObjectFragment,
   postFragment,
   userFragment,
 } from 'store/fragments'
@@ -72,9 +71,6 @@ export const user = `
               ...userFragment
             }
           }
-          mediaObjects {
-            ...mediaObjectFragment
-          }
           isVerified
           likeStatus
           onymousLikeCount
@@ -86,7 +82,6 @@ export const user = `
     }
   }
   ${userFragment}
-  ${mediaObjectFragment}
 `
 
 export const setUserDetails = `
@@ -135,9 +130,6 @@ export const setUserDetails = `
               ...userFragment
             }
           }
-          mediaObjects {
-            ...mediaObjectFragment
-          }
           isVerified
           likeStatus
           onymousLikeCount
@@ -149,7 +141,6 @@ export const setUserDetails = `
     }
   }
   ${userFragment}
-  ${mediaObjectFragment}
 `
 
 export const getImagePosts = `
@@ -163,7 +154,7 @@ export const getImagePosts = `
       }
     }
   }
-  ${mediaObjectFragment}
+  ${postFragment}
 `
 
 export const getFollowedUsersWithStories = `
@@ -188,9 +179,6 @@ export const getFollowedUsersWithStories = `
                   ...userFragment
                 }
               }
-              mediaObjects {
-                ...mediaObjectFragment
-              }
               isVerified
               likeStatus
               onymousLikeCount
@@ -205,7 +193,6 @@ export const getFollowedUsersWithStories = `
     }
   }
   ${userFragment}
-  ${mediaObjectFragment}
 `
 
 export const getFollowedUsers = `
@@ -274,9 +261,6 @@ export const self = `
               ...userFragment
             }
           }
-          mediaObjects {
-            ...mediaObjectFragment
-          }
           isVerified
           likeStatus
           onymousLikeCount
@@ -288,7 +272,6 @@ export const self = `
     }
   }
   ${userFragment}
-  ${mediaObjectFragment}
 `
 
 export const trendingUsers = `

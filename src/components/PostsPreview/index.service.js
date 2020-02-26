@@ -5,7 +5,7 @@ const PostsPreviewService = ({ children }) => {
   const [selectedPost, setSelectedPost] = useState([])
   const handlePostPress = (post) => {
     setSelectedPost([{
-      url: path(['mediaObjects', '0', 'url4k'])(post),
+      url: path(['image', 'url4k'])(post),
     }])
   }
 

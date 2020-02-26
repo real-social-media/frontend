@@ -46,8 +46,8 @@ const Verification = ({
 
       <ScrollView bounces={false}>
         <ModalPreviewComponent
-          thumbnailSource={{ uri: path(['data', 'mediaObjects', '0', 'url64p'])(postsSingleGet) }}
-          imageSource={{ uri: path(['data', 'mediaObjects', '0', 'url1080p'])(postsSingleGet) }}
+          thumbnailSource={{ uri: path(['data', 'image', 'url64p'])(postsSingleGet) }}
+          imageSource={{ uri: path(['data', 'image', 'url1080p'])(postsSingleGet) }}
         />
 
         <View style={styling.content}>

@@ -20,9 +20,9 @@ const ListItemTemplate = ({
   const styling = styles(theme)
   const { t } = useTranslation()
 
-  const mediaObject = path(['mediaObjects', '0'])(post)
+  const image = path(['image'])(post)
 
-  if (!mediaObject) {
+  if (!image) {
     return null
   }
 
@@ -32,7 +32,7 @@ const ListItemTemplate = ({
   }
 
   return (
-    <View style={[styling.root, getDimensionsFromPostSize(mediaObject)]}>
+    <View style={[styling.root, getDimensionsFromPostSize(image)]}>
       <View style={styling.component}>
         {children}
       </View>

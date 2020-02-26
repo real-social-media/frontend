@@ -35,10 +35,10 @@ const Uploading = ({
    * Immitating post object
    */
   const pseudoPost = {
-    mediaObjects: [{
+    image: {
       url64p: path(['payload', 'images', '0'])(post),
       url1080p: path(['payload', 'images', '0'])(post),
-    }],
+    },
     postedBy: authUser,
     postedAt: Date.now(),
   }

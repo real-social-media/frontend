@@ -28,7 +28,7 @@ function* handlePostsShareRequest(payload) {
       color: '#000000',
       fontName: 'AppleSDGothicNeo-Bold',
       position: 'bottomLeft',
-      fontSize: post.mediaObjects[0].height / 30,
+      fontSize: post.image.height / 30,
       textBackgroundStyle: {
         paddingX: 12,
         paddingY: 6,
