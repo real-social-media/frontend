@@ -63,6 +63,18 @@ export const stackScreenBlankProps = ({ theme }) => ({
 })
 
 /**
+ * Used for Camera without header
+ */
+export const stackScreenModalProps = ({ theme }) => ({
+  options: (props) => ({
+    cardStyle: {
+      backgroundColor: 'transparent',
+    },
+    headerShown: false,
+  }),
+})
+
+/**
  * Used for Profile Screens without application logo but text
  */
 export const stackScreenPageProps = ({ theme }) => ({ options } = {}) => ({

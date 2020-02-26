@@ -33,3 +33,6 @@ export const navigateAlbum = (navigation, params) => () =>
 
 export const navigateComments = (navigation, params) => () =>
   navigation.navigate('Comments', params)
+
+export const navigatePostType = (navigation, params) => () =>
+  navigation.navigate('PostType', params)
