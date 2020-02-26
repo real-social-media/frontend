@@ -21,18 +21,18 @@ import { useTranslation } from 'react-i18next'
 const PostsGridSelect = ({
   theme,
   navigation,
-  usersMediaObjectsGet,
-  handleMediaPress,
-  selectedMedia,
+  usersImagePostsGet,
+  handlePostPress,
+  selectedPost,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
 
   return (
     <ScrollView style={styling.root}>
-      <GridComponent items={[null, ...path(['data'])(usersMediaObjectsGet)]}>
-        {(media, priorityIndex) => {
-          if (!media) {
+      <GridComponent items={[null, ...path(['data'])(usersImagePostsGet)]}>
+        {(post, priorityIndex) => {
+          if (!post) {
             return (
               <GridItemComponent
                 onPress={() => navigation.navigate('Camera')}
@@ -54,16 +54,16 @@ const PostsGridSelect = ({
 
           return (
             <GridItemComponent
-              onPress={() => handleMediaPress(media)}
+              onPress={() => handlePostPress(post)}
               active={(
-                selectedMedia.mediaId === media.mediaId
+                selectedPost.postId === post.postId
               )}
               activeIcon={<CheckedIcon fill={theme.colors.iconPrimary} />}
               inactiveIcon={<UncheckedIcon fill={theme.colors.iconPrimary} />}
             >
               <ImageComponent
-                thumbnailSource={{ uri: path(['url64p'])(media) }}
-                imageSource={{ uri: path(['url480p'])(media) }}
+                thumbnailSource={{ uri: path(['image', 'url64p'])(post) }}
+                imageSource={{ uri: path(['image', 'url480p'])(post) }}
                 priorityIndex={priorityIndex}
               />
             </GridItemComponent>
@@ -94,14 +94,14 @@ const styles = theme => StyleSheet.create({
 })
 
 PostsGridSelect.defaultProps = {
-  usersMediaObjectsGet: {},
+  usersImagePostsGet: {},
 }
 
 PostsGridSelect.propTypes = {
   theme: PropTypes.any,
-  usersMediaObjectsGet: PropTypes.any,
-  handleMediaPress: PropTypes.any,
-  selectedMedia: PropTypes.any,
+  usersImagePostsGet: PropTypes.any,
+  handlePostPress: PropTypes.any,
+  selectedPost: PropTypes.any,
 }
 
 export default withNavigation(

@@ -119,10 +119,10 @@ export const usersEditProfileFailure = createAction(constants.USERS_EDIT_PROFILE
 /**
  * 
  */
-export const usersMediaObjectsGetIdle = createAction(constants.USERS_MEDIA_OBJECTS_GET_IDLE)
-export const usersMediaObjectsGetRequest = createAction(constants.USERS_MEDIA_OBJECTS_GET_REQUEST)
-export const usersMediaObjectsGetSuccess = createAction(constants.USERS_MEDIA_OBJECTS_GET_SUCCESS)
-export const usersMediaObjectsGetFailure = createAction(constants.USERS_MEDIA_OBJECTS_GET_FAILURE)
+export const usersImagePostsGetIdle = createAction(constants.USERS_IMAGE_POSTS_GET_IDLE)
+export const usersImagePostsGetRequest = createAction(constants.USERS_IMAGE_POSTS_GET_REQUEST)
+export const usersImagePostsGetSuccess = createAction(constants.USERS_IMAGE_POSTS_GET_SUCCESS)
+export const usersImagePostsGetFailure = createAction(constants.USERS_IMAGE_POSTS_GET_FAILURE)
 
 /**
  * 

@@ -58,7 +58,7 @@ const styles = theme => StyleSheet.create({
 })
 
 ProfileArchivedPhoto.defaultProps = {
-  usersMediaObjectsGet: {},
+  usersImagePostsGet: {},
 }
 
 ProfileArchivedPhoto.propTypes = {

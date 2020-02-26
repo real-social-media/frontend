@@ -26,8 +26,8 @@ const AvatarPickerService = ({ children, navigation }) => {
     checkCameraPermissions()
   }, [])
 
-  const usersEditProfileRequest = (media) =>
-    dispatch(usersActions.usersEditProfileRequest({ photoMediaId: media.mediaId }))
+  const usersEditProfileRequest = (createPostPayload) =>
+    dispatch(usersActions.usersEditProfileRequest({ photoPostId: createPostPayload.postId }))
 
   useEffect(() => {
     if (postsCreate.status === 'success') {
