@@ -34,7 +34,7 @@ const Header = ({
   const actionSheetRef = useRef(null)
 
   const handleOptionsPress = () => actionSheetRef.current.show()
-  const archived = path(['mediaObjects', '0', 'mediaStatus'])(post) === 'ARCHIVED'
+  const archived = path(['postStatus'])(post) === 'ARCHIVED'
 
   return (
     <View style={styling.header}>

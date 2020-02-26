@@ -35,8 +35,6 @@ export const userFragment = `
 export const mediaObjectFragment = `
   fragment mediaObjectFragment on MediaObject {
     mediaId
-    mediaType
-    mediaStatus
     url
     url64p
     url480p
@@ -90,6 +88,7 @@ export const commentFragment = `
 export const postFragment = `
   fragment postFragment on Post {
     postId
+    postStatus
     postedAt
     postedBy {
       ...userFragment
