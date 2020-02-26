@@ -42,7 +42,6 @@ export const mediaObjectFragment = `
     url480p
     url1080p
     url4k
-    uploadUrl
     width
     height
     isVerified
@@ -90,6 +89,7 @@ export const postFragment = `
     mediaObjects {
       ...mediaObjectFragment
     }
+    imageUploadUrl
     likeStatus
     commentCount
     commentsDisabled

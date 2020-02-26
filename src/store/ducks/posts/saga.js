@@ -443,7 +443,7 @@ function* handlePostsCreateRequest(payload) {
   const data = yield createPost()
 
   const currentIndex = 0
-  const selector = path(['data', 'addPost', 'mediaObjects', currentIndex, 'uploadUrl'])
+  const selector = path(['data', 'addPost', 'imageUploadUrl'])
   const imageSelector = path(['images', currentIndex])
 
   return {
