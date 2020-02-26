@@ -8,22 +8,10 @@ export const navigateHome = (navigation, params) => () =>
   })
 
 export const navigateChat = (navigation, params) => () =>
-  navigation.navigate('App', {
-    screen: 'Feed',
-    params: {
-      screen: 'Chat',
-      ...params,
-    },
-  })
+  navigation.navigate('Chat')
 
 export const navigateCamera = (navigation, params) => () =>
-  navigation.navigate('App', {
-    screen: 'Feed',
-    params: {
-      screen: 'Camera',
-      ...params,
-    },
-  })
+  navigation.navigate('Camera')
 
 export const navigatePostCreate = (navigation, params) => () =>
   navigation.navigate('PostCreate', params)

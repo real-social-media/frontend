@@ -3,17 +3,17 @@ import { createStackNavigator, HeaderStyleInterpolators } from '@react-navigatio
 import { withTheme } from 'react-native-paper'
 
 import DefaultNavigationComponent from 'components/NavigationPrimary/Default'
-import FeedScreen from 'screens/FeedScreen'
+import ChatScreen from 'screens/ChatScreen'
 
-const FeedNavigator = ({ theme }) => {
+const ChatNavigator = ({ theme }) => {
   const Stack = createStackNavigator()
-  const stackNavigatorProps = {
+  const stackNavigatorDefaultProps = {
     screenOptions: {
       headerStyleInterpolator: HeaderStyleInterpolators.forSlideUp,
     },
   }
 
-  const stackScreenProps = {
+  const stackScreenDefaultProps = {
     options: (props) => ({
       ...DefaultNavigationComponent({ ...props, theme }),
       cardStyle: {
@@ -23,14 +23,14 @@ const FeedNavigator = ({ theme }) => {
   }
 
   return (
-    <Stack.Navigator {...stackNavigatorProps}>
+    <Stack.Navigator {...stackNavigatorDefaultProps}>
       <Stack.Screen
-        name="Feed"
-        component={FeedScreen}
-        {...stackScreenProps}
+        name="Chat"
+        component={ChatScreen}
+        {...stackScreenDefaultProps}
       />
     </Stack.Navigator>
   )
 }
 
-export default withTheme(FeedNavigator)
+export default withTheme(ChatNavigator)

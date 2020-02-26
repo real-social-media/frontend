@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { InteractionManager } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import * as usersActions from 'store/ducks/users/actions'
@@ -18,6 +18,8 @@ const ProfileService = ({ children, }) => {
   const usersFollow = useSelector(state => state.users.usersFollow)
   const usersUnfollow = useSelector(state => state.users.usersUnfollow)
   const userId = path(['params', 'user', 'userId'])(route)
+
+  const profileRef = useRef(null)
 
   const usersGetProfileRequest = ({ userId }) => 
     dispatch(usersActions.usersGetProfileRequest({ userId }))
@@ -54,6 +56,7 @@ const ProfileService = ({ children, }) => {
   }, [userId])
 
   return children({
+    profileRef,
     authUser,
     usersGetProfile: usersServices.cachedUsersGetProfile(usersGetProfile, usersGetProfileCache, path(['params', 'user'])(route)),
     usersGetProfileRequest,

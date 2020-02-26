@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import uuid from 'uuid/v4'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as usersActions from 'store/ducks/users/actions'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useScrollToTop } from '@react-navigation/native'
 import path from 'ramda/src/path'
 import intersection from 'ramda/src/intersection'
 import * as navigationActions from 'navigation/actions'
@@ -27,6 +27,7 @@ const PostsListService = ({ children, }) => {
   const usersAcceptFollowerUser = useSelector(state => state.users.usersAcceptFollowerUser)
 
   const feedRef = useRef(null)
+  useScrollToTop(feedRef)
 
   const postsFeedGetRequest = (payload) =>
     dispatch(postsActions.postsFeedGetRequest(payload))

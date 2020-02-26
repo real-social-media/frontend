@@ -3,6 +3,8 @@ import { TouchableOpacity } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { withTheme } from 'react-native-paper'
 
+import * as navigationOptions from 'navigation/options'
+
 import FeedNavigator from 'navigation/Feed'
 import SearchNavigator from 'navigation/Search'
 import CameraNavigator from 'navigation/Camera'
@@ -18,16 +20,7 @@ import UserIcon from 'assets/svg/footer/User'
 import * as navigationActions from 'navigation/actions'
 
 const TabNavigator = ({ navigation, theme }) => {
-  const tabNavigatorProps = {
-    tabBarOptions: {
-      showLabel: false,
-      activeTintColor: theme.colors.primaryIcon,
-      style: {
-        backgroundColor: theme.colors.backgroundPrimary,
-        borderTopWidth: 0,
-      },
-    },
-  }
+  const tabNavigatorProps = navigationOptions.tabNavigatorProps({ theme })
 
   const FeedTabIconComponent = ({ color }) => <HomeIcon fill={color} />
   const feedTabScreenPropsCard = {

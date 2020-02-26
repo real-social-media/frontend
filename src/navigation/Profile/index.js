@@ -1,9 +1,8 @@
 import React from 'react'
-import { createStackNavigator, HeaderStyleInterpolators } from '@react-navigation/stack'
+import { createStackNavigator } from '@react-navigation/stack'
 import { withTheme } from 'react-native-paper'
 
-import DefaultNavigationComponent from 'components/NavigationPrimary/Default'
-
+import * as navigationOptions from 'navigation/options'
 import ProfileSelfScreen from 'screens/ProfileSelfScreen'
 import ProfileEditScreen from 'screens/ProfileEditScreen'
 import ProfilePhotoScreen from 'screens/ProfilePhotoScreen'
@@ -17,72 +16,60 @@ import ArchivedScreen from 'screens/ArchivedScreen'
 
 const ProfileNavigator = ({ theme }) => {
   const Stack = createStackNavigator()
-  const stackNavigatorProps = {
-    screenOptions: {
-      headerStyleInterpolator: HeaderStyleInterpolators.forSlideUp,
-    },
-  }
-
-  const stackScreenProps = {
-    options: (props) => ({
-      ...DefaultNavigationComponent({ ...props, theme }),
-      cardStyle: {
-        backgroundColor: theme.colors.backgroundPrimary,
-      },
-    }),
-  }
+  const stackNavigatorDefaultProps = navigationOptions.stackNavigatorDefaultProps({ theme })
+  const stackScreenDefaultProps = navigationOptions.stackScreenDefaultProps({ theme })
 
   return (
-    <Stack.Navigator {...stackNavigatorProps}>
+    <Stack.Navigator {...stackNavigatorDefaultProps}>
       <Stack.Screen
         name="ProfileSelf"
         component={ProfileSelfScreen}
-        {...stackScreenProps}
+        {...stackScreenDefaultProps}
       />
       <Stack.Screen
         name="ProfileEdit"
         component={ProfileEditScreen}
-        {...stackScreenProps}
+        {...stackScreenDefaultProps}
       />
       <Stack.Screen
         name="ProfilePhoto"
         component={ProfilePhotoScreen}
-        {...stackScreenProps}
+        {...stackScreenDefaultProps}
       />
       <Stack.Screen
         name="Theme"
         component={ThemeScreen}
-        {...stackScreenProps}
+        {...stackScreenDefaultProps}
       />
       <Stack.Screen
         name="Privacy"
         component={PrivacyScreen}
-        {...stackScreenProps}
+        {...stackScreenDefaultProps}
       />
       <Stack.Screen
         name="Translation"
         component={TranslationScreen}
-        {...stackScreenProps}
+        {...stackScreenDefaultProps}
       />
       <Stack.Screen
         name="Settings"
         component={SettingsScreen}
-        {...stackScreenProps}
+        {...stackScreenDefaultProps}
       />
       <Stack.Screen
         name="Payout"
         component={PayoutScreen}
-        {...stackScreenProps}
+        {...stackScreenDefaultProps}
       />
       <Stack.Screen
         name="Membership"
         component={MembershipScreen}
-        {...stackScreenProps}
+        {...stackScreenDefaultProps}
       />
       <Stack.Screen
         name="Archived"
         component={ArchivedScreen}
-        {...stackScreenProps}
+        {...stackScreenDefaultProps}
       />
     </Stack.Navigator>
   )

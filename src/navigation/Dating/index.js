@@ -1,33 +1,21 @@
 import React from 'react'
-import { createStackNavigator, HeaderStyleInterpolators } from '@react-navigation/stack'
+import { createStackNavigator } from '@react-navigation/stack'
 import { withTheme } from 'react-native-paper'
 
-import DefaultNavigationComponent from 'components/NavigationPrimary/Default'
+import * as navigationOptions from 'navigation/options'
 import DatingScreen from 'screens/DatingScreen'
 
 const DatingNavigator = ({ theme }) => {
   const Stack = createStackNavigator()
-  const stackNavigatorProps = {
-    screenOptions: {
-      headerStyleInterpolator: HeaderStyleInterpolators.forSlideUp,
-    },
-  }
-
-  const stackScreenProps = {
-    options: (props) => ({
-      ...DefaultNavigationComponent({ ...props, theme }),
-      cardStyle: {
-        backgroundColor: theme.colors.backgroundPrimary,
-      },
-    }),
-  }
+  const stackNavigatorDefaultProps = navigationOptions.stackNavigatorDefaultProps({ theme })
+  const stackScreenDefaultProps = navigationOptions.stackScreenDefaultProps({ theme })
 
   return (
-    <Stack.Navigator {...stackNavigatorProps}>
+    <Stack.Navigator {...stackNavigatorDefaultProps}>
       <Stack.Screen
         name="Dating"
         component={DatingScreen}
-        {...stackScreenProps}
+        {...stackScreenDefaultProps}
       />
     </Stack.Navigator>
   )

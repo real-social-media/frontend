@@ -81,6 +81,7 @@ const ScrollHelper = ({
 
 const Profile = ({
   theme,
+  profileRef,
   authUser,
   usersBlock,
   usersBlockRequest,
@@ -136,6 +137,7 @@ const Profile = ({
         triggerOn="success"
       />
       <ScrollView
+        ref={profileRef}
         onScroll={scroll.handleScrollChange}
         scrollEventThrottle={400}
         refreshControl={(
