@@ -59,6 +59,7 @@ export const user = `
       stories (limit: 10) {
         items {
           postId
+          postStatus
           postedAt
           postedBy {
             ...userFragment
@@ -121,6 +122,7 @@ export const setUserDetails = `
       stories (limit: 10) {
         items {
           postId
+          postStatus
           postedAt
           postedBy {
             ...userFragment
@@ -173,6 +175,7 @@ export const getFollowedUsersWithStories = `
           stories (limit: 10) {
             items {
               postId
+              postStatus
               postedAt
               postedBy {
                 ...userFragment
@@ -258,6 +261,7 @@ export const self = `
       stories (limit: 10) {
         items {
           postId
+          postStatus
           postedAt
           postedBy {
             ...userFragment
