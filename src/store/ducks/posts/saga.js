@@ -43,7 +43,7 @@ function* handlePostsShareRequest(payload) {
       return `#${red}${green}${blue}`
     }
 
-    const color = post.mediaObjects[0].colors[1]
+    const color = post.image.colors[1]
 
     const firstLine = yield Marker.markText({
       src: url,

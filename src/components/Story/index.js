@@ -64,8 +64,8 @@ const StoryCarousel = ({
         )}
         content={(
           <ImageTemplate
-            thumbnailSource={{ uri: path(['mediaObjects', '0', 'url64p'])(story) }}
-            imageSource={{ uri: path(['mediaObjects', '0', 'url4k'])(story) }}
+            thumbnailSource={{ uri: path(['image', 'url64p'])(story) }}
+            imageSource={{ uri: path(['image', 'url4k'])(story) }}
             resizeMode="contain"
           />
         )}

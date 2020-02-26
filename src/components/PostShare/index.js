@@ -44,7 +44,7 @@ const PostShare = ({
   )
 
   const handleGallerySave = () => postsShareRequest({
-    photoUrl: path(['data', 'mediaObjects', '0', 'url4k'])(postsSingleGet),
+    photoUrl: path(['data', 'image', 'url4k'])(postsSingleGet),
     type: 'cameraroll',
     title: 'Camera roll export',
     watermark,
@@ -52,7 +52,7 @@ const PostShare = ({
   })
 
   const handleRepost = () => postsShareRequest({
-    photoUrl: path(['data', 'mediaObjects', '0', 'url4k'])(postsSingleGet),
+    photoUrl: path(['data', 'image', 'url4k'])(postsSingleGet),
     type: 'repost',
     title: 'Repost',
     watermark,
@@ -60,7 +60,7 @@ const PostShare = ({
   })
 
   const handleInstagramPost = () => postsShareRequest({
-    photoUrl: path(['data', 'mediaObjects', '0', 'url4k'])(postsSingleGet),
+    photoUrl: path(['data', 'image', 'url4k'])(postsSingleGet),
     type: 'instagramPost',
     title: 'Instagram export',
     watermark,
@@ -76,8 +76,8 @@ const PostShare = ({
 
       <ScrollView bounces={false}>
         <ModalPreviewComponent
-          thumbnailSource={{ uri: path(['data', 'mediaObjects', '0', 'url64p'])(postsSingleGet) }}
-          imageSource={{ uri: path(['data', 'mediaObjects', '0', 'url1080p'])(postsSingleGet) }}
+          thumbnailSource={{ uri: path(['data', 'image', 'url64p'])(postsSingleGet) }}
+          imageSource={{ uri: path(['data', 'image', 'url1080p'])(postsSingleGet) }}
         />
 
         <View style={styling.content}>

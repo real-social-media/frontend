@@ -45,7 +45,7 @@ const PostCreateForm = ({
     <View style={styling.root}>
       <View style={styling.input}>
         <View style={styling.header}>
-          <TouchableOpacity onPress={() => handlePostPress({ mediaObjects: [{ 'url4k': values.images[0] }] })}>
+          <TouchableOpacity onPress={() => handlePostPress({ image: { 'url4k': values.images[0] } })}>
             <Avatar
               size="bigger"
               thumbnailSource={{ uri: values.images[0] }}

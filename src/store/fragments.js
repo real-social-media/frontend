@@ -32,24 +32,6 @@ export const userFragment = `
   }
 `
 
-export const mediaObjectFragment = `
-  fragment mediaObjectFragment on MediaObject {
-    mediaId
-    url
-    url64p
-    url480p
-    url1080p
-    url4k
-    width
-    height
-    colors {
-      r
-      g
-      b
-    }
-  }
-`
-
 export const imageFragment = `
   fragment imageFragment on Image {
     url
@@ -100,9 +82,6 @@ export const postFragment = `
       user {
         ...userFragment
       }
-    }
-    mediaObjects {
-      ...mediaObjectFragment
     }
     image {
       ...imageFragment
@@ -171,9 +150,6 @@ export const postFragment = `
               ...userFragment
             }
           }
-          mediaObjects {
-            ...mediaObjectFragment
-          }
           isVerified
           likeStatus
           commentCount
@@ -212,7 +188,6 @@ export const postFragment = `
       }
     }
   }
-  ${mediaObjectFragment}
   ${userFragment}
 `
 

@@ -37,9 +37,9 @@ const PostCarousel = ({
 }) => {
   const styling = styles(theme)
   const primaryColor = `rgb(
-    ${path(['mediaObjects', '0', 'colors', '0', 'r'])(post)},
-    ${path(['mediaObjects', '0', 'colors', '0', 'g'])(post)},
-    ${path(['mediaObjects', '0', 'colors', '0', 'b'])(post)}
+    ${path(['image', 'colors', '0', 'r'])(post)},
+    ${path(['image', 'colors', '0', 'g'])(post)},
+    ${path(['image', 'colors', '0', 'b'])(post)}
   )`
 
   const tertiaryColor = `${theme.colors.backgroundPrimary}`
@@ -59,8 +59,8 @@ const PostCarousel = ({
 
       <ListItemComponent post={post}>
         <ImageComponent
-          thumbnailSource={{ uri: path(['mediaObjects', '0', 'url64p'])(post) }}
-          imageSource={{ uri: path(['mediaObjects', '0', 'url4k'])(post) }}
+          thumbnailSource={{ uri: path(['image', 'url64p'])(post) }}
+          imageSource={{ uri: path(['image', 'url4k'])(post) }}
           priorityIndex={index}
         />
         <TouchableOpacity style={styling.prev} onPress={handleScrollPrev} />
@@ -140,8 +140,8 @@ const PostComponent = ({
       {albumLength <= 1 ?
         <ListItemComponent post={post}>
           <ImageComponent
-            thumbnailSource={{ uri: path(['mediaObjects', '0', 'url64p'])(post) }}
-            imageSource={{ uri: path(['mediaObjects', '0', 'url4k'])(post) }}
+            thumbnailSource={{ uri: path(['image', 'url64p'])(post) }}
+            imageSource={{ uri: path(['image', 'url4k'])(post) }}
             priorityIndex={priorityIndex}
           />
           <TouchableOpacity style={styling.prev} onPress={handleScrollPrev} />

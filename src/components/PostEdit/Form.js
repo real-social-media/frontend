@@ -175,7 +175,7 @@ export default withTheme(({
   <Formik
     initialValues={{
       postId: postsSingleGet.data.postId,
-      uri: path(['mediaObjects', '0', 'url1080p'])(postsSingleGet.data),
+      uri: path(['image', 'url1080p'])(postsSingleGet.data),
       text: postsSingleGet.data.text,
       expiresAt: postsSingleGet.data.expiresAt,
       commentsDisabled: postsSingleGet.data.commentsDisabled,
