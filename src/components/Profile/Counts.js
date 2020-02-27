@@ -8,6 +8,7 @@ import {
 import { Caption, Headline } from 'react-native-paper'
 import path from 'ramda/src/path'
 import is from 'ramda/src/is'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -21,9 +22,6 @@ const ProfileCounts = ({
   const { t } = useTranslation()
   const navigation = useNavigation()
 
-  const handleProfileFollowerPress = () => navigation.push('ProfileFollower', { user: usersGetProfile.data })
-  const handleProfileFollowedPress = () => navigation.push('ProfileFollowed', { user: usersGetProfile.data })
-  
   const followerCount = path(['data', 'followerCount'])(usersGetProfile)
   const followedCount = path(['data', 'followedCount'])(usersGetProfile)
 
@@ -34,7 +32,7 @@ const ProfileCounts = ({
         <Caption style={styling.itemText} numberOfLines={1}>{t('Posts')}</Caption>
       </View>
       
-      <TouchableOpacity style={styling.item} onPress={handleProfileFollowerPress}>
+      <TouchableOpacity style={styling.item} onPress={navigationActions.navigateProfileFollower(navigation, { user: usersGetProfile.data })}>
         {!path(['data', 'followCountsHidden'])(usersGetProfile) && is(Number)(followerCount) ?
           <Headline style={styling.itemTitle}>{followerCount}</Headline>
         :
@@ -44,7 +42,7 @@ const ProfileCounts = ({
       </TouchableOpacity>
 
       
-      <TouchableOpacity style={styling.item} onPress={handleProfileFollowedPress}>
+      <TouchableOpacity style={styling.item} onPress={navigationActions.navigateProfileFollowed(navigation, { user: usersGetProfile.data })}>
         {!path(['data', 'followCountsHidden'])(usersGetProfile) && is(Number)(followedCount) ?
           <Headline style={styling.itemTitle}>{followedCount}</Headline>
         :

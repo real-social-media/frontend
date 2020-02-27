@@ -16,7 +16,7 @@ const AppNavigator = ({ theme }) => {
   return (
     <Stack.Navigator {...stackNavigatorCardProps}>
       <Stack.Screen
-        name="Feed"
+        name="Tab"
         component={TabNavigator}
         {...stackScreenBlankProps}
       />

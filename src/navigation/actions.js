@@ -36,3 +36,15 @@ export const navigateComments = (navigation, params) => () =>
 
 export const navigatePostType = (navigation, params) => () =>
   navigation.navigate('PostType', params)
+
+export const navigateProfile = (navigation, params) => () =>
+  navigation.push('Profile', params)
+
+export const navigateProfileFollower = (navigation, params) => () =>
+  navigation.push('ProfileFollower', params)
+
+export const navigateProfileFollowed = (navigation, params) => () =>
+  navigation.push('ProfileFollowed', params)
+
+export const navigatePostMedia = (navigation, params) => () =>
+  navigation.push('PostMedia', params)

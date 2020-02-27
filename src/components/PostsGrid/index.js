@@ -8,6 +8,7 @@ import GridComponent from 'templates/Grid'
 import GridItemComponent from 'templates/GridItem'
 import ImageComponent from 'templates/Image'
 import path from 'ramda/src/path'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation, useRoute } from '@react-navigation/native'
@@ -31,11 +32,7 @@ const PostsGrid = ({
     <View style={styling.root}>
       <GridComponent items={path(['data'])(postsGet)}>
         {(post, priorityIndex) => (
-          <GridItemComponent onPress={() => navigation.push('PostMedia', {
-            post,
-            theme: themeSelector(themeCode, themeFetch),
-            routeName: route.name,
-          })}>
+          <GridItemComponent onPress={navigationActions.navigatePostMedia(navigation, { post, theme: themeSelector(themeCode, themeFetch), })}>
             <ImageComponent
               thumbnailSource={{ uri: path(['mediaObjects', '0', 'url64p'])(post) }}
               imageSource={{ uri: path(['mediaObjects', '0', 'url480p'])(post) }}

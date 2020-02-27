@@ -3,6 +3,8 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { withTheme } from 'react-native-paper'
 
 import * as navigationOptions from 'navigation/options'
+import * as navigationFragments from 'navigation/fragments'
+
 import ProfileSelfScreen from 'screens/ProfileSelfScreen'
 import ProfileEditScreen from 'screens/ProfileEditScreen'
 import ProfilePhotoScreen from 'screens/ProfilePhotoScreen'
@@ -17,6 +19,7 @@ import ArchivedScreen from 'screens/ArchivedScreen'
 const ProfileNavigator = ({ theme }) => {
   const Stack = createStackNavigator()
   const stackNavigatorDefaultProps = navigationOptions.stackNavigatorDefaultProps({ theme })
+  const stackScreenCardProps = navigationOptions.stackScreenCardProps({ theme })
   const stackScreenPageProps = navigationOptions.stackScreenPageProps({ theme })
 
   return (
@@ -71,6 +74,12 @@ const ProfileNavigator = ({ theme }) => {
         component={ArchivedScreen}
         {...stackScreenPageProps({ options: { title: 'Archived Photos' } })}
       />
+
+      {navigationFragments.media({
+        Stack,
+        stackScreenCardProps,
+        stackScreenPageProps,
+      })}
     </Stack.Navigator>
   )
 }

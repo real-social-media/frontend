@@ -5,6 +5,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native'
+import LinearGradient from 'react-native-linear-gradient'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -20,8 +21,12 @@ const PostType = ({
   return (
     <View style={styling.root}>
       <TouchableOpacity style={styling.backdrop} onPress={() => navigation.goBack()} />
-
+    
       <View style={styling.component}>
+        <LinearGradient
+          colors={[theme.colors.primary, theme.colors.backgroundSecondary]}
+          style={styling.gradient}
+        />
       </View>
     </View>
   )
@@ -35,11 +40,15 @@ const styles = theme => StyleSheet.create({
   backdrop: {
     ...StyleSheet.absoluteFill,
   },
+  gradient: {
+    ...StyleSheet.absoluteFill,
+    zIndex: 1,
+  },
   component: {
-    backgroundColor: 'red',
     height: 240,
     width: '100%',
     borderRadius: 38,
+    overflow: 'hidden',
   },
 })
 

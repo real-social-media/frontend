@@ -20,6 +20,15 @@ const PostMediaService = ({ children, ...props }) => {
 
   const feedRef = useRef()
 
+  const postsSingleGetCache = postsServices.cachedPostsSingleGet(
+    postsSingleGet,
+    path(['params', 'post'])(route)
+  )
+
+  navigation.setOptions({
+    title: path(['params', 'post', 'postedBy', 'username'])(route),
+  })
+
   const postsSingleGetRequest = ({ postId }) =>
     dispatch(postsActions.postsSingleGetRequest({ postId }))
 
@@ -72,7 +81,7 @@ const PostMediaService = ({ children, ...props }) => {
   }
 
   return children({
-    postsSingleGet: postsServices.cachedPostsSingleGet(postsSingleGet, path(['params', 'post'])(route)),
+    postsSingleGet: postsSingleGetCache,
     postsGetTrendingPosts: postsServices.cachedPostsGetTrendingPosts(postsGetTrendingPosts, postId),
     postsSingleGetRequest,
     ...props,

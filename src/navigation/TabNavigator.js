@@ -5,6 +5,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { withTheme } from 'react-native-paper'
 
 import * as navigationOptions from 'navigation/options'
+import * as navigationActions from 'navigation/actions'
 
 import FeedNavigator from 'navigation/Feed'
 import SearchNavigator from 'navigation/Search'
@@ -18,9 +19,6 @@ import SearchIcon from 'assets/svg/footer/Search'
 import CreateIcon from 'assets/svg/footer/Create'
 import HeartIcon from 'assets/svg/footer/Heart'
 import UserIcon from 'assets/svg/footer/User'
-
-import * as navigationActions from 'navigation/actions'
-
 
 const HomeNavigator = ({ theme }) => {
   const Tab = createMaterialTopTabNavigator()
@@ -58,6 +56,7 @@ const TabNavigator = ({ navigation, route, theme }) => {
   const feedTabScreenPropsCard = {
     options: {
       tabBarIcon: FeedTabIconComponent,
+      tabBarVisible: !navigationOptions.activeRouteIs(route, 'Camera'),
     },
   }
   
@@ -96,7 +95,7 @@ const TabNavigator = ({ navigation, route, theme }) => {
   return (
     <Tab.Navigator {...tabNavigatorProps}>
       <Tab.Screen
-        name="Feed"
+        name="Home"
         component={HomeNavigator}
         {...feedTabScreenPropsCard}
       />

@@ -6,7 +6,7 @@ import path from 'ramda/src/path'
  * Recursive search for the latest active screen in the stack
  * useful for getting active users theme object
  */
-const getActiveRouteName = (item) => {
+export const getActiveRouteName = (item) => {
   const index = path(['state', 'index'])(item)
   const nextRoute = path(['state', 'routes', index])(item)
 
@@ -15,6 +15,10 @@ const getActiveRouteName = (item) => {
   } else {
     return nextRoute
   }
+}
+
+export const activeRouteIs = (route, name) => {
+  return path(['name'])(getActiveRouteName(route)) === name
 }
 
 export const stackNavigatorDefaultProps = ({ theme }) => ({
@@ -91,6 +95,7 @@ export const stackScreenPageProps = ({ theme }) => ({ options } = {}) => ({
 
     return ({
       cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+      gestureDirection: 'horizontal',
       cardStyle: {
         backgroundColor,
       },
@@ -120,7 +125,7 @@ export const stackScreenCardProps = ({ theme }) => ({
 export const tabNavigatorProps = ({ theme, route }) => {
   const active = getActiveRouteName(route)
   const activeTheme = path(['params', 'theme'])(active)
-  
+
   const activeTintColor =  (
     path(['colors', 'primaryIcon'])(activeTheme) ||
     path(['colors', 'primaryIcon'])(theme)

@@ -8,6 +8,7 @@ import path from 'ramda/src/path'
 import GridComponent from 'templates/Grid'
 import GridItemComponent from 'templates/GridItem'
 import ImageComponent from 'templates/Image'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation, useRoute } from '@react-navigation/native'
@@ -28,11 +29,7 @@ const Archived = ({
       <GridComponent items={path(['data'])(postsGetArchived)}>
         {(post, priorityIndex) => (
           <GridItemComponent
-            onPress={() => navigation.push('PostMedia', {
-              post,
-              theme,
-              routeName: route.name,
-            })}
+            onPress={navigationActions.navigatePostMedia(navigation, { post, theme, })}
             active={false}
             activeIcon={null}
             inactiveIcon={null}
