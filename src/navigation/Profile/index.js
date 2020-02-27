@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import { withTheme } from 'react-native-paper'
 
+import { ThemesContext } from 'navigation/context'
 import * as navigationOptions from 'navigation/options'
 import * as navigationFragments from 'navigation/fragments'
 
@@ -16,11 +17,12 @@ import PayoutScreen from 'screens/PayoutScreen'
 import MembershipScreen from 'screens/MembershipScreen'
 import ArchivedScreen from 'screens/ArchivedScreen'
 
-const ProfileNavigator = ({ theme }) => {
+const ProfileNavigator = () => {
+  const { theme, themes } = useContext(ThemesContext)
   const Stack = createStackNavigator()
-  const stackNavigatorDefaultProps = navigationOptions.stackNavigatorDefaultProps({ theme })
-  const stackScreenCardProps = navigationOptions.stackScreenCardProps({ theme })
-  const stackScreenPageProps = navigationOptions.stackScreenPageProps({ theme })
+  const stackNavigatorDefaultProps = navigationOptions.stackNavigatorDefaultProps({ theme, themes })
+  const stackScreenCardProps = navigationOptions.stackScreenCardProps({ theme, themes })
+  const stackScreenPageProps = navigationOptions.stackScreenPageProps({ theme, themes })
 
   return (
     <Stack.Navigator {...stackNavigatorDefaultProps}>

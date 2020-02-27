@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
 import * as navigationActions from 'navigation/actions'
@@ -9,8 +10,12 @@ const UserService = ({ children, }) => {
     (themeFetch.data.find(theme => theme.key === themeCode) || {}).theme
 
   const handleProfilePress = (user) => {
-    const theme = themeSelector(user.themeCode, themeFetch)
-    return navigationActions.navigateProfile(navigation, { user, theme })
+    const memoizedCallback = () => {
+      const theme = themeSelector(user.themeCode, themeFetch)
+      navigationActions.navigateProfile(navigation, { user, theme })()
+    }
+
+    return memoizedCallback
   }
 
   return children({

@@ -29,7 +29,6 @@ const SearchComponent = ({
   usersUnfollowRequest,
   usersAcceptFollowerUser,
   usersAcceptFollowerUserRequest,
-  handleProfilePress,
   usersGetTrendingUsers,
   postsGetTrendingPosts,
   handleFormFocus,
@@ -89,7 +88,6 @@ const SearchComponent = ({
             usersFollowRequest={usersFollowRequest}
             usersUnfollow={usersUnfollow}
             usersUnfollowRequest={usersUnfollowRequest}
-            handleProfilePress={handleProfilePress}
             usersAcceptFollowerUser={usersAcceptFollowerUser}
             usersAcceptFollowerUserRequest={usersAcceptFollowerUserRequest}
           />
@@ -112,7 +110,6 @@ const SearchComponent = ({
             usersFollowRequest={usersFollowRequest}
             usersUnfollow={usersUnfollow}
             usersUnfollowRequest={usersUnfollowRequest}
-            handleProfilePress={handleProfilePress}
             usersAcceptFollowerUser={usersAcceptFollowerUser}
             usersAcceptFollowerUserRequest={usersAcceptFollowerUserRequest}
           />

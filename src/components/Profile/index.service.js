@@ -68,7 +68,7 @@ const ProfileService = ({ children, }) => {
   return children({
     profileRef,
     authUser,
-    usersGetProfile,
+    usersGetProfile: usersGetProfileCached,
     usersGetProfileRequest,
     usersUnblock,
     usersUnblockRequest,

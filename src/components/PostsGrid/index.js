@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -25,14 +25,11 @@ const PostsGrid = ({
   const navigation = useNavigation()
   const route = useRoute()
 
-  const themeSelector = (themeCode, themeFetch) =>
-    (themeFetch.data.find(theme => theme.key === themeCode) || {}).theme
-
   return (
     <View style={styling.root}>
       <GridComponent items={path(['data'])(postsGet)}>
         {(post, priorityIndex) => (
-          <GridItemComponent onPress={navigationActions.navigatePostMedia(navigation, { post, theme: themeSelector(themeCode, themeFetch), })}>
+          <GridItemComponent onPress={navigationActions.navigatePostMedia(navigation, { post })}>
             <ImageComponent
               thumbnailSource={{ uri: path(['mediaObjects', '0', 'url64p'])(post) }}
               imageSource={{ uri: path(['mediaObjects', '0', 'url480p'])(post) }}

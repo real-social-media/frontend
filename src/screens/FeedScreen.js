@@ -2,8 +2,6 @@ import React from 'react'
 import PostsListComponent from 'components/PostsList'
 import PostsListServiceComponent from 'components/PostsList/index.service'
 import StoriesServiceComponent from 'components/Stories/index.service'
-import UserServiceProvider from 'services/providers/User'
-import * as navigationActions from 'navigation/actions'
 
 class FeedScreen extends React.Component {
   render() {
@@ -12,15 +10,10 @@ class FeedScreen extends React.Component {
         {(postsProps) => (
           <StoriesServiceComponent>
             {((storiesProps) => (
-              <UserServiceProvider navigation={this.props.navigation}>
-                {((userProps) => (
-                  <PostsListComponent
-                    {...postsProps}
-                    {...storiesProps}
-                    {...userProps}
-                  />
-                ))}
-              </UserServiceProvider>
+              <PostsListComponent
+                {...postsProps}
+                {...storiesProps}
+              />
             ))}
           </StoriesServiceComponent>
         )}

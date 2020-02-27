@@ -21,7 +21,7 @@ const ThemeModal = ({
   onApplyClick,
   onDiscardClick,
 }) => {
-  const customTheme = useSelector(themeSelector.userThemeSelector('black.green'))
+  const activeTheme = useSelector(themeSelector.userThemeSelector('black.green'))
 
   const styling = styles(theme)
   const { t } = useTranslation()
@@ -30,7 +30,7 @@ const ThemeModal = ({
     <Modal isVisible={isVisible}>
       <View style={styling.root}>
         <View style={styling.header}>
-          <PaperProvider theme={customTheme}>
+          <PaperProvider theme={activeTheme}>
             <View style={styling.action}>
               <Paragraph style={styling.text}>{t('This is preview of selected theme')}</Paragraph>
             </View>

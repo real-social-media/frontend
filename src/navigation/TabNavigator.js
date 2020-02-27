@@ -1,14 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { TouchableOpacity } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { withTheme } from 'react-native-paper'
 
+import { ThemesContext } from 'navigation/context'
 import * as navigationOptions from 'navigation/options'
 import * as navigationActions from 'navigation/actions'
 
 import FeedNavigator from 'navigation/Feed'
 import SearchNavigator from 'navigation/Search'
-import CameraNavigator from 'navigation/Camera'
 import DatingNavigator from 'navigation/Dating'
 import ProfileNavigator from 'navigation/Profile'
 
@@ -18,8 +18,9 @@ import CreateIcon from 'assets/svg/footer/Create'
 import HeartIcon from 'assets/svg/footer/Heart'
 import UserIcon from 'assets/svg/footer/User'
 
-const TabNavigator = ({ navigation, route, theme }) => {
-  const tabNavigatorProps = navigationOptions.tabNavigatorProps({ theme, route })
+const TabNavigator = ({ navigation, route }) => {
+  const { theme, themes } = useContext(ThemesContext)
+  const tabNavigatorProps = navigationOptions.tabNavigatorProps({ theme, themes, route })
 
   const FeedTabIconComponent = ({ color }) => <HomeIcon fill={color} />
   const feedTabScreenPropsCard = {
@@ -60,7 +61,9 @@ const TabNavigator = ({ navigation, route, theme }) => {
   }
 
   const Tab = createBottomTabNavigator()
-  
+
+  const Camera = () => {}
+
   return (
     <Tab.Navigator {...tabNavigatorProps}>
       <Tab.Screen
@@ -75,7 +78,7 @@ const TabNavigator = ({ navigation, route, theme }) => {
       />
       <Tab.Screen
         name="Camera"
-        component={CameraNavigator}
+        component={Camera}
         {...cameraTabScreenPropsCard}
       />
       <Tab.Screen

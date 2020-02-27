@@ -1,33 +1,32 @@
 import React from 'react'
 import PostMediaComponent from 'components/PostMedia'
 import PostMediaServiceComponent from 'components/PostMedia/index.service'
-import UserServiceProvider from 'services/providers/User'
+import ThemeServiceProvider from 'services/providers/Theme'
 import PostsListServiceComponent from 'components/PostsList/index.service'
 import { Provider as PaperProvider } from 'react-native-paper'
 
-class FeedScreen extends React.Component {
+class PostMediaScreen extends React.Component {
   render() {
     return (
-      <PaperProvider theme={this.props.route.params.theme}>
-        <PostsListServiceComponent>
-          {(postsProps) => (
-            <PostMediaServiceComponent {...postsProps}>
+      <ThemeServiceProvider themeCode={this.props.route.params.post.postedBy.themeCode}>
+        {((themeProps) => (
+          <PaperProvider theme={themeProps.activeTheme}>
+            <PostsListServiceComponent>
               {(postsProps) => (
-                <UserServiceProvider navigation={this.props.navigation}>
-                  {((userProps) => (
+                <PostMediaServiceComponent {...postsProps}>
+                  {(postsProps) => (
                     <PostMediaComponent
                       {...postsProps}
-                      {...userProps}
                     />
-                  ))}
-                </UserServiceProvider>
+                  )}
+                </PostMediaServiceComponent>
               )}
-            </PostMediaServiceComponent>
-          )}
-        </PostsListServiceComponent>
-      </PaperProvider>
+            </PostsListServiceComponent>
+          </PaperProvider>
+        ))}
+      </ThemeServiceProvider>
     )
   }
 }
 
-export default FeedScreen
+export default PostMediaScreen

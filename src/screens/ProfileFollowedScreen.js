@@ -1,23 +1,25 @@
 import React from 'react'
 import ProfileFollowedComponent from 'components/ProfileFollowed'
 import ProfileFollowedServiceComponent from 'components/ProfileFollowed/index.service'
-import UserServiceProvider from 'services/providers/User'
+import ThemeServiceProvider from 'services/providers/Theme'
+import { Provider as PaperProvider } from 'react-native-paper'
 
 class ProfileFollowed extends React.Component {
   render() {
     return (
-      <ProfileFollowedServiceComponent>
-        {(props) => (
-          <UserServiceProvider navigation={this.props.navigation}>
-            {((userProps) => (
-              <ProfileFollowedComponent
-                {...props}
-                {...userProps}
-              />
-            ))}
-          </UserServiceProvider>
-        )}
-      </ProfileFollowedServiceComponent>
+      <ThemeServiceProvider themeCode={this.props.route.params.user.themeCode}>
+        {((themeProps) => (
+          <PaperProvider theme={themeProps.activeTheme}>
+            <ProfileFollowedServiceComponent>
+              {(props) => (
+                <ProfileFollowedComponent
+                  {...props}
+                />
+              )}
+            </ProfileFollowedServiceComponent>
+          </PaperProvider>
+        ))}
+      </ThemeServiceProvider>
     )
   }
 }

@@ -27,7 +27,6 @@ const Header = ({
   postsDeleteRequest,
   postsShareRequest,
   postsRestoreArchivedRequest,
-  handleProfilePress,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
@@ -39,7 +38,7 @@ const Header = ({
 
   return (
     <View style={styling.header}>
-      <TouchableOpacity onPress={handleProfilePress(post.postedBy)}>
+      <TouchableOpacity onPress={navigationActions.navigateProfile(navigation, { user: post.postedBy })}>
         <Avatar
           active
           thumbnailSource={{ uri: path(['postedBy', 'photoUrl64p'])(post) }}
@@ -49,7 +48,7 @@ const Header = ({
       </TouchableOpacity>
 
       <View style={styling.headerText}>
-        <TouchableOpacity onPress={handleProfilePress(post.postedBy)}>
+        <TouchableOpacity onPress={navigationActions.navigateProfile(navigation, { user: post.postedBy })}>
           <Text style={styling.headerUsername}>{post.postedBy.username}</Text>
         </TouchableOpacity>
 

@@ -29,7 +29,6 @@ const PostMedia = ({
   postsAnonymouslyLikeRequest,
   postsOnymouslyLikeRequest,
   postsDislikeRequest,
-  handleProfilePress,
   postsSingleGet,
   postsGetTrendingPosts,
   routeName,
@@ -111,7 +110,6 @@ const PostMedia = ({
             postsAnonymouslyLikeRequest={postsAnonymouslyLikeRequest}
             postsOnymouslyLikeRequest={postsOnymouslyLikeRequest}
             postsDislikeRequest={postsDislikeRequest}
-            handleProfilePress={handleProfilePress}
             priorityIndex={index}
 
             handleScrollPrev={handleScrollPrev(index)}

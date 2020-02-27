@@ -1,17 +1,18 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
-import { withTheme } from 'react-native-paper'
 
+import { ThemesContext } from 'navigation/context'
 import * as navigationOptions from 'navigation/options'
 
 import TabNavigator from 'navigation/TabNavigator'
 import PostTypeScreen from 'screens/PostTypeScreen'
 
-const AppNavigator = ({ theme }) => {
+const AppNavigator = () => {
   const Stack = createStackNavigator()
-  const stackNavigatorCardProps = navigationOptions.stackNavigatorCardProps({ theme })
-  const stackScreenBlankProps = navigationOptions.stackScreenBlankProps({ theme })
-  const stackScreenModalProps = navigationOptions.stackScreenModalProps({ theme })
+  const { theme, themes } = useContext(ThemesContext)
+  const stackNavigatorCardProps = navigationOptions.stackNavigatorCardProps({ theme, themes })
+  const stackScreenBlankProps = navigationOptions.stackScreenBlankProps({ theme, themes })
+  const stackScreenModalProps = navigationOptions.stackScreenModalProps({ theme, themes })
 
   return (
     <Stack.Navigator {...stackNavigatorCardProps}>
@@ -29,4 +30,4 @@ const AppNavigator = ({ theme }) => {
   )
 }
 
-export default withTheme(AppNavigator)
+export default AppNavigator

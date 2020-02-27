@@ -8,7 +8,7 @@ import {
 import path from 'ramda/src/path'
 import { Text } from 'react-native-paper'
 import Avatar from 'templates/Avatar'
-import UserServiceProvider from 'services/providers/User'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -27,39 +27,35 @@ const ReactionsPreviewTemplate = ({
   }
 
   return (
-    <UserServiceProvider navigation={navigation}>
-      {((userProps) => (
-        <View style={styling.root}>
-          <View style={styling.row}>
-            {path(['onymouslyLikedBy', 'items', '0', 'username'])(post) ?
-              <View style={styling.profile}>
-                <Avatar
-                  size="micro"
-                  thumbnailSource={{ uri: path(['onymouslyLikedBy', 'items', '0', 'photoUrl64p'])(post) }}
-                  imageSource={{ uri: path(['onymouslyLikedBy', 'items', '0', 'photoUrl64p'])(post) }}
-                />
-              </View>
-            : null}
-
-            {path(['onymouslyLikedBy', 'items', '0', 'username'])(post) ?
-              <View style={styling.row}>
-                <TouchableOpacity onPress={() => navigation.navigate('PostLikes')}>
-                  <Text style={styling.text}>
-                    {t('liked first by')}
-                  </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={userProps.handleProfilePress(path(['onymouslyLikedBy', 'items', '0'])(post))}>
-                  <Text style={styling.text}>
-                    {path(['onymouslyLikedBy', 'items', '0', 'username'])(post)}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            : null}
+    <View style={styling.root}>
+      <View style={styling.row}>
+        {path(['onymouslyLikedBy', 'items', '0', 'username'])(post) ?
+          <View style={styling.profile}>
+            <Avatar
+              size="micro"
+              thumbnailSource={{ uri: path(['onymouslyLikedBy', 'items', '0', 'photoUrl64p'])(post) }}
+              imageSource={{ uri: path(['onymouslyLikedBy', 'items', '0', 'photoUrl64p'])(post) }}
+            />
           </View>
-        </View>
-      ))}
-    </UserServiceProvider>
+        : null}
+
+        {path(['onymouslyLikedBy', 'items', '0', 'username'])(post) ?
+          <View style={styling.row}>
+            <TouchableOpacity onPress={() => navigation.navigate('PostLikes')}>
+              <Text style={styling.text}>
+                {t('liked first by')}
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={navigationActions.navigateProfile(navigation, { user: path(['onymouslyLikedBy', 'items', '0'])(post) })}>
+              <Text style={styling.text}>
+                {path(['onymouslyLikedBy', 'items', '0', 'username'])(post)}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        : null}
+      </View>
+    </View>
   )
 }
 

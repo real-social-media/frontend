@@ -17,7 +17,6 @@ const ProfileRequests = ({
   usersFollowRequest,
   usersUnfollow,
   usersUnfollowRequest,
-  handleProfilePress,
   usersAcceptFollowerUser,
   usersAcceptFollowerUserRequest,
 }) => {
@@ -32,7 +31,6 @@ const ProfileRequests = ({
         usersFollowRequest={usersFollowRequest}
         usersUnfollow={usersUnfollow}
         usersUnfollowRequest={usersUnfollowRequest}
-        handleProfilePress={handleProfilePress}
         usersAcceptFollowerUser={usersAcceptFollowerUser}
         usersAcceptFollowerUserRequest={usersAcceptFollowerUserRequest}
       />

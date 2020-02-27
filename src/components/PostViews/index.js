@@ -19,7 +19,6 @@ const PostViews = ({
   usersFollowRequest,
   usersUnfollow,
   usersUnfollowRequest,
-  handleProfilePress,
   usersAcceptFollowerUser,
   usersAcceptFollowerUserRequest,
 }) => {
@@ -42,7 +41,6 @@ const PostViews = ({
           usersFollowRequest={usersFollowRequest}
           usersUnfollow={usersUnfollow}
           usersUnfollowRequest={usersUnfollowRequest}
-          handleProfilePress={handleProfilePress}
           usersAcceptFollowerUser={usersAcceptFollowerUser}
           usersAcceptFollowerUserRequest={usersAcceptFollowerUserRequest}
         />

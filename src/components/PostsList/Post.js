@@ -82,7 +82,6 @@ const PostComponent = ({
   postsAnonymouslyLikeRequest,
   postsOnymouslyLikeRequest,
   postsDislikeRequest,
-  handleProfilePress,
   postsRestoreArchivedRequest,
   priorityIndex,
   handleScrollPrev,
@@ -109,7 +108,6 @@ const PostComponent = ({
         postsFlagRequest={postsFlagRequest}
         postsDeleteRequest={postsDeleteRequest}
         postsShareRequest={postsShareRequest}
-        handleProfilePress={handleProfilePress}
         postsRestoreArchivedRequest={postsRestoreArchivedRequest}
       />
 

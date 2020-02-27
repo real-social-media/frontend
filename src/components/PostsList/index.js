@@ -88,7 +88,6 @@ const PostsList = ({
   postsCreateRequest,
   postsCreateIdle,
   postsCreateQueue,
-  handleProfilePress,
   usersGetPendingFollowers,
   onViewableItemsChanged,
   handleScrollPrev,
@@ -209,7 +208,6 @@ const PostsList = ({
               postsAnonymouslyLikeRequest={postsAnonymouslyLikeRequest}
               postsOnymouslyLikeRequest={postsOnymouslyLikeRequest}
               postsDislikeRequest={postsDislikeRequest}
-              handleProfilePress={handleProfilePress}
               priorityIndex={index}
 
               handleScrollPrev={handleScrollPrev(index)}

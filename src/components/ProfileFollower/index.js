@@ -17,7 +17,6 @@ const ProfileFollower = ({
   usersFollowRequest,
   usersUnfollow,
   usersUnfollowRequest,
-  handleProfilePress,
   usersAcceptFollowerUser,
   usersAcceptFollowerUserRequest,
 }) => {
@@ -32,7 +31,6 @@ const ProfileFollower = ({
         usersFollowRequest={usersFollowRequest}
         usersUnfollow={usersUnfollow}
         usersUnfollowRequest={usersUnfollowRequest}
-        handleProfilePress={handleProfilePress}
         usersAcceptFollowerUser={usersAcceptFollowerUser}
         usersAcceptFollowerUserRequest={usersAcceptFollowerUserRequest}
         loading={usersGetFollowerUsers.status === 'loading'}

@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { AuthProvider } from 'services/providers/App'
 import { Provider as PaperProvider } from 'react-native-paper'
 import codePush from 'react-native-code-push'
+import { ThemesContext } from 'navigation/context'
 import AuthNavigator from 'navigation/AuthNavigator'
 import AppNavigator from 'navigation/AppNavigator'
 import store, { persistor } from 'store/index'
@@ -49,19 +50,23 @@ if (Text.defaultProps == null) {
 const App = () => (
   <Provider store={store}>
     <AuthProvider>
-      {({ initialRouteName, theme, authenticated }) => (
-        <PaperProvider theme={theme}>
+      {({ initialRouteName, theme, themes, authenticated }) => (
+        <ThemesContext.Provider value={{ theme, themes }}>
           <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
           <NavigationContainer theme={theme}>
             {authenticated ?
-              <AppNavigator />
+              <PaperProvider theme={theme}>
+                <AppNavigator themes={themes} />
+              </PaperProvider>
             : null}
             
             {!authenticated ?
-              <AuthNavigator />
+              <PaperProvider theme={theme}>
+                <AuthNavigator />
+              </PaperProvider>
             : null}
           </NavigationContainer>
-        </PaperProvider>
+        </ThemesContext.Provider>
       )}
     </AuthProvider>
   </Provider>
