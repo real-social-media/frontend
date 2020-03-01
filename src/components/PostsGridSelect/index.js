@@ -21,7 +21,6 @@ import { useTranslation } from 'react-i18next'
 
 const PostsGridSelect = ({
   theme,
-  navigation,
   usersImagePostsGet,
   handlePostPress,
   selectedPost,

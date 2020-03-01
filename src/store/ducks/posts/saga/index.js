@@ -6,7 +6,6 @@ import omit from 'ramda/src/omit'
 import * as actions from 'store/ducks/posts/actions'
 import * as queries from 'store/ducks/posts/queries'
 import * as constants from 'store/ducks/posts/constants'
-import promiseRetry from 'promise-retry'
 
 /**
  *
@@ -215,7 +214,7 @@ function* postsSingleGetRequest(req) {
   }
 }
 
-/*
+/**
  *
  */
 function* postsOnymouslyLikeRequest(req) {
