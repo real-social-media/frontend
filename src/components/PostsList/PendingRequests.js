@@ -6,20 +6,20 @@ import {
   TouchableOpacity,
 } from 'react-native'
 import { Text, Caption } from 'react-native-paper'
-import CloseIcon from 'assets/svg/post/Close'
 import PendingIcon from 'assets/svg/post/Pending'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const PendingRequests = ({
   theme,
-  navigation,
   usersGetPendingFollowers,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
 
   return (
     <View style={styling.root}>
@@ -29,7 +29,7 @@ const PendingRequests = ({
 
       <View style={styling.status}>
         {usersGetPendingFollowers.data.length === 1 ?
-          <TouchableOpacity style={styling.content} onPress={() => navigation.navigate('ProfileRequests')}>
+          <TouchableOpacity style={styling.content} onPress={navigationActions.navigateProfileRequests(navigation)}>
             <Text style={styling.title}>{t('You have {{number}} new request', { number: usersGetPendingFollowers.data.length })}</Text>
             <View style={styling.caption}>
               <Caption style={styling.subtitle}>{t('Follower request from')} {usersGetPendingFollowers.data.map(user => user.username)}</Caption>
@@ -38,7 +38,7 @@ const PendingRequests = ({
         : null}
 
         {usersGetPendingFollowers.data.length > 1 ?
-          <TouchableOpacity style={styling.content} onPress={() => navigation.navigate('ProfileRequests')}>
+          <TouchableOpacity style={styling.content} onPress={navigationActions.navigateProfileRequests(navigation)}>
             <Text style={styling.title}>{t('You have {{number}} new requests', { number: usersGetPendingFollowers.data.length })}</Text>
             <View style={styling.caption}>
               <Caption style={styling.subtitle}>{t('Follower requests from')} {usersGetPendingFollowers.data.map(user => user.username)} {t('and others')}</Caption>
@@ -96,7 +96,7 @@ const styles = theme => StyleSheet.create({
 
 PendingRequests.propTypes = {
   theme: PropTypes.any,
-  navigation: PropTypes.any,
+  
   authUser: PropTypes.any,
   post: PropTypes.any,
   handleEditPress: PropTypes.any,
@@ -105,6 +105,4 @@ PendingRequests.propTypes = {
   postsDeleteRequest: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(PendingRequests)
-)
+export default withTheme(PendingRequests)

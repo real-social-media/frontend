@@ -8,34 +8,28 @@ import path from 'ramda/src/path'
 import GridComponent from 'templates/Grid'
 import GridItemComponent from 'templates/GridItem'
 import ImageComponent from 'templates/Image'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
-const ProfileArchivedPhoto = ({
+const Archived = ({
   theme,
-  navigation,
   postsGetArchived,
   postsGetArchivedRequest,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
+  const route = useRoute()
 
   return (
     <ScrollView style={styling.root}>
       <GridComponent items={path(['data'])(postsGetArchived)}>
         {(post, priorityIndex) => (
           <GridItemComponent
-            onPress={() => navigation.navigate({
-              routeName: 'PostMedia',
-              params: {
-                post,
-                theme,
-                routeName: navigation.state.routeName,
-              },
-              key: `PostMedia-postid${post.postId}`,
-            })}
+            onPress={navigationActions.navigatePostMedia(navigation, { post, theme, })}
             active={false}
             activeIcon={null}
             inactiveIcon={null}
@@ -57,16 +51,14 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-ProfileArchivedPhoto.defaultProps = {
-  usersImagePostsGet: {},
+Archived.defaultProps = {
+  usersMediaObjectsGet: {},
 }
 
-ProfileArchivedPhoto.propTypes = {
+Archived.propTypes = {
   theme: PropTypes.any,
   postsGetArchived: PropTypes.any,
   postsGetArchivedRequest: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(ProfileArchivedPhoto)
-)
+export default withTheme(Archived)

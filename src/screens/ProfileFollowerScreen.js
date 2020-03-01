@@ -1,41 +1,27 @@
 import React from 'react'
 import ProfileFollowerComponent from 'components/ProfileFollower'
 import ProfileFollowerServiceComponent from 'components/ProfileFollower/index.service'
-import DefaultNavigationComponent from 'components/NavigationPrimary/Default'
-import NavigationSecondary from 'components/NavigationSecondary/Default'
-import { Translation } from 'react-i18next'
-import UserServiceProvider from 'services/providers/User'
+import ThemeServiceProvider from 'services/providers/Theme'
+import { Provider as PaperProvider } from 'react-native-paper'
 
-class ProfileFollowed extends React.Component {
-  static navigationOptions = DefaultNavigationComponent
-  
+class ProfileFollower extends React.Component {
   render() {
     return (
-      <>
-        <Translation>
-          {(t) => (
-            <NavigationSecondary
-              onClosePress={() => this.props.navigation.goBack(null)}
-              title={t('Followers')}
-            />
-          )}
-        </Translation>        
-
-        <ProfileFollowerServiceComponent>
-          {(props) => (
-            <UserServiceProvider navigation={this.props.navigation}>
-              {((userProps) => (
+      <ThemeServiceProvider themeCode={this.props.route.params.user.themeCode}>
+        {((themeProps) => (
+          <PaperProvider theme={themeProps.activeTheme}>
+            <ProfileFollowerServiceComponent>
+              {(props) => (
                 <ProfileFollowerComponent
                   {...props}
-                  {...userProps}
                 />
-              ))}
-            </UserServiceProvider>
-          )}
-        </ProfileFollowerServiceComponent>
-      </>
+              )}
+            </ProfileFollowerServiceComponent>
+          </PaperProvider>
+        ))}
+      </ThemeServiceProvider>
     )
   }
 }
 
-export default ProfileFollowed
+export default ProfileFollower

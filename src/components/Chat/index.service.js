@@ -1,8 +1,8 @@
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 
-const ChatService = ({ children, navigation }) => {
+const ChatService = ({ children, }) => {
   return children({
   })
 }
 
-export default withNavigation(ChatService)
+export default ChatService

@@ -1,11 +1,14 @@
 import React from 'react'
 import { StatusBar, Text, TextInput } from 'react-native'
 import { Provider } from 'react-redux'
+import { NavigationContainer } from '@react-navigation/native'
 import { AuthProvider } from 'services/providers/App'
 import { Provider as PaperProvider } from 'react-native-paper'
 import codePush from 'react-native-code-push'
+import { ThemesContext } from 'navigation/context'
+import AuthNavigator from 'navigation/AuthNavigator'
 import AppNavigator from 'navigation/AppNavigator'
-import store from 'store/index'
+import store, { persistor } from 'store/index'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import 'services/Logger'
@@ -47,17 +50,23 @@ if (Text.defaultProps == null) {
 const App = () => (
   <Provider store={store}>
     <AuthProvider>
-      {({ initialRouteName, theme }) => (
-        <PaperProvider theme={theme}>
+      {({ initialRouteName, theme, themes, authenticated }) => (
+        <ThemesContext.Provider value={{ theme, themes }}>
           <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
-
-          <AppNavigator
-            initialRouteName={initialRouteName}
-            screenProps={{
-              theme,
-            }}
-          />
-        </PaperProvider>
+          <NavigationContainer theme={theme}>
+            {authenticated ?
+              <PaperProvider theme={theme}>
+                <AppNavigator themes={themes} />
+              </PaperProvider>
+            : null}
+            
+            {!authenticated ?
+              <PaperProvider theme={theme}>
+                <AuthNavigator />
+              </PaperProvider>
+            : null}
+          </NavigationContainer>
+        </ThemesContext.Provider>
       )}
     </AuthProvider>
   </Provider>

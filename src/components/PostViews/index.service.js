@@ -3,11 +3,13 @@ import { useSelector, useDispatch } from 'react-redux'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as usersActions from 'store/ducks/users/actions'
 import * as postsServices from 'store/ducks/posts/services'
-import { withNavigation } from 'react-navigation'
+import { useNavigation, useRoute } from '@react-navigation/native'
 
-const PostMediaViewsService = ({ children, navigation }) => {
+const PostViewsService = ({ children, }) => {
   const dispatch = useDispatch()
-  const postId = navigation.getParam('postId')
+  const navigation = useNavigation()
+  const route = useRoute()
+  const postId = route.params.postId
   const postsViewsGet = useSelector(state => state.posts.postsViewsGet)
   const postsViewsGetCache = useSelector(state => state.posts.postsViewsGetCache)
   const usersFollow = useSelector(state => state.users.usersFollow)
@@ -51,4 +53,4 @@ const PostMediaViewsService = ({ children, navigation }) => {
   })
 }
 
-export default withNavigation(PostMediaViewsService)
+export default PostViewsService

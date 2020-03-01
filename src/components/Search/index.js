@@ -15,7 +15,7 @@ import path from 'ramda/src/path'
 import PostsLoadingComponent from 'components/PostsList/PostsLoading'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const SearchComponent = ({
@@ -29,7 +29,6 @@ const SearchComponent = ({
   usersUnfollowRequest,
   usersAcceptFollowerUser,
   usersAcceptFollowerUserRequest,
-  handleProfilePress,
   usersGetTrendingUsers,
   postsGetTrendingPosts,
   handleFormFocus,
@@ -89,7 +88,6 @@ const SearchComponent = ({
             usersFollowRequest={usersFollowRequest}
             usersUnfollow={usersUnfollow}
             usersUnfollowRequest={usersUnfollowRequest}
-            handleProfilePress={handleProfilePress}
             usersAcceptFollowerUser={usersAcceptFollowerUser}
             usersAcceptFollowerUserRequest={usersAcceptFollowerUserRequest}
           />
@@ -112,7 +110,6 @@ const SearchComponent = ({
             usersFollowRequest={usersFollowRequest}
             usersUnfollow={usersUnfollow}
             usersUnfollowRequest={usersUnfollowRequest}
-            handleProfilePress={handleProfilePress}
             usersAcceptFollowerUser={usersAcceptFollowerUser}
             usersAcceptFollowerUserRequest={usersAcceptFollowerUserRequest}
           />

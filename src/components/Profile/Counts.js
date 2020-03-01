@@ -8,32 +8,20 @@ import {
 import { Caption, Headline } from 'react-native-paper'
 import path from 'ramda/src/path'
 import is from 'ramda/src/is'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const ProfileCounts = ({
   theme,
-  navigation,
   usersGetProfile,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
 
-  const userId = path(['data', 'userId'])(usersGetProfile)
-
-  const handleProfileFollowerPress = () => navigation.navigate({
-    routeName: 'ProfileFollower',
-    params: { userId },
-    key: `ProfileFollower-userId${userId}`,
-  })
-  const handleProfileFollowedPress = () => navigation.navigate({
-    routeName: 'ProfileFollowed',
-    params: { userId },
-    key: `ProfileFollowed-userId${userId}`,
-  })
-  
   const followerCount = path(['data', 'followerCount'])(usersGetProfile)
   const followedCount = path(['data', 'followedCount'])(usersGetProfile)
 
@@ -44,7 +32,7 @@ const ProfileCounts = ({
         <Caption style={styling.itemText} numberOfLines={1}>{t('Posts')}</Caption>
       </View>
       
-      <TouchableOpacity style={styling.item} onPress={handleProfileFollowerPress}>
+      <TouchableOpacity style={styling.item} onPress={navigationActions.navigateProfileFollower(navigation, { user: usersGetProfile.data })}>
         {!path(['data', 'followCountsHidden'])(usersGetProfile) && is(Number)(followerCount) ?
           <Headline style={styling.itemTitle}>{followerCount}</Headline>
         :
@@ -54,7 +42,7 @@ const ProfileCounts = ({
       </TouchableOpacity>
 
       
-      <TouchableOpacity style={styling.item} onPress={handleProfileFollowedPress}>
+      <TouchableOpacity style={styling.item} onPress={navigationActions.navigateProfileFollowed(navigation, { user: usersGetProfile.data })}>
         {!path(['data', 'followCountsHidden'])(usersGetProfile) && is(Number)(followedCount) ?
           <Headline style={styling.itemTitle}>{followedCount}</Headline>
         :
@@ -86,10 +74,7 @@ const styles = theme => StyleSheet.create({
 
 ProfileCounts.propTypes = {
   theme: PropTypes.any,
-  navigation: PropTypes.any,
   usersGetProfile: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(ProfileCounts)
-)
+export default withTheme(ProfileCounts)

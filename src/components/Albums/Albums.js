@@ -12,16 +12,16 @@ import LinearGradient from 'react-native-linear-gradient'
 import { Subheading } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const AlbumLarge = ({
   theme,
-  navigation,
   items,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
 
   const getCollageMatrix = (album) => {
     const albumPosts = pathOr([], ['posts', 'items'])(album)
@@ -53,12 +53,8 @@ const AlbumLarge = ({
          * Albums list
          */}
         {items.map((album, key) => (
-          <TouchableOpacity key={key} onPress={() => navigation.navigate({
-            routeName: 'Album',
-            params: {
-              album,
-            },
-            key: `Album-albumId${album.albumId}`,
+          <TouchableOpacity key={key} onPress={() => navigation.push('Album', {
+            album,
           })}>
             <View style={styling.albumWrapper}>
               <View style={styling.album}>
@@ -131,6 +127,4 @@ AlbumLarge.propTypes = {
   postsShareRequest: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(AlbumLarge)
-)
+export default withTheme(AlbumLarge)

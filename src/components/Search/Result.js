@@ -13,14 +13,14 @@ import RowsItemComponent from 'templates/RowsItem'
 import UserRowComponent from 'templates/UserRow'
 import UserRowActionComponent from 'templates/UserRowAction'
 import Avatar from 'templates/Avatar'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const Result = ({
   theme,
-  navigation,
   usersSearch,
   usersFollow,
   usersFollowRequest,
@@ -28,10 +28,10 @@ const Result = ({
   usersUnfollowRequest,
   usersAcceptFollowerUser,
   usersAcceptFollowerUserRequest,
-  handleProfilePress,
   loading = false,
 }) => {
   const styling = styles(theme)
+  const navigation = useNavigation()
   const { t } = useTranslation()
 
   return (
@@ -49,7 +49,7 @@ const Result = ({
           <RowsItemComponent>
             <UserRowComponent
               avatar={
-                <TouchableOpacity onPress={handleProfilePress(user)}>
+                <TouchableOpacity onPress={navigationActions.navigateProfile(navigation, { user })}>
                   <Avatar
                     active
                     thumbnailSource={{ uri: path(['photoUrl64p'])(user) }}
@@ -59,7 +59,7 @@ const Result = ({
                 </TouchableOpacity>
               }
               content={
-                <TouchableOpacity onPress={handleProfilePress(user)} style={styling.user}>
+                <TouchableOpacity onPress={navigationActions.navigateProfile(navigation, { user })} style={styling.user}>
                   <Text style={styling.username}>{path(['username'])(user)}</Text>
                   <Text style={styling.fullname}>{path(['fullName'])(user)}</Text>
                 </TouchableOpacity>
@@ -107,7 +107,7 @@ const styles = theme => StyleSheet.create({
 
 Result.propTypes = {
   theme: PropTypes.any,
-  navigation: PropTypes.any,
+  
   usersSearch: PropTypes.any,
   usersFollow: PropTypes.any,
   usersFollowRequest: PropTypes.any,
@@ -115,6 +115,4 @@ Result.propTypes = {
   usersUnfollowRequest: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(Result)
-)
+export default withTheme(Result)

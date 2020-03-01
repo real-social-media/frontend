@@ -60,6 +60,7 @@ export const user = `
         items {
           postId
           postStatus
+          postType
           postedAt
           postedBy {
             ...userFragment
@@ -123,6 +124,7 @@ export const setUserDetails = `
         items {
           postId
           postStatus
+          postType
           postedAt
           postedBy {
             ...userFragment
@@ -262,6 +264,7 @@ export const self = `
         items {
           postId
           postStatus
+          postType
           postedAt
           postedBy {
             ...userFragment

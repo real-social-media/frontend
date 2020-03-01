@@ -11,14 +11,14 @@ import path from 'ramda/src/path'
 import TickIcon from 'assets/svg/post/Tick'
 import CloseIcon from 'assets/svg/post/Close'
 import VerificationIcon from 'assets/svg/post/Verification'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const Uploading = ({
   theme,
-  navigation,
   authUser,
   post,
   postsCreateRequest,
@@ -26,6 +26,7 @@ const Uploading = ({
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
 
   if (!['loading', 'failure', 'success'].includes(post.status)) {
     return null
@@ -53,7 +54,7 @@ const Uploading = ({
 
       {post.status === 'loading' ?
         <View style={styling.status}>
-          <TouchableOpacity style={styling.content} onPress={() => navigation.navigate('Verification', { post: pseudoPost })}>
+          <TouchableOpacity style={styling.content} onPress={navigationActions.navigateVerification({ post: pseudoPost })}>
             <Text style={styling.title}>Uploading {post.meta.progress || 0}%</Text>
             <View style={styling.caption}>
               <Caption style={styling.subtitle}>{t('Pending Verification')} - {t('Learn More')}</Caption>
@@ -130,7 +131,7 @@ const styles = theme => StyleSheet.create({
 
 Uploading.propTypes = {
   theme: PropTypes.any,
-  navigation: PropTypes.any,
+  
   authUser: PropTypes.any,
   post: PropTypes.any,
   handleEditPress: PropTypes.any,
@@ -139,6 +140,4 @@ Uploading.propTypes = {
   postsDeleteRequest: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(Uploading)
-)
+export default withTheme(Uploading)

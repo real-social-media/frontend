@@ -12,19 +12,20 @@ import ModalHeaderComponent from 'templates/ModalHeader'
 import ModalPreviewComponent from 'templates/ModalPreview'
 import dayjs from 'dayjs'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const Verification = ({
   theme,
-  navigation,
   authUser,
   postsSingleGet,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
 
   /**
    * Hide verification if:
@@ -40,7 +41,7 @@ const Verification = ({
     <View style={styling.root}>
       <View style={styling.header}>
         <ModalHeaderComponent
-          onPress={() => navigation.goBack()}
+          onPress={navigationActions.navigateHome(navigation)}
         />
       </View>
 
@@ -124,6 +125,4 @@ Verification.propTypes = {
   postsShareRequest: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(Verification)
-)
+export default withTheme(Verification)

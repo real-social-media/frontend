@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as usersActions from 'store/ducks/users/actions'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 
 const StoriesService = ({ children }) => {
   const dispatch = useDispatch()
@@ -22,4 +22,4 @@ const StoriesService = ({ children }) => {
   })
 }
 
-export default withNavigation(StoriesService)
+export default StoriesService

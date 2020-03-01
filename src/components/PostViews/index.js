@@ -9,17 +9,16 @@ import {
 import ResultComponent from 'components/Search/Result'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
-const PostMediaViews = ({
+const PostViews = ({
   theme,
   postsViewsGet,
   usersFollow,
   usersFollowRequest,
   usersUnfollow,
   usersUnfollowRequest,
-  handleProfilePress,
   usersAcceptFollowerUser,
   usersAcceptFollowerUserRequest,
 }) => {
@@ -42,7 +41,6 @@ const PostMediaViews = ({
           usersFollowRequest={usersFollowRequest}
           usersUnfollow={usersUnfollow}
           usersUnfollowRequest={usersUnfollowRequest}
-          handleProfilePress={handleProfilePress}
           usersAcceptFollowerUser={usersAcceptFollowerUser}
           usersAcceptFollowerUserRequest={usersAcceptFollowerUserRequest}
         />
@@ -57,7 +55,7 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-PostMediaViews.propTypes = {
+PostViews.propTypes = {
   theme: PropTypes.any,
   postsViewsGet: PropTypes.any,
   usersFollow: PropTypes.any,
@@ -66,4 +64,4 @@ PostMediaViews.propTypes = {
   usersUnfollowRequest: PropTypes.any,
 }
 
-export default withTheme(PostMediaViews)
+export default withTheme(PostViews)

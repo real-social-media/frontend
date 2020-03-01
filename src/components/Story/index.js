@@ -13,12 +13,13 @@ import HeaderComponent from 'components/Story/Header'
 import CameraTemplate from 'templates/Camera'
 import CameraHeaderTemplate from 'templates/Camera/Header'
 import ImageTemplate from 'templates/Image'
+import TextOnlyComponent from 'templates/TextOnly'
 import { BlurView } from '@react-native-community/blur'
 import LinearGradient from 'react-native-linear-gradient'
 import pathOr from 'ramda/src/pathOr'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const StoryCarousel = ({
@@ -63,11 +64,19 @@ const StoryCarousel = ({
           />
         )}
         content={(
-          <ImageTemplate
-            thumbnailSource={{ uri: path(['image', 'url64p'])(story) }}
-            imageSource={{ uri: path(['image', 'url4k'])(story) }}
-            resizeMode="contain"
-          />
+          <>
+            {story.postType === 'IMAGE' ?
+              <ImageTemplate
+                thumbnailSource={{ uri: path(['image', 'url64p'])(story) }}
+                imageSource={{ uri: path(['image', 'url4k'])(story) }}
+                resizeMode="contain"
+              />
+            : null}
+
+            {story.postType === 'TEXT_ONLY' ?
+              <TextOnlyComponent text={story.text} />
+            : null}
+          </>
         )}
         footer={null}
         selector={null}
@@ -212,6 +221,4 @@ Story.propTypes = {
   onCloseStory: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(Story)
-)
+export default withTheme(Story)

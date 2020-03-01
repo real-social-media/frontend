@@ -11,12 +11,11 @@ import NativeError from 'templates/NativeError'
 import PostsLoadingComponent from 'components/PostsList/PostsLoading'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const PostMedia = ({
   theme,
-  navigation,
   authUser,
   feedRef,
   postsMediaFeedGet,
@@ -30,7 +29,6 @@ const PostMedia = ({
   postsAnonymouslyLikeRequest,
   postsOnymouslyLikeRequest,
   postsDislikeRequest,
-  handleProfilePress,
   postsSingleGet,
   postsGetTrendingPosts,
   routeName,
@@ -112,7 +110,6 @@ const PostMedia = ({
             postsAnonymouslyLikeRequest={postsAnonymouslyLikeRequest}
             postsOnymouslyLikeRequest={postsOnymouslyLikeRequest}
             postsDislikeRequest={postsDislikeRequest}
-            handleProfilePress={handleProfilePress}
             priorityIndex={index}
 
             handleScrollPrev={handleScrollPrev(index)}
@@ -143,7 +140,6 @@ PostMedia.defaultProps = {
 
 PostMedia.propTypes = {
   theme: PropTypes.any,
-  navigation: PropTypes.any,
   authUser: PropTypes.any,
   feedRef: PropTypes.any,
   postsMediaFeedGet: PropTypes.any,
@@ -161,6 +157,4 @@ PostMedia.propTypes = {
   usersGetFollowedUsersWithStoriesRequest: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(PostMedia)
-)
+export default withTheme(PostMedia)

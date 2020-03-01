@@ -3,10 +3,6 @@ import VerificationComponent from 'components/Verification'
 import VerificationServiceComponent from 'components/Verification/index.service'
 
 class VerificationScreen extends React.Component {
-  static navigationOptions = ({ navigation, screenProps }) => ({
-    headerShown: false,
-  })
-  
   render() {
     return (
       <>

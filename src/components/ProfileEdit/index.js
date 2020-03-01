@@ -9,7 +9,7 @@ import PrivacyForm from 'components/Privacy/Form'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const ProfileEdit = ({
@@ -79,6 +79,5 @@ ProfileEdit.propTypes = {
   toggleVerificationHidden: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(ProfileEdit)
-)
+export default withTheme(ProfileEdit)
+

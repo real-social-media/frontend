@@ -11,18 +11,18 @@ import { Subheading } from 'react-native-paper'
 import path from 'ramda/src/path'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const Forgot = ({
   theme,
-  navigation,
   authForgot,
   authForgotRequest,
   authForgotIdle,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
 
   return (
     <View style={styling.wrapper}>
@@ -47,13 +47,13 @@ const Forgot = ({
         </View>
         <View style={styling.subtitle}>
           <Subtitle actions={[{
-            onPress: () => navigation.navigate('Auth'),
+            onPress: () => navigation.push('Auth'),
             title: t('Change Email Address'),
           }, {
             onPress: null,
             title: t('or'),
           }, {
-            onPress: () => navigation.navigate('Auth'),
+            onPress: () => navigation.push('Auth'),
             title: t('Resend Email'),
           }]} />
         </View>
@@ -80,11 +80,9 @@ const styles = theme => StyleSheet.create({
 
 Forgot.propTypes = {
   theme: PropTypes.any,
-  navigation: PropTypes.any,
+  
   authForgot: PropTypes.any,
   authForgotRequest: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(Forgot)
-)
+export default withTheme(Forgot)

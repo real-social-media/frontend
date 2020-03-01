@@ -1,14 +1,17 @@
 import { useEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import * as usersActions from 'store/ducks/users/actions'
-import { withNavigation } from 'react-navigation'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import useCounter from 'react-use/lib/useCounter'
 import pathOr from 'ramda/src/pathOr'
+import * as navigationActions from 'navigation/actions'
 
-const StoryService = ({ children, navigation }) => {
+const StoryService = ({ children, }) => {
   const dispatch = useDispatch()
-  const userId = navigation.getParam('user').userId
-  const usersGetFollowedUsersWithStories = navigation.getParam('usersGetFollowedUsersWithStories')
+  const navigation = useNavigation()
+  const route = useRoute()
+  const userId = route.params.user.userId
+  const usersGetFollowedUsersWithStories = route.params.usersGetFollowedUsersWithStories
 
   const [currentStory, { inc: nextStory, dec: prevStory, reset: resetStory }] = useCounter(0)
 
@@ -43,7 +46,7 @@ const StoryService = ({ children, navigation }) => {
       storyRef.current.snapToNext()
     } else {
       resetStory()
-      navigation.goBack()
+      navigationActions.navigateHome(navigation)()
     }
   }
     
@@ -60,13 +63,13 @@ const StoryService = ({ children, navigation }) => {
       storyRef.current.snapToPrev()
     } else {
       resetStory()
-      navigation.goBack()
+      navigationActions.navigateHome(navigation)()
     }
   }
 
   const onCloseStory = () => {
     resetStory()
-    navigation.navigate('Feed')
+    navigationActions.navigateHome(navigation)()
   }
 
   return children({
@@ -82,4 +85,4 @@ const StoryService = ({ children, navigation }) => {
   })
 }
 
-export default withNavigation(StoryService)
+export default StoryService

@@ -2,9 +2,9 @@ import { useEffect } from 'react'
 import * as usersActions from 'store/ducks/users/actions'
 import * as authSelector from 'store/ducks/auth/selectors'
 import { useSelector, useDispatch } from 'react-redux'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 
-const PrivacyService = ({ children, navigation }) => {
+const PrivacyService = ({ children, }) => {
   const dispatch = useDispatch()
   const user = useSelector(authSelector.authUserSelector)
   const usersEditProfile = useSelector(state => state.users.usersEditProfile)
@@ -62,4 +62,4 @@ const PrivacyService = ({ children, navigation }) => {
   })
 }
 
-export default withNavigation(PrivacyService)
+export default PrivacyService

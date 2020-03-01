@@ -23,6 +23,8 @@ export const AuthProvider = ({
   const dispatch = useDispatch()
   const themeFetch = useSelector(state => state.theme.themeFetch)
   const nextRoute = useSelector(state => state.auth.authCheck.nextRoute)
+  const status = useSelector(state => state.auth.authCheck.status)
+  const authUserId = useSelector(state => state.auth.user.userId)
   const translationFetch = useSelector(state => state.translation.translationFetch)
   const languageCode = useSelector(authSelector.languageCodeSelector)
   const theme = useSelector(authSelector.themeSelector)
@@ -104,14 +106,24 @@ export const AuthProvider = ({
 
   if (
     !path(['data', 'en'])(translationFetch) ||
-    !path(['data', 'length'])(themeFetch) ||
-    !nextRoute
+    !path(['data', 'length'])(themeFetch)
   ) {
     return <LoadingComponent />
   }
 
+  const authenticated = (
+    authUserId && (
+      nextRoute === null ||
+      nextRoute === 'Main'
+    ) && (
+      status !== 'failure'
+    )
+  )
+
   return children({
     initialRouteName: nextRoute,
     theme,
+    themes: themeFetch.data,
+    authenticated,
   })
 }

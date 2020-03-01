@@ -7,7 +7,7 @@ import { Caption } from 'react-native-paper'
 import Layout from 'constants/Layout'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const trackerWidth = (Layout.window.width - 24) - 28
@@ -78,6 +78,4 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-export default withNavigation(
-  withTheme(LifetimeIndicator)
-)
+export default withTheme(LifetimeIndicator)

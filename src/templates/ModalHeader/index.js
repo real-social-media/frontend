@@ -8,7 +8,7 @@ import {
 import CloseIcon from 'assets/svg/header/Close'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const ModalHeader = ({

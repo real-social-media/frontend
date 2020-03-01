@@ -7,43 +7,43 @@ import {
 import GridComponent from 'templates/Grid'
 import GridItemComponent from 'templates/GridItem'
 import ImageComponent from 'templates/Image'
+import TextOnlyComponent from 'templates/TextOnly/Thumbnail'
 import path from 'ramda/src/path'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const PostsGrid = ({
   theme,
-  navigation,
   postsGet,
   themeFetch,
   themeCode,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
-
-  const themeSelector = (themeCode, themeFetch) =>
-    (themeFetch.data.find(theme => theme.key === themeCode) || {}).theme
+  const navigation = useNavigation()
+  const route = useRoute()
 
   return (
     <View style={styling.root}>
       <GridComponent items={path(['data'])(postsGet)}>
         {(post, priorityIndex) => (
-          <GridItemComponent onPress={() => navigation.navigate({
-            routeName: 'PostMedia',
-            params: {
-              post,
-              theme: themeSelector(themeCode, themeFetch),
-              routeName: navigation.state.routeName,
-            },
-            key: `PostMedia-postid${post.postId}`,
-          })}>
-            <ImageComponent
-              thumbnailSource={{ uri: path(['image', 'url64p'])(post) }}
-              imageSource={{ uri: path(['image', 'url480p'])(post) }}
-              priorityIndex={priorityIndex}
-            />
+          <GridItemComponent onPress={navigationActions.navigatePostMedia(navigation, { post })}>
+            {post.postType === 'IMAGE' ?
+              <ImageComponent
+                thumbnailSource={{ uri: path(['image', 'url64p'])(post) }}
+                imageSource={{ uri: path(['image', 'url480p'])(post) }}
+                priorityIndex={priorityIndex}
+              />
+            : null}
+
+            {post.postType === 'TEXT_ONLY' ?
+              <TextOnlyComponent
+                text={post.text}
+              />
+            : null}
           </GridItemComponent>
         )}
       </GridComponent>
@@ -67,10 +67,8 @@ PostsGrid.defaultProps = {
 
 PostsGrid.propTypes = {
   theme: PropTypes.any,
-  navigation: PropTypes.any,
+  
   postsGet: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(PostsGrid)
-)
+export default withTheme(PostsGrid)

@@ -162,6 +162,7 @@ const authCheckSuccess = (state, action) => update(state, {
 })
 
 const authCheckFailure = (state, action) => update(state, {
+  user: { $set: initialState.user },
   authCheck: {
     message: { $set: action.payload.message },
     error: { $set: action.payload.error },

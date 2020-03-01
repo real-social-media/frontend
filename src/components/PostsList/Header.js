@@ -12,14 +12,14 @@ import Avatar from 'templates/Avatar'
 import MoreIcon from 'assets/svg/action/More'
 import VerificationIcon from 'assets/svg/action/Verification'
 import dayjs from 'dayjs'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const Header = ({
   theme,
-  navigation,
   authUser,
   post,
   postsArchiveRequest,
@@ -27,10 +27,10 @@ const Header = ({
   postsDeleteRequest,
   postsShareRequest,
   postsRestoreArchivedRequest,
-  handleProfilePress,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
   const actionSheetRef = useRef(null)
 
   const handleOptionsPress = () => actionSheetRef.current.show()
@@ -38,7 +38,7 @@ const Header = ({
 
   return (
     <View style={styling.header}>
-      <TouchableOpacity onPress={handleProfilePress(post.postedBy)}>
+      <TouchableOpacity onPress={navigationActions.navigateProfile(navigation, { user: post.postedBy })}>
         <Avatar
           active
           thumbnailSource={{ uri: path(['postedBy', 'photoUrl64p'])(post) }}
@@ -48,7 +48,7 @@ const Header = ({
       </TouchableOpacity>
 
       <View style={styling.headerText}>
-        <TouchableOpacity onPress={handleProfilePress(post.postedBy)}>
+        <TouchableOpacity onPress={navigationActions.navigateProfile(navigation, { user: post.postedBy })}>
           <Text style={styling.headerUsername}>{post.postedBy.username}</Text>
         </TouchableOpacity>
 
@@ -59,7 +59,7 @@ const Header = ({
         : null}
 
         {!path(['isVerified'])(post) ?
-          <TouchableOpacity onPress={() => navigation.navigate('Verification', { post })} style={styling.verification}>
+          <TouchableOpacity onPress={navigationActions.navigateVerification(navigation, { post })} style={styling.verification}>
             <Caption style={styling.verificationStatus}>{t('Failed Verification')} - {t('Learn More')}</Caption>
             <VerificationIcon fill="#DC3644" />
           </TouchableOpacity>
@@ -98,10 +98,10 @@ const Header = ({
             destructiveButtonIndex={3}
             onPress={(index) => {
               if (index === 0) {
-                navigation.navigate('PostShare', { post })
+                navigationActions.navigatePostShare(navigation, { post })()
               }
               if (index === 1) {
-                navigation.navigate('PostEdit', { post })
+                navigationActions.navigatePostEdit(navigation, { post })()
               }
               if (index === 2) {
                 postsArchiveRequest({ postId: post.postId })
@@ -126,7 +126,7 @@ const Header = ({
             cancelButtonIndex={2}
             onPress={(index) => {
               if (index === 0) {
-                navigation.navigate('PostShare', { post })
+                navigationActions.navigatePostShare(navigation, { post })
               }
               if (index === 1) {
                 postsFlagRequest({ postId: post.postId })
@@ -174,7 +174,7 @@ const styles = theme => StyleSheet.create({
 
 Header.propTypes = {
   theme: PropTypes.any,
-  navigation: PropTypes.any,
+  
   authUser: PropTypes.any,
   post: PropTypes.any,
   handleEditPress: PropTypes.any,
@@ -183,6 +183,4 @@ Header.propTypes = {
   postsDeleteRequest: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(Header)
-)
+export default withTheme(Header)

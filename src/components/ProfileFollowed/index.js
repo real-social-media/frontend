@@ -7,7 +7,7 @@ import {
 import ResultComponent from 'components/Search/Result'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const ProfileFollowed = ({
@@ -17,7 +17,6 @@ const ProfileFollowed = ({
   usersFollowRequest,
   usersUnfollow,
   usersUnfollowRequest,
-  handleProfilePress,
   usersAcceptFollowerUser,
   usersAcceptFollowerUserRequest,
 }) => {
@@ -32,7 +31,6 @@ const ProfileFollowed = ({
         usersFollowRequest={usersFollowRequest}
         usersUnfollow={usersUnfollow}
         usersUnfollowRequest={usersUnfollowRequest}
-        handleProfilePress={handleProfilePress}
         usersAcceptFollowerUser={usersAcceptFollowerUser}
         usersAcceptFollowerUserRequest={usersAcceptFollowerUserRequest}
         loading={usersGetFollowedUsers.status === 'loading'}

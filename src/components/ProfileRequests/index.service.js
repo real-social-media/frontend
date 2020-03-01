@@ -2,9 +2,9 @@ import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as usersActions from 'store/ducks/users/actions'
 import * as authSelector from 'store/ducks/auth/selectors'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 
-const ProfileFollowerService = ({ children, navigation }) => {
+const ProfileFollowerService = ({ children, }) => {
   const dispatch = useDispatch()
   const user = useSelector(authSelector.authUserSelector)
   const userId = user.userId
@@ -49,4 +49,4 @@ const ProfileFollowerService = ({ children, navigation }) => {
   })
 }
 
-export default withNavigation(ProfileFollowerService)
+export default ProfileFollowerService

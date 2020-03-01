@@ -20,16 +20,24 @@ const postsPersistConfig = {
   key: 'posts',
   storage: AsyncStorage,
   whitelist: [
-    // 'postsFeedGet',
-    // 'postsGet',
-    // 'postsGetCache',
-    // 'postsGetTrendingPosts',
-    // 'postsCreateQueue',
+    'postsFeedGet',
+    'postsGet',
+    'postsGetCache',
+    'postsGetTrendingPosts',
+    'postsCreateQueue',
+  ],
+}
+
+const authPersistConfig = {
+  key: 'auth',
+  storage: AsyncStorage,
+  whitelist: [
+    'user',
   ],
 }
 
 export default combineReducers({
-  auth,
+  auth: persistReducer(authPersistConfig, auth),
   theme,
   camera,
   albums,

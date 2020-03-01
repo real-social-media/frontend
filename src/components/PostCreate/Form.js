@@ -19,7 +19,7 @@ import NextIcon from 'assets/svg/settings/Next'
 import Layout from 'constants/Layout'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const formSchema = Yup.object().shape({
@@ -29,7 +29,6 @@ const formSchema = Yup.object().shape({
 
 const PostCreateForm = ({
   theme,
-  navigation,
   handleSubmit,
   values,
   loading,
@@ -46,13 +45,15 @@ const PostCreateForm = ({
     <View style={styling.root}>
       <View style={styling.input}>
         <View style={styling.header}>
-          <TouchableOpacity onPress={() => handlePostPress({ image: { 'url4k': values.images[0] } })}>
-            <Avatar
-              size="bigger"
-              thumbnailSource={{ uri: values.images[0] }}
-              imageSource={{ uri: values.images[0] }}
-            />
-          </TouchableOpacity>
+          {values.postType === 'IMAGE' ?
+            <TouchableOpacity onPress={() => handlePostPress({ mediaObjects: [{ 'url4k': values.images[0] }] })}>
+              <Avatar
+                size="bigger"
+                thumbnailSource={{ uri: values.images[0] }}
+                imageSource={{ uri: values.images[0] }}
+              />
+            </TouchableOpacity>
+          : null}
 
           <View style={styling.text}>
             <Field name="text" component={TextDemo} placeholder={t('Write a caption')} multiline={true} />
@@ -128,7 +129,7 @@ const PostCreateForm = ({
       </View>
 
       <View style={styling.input}>
-        <DefaultButton label={t('Create Post')} onPress={handleSubmit} loading={loading} disabled={!values.images[0]} />
+        <DefaultButton label={t('Create Post')} onPress={handleSubmit} loading={loading} />
       </View>
     </View>
   )
@@ -166,6 +167,7 @@ const FormWrapper = ({
   <Formik
     initialValues={{
       lifetime: null,
+      postType: props.postType,
       likesDisabled: props.user.likesDisabled,
       commentsDisabled: props.user.commentsDisabled,
       sharingDisabled: props.user.sharingDisabled,
@@ -188,6 +190,4 @@ const FormWrapper = ({
   </Formik>
 )
 
-export default withNavigation(
-  withTheme(FormWrapper)
-)
+export default withTheme(FormWrapper)

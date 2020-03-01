@@ -10,16 +10,16 @@ import Layout from 'constants/Layout'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const Album = ({
   theme,
-  navigation,
   albumsGet,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
 
   return (
     <View style={styling.root}>
@@ -31,7 +31,7 @@ const Album = ({
         </View>
 
         <View style={styling.content}>
-          <DefaultButton label={t('Create Album')} onPress={() => navigation.navigate('AlbumCreate')} />
+          <DefaultButton label={t('Create Album')} onPress={() => navigation.push('AlbumCreate')} />
         </View>
       </ScrollView>
     </View>
@@ -80,6 +80,4 @@ Album.propTypes = {
   postsShareRequest: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(Album)
-)
+export default withTheme(Album)

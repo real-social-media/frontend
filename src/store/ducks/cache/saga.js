@@ -2,7 +2,7 @@ import { put, fork, take, actionChannel, retry } from 'redux-saga/effects'
 import * as actions from 'store/ducks/cache/actions'
 import * as constants from 'store/ducks/cache/constants'
 import RNFS from 'react-native-fs'
-import uuidv5 from 'uuid/v5'
+import { v5 as uuidv5 } from 'uuid'
 import qs from 'query-string'
 import PriorityBuffer from 'services/PriorityBuffer'
 

@@ -1,14 +1,17 @@
 import { useEffect, useRef } from 'react'
+import { InteractionManager } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
-import uuid from 'uuid/v4'
+import { v4 as uuid } from 'uuid';
 import * as postsActions from 'store/ducks/posts/actions'
 import * as usersActions from 'store/ducks/users/actions'
-import { withNavigation } from 'react-navigation'
+import { useNavigation, useScrollToTop } from '@react-navigation/native'
 import path from 'ramda/src/path'
 import intersection from 'ramda/src/intersection'
+import * as navigationActions from 'navigation/actions'
 
-const PostsService = ({ children, navigation }) => {
+const PostsListService = ({ children, }) => {
   const dispatch = useDispatch()
+  const navigation = useNavigation()
   const authUser = useSelector(state => state.auth.user)
   const postsFeedGet = useSelector(state => state.posts.postsFeedGet)
   const postsDelete = useSelector(state => state.posts.postsDelete)
@@ -24,6 +27,7 @@ const PostsService = ({ children, navigation }) => {
   const usersAcceptFollowerUser = useSelector(state => state.users.usersAcceptFollowerUser)
 
   const feedRef = useRef(null)
+  useScrollToTop(feedRef)
 
   const postsFeedGetRequest = (payload) =>
     dispatch(postsActions.postsFeedGetRequest(payload))
@@ -71,15 +75,15 @@ const PostsService = ({ children, navigation }) => {
   const postsCreateIdle = (payload) =>
     dispatch(postsActions.postsCreateIdle({ payload }))
 
-  const scrollToTop = () => {
-    if (!feedRef.current || typeof feedRef.current.scrollToOffset !== 'function') { return }
-    feedRef.current.scrollToOffset({ animated: true, offset: 0 })
-  }
+  // const scrollToTop = () => {
+  //   if (!feedRef.current || typeof feedRef.current.scrollToOffset !== 'function') { return }
+  //   feedRef.current.scrollToOffset({ animated: true, offset: 0 })
+  // }
 
   useEffect(() => {
-    navigation.setParams({
-      scrollToTop,
-    })
+    // navigation.setParams({
+    //   scrollToTop,
+    // })
     postsFeedGetRequest({ limit: 6 })
     usersGetPendingFollowersRequest({ userId: authUser.userId })
   }, [])
@@ -114,7 +118,7 @@ const PostsService = ({ children, navigation }) => {
 
     if (postsRestoreArchived.status === 'success') {
       dispatch(postsActions.postsRestoreArchivedIdle())
-      navigation.goBack()
+      navigationActions.navigateHome(navigation)()
     }
 
     if (postsFlag.status === 'success') {
@@ -128,7 +132,7 @@ const PostsService = ({ children, navigation }) => {
   ])
 
   const handleEditPress = (post) =>
-    navigation.navigate('PostEdit', { post })
+    navigationActions.navigatePostEdit(navigation, { post })()
 
   const onViewableItemsChanged = ({ viewableItems }) => {
     const postIds = viewableItems.map(viewable => path(['item', 'postId'])(viewable))
@@ -138,7 +142,9 @@ const PostsService = ({ children, navigation }) => {
       return
     }
 
-    dispatch(postsActions.postsReportPostViewsRequest({ postIds }))
+    InteractionManager.runAfterInteractions(() => {
+      dispatch(postsActions.postsReportPostViewsRequest({ postIds }))
+    })
   }
 
   const handleScrollPrev = (index) => () => {
@@ -190,4 +196,4 @@ const PostsService = ({ children, navigation }) => {
   })
 }
 
-export default withNavigation(PostsService)
+export default PostsListService

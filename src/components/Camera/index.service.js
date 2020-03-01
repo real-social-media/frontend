@@ -3,11 +3,12 @@ import { useEffect, useState, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import useToggle from 'react-use/lib/useToggle'
 import * as cameraActions from 'store/ducks/camera/actions'
-import { withNavigation } from 'react-navigation'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { PERMISSIONS, RESULTS, check } from 'react-native-permissions'
 import CropPicker from 'react-native-image-crop-picker'
 import { getScreenAspectRatio } from 'services/Camera'
 import series from 'async/series'
+import * as navigationActions from 'navigation/actions'
 
 const cameraManager = (cameraRef) => ({
   resumePreview: props => {
@@ -30,8 +31,10 @@ const cameraManager = (cameraRef) => ({
   },
 })
 
-const CameraService = ({ children, navigation }) => {
+const CameraService = ({ children, }) => {
   const dispatch = useDispatch()
+  const navigation = useNavigation()
+  const route = useRoute()
   const postsCreate = useSelector(state => state.posts.postsCreate)
   
   const [flashMode, handleFlashToggle] = useToggle(false)
@@ -72,31 +75,16 @@ const CameraService = ({ children, navigation }) => {
     }
   }, [])
 
-  const handleClosePress = () => {
-    navigation.navigate('Feed')
-  }
-
   const [photoSize, setPhotoSize] = useState('4:3')
-  const [photoQuality, setPhotoQuality] = useState('default')
 
   const handleCameraSnap = async () => {
     if (!cameraRef.current) { return }
 
     camera.pausePreview()
 
-    const quality = (() => {
-      if (photoQuality === 'maximum') {
-        return 1
-      }
-      if (photoQuality === 'default') {
-        return 0.6
-      }
-      return 1
-    })()
-
     try {
       const snappedPhoto = await camera.takePictureAsync({
-        quality,
+        quality: 1,
         base64: false,
       })
 
@@ -109,7 +97,6 @@ const CameraService = ({ children, navigation }) => {
         compressImageQuality: 1,
       })
 
-  
       cameraCaptureRequest([{
         uri: croppedPhoto.path,
         photoSize,
@@ -117,7 +104,11 @@ const CameraService = ({ children, navigation }) => {
         originalFormat: snappedPhoto.uri.split('.').pop(),
       }])
   
-      navigation.navigate(navigation.getParam('nextRoute') || 'PostCreate', { photos: [croppedPhoto.path] })
+      if (route.params && route.params.nextRoute) {
+        navigation.navigate(path(['params', 'nextRoute'])(route), { photos: [croppedPhoto.path] })
+      } else {
+        navigationActions.navigatePostCreate(navigation, { type: 'IMAGE', photos: [croppedPhoto.path] })()
+      }
     } catch (error) {
 
     } finally {
@@ -154,7 +145,12 @@ const CameraService = ({ children, navigation }) => {
     }))
 
     cameraCaptureRequest(photos)
-    navigation.navigate(navigation.getParam('nextRoute') || 'PostCreate', { photos })
+    
+    if (route.params && route.params.nextRoute) {
+      navigation.navigate(path(['params', 'nextRoute'])(route), { photos })
+    } else {
+      navigationActions.navigatePostCreate(navigation, { type: 'IMAGE', photos })()
+    }
   }
 
   return children({
@@ -162,11 +158,8 @@ const CameraService = ({ children, navigation }) => {
     cameraRef,
     photoSize,
     setPhotoSize,
-    photoQuality,
-    setPhotoQuality,
     flashMode,
     flipMode,
-    handleClosePress,
     handleLibrarySnap,
     handleCameraSnap,
     handleLibrarySnap,
@@ -176,4 +169,4 @@ const CameraService = ({ children, navigation }) => {
   })
 }
 
-export default withNavigation(CameraService)
+export default CameraService

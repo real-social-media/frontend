@@ -13,9 +13,10 @@ import CheckedIcon from 'assets/svg/other/Checked'
 import UncheckedIcon from 'assets/svg/other/Unchecked'
 import { RNCamera } from 'react-native-camera'
 import CameraIcon from 'assets/svg/header/Camera'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const PostsGridSelect = ({
@@ -27,6 +28,7 @@ const PostsGridSelect = ({
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
 
   return (
     <ScrollView style={styling.root}>
@@ -35,7 +37,7 @@ const PostsGridSelect = ({
           if (!post) {
             return (
               <GridItemComponent
-                onPress={() => navigation.navigate('Camera')}
+                onPress={navigationActions.navigateCamera(navigation)}
                 active={false}
                 activeIcon={null}
                 inactiveIcon={null}
@@ -104,6 +106,4 @@ PostsGridSelect.propTypes = {
   selectedPost: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(PostsGridSelect)
-)
+export default withTheme(PostsGridSelect)

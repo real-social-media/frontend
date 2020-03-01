@@ -9,16 +9,16 @@ import CameraTemplate from 'templates/Camera'
 import CameraHeaderTemplate from 'templates/Camera/Header'
 import ShutterComponent from 'components/Camera/Shutter'
 import PickerComponent from 'components/Camera/Picker'
-import QualityComponent from 'components/Camera/Quality'
 import { RNCamera } from 'react-native-camera'
 import Layout from 'constants/Layout'
 import usePrevious from 'react-use/lib/usePrevious'
 import { getCameraBonds } from 'services/Camera'
 import { BlurView } from '@react-native-community/blur'
-import Modal from 'components/Modal'
+import NativeError from 'templates/NativeError'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const usePulse = (fromValue, toValue) => {
@@ -30,25 +30,22 @@ const usePulse = (fromValue, toValue) => {
 
 const CameraComponent = ({
   theme,
-  navigation,
   photoSize,
   setPhotoSize,
   cameraRef,
   flashMode,
   flipMode,
   handleFlipToggle,
-  handleClosePress,
   handleLibrarySnap,
   handleCameraSnap,
   handleFlashToggle,
   postsCreateRequest,
   postsCreate,
-  photoQuality,
-  setPhotoQuality,
   cameraEnabled,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
   
   /**
    * Size calc
@@ -62,13 +59,7 @@ const CameraComponent = ({
       <CameraTemplate
         header={(
           <CameraHeaderTemplate
-            handleClosePress={handleClosePress}
-            content={(
-              <QualityComponent
-                photoQuality={photoQuality}
-                setPhotoQuality={setPhotoQuality}
-              />
-            )}
+            handleClosePress={navigationActions.navigateHome(navigation)}
           />
         )}
         content={(
@@ -116,16 +107,14 @@ const CameraComponent = ({
       />
 
       {!cameraEnabled ?
-        <View style={styling.modal}>
-          <Modal
-            cancelAction={() => navigation.navigate('Feed')}
-            cancelLabel={t('Cancel')}
-            confirmLabel={t('OK')}
-            confirmAction={() => navigation.navigate('Feed')}
-            title={t('Camera is blocked')}
-            text={t('Please enabled camera access in your phone settings to continue')}
-          />
-        </View>
+        <NativeError
+          handleCancelPress={navigationActions.navigateHome(navigation)}
+          titleText={t('Camera is blocked')}
+          messageText={t('Please enabled camera access in your phone settings to continue')}
+          actionText={t('Try again')}
+          status="failure"
+          triggerOn="failure"
+        />
       : null}
     </View>
   )
@@ -134,15 +123,6 @@ const CameraComponent = ({
 const styles = theme => StyleSheet.create({
   root: {
     flex: 1,
-  },
-  modal: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    zIndex: 1,
-    backgroundColor: theme.colors.backgroundPrimary,
   },
   cameraWrapper: {
     justifyContent: 'center',
@@ -171,18 +151,15 @@ const styles = theme => StyleSheet.create({
 
 CameraComponent.propTypes = {
   theme: PropTypes.any,
-  navigation: PropTypes.any,
+  
   cameraRef: PropTypes.any,
   flashMode: PropTypes.any,
   flipMode: PropTypes.any,
   handleFlipToggle: PropTypes.any,
-  handleClosePress: PropTypes.any,
   handleCameraSnap: PropTypes.any,
   handleFlashToggle: PropTypes.any,
   postsCreateRequest: PropTypes.any,
   postsCreate: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(CameraComponent)
-)
+export default withTheme(CameraComponent)

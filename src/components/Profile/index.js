@@ -21,7 +21,7 @@ import ProfilePrivateComponent from 'components/Profile/Private'
 import pathOr from 'ramda/src/pathOr'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const ScrollHelper = ({
@@ -81,8 +81,7 @@ const ScrollHelper = ({
 
 const Profile = ({
   theme,
-  navigation,
-  usersGetProfile,
+  profileRef,
   authUser,
   usersBlock,
   usersBlockRequest,
@@ -96,24 +95,23 @@ const Profile = ({
   postsGetRequest,
   postsGetMoreRequest,
   themeFetch,
+  usersGetProfile,
   usersGetProfileRequest,
   usersGetProfileSelfRequest,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
+  const route = useRoute()
 
   const handleUserStoryPress = () => {
     if (!pathOr(0, ['data', 'stories', 'items', 'length'], usersGetProfile)) {
       return
     }
 
-    navigation.navigate({
-      routeName: 'Story',
-      params: {
-        user: usersGetProfile.data,
-        usersGetFollowedUsersWithStories: { data: [usersGetProfile.data] },
-      },
-      key: `Story-postid${usersGetProfile.data.userId}`,
+    navigation.push('Story', {
+      user: usersGetProfile.data,
+      usersGetFollowedUsersWithStories: { data: [usersGetProfile.data] },
     })
   }
 
@@ -139,6 +137,7 @@ const Profile = ({
         triggerOn="success"
       />
       <ScrollView
+        ref={profileRef}
         onScroll={scroll.handleScrollChange}
         scrollEventThrottle={400}
         refreshControl={(
@@ -149,7 +148,7 @@ const Profile = ({
           />
         )}
       >
-        {navigation.state.routeName === 'ProfileSelf' ?
+        {route.name === 'ProfileSelf' ?
           <ProfileStatusComponent />
         : null}
 
@@ -249,7 +248,6 @@ const styles = theme => StyleSheet.create({
 
 Profile.propTypes = {
   theme: PropTypes.any,
-  navigation: PropTypes.any,
   usersGetProfile: PropTypes.any,
   authUser: PropTypes.any,
   usersBlock: PropTypes.any,
@@ -263,6 +261,4 @@ Profile.propTypes = {
   postsGet: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(Profile)
-)
+export default withTheme(Profile)

@@ -3,33 +3,34 @@ import { TouchableOpacity } from 'react-native'
 import LogoIcon from 'assets/svg/header/Logo'
 import CameraIcon from 'assets/svg/header/Camera'
 import DirectIcon from 'assets/svg/header/Direct'
+import * as navigationActions from 'navigation/actions'
 
-const headerLeft = ({ screenProps, navigation }) => () => (
-  <TouchableOpacity style={{ padding: 12 }} onPress={() => navigation.navigate('Camera')}>
+const headerLeft = ({ theme, navigation }) => () => (
+  <TouchableOpacity style={{ padding: 12 }} onPress={navigationActions.navigateCamera(navigation)}>
     <CameraIcon
-      fill={screenProps.theme.colors.primaryIcon}
+      fill={theme.colors.primaryIcon}
     />
   </TouchableOpacity>
 )
 
-const headerTitle = ({ screenProps }) => () => (
+const headerTitle = ({ theme }) => () => (
   <LogoIcon
     height="28"
-    fill={screenProps.theme.colors.primaryIcon}
+    fill={theme.colors.primaryIcon}
   />
 )
 
-const headerRight = ({ screenProps, navigation }) => () => (
-  <TouchableOpacity style={{ padding: 12 }} onPress={() => navigation.navigate('Chat')}>
+const headerRight = ({ theme, navigation }) => () => (
+  <TouchableOpacity style={{ padding: 12 }} onPress={navigationActions.navigateChat(navigation)}>
     <DirectIcon
-      fill={screenProps.theme.colors.primaryIcon}
+      fill={theme.colors.primaryIcon}
     />
   </TouchableOpacity>
 )
 
-export default ({ navigation, screenProps }) => ({
+const DefaultNavigationHeader = ({ navigation, theme }) => ({
   headerStyle: {
-    backgroundColor: screenProps.theme.colors.backgroundPrimary,
+    backgroundColor: theme.colors.backgroundPrimary,
     shadowRadius: 0,
     shadowOffset: {
       height: 0,
@@ -37,7 +38,9 @@ export default ({ navigation, screenProps }) => ({
     borderBottomWidth: 0,
     shadowColor: 'transparent',
   },
-  headerLeft: headerLeft({ screenProps, navigation }),
-  headerTitle: headerTitle({ screenProps, navigation }),
-  headerRight: headerRight({ screenProps, navigation }),
+  headerLeft: headerLeft({ navigation, theme }),
+  headerTitle: headerTitle({ navigation, theme }),
+  headerRight: headerRight({ navigation, theme }),
 })
+
+export default DefaultNavigationHeader

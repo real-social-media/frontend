@@ -1,14 +1,17 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as authSelector from 'store/ducks/auth/selectors'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as usersActions from 'store/ducks/users/actions'
-import { withNavigation } from 'react-navigation'
-import uuid from 'uuid/v4'
+import { useNavigation, useRoute } from '@react-navigation/native'
+import { v4 as uuid } from 'uuid';
 import { PERMISSIONS, request } from 'react-native-permissions'
+import path from 'ramda/src/path'
 
-const AvatarPickerService = ({ children, navigation }) => {
+const AvatarPickerService = ({ children, }) => {
   const dispatch = useDispatch()
+  const navigation = useNavigation()
+  const route = useRoute()
   const user = useSelector(authSelector.authUserSelector)
   const postsCreate = useSelector(state => state.posts.postsCreate)
   const usersEditProfile = useSelector(state => state.users.usersEditProfile)
@@ -16,7 +19,7 @@ const AvatarPickerService = ({ children, navigation }) => {
   /**
    * picking first photo from array, used to be base64
    */
-  const [avatar] = navigation.getParam('photos') || []
+  const [avatar] = path(['params', 'photos'])(route) || []
 
   const checkCameraPermissions = async () => {
     await request(PERMISSIONS.IOS.CAMERA)
@@ -38,7 +41,7 @@ const AvatarPickerService = ({ children, navigation }) => {
   useEffect(() => {
     if (usersEditProfile.status === 'success') {
       dispatch(usersActions.usersEditProfileIdle({ }))
-      navigation.navigate('Main')
+      navigation.push('Main')
     }
   }, [usersEditProfile.status])
 
@@ -62,7 +65,7 @@ const AvatarPickerService = ({ children, navigation }) => {
   }
 
   const handleCameraPress = async () => {
-    navigation.navigate('Camera', { nextRoute: 'AvatarPicker' })
+    navigation.push('Camera', { nextRoute: 'AvatarPicker' })
   }
 
   return children({
@@ -74,4 +77,4 @@ const AvatarPickerService = ({ children, navigation }) => {
   })
 }
 
-export default withNavigation(AvatarPickerService)
+export default AvatarPickerService

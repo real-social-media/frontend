@@ -41,9 +41,39 @@ export const getFeed = `
   ${postFragment}
 `
 
-export const addPost = `
+export const addTextOnlyPost = `
   mutation AddMediaPost(
     $postId: ID!,
+    $postType: PostType,
+    $albumId: ID,
+    $lifetime: String,
+    $text: String,
+    $commentsDisabled: Boolean,
+    $likesDisabled: Boolean,
+    $sharingDisabled: Boolean,
+    $verificationHidden: Boolean
+  ) {
+    addPost (
+      postId: $postId,
+      postType: $postType,
+      albumId: $albumId,
+      lifetime: $lifetime,
+      text: $text,
+      commentsDisabled: $commentsDisabled,
+      likesDisabled: $likesDisabled,
+      sharingDisabled: $sharingDisabled,
+      verificationHidden: $verificationHidden,
+    ) {
+      ...postFragment
+    }
+  }
+  ${postFragment}
+`
+
+export const addPhotoPost = `
+  mutation AddMediaPost(
+    $postId: ID!,
+    $postType: PostType,
     $albumId: ID,
     $lifetime: String,
     $mediaId: ID!,
@@ -57,6 +87,7 @@ export const addPost = `
   ) {
     addPost (
       postId: $postId,
+      postType: $postType,
       albumId: $albumId,
       lifetime: $lifetime,
       text: $text,
@@ -71,7 +102,7 @@ export const addPost = `
         originalFormat: $originalFormat
       }]) {
       ...postFragment
-    }
+      }
   }
   ${postFragment}
 `

@@ -1,10 +1,12 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as authActions from 'store/ducks/auth/actions'
-import { withNavigation } from 'react-navigation'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import toLower from 'ramda/src/toLower'
+import path from 'ramda/src/path'
+import * as navigationActions from 'navigation/actions'
 
-const AuthComponentService = ({ children, navigation }) => {
+const AuthComponentService = ({ children, }) => {
   const guessUsernameType = (username) => {
     const hasEmail = /\S+@\S+\.\S+/.test(username)
     const hasPhone = /^[0-9 ()+-]+$/.test(username)
@@ -17,6 +19,8 @@ const AuthComponentService = ({ children, navigation }) => {
   }
 
   const dispatch = useDispatch()
+  const navigation = useNavigation()
+  const route = useRoute()
   const authCheck = useSelector(state => state.auth.authCheck)
   const authFacebook = useSelector(state => state.auth.authFacebook)
   const authGoogle = useSelector(state => state.auth.authGoogle)
@@ -112,7 +116,7 @@ const AuthComponentService = ({ children, navigation }) => {
      * Authorization for existing user
      */
     if (authSignupConfirm.status === 'success') {
-      navigation.navigate('Auth')
+      navigation.push('Auth')
       dispatch(authActions.authSignupIdle())
       dispatch(authActions.authSigninIdle())
       dispatch(authActions.authSignupConfirmIdle())
@@ -120,7 +124,8 @@ const AuthComponentService = ({ children, navigation }) => {
     }
 
     if (authOnboard.status === 'success') {
-      navigation.navigate('Feed')
+      navigationActions.navigateHome(navigation)()
+      
       dispatch(authActions.authSignupIdle())
       dispatch(authActions.authSigninIdle())
       dispatch(authActions.authSignupConfirmIdle())
@@ -128,12 +133,12 @@ const AuthComponentService = ({ children, navigation }) => {
     }
 
     if (authForgot.status === 'success') {
-      navigation.navigate('AuthForgotConfirm')
+      navigation.push('AuthForgotConfirm')
       dispatch(authActions.authForgotIdle())
     }
 
     if (authForgotConfirm.status === 'success') {
-      navigation.navigate('Auth')
+      navigation.push('Auth')
       dispatch(authActions.authForgotConfirmIdle())
     }
   }, [
@@ -145,11 +150,11 @@ const AuthComponentService = ({ children, navigation }) => {
 
   useEffect(() => {
     if (authSignup.status === 'success') {
-      navigation.navigate('AuthSignupConfirm')
+      navigation.push('AuthSignupConfirm')
     }
 
     if (authSignup.status === 'failure' && authSignup.nextRoute) {
-      navigation.navigate(authSignup.nextRoute)
+      navigation.push(authSignup.nextRoute)
       authSignupResendRequest()
     }
   }, [
@@ -186,7 +191,7 @@ const AuthComponentService = ({ children, navigation }) => {
     }
 
     if (authSignin.status === 'failure' && authSignin.nextRoute) {
-      navigation.navigate(authSignin.nextRoute)
+      navigation.push(authSignin.nextRoute)
       dispatch(authActions.authSigninIdle())
     }
   }, [
@@ -194,16 +199,16 @@ const AuthComponentService = ({ children, navigation }) => {
   ])
 
   useEffect(() => {
-    if (navigation.getParam('username') && navigation.getParam('confirmationCode')) {
+    if (path(['params', 'username'])(route) && path(['params', 'confirmationCode'])(route)) {
       dispatch(authActions.authSignupConfirmRequest({
-        username: toLower(navigation.getParam('username')),
-        confirmationCode: navigation.getParam('confirmationCode'),
+        username: toLower(path(['params', 'username'])(route)),
+        confirmationCode: path(['params', 'confirmationCode'])(route),
       }))
     }
   }, [
-    navigation.getParam('action') === 'signupConfirm',
-    navigation.getParam('username'),
-    navigation.getParam('confirmationCode'),
+    path(['params', 'action'])(route) === 'signupConfirm',
+    path(['params', 'username'])(route),
+    path(['params', 'confirmationCode'])(route),
   ])
 
   return children({
@@ -234,4 +239,4 @@ const AuthComponentService = ({ children, navigation }) => {
   })
 }
 
-export default withNavigation(AuthComponentService)
+export default AuthComponentService

@@ -1,28 +1,32 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import LogoIcon from 'assets/svg/header/Logo'
 
-export default ({ navigation, screenProps }) => ({
+const headerLeft = () => null
+
+const headerTitle = ({ theme }) => () => (
+  <LogoIcon
+    height="28"
+    fill={theme.colors.primaryIcon}
+  />
+)
+
+const headerRight = () => null
+
+const DefaultNavigationHeader = ({ navigation, theme }) => ({
   headerStyle: {
-    backgroundColor: screenProps.theme.colors.backgroundPrimary,
-    height: 70,
+    backgroundColor: theme.colors.backgroundPrimary,
+    height: 170,
     shadowRadius: 0,
     shadowOffset: {
       height: 0,
     },
   },
   headerLeftContainerStyle: {
-    padding: screenProps.theme.spacing.base,
+    padding: theme.spacing.base,
   },
-  headerLeft: () => null,
-  headerTitle: () => (
-    <LogoIcon
-      height="28"
-      fill={screenProps.theme.colors.primaryIcon}
-    />
-  ),
-  headerRightContainerStyle: {
-    padding: screenProps.theme.spacing.base,
-  },
-  headerRight: () => null,
+  headerLeft: headerLeft({ navigation, theme }),
+  headerTitle: headerTitle({ navigation, theme }),
+  headerRight: headerRight({ navigation, theme }),
 })
+
+export default DefaultNavigationHeader

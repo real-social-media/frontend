@@ -15,11 +15,10 @@ import NativeError from 'templates/NativeError'
 import StoriesComponent from 'components/Stories'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const ScrollHelper = ({
-  navigation,
   postsFeedGet,
   postsFeedGetMoreRequest,
   usersGetFollowedUsersWithStories,
@@ -46,10 +45,8 @@ const ScrollHelper = ({
   }
   
   const refreshing = (
-    navigation.state.routeName !== 'Theme' && (
-      postsFeedGet.status === 'loading' ||
-      usersGetFollowedUsersWithStories.status === 'loading'
-    )
+    postsFeedGet.status === 'loading' ||
+    usersGetFollowedUsersWithStories.status === 'loading'
   )
   
   const loadingmore = (
@@ -71,7 +68,6 @@ const ScrollHelper = ({
 
 const PostsList = ({
   theme,
-  navigation,
   authUser,
   feedRef,
   postsFeedGet,
@@ -92,7 +88,6 @@ const PostsList = ({
   postsCreateRequest,
   postsCreateIdle,
   postsCreateQueue,
-  handleProfilePress,
   usersGetPendingFollowers,
   onViewableItemsChanged,
   handleScrollPrev,
@@ -102,7 +97,6 @@ const PostsList = ({
   const { t } = useTranslation()
 
   const scroll = ScrollHelper({
-    navigation,
     postsFeedGet,
     postsFeedGetMoreRequest,
     usersGetFollowedUsersWithStories,
@@ -214,7 +208,6 @@ const PostsList = ({
               postsAnonymouslyLikeRequest={postsAnonymouslyLikeRequest}
               postsOnymouslyLikeRequest={postsOnymouslyLikeRequest}
               postsDislikeRequest={postsDislikeRequest}
-              handleProfilePress={handleProfilePress}
               priorityIndex={index}
 
               handleScrollPrev={handleScrollPrev(index)}
@@ -248,7 +241,6 @@ PostsList.defaultProps = {
 
 PostsList.propTypes = {
   theme: PropTypes.any,
-  navigation: PropTypes.any,
   authUser: PropTypes.any,
   feedRef: PropTypes.any,
   postsFeedGet: PropTypes.any,
@@ -266,6 +258,4 @@ PostsList.propTypes = {
   usersGetFollowedUsersWithStoriesRequest: PropTypes.any, 
 }
 
-export default withNavigation(
-  withTheme(PostsList)
-)
+export default withTheme(PostsList)

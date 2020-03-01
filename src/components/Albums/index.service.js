@@ -2,9 +2,9 @@ import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as albumsActions from 'store/ducks/albums/actions'
 import * as postsServices from 'store/ducks/posts/services'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 
-const AlbumService = ({ children, navigation }) => {
+const AlbumService = ({ children, }) => {
   const dispatch = useDispatch()
   const authUser = useSelector(state => state.auth.user)
   const albumsGet = useSelector(state => state.albums.albumsGet)
@@ -24,4 +24,4 @@ const AlbumService = ({ children, navigation }) => {
   })
 }
 
-export default withNavigation(AlbumService)
+export default AlbumService
