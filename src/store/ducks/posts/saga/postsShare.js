@@ -35,7 +35,7 @@ function* handlePostsShareRequest(payload) {
       return `#${red}${green}${blue}`
     }
 
-    const color = post.mediaObjects[0].colors[1]
+    const color = post.image.colors[1]
 
     const firstLine = yield Marker.markText({
       src: url,
@@ -120,7 +120,7 @@ function* handlePostsShareRequest(payload) {
       commentsDisabled: post.commentsDisabled,
       likesDisabled: post.likesDisabled,
       sharingDisabled: post.sharingDisabled,
-      takenInReal: path(['mediaObjects', '0', 'isVerified'])(post),
+      takenInReal: path(['image', 'isVerified'])(post),
       originalFormat: 'jpg',
     }))
   }

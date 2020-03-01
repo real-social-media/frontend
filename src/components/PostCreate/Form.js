@@ -40,13 +40,18 @@ const PostCreateForm = ({
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const image = {
+    url4k: values.images[0],
+    url64p: values.images[0],
+    url1080p: values.images[0],
+  }
 
   return (
     <View style={styling.root}>
       <View style={styling.input}>
         <View style={styling.header}>
           {values.postType === 'IMAGE' ?
-            <TouchableOpacity onPress={() => handlePostPress({ mediaObjects: [{ 'url4k': values.images[0] }] })}>
+            <TouchableOpacity onPress={() => handlePostPress({ image })}>
               <Avatar
                 size="bigger"
                 thumbnailSource={{ uri: values.images[0] }}
