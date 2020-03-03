@@ -1,4 +1,10 @@
 # REAL Frontend
+REAL is the healthier social media movement. 
+It’s a camera app and social media platform designed with mental health in mind. No ads, no filters and no likes.
+
+|home   |profile   |create   |
+|---|---|---|
+|![home](https://raw.githubusercontent.com/real-social-media/frontend/readme/docs/assets/home.png)|![home](https://raw.githubusercontent.com/real-social-media/frontend/readme/docs/assets/profile.png)   |![home](https://raw.githubusercontent.com/real-social-media/frontend/readme/docs/assets/create.png)   |
 
 ## Setup Development Environment
 - execute `yarn install` from `[root]` folder to get npm dependencies
