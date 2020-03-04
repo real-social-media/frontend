@@ -128,11 +128,9 @@ export const postFragment = `
       }
       name
       description
-      url
-      url4k
-      url1080p
-      url480p
-      url64p
+      art {
+        ...imageFragment
+      }
       postCount
       postsLastUpdatedAt
       posts(limit: 10) {
@@ -192,8 +190,8 @@ export const postFragment = `
       }
     }
   }
-  ${userFragment}
   ${imageFragment}
+  ${userFragment}
 `
 
 export const albumFragment = `
@@ -205,11 +203,9 @@ export const albumFragment = `
     }
     name
     description
-    url
-    url4k
-    url1080p
-    url480p
-    url64p
+    art {
+      imageFragment
+    }
     posts(limit: 10) {
       items {
         ...postFragment
@@ -219,5 +215,6 @@ export const albumFragment = `
     postCount
     postsLastUpdatedAt
   }
+  ${imageFragment}
   ${postFragment}
 `
