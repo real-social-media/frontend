@@ -43,8 +43,8 @@ const Stories = ({
         <Avatar
           active
           size="medium"
-          thumbnailSource={{ uri: path(['photoUrl64p'])(authUser) }}
-          imageSource={{ uri: path(['photoUrl480p'])(authUser) }}
+          thumbnailSource={{ uri: path(['photo', 'url64p'])(authUser) }}
+          imageSource={{ uri: path(['photo', 'url480p'])(authUser) }}
           icon={true}
         />
         <Caption style={styling.username}>{path(['username'])(authUser)}</Caption>
@@ -59,8 +59,8 @@ const Stories = ({
           <Avatar
             active
             size="medium"
-            thumbnailSource={{ uri: path(['photoUrl64p'])(user) }}
-            imageSource={{ uri: path(['photoUrl480p'])(user) }}
+            thumbnailSource={{ uri: path(['photo', 'url64p'])(user) }}
+            imageSource={{ uri: path(['photo', 'url480p'])(user) }}
             themeCode={path(['themeCode'])(user)}
           />
           <Caption style={styling.username}>{path(['username'])(user)}</Caption>

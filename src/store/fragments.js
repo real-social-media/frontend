@@ -1,12 +1,27 @@
+export const imageFragment = `
+  fragment imageFragment on Image {
+    url
+    url64p
+    url480p
+    url1080p
+    url4k
+    width
+    height
+    colors {
+      r
+      g
+      b
+    }
+  }
+`
+
 export const userFragment = `
   fragment userFragment on User {
     userId
     username
-    photoUrl
-    photoUrl64p
-    photoUrl480p
-    photoUrl1080p
-    photoUrl4k
+    photo {
+      ...imageFragment
+    }
     privacyStatus
     followedStatus
     followerStatus
@@ -30,23 +45,7 @@ export const userFragment = `
     blockedStatus
     blockerStatus
   }
-`
-
-export const imageFragment = `
-  fragment imageFragment on Image {
-    url
-    url64p
-    url480p
-    url1080p
-    url4k
-    width
-    height
-    colors {
-      r
-      g
-      b
-    }
-  }
+  ${imageFragment}
 `
 
 export const commentFragment = `

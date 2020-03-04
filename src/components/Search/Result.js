@@ -52,8 +52,8 @@ const Result = ({
                 <TouchableOpacity onPress={navigationActions.navigateProfile(navigation, { user })}>
                   <Avatar
                     active
-                    thumbnailSource={{ uri: path(['photoUrl64p'])(user) }}
-                    imageSource={{ uri: path(['photoUrl64p'])(user) }}
+                    thumbnailSource={{ uri: path(['photo', 'url64p'])(user) }}
+                    imageSource={{ uri: path(['photo', 'url64p'])(user) }}
                     themeCode={path(['themeCode'])(user)}
                   />
                 </TouchableOpacity>

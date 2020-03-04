@@ -30,8 +30,8 @@ const Album = ({
       <ScrollView bounces={false}>
         <View style={styling.content}>
           <ModalProfileComponent
-            thumbnailSource={{ uri: path(['ownedBy', 'photoUrl64p'])(album) }}
-            imageSource={{ uri: path(['ownedBy', 'photoUrl480p'])(album) }}
+            thumbnailSource={{ uri: path(['ownedBy', 'photo', 'url64p'])(album) }}
+            imageSource={{ uri: path(['ownedBy', 'photo', 'url480p'])(album) }}
             title={path(['ownedBy', 'username'])(album)}
             subtitle={path(['ownedBy', 'fullName'])(album)}
           />

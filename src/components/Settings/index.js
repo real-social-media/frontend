@@ -43,8 +43,8 @@ const Settings = ({
       <TouchableOpacity onPress={() => navigation.navigate('ProfilePhoto')}>
         <Avatar
           size="large"
-          thumbnailSource={{ uri: path(['photoUrl64p'])(user) }}
-          imageSource={{ uri: path(['photoUrl480p'])(user) }}
+          thumbnailSource={{ uri: path(['photo', 'url64p'])(user) }}
+          imageSource={{ uri: path(['photo', 'url480p'])(user) }}
         />
       </TouchableOpacity>
 

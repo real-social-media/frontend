@@ -33,8 +33,8 @@ const ReactionsPreviewTemplate = ({
           <View style={styling.profile}>
             <Avatar
               size="micro"
-              thumbnailSource={{ uri: path(['onymouslyLikedBy', 'items', '0', 'photoUrl64p'])(post) }}
-              imageSource={{ uri: path(['onymouslyLikedBy', 'items', '0', 'photoUrl64p'])(post) }}
+              thumbnailSource={{ uri: path(['onymouslyLikedBy', 'items', '0', 'photo', 'url64p'])(post) }}
+              imageSource={{ uri: path(['onymouslyLikedBy', 'items', '0', 'photo', 'url64p'])(post) }}
             />
           </View>
         : null}

@@ -50,8 +50,8 @@ const Header = ({
       <TouchableOpacity onPress={navigationActions.navigateProfile(navigation, { user: post.postedBy })}>
         <Avatar
           active
-          thumbnailSource={{ uri: path(['postedBy', 'photoUrl64p'])(post) }}
-          imageSource={{ uri: path(['postedBy', 'photoUrl64p'])(post) }}
+          thumbnailSource={{ uri: path(['postedBy', 'photo', 'url64p'])(post) }}
+          imageSource={{ uri: path(['postedBy', 'photo', 'url64p'])(post) }}
           themeCode={path(['postedBy', 'themeCode'])(post)}
         />
       </TouchableOpacity>

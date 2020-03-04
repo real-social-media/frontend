@@ -15,11 +15,13 @@ export const usersGetProfileSelector = createSelector(
         privacyStatus: pathOr('', ['data', 'privacyStatus'], usersGetProfile),
         followCountsHidden: pathOr('', ['data', 'followCountsHidden'], usersGetProfile),
         viewCountsHidden: pathOr('', ['data', 'viewCountsHidden'], usersGetProfile),
-        photoUrl: pathOr('', ['data', 'photoUrl'], usersGetProfile),
-        photoUrl64p: pathOr('', ['data', 'photoUrl64p'], usersGetProfile),
-        photoUrl480p: pathOr('', ['data', 'photoUrl480p'], usersGetProfile),
-        photoUrl1080p: pathOr('', ['data', 'photoUrl1080p'], usersGetProfile),
-        photoUrl4k: pathOr('', ['data', 'photoUrl4k'], usersGetProfile),
+        photo: {
+          url: pathOr('', ['data', 'photo', 'url'], usersGetProfile),
+          url64p: pathOr('', ['data', 'photo', 'url64p'], usersGetProfile),
+          url480p: pathOr('', ['data', 'photo', 'url480p'], usersGetProfile),
+          url1080p: pathOr('', ['data', 'photo', 'url1080p'], usersGetProfile),
+          url4k: pathOr('', ['data', 'photo', 'url4k'], usersGetProfile),
+        },
       },
     },
   })

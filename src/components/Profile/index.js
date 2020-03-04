@@ -157,8 +157,8 @@ const Profile = ({
             <Avatar
               size="large"
               active
-              thumbnailSource={{ uri: path(['data', 'photoUrl64p'])(usersGetProfile) }}
-              imageSource={{ uri: path(['data', 'photoUrl480p'])(usersGetProfile) }}
+              thumbnailSource={{ uri: path(['data', 'photo', 'url64p'])(usersGetProfile) }}
+              imageSource={{ uri: path(['data', 'photo', 'url480p'])(usersGetProfile) }}
               themeCode={path(['data', 'themeCode'])(usersGetProfile)}
             />
           </TouchableOpacity>
