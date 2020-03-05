@@ -82,8 +82,8 @@ const PostShare = ({
 
         <View style={styling.content}>
           <ModalProfileComponent
-            thumbnailSource={{ uri: path(['data', 'postedBy', 'photoUrl64p'])(postsSingleGet) }}
-            imageSource={{ uri: path(['data', 'postedBy', 'photoUrl480p'])(postsSingleGet) }}
+            thumbnailSource={{ uri: path(['data', 'postedBy', 'photo', 'url64p'])(postsSingleGet) }}
+            imageSource={{ uri: path(['data', 'postedBy', 'photo', 'url480p'])(postsSingleGet) }}
             title={path(['data', 'postedBy', 'username'])(postsSingleGet)}
             subtitle={`${t('Posted')} ${dayjs(path(['data', 'postedAt'])(postsSingleGet)).from(dayjs())}`}
           />

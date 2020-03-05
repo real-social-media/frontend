@@ -56,37 +56,8 @@ export const user = `
   query user($userId: ID!) {
     user(userId: $userId) {
       ...userFragment
-      stories (limit: 10) {
-        items {
-          postId
-          postStatus
-          postType
-          postedAt
-          postedBy {
-            ...userFragment
-          }
-          expiresAt
-          text
-          textTaggedUsers {
-            tag
-            user {
-              ...userFragment
-            }
-          }
-          image {
-            ...imageFragment
-          }
-          isVerified
-          likeStatus
-          onymousLikeCount
-          anonymousLikeCount
-          viewedByCount
-        }
-        nextToken 
-      }
     }
   }
-  ${imageFragment}
   ${userFragment}
 `
 
@@ -120,37 +91,8 @@ export const setUserDetails = `
       verificationHidden: $verificationHidden
     ) {
       ...userFragment
-      stories (limit: 10) {
-        items {
-          postId
-          postStatus
-          postType
-          postedAt
-          postedBy {
-            ...userFragment
-          }
-          expiresAt
-          text
-          textTaggedUsers {
-            tag
-            user {
-              ...userFragment
-            }
-          }
-          image {
-            ...imageFragment
-          }
-          isVerified
-          likeStatus
-          onymousLikeCount
-          anonymousLikeCount
-          viewedByCount
-        }
-        nextToken 
-      }
     }
   }
-  ${imageFragment}
   ${userFragment}
 `
 
@@ -174,40 +116,11 @@ export const getFollowedUsersWithStories = `
       followedUsersWithStories(limit: $limit, nextToken: $nextToken) {
         items {
           ...userFragment
-          stories (limit: 10) {
-            items {
-              postId
-              postStatus
-              postType
-              postedAt
-              postedBy {
-                ...userFragment
-              }
-              expiresAt
-              text
-              textTaggedUsers {
-                tag
-                user {
-                  ...userFragment
-                }
-              }
-              image {
-                ...imageFragment
-              }
-              isVerified
-              likeStatus
-              onymousLikeCount
-              anonymousLikeCount
-              viewedByCount
-            }
-            nextToken 
-          }
         }
         nextToken
       }
     }
   }
-  ${imageFragment}
   ${userFragment}
 `
 
@@ -261,37 +174,8 @@ export const self = `
   query self {
     self {
       ...userFragment
-      stories (limit: 10) {
-        items {
-          postId
-          postStatus
-          postType
-          postedAt
-          postedBy {
-            ...userFragment
-          }
-          expiresAt
-          text
-          textTaggedUsers {
-            tag
-            user {
-              ...userFragment
-            }
-          }
-          image {
-            ...imageFragment
-          }
-          isVerified
-          likeStatus
-          onymousLikeCount
-          anonymousLikeCount
-          viewedByCount
-        }
-        nextToken 
-      }
     }
   }
-  ${imageFragment}
   ${userFragment}
 `
 

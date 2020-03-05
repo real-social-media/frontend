@@ -40,7 +40,7 @@ const AlbumLarge = ({
     const albumPosts = pathOr([], ['posts', 'items'])(album)
 
     if (!albumPosts.length) {
-      return [pathOr('', ['url480p'])(album)]
+      return [pathOr('', ['art', 'url480p'])(album)]
     }
 
     return albumPosts.map(post => post.image.url480p)

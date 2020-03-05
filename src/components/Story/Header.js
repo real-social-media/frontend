@@ -25,8 +25,8 @@ const Header = ({
     <View style={styling.root}>
       <View style={styling.action}>
         <Avatar
-          thumbnailSource={{ uri: path(['data', 'photoUrl64p'])(usersGetProfile) }}
-          imageSource={{ uri: path(['data', 'photoUrl64p'])(usersGetProfile) }}
+          thumbnailSource={{ uri: path(['data', 'photo', 'url64p'])(usersGetProfile) }}
+          imageSource={{ uri: path(['data', 'photo', 'url64p'])(usersGetProfile) }}
         />
 
         <View style={styling.text}>

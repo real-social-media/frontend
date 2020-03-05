@@ -27,8 +27,8 @@ const Albums = ({
         {items.map((album, key) => (
           <TouchableOpacity style={[styling.album, styling.spacingRight]} key={key} onPress={() => setAlbumId(album.albumId)}>
             <ImageComponent
-              thumbnailSource={{ uri: path(['url64p'])(album) }}
-              imageSource={{ uri: path(['url480p'])(album) }}
+              thumbnailSource={{ uri: path(['art', 'url64p'])(album) }}
+              imageSource={{ uri: path(['art', 'url480p'])(album) }}
               priorityIndex={key}
             />
           </TouchableOpacity>

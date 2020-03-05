@@ -15,11 +15,13 @@ export const authUserSelector = createSelector(
         privacyStatus: pathOr('', ['data', 'privacyStatus'], authUser),
         followCountsHidden: pathOr('', ['data', 'followCountsHidden'], authUser),
         viewCountsHidden: pathOr('', ['data', 'viewCountsHidden'], authUser),
-        photoUrl: pathOr('', ['data', 'photoUrl'], authUser),
-        photoUrl64p: pathOr('', ['data', 'photoUrl64p'], authUser),
-        photoUrl480p: pathOr('', ['data', 'photoUrl480p'], authUser),
-        photoUrl1080p: pathOr('', ['data', 'photoUrl1080p'], authUser),
-        photoUrl4k: pathOr('', ['data', 'photoUrl4k'], authUser),
+        photo: {
+          url: pathOr('', ['data', 'photo', 'url'], authUser),
+          url64p: pathOr('', ['data', 'photo', 'url64p'], authUser),
+          url480p: pathOr('', ['data', 'photo', 'url480p'], authUser),
+          url1080p: pathOr('', ['data', 'photo', 'url1080p'], authUser),
+          url4k: pathOr('', ['data', 'photo', 'url4k'], authUser),
+        },
       },
     },
   })

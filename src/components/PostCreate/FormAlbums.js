@@ -27,16 +27,6 @@ const FormAlbums = ({
     setFieldValue('albumId', albumId)
   }
 
-  const seeMoreVisibility = (
-    pathOr([], ['status'])(albumsGet) === 'success' &&
-    pathOr([], ['data', 'length'])(albumsGet)
-  )
-
-  const createVisibility = (
-    pathOr([], ['status'])(albumsGet) === 'success' &&
-    !pathOr([], ['data', 'length'])(albumsGet)
-  )
-
   return (
     <View style={styling.root}>
       <View style={styling.albums} horizontal>
@@ -52,17 +42,9 @@ const FormAlbums = ({
           )
         })}
 
-        {createVisibility ?
-          <TouchableOpacity style={[styling.album, styling.albumCreate]} onPress={navigationActions.navigateAlbums(navigation)}>
-            <Text>{t('Create new album')}</Text>
-          </TouchableOpacity>
-        : null}
-
-        {seeMoreVisibility ?
-          <TouchableOpacity style={styling.album} onPress={navigationActions.navigateAlbums(navigation)}>
-            <Text>{t('Create new album')}</Text>
-          </TouchableOpacity>
-        : null}
+        <TouchableOpacity style={[styling.album, styling.albumCreate]} onPress={navigationActions.navigateAlbums(navigation)}>
+          <Text>{t('All albums')}</Text>
+        </TouchableOpacity>
       </View>
 
       <Caption>{t('Choose an album from the list to group your posts')}</Caption>
@@ -86,7 +68,9 @@ const styles = theme => StyleSheet.create({
     padding: 6,
   },
   albumCreate: {
-    backgroundColor: theme.colors.backgroundSecondary,
+    borderColor: theme.colors.border,
+    borderWidth: 1,
+
   },
   albumSelected: {
     backgroundColor: theme.colors.primary,

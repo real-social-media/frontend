@@ -1,12 +1,27 @@
+export const imageFragment = `
+  fragment imageFragment on Image {
+    url
+    url64p
+    url480p
+    url1080p
+    url4k
+    width
+    height
+    colors {
+      r
+      g
+      b
+    }
+  }
+`
+
 export const userFragment = `
-  fragment userFragment on User {
+  fragment rootUser on User {
     userId
     username
-    photoUrl
-    photoUrl64p
-    photoUrl480p
-    photoUrl1080p
-    photoUrl4k
+    photo {
+      ...imageFragment
+    }
     privacyStatus
     followedStatus
     followerStatus
@@ -30,23 +45,41 @@ export const userFragment = `
     blockedStatus
     blockerStatus
   }
-`
 
-export const imageFragment = `
-  fragment imageFragment on Image {
-    url
-    url64p
-    url480p
-    url1080p
-    url4k
-    width
-    height
-    colors {
-      r
-      g
-      b
+  fragment userFragment on User {
+    ...rootUser
+
+    stories (limit: 12) {
+      items {
+        postId
+        postStatus
+        postType
+        postedAt
+        postedBy {
+          ...rootUser
+        }
+        expiresAt
+        text
+        textTaggedUsers {
+          tag
+          user {
+            ...rootUser
+          }
+        }
+        image {
+          ...imageFragment
+        }
+        isVerified
+        likeStatus
+        onymousLikeCount
+        anonymousLikeCount
+        viewedByCount
+      }
+      nextToken 
     }
   }
+
+  ${imageFragment}
 `
 
 export const commentFragment = `
@@ -68,7 +101,7 @@ export const commentFragment = `
 `
 
 export const postFragment = `
-  fragment postFragment on Post {
+  fragment rootPost on Post {
     postId
     postStatus
     postType
@@ -98,6 +131,10 @@ export const postFragment = `
     onymousLikeCount
     anonymousLikeCount
     viewedByCount
+  }
+
+  fragment postFragment on Post {
+    ...rootPost
     onymouslyLikedBy (limit: 1) {
       items {
         ...userFragment
@@ -106,19 +143,7 @@ export const postFragment = `
     }
     comments (limit: 3) {
       items {
-        commentId
-        commentedAt
-        commentedBy {
-          userId
-          username
-        }
-        text
-        textTaggedUsers {
-          tag
-          user {
-            userId
-          }
-        }
+        ...commentFragment
       }
     }
     album {
@@ -129,72 +154,20 @@ export const postFragment = `
       }
       name
       description
-      url
-      url4k
-      url1080p
-      url480p
-      url64p
+      art {
+        ...imageFragment
+      }
       postCount
       postsLastUpdatedAt
       posts(limit: 10) {
         items {
-          postId
-          postType
-          postedAt
-          postedBy {
-            ...userFragment
-          }
-          expiresAt
-          text
-          textTaggedUsers {
-            tag
-            user {
-              ...userFragment
-            }
-          }
-          image {
-            ...imageFragment
-          }
-          isVerified
-          likeStatus
-          commentCount
-          commentsDisabled
-          likesDisabled
-          sharingDisabled
-          verificationHidden
-          onymousLikeCount
-          anonymousLikeCount
-          viewedByCount
-          onymouslyLikedBy (limit: 1) {
-            items {
-              ...userFragment
-            }
-            nextToken
-          }
-          comments (limit: 3) {
-            items {
-              commentId
-              commentedAt
-              commentedBy {
-                userId
-                username
-              }
-              text
-              textTaggedUsers {
-                tag
-                user {
-                  userId
-                }
-              }
-            }
-          }
+          ...rootPost
         }
         nextToken
       }
     }
   }
-  ${userFragment}
-  ${imageFragment}
+  ${commentFragment}
 `
 
 export const albumFragment = `
@@ -206,16 +179,14 @@ export const albumFragment = `
     }
     name
     description
-    url
-    url4k
-    url1080p
-    url480p
-    url64p
     posts(limit: 10) {
       items {
         ...postFragment
       }
       nextToken
+    }
+    art {
+      ...imageFragment
     }
     postCount
     postsLastUpdatedAt
