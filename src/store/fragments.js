@@ -16,7 +16,7 @@ export const imageFragment = `
 `
 
 export const userFragment = `
-  fragment userFragment on User {
+  fragment rootUser on User {
     userId
     username
     photo {
@@ -45,6 +45,40 @@ export const userFragment = `
     blockedStatus
     blockerStatus
   }
+
+  fragment userFragment on User {
+    ...rootUser
+
+    stories (limit: 12) {
+      items {
+        postId
+        postStatus
+        postType
+        postedAt
+        postedBy {
+          ...rootUser
+        }
+        expiresAt
+        text
+        textTaggedUsers {
+          tag
+          user {
+            ...rootUser
+          }
+        }
+        image {
+          ...imageFragment
+        }
+        isVerified
+        likeStatus
+        onymousLikeCount
+        anonymousLikeCount
+        viewedByCount
+      }
+      nextToken 
+    }
+  }
+
   ${imageFragment}
 `
 
@@ -67,7 +101,7 @@ export const commentFragment = `
 `
 
 export const postFragment = `
-  fragment postFragment on Post {
+  fragment rootPost on Post {
     postId
     postStatus
     postType
@@ -97,6 +131,10 @@ export const postFragment = `
     onymousLikeCount
     anonymousLikeCount
     viewedByCount
+  }
+
+  fragment postFragment on Post {
+    ...rootPost
     onymouslyLikedBy (limit: 1) {
       items {
         ...userFragment
@@ -105,19 +143,7 @@ export const postFragment = `
     }
     comments (limit: 3) {
       items {
-        commentId
-        commentedAt
-        commentedBy {
-          userId
-          username
-        }
-        text
-        textTaggedUsers {
-          tag
-          user {
-            userId
-          }
-        }
+        ...commentFragment
       }
     }
     album {
@@ -135,63 +161,13 @@ export const postFragment = `
       postsLastUpdatedAt
       posts(limit: 10) {
         items {
-          postId
-          postType
-          postedAt
-          postedBy {
-            ...userFragment
-          }
-          expiresAt
-          text
-          textTaggedUsers {
-            tag
-            user {
-              ...userFragment
-            }
-          }
-          image {
-            ...imageFragment
-          }
-          isVerified
-          likeStatus
-          commentCount
-          commentsDisabled
-          likesDisabled
-          sharingDisabled
-          verificationHidden
-          onymousLikeCount
-          anonymousLikeCount
-          viewedByCount
-          onymouslyLikedBy (limit: 1) {
-            items {
-              ...userFragment
-            }
-            nextToken
-          }
-          comments (limit: 3) {
-            items {
-              commentId
-              commentedAt
-              commentedBy {
-                userId
-                username
-              }
-              text
-              textTaggedUsers {
-                tag
-                user {
-                  userId
-                }
-              }
-            }
-          }
+          ...rootPost
         }
         nextToken
       }
     }
   }
-  ${imageFragment}
-  ${userFragment}
+  ${commentFragment}
 `
 
 export const albumFragment = `
@@ -203,18 +179,17 @@ export const albumFragment = `
     }
     name
     description
-    art {
-      imageFragment
-    }
     posts(limit: 10) {
       items {
         ...postFragment
       }
       nextToken
     }
+    art {
+      ...imageFragment
+    }
     postCount
     postsLastUpdatedAt
   }
-  ${imageFragment}
   ${postFragment}
 `

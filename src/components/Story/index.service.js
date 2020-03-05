@@ -27,7 +27,6 @@ const StoryService = ({ children, }) => {
   const prevUserStoryPool = pathOr([], ['data', userStoryIndex - 1], usersGetFollowedUsersWithStories)
 
   const onSnapItem = (index) => {
-    console.log(index)
     navigation.setParams({
       user: usersGetFollowedUsersWithStories.data[index]
     })
