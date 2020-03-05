@@ -12,6 +12,7 @@ import CountsComponent from 'components/Profile/Counts'
 import AboutComponent from 'components/Profile/About'
 import ActionComponent from 'components/Profile/Action'
 import FeedComponent from 'components/Profile/Feed'
+import AlbumsComponent from 'components/Profile/Albums'
 import Avatar from 'templates/Avatar'
 import NativeError from 'templates/NativeError'
 import path from 'ramda/src/path'
@@ -138,6 +139,7 @@ const Profile = ({
   usersGetProfile,
   usersGetProfileRequest,
   usersGetProfileSelfRequest,
+  albumsGet,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
@@ -239,8 +241,8 @@ const Profile = ({
             />
           )}
           albums={() => (
-            <FeedComponent
-              postsGet={postsGet}
+            <AlbumsComponent
+              albumsGet={albumsGet}
               themeFetch={themeFetch}
               usersGetProfile={usersGetProfile}
               scroll={scroll}

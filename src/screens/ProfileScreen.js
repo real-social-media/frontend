@@ -1,4 +1,5 @@
 import React from 'react'
+import AlbumsGridServiceComponent from 'components/AlbumsGrid/index.service'
 import PostsGridServiceComponent from 'components/PostsGrid/index.service'
 import ProfileServiceComponent from 'components/Profile/index.service'
 import ProfileComponent from 'components/Profile'
@@ -15,10 +16,15 @@ class ProfileScreen extends React.Component {
               <PaperProvider theme={themeProps.activeTheme}>
                 <PostsGridServiceComponent>
                   {(postsProps) => (
-                    <ProfileComponent
-                      {...profileProps}
-                      {...postsProps}
-                    />
+                    <AlbumsGridServiceComponent>
+                      {(albumsProps) => (
+                        <ProfileComponent
+                          {...profileProps}
+                          {...postsProps}
+                          {...albumsProps}
+                        />
+                      )}
+                    </AlbumsGridServiceComponent>
                   )}
                 </PostsGridServiceComponent>
               </PaperProvider>

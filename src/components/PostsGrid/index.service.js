@@ -5,7 +5,7 @@ import * as postsServices from 'store/ducks/posts/services'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import path from 'ramda/src/path'
 
-const PostsGridService = ({ children, }) => {
+const PostsGridService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const route = useRoute()

@@ -10,6 +10,7 @@ import ProfileFollowerScreen from 'screens/ProfileFollowerScreen'
 import VerificationScreen from 'screens/VerificationScreen'
 import PostEditScreen from 'screens/PostEditScreen'
 import PostCreateScreen from 'screens/PostCreateScreen'
+import AlbumScreen from 'screens/AlbumScreen'
 
 export const media = ({
   Stack,
@@ -64,6 +65,12 @@ export const media = ({
         name="PostEdit"
         component={PostEditScreen}
         {...stackScreenPageProps({ options: { title: 'Edit Post' } })}
+      />
+
+      <Stack.Screen
+        name="Album"
+        component={AlbumScreen}
+        {...stackScreenPageProps({ options: { title: 'Album' } })}
       />
 
       <Stack.Screen

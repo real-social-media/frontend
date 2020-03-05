@@ -1,4 +1,5 @@
 import React from 'react'
+import AlbumsGridServiceComponent from 'components/AlbumsGrid/index.service'
 import PostsGridServiceComponent from 'components/PostsGrid/index.service'
 import ProfileSelfServiceComponent from 'components/ProfileSelf/index.service'
 import ProfileComponent from 'components/Profile'
@@ -10,10 +11,15 @@ class ProfileSelfScreen extends React.Component {
         {(profileProps) => (
           <PostsGridServiceComponent>
             {(postsProps) => (
-              <ProfileComponent
-                {...profileProps}
-                {...postsProps}
-              />
+              <AlbumsGridServiceComponent>
+                {(albumsProps) => (
+                  <ProfileComponent
+                    {...profileProps}
+                    {...postsProps}
+                    {...albumsProps}
+                  />
+                )}
+              </AlbumsGridServiceComponent>
             )}
           </PostsGridServiceComponent>
         )}

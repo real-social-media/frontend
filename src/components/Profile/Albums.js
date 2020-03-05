@@ -5,10 +5,9 @@ import {
   View,
   ActivityIndicator,
 } from 'react-native'
-import PostsGridComponent from 'components/PostsGrid'
+import AlbumsGridComponent from 'components/AlbumsGrid'
 import path from 'ramda/src/path'
 import PostsLoadingComponent from 'components/PostsList/PostsLoading'
-import ProfilePrivateComponent from 'components/Profile/Private'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation, useRoute } from '@react-navigation/native'
@@ -16,7 +15,7 @@ import { useTranslation } from 'react-i18next'
 
 const Profile = ({
   theme,
-  postsGet,
+  albumsGet,
   themeFetch,
   usersGetProfile,
   scroll,
@@ -28,20 +27,13 @@ const Profile = ({
 
   return (
     <View style={styling.root}>
-      {(
-        path(['data', 'privacyStatus'])(usersGetProfile) === 'PRIVATE' &&
-        path(['data', 'followedStatus'])(usersGetProfile) === 'NOT_FOLLOWING'
-      ) ? (
-        <ProfilePrivateComponent />
-      ) : (
-        <PostsGridComponent
-          postsGet={postsGet}
-          themeFetch={themeFetch}
-          themeCode={path(['data', 'themeCode'])(usersGetProfile)}
-        />
-      )}
+      <AlbumsGridComponent
+        albumsGet={albumsGet}
+        themeFetch={themeFetch}
+        themeCode={path(['data', 'themeCode'])(usersGetProfile)}
+      />
 
-      {(path(['status'])(postsGet) === 'loading' && !path(['data', 'length'])(postsGet)) ?
+      {(path(['status'])(albumsGet) === 'loading' && !path(['data', 'length'])(albumsGet)) ?
         <PostsLoadingComponent />
       : null}
 
@@ -76,7 +68,7 @@ Profile.propTypes = {
   usersFollowRequest: PropTypes.any,
   usersUnfollow: PropTypes.any,
   usersUnfollowRequest: PropTypes.any,
-  postsGet: PropTypes.any,
+  albumsGet: PropTypes.any,
 }
 
 export default withTheme(Profile)
