@@ -6,19 +6,19 @@ import {
   TouchableOpacity,
   ScrollView,
   RefreshControl,
-  ActivityIndicator,
+  Dimensions,
 } from 'react-native'
-import PostsGridComponent from 'components/PostsGrid'
 import CountsComponent from 'components/Profile/Counts'
 import AboutComponent from 'components/Profile/About'
 import ActionComponent from 'components/Profile/Action'
+import FeedComponent from 'components/Profile/Feed'
 import Avatar from 'templates/Avatar'
 import NativeError from 'templates/NativeError'
 import path from 'ramda/src/path'
-import PostsLoadingComponent from 'components/PostsList/PostsLoading'
 import ProfileStatusComponent from 'components/Profile/Status'
-import ProfilePrivateComponent from 'components/Profile/Private'
 import pathOr from 'ramda/src/pathOr'
+import { TabView, TabBar, SceneMap } from 'react-native-tab-view'
+import { Text } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation, useRoute } from '@react-navigation/native'
@@ -77,6 +77,46 @@ const ScrollHelper = ({
     handleRefresh,
     refreshing,
   }
+}
+
+const ProfileTabView = ({
+  feed,
+  albums,
+}) => {
+  const [index, setIndex] = React.useState(0)
+  const [routes] = React.useState([
+    { key: 'feed', title: 'Feed' },
+    { key: 'albums', title: 'Albums' },
+  ])
+
+  const renderScene = SceneMap({
+    feed,
+    albums,
+  })
+
+  const renderTabBar = props => (
+    <TabBar
+      {...props}
+      indicatorStyle={{ backgroundColor: 'white' }}
+      style={{ backgroundColor: 'transparent' }}
+      renderLabel={({ route, focused, color }) => (
+        <Text style={{ color, margin: 8 }}>
+          {route.title}
+        </Text>
+      )}
+    />
+  )
+
+  return (
+    <TabView
+      navigationState={{ index, routes }}
+      renderScene={renderScene}
+      onIndexChange={setIndex}
+      initialLayout={{ width: Dimensions.get('window').width }}
+      indicatorStyle={{ backgroundColor: 'transparent' }}
+      renderTabBar={renderTabBar}
+    />
+  )
 }
 
 const Profile = ({
@@ -174,7 +214,7 @@ const Profile = ({
             usersGetProfile={usersGetProfile}
           />
         </View>
-        <View style={styling.action}>
+        {/* <View style={styling.action}>
           <ActionComponent
             self={self}
             usersGetProfile={usersGetProfile}
@@ -187,30 +227,26 @@ const Profile = ({
             usersUnfollow={usersUnfollow}
             usersUnfollowRequest={usersUnfollowRequest}
           />
-        </View>
+        </View> */}
 
-        {(
-          path(['data', 'privacyStatus'])(usersGetProfile) === 'PRIVATE' &&
-          path(['data', 'followedStatus'])(usersGetProfile) === 'NOT_FOLLOWING'
-        ) ? (
-          <ProfilePrivateComponent />
-        ) : (
-          <PostsGridComponent
-            postsGet={postsGet}
-            themeFetch={themeFetch}
-            themeCode={path(['data', 'themeCode'])(usersGetProfile)}
-          />
-        )}
-
-        {(path(['status'])(postsGet) === 'loading' && !path(['data', 'length'])(postsGet)) ?
-          <PostsLoadingComponent />
-        : null}
-
-        {scroll.loadingmore ?
-          <View style={styling.loading}>
-            <ActivityIndicator />
-          </View>
-        : null}
+        <ProfileTabView
+          feed={() => (
+            <FeedComponent
+              postsGet={postsGet}
+              themeFetch={themeFetch}
+              usersGetProfile={usersGetProfile}
+              scroll={scroll}
+            />
+          )}
+          albums={() => (
+            <FeedComponent
+              postsGet={postsGet}
+              themeFetch={themeFetch}
+              usersGetProfile={usersGetProfile}
+              scroll={scroll}
+            />
+          )}
+        />
       </ScrollView>
     </View>
   )
