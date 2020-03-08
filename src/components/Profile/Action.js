@@ -30,14 +30,11 @@ const ProfileAction = ({
 
   return (
     <View style={styling.root}>
-      {self ? <>
+      {self ?
         <View style={styling.item}>
-          <DefaultButton label={t('Settings')} onPress={() => navigation.navigate('Settings')} />
+          <DefaultButton label={t('Settings')} onPress={() => navigation.navigate('Settings')} mode="outlined" size="compact" />
         </View>
-        <View style={styling.item}>
-          <DefaultButton label={t('Albums')} onPress={() => navigation.navigate('Albums')} />
-        </View>
-      </> : null}
+      : null}
 
       {!self ?
         <React.Fragment>
@@ -48,6 +45,8 @@ const ProfileAction = ({
                 onPress={() => {}}
                 loading={false}
                 disabled={true}
+                mode="outlined"
+                size="compact"
               />
             : null}
             {path(['data', 'followedStatus'])(usersGetProfile) === 'NOT_FOLLOWING' ?
@@ -59,6 +58,8 @@ const ProfileAction = ({
                   path(['data', 'blockedStatus'])(usersGetProfile) === 'BLOCKING' ||
                   path(['data', 'blockerStatus'])(usersGetProfile) === 'BLOCKING'
                 }
+                mode="outlined"
+                size="compact"
               />
             : null}
             {path(['data', 'followedStatus'])(usersGetProfile) === 'FOLLOWING' ?
@@ -66,6 +67,8 @@ const ProfileAction = ({
                 label={t('Unfollow User')}
                 onPress={() => usersUnfollowRequest({ userId: path(['data', 'userId'])(usersGetProfile) })}
                 loading={path(['status'])(usersUnfollow) === 'loading'}
+                mode="outlined"
+                size="compact"
               />
             : null}
             {path(['data', 'followedStatus'])(usersGetProfile) === 'REQUESTED' ?
@@ -73,6 +76,8 @@ const ProfileAction = ({
                 label={t('Cancel Request')}
                 onPress={() => usersUnfollowRequest({ userId: path(['data', 'userId'])(usersGetProfile) })}
                 loading={path(['status'])(usersUnfollow) === 'loading'}
+                mode="outlined"
+                size="compact"
               />
             : null}
           </View>
@@ -83,12 +88,16 @@ const ProfileAction = ({
                 label={t('Block User')}
                 onPress={() => usersBlockRequest({ userId: path(['data', 'userId'])(usersGetProfile) })}
                 loading={path(['status'])(usersBlock) === 'loading'}
+                mode="outlined"
+                size="compact"
               />
             :
               <DefaultButton
                 label={t('Unblock User')}
                 onPress={() => usersUnblockRequest({ userId: path(['data', 'userId'])(usersGetProfile) })}
                 loading={path(['status'])(usersUnblock) === 'loading'}
+                mode="outlined"
+                size="compact"
               />
             }
           </View>
@@ -105,6 +114,8 @@ const styles = theme => StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginHorizontal: -6,
+    paddingHorizontal: theme.spacing.base,
+    marginBottom: theme.spacing.base,
   },
   item: {
     flex: 1,

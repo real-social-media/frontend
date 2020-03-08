@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -6,28 +6,32 @@ import {
   TouchableOpacity,
   ScrollView,
   RefreshControl,
+  Dimensions,
 } from 'react-native'
 import CountsComponent from 'components/Profile/Counts'
 import AboutComponent from 'components/Profile/About'
 import ActionComponent from 'components/Profile/Action'
-import ProfileStatusComponent from 'components/Profile/Status'
-import ProfileTabViewComponent from 'components/Profile/ProfileTabView'
-import ProfileContext from 'components/Profile/Context'
-
+import FeedComponent from 'components/Profile/Feed'
+import AlbumsComponent from 'components/Profile/Albums'
 import Avatar from 'templates/Avatar'
 import NativeError from 'templates/NativeError'
 import path from 'ramda/src/path'
+import ProfileStatusComponent from 'components/Profile/Status'
 import pathOr from 'ramda/src/pathOr'
+import { TabView, TabBar, SceneMap } from 'react-native-tab-view'
+import { Text } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
-const PostsScrollHelper = ({
+const ScrollHelper = ({
   userId,
   postsGet,
   postsGetRequest,
   postsGetMoreRequest,
+  usersGetProfileRequest,
+  usersGetProfileSelfRequest,
 }) => {
   const handleLoadMore = () => {
     if (
@@ -57,6 +61,14 @@ const PostsScrollHelper = ({
   )
 
   const handleRefresh = () => {
+    if (typeof usersGetProfileRequest === 'function') {
+      usersGetProfileRequest({ userId })
+    }
+
+    if (typeof usersGetProfileSelfRequest === 'function') {
+      usersGetProfileSelfRequest({ userId })
+    }
+
     postsGetRequest({ userId })
   }
 
@@ -68,20 +80,51 @@ const PostsScrollHelper = ({
   }
 }
 
+const ProfileTabView = ({
+  feed,
+  albums,
+}) => {
+  const [index, setIndex] = React.useState(0)
+  const [routes] = React.useState([
+    { key: 'feed', title: 'Feed' },
+    { key: 'albums', title: 'Albums' },
+  ])
+
+  const renderScene = SceneMap({
+    feed,
+    albums,
+  })
+
+  const renderTabBar = props => (
+    <TabBar
+      {...props}
+      indicatorStyle={{ backgroundColor: 'white' }}
+      style={{ backgroundColor: 'transparent' }}
+      renderLabel={({ route, focused, color }) => (
+        <Text style={{ color, margin: 8 }}>
+          {route.title}
+        </Text>
+      )}
+    />
+  )
+
+  return (
+    <TabView
+      navigationState={{ index, routes }}
+      renderScene={renderScene}
+      onIndexChange={setIndex}
+      initialLayout={{ width: Dimensions.get('window').width }}
+      indicatorStyle={{ backgroundColor: 'transparent' }}
+      renderTabBar={renderTabBar}
+    />
+  )
+}
+
 const Profile = ({
   theme,
+  profileRef,
   authUser,
   usersBlock,
-  usersGetProfile,
-
-  postsGet,
-  postsGetRequest,
-  postsGetMoreRequest,
-  
-  albumsGet,
-  albumsGetRequest,
-  albumsGetMoreRequest,
-
   usersBlockRequest,
   usersUnblock,
   usersUnblockRequest,
@@ -89,23 +132,19 @@ const Profile = ({
   usersFollowRequest,
   usersUnfollow,
   usersUnfollowRequest,
+  postsGet,
+  postsGetRequest,
+  postsGetMoreRequest,
+  themeFetch,
+  usersGetProfile,
+  usersGetProfileRequest,
+  usersGetProfileSelfRequest,
+  albumsGet,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
   const navigation = useNavigation()
   const route = useRoute()
-  const profileRef = useRef(null)
-  const [profileLayout, setProfileLayout] = useState({})
-
-  const [index, setIndex] = React.useState(0)
-  const [routes] = React.useState([
-    { key: 'feed', title: 'Feed' },
-    { key: 'albums', title: 'Albums' },
-  ])
-
-  const onLayout = (event) => {
-    setProfileLayout(event.nativeEvent.layout)
-  }
 
   const handleUserStoryPress = () => {
     if (!pathOr(0, ['data', 'stories', 'items', 'length'], usersGetProfile)) {
@@ -118,28 +157,19 @@ const Profile = ({
     })
   }
 
-  const scroll = PostsScrollHelper({
+  const self = path(['data', 'userId'])(usersGetProfile) === path(['userId'])(authUser)
+
+  const scroll = ScrollHelper({
     userId: path(['data', 'userId'])(usersGetProfile),
     postsGet,
     postsGetRequest,
     postsGetMoreRequest,
+    usersGetProfileRequest,
+    usersGetProfileSelfRequest,
   })
 
-  const self = path(['data', 'userId'])(usersGetProfile) === path(['userId'])(authUser)
-
   return (
-    <ScrollView
-      style={styling.root}
-      onScroll={scroll.handleScrollChange}
-      scrollEventThrottle={400}
-      refreshControl={(
-        <RefreshControl
-          tintColor={theme.colors.border}
-          onRefresh={scroll.handleRefresh}
-          refreshing={scroll.refreshing}
-        />
-      )}
-    >
+    <View style={styling.root}>
       <NativeError
         handleCancelPress={() => {}}
         titleText={t('All good!')}
@@ -148,8 +178,18 @@ const Profile = ({
         status={path(['status'])(usersBlock)}
         triggerOn="success"
       />
-
-      <View ref={profileRef} onLayout={onLayout}>
+      <ScrollView
+        ref={profileRef}
+        onScroll={scroll.handleScrollChange}
+        scrollEventThrottle={400}
+        refreshControl={(
+          <RefreshControl
+            tintColor={theme.colors.border}
+            onRefresh={scroll.handleRefresh}
+            refreshing={scroll.refreshing}
+          />
+        )}
+      >
         {route.name === 'ProfileSelf' ?
           <ProfileStatusComponent />
         : null}
@@ -170,38 +210,47 @@ const Profile = ({
             />
           </View>
         </View>
-
         <View style={styling.about}>
           <AboutComponent
             authUser={authUser}
             usersGetProfile={usersGetProfile}
           />
         </View>
-      </View>
+        {/* <View style={styling.action}>
+          <ActionComponent
+            self={self}
+            usersGetProfile={usersGetProfile}
+            usersBlock={usersBlock}
+            usersBlockRequest={usersBlockRequest}
+            usersUnblock={usersUnblock}
+            usersUnblockRequest={usersUnblockRequest}
+            usersFollow={usersFollow}
+            usersFollowRequest={usersFollowRequest}
+            usersUnfollow={usersUnfollow}
+            usersUnfollowRequest={usersUnfollowRequest}
+          />
+        </View> */}
 
-      <View style={styling.action}>
-        <ActionComponent
-          self={self}
-          usersGetProfile={usersGetProfile}
-          usersBlock={usersBlock}
-          usersBlockRequest={usersBlockRequest}
-          usersUnblock={usersUnblock}
-          usersUnblockRequest={usersUnblockRequest}
-          usersFollow={usersFollow}
-          usersFollowRequest={usersFollowRequest}
-          usersUnfollow={usersUnfollow}
-          usersUnfollowRequest={usersUnfollowRequest}
+        <ProfileTabView
+          feed={() => (
+            <FeedComponent
+              postsGet={postsGet}
+              themeFetch={themeFetch}
+              usersGetProfile={usersGetProfile}
+              scroll={scroll}
+            />
+          )}
+          albums={() => (
+            <AlbumsComponent
+              albumsGet={albumsGet}
+              themeFetch={themeFetch}
+              usersGetProfile={usersGetProfile}
+              scroll={scroll}
+            />
+          )}
         />
-      </View>
-
-      <ProfileContext.Provider value={{ profileRef, profileLayout }}>
-        <ProfileTabViewComponent
-          index={index}
-          setIndex={setIndex}
-          routes={routes}
-        />
-      </ProfileContext.Provider>
-    </ScrollView>
+      </ScrollView>
+    </View>
   )
 }
 
@@ -225,6 +274,13 @@ const styles = theme => StyleSheet.create({
   about: {
     paddingHorizontal: 12,
     marginBottom: 12,
+  },
+  action: {
+    paddingHorizontal: 12,
+    marginBottom: 12,
+  },
+  loading: {
+    padding: 16,
   },
 })
 

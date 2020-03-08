@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {
-  StyleSheet,
   View,
-  ActivityIndicator,
+  StyleSheet,
 } from 'react-native'
 import AlbumsGridComponent from 'components/AlbumsGrid'
+import AlbumsGridServiceComponent from 'components/AlbumsGrid/index.service'
 import path from 'ramda/src/path'
 import PostsLoadingComponent from 'components/PostsList/PostsLoading'
 
@@ -13,36 +13,28 @@ import { withTheme } from 'react-native-paper'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
-const Profile = ({
+const ProfileAlbums = ({
   theme,
-  albumsGet,
-  themeFetch,
-  usersGetProfile,
-  scroll,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
-  const navigation = useNavigation()
-  const route = useRoute()
 
   return (
-    <View style={styling.root}>
-      <AlbumsGridComponent
-        albumsGet={albumsGet}
-        themeFetch={themeFetch}
-        themeCode={path(['data', 'themeCode'])(usersGetProfile)}
-      />
+    <AlbumsGridServiceComponent>
+      {(albumsProps) => (
+        <View style={styling.root}>
+          <AlbumsGridComponent
+            albumsGet={albumsProps.albumsGet}
+            themeFetch={albumsProps.themeFetch}
+            themeCode={path(['data', 'themeCode'])(albumsProps.user)}
+          />
 
-      {(path(['status'])(albumsGet) === 'loading' && !path(['data', 'length'])(albumsGet)) ?
-        <PostsLoadingComponent />
-      : null}
-
-      {scroll.loadingmore ?
-        <View style={styling.loading}>
-          <ActivityIndicator />
+          {(path(['status'])(albumsProps.albumsGet) === 'loading' && !path(['data', 'length'])(albumsProps.albumsGet)) ?
+            <PostsLoadingComponent />
+          : null}
         </View>
-      : null}
-    </View>
+      )}
+    </AlbumsGridServiceComponent>
   )
 }
 
@@ -51,24 +43,10 @@ const styles = theme => StyleSheet.create({
     flex: 1,
     backgroundColor: theme.colors.backgroundPrimary,
   },
-  loading: {
-    padding: 16,
-  },
 })
 
-Profile.propTypes = {
+ProfileAlbums.propTypes = {
   theme: PropTypes.any,
-  usersGetProfile: PropTypes.any,
-  authUser: PropTypes.any,
-  usersBlock: PropTypes.any,
-  usersBlockRequest: PropTypes.any,
-  usersUnblock: PropTypes.any,
-  usersUnblockRequest: PropTypes.any,
-  usersFollow: PropTypes.any,
-  usersFollowRequest: PropTypes.any,
-  usersUnfollow: PropTypes.any,
-  usersUnfollowRequest: PropTypes.any,
-  albumsGet: PropTypes.any,
 }
 
-export default withTheme(Profile)
+export default withTheme(ProfileAlbums)

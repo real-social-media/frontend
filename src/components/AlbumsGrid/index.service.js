@@ -12,7 +12,8 @@ const AlbumsGridService = ({ children }) => {
   const albumsGet = useSelector(state => state.albums.albumsGet)
   const albumsGetCache = useSelector(state => state.albums.albumsGetCache)
   const themeFetch = useSelector(state => state.theme.themeFetch)
-  const userId = path(['params', 'user', 'userId'])(route) || useSelector(state => state.auth.user.userId)
+  const user = path(['params', 'user'])(route) || useSelector(state => state.auth.user)
+  const userId = user.userId
 
   const albumsGetRequest = ({ nextToken }) =>
     dispatch(albumsActions.albumsGetRequest({ userId, nextToken }))
@@ -26,6 +27,7 @@ const AlbumsGridService = ({ children }) => {
 
   return children({
     themeFetch,
+    user: route.params,
     albumsGet: postsServices.cachedPostsGet(albumsGet, albumsGetCache, userId),
     albumsGetRequest,
     albumsGetMoreRequest,

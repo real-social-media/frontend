@@ -12,7 +12,8 @@ const PostsGridService = ({ children }) => {
   const postsGet = useSelector(state => state.posts.postsGet)
   const postsGetCache = useSelector(state => state.posts.postsGetCache)
   const themeFetch = useSelector(state => state.theme.themeFetch)
-  const userId = path(['params', 'user', 'userId'])(route) || useSelector(state => state.auth.user.userId)
+  const user = path(['params', 'user'])(route) || useSelector(state => state.auth.user)
+  const userId = user.userId
 
   const postsGetRequest = ({ nextToken }) =>
     dispatch(postsActions.postsGetRequest({ userId, nextToken }))
@@ -26,6 +27,7 @@ const PostsGridService = ({ children }) => {
 
   return children({
     themeFetch,
+    user: route.params,
     postsGet: postsServices.cachedPostsGet(postsGet, postsGetCache, userId),
     postsGetRequest,
     postsGetMoreRequest,

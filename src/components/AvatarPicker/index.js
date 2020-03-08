@@ -71,13 +71,13 @@ const AvatarPicker = ({
 
       {postsCreate.status !== 'loading' ?
         <View style={styling.form}>
-          <DefaultButton label={t('Skip')} mode="outline" onPress={() => navigation.push('Main')} />
+          <DefaultButton label={t('Skip')} mode="outlined" onPress={() => navigation.push('Main')} />
         </View>
       : null}
 
       {postsCreate.status === 'loading' ?
         <View style={styling.form}>
-          <DefaultButton label={t('Uploading')} mode="outline" disabled loading />
+          <DefaultButton label={t('Uploading')} mode="outlined" disabled loading />
         </View>
       : null}
     </View>
