@@ -285,3 +285,16 @@ export const comments = `
   }
   ${commentFragment}
 `
+
+export const setUserDetails = `
+  mutation setUserDetails(
+    $photoPostId: ID
+  ) {
+    setUserDetails(
+      photoPostId: $photoPostId
+    ) {
+      ...userFragment
+    }
+  }
+  ${userFragment}
+`

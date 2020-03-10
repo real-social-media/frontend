@@ -89,6 +89,15 @@ const initialState = {
     },
     meta: {},
   },
+  postsAvatar: {
+    data: {},
+    status: 'idle',
+    error: {},
+    payload: {
+      images: [],
+    },
+    meta: {},
+  },
   postsOnymouslyLike: {
     data: {},
     status: 'idle',
@@ -808,6 +817,43 @@ const postsCreateProgress = (state, action) => update(state, {
 /**
  *
  */
+const postsAvatarRequest = (state, action) => update(state, {
+  postsAvatar: {
+    status: { $set: 'loading' },
+    payload: { $set: action.payload },
+  },
+})
+
+const postsAvatarSuccess = (state, action) => update(state, {
+  postsAvatar: {
+    data: { $set: action.payload.data },
+    status: { $set: 'success' },
+  },
+})
+
+const postsAvatarFailure = (state, action) => update(state, {
+  postsAvatar: {
+    status: { $set: 'failure' },
+  },
+})
+
+const postsAvatarIdle = (state, action) => update(state, {
+  postsAvatar: {
+    data: { $set: initialState.postsAvatar.data },
+    status: { $set: 'idle' },
+  },
+})
+
+const postsAvatarProgress = (state, action) => update(state, {
+  postsAvatar: {
+    status: { $set: 'loading' },
+    meta: { $set: action.payload.meta },
+  },
+})
+
+/**
+ *
+ */
 const postsOnymouslyLikeRequest = (state, action) => update(state, {
   postsOnymouslyLike: {
     status: { $set: 'loading' },
@@ -1315,6 +1361,12 @@ export default handleActions({
   [constants.POSTS_CREATE_FAILURE]: postsCreateFailure,
   [constants.POSTS_CREATE_IDLE]: postsCreateIdle,
   [constants.POSTS_CREATE_PROGRESS]: postsCreateProgress,
+
+  [constants.POSTS_AVATAR_REQUEST]: postsAvatarRequest,
+  [constants.POSTS_AVATAR_SUCCESS]: postsAvatarSuccess,
+  [constants.POSTS_AVATAR_FAILURE]: postsAvatarFailure,
+  [constants.POSTS_AVATAR_IDLE]: postsAvatarIdle,
+  [constants.POSTS_AVATAR_PROGRESS]: postsAvatarProgress,
 
   [constants.POSTS_ONYMOUSLY_LIKE_REQUEST]: postsOnymouslyLikeRequest,
   [constants.POSTS_ONYMOUSLY_LIKE_SUCCESS]: postsOnymouslyLikeSuccess,

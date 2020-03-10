@@ -1,5 +1,5 @@
 import { graphqlOperation } from '@aws-amplify/api'
-import { call, put, takeEvery, takeLatest, getContext, delay, select } from 'redux-saga/effects'
+import { call, put, takeEvery, getContext, delay, select } from 'redux-saga/effects'
 import { eventChannel } from 'redux-saga'
 import path from 'ramda/src/path'
 import RNFetchBlob from 'rn-fetch-blob'
@@ -58,11 +58,13 @@ function* handlePostsCreateRequest(payload) {
   const data = yield AwsAPI.graphql(graphqlOperation(queries.addPhotoPost, payload))
 
   const currentIndex = 0
-  const selector = path(['data', 'addPost', 'imageUploadUrl'])
+  const postIdSelector = path(['data', 'addPost', 'postId'])
+  const uriSelector = path(['data', 'addPost', 'imageUploadUrl'])
   const imageSelector = path(['images', currentIndex])
 
   return {
-    imageUrl: selector(data),
+    postId: postIdSelector(data),
+    imageUrl: uriSelector(data),
     image: imageSelector(payload),
   }
 }
@@ -134,6 +136,63 @@ function* handleImagePost(req) {
 }
 
 /**
+ *
+ */
+function* handleAvatarPost(req) {
+  const AwsAPI = yield getContext('AwsAPI')
+  const errorWrapper = yield getContext('errorWrapper')
+
+  try {
+    const data = yield handlePostsCreateRequest(req.payload)
+
+    const channel = yield call(initPostsCreateUploadChannel, {
+      imageUrl: data.imageUrl,
+      image: data.image,
+    })
+
+    yield takeEvery(channel, function *(upload) {
+      const meta = {
+        attempt: upload.attempt || req.payload.attempt,
+        progress: parseInt(upload.progress, 10),
+      }
+
+      if (upload.status === 'progress') {
+        yield put(actions.postsAvatarProgress({ data: {}, payload: req.payload, meta }))
+      }
+
+      if (upload.status === 'success') {
+        try {
+          yield promiseRetry(function * (retry, attempt) {
+            try {
+              const photoPostId = data.postId
+              const selector = path(['data', 'setUserDetails'])
+              const data = yield AwsAPI.graphql(graphqlOperation(queries.setUserDetails, { photoPostId }))
+              yield put(actions.postsAvatarSuccess({ data: {}, payload: req.payload, meta }))
+              yield put(actions.globalAuthUserTrigger({ data: selector(data) }))
+            } catch (error) {
+              console.log(error)
+              retry(error)
+            }
+          }, { retries: 5 })
+        } catch (error) {
+          console.log(error)
+        }
+      }
+
+      if (upload.status === 'failure') {
+        yield put(actions.postsAvatarFailure({ data: {}, payload: req.payload, meta }))
+      }
+    })
+  } catch (error) {
+    yield put(actions.postsAvatarFailure({
+      message: errorWrapper(error),
+      payload: req.payload,
+      meta: { attempt: 0, progress: 0 },
+    }))
+  }
+}
+
+/**
  * 
  */
 function* postsCreateRequest(req) {
@@ -146,6 +205,9 @@ function* postsCreateRequest(req) {
   }
 }
 
+function* postsAvatarRequest(req) {
+  return yield handleAvatarPost(req)
+}
 
 /**
  *
@@ -205,4 +267,5 @@ function* postsCreateSchedulerRequest() {
 export default () => [
   takeEvery(constants.POSTS_CREATE_REQUEST, postsCreateRequest),
   takeEvery(constants.POSTS_CREATE_SCHEDULER_REQUEST, postsCreateSchedulerRequest),
+  takeEvery(constants.POSTS_AVATAR_REQUEST, postsAvatarRequest),
 ]

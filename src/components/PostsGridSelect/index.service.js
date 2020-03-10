@@ -15,15 +15,14 @@ const PostsGridSelectService = ({ children, }) => {
   const user = useSelector(authSelector.authUserSelector)
   const usersImagePostsGet = useSelector(state => state.users.usersImagePostsGet)
   const usersEditProfile = useSelector(state => state.users.usersEditProfile)
-  const postsCreate = useSelector(state => state.posts.postsCreate)
 
   const [avatar] = path(['params', 'photos'])(route) || []
 
-  const postsCreateRequest = ({ uri }) => {
+  const postsAvatarRequest = ({ uri }) => {
     const postId = uuid()
     const mediaId = uuid()
 
-    dispatch(postsActions.postsCreateRequest({
+    dispatch(postsActions.postsAvatarRequest({
       postId,
       postType: 'IMAGE',
       albumId: null,
@@ -40,14 +39,8 @@ const PostsGridSelectService = ({ children, }) => {
   }
 
   useEffect(() => {
-    postsCreateRequest({ uri: avatar.uri })
+    postsAvatarRequest({ uri: avatar.uri })
   }, [avatar.uri])
-
-  useEffect(() => {
-    if (postsCreate.status === 'success') {
-      dispatch(usersActions.usersEditProfileRequest(postsCreate.payload))
-    }
-  }, [postsCreate.status])
 
   const usersImagePostsGetRequest = (payload) =>
     dispatch(usersActions.usersImagePostsGetRequest(payload))

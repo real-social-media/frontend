@@ -1,6 +1,8 @@
 import { createAction } from 'redux-actions'
 import * as constants from 'store/ducks/posts/constants'
 
+export const globalAuthUserTrigger = createAction('GLOBAL_AUTH_USER_TRIGGER')
+
 /**
  * 
  */
@@ -109,6 +111,15 @@ export const postsCreateRequest = createAction(constants.POSTS_CREATE_REQUEST)
 export const postsCreateSuccess = createAction(constants.POSTS_CREATE_SUCCESS)
 export const postsCreateFailure = createAction(constants.POSTS_CREATE_FAILURE)
 export const postsCreateProgress = createAction(constants.POSTS_CREATE_PROGRESS)
+
+/**
+ * 
+ */
+export const postsAvatarIdle = createAction(constants.POSTS_AVATAR_IDLE)
+export const postsAvatarRequest = createAction(constants.POSTS_AVATAR_REQUEST)
+export const postsAvatarSuccess = createAction(constants.POSTS_AVATAR_SUCCESS)
+export const postsAvatarFailure = createAction(constants.POSTS_AVATAR_FAILURE)
+export const postsAvatarProgress = createAction(constants.POSTS_AVATAR_PROGRESS)
 
 /**
  * 
