@@ -8,11 +8,12 @@ import { useNavigation, useScrollToTop } from '@react-navigation/native'
 import path from 'ramda/src/path'
 import pathOr from 'ramda/src/pathOr'
 import * as navigationActions from 'navigation/actions'
+import * as authSelector from 'store/ducks/auth/selectors'
 
 const PostsListService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
-  const authUser = useSelector(state => state.auth.user)
+  const user = useSelector(authSelector.authUserSelector)
   const postsFeedGet = useSelector(state => state.posts.postsFeedGet)
   const postsDelete = useSelector(state => state.posts.postsDelete)
   const postsArchive = useSelector(state => state.posts.postsArchive)
@@ -165,7 +166,7 @@ const PostsListService = ({ children }) => {
 
   return children({
     themes,
-    authUser,
+    user,
     postsFeedGet,
     postsFeedGetRequest,
     postsFeedGetMoreRequest,

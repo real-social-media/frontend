@@ -20,7 +20,7 @@ import { withTranslation } from 'react-i18next'
 const Comments = ({
   t,
   theme,
-  authUser,
+  user,
   commentsAdd,
   commentsAddRequest,
   commentsDeleteRequest,
@@ -59,13 +59,13 @@ const Comments = ({
         : null}
         renderItem={({ item: comment, index }) => (
           <View style={styling.comment}>
-            {comment.commentedBy.userId === authUser.userId ?
+            {comment.commentedBy.userId === user.userId ?
               <SwipeableComponent onPress={() => commentsDeleteRequest({ commentId: comment.commentId })}>
                 <CommentComponent comment={comment} />
               </SwipeableComponent>
             : null}
 
-            {comment.commentedBy.userId !== authUser.userId ?
+            {comment.commentedBy.userId !== user.userId ?
               <CommentComponent comment={comment} />
             : null}
           </View>

@@ -28,7 +28,7 @@ const PostComponent = ({
   t,
   theme,
   themes,
-  authUser,
+  user,
   post,
   postsShareRequest,
   handleEditPress,
@@ -71,7 +71,7 @@ const PostComponent = ({
   }
 
   const failedVerificationVisibility = (
-    authUser.userId === !path(['postedBy', 'userId'])(post) &&
+    user.userId === !path(['postedBy', 'userId'])(post) &&
     !path(['isVerified'])(post) &&
     path(['postType'])(post) !== 'TEXT_ONLY'
   )
@@ -82,7 +82,7 @@ const PostComponent = ({
       <TouchableOpacity style={styling.next} onPress={handleScrollNext} />
 
       <HeaderComponent
-        authUser={authUser}
+        user={user}
         post={post}
         handleEditPress={handleEditPress}
         postsArchiveRequest={postsArchiveRequest}
@@ -138,7 +138,7 @@ const PostComponent = ({
       : null}
 
       <ActionComponent
-        authUser={authUser}
+        user={user}
         post={post}
         postsShareRequest={postsShareRequest}
         postsAnonymouslyLikeRequest={postsAnonymouslyLikeRequest}
@@ -149,7 +149,7 @@ const PostComponent = ({
 
       <ReactionsPreviewTemplate
         post={post}
-        authUser={authUser}
+        user={user}
       />
 
       {post.postType === 'IMAGE' ?
@@ -190,7 +190,7 @@ PostComponent.defaultProps = {
 
 PostComponent.propTypes = {
   theme: PropTypes.any,
-  authUser: PropTypes.any,
+  user: PropTypes.any,
   feedRef: PropTypes.any,
   postsFeedGet: PropTypes.any,
   postsFeedGetRequest: PropTypes.any,

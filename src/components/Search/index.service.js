@@ -5,10 +5,11 @@ import * as usersServices from 'store/ducks/users/services'
 import * as postsActions from 'store/ducks/posts/actions'
 import { useScrollToTop } from '@react-navigation/native'
 import toLower from 'ramda/src/toLower'
+import * as authSelector from 'store/ducks/auth/selectors'
 
 const SearchService = ({ children, }) => {
   const dispatch = useDispatch()
-  const authUser = useSelector(state => state.auth.user)
+  const user = useSelector(authSelector.authUserSelector)
   const usersSearch = useSelector(state => state.users.usersSearch)
   const usersFollow = useSelector(state => state.users.usersFollow)
   const usersUnfollow = useSelector(state => state.users.usersUnfollow)
@@ -64,7 +65,7 @@ const SearchService = ({ children, }) => {
   return children({
     themes,
     feedRef,
-    authUser,
+    user,
     themeFetch,
     usersSearch: usersServices.cachedUsersSearch(usersSearch, usersGetProfileCache),
     usersSearchRequest,

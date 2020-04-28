@@ -14,7 +14,7 @@ import { withTranslation } from 'react-i18next'
 const AlbumCreateComponent = ({
   t,
   theme,
-  authUser,
+  user,
   albumsCreate,
   albumsCreateRequest,
 }) => {
@@ -27,7 +27,7 @@ const AlbumCreateComponent = ({
         <View style={styling.form}>
           <AlbumCreateForm
             navigation={navigation}
-            authUser={authUser}
+            user={user}
             albumsCreate={albumsCreate}
             albumsCreateRequest={albumsCreateRequest}
           />
@@ -39,7 +39,7 @@ const AlbumCreateComponent = ({
 
 AlbumCreateComponent.propTypes = {
   theme: PropTypes.any,
-  authUser: PropTypes.any,
+  user: PropTypes.any,
   albumsCreate: PropTypes.any,
   albumsCreateRequest: PropTypes.any,
 }

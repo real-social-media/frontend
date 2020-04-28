@@ -15,7 +15,7 @@ import { withTranslation } from 'react-i18next'
 const AlbumEditComponent = ({
   t,
   theme,
-  authUser,
+  user,
   albumsEdit,
   albumsEditRequest,
 }) => {
@@ -30,7 +30,7 @@ const AlbumEditComponent = ({
         <View style={styling.form}>
           <AlbumEditForm
             navigation={navigation}
-            authUser={authUser}
+            user={user}
             albumsEdit={albumsEdit}
             albumsEditRequest={albumsEditRequest}
             album={album}
@@ -43,7 +43,7 @@ const AlbumEditComponent = ({
 
 AlbumEditComponent.propTypes = {
   theme: PropTypes.any,
-  authUser: PropTypes.any,
+  user: PropTypes.any,
   albumsEdit: PropTypes.any,
   albumsEditRequest: PropTypes.any,
 }

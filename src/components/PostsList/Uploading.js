@@ -20,7 +20,7 @@ import { withTranslation } from 'react-i18next'
 const Uploading = ({
   t,
   theme,
-  authUser,
+  user,
   post,
   postsCreateRequest,
   postsCreateIdle,
@@ -40,7 +40,7 @@ const Uploading = ({
       url64p: path(['payload', 'images', '0'])(post),
       url1080p: path(['payload', 'images', '0'])(post),
     },
-    postedBy: authUser,
+    postedBy: user,
     postedAt: Date.now(),
   }
 
@@ -131,7 +131,7 @@ const styles = theme => StyleSheet.create({
 Uploading.propTypes = {
   theme: PropTypes.any,
   
-  authUser: PropTypes.any,
+  user: PropTypes.any,
   post: PropTypes.any,
   handleEditPress: PropTypes.any,
   postsArchiveRequest: PropTypes.any,

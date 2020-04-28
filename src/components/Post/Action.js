@@ -21,7 +21,7 @@ import { withTranslation } from 'react-i18next'
 const Action = ({
   t,
   theme,
-  authUser,
+  user,
   post,
   postsOnymouslyLikeRequest,
   postsDislikeRequest,
@@ -30,13 +30,13 @@ const Action = ({
   const styling = styles(theme)
   const navigation = useNavigation()
 
-  const self = path(['postedBy', 'userId'])(post) === path(['userId'])(authUser)
+  const self = path(['postedBy', 'userId'])(post) === path(['userId'])(user)
 
   /**
    * See if current authenticated user is tagged in post by author
    */
   const tagged = (path(['textTaggedUsers'])(post) || [])
-    .find(textTag => textTag.tag === `@${path(['username'])(authUser)}`)
+    .find(textTag => textTag.tag === `@${path(['username'])(user)}`)
 
   /**
    * Visibility of like button, like button will be visible if:

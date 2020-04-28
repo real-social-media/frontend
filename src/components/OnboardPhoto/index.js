@@ -108,7 +108,7 @@ const OnboardPhoto = ({
             {postsCreateQueueFiltered.map((post, key) => (
               <UploadingComponent
                 key={key}
-                authUser={user}
+                user={user}
                 post={post}
                 postsCreateRequest={postsCreateRequest}
                 postsCreateIdle={postsCreateIdle}

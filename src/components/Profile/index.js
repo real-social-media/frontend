@@ -62,7 +62,7 @@ const Profile = ({
   theme,
   profileRef,
 
-  authUser,
+  user,
   usersBlock,
   usersGetProfile,
 
@@ -110,7 +110,7 @@ const Profile = ({
     postsGetMoreRequest,
   })
 
-  const self = path(['data', 'userId'])(usersGetProfile) === path(['userId'])(authUser)
+  const self = path(['data', 'userId'])(usersGetProfile) === path(['userId'])(user)
 
   return (
     <ScrollView
@@ -158,7 +158,7 @@ const Profile = ({
 
       <View style={styling.about}>
         <AboutComponent
-          authUser={authUser}
+          user={user}
           usersGetProfile={usersGetProfile}
         />
       </View>
@@ -213,7 +213,7 @@ const styles = theme => StyleSheet.create({
 Profile.propTypes = {
   theme: PropTypes.any,
   usersGetProfile: PropTypes.any,
-  authUser: PropTypes.any,
+  user: PropTypes.any,
   usersBlock: PropTypes.any,
   usersBlockRequest: PropTypes.any,
   usersUnblock: PropTypes.any,

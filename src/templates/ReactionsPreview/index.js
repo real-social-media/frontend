@@ -18,7 +18,7 @@ const ReactionsPreviewTemplate = ({
   t,
   theme,
   post,
-  authUser,
+  user,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
@@ -27,7 +27,7 @@ const ReactionsPreviewTemplate = ({
     path(['onymouslyLikedBy', 'items', '0', 'username'])(post) &&
     !path(['postedBy', 'likesDisabled'])(post) &&
     !post.likesDisabled &&
-    post.postedBy.userId === authUser.userId
+    post.postedBy.userId === user.userId
   )
   
   if (!visibility) {

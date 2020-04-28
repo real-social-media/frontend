@@ -17,7 +17,7 @@ import { withTranslation } from 'react-i18next'
 const PostMedia = ({
   t,
   theme,
-  authUser,
+  user,
   postsMediaFeedGet,
   postsShareRequest,
   handleEditPress,
@@ -98,7 +98,7 @@ const PostMedia = ({
         viewabilityConfig={viewabilityConfigRef.current}
         renderItem={({ item: post, index }) => (
           <PostComponent
-            authUser={authUser}
+            user={user}
             post={post}
             handleEditPress={handleEditPress}
             postsArchiveRequest={postsArchiveRequest}
@@ -144,7 +144,7 @@ PostMedia.defaultProps = {
 
 PostMedia.propTypes = {
   theme: PropTypes.any,
-  authUser: PropTypes.any,
+  user: PropTypes.any,
   feedRef: PropTypes.any,
   postsMediaFeedGet: PropTypes.any,
   postsMediaFeedGetRequest: PropTypes.any,

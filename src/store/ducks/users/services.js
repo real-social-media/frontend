@@ -31,9 +31,9 @@ export const cachedUsersGetProfile = (usersGetProfile, usersGetProfileCache, cac
  * @param {*} usersGetProfile 
  * @param {*} navigation 
  */
-export const cachedUsersGetProfileSelf = (usersGetProfile, authUser) => {
+export const cachedUsersGetProfileSelf = (usersGetProfile, user) => {
   const response = update(usersGetProfile, {
-    data: { $set: authUser },
+    data: { $set: user },
   })
 
   return response

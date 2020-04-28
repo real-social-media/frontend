@@ -17,7 +17,7 @@ import { withTranslation } from 'react-i18next'
 const Verification = ({
   t,
   theme,
-  authUser,
+  user,
   postsSingleGet,
   postsEditRequest,
 }) => {
@@ -30,7 +30,7 @@ const Verification = ({
    * - Post is not uploaded yet
    */
   const verificationVisibility = (
-    authUser.userId === path(['data', 'postedBy', 'userId'])(postsSingleGet) &&
+    user.userId === path(['data', 'postedBy', 'userId'])(postsSingleGet) &&
     path(['data', 'postId'])(postsSingleGet)
   )
 

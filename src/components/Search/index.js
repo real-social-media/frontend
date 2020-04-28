@@ -58,7 +58,7 @@ const SearchComponent = ({
   theme,
   themes,
   feedRef,
-  authUser,
+  user,
   usersSearchRequest,
   usersSearch,
   usersFollow,
@@ -120,7 +120,7 @@ const SearchComponent = ({
                 themes={themes}
                 postsGet={postsGetTrendingPosts}
                 themeFetch={themeFetch}
-                themeCode={path(['themeCode'])(authUser)}
+                themeCode={path(['themeCode'])(user)}
                 priorityQueueInstance={contextProps.searchImages}
               />
             )}

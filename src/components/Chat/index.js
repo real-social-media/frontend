@@ -19,7 +19,7 @@ import { withTranslation } from 'react-i18next'
 const Chat = ({
   t,
   theme,
-  authUser,
+  user,
   feedRef,
   formFocus,
   formChange,
@@ -75,7 +75,7 @@ const Chat = ({
         >
           <Subheading style={styling.subheading}>{t('Recent')}</Subheading>
           <ContactsComponent
-            authUser={authUser}
+            user={user}
             chatGetChats={chatGetChats}
           />
         </ScrollView>

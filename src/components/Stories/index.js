@@ -17,7 +17,7 @@ import { withTranslation } from 'react-i18next'
 const Stories = ({
   t,
   theme,
-  authUser,
+  user,
   usersGetFollowedUsersWithStories,
 }) => {
   const styling = styles(theme)
@@ -35,18 +35,18 @@ const Stories = ({
       showsHorizontalScrollIndicator={false}
     >
       <TouchableOpacity
-        key={authUser.userId}
+        key={user.userId}
         onPress={navigationActions.navigateCamera(navigation)}
         style={styling.story}
       >
         <Avatar
-          active={path(['stories', 'items', 'length'])(authUser) || false}
+          active={path(['stories', 'items', 'length'])(user) || false}
           size="medium"
-          thumbnailSource={{ uri: path(['photo', 'url64p'])(authUser) }}
-          imageSource={{ uri: path(['photo', 'url480p'])(authUser) }}
+          thumbnailSource={{ uri: path(['photo', 'url64p'])(user) }}
+          imageSource={{ uri: path(['photo', 'url480p'])(user) }}
           icon={true}
         />
-        <Caption style={styling.username}>{path(['username'])(authUser)}</Caption>
+        <Caption style={styling.username}>{path(['username'])(user)}</Caption>
       </TouchableOpacity>
 
       {(usersGetFollowedUsersWithStories.data || []).map((user, key) => (
@@ -56,7 +56,7 @@ const Stories = ({
           style={styling.story}
         >
           <Avatar
-            active={path(['stories', 'items', 'length'])(authUser) || false}
+            active={path(['stories', 'items', 'length'])(user) || false}
             size="medium"
             thumbnailSource={{ uri: path(['photo', 'url64p'])(user) }}
             imageSource={{ uri: path(['photo', 'url480p'])(user) }}
@@ -87,7 +87,7 @@ const styles = theme => StyleSheet.create({
 
 Stories.propTypes = {
   theme: PropTypes.any,
-  authUser: PropTypes.any,
+  user: PropTypes.any,
   usersGetFollowedUsersWithStories: PropTypes.any,
 }
 

@@ -16,7 +16,7 @@ const ProfilePhotoService = ({ children, }) => {
   const usersImagePostsGet = useSelector(state => state.users.usersImagePostsGet)
   const usersEditProfile = useSelector(state => state.users.usersEditProfile)
   const postsCreateQueue = useSelector(state => state.posts.postsCreateQueue)
-  const authUser = useSelector(state => state.auth.user)
+  
 
   const postsCreateIdle = (payload) =>
     dispatch(postsActions.postsCreateIdle({ payload }))
@@ -97,7 +97,6 @@ const ProfilePhotoService = ({ children, }) => {
     selectedPost,
     usersEditProfileRequest,
 
-    authUser,
     cameraCapture,
     postsCreateIdle,
     postsCreateRequest,

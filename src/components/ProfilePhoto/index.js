@@ -28,7 +28,7 @@ const ProfilePhoto = ({
   selectedPost,
   usersEditProfileRequest,
 
-  authUser,
+  user,
   postsCreateRequest,
   postsCreateQueue,
   cameraCapture,
@@ -59,7 +59,7 @@ const ProfilePhoto = ({
       {Object.values(postsCreateQueue).map((post, key) => (
         <UploadingComponent
           key={key}
-          authUser={authUser}
+          user={user}
           post={post}
           postsCreateRequest={postsCreateRequest}
           postsCreateIdle={postsCreateIdle}

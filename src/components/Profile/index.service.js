@@ -7,12 +7,13 @@ import * as usersServices from 'store/ducks/users/services'
 import * as postsServices from 'store/ducks/posts/services'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import path from 'ramda/src/path'
+import * as authSelector from 'store/ducks/auth/selectors'
 
 const ProfileService = ({ children, }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const route = useRoute()
-  const authUser = useSelector(state => state.auth.user)
+  const user = useSelector(authSelector.authUserSelector)
   const usersGetProfile = useSelector(state => state.users.usersGetProfile)
   const usersGetProfileCache = useSelector(state => state.users.usersGetProfileCache)
   const usersBlock = useSelector(state => state.users.usersBlock)
@@ -69,7 +70,7 @@ const ProfileService = ({ children, }) => {
 
   return children({
     profileRef,
-    authUser,
+    user,
     usersGetProfile: usersGetProfileCached,
     usersGetProfileRequest,
     usersUnblock,

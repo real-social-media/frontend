@@ -8,6 +8,7 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import { v4 as uuid } from 'uuid'
 import path from 'ramda/src/path'
 import { ifIphoneX } from 'react-native-iphone-x-helper'
+import * as authSelector from 'store/ducks/auth/selectors'
 
 const CommentsService = ({ children, }) => {
   const dispatch = useDispatch()
@@ -15,7 +16,7 @@ const CommentsService = ({ children, }) => {
   const route = useRoute()
   const postId = path(['params', 'post', 'postId'])(route)
   const postUserId = path(['params', 'post', 'postedBy', 'userId'])(route)
-  const authUser = useSelector(state => state.auth.user)
+  const user = useSelector(authSelector.authUserSelector)
   const commentsAdd = useSelector(state => state.posts.commentsAdd)
   const commentsDelete = useSelector(state => state.posts.commentsDelete)
   const postsCommentsGet = useSelector(state => state.posts.postsCommentsGet)
@@ -96,7 +97,7 @@ const CommentsService = ({ children, }) => {
   })
 
   return children({
-    authUser,
+    user,
     commentsAdd,
     commentsAddRequest,
     commentsDeleteRequest,

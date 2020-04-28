@@ -60,7 +60,7 @@ const PostsList = ({
   t,
   theme,
   themes,
-  authUser,
+  user,
   postsFeedGet,
   postsFeedGetRequest,
   postsFeedGetMoreRequest,
@@ -116,7 +116,7 @@ const PostsList = ({
 
           <PostComponent
             themes={themes}
-            authUser={authUser}
+            user={user}
 
             handleEditPress={handleEditPress}
             postsArchiveRequest={postsArchiveRequest}
@@ -183,7 +183,7 @@ const PostsList = ({
         viewabilityConfig={viewabilityConfigRef.current}
         ListHeaderComponent={() => <>
           <StoriesComponent
-            authUser={authUser}
+            user={user}
             usersGetFollowedUsersWithStories={usersGetFollowedUsersWithStories}
           />
 
@@ -191,7 +191,7 @@ const PostsList = ({
             {Object.values(postsCreateQueue).map((post, key) => (
               <UploadingComponent
                 key={key}
-                authUser={authUser}
+                user={user}
                 post={post}
                 postsCreateRequest={postsCreateRequest}
                 postsCreateIdle={postsCreateIdle}
@@ -231,7 +231,7 @@ PostsList.defaultProps = {
 
 PostsList.propTypes = {
   theme: PropTypes.any,
-  authUser: PropTypes.any,
+  user: PropTypes.any,
   feedRef: PropTypes.any,
   postsFeedGet: PropTypes.any,
   postsFeedGetRequest: PropTypes.any,

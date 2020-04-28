@@ -22,7 +22,7 @@ import { withTranslation } from 'react-i18next'
 const PostShare = ({
   t,
   theme,
-  authUser,
+  user,
   postsSingleGet,
   postsShare,
   postsShareRequest,
@@ -34,7 +34,7 @@ const PostShare = ({
   const route = useRoute()
 
   const tagged = (path(['data', 'textTaggedUsers'])(postsSingleGet) || [])
-    .find(textTag => textTag.tag === `@${path(['username'])(authUser)}`)
+    .find(textTag => textTag.tag === `@${path(['username'])(user)}`)
 
   /**
    * Visibility of repost button, repost button will be visible if:

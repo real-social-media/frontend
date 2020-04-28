@@ -84,7 +84,7 @@ const styles = theme => StyleSheet.create({
 Profile.propTypes = {
   theme: PropTypes.any,
   usersGetProfile: PropTypes.any,
-  authUser: PropTypes.any,
+  user: PropTypes.any,
   usersBlock: PropTypes.any,
   usersBlockRequest: PropTypes.any,
   usersUnblock: PropTypes.any,

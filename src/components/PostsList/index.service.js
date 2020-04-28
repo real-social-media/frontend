@@ -9,11 +9,12 @@ import path from 'ramda/src/path'
 import pathOr from 'ramda/src/pathOr'
 import * as navigationActions from 'navigation/actions'
 import useAppState from 'services/AppState'
+import * as authSelector from 'store/ducks/auth/selectors'
 
 const PostsListService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
-  const authUser = useSelector(state => state.auth.user)
+  const user = useSelector(authSelector.authUserSelector)
   const postsFeedGet = useSelector(state => state.posts.postsFeedGet)
   const postsDelete = useSelector(state => state.posts.postsDelete)
   const postsArchive = useSelector(state => state.posts.postsArchive)
@@ -77,7 +78,7 @@ const PostsListService = ({ children }) => {
 
   useEffect(() => {
     postsFeedGetRequest({ limit: 20 })
-    usersGetPendingFollowersRequest({ userId: authUser.userId })
+    usersGetPendingFollowersRequest({ userId: user.userId })
     dispatch(postsActions.postsGetTrendingPostsRequest({ limit: 30 }))
   }, [])
 
@@ -88,7 +89,7 @@ const PostsListService = ({ children }) => {
   })
 
   useEffect(() => {
-    usersGetPendingFollowersRequest({ userId: authUser.userId })
+    usersGetPendingFollowersRequest({ userId: user.userId })
   }, [usersAcceptFollowerUser.status])
 
   useEffect(() => {
@@ -183,7 +184,7 @@ const PostsListService = ({ children }) => {
 
   return children({
     themes,
-    authUser,
+    user,
     postsFeedGet,
     postsFeedGetRequest,
     postsFeedGetMoreRequest,

@@ -22,7 +22,7 @@ import { withTranslation } from 'react-i18next'
 const Contacts = ({
   t,
   theme,
-  authUser,
+  user,
   chatGetChats,
   loading = false,
 }) => {
@@ -34,7 +34,7 @@ const Contacts = ({
       ...chat,
       users: ({
         ...chat.users,
-        items: chat.users.items.filter(user => user.userId !== authUser.userId),
+        items: chat.users.items.filter(chatUser => chatUser.userId !== user.userId),
       })
     }))
 

@@ -22,7 +22,7 @@ import { withTranslation } from 'react-i18next'
 const Header = ({
   t,
   theme,
-  authUser,
+  user,
   post,
   postsArchiveRequest,
   postsFlagRequest,
@@ -112,7 +112,7 @@ const Header = ({
         </TouchableOpacity>
       : null}
 
-      {path(['userId'])(authUser) === path(['postedBy', 'userId'])(post) && archived ?
+      {path(['userId'])(user) === path(['postedBy', 'userId'])(post) && archived ?
         <React.Fragment>
           <TouchableOpacity style={styling.headerAction} onPress={handleOptionsPress}>
             <MoreIcon fill={theme.colors.primaryIcon} />
@@ -131,7 +131,7 @@ const Header = ({
         </React.Fragment>
       : null}
 
-      {path(['userId'])(authUser) === path(['postedBy', 'userId'])(post) && !archived ?
+      {path(['userId'])(user) === path(['postedBy', 'userId'])(post) && !archived ?
         <React.Fragment>
           <TouchableOpacity style={styling.headerAction} onPress={handleOptionsPress}>
             <MoreIcon fill={theme.colors.primaryIcon} />
@@ -160,7 +160,7 @@ const Header = ({
         </React.Fragment>
       : null}
 
-      {path(['userId'])(authUser) !== path(['postedBy', 'userId'])(post) ?
+      {path(['userId'])(user) !== path(['postedBy', 'userId'])(post) ?
         <React.Fragment>
           <TouchableOpacity style={styling.headerAction} onPress={handleOptionsPress}>
             <MoreIcon fill={theme.colors.primaryIcon} />
@@ -221,7 +221,7 @@ const styles = theme => StyleSheet.create({
 Header.propTypes = {
   theme: PropTypes.any,
   
-  authUser: PropTypes.any,
+  user: PropTypes.any,
   post: PropTypes.any,
   handleEditPress: PropTypes.any,
   postsArchiveRequest: PropTypes.any,

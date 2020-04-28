@@ -5,10 +5,11 @@ import * as chatActions from 'store/ducks/chat/actions'
 import { useScrollToTop } from '@react-navigation/native'
 import toLower from 'ramda/src/toLower'
 import * as usersServices from 'store/ducks/users/services'
+import * as authSelector from 'store/ducks/auth/selectors'
 
 const ChatService = ({ children, }) => {
   const dispatch = useDispatch()
-  const authUser = useSelector(state => state.auth.user)
+  const user = useSelector(authSelector.authUserSelector)
   const usersGetTrendingUsers = useSelector(state => state.users.usersGetTrendingUsers)
   const usersSearch = useSelector(state => state.users.usersSearch)
   const chatGetChats = useSelector(state => state.chat.chatGetChats)
@@ -45,7 +46,7 @@ const ChatService = ({ children, }) => {
 
   return children({
     feedRef,
-    authUser,
+    user,
     formFocus,
     formChange,
     handleFormFocus,
