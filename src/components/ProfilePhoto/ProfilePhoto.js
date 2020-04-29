@@ -87,6 +87,8 @@ ProfilePhoto.propTypes = {
   theme: PropTypes.any,
   post: PropTypes.any,
   handleEditPress: PropTypes.any,
+  t: PropTypes.any,
+  postsCreateRequest: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(ProfilePhoto))

@@ -181,6 +181,15 @@ PostCreateForm.propTypes = {
   theme: PropTypes.any,
   handleSubmit: PropTypes.any,
   postsCreate: PropTypes.any,
+  t: PropTypes.any,
+  values: PropTypes.any,
+  loading: PropTypes.any,
+  handlePostPress: PropTypes.any,
+  setFieldValue: PropTypes.any,
+  formLifetime: PropTypes.any,
+  formAlbums: PropTypes.any,
+  albumsGet: PropTypes.any,
+  cameraCaptureLength: PropTypes.any,
 }
 
 const FormWrapper = ({

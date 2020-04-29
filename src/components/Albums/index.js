@@ -53,6 +53,10 @@ Albums.propTypes = {
   postsSingleGet: PropTypes.any,
   postsShare: PropTypes.any,
   postsShareRequest: PropTypes.any,
+  themeFetch:PropTypes.any,
+  albumsGet:PropTypes.any,
+  user:PropTypes.any,
+  t:PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Albums))

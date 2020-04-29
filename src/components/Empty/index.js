@@ -25,6 +25,7 @@ const Empty = ({
 
 Empty.propTypes = {
   theme: PropTypes.any,
+  t: PropTypes.any,
 }
 
 const styles = theme => StyleSheet.create({

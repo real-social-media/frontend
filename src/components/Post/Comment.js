@@ -85,6 +85,8 @@ const styles = theme => StyleSheet.create({
 
 Comment.propTypes = {
   theme: PropTypes.any,
+  t: PropTypes.any,
+  post: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Comment))

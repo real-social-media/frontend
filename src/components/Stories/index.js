@@ -89,6 +89,7 @@ Stories.propTypes = {
   theme: PropTypes.any,
   user: PropTypes.any,
   usersGetFollowedUsersWithStories: PropTypes.any,
+  t: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Stories))

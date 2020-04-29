@@ -198,6 +198,21 @@ SearchComponent.propTypes = {
   usersFollowRequest: PropTypes.any,
   usersUnfollow: PropTypes.any,
   usersUnfollowRequest: PropTypes.any,
+  t: PropTypes.any,
+  themes: PropTypes.any,
+  feedRef: PropTypes.any,
+  user: PropTypes.any,
+  usersAcceptFollowerUser: PropTypes.any,
+  usersAcceptFollowerUserRequest: PropTypes.any,
+  usersGetTrendingUsers: PropTypes.any,
+  postsGetTrendingPosts: PropTypes.any,
+  postsGetTrendingPostsRequest: PropTypes.any,
+  postsGetTrendingPostsMoreRequest: PropTypes.any,
+  handleFormFocus: PropTypes.any,
+  formFocus: PropTypes.any,
+  handleFormChange: PropTypes.any,
+  formChange: PropTypes.any,
+  themeFetch: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(SearchComponent))

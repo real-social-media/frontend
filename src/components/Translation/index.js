@@ -71,6 +71,9 @@ Translation.propTypes = {
   translationFetch: PropTypes.any,
   translationUpdate: PropTypes.any,
   translationUpdateRequest: PropTypes.any,
+  t: PropTypes.any,
+  user: PropTypes.any,
+  usersEditProfileRequest: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Translation))

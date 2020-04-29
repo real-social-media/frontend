@@ -198,6 +198,8 @@ CacheComponent.propTypes = {
   style: PropTypes.any,
   hideProgress: PropTypes.any,
   hideLabel: PropTypes.any,
+  ages: PropTypes.any,
+  prio: PropTypes.any,
 }
 
 CacheComponent.defaultProps = {

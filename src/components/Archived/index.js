@@ -63,6 +63,7 @@ Archived.propTypes = {
   theme: PropTypes.any,
   postsGetArchived: PropTypes.any,
   postsGetArchivedRequest: PropTypes.any,
+  t: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Archived))

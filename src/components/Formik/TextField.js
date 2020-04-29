@@ -101,6 +101,10 @@ TextField.propTypes = {
   keyboardType: PropTypes.any,
   onSubmitEditing: PropTypes.any,
   disabled: PropTypes.any,
+  t: PropTypes.any,
+  hideError: PropTypes.any,
+  autoCompleteType: PropTypes.any,
+  secureTextEntry: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(TextField))

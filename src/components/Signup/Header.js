@@ -52,6 +52,7 @@ const styles = theme => StyleSheet.create({
 
 Header.propTypes = {
   theme: PropTypes.any,
+  t: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Header))

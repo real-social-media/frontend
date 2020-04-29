@@ -7,9 +7,11 @@ import {
 import { Caption } from 'react-native-paper'
 import Layout from 'constants/Layout'
 
+import PropTypes from 'prop-types'
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
+import { Props } from 'react-native-image-zoom-viewer/built/image-viewer.type'
 
 const trackerWidth = (Layout.window.width - 24) - 28
 
@@ -71,5 +73,12 @@ const styles = theme => StyleSheet.create({
     right: 0,
   },
 })
+
+LifetimeIndicator.propTypes = {
+
+  t: PropTypes.any,
+  theme: PropTypes.any,
+  onValueChange: PropTypes.any,
+}
 
 export default withTranslation()(withTheme(LifetimeIndicator))

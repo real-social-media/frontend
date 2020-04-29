@@ -169,6 +169,15 @@ const styles = theme => StyleSheet.create({
 
 OnboardPhoto.propTypes = {
   theme: PropTypes.any,
+  t: PropTypes.any,
+  user: PropTypes.any,
+  cameraCapture: PropTypes.any,
+  cameraCaptureIdle: PropTypes.any,
+  postsCreateRequest: PropTypes.any,
+  postsCreateIdle: PropTypes.any,
+  postsCreateQueue: PropTypes.any,
+  usersEditProfile: PropTypes.any,
+  profileEditing: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(OnboardPhoto))

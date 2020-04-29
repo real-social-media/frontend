@@ -131,6 +131,8 @@ const styles = theme => StyleSheet.create({
 
 PostType.propTypes = {
   theme: PropTypes.any,
+  t: PropTypes.any,
+  handleLibrarySnap: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(PostType))

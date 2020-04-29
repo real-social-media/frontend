@@ -75,6 +75,8 @@ const styles = theme => StyleSheet.create({
 
 Comments.propTypes = {
   theme: PropTypes.any,
+  children: PropTypes.any,
+  onPress: PropTypes.any,
 }
 
 export default withTheme(Comments)

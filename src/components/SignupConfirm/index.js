@@ -98,11 +98,12 @@ const styles = theme => StyleSheet.create({
 
 SignupConfirm.propTypes = {
   theme: PropTypes.any,
-  
   authSignin: PropTypes.any,
   authSignup: PropTypes.any,
   authSignupConfirm: PropTypes.any,
   authSignupConfirmRequest: PropTypes.any,
+  t: PropTypes.any,
+  authSignupConfirmIdle: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(SignupConfirm))

@@ -45,7 +45,8 @@ MoreComponent.defaultProps = {
 
 MoreComponent.propTypes = {
   theme: PropTypes.any,
-  
+  t: PropTypes.any,
+  onPress: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(MoreComponent))

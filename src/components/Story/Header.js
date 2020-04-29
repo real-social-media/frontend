@@ -61,6 +61,8 @@ const styles = theme => StyleSheet.create({
 Header.propTypes = {
   theme: PropTypes.any,
   story: PropTypes.any,
+  t: PropTypes.any,
+  usersGetProfile: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Header))

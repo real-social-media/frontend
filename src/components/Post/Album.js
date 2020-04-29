@@ -87,4 +87,10 @@ const styles = theme => StyleSheet.create({
   },
 })
 
+PostAlbum.propTypes = {
+  t: PropTypes.any,
+  theme: PropTypes.any,
+  post: PropTypes.any,
+}
+
 export default withTranslation()(withTheme(PostAlbum))

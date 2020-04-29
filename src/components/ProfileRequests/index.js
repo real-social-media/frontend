@@ -62,6 +62,9 @@ ProfileRequests.propTypes = {
   usersFollowRequest: PropTypes.any,
   usersUnfollow: PropTypes.any,
   usersUnfollowRequest: PropTypes.any,
+  t: PropTypes.any,
+  usersAcceptFollowerUser: PropTypes.any,
+  usersAcceptFollowerUserRequest: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(ProfileRequests))

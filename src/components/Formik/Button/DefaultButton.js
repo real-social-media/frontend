@@ -52,6 +52,9 @@ const styles = theme => StyleSheet.create({
 DefaultButton.propTypes = {
   theme: PropTypes.any,
   label: PropTypes.any,
+  t: PropTypes.any,
+  size: PropTypes.any,
+  mode: PropTypes.any,
 }
 
 DefaultButton.defaultProps = {

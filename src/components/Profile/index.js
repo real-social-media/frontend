@@ -223,6 +223,14 @@ Profile.propTypes = {
   usersUnfollow: PropTypes.any,
   usersUnfollowRequest: PropTypes.any,
   postsGet: PropTypes.any,
+  t: PropTypes.any,
+  profileRef: PropTypes.any,
+  postsGet: PropTypes.any,
+  postsGetRequest: PropTypes.any,
+  postsGetMoreRequest: PropTypes.any,
+  albumsGet: PropTypes.any,
+  albumsGetRequest: PropTypes.any,
+  albumsGetMoreRequest: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Profile))

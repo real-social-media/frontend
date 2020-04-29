@@ -61,6 +61,8 @@ OnboardNameForm.propTypes = {
   submitErrors: PropTypes.any,
   dirtySinceLastSubmit: PropTypes.any,
   authOnboard: PropTypes.any,
+  t: PropTypes.any,
+  loading: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(({

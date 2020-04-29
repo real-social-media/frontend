@@ -229,6 +229,12 @@ Story.propTypes = {
   onNextStory: PropTypes.any,
   onPrevStory: PropTypes.any,
   onCloseStory: PropTypes.any,
+  t: PropTypes.any,
+  userId: PropTypes.any,
+  usersGetFollowedUsersWithStories: PropTypes.any,
+  storyRef: PropTypes.any,
+  onSnapItem: PropTypes.any,
+  priorityQueueInstance: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Story))

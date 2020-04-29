@@ -93,6 +93,8 @@ OnboardName.propTypes = {
   authOnboardRequest: PropTypes.any,
   authOnboardIdle: PropTypes.any,
   authSignoutRequest: PropTypes.any,
+  t: PropTypes.any,
+  authCheck: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(OnboardName))

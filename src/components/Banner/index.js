@@ -44,6 +44,7 @@ const styles = theme => StyleSheet.create({
 })
 
 Banner.propTypes = {
+  t: PropTypes.any,
   theme: PropTypes.any,
 }
 

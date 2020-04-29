@@ -99,12 +99,15 @@ const styles = theme => StyleSheet.create({
 
 Result.propTypes = {
   theme: PropTypes.any,
-  
   usersSearch: PropTypes.any,
   usersFollow: PropTypes.any,
   usersFollowRequest: PropTypes.any,
   usersUnfollow: PropTypes.any,
   usersUnfollowRequest: PropTypes.any,
+  t: PropTypes.any,
+  usersAcceptFollowerUser: PropTypes.any,
+  usersAcceptFollowerUserRequest: PropTypes.any,
+  loading: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Result))

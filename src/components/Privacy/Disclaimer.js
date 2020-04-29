@@ -57,6 +57,7 @@ const styles = theme => StyleSheet.create({
 
 Disclaimer.propTypes = {
   theme: PropTypes.any,
+  t: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Disclaimer))

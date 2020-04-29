@@ -89,6 +89,7 @@ Theme.propTypes = {
   themePreview: PropTypes.any,
   themePreviewRequest: PropTypes.any,
   themePreviewIdle: PropTypes.any,
+  t: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Theme))

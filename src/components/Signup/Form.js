@@ -43,6 +43,7 @@ SignupForm.propTypes = {
   dirtySinceLastSubmit: PropTypes.any,
   loading: PropTypes.any,
   authSignup: PropTypes.any,
+  t: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(({

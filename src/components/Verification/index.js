@@ -82,6 +82,10 @@ const styles = theme => StyleSheet.create({
 
 Verification.propTypes = {
   theme: PropTypes.any,
+  t: PropTypes.any,
+  user: PropTypes.any,
+  postsSingleGet: PropTypes.any,
+  postsEditRequest: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Verification))

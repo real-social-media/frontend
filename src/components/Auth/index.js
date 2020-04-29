@@ -111,6 +111,7 @@ Auth.propTypes = {
   authGoogleRequest: PropTypes.any,
   authSignin: PropTypes.any,
   authSigninRequest: PropTypes.any,
+  t: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Auth))

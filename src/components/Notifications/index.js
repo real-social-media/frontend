@@ -42,6 +42,7 @@ const styles = theme => StyleSheet.create({
 })
 
 Notifications.propTypes = {
+  t: PropTypes.any,
   theme: PropTypes.any,
 }
 

@@ -86,8 +86,12 @@ PostsGrid.defaultProps = {
 
 PostsGrid.propTypes = {
   theme: PropTypes.any,
-  
   postsGet: PropTypes.any,
+  t: PropTypes.any,
+  themes: PropTypes.any,
+  themeFetch: PropTypes.any,
+  themeCode: PropTypes.any,
+  priorityQueueInstance: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(PostsGrid))

@@ -63,6 +63,9 @@ AlbumsGrid.defaultProps = {
 AlbumsGrid.propTypes = {
   theme: PropTypes.any,
   albumsGet: PropTypes.any,
+  t: PropTypes.any,
+  themeFetch: PropTypes.any,
+  themeCode: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(AlbumsGrid))

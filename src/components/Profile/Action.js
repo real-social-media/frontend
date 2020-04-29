@@ -140,6 +140,7 @@ ProfileAction.propTypes = {
   usersFollowRequest: PropTypes.any,
   usersUnfollow: PropTypes.any,
   usersUnfollowRequest: PropTypes.any,
+  t: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(ProfileAction))

@@ -155,11 +155,13 @@ const styles = theme => StyleSheet.create({
 })
 
 Action.propTypes = {
-  theme: PropTypes.any,
-  
+  theme: PropTypes.any,  
   post: PropTypes.any,
   postsOnymouslyLikeRequest: PropTypes.any,
   postsDislikeRequest: PropTypes.any,
+  t: PropTypes.any,
+  user: PropTypes.any,
+  handlePostShare: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Action))

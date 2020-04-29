@@ -110,6 +110,7 @@ FormLifetime.propTypes = {
   theme: PropTypes.any,
   values: PropTypes.any,
   setFieldValue: PropTypes.any,
+  t: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(FormLifetime))

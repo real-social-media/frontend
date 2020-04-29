@@ -69,6 +69,7 @@ const styles = theme => StyleSheet.create({
 
 Formula.propTypes = {
   theme: PropTypes.any,
+  t: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Formula))

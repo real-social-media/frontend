@@ -72,6 +72,7 @@ Button.propTypes = {
   children: PropTypes.any,
   style: PropTypes.any,
   loading: PropTypes.any,
+  t: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Button))

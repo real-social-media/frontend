@@ -53,6 +53,7 @@ const styles = theme => StyleSheet.create({
 
 ProfileAlbums.propTypes = {
   theme: PropTypes.any,
+  t: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(ProfileAlbums))

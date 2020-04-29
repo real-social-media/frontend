@@ -103,6 +103,12 @@ Privacy.propTypes = {
   user: PropTypes.any,
   togglePrivacyStatus: PropTypes.any,
   toggleFollowCountsHidden: PropTypes.any,
+  t: PropTypes.any,
+  toggleViewCountsHidden: PropTypes.any,
+  toggleLikesDisabled: PropTypes.any,
+  toggleCommentsDisabled: PropTypes.any,
+  toggleSharingDisabled: PropTypes.any,
+  toggleVerificationHidden: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Privacy))

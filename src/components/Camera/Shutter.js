@@ -93,6 +93,8 @@ Shutter.propTypes = {
   handleFlipToggle: PropTypes.any,
   handleCameraSnap: PropTypes.any,
   handleFlashToggle: PropTypes.any,
+  t: PropTypes.any,
+  handleLibrarySnap: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Shutter))

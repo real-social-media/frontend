@@ -100,6 +100,18 @@ const styles = theme => StyleSheet.create({
 
 Chat.propTypes = {
   theme: PropTypes.any,
+  t: PropTypes.any,
+  user: PropTypes.any,
+  feedRef: PropTypes.any,
+  formFocus: PropTypes.any,
+  formChange: PropTypes.any,
+  handleFormFocus: PropTypes.any,
+  handleFormChange: PropTypes.any,
+  chatGetChats: PropTypes.any,
+  chatGetChatsRequest: PropTypes.any,
+  usersSearch: PropTypes.any,
+  usersSearchRequest: PropTypes.any,
+  usersGetTrendingUsers: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Chat))

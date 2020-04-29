@@ -112,6 +112,13 @@ ProfilePhoto.propTypes = {
   usersImagePostsGet: PropTypes.any,
   handlePostPress: PropTypes.any,
   selectedPost: PropTypes.any,
+  t: PropTypes.any,
+  usersEditProfileRequest: PropTypes.any,
+  user: PropTypes.any,
+  postsCreateRequest: PropTypes.any,
+  postsCreateQueue: PropTypes.any,
+  cameraCapture: PropTypes.any,
+  postsCreateIdle: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(ProfilePhoto))

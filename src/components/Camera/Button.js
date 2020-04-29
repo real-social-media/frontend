@@ -66,6 +66,7 @@ Button.propTypes = {
   theme: PropTypes.any,
   handleCameraRecordStart: PropTypes.any,
   handleCameraRecordStop: PropTypes.any,
+  t: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Button))

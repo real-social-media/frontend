@@ -173,6 +173,10 @@ PostShare.propTypes = {
   postsSingleGet: PropTypes.any,
   postsShare: PropTypes.any,
   postsShareRequest: PropTypes.any,
+  t: PropTypes.any,
+  user: PropTypes.any,
+  watermark: PropTypes.any,
+  handleWatermark: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(PostShare))

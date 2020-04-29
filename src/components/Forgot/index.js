@@ -81,9 +81,10 @@ const styles = theme => StyleSheet.create({
 
 Forgot.propTypes = {
   theme: PropTypes.any,
-  
   authForgot: PropTypes.any,
   authForgotRequest: PropTypes.any,
+  t: PropTypes.any,
+  authForgotIdle: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Forgot))

@@ -173,6 +173,12 @@ CameraComponent.propTypes = {
   handleFlashToggle: PropTypes.any,
   postsCreateRequest: PropTypes.any,
   postsCreate: PropTypes.any,
+  t: PropTypes.any,
+  photoSize: PropTypes.any,
+  setPhotoSize: PropTypes.any,
+  handleLibrarySnap: PropTypes.any,
+  cameraEnabled: PropTypes.any,
+  libraryEnabled: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(CameraComponent))

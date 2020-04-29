@@ -79,6 +79,14 @@ const styles = theme => StyleSheet.create({
 
 ChatDirect.propTypes = {
   theme: PropTypes.any,
+  t: PropTypes.any,
+  user: PropTypes.any,
+  chatGetChat: PropTypes.any,
+  chatCreateDirectRequest: PropTypes.any,
+  chatAddMessage: PropTypes.any,
+  chatAddMessageRequest: PropTypes.any,
+  marginBottom: PropTypes.any,
+  chatId: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(ChatDirect))

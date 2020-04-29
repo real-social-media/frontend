@@ -86,6 +86,8 @@ Signup.propTypes = {
   authSigninRequest: PropTypes.any,
   authSignup: PropTypes.any,
   authSignupRequest: PropTypes.any,
+  t: PropTypes.any,
+  authSignupIdle: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Signup))

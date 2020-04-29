@@ -95,6 +95,10 @@ const styles = theme => StyleSheet.create({
 
 Contacts.propTypes = {
   theme: PropTypes.any,
+  t: PropTypes.any,
+  user: PropTypes.any,
+  chatGetChats: PropTypes.any,
+  loading: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Contacts))

@@ -75,6 +75,7 @@ const styles = theme => StyleSheet.create({
 ProfileCounts.propTypes = {
   theme: PropTypes.any,
   usersGetProfile: PropTypes.any,
+  t: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(ProfileCounts))

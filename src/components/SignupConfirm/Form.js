@@ -52,6 +52,8 @@ ConfirmForm.propTypes = {
   dirtySinceLastSubmit: PropTypes.any,
   authSignin: PropTypes.any,
   authSignupConfirm: PropTypes.any,
+  t: PropTypes.any,
+  loading: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(({

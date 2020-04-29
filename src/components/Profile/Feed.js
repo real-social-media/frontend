@@ -54,6 +54,7 @@ const styles = theme => StyleSheet.create({
 
 ProfileFeed.propTypes = {
   theme: PropTypes.any,
+  t: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(ProfileFeed))

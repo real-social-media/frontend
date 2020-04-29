@@ -38,6 +38,7 @@ const AlbumCreateComponent = ({
 }
 
 AlbumCreateComponent.propTypes = {
+  t: PropTypes.any,
   theme: PropTypes.any,
   user: PropTypes.any,
   albumsCreate: PropTypes.any,

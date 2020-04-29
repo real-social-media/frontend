@@ -96,6 +96,7 @@ TextDemo.propTypes = {
   keyboardType: PropTypes.any,
   onSubmitEditing: PropTypes.any,
   disabled: PropTypes.any,
+  t: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(TextDemo))

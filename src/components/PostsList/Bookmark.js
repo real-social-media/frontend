@@ -64,6 +64,7 @@ const styles = theme => StyleSheet.create({
 Bookmark.propTypes = {
   t: PropTypes.any,
   theme: PropTypes.any,
+  postsGetTrendingPosts: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Bookmark))

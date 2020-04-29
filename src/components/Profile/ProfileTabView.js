@@ -94,6 +94,10 @@ Profile.propTypes = {
   usersUnfollow: PropTypes.any,
   usersUnfollowRequest: PropTypes.any,
   postsGet: PropTypes.any,
+  t: PropTypes.any,
+  index: PropTypes.any,
+  setIndex: PropTypes.any,
+  routes: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Profile))

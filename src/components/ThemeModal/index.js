@@ -95,6 +95,7 @@ ThemeModal.propTypes = {
   children: PropTypes.any,
   onApplyClick: PropTypes.any,
   onDiscardClick: PropTypes.any,
+  t: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(ThemeModal))

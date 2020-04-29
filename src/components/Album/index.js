@@ -121,10 +121,15 @@ const styles = theme => StyleSheet.create({
 })
 
 Album.propTypes = {
-  theme: PropTypes.any,
+  albumsDeleteRequest: PropTypes.any,
   postsSingleGet: PropTypes.any,
   postsShare: PropTypes.any,
   postsShareRequest: PropTypes.any,
+  t: PropTypes.any,
+  theme: PropTypes.any,
+  themes: PropTypes.any,
+  themeFetch: PropTypes.any,
+  user: PropTypes.any,
 }
 
 export default withTranslation()(

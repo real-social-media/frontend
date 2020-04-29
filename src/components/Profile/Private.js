@@ -39,7 +39,7 @@ const styles = theme => StyleSheet.create({
 
 Private.propTypes = {
   theme: PropTypes.any,
-  
+  t: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Private))

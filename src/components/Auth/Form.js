@@ -62,8 +62,10 @@ const styles = theme => StyleSheet.create({
 })
 
 UsernameForm.propTypes = {
+  t: PropTypes.any,
   theme: PropTypes.any,
   handleSubmit: PropTypes.any,
+  loading: PropTypes.any,
   authSignin: PropTypes.any,
 }
 

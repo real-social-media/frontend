@@ -74,6 +74,12 @@ PostCreateComponent.propTypes = {
   cameraCapture: PropTypes.any,
   postsCreateRequest: PropTypes.any,
   postsCreate: PropTypes.any,
+  t: PropTypes.any,
+  user: PropTypes.any,
+  cameraCaptureLength: PropTypes.any,
+  handlePostPress: PropTypes.any,
+  albumsGet: PropTypes.any,
+  type: PropTypes.any,
 }
 
 const styles = theme => StyleSheet.create({

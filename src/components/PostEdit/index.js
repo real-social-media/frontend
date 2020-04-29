@@ -47,10 +47,12 @@ const PostEditComponent = ({
 
 PostEditComponent.propTypes = {
   theme: PropTypes.any,
-  
   postsEditRequest: PropTypes.any,
   postsEdit: PropTypes.any,
   postsSingleGet: PropTypes.any,
+  t: PropTypes.any,
+  handlePostPress: PropTypes.any,
+  albumsGet: PropTypes.any,
 }
 
 const styles = theme => StyleSheet.create({

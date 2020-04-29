@@ -47,6 +47,7 @@ const styles = theme => StyleSheet.create({
 })
 
 AlbumCreateForm.propTypes = {
+  t: PropTypes.any,
   theme: PropTypes.any,
   handleSubmit: PropTypes.any,
   loading: PropTypes.any,

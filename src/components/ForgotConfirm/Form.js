@@ -74,6 +74,8 @@ ForgotConfirmForm.propTypes = {
   submitErrors: PropTypes.any,
   dirtySinceLastSubmit: PropTypes.any,
   authForgotConfirm: PropTypes.any,
+  t: PropTypes.any,
+  loading: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(({

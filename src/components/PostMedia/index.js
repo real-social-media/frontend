@@ -159,6 +159,18 @@ PostMedia.propTypes = {
   postsDislikeRequest: PropTypes.any,
   usersGetFollowedUsersWithStories: PropTypes.any,
   usersGetFollowedUsersWithStoriesRequest: PropTypes.any,
+  t: PropTypes.any,
+  postsRestoreArchivedRequest: PropTypes.any,
+  postsSingleGet: PropTypes.any,
+  postsGetTrendingPosts: PropTypes.any,
+  routeName: PropTypes.any,
+  handleScrollNext: PropTypes.any,
+  handleScrollPrev: PropTypes.any,
+  actionSheetRefs: PropTypes.any,
+  textPostRefs: PropTypes.any,
+  onViewableItemsChangedRef: PropTypes.any,
+  viewabilityConfigRef: PropTypes.any,
+  priorityQueueInstance: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(PostMedia))

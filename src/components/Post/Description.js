@@ -83,6 +83,7 @@ const styles = theme => StyleSheet.create({
 Description.propTypes = {
   theme: PropTypes.any,
   post: PropTypes.any,
+  t: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Description))

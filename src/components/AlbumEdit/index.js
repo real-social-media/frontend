@@ -42,6 +42,7 @@ const AlbumEditComponent = ({
 }
 
 AlbumEditComponent.propTypes = {
+  t: PropTypes.any,
   theme: PropTypes.any,
   user: PropTypes.any,
   albumsEdit: PropTypes.any,

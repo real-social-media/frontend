@@ -48,6 +48,7 @@ const styles = theme => StyleSheet.create({
 })
 
 AlbumEditForm.propTypes = {
+  t: PropTypes.any,
   theme: PropTypes.any,
   handleSubmit: PropTypes.any,
   loading: PropTypes.any,

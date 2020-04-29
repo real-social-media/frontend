@@ -93,6 +93,12 @@ SearchForm.propTypes = {
   dirtySinceLastSubmit: PropTypes.any,
   loading: PropTypes.any,
   usersSearch: PropTypes.any,
+  t: PropTypes.any,
+  handleFormFocus: PropTypes.any,
+  handleFormChange: PropTypes.any,
+  getFieldMeta: PropTypes.any,
+  handleReset: PropTypes.any,
+  values: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(({

@@ -85,6 +85,9 @@ const styles = theme => StyleSheet.create({
 
 Users.propTypes = {
   theme: PropTypes.any,
+  t: PropTypes.any,
+  usersSearch: PropTypes.any,
+  loading: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Users))

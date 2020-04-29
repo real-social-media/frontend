@@ -130,12 +130,14 @@ const styles = theme => StyleSheet.create({
 
 Uploading.propTypes = {
   theme: PropTypes.any,
-  
   user: PropTypes.any,
   post: PropTypes.any,
   handleEditPress: PropTypes.any,
   postsArchiveRequest: PropTypes.any,
   postsFlagRequest: PropTypes.any,
+  t: PropTypes.any,
+  postsCreateRequest: PropTypes.any,
+  postsCreateIdle: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Uploading))

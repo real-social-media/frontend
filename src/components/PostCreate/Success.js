@@ -34,6 +34,7 @@ const styles = theme => StyleSheet.create({
 })
 
 Success.propTypes = {
+  t: PropTypes.any,
   theme: PropTypes.any,
   values: PropTypes.any,
   setFieldValue: PropTypes.any,

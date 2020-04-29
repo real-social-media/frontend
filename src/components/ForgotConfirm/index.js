@@ -85,6 +85,9 @@ ForgotConfirm.propTypes = {
   theme: PropTypes.any,
   authForgotConfirm: PropTypes.any,
   authForgotConfirmRequest: PropTypes.any,
+  t: PropTypes.any,
+  authForgot: PropTypes.any,
+  authForgotConfirmIdle: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(ForgotConfirm))

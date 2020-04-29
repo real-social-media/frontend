@@ -82,6 +82,7 @@ const styles = theme => StyleSheet.create({
 
 Payout.propTypes = {
   theme: PropTypes.any,
+  t: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Payout))

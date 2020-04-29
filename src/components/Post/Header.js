@@ -227,6 +227,12 @@ Header.propTypes = {
   postsArchiveRequest: PropTypes.any,
   postsFlagRequest: PropTypes.any,
   postsDeleteRequest: PropTypes.any,
+  t: PropTypes.any,
+  postsShareRequest: PropTypes.any,
+  postsRestoreArchivedRequest: PropTypes.any,
+  handlePostShare: PropTypes.any,
+  createActionSheetRef: PropTypes.any,
+  actionSheetRef: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Header))

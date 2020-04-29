@@ -76,6 +76,7 @@ const styles = theme => StyleSheet.create({
 
 Membership.propTypes = {
   theme: PropTypes.any,
+  t: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Membership))

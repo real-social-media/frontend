@@ -91,6 +91,7 @@ const Picker = ({
 Picker.propTypes = {
   setPhotoSize: PropTypes.any,
   theme: PropTypes.any,
+  t: PropTypes.any,
 }
 
 const styles = theme => StyleSheet.create({

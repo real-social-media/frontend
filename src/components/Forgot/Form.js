@@ -56,6 +56,8 @@ ForgotForm.propTypes = {
   submitErrors: PropTypes.any,
   dirtySinceLastSubmit: PropTypes.any,
   authForgot: PropTypes.any,
+  t: PropTypes.any,
+  loading: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(({

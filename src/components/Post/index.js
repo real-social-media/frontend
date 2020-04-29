@@ -204,7 +204,20 @@ PostComponent.propTypes = {
   postsOnymouslyLikeRequest: PropTypes.any,
   postsDislikeRequest: PropTypes.any,
   usersGetFollowedUsersWithStories: PropTypes.any,
-  usersGetFollowedUsersWithStoriesRequest: PropTypes.any, 
+  usersGetFollowedUsersWithStoriesRequest: PropTypes.any,
+  t: PropTypes.any,
+  themes: PropTypes.any,
+  post: PropTypes.any,
+  postsRestoreArchivedRequest: PropTypes.any,
+  priorityIndex: PropTypes.any,
+  handleScrollPrev: PropTypes.any,
+  handleScrollNext: PropTypes.any,
+  createActionSheetRef: PropTypes.any,
+  actionSheetRef: PropTypes.any,
+  createTextPostRef: PropTypes.any,
+  textPostRef: PropTypes.any,
+  feedRef: PropTypes.any,
+  priorityQueueInstance: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(PostComponent))

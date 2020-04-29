@@ -84,6 +84,9 @@ ProfileEditForm.propTypes = {
   dirtySinceLastSubmit: PropTypes.any,
   usersEditProfile: PropTypes.any,
   values: PropTypes.any,
+  t: PropTypes.any,
+  loading: PropTypes.any,
+  PrivacyComponent: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(({

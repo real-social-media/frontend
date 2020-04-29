@@ -69,6 +69,8 @@ const styles = theme => StyleSheet.create({
 
 Onboarding.propTypes = {
   theme: PropTypes.any,
+  t: PropTypes.any,
+  handleLibrarySnap: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Onboarding))

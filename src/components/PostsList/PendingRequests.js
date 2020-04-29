@@ -101,7 +101,7 @@ const styles = theme => StyleSheet.create({
 
 PendingRequests.propTypes = {
   theme: PropTypes.any,
-  
+  t: PropTypes.any,
   usersGetPendingFollowers: PropTypes.any,
 }
 

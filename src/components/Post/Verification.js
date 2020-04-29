@@ -40,6 +40,7 @@ const styles = theme => StyleSheet.create({
 })
 
 Verification.propTypes = {
+  t: PropTypes.any,
   theme: PropTypes.any,
 }
 

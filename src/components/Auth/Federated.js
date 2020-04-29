@@ -35,6 +35,7 @@ Federated.propTypes = {
   authFacebookRequest: PropTypes.any,
   authGoogle: PropTypes.any,
   authGoogleRequest: PropTypes.any,
+  t: PropTypes.any,
 }
 
 const styles = theme => StyleSheet.create({

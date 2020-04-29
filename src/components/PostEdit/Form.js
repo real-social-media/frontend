@@ -185,6 +185,14 @@ PostEditForm.propTypes = {
   theme: PropTypes.any,
   handleSubmit: PropTypes.any,
   postEdit: PropTypes.any,
+  t: PropTypes.any,
+  values: PropTypes.any,
+  loading: PropTypes.any,
+  handlePostPress: PropTypes.any,
+  setFieldValue: PropTypes.any,
+  formLifetime: PropTypes.any,
+  formAlbums: PropTypes.any,
+  albumsGet: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(({

@@ -77,6 +77,7 @@ ProfileEdit.propTypes = {
   toggleCommentsDisabled: PropTypes.any,
   toggleSharingDisabled: PropTypes.any,
   toggleVerificationHidden: PropTypes.any,
+  t: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(ProfileEdit))

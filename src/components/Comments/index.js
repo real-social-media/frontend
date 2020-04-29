@@ -104,6 +104,16 @@ const styles = theme => StyleSheet.create({
 
 Comments.propTypes = {
   theme: PropTypes.any,
+  t: PropTypes.any,
+  user: PropTypes.any,
+  commentsAdd: PropTypes.any,
+  commentsAddRequest: PropTypes.any,
+  commentsDeleteRequest: PropTypes.any,
+  postsCommentsGet: PropTypes.any,
+  marginBottom: PropTypes.any,
+  post: PropTypes.any,
+  onViewableItemsChangedRef: PropTypes.any,
+  viewabilityConfigRef: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Comments))

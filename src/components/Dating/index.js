@@ -43,6 +43,7 @@ const styles = theme => StyleSheet.create({
 
 Dating.propTypes = {
   theme: PropTypes.any,
+  t: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Dating))
