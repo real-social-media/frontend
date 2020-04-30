@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { StatusBar, Text, TextInput } from 'react-native'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
@@ -51,21 +51,24 @@ if (Text.defaultProps == null) {
   TextInput.defaultProps.allowFontScaling = false
 }
 
-const Routes = ({ theme, themes, authenticated }) => (
-  <NavigationContainer theme={theme}>
-    {authenticated ?
-      <PaperProvider theme={theme}>
-        <AppNavigator themes={themes} />
-      </PaperProvider>
-    : null}
-    
-    {!authenticated ?
-      <PaperProvider theme={theme}>
-        <AuthNavigator />
-      </PaperProvider>
-    : null}
-  </NavigationContainer>
-)
+const Routes = ({ authenticated }) => {
+  const { theme, themes } = useContext(ThemesContext)
+  return (
+    <NavigationContainer theme={theme}>
+      {authenticated ?
+        <PaperProvider theme={theme}>
+          <AppNavigator themes={themes} />
+        </PaperProvider>
+      : null}
+      
+      {!authenticated ?
+        <PaperProvider theme={theme}>
+          <AuthNavigator />
+        </PaperProvider>
+      : null}
+    </NavigationContainer>
+  )
+}
 
 const App = () => {
   const [draggedImage, setDraggedImage] = useState({})
@@ -82,17 +85,11 @@ const App = () => {
             uiNotificationIdle,
           }) => (
             <ThemesContext.Provider value={{ theme, themes }}>
-              <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
-
               <PostsListContextComponent.Provider value={{ draggedImage, setDraggedImage }}>
                 <UIContextComponent.Provider value={{ uiNotifications, uiNotificationIdle }}>
+                  <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
                   <PinchZoomComponent />
-
-                  <Routes
-                    theme={theme}
-                    themes={themes}
-                    authenticated={authenticated}
-                  />
+                  <Routes authenticated={authenticated} />
                 </UIContextComponent.Provider>
               </PostsListContextComponent.Provider>
             </ThemesContext.Provider>

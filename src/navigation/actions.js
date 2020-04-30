@@ -15,7 +15,7 @@ export const navigateHome = (navigation, params) => () =>
       screen: 'Feed',
       params: {
         screen: 'Feed',
-          ...params,
+        ...params,
       },
     },
   })
@@ -30,7 +30,10 @@ export const navigateCamera = (navigation, params) => () =>
   navigation.navigate('Camera', params)
 
 export const navigateSearch = (navigation, params) => () =>
-  navigation.navigate('Search', params)
+  navigation.navigate('Search', {
+    screen: 'Search',
+    params,
+  })
   
 export const navigateStory = (navigation, params) => () =>
   navigation.push('Story', params)
@@ -118,3 +121,6 @@ export const navigateAuthSignupConfirm = (navigation, params) => () =>
 
 export const navigateOnboardCamera = (navigation, params) => () =>
   navigation.navigate('OnboardCamera', params)
+
+export const navigateOnboardPhoto = (navigation, params) => () =>
+  navigation.navigate('OnboardPhoto', params)

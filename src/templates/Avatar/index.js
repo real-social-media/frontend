@@ -5,8 +5,6 @@ import {
   View,
 } from 'react-native'
 import Svg, { G, Path } from 'react-native-svg'
-import { useSelector } from 'react-redux'
-import * as themeSelector from 'store/ducks/theme/selectors'
 import CacheComponent from 'components/Cache'
 
 import { withTheme } from 'react-native-paper'
@@ -29,14 +27,7 @@ const AvatarTemplate = ({
   icon,
   themeCode,
 }) => {
-  /**
-   * User theme color around story of that user. For example if I (ian) follow mike, and Mike has the green theme set,
-   * I (ian) should see a green outline around mikes story (if he has one) at the top of my news feed.
-   */
-  const customTheme = useSelector(themeSelector.userThemeSelector(themeCode || 'black.green'))
-  const activeTheme = (themeCode && active) ? customTheme : theme
-
-  const styling = styles(activeTheme)
+  const styling = styles(theme)
 
   const componentStyle = [
     size === 'micro' ? styling.sizeMicro : null,

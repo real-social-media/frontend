@@ -105,10 +105,7 @@ const PostsList = ({
     <ContextComponent.Consumer>
       {(contextProps) => (
         <>
-          {(
-            bookmarkSeparatorIndex === index &&
-            bookmarkSeparatorIndex > 0
-          ) ?
+          {(bookmarkSeparatorIndex === index) ?
             <BookmarkComponent
               postsGetTrendingPosts={postsGetTrendingPosts}
             />

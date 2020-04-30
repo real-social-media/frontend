@@ -10,7 +10,6 @@ import {
 import CountsComponent from 'components/Profile/Counts'
 import AboutComponent from 'components/Profile/About'
 import ActionComponent from 'components/Profile/Action'
-import ProfileStatusComponent from 'components/Profile/Status'
 import ProfileTabViewComponent from 'components/Profile/ProfileTabView'
 import Avatar from 'templates/Avatar'
 import NativeError from 'templates/NativeError'
@@ -134,10 +133,6 @@ const Profile = ({
         status={path(['status'])(usersBlock)}
         triggerOn="success"
       />
-
-      {route.name === 'ProfileSelf' ?
-        <ProfileStatusComponent />
-      : null}
 
       <View style={styling.component}>
         <TouchableOpacity style={styling.image} onPress={handleUserStoryPress}>

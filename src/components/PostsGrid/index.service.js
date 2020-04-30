@@ -1,8 +1,8 @@
-import { useEffect } from 'react'
+import { useEffect, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as postsServices from 'store/ducks/posts/services'
-import { useNavigation, useRoute } from '@react-navigation/native'
+import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native'
 import path from 'ramda/src/path'
 
 const PostsGridService = ({ children, postsGetRequestOnMount }) => {
@@ -22,11 +22,17 @@ const PostsGridService = ({ children, postsGetRequestOnMount }) => {
   const postsGetMoreRequest = ({ nextToken }) =>
     dispatch(postsActions.postsGetMoreRequest({ userId, nextToken }))
 
-  useEffect(() => {
-    if (postsGetRequestOnMount) {
-      dispatch(postsActions.postsGetRequest({ userId }))
-    }
-  }, [userId])
+  useFocusEffect(
+    useCallback(() => {
+      if (postsGetRequestOnMount) {
+        dispatch(postsActions.postsGetRequest({ userId }))
+      }
+
+      return () => {
+        dispatch(postsActions.postsGetIdle({ payload: { userId } }))
+      }
+    }, [userId])
+  )
 
   return children({
     themes,

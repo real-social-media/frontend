@@ -1,7 +1,5 @@
-import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as usersActions from 'store/ducks/users/actions'
-import { useNavigation } from '@react-navigation/native'
 import * as authSelector from 'store/ducks/auth/selectors'
 
 const StoriesService = ({ children }) => {
@@ -11,10 +9,6 @@ const StoriesService = ({ children }) => {
 
   const usersGetFollowedUsersWithStoriesRequest = () =>
     dispatch(usersActions.usersGetFollowedUsersWithStoriesRequest())
-
-    useEffect(() => {
-    dispatch(usersActions.usersGetFollowedUsersWithStoriesRequest())
-  }, [])
 
   return children({
     user,

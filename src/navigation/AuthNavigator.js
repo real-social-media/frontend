@@ -17,7 +17,7 @@ import VerificationScreen from 'screens/VerificationScreen'
 const AuthNavigator = ({ theme }) => {
   const Stack = createStackNavigator()
 
-  const stackScreenBlankProps = navigationOptions.stackScreenBlankProps({ theme })
+  const stackScreenOnboardProps = navigationOptions.stackScreenOnboardProps({ theme })
   const stackNavigatorDefaultProps = navigationOptions.stackNavigatorDefaultProps({ theme })
   const stackScreenAuthProps = navigationOptions.stackScreenAuthProps({ theme })
 
@@ -56,19 +56,19 @@ const AuthNavigator = ({ theme }) => {
       <Stack.Screen
         name="OnboardName"
         component={OnboardNameScreen}
-        {...stackScreenBlankProps}
+        {...stackScreenOnboardProps}
       />
 
       <Stack.Screen
         name="OnboardPhoto"
         component={OnboardPhotoScreen}
-        {...stackScreenBlankProps}
+        {...stackScreenOnboardProps}
       />
 
       <Stack.Screen
         name="OnboardCamera"
         component={CameraScreen}
-        {...stackScreenBlankProps}
+        {...stackScreenOnboardProps}
       />
 
       <Stack.Screen

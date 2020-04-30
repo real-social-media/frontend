@@ -20,7 +20,6 @@ const TextOnlyComponent = ({
 }) => {
   const styling = styles(theme)
   
-
   const themeSelector = (activeThemeCode) =>
     ((themes || []).find(theme => theme.key === activeThemeCode) || {}).theme
   const activeTheme = themeSelector(themeCode) || theme

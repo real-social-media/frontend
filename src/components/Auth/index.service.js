@@ -46,21 +46,21 @@ const AuthComponentService = ({ children, }) => {
 
   useEffect(() => {
     if (authFacebook.status === 'success') {
+      dispatch(authActions.authCheckIdle())
       dispatch(authActions.authCheckRequest(authFacebook.data))
       dispatch(authActions.authFacebookIdle())
       dispatch(authActions.authSignupIdle())
       dispatch(authActions.authSigninIdle())
       dispatch(authActions.authSignupConfirmIdle())
-      dispatch(authActions.authCheckIdle())
     }
 
     if (authGoogle.status === 'success') {
+      dispatch(authActions.authCheckIdle())
       dispatch(authActions.authCheckRequest(authGoogle.data))
       dispatch(authActions.authGoogleIdle())
       dispatch(authActions.authSignupIdle())
       dispatch(authActions.authSigninIdle())
       dispatch(authActions.authSignupConfirmIdle())
-      dispatch(authActions.authCheckIdle())
     }
   }, [
     authFacebook.status,

@@ -1,8 +1,8 @@
-import { useEffect } from 'react'
+import { useEffect, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as usersActions from 'store/ducks/users/actions'
 import * as usersServices from 'store/ducks/users/services'
-import { useNavigation, useRoute } from '@react-navigation/native'
+import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native'
 
 const ProfileFollowedService = ({ children, }) => {
   const dispatch = useDispatch()
@@ -17,6 +17,9 @@ const ProfileFollowedService = ({ children, }) => {
 
   const usersGetFollowedUsersRequest = (payload) => 
     dispatch(usersActions.usersGetFollowedUsersRequest(payload))
+
+  const usersGetFollowedUsersIdle = (payload) => 
+    dispatch(usersActions.usersGetFollowedUsersIdle(payload))
 
   const usersFollowRequest = ({ userId }) =>
     dispatch(usersActions.usersFollowRequest({ userId }))
@@ -36,9 +39,15 @@ const ProfileFollowedService = ({ children, }) => {
     }
   }, [usersFollow.status, usersUnfollow.status])
 
-  useEffect(() => {
-    usersGetFollowedUsersRequest({ userId })
-  }, [userId])
+  useFocusEffect(
+    useCallback(() => {
+      usersGetFollowedUsersRequest({ userId })
+
+      return () => {
+        usersGetFollowedUsersIdle({ payload: { userId } })
+      }
+    }, [userId])
+  )
 
   return children({
     usersGetFollowedUsers: usersServices.cachedUsersGetFollowedUsers(usersGetFollowedUsers, usersGetFollowedUsersCache, userId),

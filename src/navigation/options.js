@@ -88,44 +88,6 @@ const HomeNavigationComponent = ({ navigation, theme }) => ({
   headerRight: homeHeaderRight({ navigation, theme }),
 })
 
-/**
- * Recursive search for the latest active screen in the stack
- * useful for getting active users theme object
- */
-export const getActiveRouteName = (item) => {
-  const index = path(['state', 'index'])(item)
-  const nextRoute = path(['state', 'routes', index])(item)
-
-  if (nextRoute && nextRoute.state) {
-    return getActiveRouteName(nextRoute)
-  } else if (nextRoute) {
-    return nextRoute
-  } else {
-    return item
-  }
-}
-
-const getActiveTheme = ({ theme, themes, route }) => {
-  const themeSelector = (themeCode) =>
-    ((themes || []).find(theme => theme.key === themeCode) || {}).theme
-
-  if (!['Profile', 'ProfileFollower', 'ProfileFollowed', 'PostMedia'].includes(route.name)) {
-    return theme
-  }
-
-  const userTheme = path(['params', 'user', 'themeCode'])(route)
-  if (userTheme) {
-    return themeSelector(userTheme)
-  }
-
-  const postTheme = path(['params', 'post', 'postedBy', 'themeCode'])(route)
-  if (postTheme) {
-    return themeSelector(postTheme)
-  }
-
-  return theme
-}
-
 const pager = props => {
   const currentIndex = path(['navigationState', 'index'])(props)
   const nextIndex = path(['navigationState', 'routes', currentIndex, 'state', 'index'])(props)
@@ -189,13 +151,23 @@ export const stackScreenDefaultProps = ({ theme }) => ({
 export const stackScreenAuthProps = ({ theme }) => ({
   options: (props) => ({
     ...AuthNavigationComponent({ ...props, theme }),
-    gestureResponseDistance: {
-      horizontal: Layout.window.width,
-      vertical: Layout.window.height,
-    },
+    gestureEnabled: false,
     cardStyle: {
       backgroundColor: theme.colors.backgroundPrimary,
     },
+  }),
+})
+
+/**
+ * Used for Onboard Screens
+ */
+export const stackScreenOnboardProps = ({ theme }) => ({
+  options: (props) => ({
+    gestureEnabled: false,
+    cardStyle: {
+      backgroundColor: theme.colors.backgroundPrimary,
+    },
+    headerShown: false,
   }),
 })
 
@@ -239,18 +211,8 @@ export const stackScreenModalProps = ({ theme }) => ({
  */
 export const stackScreenPageProps = ({ theme, themes }) => ({ options } = {}) => ({
   options: (props) => {
-    const active = getActiveRouteName(props.route)
-    const activeTheme = getActiveTheme({ theme, themes, route: active })
-
-    const backgroundColor = (
-      path(['colors', 'backgroundPrimary'])(activeTheme) ||
-      path(['colors', 'backgroundPrimary'])(theme)
-    )
-
-    const color = (
-      path(['colors', 'text'])(activeTheme) ||
-      path(['colors', 'text'])(theme)
-    )
+    const backgroundColor = path(['colors', 'backgroundPrimary'])(theme)
+    const color = path(['colors', 'text'])(theme)
 
     return ({
       cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
@@ -300,20 +262,9 @@ export const stackScreenCardProps = ({ theme }) => ({
 })
 
 export const tabNavigatorProps = ({ theme, themes, route }) => {
-  const active = getActiveRouteName(route)
-  const activeTheme = getActiveTheme({ theme, themes, route: active })
-
-  const activeTintColor =  (
-    path(['colors', 'primaryIcon'])(activeTheme) ||
-    path(['colors', 'primaryIcon'])(theme)
-  )
-
+  const activeTintColor = path(['colors', 'primaryIcon'])(theme)
   const inactiveTintColor = `${activeTintColor}90`
-
-  const backgroundColor = (
-    path(['colors', 'backgroundPrimary'])(activeTheme) ||
-    path(['colors', 'backgroundPrimary'])(theme)
-  )
+  const backgroundColor = path(['colors', 'backgroundPrimary'])(theme)
 
   return ({
     tabBarOptions: {

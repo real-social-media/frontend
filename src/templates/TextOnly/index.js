@@ -22,7 +22,6 @@ const TextComponent = ({
   themeCode,
 }) => {
   const styling = styles(theme)
-  
 
   const themeSelector = (activeThemeCode) =>
     ((themes || []).find(theme => theme.key === activeThemeCode) || {}).theme

@@ -76,12 +76,6 @@ const PostsListService = ({ children }) => {
   const postsCreateIdle = (payload) =>
     dispatch(postsActions.postsCreateIdle({ payload }))
 
-  useEffect(() => {
-    postsFeedGetRequest({ limit: 20 })
-    usersGetPendingFollowersRequest({ userId: user.userId })
-    dispatch(postsActions.postsGetTrendingPostsRequest({ limit: 30 }))
-  }, [])
-
   useAppState({
     onForeground: () => {
       postsFeedGetRequest({ limit: 20 })

@@ -379,49 +379,7 @@ function* commentsDeleteRequest(req) {
   }
 }
 
-function postSubscriptionChannel({ subscription }) {
-  return eventChannel(emitter => {
-    subscription.subscribe({
-      next: emitter,
-      error: () => {},
-    })
-
-    return () => subscription.unsubscribe()
-  })
-}
-
-function* postSubscription(req) {
-  const AwsAPI = yield getContext('AwsAPI')
-
-  const subscription = AwsAPI.graphql(
-    graphqlOperation(queries.onPostNotification, { userId: req.payload.data.userId })
-  )
-
-  const channel = yield call(postSubscriptionChannel, {
-    subscription,
-  })
-
-  yield takeEvery(channel, function *(eventData) {
-    const postId = path(['value', 'data', 'onPostNotification', 'post', 'postId'])(eventData)
-    const userId = path(['value', 'data', 'onPostNotification', 'userId'])(eventData)
-    const type = path(['value', 'data', 'onPostNotification', 'type'])(eventData)
-    
-    const data = yield queryService.apiRequest(queries.getPost, { postId })
-    const selector = path(['data', 'post'])
-
-    if (type === 'COMPLETED') {
-      yield put(actions.postsCreateSuccess({ data: {}, payload: selector(data), meta: {} }))
-      yield put(actions.postsFeedGetRequest({  }))
-      yield put(actions.postsGetRequest({ userId }))
-      yield put(usersActions.usersImagePostsGetRequest({ userId }))
-      yield put(actions.postsCreateIdle({ payload: { postId } }))
-    }
-  })
-}
-
-export default () => [
-  takeLatest('AUTH_CHECK_READY', postSubscription),
-  
+export default () => [  
   takeEvery(constants.POSTS_GET_REQUEST, postsGetRequest),
   takeEvery(constants.POSTS_GET_MORE_REQUEST, postsGetMoreRequest),
 

@@ -20,9 +20,13 @@ const messageCodes = {
       code: 'INVALID_USERNAME',
       text: 'Username must contain only letters & numbers',
     },
+    USER_TAKEN: {
+      code: 'USER_TAKEN',
+      text: 'Username you entered already reserved',
+    },
     USER_EXISTS: {
       code: 'USER_EXISTS',
-      text: 'Username you entered already reserved',
+      text: 'You have already created an account',
     },
   },
 

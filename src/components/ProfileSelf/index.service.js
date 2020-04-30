@@ -1,8 +1,8 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as usersActions from 'store/ducks/users/actions'
 import * as usersServices from 'store/ducks/users/services'
-import { useNavigation, useScrollToTop } from '@react-navigation/native'
+import { useNavigation, useScrollToTop, useFocusEffect } from '@react-navigation/native'
 import path from 'ramda/src/path'
 import * as authSelector from 'store/ducks/auth/selectors'
 
@@ -28,9 +28,18 @@ const ProfileService = ({ children, }) => {
   const usersGetProfileSelfRequest = ({ userId }) => 
     dispatch(usersActions.usersGetProfileSelfRequest({ userId }))
 
-  useEffect(() => {
-    usersGetProfileSelfRequest({ userId })
-  }, [userId])
+  const usersGetProfileSelfIdle = (payload) => 
+    dispatch(usersActions.usersGetProfileSelfIdle(payload))
+
+  useFocusEffect(
+    useCallback(() => {
+      usersGetProfileSelfRequest({ userId })
+
+      return () => {
+        usersGetProfileSelfIdle({ payload: { userId } })
+      }
+    }, [userId])
+  )
 
   return children({
     user,

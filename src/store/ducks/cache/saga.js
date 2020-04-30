@@ -4,6 +4,7 @@ import * as actions from 'store/ducks/cache/actions'
 import * as constants from 'store/ducks/cache/constants'
 import * as service from 'store/ducks/cache/service'
 import path from 'ramda/src/path'
+import * as Logger from 'services/Logger'
 
 /**
  * 
@@ -111,6 +112,11 @@ function* cacheFetchRequest(req) {
       yield put(actions.cacheFetchSuccess(eventData.payload))
     }
     if (eventData.type === 'FAILURE') {
+      Logger.withScope(scope => {
+        scope.setExtra('code', 'INTERNAL')
+        scope.setExtra('payload', JSON.stringify(eventData))
+        Logger.captureMessage('CACHE_FETCH_FAILURE')
+      })
       yield put(actions.cacheFetchFailure(eventData.payload))
       yield put(actions.cacheFetchRequest(req))
     }

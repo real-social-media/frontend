@@ -28,6 +28,13 @@ const Privacy = ({
 }) => {
   const styling = styles(theme)
   
+  // {
+  //   label: t('Verification hidden'),
+  //   caption: t('Verification label is hidden'),
+  //   onPress: toggleVerificationHidden,
+  //   enabled: !user.verificationHidden,
+  // }
+
   return (
     <View style={styling.root}>
       <RowsComponent items={[{
@@ -60,11 +67,6 @@ const Privacy = ({
         caption: t('Followers can view total post views'),
         onPress: toggleViewCountsHidden,
         enabled: !user.viewCountsHidden,
-      }, {
-        label: t('Verification hidden'),
-        caption: t('Verification label is hidden'),
-        onPress: toggleVerificationHidden,
-        enabled: !user.verificationHidden,
       }]}>
         {(privacy) => (
           <RowsItemComponent hasBorders>

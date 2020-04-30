@@ -8,6 +8,7 @@ import * as authActions from 'store/ducks/auth/actions'
 import { useNavigation } from '@react-navigation/native'
 import { v4 as uuid } from 'uuid'
 import dayjs from 'dayjs'
+import { handleGallery } from 'components/Camera/index.service'
 
 const OnboardPhotoService = ({ children, }) => {
   const dispatch = useDispatch()
@@ -89,8 +90,27 @@ const OnboardPhotoService = ({ children, }) => {
     }
   }
 
+  const cameraCaptureRequest = (payload) =>
+    dispatch(cameraActions.cameraCaptureRequest(payload))
+
   const cameraCaptureIdle = (payload) =>
     dispatch(cameraActions.cameraCaptureIdle({ payload }))
+
+  const handleLibrarySnap = async () => {
+    const photos = await handleGallery()
+  
+    if (!photos.length) {
+      return
+    }
+    
+    cameraCaptureRequest(photos)
+  
+    if (route.params && route.params.nextRoute) {
+      navigation.navigate(path(['params', 'nextRoute'])(route), { photos })
+    } else {
+      navigationActions.navigateOnboardPhoto(navigation, { type: 'IMAGE', photos })()
+    }
+  }
 
   return children({
     user,
@@ -101,6 +121,7 @@ const OnboardPhotoService = ({ children, }) => {
     postsCreateQueue,
     cameraCaptureIdle,
     usersEditProfile,
+    handleLibrarySnap,
   })
 }
 

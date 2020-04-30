@@ -80,10 +80,6 @@ function* handleTextOnlyPost(req) {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.addTextOnlyPost, req.payload))
     const userIdSelector = path(['data', 'addPost', 'postedBy', 'userId'])
     const meta = { attempt: 1, progress: 100 }
-
-    yield put(actions.postsCreateSuccess({ data: {}, payload: req.payload, meta }))
-    yield put(actions.postsFeedGetRequest({  }))
-    yield put(actions.postsGetRequest({ userId: userIdSelector(data) }))
   } catch (error) {
     yield put(actions.postsCreateFailure({
       message: errorWrapper(error),

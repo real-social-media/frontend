@@ -128,9 +128,13 @@ function* authOnboardRequest(req) {
     }))
   } catch (error) {
     const errorMessage = path(['errors', '0', 'message'])(error)
-    if (errorMessage && errorMessage.includes('already taken')) {
+    if (errorMessage && errorMessage.includes('already exists')) {
       yield put(actions.authOnboardFailure({
         message: errors.getMessagePayload(constants.AUTH_ONBOARD_FAILURE, 'USER_EXISTS', error.message),
+      }))
+    } else if (errorMessage && errorMessage.includes('already taken')) {
+      yield put(actions.authOnboardFailure({
+        message: errors.getMessagePayload(constants.AUTH_ONBOARD_FAILURE, 'USER_TAKEN', error.message),
         nextRoute: 'Auth',
       }))
     } else if (errorMessage && errorMessage.includes('does not validate')) {
@@ -141,7 +145,6 @@ function* authOnboardRequest(req) {
     } else {
       yield put(actions.authOnboardFailure({
         message: errors.getMessagePayload(constants.AUTH_ONBOARD_FAILURE, 'GENERIC', error.message),
-        nextRoute: 'OnboardName',
       }))
     }
   }

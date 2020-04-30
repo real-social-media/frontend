@@ -49,6 +49,7 @@ const Comments = ({
             refreshing={postsCommentsGet.status === 'loading'}
           />
         }
+        keyExtractor={item => item.commentId}
         data={pathOr([], ['data'])(postsCommentsGet)}
         onViewableItemsChanged={onViewableItemsChangedRef.current}
         viewabilityConfig={viewabilityConfigRef.current}

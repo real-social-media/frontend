@@ -47,12 +47,23 @@ const Settings = ({
       'Profile Photo Upload',
       'Your photo will be uploaded as post',
       [{
-        text: 'Take Photo',
+        text: 'Take a Photo',
         onPress: navigationActions.navigateCamera(navigation, { nextRoute: 'ProfilePhoto' }),
       }],
       { cancelable: true }
     )
   }
+
+  // {
+  //   label: t('Join Diamond'),
+  //   onPress: () => navigation.navigate('Membership'),
+  //   icon: <DiamondIcon fill={theme.colors.text} />,
+  // }
+  // {
+  //   label: t('Change Language'),
+  //   onPress: () => navigation.navigate('Translation'),
+  //   icon: <LanguageIcon fill={theme.colors.text} />,
+  // }
 
   return (
     <ScrollView style={styling.root}>
@@ -66,7 +77,7 @@ const Settings = ({
 
       <ActionSheet
         ref={actionSheetRef}
-        options={[t('Take Photo'), t('Choose From Gallery'), t('Cancel')]}
+        options={[t('Take a Photo'), t('Choose From Gallery'), t('Cancel')]}
         cancelButtonIndex={2}
         onPress={(index) => {
           if (index === 0) {
@@ -79,10 +90,6 @@ const Settings = ({
       />
 
       <RowsComponent items={[{
-        label: t('Join Diamond'),
-        onPress: () => navigation.navigate('Membership'),
-        icon: <DiamondIcon fill={theme.colors.text} />,
-      }, {
         label: t('Edit Profile'),
         onPress: () => navigation.navigate('ProfileEdit'),
         icon: <EditIcon fill={theme.colors.text} />,
@@ -90,10 +97,6 @@ const Settings = ({
         label: t('Change Profile Photo'),
         onPress: () => actionSheetRef.current.show(),
         icon: <PhotoIcon fill={theme.colors.text} />,
-      }, {
-        label: t('Change Language'),
-        onPress: () => navigation.navigate('Translation'),
-        icon: <LanguageIcon fill={theme.colors.text} />,
       }, {
         label: t('Choose Theme'),
         onPress: () => navigation.navigate('Theme'),

@@ -27,6 +27,7 @@ const OnboardPhoto = ({
   postsCreateQueue,
   usersEditProfile,
   profileEditing,
+  handleLibrarySnap,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
@@ -97,7 +98,11 @@ const OnboardPhoto = ({
           <Subheading style={styling.subheading}>{t('Please choose a profile picture to get started!')}</Subheading>
 
           <View style={styling.action}>
-            <DefaultButton label={t('Take Photo')} onPress={navigationActions.navigateOnboardCamera(navigation, { nextRoute: 'OnboardPhoto' })} />
+            <DefaultButton label={t('Take a Photo')} onPress={navigationActions.navigateOnboardCamera(navigation, { nextRoute: 'OnboardPhoto' })} />
+          </View>
+
+          <View style={styling.action}>
+            <DefaultButton label={t('Choose From Gallery')} onPress={handleLibrarySnap} />
           </View>
         </View>
       : null}

@@ -14,9 +14,7 @@ import Layout from 'constants/Layout'
 import usePrevious from 'react-use/lib/usePrevious'
 import { getCameraBonds } from 'services/Camera'
 import { BlurView } from '@react-native-community/blur'
-import NativeError from 'templates/NativeError'
 import * as navigationActions from 'navigation/actions'
-import { openSettings } from 'react-native-permissions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -43,8 +41,6 @@ const CameraComponent = ({
   handleFlashToggle,
   postsCreateRequest,
   postsCreate,
-  cameraEnabled,
-  libraryEnabled,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
@@ -107,28 +103,6 @@ const CameraComponent = ({
           null
         )}
       />
-
-      <NativeError
-        handleCancelPress={() => openSettings().catch()}
-        titleText={t('Camera is blocked')}
-        messageText={t('Please enabled camera access in your phone settings to continue')}
-        actionText={t('Open Settings')}
-        status="failure"
-        triggerOn="failure"
-        hidden={cameraEnabled}
-        skipCondition
-      />
-
-      <NativeError
-        handleCancelPress={() => openSettings().catch()}
-        titleText={t('Library is blocked')}
-        messageText={t('Please allow camera roll access in your phone settings to continue')}
-        actionText={t('Open Settings')}
-        status="failure"
-        triggerOn="failure"
-        hidden={libraryEnabled}
-        skipCondition
-      />
     </View>
   )
 }
@@ -169,6 +143,7 @@ CameraComponent.propTypes = {
   flashMode: PropTypes.any,
   flipMode: PropTypes.any,
   handleFlipToggle: PropTypes.any,
+  handleLibrarySnap: PropTypes.any,
   handleCameraSnap: PropTypes.any,
   handleFlashToggle: PropTypes.any,
   postsCreateRequest: PropTypes.any,

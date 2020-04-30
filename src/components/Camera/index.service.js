@@ -1,10 +1,8 @@
-import { AppState } from 'react-native'
-import { useEffect, useState, useRef } from 'react'
+import { useState, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import useToggle from 'react-use/lib/useToggle'
 import * as cameraActions from 'store/ducks/camera/actions'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import { PERMISSIONS, RESULTS, check } from 'react-native-permissions'
 import CropPicker from 'react-native-image-crop-picker'
 import { getScreenAspectRatio } from 'services/Camera'
 import series from 'async/series'
@@ -73,7 +71,7 @@ export const handleGallery = async (photoSize = '1:1') => {
   }
 }
 
-const CameraService = ({ children, }) => {
+const CameraService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const route = useRoute()
@@ -84,40 +82,6 @@ const CameraService = ({ children, }) => {
 
   const cameraRef = useRef(null)
   const camera = cameraManager(cameraRef)
-  const [cameraEnabled, setCameraEnabled] = useState(true)
-  const [libraryEnabled, setLibraryEnabled] = useState(true)
-
-  const checkCameraPermissions = async () => {
-    const result = await check(PERMISSIONS.IOS.CAMERA)
-    setCameraEnabled(result !== RESULTS.BLOCKED)
-  }
-
-  const checkLibraryPermissions = async () => {
-    const result = await check(PERMISSIONS.IOS.PHOTO_LIBRARY)
-    setLibraryEnabled(result !== RESULTS.BLOCKED)
-  }
-
-  const appStateListener = (nextAppState) => {
-    checkCameraPermissions()
-    checkLibraryPermissions()
-    if (nextAppState === 'active') {
-      camera.resumePreview()
-    }
-    if (nextAppState === 'background') {
-      camera.pausePreview()
-    }
-  }
-
-  useEffect(() => {
-    checkCameraPermissions()
-    checkLibraryPermissions()
-    AppState.addEventListener('change', appStateListener)
-    navigation.addListener('didFocus', appStateListener)
-    return () => {
-      AppState.removeEventListener('change', appStateListener)
-      navigation.addListener('didFocus', appStateListener)
-    }
-  }, [])
 
   const [photoSize, setPhotoSize] = useState('4:3')
 
@@ -189,8 +153,6 @@ const CameraService = ({ children, }) => {
     handleLibrarySnap,
     handleFlashToggle,
     handleFlipToggle,
-    cameraEnabled,
-    libraryEnabled,
   })
 }
 

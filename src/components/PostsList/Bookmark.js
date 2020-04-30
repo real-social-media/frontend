@@ -30,7 +30,7 @@ const Bookmark = ({
       </View>
 
       <ScrollView style={styling.posts} horizontal>
-        {(path(['data'])(postsGetTrendingPosts) || []).map((post, key) => (
+        {(path(['data'])(postsGetTrendingPosts) || []).filter(item => item.postType !== 'TEXT_ONLY').map((post, key) => (
           <Avatar
             key={key}
             thumbnailSource={{ uri: path(['image', 'url64p'])(post) }}

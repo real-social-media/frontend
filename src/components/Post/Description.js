@@ -49,7 +49,7 @@ const Description = ({
               )
             }
             
-            return <Text style={styling.textDefault}>{`@${match}`}</Text>
+            return <Text key="matched" style={styling.textDefault}>{`@${match}`}</Text>
           })
         ]}
       </Text>
