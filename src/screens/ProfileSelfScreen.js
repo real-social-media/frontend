@@ -22,9 +22,9 @@ class ProfileSelfScreen extends React.Component {
                 {(albumsProps) => (
                   <ContextComponent.Provider value={queues}>
                     <ProfileComponent
-                      {...profileProps}
                       {...postsProps}
                       {...albumsProps}
+                      {...profileProps}
                     />
                   </ContextComponent.Provider>
                 )}
