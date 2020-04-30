@@ -35,7 +35,7 @@ const Album = ({
     title: path(['name'])(album),
   })
 
-  if (path(['ownedBy', 'userId'])(album) ===user.userId) {
+  if (path(['ownedBy', 'userId'])(album) === user.userId) {
     navigation.setOptions({
       headerRight: () => <HeaderRight onPress={() => actionSheetRef.current.show()} title="Edit" />,
     })

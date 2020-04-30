@@ -5,6 +5,7 @@ import * as postsServices from 'store/ducks/posts/services'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import path from 'ramda/src/path'
 import * as navigationActions from 'navigation/actions'
+import * as authSelector from 'store/ducks/auth/selectors'
 
 const VerificationService = ({ children, }) => {
   const dispatch = useDispatch()
