@@ -10,7 +10,7 @@ import { v4 as uuid } from 'uuid'
 import dayjs from 'dayjs'
 import { handleGallery } from 'components/Camera/index.service'
 
-const OnboardPhotoService = ({ children, }) => {
+const OnboardPhotoService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const route = useRoute()

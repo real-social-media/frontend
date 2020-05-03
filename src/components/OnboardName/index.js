@@ -3,10 +3,8 @@ import PropTypes from 'prop-types'
 import {
   View,
   StyleSheet,
-  Linking,
 } from 'react-native'
 import OnboardNameForm from 'components/OnboardName/Form'
-import Subtitle from 'templates/Subtitle'
 import NativeError from 'templates/NativeError'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Subheading } from 'react-native-paper'
@@ -48,15 +46,6 @@ const OnboardName = ({
             authOnboard={authOnboard}
             authOnboardRequest={authOnboardRequest}
           />
-        </View>
-        <View style={styling.subtitle}>
-          <Subtitle actions={[{
-            onPress: () => Linking.openURL('https://real.app/real-eula-html-english.html').catch(() => {}),
-            title: t('By tapping to continue, you are indicating that you have read the EULA and agree to the Terms of Service'),
-          }, {
-            onPress: authSignoutRequest,
-            title: t('Signout'),
-          }]} />
         </View>
       </View>
     </KeyboardAwareScrollView>

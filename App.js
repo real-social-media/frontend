@@ -53,17 +53,18 @@ if (Text.defaultProps == null) {
 
 const Routes = ({ authenticated }) => {
   const { theme, themes } = useContext(ThemesContext)
+
   return (
     <NavigationContainer theme={theme}>
+      {!authenticated ?
+        <PaperProvider theme={themes[0].theme}>
+          <AuthNavigator />
+        </PaperProvider>
+      : null}
+
       {authenticated ?
         <PaperProvider theme={theme}>
           <AppNavigator themes={themes} />
-        </PaperProvider>
-      : null}
-      
-      {!authenticated ?
-        <PaperProvider theme={theme}>
-          <AuthNavigator />
         </PaperProvider>
       : null}
     </NavigationContainer>

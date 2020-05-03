@@ -9,7 +9,7 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import path from 'ramda/src/path'
 import { ifIphoneX } from 'react-native-iphone-x-helper'
 
-const ChatDirectService = ({ children, }) => {
+const ChatDirectService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const route = useRoute()

@@ -104,9 +104,30 @@ export const navigatePayout = (navigation, params) => () =>
 /**
  * 
  */
-export const navigateAuth = (navigation, params) => () =>
-  navigation.navigate('Auth', params)
+export const navigateAuthHome = (navigation, params) => () =>
+  navigation.navigate('AuthHome', params)
 
+export const navigateAuthUsername = (navigation, params) => () =>
+  navigation.navigate('AuthUsername', params)
+
+export const navigateAuthPassword = (navigation, params) => () =>
+  navigation.navigate('AuthPassword', params)
+
+export const navigateAuthPhone = (navigation, params) => () =>
+  navigation.navigate('AuthPhone', params)
+
+export const navigateAuthPhoneConfirm = (navigation, params) => () =>
+  navigation.navigate('AuthPhoneConfirm', params)
+
+export const navigateAuthEmail = (navigation, params) => () =>
+  navigation.navigate('AuthEmail', params)
+
+export const navigateAuthEmailConfirm = (navigation, params) => () =>
+  navigation.navigate('AuthEmailConfirm', params)
+
+/**
+ *
+ */
 export const navigateAuthForgot = (navigation, params) => () =>
   navigation.navigate('AuthForgot', params)
 

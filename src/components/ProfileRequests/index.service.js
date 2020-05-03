@@ -2,9 +2,9 @@ import { useEffect, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as usersActions from 'store/ducks/users/actions'
 import * as authSelector from 'store/ducks/auth/selectors'
-import { useNavigation, useFocusEffect } from '@react-navigation/native'
+import { useFocusEffect } from '@react-navigation/native'
 
-const ProfileFollowerService = ({ children, }) => {
+const ProfileFollowerService = ({ children }) => {
   const dispatch = useDispatch()
   const user = useSelector(authSelector.authUserSelector)
   const userId = user.userId

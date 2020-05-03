@@ -2,9 +2,8 @@ import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as usersActions from 'store/ducks/users/actions'
 import * as authSelector from 'store/ducks/auth/selectors'
-import { useNavigation } from '@react-navigation/native'
 
-const TranslationService = ({ children, }) => {
+const TranslationService = ({ children }) => {
   const dispatch = useDispatch()
   const user = useSelector(authSelector.authUserSelector)
   const translationFetch = useSelector(state => state.translation.translationFetch)

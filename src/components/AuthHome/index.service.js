@@ -5,7 +5,7 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import toLower from 'ramda/src/toLower'
 import path from 'ramda/src/path'
 
-const AuthComponentService = ({ children, }) => {
+const AuthHomeComponentService = ({ children }) => {
   const guessUsernameType = (username) => {
     const hasEmail = /\S+@\S+\.\S+/.test(username)
     const hasPhone = /^[0-9 ()+-]+$/.test(username)
@@ -96,7 +96,7 @@ const AuthComponentService = ({ children, }) => {
 
   useEffect(() => {
     const shouldRedirect = [
-      'Auth',
+      'AuthHome',
       'OnboardName',
       'OnboardPhoto',
       'AuthSignup',
@@ -121,4 +121,4 @@ const AuthComponentService = ({ children, }) => {
   })
 }
 
-export default AuthComponentService
+export default AuthHomeComponentService

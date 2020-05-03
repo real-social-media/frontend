@@ -9,7 +9,7 @@ import path from 'ramda/src/path'
 import * as authSelector from 'store/ducks/auth/selectors'
 import useS3ExpiryState from 'services/S3ExpiryState'
 
-const SearchService = ({ children, }) => {
+const SearchService = ({ children }) => {
   const dispatch = useDispatch()
   const user = useSelector(authSelector.authUserSelector)
   const usersSearch = useSelector(state => state.users.usersSearch)

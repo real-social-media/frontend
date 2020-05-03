@@ -6,7 +6,7 @@ import { v4 as uuid } from 'uuid'
 import * as navigationActions from 'navigation/actions'
 import * as authSelector from 'store/ducks/auth/selectors'
 
-const AlbumCreateService = ({ children, }) => {
+const AlbumCreateService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const user = useSelector(authSelector.authUserSelector)

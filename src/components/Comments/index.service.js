@@ -10,7 +10,7 @@ import path from 'ramda/src/path'
 import { ifIphoneX } from 'react-native-iphone-x-helper'
 import * as authSelector from 'store/ducks/auth/selectors'
 
-const CommentsService = ({ children, }) => {
+const CommentsService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const route = useRoute()

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import * as authActions from 'store/ducks/auth/actions'
 import toLower from 'ramda/src/toLower'
 
-const OnboardNameService = ({ children, }) => {
+const OnboardNameService = ({ children }) => {
   const dispatch = useDispatch()
   const authCheck = useSelector(state => state.auth.authCheck)
   const authOnboard = useSelector(state => state.auth.authOnboard)

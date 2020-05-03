@@ -1,6 +1,4 @@
-import { useNavigation } from '@react-navigation/native'
-
-const NotificationsService = ({ children, }) => {
+const NotificationsService = ({ children }) => {
   return children({
   })
 }

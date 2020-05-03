@@ -9,7 +9,7 @@ import { useNavigation } from '@react-navigation/native'
 import { v4 as uuid } from 'uuid'
 import dayjs from 'dayjs'
 
-const ProfilePhotoService = ({ children, }) => {
+const ProfilePhotoService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const user = useSelector(authSelector.authUserSelector)

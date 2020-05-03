@@ -7,7 +7,7 @@ import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/nativ
 import path from 'ramda/src/path'
 import * as authSelector from 'store/ducks/auth/selectors'
 
-const ProfileService = ({ children, }) => {
+const ProfileService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const route = useRoute()

@@ -5,7 +5,7 @@ import * as usersActions from 'store/ducks/users/actions'
 import * as postsServices from 'store/ducks/posts/services'
 import { useNavigation, useRoute } from '@react-navigation/native'
 
-const PostViewsService = ({ children, }) => {
+const PostViewsService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const route = useRoute()

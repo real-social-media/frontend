@@ -4,12 +4,18 @@ import {
   StyleSheet,
   View,
 } from 'react-native'
+import TextField from 'components/Formik/TextField'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
-import { Formik } from 'formik'
+import { Formik, Field } from 'formik'
+import * as Yup from 'yup'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
+
+const formSchema = Yup.object().shape({
+  confirmationCode: Yup.string().min(2).max(50).required(),
+})
 
 const SignupForm = ({
   t,
@@ -22,7 +28,10 @@ const SignupForm = ({
   return (
     <View style={styling.root}>
       <View style={styling.input}>
-        <DefaultButton label={t('Send Confirmation Text / Email')} onPress={handleSubmit} loading={loading} disabled={loading} />
+        <Field name="confirmationCode" component={TextField} placeholder={t('Confirmation code')} />
+      </View>
+      <View style={styling.input}>
+        <DefaultButton label={t('Next')} onPress={handleSubmit} loading={loading} disabled={loading} />
       </View>
     </View>
   )
@@ -41,9 +50,10 @@ SignupForm.propTypes = {
   handleSubmit: PropTypes.any,
   submitErrors: PropTypes.any,
   dirtySinceLastSubmit: PropTypes.any,
-  loading: PropTypes.any,
+  authSignin: PropTypes.any,
   authSignup: PropTypes.any,
   t: PropTypes.any,
+  loading: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(({
@@ -53,9 +63,9 @@ export default withTranslation()(withTheme(({
 }) => (
   <Formik
     initialValues={{
-      firstName: '',
-      lastName: '',
+      confirmationCode: '',
     }}
+    validationSchema={formSchema}
     onSubmit={authSignupRequest}
   >
     {(formikProps) => (

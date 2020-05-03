@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native'
 import * as navigationActions from 'navigation/actions'
 import * as authSelector from 'store/ducks/auth/selectors'
 
-const AlbumEditService = ({ children, }) => {
+const AlbumEditService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const user = useSelector(authSelector.authUserSelector)

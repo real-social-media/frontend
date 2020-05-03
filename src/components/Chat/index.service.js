@@ -7,7 +7,7 @@ import toLower from 'ramda/src/toLower'
 import * as usersServices from 'store/ducks/users/services'
 import * as authSelector from 'store/ducks/auth/selectors'
 
-const ChatService = ({ children, }) => {
+const ChatService = ({ children }) => {
   const dispatch = useDispatch()
   const user = useSelector(authSelector.authUserSelector)
   const usersGetTrendingUsers = useSelector(state => state.users.usersGetTrendingUsers)

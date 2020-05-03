@@ -4,7 +4,14 @@ import { withTheme } from 'react-native-paper'
 
 import * as navigationOptions from 'navigation/options'
 
-import AuthScreen from 'screens/AuthScreen'
+import AuthHomeScreen from 'screens/AuthHomeScreen'
+import AuthUsernameScreen from 'screens/AuthUsernameScreen'
+import AuthPasswordScreen from 'screens/AuthPasswordScreen'
+import AuthPhoneScreen from 'screens/AuthPhoneScreen'
+import AuthPhoneConfirmScreen from 'screens/AuthPhoneConfirmScreen'
+import AuthEmailScreen from 'screens/AuthEmailScreen'
+import AuthEmailConfirmScreen from 'screens/AuthEmailConfirmScreen'
+
 import AuthForgotScreen from 'screens/AuthForgotScreen'
 import AuthForgotConfirmScreen from 'screens/AuthForgotConfirmScreen'
 import AuthSignupScreen from 'screens/AuthSignupScreen'
@@ -24,11 +31,50 @@ const AuthNavigator = ({ theme }) => {
   return (
     <Stack.Navigator {...stackNavigatorDefaultProps}>
       <Stack.Screen
-        name="Auth"
-        component={AuthScreen}
+        name="AuthHome"
+        component={AuthHomeScreen}
         {...stackScreenAuthProps}
       />
 
+      <Stack.Screen
+        name="AuthUsername"
+        component={AuthUsernameScreen}
+        {...stackScreenAuthProps}
+      />
+
+      <Stack.Screen
+        name="AuthPassword"
+        component={AuthPasswordScreen}
+        {...stackScreenAuthProps}
+      />
+
+      <Stack.Screen
+        name="AuthPhone"
+        component={AuthPhoneScreen}
+        {...stackScreenAuthProps}
+      />
+
+      <Stack.Screen
+        name="AuthPhoneConfirm"
+        component={AuthPhoneConfirmScreen}
+        {...stackScreenAuthProps}
+      />
+
+      <Stack.Screen
+        name="AuthEmail"
+        component={AuthEmailScreen}
+        {...stackScreenAuthProps}
+      />
+
+      <Stack.Screen
+        name="AuthEmailConfirm"
+        component={AuthEmailConfirmScreen}
+        {...stackScreenAuthProps}
+      />
+
+      {/*
+       *
+      */}
       <Stack.Screen
         name="AuthForgot"
         component={AuthForgotScreen}

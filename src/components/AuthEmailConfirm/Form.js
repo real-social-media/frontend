@@ -14,23 +14,15 @@ import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const formSchema = Yup.object().shape({
-  username: Yup.string()
+  code: Yup.string()
     .min(3)
     .max(50)
     .matches(/^\S*$/, 'no whitespace')
     .trim()
     .required(),
-  password: Yup.string()
-    .min(8)
-    .max(50)
-    .matches(/[a-z]/, 'at least one lowercase char')
-    .matches(/[A-Z]/, 'at least one uppercase char')
-    .matches(/[$-/:-?{-~!"^_`\[\]]/, 'at least 1 special char (@,!,#, etc).')
-    .matches(/[0-9]/, 'at least one number')
-    .required(),
 })
 
-const UsernameForm = ({
+const EmailConfirmForm = ({
   t,
   theme,
   handleSubmit,
@@ -41,13 +33,10 @@ const UsernameForm = ({
   return (
     <View style={styling.root}>
       <View style={styling.input}>
-        <Field name="username" component={TextField} placeholder={t('Phone or Email')} />
+        <Field name="code" component={TextField} placeholder={t('Confirmation Code')} />
       </View>
       <View style={styling.input}>
-        <Field name="password" component={TextField} placeholder={t('Password')} secureTextEntry />
-      </View>
-      <View style={styling.input}>
-        <DefaultButton label={t('Login / Signup')} onPress={handleSubmit} loading={loading} disabled={loading} />
+        <DefaultButton label={t('Next')} onPress={handleSubmit} loading={loading} disabled={loading} />
       </View>
     </View>
   )
@@ -61,7 +50,7 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-UsernameForm.propTypes = {
+EmailConfirmForm.propTypes = {
   t: PropTypes.any,
   theme: PropTypes.any,
   handleSubmit: PropTypes.any,
@@ -76,14 +65,13 @@ export default withTranslation()(withTheme(({
 }) => (
   <Formik
     initialValues={{
-      username: '',
-      password: '',
+      code: '',
     }}
     validationSchema={formSchema}
     onSubmit={authSigninRequest}
   >
     {(formikProps) => (
-      <UsernameForm
+      <EmailConfirmForm
         {...formikProps}
         {...props}
         loading={authSignin.status === 'loading'}

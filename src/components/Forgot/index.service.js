@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native'
 import toLower from 'ramda/src/toLower'
 import * as navigationActions from 'navigation/actions'
 
-const AuthForgotComponentService = ({ children, }) => {
+const AuthForgotComponentService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const authCheck = useSelector(state => state.auth.authCheck)
@@ -27,7 +27,7 @@ const AuthForgotComponentService = ({ children, }) => {
     }
 
     if (authForgotConfirm.status === 'success') {
-      navigationActions.navigateAuth(navigation)()
+      navigationActions.navigateAuthHome(navigation)()
       dispatch(authActions.authForgotConfirmIdle())
     }
   }, [

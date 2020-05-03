@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native'
 import toLower from 'ramda/src/toLower'
 import * as navigationActions from 'navigation/actions'
 
-const AuthComponentService = ({ children, }) => {
+const AuthComponentService = ({ children }) => {
   const guessUsernameType = (username) => {
     const hasEmail = /\S+@\S+\.\S+/.test(username)
     const hasPhone = /^[0-9 ()+-]+$/.test(username)

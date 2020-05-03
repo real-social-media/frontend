@@ -65,13 +65,13 @@ const SignupConfirm = ({
         </View>
         <View style={styling.subtitle}>
           <Subtitle actions={[{
-            onPress: navigationActions.navigateAuth(navigation),
+            onPress: navigationActions.navigateAuthHome(navigation),
             title: t('Change Email Address'),
           }, {
             onPress: null,
             title: t('or'),
           }, {
-            onPress: navigationActions.navigateAuth(navigation),
+            onPress: navigationActions.navigateAuthHome(navigation),
             title: t('Resend Email'),
           }]} />
         </View>

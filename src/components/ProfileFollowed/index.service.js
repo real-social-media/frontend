@@ -4,7 +4,7 @@ import * as usersActions from 'store/ducks/users/actions'
 import * as usersServices from 'store/ducks/users/services'
 import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native'
 
-const ProfileFollowedService = ({ children, }) => {
+const ProfileFollowedService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const route = useRoute()

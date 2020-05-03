@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from 'react'
+import { useRef, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as usersActions from 'store/ducks/users/actions'
 import * as usersServices from 'store/ducks/users/services'
@@ -6,7 +6,7 @@ import { useNavigation, useScrollToTop, useFocusEffect } from '@react-navigation
 import path from 'ramda/src/path'
 import * as authSelector from 'store/ducks/auth/selectors'
 
-const ProfileService = ({ children, }) => {
+const ProfileService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const user = useSelector(authSelector.authUserSelector)

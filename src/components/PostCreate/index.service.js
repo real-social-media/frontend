@@ -11,7 +11,7 @@ import dayjs from 'dayjs'
 import * as navigationActions from 'navigation/actions'
 import path from 'ramda/src/path'
 
-const PostCreateService = ({ children, }) => {
+const PostCreateService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const route = useRoute()

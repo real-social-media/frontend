@@ -458,7 +458,7 @@ const authSignoutRequest = (state, action) => update(state, {
 const authSignoutSuccess = (state, action) => update(initialState, {
   authCheck: {
     message: { $set: action.payload.message },
-    nextRoute: { $set: 'Auth' },
+    nextRoute: { $set: 'AuthHome' },
   },
 })
 

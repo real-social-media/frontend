@@ -1,6 +1,4 @@
-import { useNavigation } from '@react-navigation/native'
-
-const PayoutService = ({ children, }) => {
+const PayoutService = ({ children }) => {
   return children({
   })
 }

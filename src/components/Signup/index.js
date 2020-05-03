@@ -3,91 +3,78 @@ import PropTypes from 'prop-types'
 import {
   View,
   StyleSheet,
-  Linking,
+  TouchableOpacity,
 } from 'react-native'
 import SignupForm from 'components/Signup/Form'
-import Subtitle from 'templates/Subtitle'
-import NativeError from 'templates/NativeError'
-import { Subheading } from 'react-native-paper'
-import path from 'ramda/src/path'
+import { Headline, Subheading } from 'react-native-paper'
 import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
-const Signup = ({
+const Auth = ({
   t,
   theme,
   authSignin,
   authSignup,
   authSignupRequest,
-  authSignupIdle,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
 
   return (
-    <View style={styling.wrapper}>
-      <NativeError
-        handleCancelPress={authSignupIdle}
-        titleText={t('Error occured')}
-        messageText={t(path(['message', 'text'])(authSignup))}
-        actionText={t('Try again')}
-        status={authSignup.status}
-        triggerOn="failure"
-      />
-
+    <React.Fragment>
       <View style={styling.root}>
-        <View style={styling.title}>
-          <Subheading>{`${t('Would you like sign up & verify your account')}: ${authSignin.payload.username} ?`}</Subheading>
+        <View style={styling.header}>
+          <Headline>{t('Grab Your Username!')}</Headline>
+          <Subheading>{t('You can always change it later')}</Subheading>
         </View>
-        <View style={styling.form}>
+
+        <View style={styling.content}>
           <SignupForm
             authSignin={authSignin}
             authSignup={authSignup}
             authSignupRequest={authSignupRequest}
           />
         </View>
-        <View style={styling.subtitle}>
-          <Subtitle actions={[{
-            onPress: () => Linking.openURL('https://real.app/real-eula-html-english.html').catch(() => {}),
-            title: t('By tapping to continue, you are indicating that you have read the EULA and agree to the Terms of Service'),
-          }, {
-            onPress: navigationActions.navigateAuth(navigation),
-            title: t('Change Email Address'),
-          }]} />
-        </View>
       </View>
-    </View>
+    </React.Fragment>
   )
 }
 
 const styles = theme => StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    justifyContent: 'center',
-  },
   root: {
+    flex: 1,
     paddingHorizontal: 48, 
+    justifyContent: 'space-between',
   },
-  title: {
+  header: {
     alignItems: 'center',
-    paddingBottom: 48,
   },
-  form: {
+  content: {
+  },
+  footer: {
+  },
+  action: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: theme.colors.backgroundSecondary,
+    height: 80,
+  },
+  actionText: {
+    fontWeight: '500',
+    letterSpacing: 0,
+    color: theme.colors.primary,
   },
 })
 
-Signup.propTypes = {
+Auth.propTypes = {
+  t: PropTypes.any,
   theme: PropTypes.any,
-  
   authSignin: PropTypes.any,
-  authSigninRequest: PropTypes.any,
   authSignup: PropTypes.any,
   authSignupRequest: PropTypes.any,
-  t: PropTypes.any,
-  authSignupIdle: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(Signup))
+export default withTranslation()(withTheme(Auth))

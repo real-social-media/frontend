@@ -4,7 +4,7 @@ import * as themeActions from 'store/ducks/theme/actions'
 import * as usersActions from 'store/ducks/users/actions'
 import * as authSelector from 'store/ducks/auth/selectors'
 
-const ThemeService = ({ children, }) => {
+const ThemeService = ({ children }) => {
   const dispatch = useDispatch()
   const themeFetch = useSelector(state => state.theme.themeFetch)
   const user = useSelector(authSelector.authUserSelector)

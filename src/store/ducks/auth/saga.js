@@ -135,12 +135,12 @@ function* authOnboardRequest(req) {
     } else if (errorMessage && errorMessage.includes('already taken')) {
       yield put(actions.authOnboardFailure({
         message: errors.getMessagePayload(constants.AUTH_ONBOARD_FAILURE, 'USER_TAKEN', error.message),
-        nextRoute: 'Auth',
+        nextRoute: 'AuthHome',
       }))
     } else if (errorMessage && errorMessage.includes('does not validate')) {
       yield put(actions.authOnboardFailure({
         message: errors.getMessagePayload(constants.AUTH_ONBOARD_FAILURE, 'INVALID_USERNAME', error.message),
-        nextRoute: 'Auth',
+        nextRoute: 'AuthHome',
       }))
     } else {
       yield put(actions.authOnboardFailure({
@@ -206,7 +206,7 @@ function* authCheckRequest(req) {
     } else {
       yield put(actions.authCheckFailure({
         message: errors.getMessagePayload(constants.AUTH_CHECK_FAILURE, 'GENERIC', error.message),
-        nextRoute: 'Auth',
+        nextRoute: 'AuthHome',
       }))
     }
   }

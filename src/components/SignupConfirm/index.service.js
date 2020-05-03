@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as authActions from 'store/ducks/auth/actions'
-import { useNavigation, useRoute } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import * as navigationActions from 'navigation/actions'
 
-const AuthComponentService = ({ children, }) => {
+const AuthComponentService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const authSignin = useSelector(state => state.auth.authSignin)
@@ -27,7 +27,7 @@ const AuthComponentService = ({ children, }) => {
      * Authorization for existing user
      */
     if (authSignupConfirm.status === 'success') {
-      navigationActions.navigateAuth(navigation)()
+      navigationActions.navigateAuthHome(navigation)()
       dispatch(authActions.authSignupIdle())
       dispatch(authActions.authSigninIdle())
       dispatch(authActions.authSignupConfirmIdle())

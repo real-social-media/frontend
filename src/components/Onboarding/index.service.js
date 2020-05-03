@@ -1,4 +1,4 @@
-const OnboardingService = ({ children, }) => {
+const OnboardingService = ({ children }) => {
   return children({
   })
 }

@@ -7,7 +7,7 @@ import pathOr from 'ramda/src/pathOr'
 import path from 'ramda/src/path'
 import * as navigationActions from 'navigation/actions'
 
-const StoryService = ({ children, }) => {
+const StoryService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const route = useRoute()
