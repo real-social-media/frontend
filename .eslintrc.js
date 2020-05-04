@@ -18,4 +18,8 @@ module.exports = {
       version: 'detect',
     },
   },
+  plugins: ['jest'],
+  env: {
+    'jest/globals': true,
+  },
 }
