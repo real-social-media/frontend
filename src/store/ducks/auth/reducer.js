@@ -3,7 +3,7 @@ import update from 'immutability-helper'
 import * as constants from 'store/ducks/auth/constants'
 import path from 'ramda/src/path'
 
-const initialState = {
+export const initialState = {
   /**
    *
    */
@@ -144,14 +144,14 @@ const authOnboardIdle = (state, action) => update(state, {
 /**
  *
  */
-const authCheckRequest = (state, action) => update(state, {
+export const authCheckRequest = (state, action) => update(state, {
   authCheck: {
     status: { $set: 'loading' },
     payload: { $set: action.payload },
   },
 })
 
-const authCheckSuccess = (state, action) => update(state, {
+export const authCheckSuccess = (state, action) => update(state, {
   user: { $set: action.payload.data },
   authCheck: {
     message: { $set: action.payload.message },
@@ -161,7 +161,7 @@ const authCheckSuccess = (state, action) => update(state, {
   },
 })
 
-const authCheckFailure = (state, action) => update(state, {
+export const authCheckFailure = (state, action) => update(state, {
   authCheck: {
     message: { $set: action.payload.message },
     error: { $set: action.payload.error },
@@ -171,7 +171,7 @@ const authCheckFailure = (state, action) => update(state, {
   },
 })
 
-const authCheckIdle = (state, action) => update(state, {
+export const authCheckIdle = (state, action) => update(state, {
   authCheck: {
     data: { $set: initialState.authCheck.data },
     status: { $set: 'idle' },
@@ -179,14 +179,14 @@ const authCheckIdle = (state, action) => update(state, {
   },
 })
 
-const authCheckReset = (state, action) => update(state, {
+export const authCheckReset = (state, action) => update(state, {
   user: { $set: initialState.user },
 })
 
 /**
  *
  */
-const authSigninRequest = (state, action) => update(state, {
+export const authSigninRequest = (state, action) => update(state, {
   authSignin: {
     status: { $set: 'loading' },
     payload: { $set: action.payload },
