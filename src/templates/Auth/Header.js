@@ -28,6 +28,7 @@ const Header = ({
 
 const styles = theme => StyleSheet.create({
   root: {
+    marginVertical: theme.spacing.base * 6,
     alignItems: 'center',
   },
 })

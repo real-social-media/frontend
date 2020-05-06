@@ -69,8 +69,9 @@ const AuthNavigationComponent = ({ navigation, theme }) => ({
     borderBottomWidth: 0,
     shadowColor: 'transparent',
   },
-  headerLeft: null,
-  headerTitle: null,
+  headerTitleStyle: {
+    color: theme.colors.text,
+  },
 })
 
 const HomeNavigationComponent = ({ navigation, theme }) => ({
@@ -103,6 +104,18 @@ export const tabNavigatorDefaultProps = () => ({
   lazy: true,
   sceneContainerStyle: {
     backgroundColor: 'transparent',
+  },
+  pager,
+})
+
+export const tabNavigatorAuthProps = ({ theme }) => ({
+  initialRouteName: 'Root',
+  sceneContainerStyle: {
+    backgroundColor: 'white',
+  },
+  tabBarOptions: {
+    activeTintColor: theme.colors.primary,
+    inactiveTintColor: theme.colors.primary,
   },
   pager,
 })
@@ -148,13 +161,27 @@ export const stackScreenDefaultProps = ({ theme }) => ({
 /**
  * Used for Main Screens with application logo
  */
-export const stackScreenAuthProps = ({ theme }) => ({
+export const stackScreenAuthProps = ({ theme }) => ({ options } = {}) => ({
   options: (props) => ({
     ...AuthNavigationComponent({ ...props, theme }),
     gestureEnabled: false,
     cardStyle: {
       backgroundColor: theme.colors.backgroundPrimary,
     },
+    headerStyle: {
+      backgroundColor: theme.colors.primary,
+      shadowRadius: 0,
+      shadowOffset: {
+        height: 0,
+      },
+      borderBottomWidth: 0,
+      shadowColor: 'transparent',
+    },
+    headerTitleStyle: {
+      color: '#ffffff',
+    },
+    headerLeft: pageHeaderLeft,
+    ...options,
   }),
 })
 
@@ -163,11 +190,14 @@ export const stackScreenAuthProps = ({ theme }) => ({
  */
 export const stackScreenOnboardProps = ({ theme }) => ({
   options: (props) => ({
+    ...AuthNavigationComponent({ ...props, theme }),
     gestureEnabled: false,
     cardStyle: {
       backgroundColor: theme.colors.backgroundPrimary,
     },
-    headerShown: false,
+    headerTitleStyle: {
+      color: theme.colors.backgroundPrimary,
+    },
   }),
 })
 

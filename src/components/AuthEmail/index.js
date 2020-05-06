@@ -7,6 +7,7 @@ import {
 import FormComponent from 'components/AuthEmail/Form'
 import AuthActionTemplate from 'templates/Auth/Action'
 import AuthHeaderTemplate from 'templates/Auth/Header'
+import AuthErrorTemplate from 'templates/Auth/Error'
 import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
@@ -16,6 +17,7 @@ import { withTranslation } from 'react-i18next'
 const AuthEmail = ({
   t,
   theme,
+  formErrorMessage,
   handleFormSubmit,
   formSubmitLoading,
   formInitialValues,
@@ -25,6 +27,12 @@ const AuthEmail = ({
 
   return (
     <React.Fragment>
+      {formErrorMessage ?
+        <AuthErrorTemplate
+          text={formErrorMessage}
+        />
+      : null}
+
       <View style={styling.root}>
         <AuthHeaderTemplate
           title={t('Signup with Email Address')}
@@ -55,7 +63,6 @@ const styles = theme => StyleSheet.create({
   },
   content: {
     flex: 1,
-    justifyContent: 'center',
   },
   footer: {
   },
@@ -64,6 +71,7 @@ const styles = theme => StyleSheet.create({
 AuthEmail.propTypes = {
   t: PropTypes.any,
   theme: PropTypes.any,
+  formErrorMessage: PropTypes.any,
   handleFormSubmit: PropTypes.any,
   formSubmitLoading: PropTypes.any,
   formInitialValues: PropTypes.any,

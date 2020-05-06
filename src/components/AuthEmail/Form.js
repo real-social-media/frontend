@@ -68,6 +68,7 @@ export default withTranslation()(withTheme(({
     initialValues={formInitialValues}
     validationSchema={formSchema}
     onSubmit={handleFormSubmit}
+    enableReinitialize
   >
     {(formikProps) => (
       <EmailForm

@@ -1,5 +1,6 @@
 import { all, takeEvery } from 'redux-saga/effects'
 import auth from 'store/ducks/auth/saga'
+import signup from 'store/ducks/signup/saga'
 import camera from 'store/ducks/camera/saga'
 import theme from 'store/ducks/theme/saga'
 import albums from 'store/ducks/albums/saga'
@@ -30,6 +31,7 @@ const captureErrors = (payload) => {
 export default function* rootSaga(persistor) {
   yield all([]
     .concat(auth(persistor))
+    .concat(signup())
     .concat(camera())
     .concat(theme())
     .concat(albums())

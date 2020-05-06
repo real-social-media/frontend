@@ -59,23 +59,22 @@ UsernameForm.propTypes = {
 }
 
 export default withTranslation()(withTheme(({
-  authSignin,
-  authSigninRequest,
+  handleFormSubmit,
+  formSubmitLoading,
+  formInitialValues,
   ...props
 }) => (
   <Formik
-    initialValues={{
-      username: '',
-      password: '',
-    }}
+    initialValues={formInitialValues}
     validationSchema={formSchema}
-    onSubmit={authSigninRequest}
+    onSubmit={handleFormSubmit}
+    enableReinitialize
   >
     {(formikProps) => (
       <UsernameForm
         {...formikProps}
         {...props}
-        loading={authSignin.status === 'loading'}
+        loading={formSubmitLoading}
       />
     )}
   </Formik>

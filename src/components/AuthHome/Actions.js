@@ -23,7 +23,7 @@ const Actions = ({
   return (
     <View style={styling.root}>
       <View style={styling.item}>
-        <DefaultButton label={t('Use Phone or Email')} onPress={navigationActions.navigateAuthPhone(navigation)} loading={false} />
+        <DefaultButton label={t('Use Phone or Email')} onPress={navigationActions.navigateAuthUsername(navigation)} loading={false} />
       </View>
       <View style={styling.item}>
         <DefaultButton label={t('Login with Google')} onPress={authGoogleRequest} loading={authGoogle.status === 'loading'} />

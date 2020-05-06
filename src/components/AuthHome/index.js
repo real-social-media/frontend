@@ -62,7 +62,6 @@ const styles = theme => StyleSheet.create({
   },
   content: {
     flex: 1,
-    justifyContent: 'center',
   },
   footer: {
   },

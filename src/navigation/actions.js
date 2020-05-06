@@ -110,17 +110,26 @@ export const navigateAuthHome = (navigation, params) => () =>
 export const navigateAuthUsername = (navigation, params) => () =>
   navigation.navigate('AuthUsername', params)
 
-export const navigateAuthPassword = (navigation, params) => () =>
-  navigation.navigate('AuthPassword', params)
+export const navigateSignup = (navigation, params) => () =>
+  navigation.navigate('Signup', params)
 
 export const navigateAuthPhone = (navigation, params) => () =>
-  navigation.navigate('AuthPhone', params)
+  navigation.navigate('Signup', {
+    screen: 'AuthPhone',
+    params,
+  })
+
+export const navigateAuthEmail = (navigation, params) => () =>
+  navigation.navigate('Signup', {
+    screen: 'AuthEmail',
+    params,
+  })
 
 export const navigateAuthPhoneConfirm = (navigation, params) => () =>
   navigation.navigate('AuthPhoneConfirm', params)
 
-export const navigateAuthEmail = (navigation, params) => () =>
-  navigation.navigate('AuthEmail', params)
+export const navigateAuthPassword = (navigation, params) => () =>
+  navigation.navigate('AuthPassword', params)
 
 export const navigateAuthEmailConfirm = (navigation, params) => () =>
   navigation.navigate('AuthEmailConfirm', params)

@@ -1,6 +1,7 @@
 import React from 'react'
 import AuthHomeComponent from 'components/AuthHome'
 import AuthHomeServiceComponent from 'components/AuthHome/index.service'
+import ScreenWrapper from 'templates/Auth/ScreenWrapper'
 
 class AuthHomeScreen extends React.Component {
   render() {
@@ -16,4 +17,4 @@ class AuthHomeScreen extends React.Component {
   }
 }
 
-export default AuthHomeScreen
+export default ScreenWrapper(AuthHomeScreen)

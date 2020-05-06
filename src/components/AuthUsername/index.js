@@ -16,8 +16,9 @@ import { withTranslation } from 'react-i18next'
 const AuthUsername = ({
   t,
   theme,
-  authSignin,
-  authSigninRequest,
+  handleFormSubmit,
+  formSubmitLoading,
+  formInitialValues,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
@@ -26,17 +27,22 @@ const AuthUsername = ({
     <React.Fragment>
       <View style={styling.root}>
         <AuthHeaderTemplate
-          title={t('Secure Your Account')}
+          title={t('Grab Your Username!')}
           subtitle={t('You can always change it later')}
         />
 
         <View style={styling.content}>
           <FormComponent
-            authSignin={authSignin}
-            authSigninRequest={authSigninRequest}
+            handleFormSubmit={handleFormSubmit}
+            formSubmitLoading={formSubmitLoading}
+            formInitialValues={formInitialValues}
           />
         </View>
       </View>
+
+      <AuthActionTemplate onPress={navigationActions.navigateAuthPhone(navigation)}>
+        {t('Signup with Phone Number')}
+      </AuthActionTemplate>
     </React.Fragment>
   )
 }
@@ -49,7 +55,6 @@ const styles = theme => StyleSheet.create({
   },
   content: {
     flex: 1,
-    justifyContent: 'center',
   },
   footer: {
   },
@@ -58,8 +63,9 @@ const styles = theme => StyleSheet.create({
 AuthUsername.propTypes = {
   t: PropTypes.any,
   theme: PropTypes.any,
-  authSignin: PropTypes.any,
-  authSigninRequest: PropTypes.any,
+  handleFormSubmit: PropTypes.any,
+  formSubmitLoading: PropTypes.any,
+  formInitialValues: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(AuthUsername))

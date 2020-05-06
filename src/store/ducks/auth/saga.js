@@ -378,60 +378,6 @@ function* authSignupResendRequest(req) {
 }
 
 /**
- * Signup Confirm will confirm entry from user pool using `AwsAuth.confirmSignUp`,
- * where username is an identityId generated at authSignupRequest.
- * After user is confirmed it will sign with password using `authenticateUser`
- * and set `AWS.config.credentials` with Logins array, which binds an identity pool
- * entry to user pool entry. Loosing identiyId between transition
- * will fail signup process!
- */
-function* handleAuthSignupConfirmRequest(payload) {
-  const AwsAuth = yield getContext('AwsAuth')
-
-  yield AwsAuth.confirmSignUp(payload.username, payload.confirmationCode, {
-    forceAliasCreation: false,
-  })
-
-  /**
-   * user will get user pool and identity pool linked only if he used code verification
-   * in which we persist username and password in reducers. If user confirmed his account
-   * via deeplink his identites will not be linked. Linking will be moved to authSignin
-   * handler, which will know linking status by asyncStorage entry called @real:signup:${id}
-   * therefore we should clear that entry if confirm and linking were successful.
-   */
-  if (payload.username && payload.password) {
-    yield linkUserIdentities({
-      username: payload.username,
-      password: payload.password,
-    })
-    yield clearSignupStage({ username: payload.username })
-  }
-}
-
-/**
- *
- */
-function* authSignupConfirmRequest(req) {
-  try {
-    const data = yield handleAuthSignupConfirmRequest(req.payload)
-    yield put(actions.authSignupConfirmSuccess({
-      message: errors.getMessagePayload(constants.AUTH_SIGNUP_CONFIRM_SUCCESS, 'GENERIC'),
-      data,
-    }))
-  } catch (error) {
-    if (error.code === 'CodeMismatchException') {
-      yield put(actions.authSignupConfirmFailure({
-        message: errors.getMessagePayload(constants.AUTH_SIGNUP_CONFIRM_FAILURE, 'CODE_MISMATCH', error.message),
-      }))
-    } else {
-      yield put(actions.authSignupConfirmFailure({
-        message: errors.getMessagePayload(constants.AUTH_SIGNUP_CONFIRM_FAILURE, 'GENERIC', error.message),
-      }))
-    }
-  }
-}
-
-/**
  *
  */
 function* handleAuthForgotRequest(payload) {
@@ -624,7 +570,6 @@ export default (persistor) => [
   takeEvery(constants.AUTH_SIGNIN_REQUEST, authSigninRequest),
   takeLatest(constants.AUTH_SIGNUP_REQUEST, authSignupRequest),
   takeLatest(constants.AUTH_SIGNUP_RESEND_REQUEST, authSignupResendRequest),
-  takeLatest(constants.AUTH_SIGNUP_CONFIRM_REQUEST, authSignupConfirmRequest),
   takeLatest(constants.AUTH_FORGOT_REQUEST, authForgotRequest),
   takeLatest(constants.AUTH_FORGOT_CONFIRM_REQUEST, authForgotConfirmRequest),
   takeEvery(constants.AUTH_FACEBOOK_REQUEST, authFacebookRequest),

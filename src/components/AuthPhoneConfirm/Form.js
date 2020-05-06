@@ -69,6 +69,7 @@ export default withTranslation()(withTheme(({
     }}
     validationSchema={formSchema}
     onSubmit={authSigninRequest}
+    enableReinitialize
   >
     {(formikProps) => (
       <PhoneConfirmForm
