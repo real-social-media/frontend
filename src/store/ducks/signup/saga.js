@@ -9,8 +9,34 @@ import * as actions from 'store/ducks/signup/actions'
 import * as constants from 'store/ducks/signup/constants'
 import * as errors from 'store/ducks/signup/errors'
 
+/**
+ *
+ */
+function* handleSignupUsernameRequest(payload) {
+  const data = yield fetch(`${Config.AWS_API_GATEWAY_ENDPOINT}/username/status?username=${payload.username}`, {
+    method: 'GET',
+    headers: {
+      'X-Api-Key': Config.AWS_API_GATEWAY_KEY,
+    },
+  })
+
+  const response = yield data.json()
+
+  if (response.status !== 'AVAILABLE') {
+    throw new Error('USER_EXISTS')
+  }
+}
+
 function* signupUsernameRequest(req) {
-  yield put(actions.signupUsernameSuccess({ payload: req.payload }))
+  try {
+    yield handleSignupUsernameRequest(req.payload)
+    yield put(actions.signupUsernameSuccess({ payload: req.payload }))
+  } catch (error) {
+    yield put(actions.signupUsernameFailure({
+      message: errors.getMessagePayload(constants.SIGNUP_USERNAME_FAILURE, 'USER_EXISTS', error.message),
+      payload: req.payload,
+    }))
+  }
 }
 
 function* signupPhoneRequest(req) {
@@ -142,22 +168,27 @@ function* signupCreateRequest(req) {
     if (error.message === 'USER_CONFIRMATION_DELIVERY') {
       yield put(actions.signupCreateFailure({
         message: errors.getMessagePayload(constants.SIGNUP_CREATE_FAILURE, 'USER_CONFIRMATION_DELIVERY', error.message),
+        payload: req.payload,
       }))
     } else if (error.code === 'UsernameExistsException') {
       yield put(actions.signupCreateFailure({
         message: errors.getMessagePayload(constants.SIGNUP_CREATE_FAILURE, 'USER_EXISTS', error.message),
+        payload: req.payload,
       }))
     } else if (error.code === 'InvalidPasswordException') {
       yield put(actions.signupCreateFailure({
         message: errors.getMessagePayload(constants.SIGNUP_CREATE_FAILURE, 'INVALID_PASSWORD', error.message),
+        payload: req.payload,
       }))
     } else if (error.code === 'InvalidParameterException') {
       yield put(actions.signupCreateFailure({
         message: errors.getMessagePayload(constants.SIGNUP_CREATE_FAILURE, 'INVALID_PARAMETER', error.message),
+        payload: req.payload,
       }))
     } else {
       yield put(actions.signupCreateFailure({
         message: errors.getMessagePayload(constants.SIGNUP_CREATE_FAILURE, 'GENERIC', error.message),
+        payload: req.payload,
       }))
     }
   }
@@ -208,14 +239,17 @@ function* signupConfirmRequest(req) {
     if (error.code === 'ExpiredCodeException') {
       yield put(actions.signupConfirmFailure({
         message: errors.getMessagePayload(constants.SIGNUP_CONFIRM_FAILURE, 'CODE_EXPIRED', error.message),
+        payload: req.payload,
       }))
     } else if (error.code === 'CodeMismatchException') {
       yield put(actions.signupConfirmFailure({
         message: errors.getMessagePayload(constants.SIGNUP_CONFIRM_FAILURE, 'CODE_MISMATCH', error.message),
+        payload: req.payload,
       }))
     } else {
       yield put(actions.signupConfirmFailure({
         message: errors.getMessagePayload(constants.SIGNUP_CONFIRM_FAILURE, 'GENERIC', error.message),
+        payload: req.payload,
       }))
     }
   }

@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useEffect, useCallback } from 'react'
 import * as signupActions from 'store/ducks/signup/actions'
 import * as navigationActions from 'navigation/actions'
 import { useDispatch, useSelector } from 'react-redux'
@@ -12,13 +12,6 @@ const AuthUsernameComponentService = ({ children }) => {
 
   const handleFormSubmit = (payload) => {
     dispatch(signupActions.signupUsernameRequest(payload))
-    navigationActions.navigateAuthPassword(navigation)()
-  }
-
-  const formSubmitLoading = false
-
-  const formInitialValues = {
-    username: signupUsername.payload.username,
   }
 
   /**
@@ -35,7 +28,28 @@ const AuthUsernameComponentService = ({ children }) => {
     }, [])
   )
 
+  /**
+   * Redirect to password selection once username is available
+   */
+  useEffect(() => {
+    if (
+      signupUsername.status !== 'success'
+    ) return
+
+    navigationActions.navigateAuthPassword(navigation)()
+  }, [
+    signupUsername.status === 'success',
+  ])
+
+  const formSubmitLoading = signupUsername.status === 'loading'
+  const formErrorMessage = signupUsername.error.text
+
+  const formInitialValues = {
+    username: signupUsername.payload.username,
+  }
+
   return children({
+    formErrorMessage,
     handleFormSubmit,
     formSubmitLoading,
     formInitialValues,

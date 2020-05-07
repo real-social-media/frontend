@@ -7,6 +7,7 @@ import {
 import FormComponent from 'components/AuthPhoneConfirm/Form'
 import AuthActionTemplate from 'templates/Auth/Action'
 import AuthHeaderTemplate from 'templates/Auth/Header'
+import AuthErrorTemplate from 'templates/Auth/Error'
 import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
@@ -16,27 +17,40 @@ import { withTranslation } from 'react-i18next'
 const AuthPhoneConfirm = ({
   t,
   theme,
-  authSignin,
-  authSigninRequest,
+  formErrorMessage,
+  handleFormSubmit,
+  formSubmitLoading,
+  formInitialValues,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
 
   return (
     <React.Fragment>
+      {formErrorMessage ?
+        <AuthErrorTemplate
+          text={formErrorMessage}
+        />
+      : null}
+
       <View style={styling.root}>
         <AuthHeaderTemplate
           title={t('Enter 6 digit code')}
-          subtitle={t('Sent to +1 633 233 222')}
+          subtitle={t('Sent to {{phone}}', formInitialValues)}
         />
 
         <View style={styling.content}>
           <FormComponent
-            authSignin={authSignin}
-            authSigninRequest={authSigninRequest}
+            handleFormSubmit={handleFormSubmit}
+            formSubmitLoading={formSubmitLoading}
+            formInitialValues={formInitialValues}
           />
         </View>
       </View>
+
+      <AuthActionTemplate onPress={navigationActions.navigateAuthEmail(navigation)}>
+        {t('Signup with Email Address')}
+      </AuthActionTemplate>
     </React.Fragment>
   )
 }
@@ -49,7 +63,6 @@ const styles = theme => StyleSheet.create({
   },
   content: {
     flex: 1,
-    justifyContent: 'center',
   },
   footer: {
   },
@@ -58,8 +71,10 @@ const styles = theme => StyleSheet.create({
 AuthPhoneConfirm.propTypes = {
   t: PropTypes.any,
   theme: PropTypes.any,
-  authSignin: PropTypes.any,
-  authSigninRequest: PropTypes.any,
+  formErrorMessage: PropTypes.any,
+  handleFormSubmit: PropTypes.any,
+  formSubmitLoading: PropTypes.any,
+  formInitialValues: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(AuthPhoneConfirm))

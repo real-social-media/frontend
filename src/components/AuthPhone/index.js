@@ -32,6 +32,7 @@ const AuthPhone = ({
           text={formErrorMessage}
         />
       : null}
+
       <View style={styling.root}>
         <AuthHeaderTemplate
           title={t('Signup with Phone Number')}
