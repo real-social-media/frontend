@@ -4,8 +4,8 @@ import {
   View,
   StyleSheet,
 } from 'react-native'
-import PhotoComponent from 'components/AuthPhotoUpload/Photo'
-import ActionsComponent from 'components/AuthPhotoUpload/Actions'
+import PhotoComponent from 'components/AuthPhoto/Photo'
+import ActionsComponent from 'components/AuthPhoto/Actions'
 import AuthActionTemplate from 'templates/Auth/Action'
 import AuthHeaderTemplate from 'templates/Auth/Header'
 import * as navigationActions from 'navigation/actions'
@@ -14,7 +14,7 @@ import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
-const AuthPhotoUpload = ({
+const AuthPhoto = ({
   t,
   theme,
 }) => {
@@ -55,11 +55,11 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-AuthPhotoUpload.propTypes = {
+AuthPhoto.propTypes = {
   t: PropTypes.any,
   theme: PropTypes.any,
   authGoogle: PropTypes.any,
   authGoogleRequest: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(AuthPhotoUpload))
+export default withTranslation()(withTheme(AuthPhoto))

@@ -14,8 +14,6 @@ import { withTranslation } from 'react-i18next'
 const Actions = ({
   t,
   theme,
-  authGoogle,
-  authGoogleRequest,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
@@ -23,20 +21,18 @@ const Actions = ({
   return (
     <View style={styling.root}>
       <View style={styling.item}>
-        <DefaultButton label={t('Use Phone or Email')} onPress={navigationActions.navigateAuthUsername(navigation)} loading={false} />
+        <DefaultButton label={t('Take Photo')} onPress={navigationActions.navigateAuthUsername(navigation)} loading={false} />
       </View>
       <View style={styling.item}>
-        <DefaultButton label={t('Login with Google')} onPress={authGoogleRequest} loading={authGoogle.status === 'loading'} />
+        <DefaultButton label={t('Choose from Library')} onPress={navigationActions.navigateAuthUsername(navigation)} loading={false} />
       </View>
     </View>
   )
 }
 
 Actions.propTypes = {
-  t: PropTypes.any,
   theme: PropTypes.any,
-  authGoogle: PropTypes.any,
-  authGoogleRequest: PropTypes.any,
+  t: PropTypes.any,
 }
 
 const styles = theme => StyleSheet.create({

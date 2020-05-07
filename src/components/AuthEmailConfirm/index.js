@@ -20,6 +20,7 @@ const AuthEmailConfirm = ({
   formErrorMessage,
   handleFormSubmit,
   formSubmitLoading,
+  formSubmitDisabled,
   formInitialValues,
 }) => {
   const styling = styles(theme)
@@ -43,6 +44,7 @@ const AuthEmailConfirm = ({
           <FormComponent
             handleFormSubmit={handleFormSubmit}
             formSubmitLoading={formSubmitLoading}
+            formSubmitDisabled={formSubmitDisabled}
             formInitialValues={formInitialValues}
           />
         </View>
@@ -74,6 +76,7 @@ AuthEmailConfirm.propTypes = {
   formErrorMessage: PropTypes.any,
   handleFormSubmit: PropTypes.any,
   formSubmitLoading: PropTypes.any,
+  formSubmitDisabled: PropTypes.any,
   formInitialValues: PropTypes.any,
 }
 

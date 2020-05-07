@@ -6,12 +6,28 @@ import {
 } from 'react-native'
 import TextField from 'components/Formik/TextField'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
-import { Formik, Field } from 'formik'
+import { Formik, Field, useFormikContext } from 'formik'
 import * as Yup from 'yup'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
+
+const AuthSubmit = () => {
+  const formik = useFormikContext()
+  const debouncedSubmit = React.useCallback(
+    () => formik.submitForm(),
+    [formik.submitForm]
+  )
+
+  React.useEffect(() => {
+    debouncedSubmit()
+    console.log(formik.values)
+  }, [debouncedSubmit, formik.values])
+
+  return null
+}
+
 
 const formSchema = Yup.object().shape({
   username: Yup.string()
@@ -22,21 +38,24 @@ const formSchema = Yup.object().shape({
     .required(),
 })
 
-const PhotoForm = ({
+const UsernameForm = ({
   t,
   theme,
   handleSubmit,
   loading,
+  disabled,
 }) => {
   const styling = styles(theme)
   
   return (
     <View style={styling.root}>
+      <AuthSubmit />
+
       <View style={styling.input}>
         <Field name="username" component={TextField} placeholder={t('Username')} />
       </View>
       <View style={styling.input}>
-        <DefaultButton label={t('Next')} onPress={handleSubmit} loading={loading} disabled={loading} />
+        <DefaultButton label={t('Next')} onPress={handleSubmit} loading={loading} disabled={disabled} />
       </View>
     </View>
   )
@@ -50,7 +69,7 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-PhotoForm.propTypes = {
+UsernameForm.propTypes = {
   t: PropTypes.any,
   theme: PropTypes.any,
   handleSubmit: PropTypes.any,
@@ -59,23 +78,24 @@ PhotoForm.propTypes = {
 }
 
 export default withTranslation()(withTheme(({
-  authSignin,
-  authSigninRequest,
+  handleFormSubmit,
+  formSubmitLoading,
+  formSubmitDisabled,
+  formInitialValues,
   ...props
 }) => (
   <Formik
-    initialValues={{
-      username: '',
-      password: '',
-    }}
+    initialValues={formInitialValues}
     validationSchema={formSchema}
-    onSubmit={authSigninRequest}
+    onSubmit={handleFormSubmit}
+    enableReinitialize
   >
     {(formikProps) => (
-      <PhotoForm
+      <UsernameForm
         {...formikProps}
         {...props}
-        loading={authSignin.status === 'loading'}
+        loading={formSubmitLoading}
+        disabled={formSubmitDisabled}
       />
     )}
   </Formik>

@@ -1,50 +1,41 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {
-  View,
   StyleSheet,
+  View,
 } from 'react-native'
-import { Headline, Subheading } from 'react-native-paper'
+import ProfileIcon from 'assets/svg/auth/Profile'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
-const Header = ({
+const Photo = ({
   t,
   theme,
-  title,
-  subtitle,
 }) => {
   const styling = styles(theme)
-
+  
   return (
     <View style={styling.root}>
-      <Headline style={styling.headline}>{title}</Headline>
-      <Subheading style={styling.subtitle}>{subtitle}</Subheading>
+      <ProfileIcon />
     </View>
   )
 }
 
 const styles = theme => StyleSheet.create({
   root: {
-    marginVertical: theme.spacing.base * 6,
     alignItems: 'center',
+    marginBottom: 24,
   },
-  headline: {
-    textAlign: 'center',
-    fontWeight: '600',
-  },
-  subtitle: {
-    textAlign: 'center',
+  input: {
+    marginBottom: 12,
   },
 })
 
-Header.propTypes = {
+Photo.propTypes = {
   t: PropTypes.any,
   theme: PropTypes.any,
-  title: PropTypes.any,
-  subtitle: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(Header))
+export default withTranslation()(withTheme(Photo))

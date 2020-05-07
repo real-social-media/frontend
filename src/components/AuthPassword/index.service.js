@@ -27,7 +27,9 @@ const AuthPasswordComponentService = ({ children }) => {
     signupPassword.status === 'success',
   ])
 
-  const formSubmitLoading = false
+  const formSubmitLoading = signupPassword.status === 'loading'
+  const formSubmitDisabled = signupPassword.status === 'loading'
+  const formErrorMessage = signupPassword.error.text
 
   const formInitialValues = {
   }
@@ -46,8 +48,10 @@ const AuthPasswordComponentService = ({ children }) => {
   )
 
   return children({
+    formErrorMessage,
     handleFormSubmit,
     formSubmitLoading,
+    formSubmitDisabled,
     formInitialValues,
   })
 }

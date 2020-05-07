@@ -18,6 +18,7 @@ const AuthPassword = ({
   theme,
   handleFormSubmit,
   formSubmitLoading,
+  formSubmitDisabled,
   formInitialValues,
 }) => {
   const styling = styles(theme)
@@ -35,6 +36,7 @@ const AuthPassword = ({
           <FormComponent
             handleFormSubmit={handleFormSubmit}
             formSubmitLoading={formSubmitLoading}
+            formSubmitDisabled={formSubmitDisabled}
             formInitialValues={formInitialValues}
           />
         </View>
@@ -65,6 +67,7 @@ AuthPassword.propTypes = {
   theme: PropTypes.any,
   handleFormSubmit: PropTypes.any,
   formSubmitLoading: PropTypes.any,
+  formSubmitDisabled: PropTypes.any,
   formInitialValues: PropTypes.any,
 }
 

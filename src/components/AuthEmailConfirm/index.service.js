@@ -56,6 +56,7 @@ const AuthEmailConfirmComponentService = ({ children }) => {
   ])
 
   const formSubmitLoading = signupConfirm.status === 'loading'
+  const formSubmitDisabled = signupConfirm.status === 'loading'
   const formErrorMessage = signupConfirm.error.text
 
   const formInitialValues = {
@@ -66,6 +67,7 @@ const AuthEmailConfirmComponentService = ({ children }) => {
     formErrorMessage,
     handleFormSubmit,
     formSubmitLoading,
+    formSubmitDisabled,
     formInitialValues,
   })
 }

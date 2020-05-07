@@ -72,6 +72,7 @@ const AuthEmailComponentService = ({ children }) => {
   )
 
   const formSubmitLoading = signupCreate.status === 'loading'
+  const formSubmitDisabled = signupCreate.status === 'loading'
   const formErrorMessage = signupCreate.error.text
 
   const formInitialValues = {
@@ -82,6 +83,7 @@ const AuthEmailComponentService = ({ children }) => {
     formErrorMessage,
     handleFormSubmit,
     formSubmitLoading,
+    formSubmitDisabled,
     formInitialValues,
   })
 }

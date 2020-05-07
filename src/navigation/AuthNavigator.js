@@ -13,15 +13,17 @@ import AuthPasswordScreen from 'screens/AuthPasswordScreen'
 import AuthPhoneConfirmScreen from 'screens/AuthPhoneConfirmScreen'
 import AuthEmailScreen from 'screens/AuthEmailScreen'
 import AuthEmailConfirmScreen from 'screens/AuthEmailConfirmScreen'
-
-import AuthForgotScreen from 'screens/AuthForgotScreen'
-import AuthForgotConfirmScreen from 'screens/AuthForgotConfirmScreen'
-import AuthSignupScreen from 'screens/AuthSignupScreen'
-import AuthSignupConfirmScreen from 'screens/AuthSignupConfirmScreen'
-import OnboardNameScreen from 'screens/OnboardNameScreen'
-import OnboardPhotoScreen from 'screens/OnboardPhotoScreen'
+import AuthPhotoScreen from 'screens/AuthPhotoScreen'
+import AuthPhotoUploadScreen from 'screens/AuthPhotoUploadScreen'
 import CameraScreen from 'screens/CameraScreen'
-import VerificationScreen from 'screens/VerificationScreen'
+
+// import AuthForgotScreen from 'screens/AuthForgotScreen'
+// import AuthForgotConfirmScreen from 'screens/AuthForgotConfirmScreen'
+// import AuthSignupScreen from 'screens/AuthSignupScreen'
+// import AuthSignupConfirmScreen from 'screens/AuthSignupConfirmScreen'
+// import OnboardNameScreen from 'screens/OnboardNameScreen'
+// import OnboardPhotoScreen from 'screens/OnboardPhotoScreen'
+// import VerificationScreen from 'screens/VerificationScreen'
 
 const SignupNavigator = () => {
   const Tab = createMaterialTopTabNavigator()
@@ -51,6 +53,7 @@ const AuthNavigator = ({ theme }) => {
   const Stack = createStackNavigator()
 
   const stackScreenOnboardProps = navigationOptions.stackScreenOnboardProps({ theme })
+  const stackScreenBlankProps = navigationOptions.stackScreenBlankProps({ theme })
   const stackNavigatorDefaultProps = navigationOptions.stackNavigatorDefaultProps({ theme })
   const stackScreenAuthProps = navigationOptions.stackScreenAuthProps({ theme })
 
@@ -92,55 +95,22 @@ const AuthNavigator = ({ theme }) => {
         {...stackScreenAuthProps({ options: { title: 'Confirm' } })}
       />
 
-      {/*
-       *
-      */}
       <Stack.Screen
-        name="AuthForgot"
-        component={AuthForgotScreen}
-        {...stackScreenAuthProps}
+        name="AuthPhotoUpload"
+        component={AuthPhotoUploadScreen}
+        {...stackScreenAuthProps({ options: { title: 'Signup' } })}
       />
 
       <Stack.Screen
-        name="AuthForgotConfirm"
-        component={AuthForgotConfirmScreen}
-        {...stackScreenAuthProps}
+        name="AuthPhoto"
+        component={AuthPhotoScreen}
+        {...stackScreenAuthProps({ options: { title: 'Signup' } })}
       />
 
       <Stack.Screen
-        name="AuthSignup"
-        component={AuthSignupScreen}
-        {...stackScreenAuthProps}
-      />
-
-      <Stack.Screen
-        name="AuthSignupConfirm"
-        component={AuthSignupConfirmScreen}
-        {...stackScreenAuthProps}
-      />
-
-      <Stack.Screen
-        name="OnboardName"
-        component={OnboardNameScreen}
-        {...stackScreenOnboardProps}
-      />
-
-      <Stack.Screen
-        name="OnboardPhoto"
-        component={OnboardPhotoScreen}
-        {...stackScreenOnboardProps}
-      />
-
-      <Stack.Screen
-        name="OnboardCamera"
+        name="AuthCamera"
         component={CameraScreen}
-        {...stackScreenOnboardProps}
-      />
-
-      <Stack.Screen
-        name="Verification"
-        component={VerificationScreen}
-        {...stackScreenAuthProps}
+        {...stackScreenBlankProps}
       />
     </Stack.Navigator>
   )

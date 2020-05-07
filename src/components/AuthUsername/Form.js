@@ -8,6 +8,7 @@ import TextField from 'components/Formik/TextField'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
+import Config from 'react-native-config'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -19,7 +20,20 @@ const formSchema = Yup.object().shape({
     .max(50)
     .matches(/^\S*$/, 'no whitespace')
     .trim()
-    .required(),
+    .required()
+    .test('usernameReserve', 'username is reserved', (value) =>
+      new Promise((resolve, reject) => {
+        fetch(`${Config.AWS_API_GATEWAY_ENDPOINT}/username/status?username=${value}`, {
+          method: 'GET',
+          headers: {
+            'X-Api-Key': Config.AWS_API_GATEWAY_KEY,
+          },
+        })
+        .then((resp) => resp.json())
+        .then((resp) => resolve(resp.status === 'AVAILABLE'))
+        .catch((error) => resolve(true))
+      })
+    ),
 })
 
 const UsernameForm = ({
@@ -27,16 +41,27 @@ const UsernameForm = ({
   theme,
   handleSubmit,
   loading,
+  disabled,
+  dirty,
+  isValid,
+  isValidating,
 }) => {
   const styling = styles(theme)
-  
+
+  const submitDisabled = (
+    disabled ||
+    !isValid ||
+    isValidating ||
+    !dirty
+  )
+
   return (
     <View style={styling.root}>
       <View style={styling.input}>
         <Field name="username" component={TextField} placeholder={t('Username')} />
       </View>
       <View style={styling.input}>
-        <DefaultButton label={t('Next')} onPress={handleSubmit} loading={loading} disabled={loading} />
+        <DefaultButton label={t('Next')} onPress={handleSubmit} loading={loading} disabled={submitDisabled} />
       </View>
     </View>
   )
@@ -61,6 +86,7 @@ UsernameForm.propTypes = {
 export default withTranslation()(withTheme(({
   handleFormSubmit,
   formSubmitLoading,
+  formSubmitDisabled,
   formInitialValues,
   ...props
 }) => (
@@ -75,6 +101,7 @@ export default withTranslation()(withTheme(({
         {...formikProps}
         {...props}
         loading={formSubmitLoading}
+        disabled={formSubmitDisabled}
       />
     )}
   </Formik>

@@ -42,6 +42,7 @@ const AuthUsernameComponentService = ({ children }) => {
   ])
 
   const formSubmitLoading = signupUsername.status === 'loading'
+  const formSubmitDisabled = signupUsername.status === 'loading'
   const formErrorMessage = signupUsername.error.text
 
   const formInitialValues = {
@@ -52,6 +53,7 @@ const AuthUsernameComponentService = ({ children }) => {
     formErrorMessage,
     handleFormSubmit,
     formSubmitLoading,
+    formSubmitDisabled,
     formInitialValues,
   })
 }
