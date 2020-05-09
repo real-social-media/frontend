@@ -34,6 +34,7 @@ const AuthEmailComponentService = ({ children }) => {
     ) return
 
     const payload = {
+      username: signupUsername.payload.username,
       usernameType: 'email',
       phone: null,
       email: signupEmail.payload.email,

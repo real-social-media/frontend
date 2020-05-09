@@ -2,17 +2,19 @@ import * as AWS from 'aws-sdk/global'
 import { put, takeLatest, getContext } from 'redux-saga/effects'
 import * as CognitoIdentity from 'amazon-cognito-identity-js'
 import Config from 'react-native-config'
-import AsyncStorage from '@react-native-community/async-storage'
 import path from 'ramda/src/path'
 import { promisify } from 'es6-promisify'
+import * as authActions from 'store/ducks/auth/actions'
 import * as actions from 'store/ducks/signup/actions'
 import * as constants from 'store/ducks/signup/constants'
 import * as errors from 'store/ducks/signup/errors'
+import * as queryService from 'services/Query'
+import * as queries from 'store/ducks/auth/queries'
 
 /**
  *
  */
-function* handleSignupUsernameRequest(payload) {
+function* gatewayUsernameStatus(payload) {
   const data = yield fetch(`${Config.AWS_API_GATEWAY_ENDPOINT}/username/status?username=${payload.username}`, {
     method: 'GET',
     headers: {
@@ -25,11 +27,13 @@ function* handleSignupUsernameRequest(payload) {
   if (response.status !== 'AVAILABLE') {
     throw new Error('USER_EXISTS')
   }
+ 
+  return response
 }
 
 function* signupUsernameRequest(req) {
   try {
-    yield handleSignupUsernameRequest(req.payload)
+    yield gatewayUsernameStatus(req.payload)
     yield put(actions.signupUsernameSuccess({ payload: req.payload }))
   } catch (error) {
     yield put(actions.signupUsernameFailure({
@@ -52,28 +56,13 @@ function* signupPasswordRequest(req) {
 }
 
 /**
- *
- */
-function* getSignupStage({ username }) {
-  return yield AsyncStorage.getItem(`@real:signup:${username}`)
-}
-
-function* saveSignupStage({ username, identity }) {
-  return yield AsyncStorage.setItem(`@real:signup:${username}`, identity)
-}
-
-function* clearSignupStage({ username }) {
-  return yield AsyncStorage.removeItem(`@real:signup:${username}`)
-}
-
-/**
  * Links identity pool with user pool. Linking will be done at:
  * - handleSignupConfirmRequest for code based signup confirmation
  * - handleAuthSigninRequest for deeplink based signup confirmation
  */
 function* linkUserIdentities(payload) {
   const authenticationDetails = new CognitoIdentity.AuthenticationDetails({
-    Username: payload.username,
+    Username: payload.cognitoUserId,
     Password: payload.password,
   })
 
@@ -83,7 +72,7 @@ function* linkUserIdentities(payload) {
   })
 
   const cognitoUser = new CognitoIdentity.CognitoUser({
-    Username: payload.username,
+    Username: payload.cognitoUserId,
     Pool: userPool,
   })
 
@@ -93,7 +82,7 @@ function* linkUserIdentities(payload) {
 
   AWS.config.region = Config.AWS_COGNITO_REGION
   AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-    IdentityId: payload.username,
+    IdentityId: payload.cognitoUserId,
     IdentityPoolId: Config.AWS_COGNITO_IDENTITY_POOL_ID,
     Logins: {
       [`cognito-idp.${Config.AWS_COGNITO_REGION}.amazonaws.com/${Config.AWS_COGNITO_USER_POOL_ID}`]: authenticateUser.getIdToken().getJwtToken(),
@@ -131,15 +120,6 @@ function* handleSignupCreateRequest(payload) {
     return {}
   })()
 
-  /**
-   * Saving username:identity combination into AsyncStorage to enabled userConfirm
-   * using deeplink. AsyncStorage entry should be cleared after successful linking.
-   */
-  yield saveSignupStage({
-    username: payload.email || payload.phone,
-    identity: username,
-  })
-
   const signup = yield AwsAuth.signUp({
     username: username,
     password: payload.password,
@@ -152,8 +132,10 @@ function* handleSignupCreateRequest(payload) {
   }
 
   return {
-    username: path(['user', 'username'])(signup),
-    delivery: path(['codeDeliveryDetails', 'DeliveryMedium'])(signup),
+    username: payload.username,
+    cognitoUserId: path(['user', 'username'])(signup),
+    cognitoUsername: payload.email || payload.phone,
+    cognitoDelivery: path(['codeDeliveryDetails', 'DeliveryMedium'])(signup),
   }
 }
 
@@ -205,7 +187,7 @@ function* signupCreateRequest(req) {
 function* handleSignupConfirmRequest(payload) {
   const AwsAuth = yield getContext('AwsAuth')
 
-  yield AwsAuth.confirmSignUp(payload.username, payload.confirmationCode, {
+  yield AwsAuth.confirmSignUp(payload.cognitoUserId, payload.confirmationCode, {
     forceAliasCreation: false,
   })
 
@@ -216,13 +198,28 @@ function* handleSignupConfirmRequest(payload) {
    * handler, which will know linking status by asyncStorage entry called @real:signup:${id}
    * therefore we should clear that entry if confirm and linking were successful.
    */
-  if (payload.username && payload.password) {
-    yield linkUserIdentities({
-      username: payload.username,
-      password: payload.password,
-    })
-    yield clearSignupStage({ username: payload.username })
-  }
+  yield linkUserIdentities({
+    cognitoUserId: payload.cognitoUserId,
+    cognitoUsername: payload.cognitoUsername,
+    password: payload.password,
+  })
+
+  yield AwsAuth.signIn(payload.cognitoUsername, payload.password)
+
+  const selector = path(['data', 'createCognitoOnlyUser'])
+  const data = yield queryService.apiRequest(queries.createCognitoOnlyUser, {
+    username: payload.username,
+  })
+
+  yield queryService.apiRequest(queries.setUserAcceptedEULAVersion, { version: '15-11-2019' })
+
+  // yield put(authActions.authCheckReady({
+  //   data: { userId: selector(data).userId },
+  // }))
+
+  // yield put(authActions.globalAuthUserTrigger({
+  //   data: selector(data),
+  // }))
 }
 
 /**

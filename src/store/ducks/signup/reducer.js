@@ -196,6 +196,9 @@ const signupCreateSuccess = (state, action) => update(state, {
     status: { $set: 'success' },
     payload: { $set: action.payload.payload },
   },
+  signupCognitoIdentity: {
+    $set: action.payload.data,
+  },
 })
 
 const signupCreateFailure = (state, action) => update(state, {

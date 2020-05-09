@@ -34,6 +34,7 @@ const AuthPhoneComponentService = ({ children }) => {
     ) return
 
     const payload = {
+      username: signupUsername.payload.username,
       usernameType: 'phone',
       phone: signupPhone.payload.phone,
       email: null,

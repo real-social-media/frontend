@@ -21,10 +21,10 @@ const Actions = ({
   return (
     <View style={styling.root}>
       <View style={styling.item}>
-        <DefaultButton label={t('Take Photo')} onPress={navigationActions.navigateAuthUsername(navigation)} loading={false} />
+        <DefaultButton label={t('Take Photo')} onPress={navigationActions.navigateAuthCamera(navigation, { nextRoute: 'AuthPhotoUpload' })} loading={false} />
       </View>
       <View style={styling.item}>
-        <DefaultButton label={t('Choose from Library')} onPress={navigationActions.navigateAuthUsername(navigation)} loading={false} />
+        <DefaultButton label={t('Choose from Library')} onPress={() => {}} loading={false} />
       </View>
     </View>
   )

@@ -12,10 +12,13 @@ const AuthEmailConfirmComponentService = ({ children }) => {
   const signupEmail = useSelector(state => state.signup.signupEmail)
   const signupPassword = useSelector(state => state.signup.signupPassword)
   const signupConfirm = useSelector(state => state.signup.signupConfirm)
+  const signupCognitoIdentity = useSelector(state => state.signup.signupCognitoIdentity)
 
   const handleFormSubmit = (payload) => {
     const nextPayload = {
       confirmationCode: payload.confirmationCode,
+      cognitoUsername: signupCognitoIdentity.cognitoUsername,
+      cognitoUserId: signupCognitoIdentity.cognitoUserId,
       username: signupUsername.payload.username,
       password: signupPassword.payload.password,
     }
@@ -50,7 +53,7 @@ const AuthEmailConfirmComponentService = ({ children }) => {
       signupConfirm.status !== 'success'
     ) return
 
-    navigationActions.navigateAuthEmailConfirm(navigation)()
+    navigationActions.navigateAuthPhoto(navigation)()
   }, [
     signupConfirm.status === 'success',
   ])

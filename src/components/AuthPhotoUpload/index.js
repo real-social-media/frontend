@@ -4,25 +4,34 @@ import {
   View,
   StyleSheet,
 } from 'react-native'
-import PhotoComponent from 'components/AuthPhoto/Photo'
-import ActionsComponent from 'components/AuthPhoto/Actions'
+import ActionsComponent from 'components/AuthPhotoUpload/Actions'
 import AuthActionTemplate from 'templates/Auth/Action'
 import AuthHeaderTemplate from 'templates/Auth/Header'
+import PhotoTemplate from 'templates/Auth/Photo'
+import AuthErrorTemplate from 'templates/Auth/Error'
 import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
-const AuthPhoto = ({
+const AuthPhotoUpload = ({
   t,
   theme,
+  formErrorMessage,
+  activeUpload,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
 
   return (
     <React.Fragment>
+      {formErrorMessage ?
+        <AuthErrorTemplate
+          text={formErrorMessage}
+        />
+      : null}
+
       <View style={styling.root}>
         <AuthHeaderTemplate
           title={t('Add Profile Picture')}
@@ -30,8 +39,13 @@ const AuthPhoto = ({
         />
 
         <View style={styling.content}>
-          <PhotoComponent />
-          <ActionsComponent />
+          <PhotoTemplate
+            activeUpload={activeUpload}
+          />
+
+          {formErrorMessage ?
+            <ActionsComponent />
+          : null}
         </View>
       </View>
 
@@ -55,11 +69,11 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-AuthPhoto.propTypes = {
+AuthPhotoUpload.propTypes = {
   t: PropTypes.any,
   theme: PropTypes.any,
-  authGoogle: PropTypes.any,
-  authGoogleRequest: PropTypes.any,
+  formErrorMessage: PropTypes.any,
+  activeUpload: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(AuthPhoto))
+export default withTranslation()(withTheme(AuthPhotoUpload))

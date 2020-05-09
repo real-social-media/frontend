@@ -124,7 +124,7 @@ function* authOnboardRequest(req) {
     yield put(actions.authOnboardSuccess({
       message: errors.getMessagePayload(constants.AUTH_ONBOARD_SUCCESS, 'GENERIC'),
       data: selector(data),
-      nextRoute: 'OnboardPhoto',
+      nextRoute: 'AuthPhoto',
     }))
   } catch (error) {
     const errorMessage = path(['errors', '0', 'message'])(error)
@@ -175,6 +175,7 @@ function handleAuthCheckValidation(self) {
  * meaning that user authenticated in Cognito pool but didn't create an entry in database on backend.
  */
 function* authCheckRequest(req) {
+  const AwsAuth = yield getContext('AwsAuth')
   try {
     yield handleAuthCheckRequest(req.payload)
 
@@ -193,10 +194,11 @@ function* authCheckRequest(req) {
       nextRoute: 'Root',
     }))
   } catch (error) {
+    // yield AwsAuth.signOut({ global: true })
     if (path(['message'])(error) === 'PROFILE_PHOTO_MISSING') {
       yield put(actions.authCheckFailure({
         message: errors.getMessagePayload(constants.AUTH_CHECK_FAILURE, 'PROFILE_PHOTO_MISSING', error.message),
-        nextRoute: 'OnboardPhoto',
+        nextRoute: 'AuthPhoto',
       }))
     } else if (path(['errors', '0', 'path', '0'])(error) === 'self') {
       yield put(actions.authCheckFailure({

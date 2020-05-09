@@ -54,8 +54,23 @@ if (Text.defaultProps == null) {
 const Routes = ({ authenticated }) => {
   const { theme, themes } = useContext(ThemesContext)
 
+  const linking = {
+    prefixes: ['real://'],
+    config: {
+      Auth: 'auth/:userId',
+    },
+    getStateFromPath: (path, options) => {
+      // Return a state object here
+      // You can also reuse the default logic by importing `getStateFromPath` from `@react-navigation/native`
+    },
+    getPathFromState(state, config) {
+      // Return a path string here
+      // You can also reuse the default logic by importing `getPathFromState` from `@react-navigation/native`
+    },
+  }
+
   return (
-    <NavigationContainer theme={theme}>
+    <NavigationContainer theme={theme} linking={linking}>
       {!authenticated ?
         <PaperProvider theme={themes[0].theme}>
           <AuthNavigator />

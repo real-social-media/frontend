@@ -1,18 +1,13 @@
 import { useSelector } from 'react-redux'
 
+
 const AuthPhotoComponentService = ({ children }) => {
-  const authSignin = useSelector(state => state.auth.authSignin)
+  const usersEditProfile = useSelector(state => state.users.usersEditProfile)
   
-  const authSigninRequest = () => {
-  }
-  
-  const authSigninIdle = () => {
-  }
+  const formErrorMessage = usersEditProfile.error.text
 
   return children({
-    authSignin,
-    authSigninRequest,
-    authSigninIdle,
+    formErrorMessage,    
   })
 }
 

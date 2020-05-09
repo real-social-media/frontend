@@ -5,6 +5,7 @@ import * as actions from 'store/ducks/users/actions'
 import * as queries from 'store/ducks/users/queries'
 import * as constants from 'store/ducks/users/constants'
 import * as queryService from 'services/Query'
+import * as errors from 'store/ducks/users/errors'
 
 /**
  *
@@ -164,7 +165,18 @@ function* usersEditProfileRequest(req) {
     yield put(actions.usersEditProfileSuccess({ payload: req.payload, data: selector(data), meta: data }))
     yield put(actions.globalAuthUserTrigger({ payload: req.payload, data: selector(data) }))
   } catch (error) {
-    yield put(actions.usersEditProfileFailure({ payload: req.payload, message: errorWrapper(error) }))
+    const errorMessage = path(['errors', '0', 'message'])(error)
+    if (errorMessage && errorMessage.includes('is not verified')) {
+      yield put(actions.usersEditProfileFailure({
+        message: errors.getMessagePayload(constants.USERS_EDIT_PROFILE_FAILURE, 'VERIFICATION_FAILED'),
+        payload: req.payload,
+      }))
+    } else {
+      yield put(actions.usersEditProfileFailure({
+        message: errors.getMessagePayload(constants.USERS_EDIT_PROFILE_FAILURE, 'GENERIC', error.message),
+        payload: req.payload,
+      }))
+    }
   }
 }
 

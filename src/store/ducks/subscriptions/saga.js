@@ -48,7 +48,7 @@ function* postSubscription(req) {
       yield put(postsActions.postsFeedGetRequest({  }))
       yield put(postsActions.postsGetRequest({ userId }))
       yield put(usersActions.usersImagePostsGetRequest({ userId }))
-      yield put(postsActions.postsCreateIdle({ payload: { postId } }))
+      // yield put(postsActions.postsCreateIdle({ payload: { postId } }))
     }
   })
 }

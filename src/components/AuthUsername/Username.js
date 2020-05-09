@@ -6,28 +6,12 @@ import {
 } from 'react-native'
 import TextField from 'components/Formik/TextField'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
-import { Formik, Field, useFormikContext } from 'formik'
+import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
-
-const AuthSubmit = () => {
-  const formik = useFormikContext()
-  const debouncedSubmit = React.useCallback(
-    () => formik.submitForm(),
-    [formik.submitForm]
-  )
-
-  React.useEffect(() => {
-    debouncedSubmit()
-    console.log(formik.values)
-  }, [debouncedSubmit, formik.values])
-
-  return null
-}
-
 
 const formSchema = Yup.object().shape({
   username: Yup.string()
@@ -49,8 +33,6 @@ const UsernameForm = ({
   
   return (
     <View style={styling.root}>
-      <AuthSubmit />
-
       <View style={styling.input}>
         <Field name="username" component={TextField} placeholder={t('Username')} />
       </View>

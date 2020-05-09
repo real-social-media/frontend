@@ -97,6 +97,8 @@ const AuthHomeComponentService = ({ children }) => {
   useEffect(() => {
     const shouldRedirect = [
       'AuthHome',
+      'AuthPhoto',
+
       'OnboardName',
       'OnboardPhoto',
       'AuthSignup',

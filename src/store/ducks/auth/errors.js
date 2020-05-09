@@ -1,5 +1,4 @@
 import * as constants from 'store/ducks/auth/constants'
-import * as Logger from 'services/Logger'
 
 const messageCodes = {
   /**
@@ -242,11 +241,6 @@ const messageCodes = {
 }
 
 export const getMessagePayload = (key, status = 'GENERIC', nativeError = '') => {
-  if (typeof key === 'string' && key.includes('FAILURE')) {
-    Logger.captureException(nativeError)
-    Logger.captureMessage(`${key}:${status}`)
-  }
-
   return ({
     ...messageCodes[key][status],
     nativeError,

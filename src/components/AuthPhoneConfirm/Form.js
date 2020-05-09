@@ -14,7 +14,7 @@ import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const formSchema = Yup.object().shape({
-  code: Yup.string()
+  confirmationCode: Yup.string()
     .min(3)
     .max(50)
     .matches(/^\S*$/, 'no whitespace')
@@ -22,7 +22,7 @@ const formSchema = Yup.object().shape({
     .required(),
 })
 
-const PhoneConfirmForm = ({
+const EmailConfirmForm = ({
   t,
   theme,
   handleSubmit,
@@ -33,7 +33,7 @@ const PhoneConfirmForm = ({
   return (
     <View style={styling.root}>
       <View style={styling.input}>
-        <Field name="code" component={TextField} placeholder={t('Confirmation Code')} />
+        <Field name="confirmationCode" component={TextField} placeholder={t('Confirmation Code')} />
       </View>
       <View style={styling.input}>
         <DefaultButton label={t('Next')} onPress={handleSubmit} loading={loading} disabled={loading} />
@@ -50,7 +50,7 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-PhoneConfirmForm.propTypes = {
+EmailConfirmForm.propTypes = {
   t: PropTypes.any,
   theme: PropTypes.any,
   handleSubmit: PropTypes.any,
@@ -59,23 +59,22 @@ PhoneConfirmForm.propTypes = {
 }
 
 export default withTranslation()(withTheme(({
-  authSignin,
-  authSigninRequest,
+  handleFormSubmit,
+  formSubmitLoading,
+  formInitialValues,
   ...props
 }) => (
   <Formik
-    initialValues={{
-      code: '',
-    }}
+    initialValues={formInitialValues}
     validationSchema={formSchema}
-    onSubmit={authSigninRequest}
+    onSubmit={handleFormSubmit}
     enableReinitialize
   >
     {(formikProps) => (
-      <PhoneConfirmForm
+      <EmailConfirmForm
         {...formikProps}
         {...props}
-        loading={authSignin.status === 'loading'}
+        loading={formSubmitLoading}
       />
     )}
   </Formik>

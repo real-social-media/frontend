@@ -1,5 +1,4 @@
 import * as constants from 'store/ducks/signup/constants'
-import * as Logger from 'services/Logger'
 
 const messageCodes = {
   /**
@@ -53,7 +52,7 @@ const messageCodes = {
       text: 'Invalid verification code provided',
     },
     CODE_EXPIRED: {
-      code: 'CODE_MISMATCH',
+      code: 'CODE_EXPIRED',
       text: 'Provided verification code has expired',
     },
   },
@@ -80,11 +79,6 @@ const messageCodes = {
 }
 
 export const getMessagePayload = (key, status = 'GENERIC', nativeError = '') => {
-  if (typeof key === 'string' && key.includes('FAILURE')) {
-    Logger.captureException(nativeError)
-    Logger.captureMessage(`${key}:${status}`)
-  }
-
   return ({
     ...messageCodes[key][status],
     nativeError,
