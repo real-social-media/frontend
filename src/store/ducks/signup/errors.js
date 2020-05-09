@@ -55,6 +55,10 @@ const messageCodes = {
       code: 'CODE_EXPIRED',
       text: 'Provided verification code has expired',
     },
+    ALIAS_EXISTS: {
+      code: 'ALIAS_EXISTS',
+      text: 'An account with this phone number already exists',
+    },
   },
 
   /**

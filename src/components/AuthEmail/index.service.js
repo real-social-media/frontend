@@ -52,7 +52,8 @@ const AuthEmailComponentService = ({ children }) => {
    */
   useEffect(() => {
     if (
-      signupCreate.status !== 'success'
+      signupCreate.status !== 'success' ||
+      signupCreate.data.cognitoDelivery !== 'EMAIL'
     ) return
 
     navigationActions.navigateAuthEmailConfirm(navigation)()

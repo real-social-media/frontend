@@ -15,9 +15,9 @@ import { withTranslation } from 'react-i18next'
 
 const formSchema = Yup.object().shape({
   phone: Yup.string()
-    .min(3)
+    .matches(/^\+[0-9]?()[0-9](\s|\S)(\d[0-9]{5})$/, 'internation format required (e.g. +1555)')
+    .min(5)
     .max(50)
-    .matches(/^\S*$/, 'no whitespace')
     .trim()
     .required(),
 })

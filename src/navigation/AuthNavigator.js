@@ -86,13 +86,13 @@ const AuthNavigator = ({ theme }) => {
       <Stack.Screen
         name="AuthEmailConfirm"
         component={AuthEmailConfirmScreen}
-        {...stackScreenAuthProps({ options: { title: 'Confirm' } })}
+        {...stackScreenAuthProps({ options: { title: 'Email Confirm' } })}
       />
 
       <Stack.Screen
         name="AuthPhoneConfirm"
         component={AuthPhoneConfirmScreen}
-        {...stackScreenAuthProps({ options: { title: 'Confirm' } })}
+        {...stackScreenAuthProps({ options: { title: 'Phone Confirm' } })}
       />
 
       <Stack.Screen

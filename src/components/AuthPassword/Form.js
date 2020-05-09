@@ -15,7 +15,7 @@ import { withTranslation } from 'react-i18next'
 
 const formSchema = Yup.object().shape({
   password: Yup.string()
-    .min(3)
+    .min(8)
     .max(50)
     .matches(/^\S*$/, 'no whitespace')
     .trim()

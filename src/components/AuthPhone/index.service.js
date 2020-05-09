@@ -52,7 +52,8 @@ const AuthPhoneComponentService = ({ children }) => {
    */
   useEffect(() => {
     if (
-      signupCreate.status !== 'success'
+      signupCreate.status !== 'success' ||
+      signupCreate.data.cognitoDelivery !== 'SMS'
     ) return
 
     navigationActions.navigateAuthPhoneConfirm(navigation)()

@@ -213,13 +213,13 @@ function* handleSignupConfirmRequest(payload) {
 
   yield queryService.apiRequest(queries.setUserAcceptedEULAVersion, { version: '15-11-2019' })
 
-  // yield put(authActions.authCheckReady({
-  //   data: { userId: selector(data).userId },
-  // }))
+  yield put(authActions.authCheckReady({
+    data: { userId: selector(data).userId },
+  }))
 
-  // yield put(authActions.globalAuthUserTrigger({
-  //   data: selector(data),
-  // }))
+  yield put(authActions.globalAuthUserTrigger({
+    data: selector(data),
+  }))
 }
 
 /**
@@ -233,7 +233,12 @@ function* signupConfirmRequest(req) {
       data,
     }))
   } catch (error) {
-    if (error.code === 'ExpiredCodeException') {
+    if (error.code === 'AliasExistsException') {
+      yield put(actions.signupConfirmFailure({
+        message: errors.getMessagePayload(constants.SIGNUP_CONFIRM_FAILURE, 'ALIAS_EXISTS', error.message),
+        payload: req.payload,
+      }))
+    } else if (error.code === 'ExpiredCodeException') {
       yield put(actions.signupConfirmFailure({
         message: errors.getMessagePayload(constants.SIGNUP_CONFIRM_FAILURE, 'CODE_EXPIRED', error.message),
         payload: req.payload,

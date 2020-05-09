@@ -9,7 +9,7 @@ const AuthPhoneConfirmComponentService = ({ children }) => {
   const navigation = useNavigation()
 
   const signupUsername = useSelector(state => state.signup.signupUsername)
-  const signupEmail = useSelector(state => state.signup.signupEmail)
+  const signupPhone = useSelector(state => state.signup.signupPhone)
   const signupPassword = useSelector(state => state.signup.signupPassword)
   const signupConfirm = useSelector(state => state.signup.signupConfirm)
   const signupCognitoIdentity = useSelector(state => state.signup.signupCognitoIdentity)
@@ -26,22 +26,22 @@ const AuthPhoneConfirmComponentService = ({ children }) => {
   }
 
   /**
-   * Create new user once email and password is received from previous steps
+   * Create new user once phone and password is received from previous steps
    * 
    * Previous steps include:
    * - signupUsername -> AuthUsernameScreen
-   * - signupEmail -> AuthPhoneScreen
+   * - signupPhone -> AuthPhoneScreen
    * - signupPassword -> AuthPasswordScreen
    */
   useEffect(() => {
     if (
       !signupUsername.payload.username ||
-      !signupEmail.payload.email ||
+      !signupPhone.payload.phone ||
       !signupPassword.payload.password
     ) return
   }, [
     signupUsername.status === 'success',
-    signupEmail.status === 'success',
+    signupPhone.status === 'success',
     signupPassword.status === 'success'
   ])
 
@@ -63,7 +63,7 @@ const AuthPhoneConfirmComponentService = ({ children }) => {
   const formErrorMessage = signupConfirm.error.text
 
   const formInitialValues = {
-    email: signupEmail.payload.email,
+    phone: signupPhone.payload.phone,
   }
 
   return children({
