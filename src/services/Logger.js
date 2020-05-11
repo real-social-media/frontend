@@ -1,6 +1,5 @@
 import * as Sentry from '@sentry/react-native'
 import Config from 'react-native-config'
-import codePush from 'react-native-code-push' 
 
 /**
  * By including and configuring Sentry, the SDK will automatically attach global handlers
@@ -9,16 +8,6 @@ import codePush from 'react-native-code-push'
 Sentry.init({
   environment: Config.ENVIRONMENT,
   dsn: Config.SENTRY_DSN,
-})
-
-
-/**
- * Application version + code push version to distinguish environment
- */
-codePush.getUpdateMetadata().then((update) => {
-  if (update) {
-    Sentry.setRelease(update.appVersion + '-codepush:' + update.label)
-  }
 })
 
 /**
