@@ -27,13 +27,6 @@ const AuthPasswordComponentService = ({ children }) => {
     signupPassword.status === 'success',
   ])
 
-  const formSubmitLoading = signupPassword.status === 'loading'
-  const formSubmitDisabled = signupPassword.status === 'loading'
-  const formErrorMessage = signupPassword.error.text
-
-  const formInitialValues = {
-  }
-
   /**
    * Cleaning up email verification sending on screen blur
    */
@@ -47,9 +40,19 @@ const AuthPasswordComponentService = ({ children }) => {
     }, [])
   )
 
+  const formSubmitLoading = signupPassword.status === 'loading'
+  const formSubmitDisabled = signupPassword.status === 'loading'
+  const formErrorMessage = signupPassword.error.text
+
+  const formInitialValues = {
+  }
+
+  const handleFormTransform = (values) => values
+
   return children({
     formErrorMessage,
     handleFormSubmit,
+    handleFormTransform,
     formSubmitLoading,
     formSubmitDisabled,
     formInitialValues,

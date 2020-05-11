@@ -110,6 +110,9 @@ export const navigateAuthHome = (navigation, params) => () =>
 export const navigateAuthUsername = (navigation, params) => () =>
   navigation.navigate('AuthUsername', params)
 
+export const navigateAuthSignin = (navigation, params) => () =>
+  navigation.navigate('AuthSignin', params)
+
 export const navigateSignup = (navigation, params) => () =>
   navigation.navigate('Signup', params)
 

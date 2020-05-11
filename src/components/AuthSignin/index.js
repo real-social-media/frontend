@@ -4,18 +4,20 @@ import {
   View,
   StyleSheet,
 } from 'react-native'
-import FormComponent from 'components/AuthPassword/Form'
+import FormComponent from 'components/AuthSignin/Form'
 import AuthActionTemplate from 'templates/Auth/Action'
 import AuthHeaderTemplate from 'templates/Auth/Header'
+import AuthErrorTemplate from 'templates/Auth/Error'
 import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
-const AuthPassword = ({
+const AuthSignin = ({
   t,
   theme,
+  formErrorMessage,
   handleFormSubmit,
   handleFormTransform,
   formSubmitLoading,
@@ -27,10 +29,16 @@ const AuthPassword = ({
 
   return (
     <React.Fragment>
+      {formErrorMessage ?
+        <AuthErrorTemplate
+          text={formErrorMessage}
+        />
+      : null}
+
       <View style={styling.root}>
         <AuthHeaderTemplate
-          title={t('Secure Your Account')}
-          subtitle={t('Password must be at least 8 characters')}
+          title={t('Welcome Back!')}
+          subtitle={t('Signin to proceed')}
         />
 
         <View style={styling.content}>
@@ -64,9 +72,10 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-AuthPassword.propTypes = {
+AuthSignin.propTypes = {
   t: PropTypes.any,
   theme: PropTypes.any,
+  formErrorMessage: PropTypes.any,
   handleFormSubmit: PropTypes.any,
   handleFormTransform: PropTypes.any,
   formSubmitLoading: PropTypes.any,
@@ -74,4 +83,4 @@ AuthPassword.propTypes = {
   formInitialValues: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(AuthPassword))
+export default withTranslation()(withTheme(AuthSignin))

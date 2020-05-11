@@ -429,7 +429,7 @@ PODS:
     - Sentry (~> 4.4.0)
   - RNShare (3.1.2):
     - React
-  - RNSVG (12.1.0):
+  - RNSVG (12.0.3):
     - React
   - RSKImageCropper (2.0.0)
   - Sentry (4.4.3):
@@ -746,7 +746,7 @@ SPEC CHECKSUMS:
   RNScreens: b5c0e1b2b04512919e78bd3898e144a157ce2363
   RNSentry: d892cbdee165cc6159d71e2a7954efdb8a361918
   RNShare: c19dbe4a7224098cd3cfc4d3b92c886ca817b3f0
-  RNSVG: ce9d996113475209013317e48b05c21ee988d42e
+  RNSVG: 7e16ddfc6e00d5aa69c9eb83e699bcce5dcb85d4
   RSKImageCropper: d9a1acbc0600bf8decc8f0d21895872c99a9e4cf
   Sentry: 14bdd673870e8cf64932b149fad5bbbf39a9b390
   SSZipArchive: fa16b8cc4cdeceb698e5e5d9f67e9558532fbf23

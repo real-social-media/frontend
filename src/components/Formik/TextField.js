@@ -22,11 +22,13 @@ const TextField = ({
   placeholder,
   multiline = false,
   keyboardType = 'default',
+  textContentType = 'none',
   onSubmitEditing,
   disabled,
   hideError,
   autoCompleteType = 'off',
   secureTextEntry,
+  autoFocus = false,
 }) => {
   const styling = styles(theme)
   
@@ -64,6 +66,8 @@ const TextField = ({
         autoCompleteType={autoCompleteType}
         secureTextEntry={secureTextEntry}
         returnKeyType="done"
+        textContentType={textContentType}
+        autoFocus={autoFocus}
       />
 
       {!hideError ?
@@ -105,6 +109,8 @@ TextField.propTypes = {
   hideError: PropTypes.any,
   autoCompleteType: PropTypes.any,
   secureTextEntry: PropTypes.any,
+  textContentType: PropTypes.any,
+  autoFocus: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(TextField))

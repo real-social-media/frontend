@@ -47,7 +47,7 @@ const AuthHome = ({
         />
       </View>
 
-      <AuthActionTemplate onPress={navigationActions.navigateAuthSignup(navigation)}>
+      <AuthActionTemplate onPress={navigationActions.navigateAuthSignin(navigation)}>
         {t('Already Have an Account ? Log In')}
       </AuthActionTemplate>
     </React.Fragment>
@@ -57,7 +57,7 @@ const AuthHome = ({
 const styles = theme => StyleSheet.create({
   root: {
     flex: 1,
-    paddingHorizontal: 48, 
+    paddingHorizontal: 24,
     justifyContent: 'space-between',
   },
   content: {

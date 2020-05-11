@@ -14,6 +14,7 @@ import { withTranslation } from 'react-i18next'
 const Actions = ({
   t,
   theme,
+  handleLibrarySnap,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
@@ -24,7 +25,7 @@ const Actions = ({
         <DefaultButton label={t('Take Photo')} onPress={navigationActions.navigateAuthCamera(navigation, { nextRoute: 'AuthPhotoUpload' })} loading={false} />
       </View>
       <View style={styling.item}>
-        <DefaultButton label={t('Choose from Library')} onPress={() => {}} loading={false} />
+        <DefaultButton label={t('Choose from Library')} onPress={handleLibrarySnap} loading={false} />
       </View>
     </View>
   )
@@ -33,6 +34,7 @@ const Actions = ({
 Actions.propTypes = {
   theme: PropTypes.any,
   t: PropTypes.any,
+  handleLibrarySnap: PropTypes.any,
 }
 
 const styles = theme => StyleSheet.create({

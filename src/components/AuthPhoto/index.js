@@ -17,6 +17,7 @@ import { withTranslation } from 'react-i18next'
 const AuthPhoto = ({
   t,
   theme,
+  handleLibrarySnap,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
@@ -31,11 +32,13 @@ const AuthPhoto = ({
 
         <View style={styling.content}>
           <PhotoTemplate />
-          <ActionsComponent />
+          <ActionsComponent
+            handleLibrarySnap={handleLibrarySnap}
+          />
         </View>
       </View>
 
-      <AuthActionTemplate onPress={navigationActions.navigateAuthSignup(navigation)}>
+      <AuthActionTemplate onPress={navigationActions.navigateAuthSignin(navigation)}>
         {t('Already Have an Account ? Log In')}
       </AuthActionTemplate>
     </React.Fragment>
@@ -45,7 +48,7 @@ const AuthPhoto = ({
 const styles = theme => StyleSheet.create({
   root: {
     flex: 1,
-    paddingHorizontal: 48, 
+    paddingHorizontal: 24,
     justifyContent: 'space-between',
   },
   content: {
@@ -58,8 +61,7 @@ const styles = theme => StyleSheet.create({
 AuthPhoto.propTypes = {
   t: PropTypes.any,
   theme: PropTypes.any,
-  authGoogle: PropTypes.any,
-  authGoogleRequest: PropTypes.any,
+  handleLibrarySnap: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(AuthPhoto))

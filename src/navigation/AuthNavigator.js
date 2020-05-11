@@ -7,6 +7,7 @@ import { ThemesContext } from 'navigation/context'
 import * as navigationOptions from 'navigation/options'
 
 import AuthHomeScreen from 'screens/AuthHomeScreen'
+import AuthSigninScreen from 'screens/AuthSigninScreen'
 import AuthUsernameScreen from 'screens/AuthUsernameScreen'
 import AuthPhoneScreen from 'screens/AuthPhoneScreen'
 import AuthPasswordScreen from 'screens/AuthPasswordScreen'
@@ -69,6 +70,12 @@ const AuthNavigator = ({ theme }) => {
         name="Signup"
         component={SignupNavigator}
         {...stackScreenAuthProps({ options: { title: 'Signup' } })}
+      />
+
+      <Stack.Screen
+        name="AuthSignin"
+        component={AuthSigninScreen}
+        {...stackScreenAuthProps({ options: { title: 'Signin' } })}
       />
 
       <Stack.Screen

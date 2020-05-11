@@ -15,8 +15,8 @@ import { withTranslation } from 'react-i18next'
 
 const formSchema = Yup.object().shape({
   phone: Yup.string()
-    .matches(/^\+[0-9]?()[0-9](\s|\S)(\d[0-9]{5})$/, 'internation format required (e.g. +1555)')
-    .min(5)
+    .matches(/([0-9\s\-]{7,})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?$/, 'internation format required (e.g. +1555)')
+    .min(3)
     .max(50)
     .trim()
     .required(),
@@ -33,7 +33,7 @@ const PhoneForm = ({
   return (
     <View style={styling.root}>
       <View style={styling.input}>
-        <Field name="phone" component={TextField} placeholder={t('Phone Number')} />
+        <Field name="phone" component={TextField} placeholder={t('Phone Number')} keyboardType="phone-pad" textContentType="telephoneNumber" autoCompleteType="tel" autoFocus />
       </View>
       <View style={styling.input}>
         <DefaultButton label={t('Next')} onPress={handleSubmit} loading={loading} disabled={loading} />
@@ -61,6 +61,7 @@ PhoneForm.propTypes = {
 export default withTranslation()(withTheme(({
   handleFormSubmit,
   formSubmitLoading,
+  handleFormTransform,
   formInitialValues,
   ...props
 }) => (
@@ -75,6 +76,10 @@ export default withTranslation()(withTheme(({
         {...formikProps}
         {...props}
         loading={formSubmitLoading}
+        handleSubmit={() => {
+          const nextValues = handleFormTransform(formikProps.values)
+          handleFormSubmit(nextValues)
+        }}
       />
     )}
   </Formik>

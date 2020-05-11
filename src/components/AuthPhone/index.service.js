@@ -3,6 +3,9 @@ import * as signupActions from 'store/ducks/signup/actions'
 import * as navigationActions from 'navigation/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation, useFocusEffect } from '@react-navigation/native'
+import trim from 'ramda/src/trim'
+import compose from 'ramda/src/compose'
+import toLower from 'ramda/src/toLower'
 
 const AuthPhoneComponentService = ({ children }) => {
   const dispatch = useDispatch()
@@ -81,9 +84,14 @@ const AuthPhoneComponentService = ({ children }) => {
     phone: signupPhone.payload.phone,
   }
 
+  const handleFormTransform = (values) => ({
+    phone: compose(trim, toLower)(values.phone),
+  })
+
   return children({
     formErrorMessage,
     handleFormSubmit,
+    handleFormTransform,
     formSubmitLoading,
     formSubmitDisabled,
     formInitialValues,

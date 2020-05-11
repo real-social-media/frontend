@@ -33,7 +33,7 @@ const PasswordForm = ({
   return (
     <View style={styling.root}>
       <View style={styling.input}>
-        <Field name="password" component={TextField} placeholder={t('Password')} />
+        <Field name="password" component={TextField} placeholder={t('Password')} secureTextEntry keyboardType="default" textContentType="password" autoCompleteType="password" />
       </View>
       <View style={styling.input}>
         <DefaultButton label={t('Next')} onPress={handleSubmit} loading={loading} disabled={loading} />
@@ -60,6 +60,7 @@ PasswordForm.propTypes = {
 
 export default withTranslation()(withTheme(({
   handleFormSubmit,
+  handleFormTransform,
   formSubmitLoading,
   formInitialValues,
   ...props
@@ -75,6 +76,10 @@ export default withTranslation()(withTheme(({
         {...formikProps}
         {...props}
         loading={formSubmitLoading}
+        handleSubmit={() => {
+          const nextValues = handleFormTransform(formikProps.values)
+          handleFormSubmit(nextValues)
+        }}
       />
     )}
   </Formik>

@@ -3,6 +3,9 @@ import * as signupActions from 'store/ducks/signup/actions'
 import * as navigationActions from 'navigation/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation, useFocusEffect } from '@react-navigation/native'
+import trim from 'ramda/src/trim'
+import compose from 'ramda/src/compose'
+import toLower from 'ramda/src/toLower'
 
 const AuthEmailComponentService = ({ children }) => {
   const dispatch = useDispatch()
@@ -81,9 +84,14 @@ const AuthEmailComponentService = ({ children }) => {
     email: signupEmail.payload.email,
   }
 
+  const handleFormTransform = (values) => ({
+    email: compose(trim, toLower)(values.email),
+  })
+
   return children({
     formErrorMessage,
     handleFormSubmit,
+    handleFormTransform,
     formSubmitLoading,
     formSubmitDisabled,
     formInitialValues,

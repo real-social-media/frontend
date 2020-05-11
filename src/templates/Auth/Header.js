@@ -28,15 +28,21 @@ const Header = ({
 
 const styles = theme => StyleSheet.create({
   root: {
-    marginVertical: theme.spacing.base * 6,
+    marginTop: theme.spacing.base * 2,
+    marginBottom: theme.spacing.base * 4,
     alignItems: 'center',
   },
   headline: {
     textAlign: 'center',
     fontWeight: '600',
+    fontSize: 24,
+    letterSpacing: 0,
   },
   subtitle: {
     textAlign: 'center',
+    fontWeight: '400',
+    fontSize: 18,
+    letterSpacing: 0,
   },
 })
 

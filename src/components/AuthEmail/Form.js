@@ -33,7 +33,7 @@ const EmailForm = ({
   return (
     <View style={styling.root}>
       <View style={styling.input}>
-        <Field name="email" component={TextField} placeholder={t('Email Address')} />
+        <Field name="email" component={TextField} placeholder={t('Email Address')} keyboardType="email-address" textContentType="emailAddress" autoCompleteType="email" autoFocus />
       </View>
       <View style={styling.input}>
         <DefaultButton label={t('Next')} onPress={handleSubmit} loading={loading} disabled={loading} />
@@ -60,6 +60,7 @@ EmailForm.propTypes = {
 
 export default withTranslation()(withTheme(({
   handleFormSubmit,
+  handleFormTransform,
   formSubmitLoading,
   formInitialValues,
   ...props
@@ -75,6 +76,10 @@ export default withTranslation()(withTheme(({
         {...formikProps}
         {...props}
         loading={formSubmitLoading}
+        handleSubmit={() => {
+          const nextValues = handleFormTransform(formikProps.values)
+          handleFormSubmit(nextValues)
+        }}
       />
     )}
   </Formik>

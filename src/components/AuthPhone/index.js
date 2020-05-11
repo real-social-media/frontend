@@ -19,6 +19,7 @@ const AuthPhone = ({
   theme,
   formErrorMessage,
   handleFormSubmit,
+  handleFormTransform,
   formSubmitLoading,
   formSubmitDisabled,
   formInitialValues,
@@ -43,6 +44,7 @@ const AuthPhone = ({
         <View style={styling.content}>
           <FormComponent
             handleFormSubmit={handleFormSubmit}
+            handleFormTransform={handleFormTransform}
             formSubmitLoading={formSubmitLoading}
             formSubmitDisabled={formSubmitDisabled}
             formInitialValues={formInitialValues}
@@ -60,7 +62,7 @@ const AuthPhone = ({
 const styles = theme => StyleSheet.create({
   root: {
     flex: 1,
-    paddingHorizontal: 48, 
+    paddingHorizontal: 24,
     justifyContent: 'space-between',
   },
   content: {
@@ -75,6 +77,7 @@ AuthPhone.propTypes = {
   theme: PropTypes.any,
   formErrorMessage: PropTypes.any,
   handleFormSubmit: PropTypes.any,
+  handleFormTransform: PropTypes.any,
   formSubmitLoading: PropTypes.any,
   formSubmitDisabled: PropTypes.any,
   formInitialValues: PropTypes.any,

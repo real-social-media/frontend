@@ -66,9 +66,12 @@ const AuthPhoneConfirmComponentService = ({ children }) => {
     phone: signupPhone.payload.phone,
   }
 
+  const handleFormTransform = (values) => values
+
   return children({
     formErrorMessage,
     handleFormSubmit,
+    handleFormTransform,
     formSubmitLoading,
     formSubmitDisabled,
     formInitialValues,

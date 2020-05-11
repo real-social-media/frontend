@@ -18,7 +18,7 @@ const formSchema = Yup.object().shape({
   username: Yup.string()
     .min(3)
     .max(50)
-    .matches(/^\S*$/, 'no whitespace')
+    .matches(/^[a-zA-Z0-9_.]{3,30}$/, 'username must only contain letters & numbers')
     .trim()
     .required()
     .test('usernameReserve', 'username is reserved', (value) =>
@@ -58,7 +58,7 @@ const UsernameForm = ({
   return (
     <View style={styling.root}>
       <View style={styling.input}>
-        <Field name="username" component={TextField} placeholder={t('Username')} />
+        <Field name="username" component={TextField} placeholder={t('Username')} keyboardType="default" textContentType="username" autoCompleteType="username" />
       </View>
       <View style={styling.input}>
         <DefaultButton label={t('Next')} onPress={handleSubmit} loading={loading} disabled={submitDisabled} />
@@ -85,6 +85,7 @@ UsernameForm.propTypes = {
 
 export default withTranslation()(withTheme(({
   handleFormSubmit,
+  handleFormTransform,
   formSubmitLoading,
   formSubmitDisabled,
   formInitialValues,
@@ -102,6 +103,11 @@ export default withTranslation()(withTheme(({
         {...props}
         loading={formSubmitLoading}
         disabled={formSubmitDisabled}
+        handleSubmit={() => {
+          const nextValues = handleFormTransform(formikProps.values)
+          formikProps.setValues(nextValues)
+          handleFormSubmit(nextValues)
+        }}
       />
     )}
   </Formik>

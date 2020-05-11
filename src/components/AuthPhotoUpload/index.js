@@ -5,6 +5,7 @@ import {
   StyleSheet,
 } from 'react-native'
 import ActionsComponent from 'components/AuthPhotoUpload/Actions'
+import ProgressComponent from 'components/AuthPhotoUpload/Progress'
 import AuthActionTemplate from 'templates/Auth/Action'
 import AuthHeaderTemplate from 'templates/Auth/Header'
 import PhotoTemplate from 'templates/Auth/Photo'
@@ -43,13 +44,19 @@ const AuthPhotoUpload = ({
             activeUpload={activeUpload}
           />
 
+          {!formErrorMessage ?
+            <ProgressComponent
+              activeUpload={activeUpload}
+            />
+          : null}
+
           {formErrorMessage ?
             <ActionsComponent />
           : null}
         </View>
       </View>
 
-      <AuthActionTemplate onPress={navigationActions.navigateAuthSignup(navigation)}>
+      <AuthActionTemplate onPress={navigationActions.navigateAuthSignin(navigation)}>
         {t('Already Have an Account ? Log In')}
       </AuthActionTemplate>
     </React.Fragment>
@@ -59,7 +66,7 @@ const AuthPhotoUpload = ({
 const styles = theme => StyleSheet.create({
   root: {
     flex: 1,
-    paddingHorizontal: 48, 
+    paddingHorizontal: 24,
     justifyContent: 'space-between',
   },
   content: {

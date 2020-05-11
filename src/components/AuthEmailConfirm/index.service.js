@@ -66,9 +66,12 @@ const AuthEmailConfirmComponentService = ({ children }) => {
     email: signupEmail.payload.email,
   }
 
+  const handleFormTransform = (values) => values
+
   return children({
     formErrorMessage,
     handleFormSubmit,
+    handleFormTransform,
     formSubmitLoading,
     formSubmitDisabled,
     formInitialValues,

@@ -40,6 +40,14 @@ const authPersistConfig = {
   ],
 }
 
+const signupPersistConfig = {
+  key: 'signupCognitoIdentity',
+  storage: AsyncStorage,
+  whitelist: [
+    'user',
+  ],
+}
+
 const chatPersistConfig = {
   key: 'chat',
   storage: AsyncStorage,
@@ -50,7 +58,7 @@ const chatPersistConfig = {
 
 export default combineReducers({
   auth: persistReducer(authPersistConfig, auth),
-  signup,
+  signup: persistReducer(signupPersistConfig, signup),
   theme,
   camera,
   albums,

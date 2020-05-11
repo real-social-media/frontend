@@ -33,7 +33,7 @@ const EmailConfirmForm = ({
   return (
     <View style={styling.root}>
       <View style={styling.input}>
-        <Field name="confirmationCode" component={TextField} placeholder={t('Confirmation Code')} />
+        <Field name="confirmationCode" component={TextField} placeholder={t('Confirmation Code')} keyboardType="number-pad" textContentType="oneTimeCode" autoCompleteType="off" autoFocus />
       </View>
       <View style={styling.input}>
         <DefaultButton label={t('Next')} onPress={handleSubmit} loading={loading} disabled={loading} />
@@ -60,6 +60,7 @@ EmailConfirmForm.propTypes = {
 
 export default withTranslation()(withTheme(({
   handleFormSubmit,
+  handleFormTransform,
   formSubmitLoading,
   formInitialValues,
   ...props
@@ -75,6 +76,10 @@ export default withTranslation()(withTheme(({
         {...formikProps}
         {...props}
         loading={formSubmitLoading}
+        handleSubmit={() => {
+          const nextValues = handleFormTransform(formikProps.values)
+          handleFormSubmit(nextValues)
+        }}
       />
     )}
   </Formik>

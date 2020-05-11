@@ -57,7 +57,7 @@ const messageCodes = {
     },
     ALIAS_EXISTS: {
       code: 'ALIAS_EXISTS',
-      text: 'An account with this phone number already exists',
+      text: 'An account with this email / phone number already exists',
     },
   },
 

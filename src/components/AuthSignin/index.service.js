@@ -7,7 +7,7 @@ import trim from 'ramda/src/trim'
 import compose from 'ramda/src/compose'
 import toLower from 'ramda/src/toLower'
 
-const AuthUsernameComponentService = ({ children }) => {
+const AuthSigninComponentService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
 
@@ -16,33 +16,6 @@ const AuthUsernameComponentService = ({ children }) => {
   const handleFormSubmit = (payload) => {
     dispatch(signupActions.signupUsernameRequest(payload))
   }
-
-  /**
-   * Cleaning up email verification sending on screen blur
-   */
-  useFocusEffect(
-    useCallback(() => {
-      dispatch(signupActions.signupUsernameIdle())
-      dispatch(signupActions.signupPasswordIdle())
-      dispatch(signupActions.signupEmailIdle())
-      dispatch(signupActions.signupPhoneIdle())
-
-      return () => {}
-    }, [])
-  )
-
-  /**
-   * Redirect to password selection once username is available
-   */
-  useEffect(() => {
-    if (
-      signupUsername.status !== 'success'
-    ) return
-
-    navigationActions.navigateAuthPassword(navigation)()
-  }, [
-    signupUsername.status === 'success',
-  ])
 
   const formSubmitLoading = signupUsername.status === 'loading'
   const formSubmitDisabled = signupUsername.status === 'loading'
@@ -54,6 +27,7 @@ const AuthUsernameComponentService = ({ children }) => {
 
   const handleFormTransform = (values) => ({
     username: compose(trim, toLower)(values.username),
+    password: values.password,
   })
 
   return children({
@@ -66,4 +40,4 @@ const AuthUsernameComponentService = ({ children }) => {
   })
 }
 
-export default AuthUsernameComponentService
+export default AuthSigninComponentService
