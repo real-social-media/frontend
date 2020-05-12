@@ -3,6 +3,7 @@ import * as signupActions from 'store/ducks/signup/actions'
 import * as navigationActions from 'navigation/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
+import path from 'ramda/src/path'
 
 const AuthPhoneConfirmComponentService = ({ children }) => {
   const dispatch = useDispatch()
@@ -63,7 +64,7 @@ const AuthPhoneConfirmComponentService = ({ children }) => {
   const formErrorMessage = signupConfirm.error.text
 
   const formInitialValues = {
-    phone: signupPhone.payload.phone,
+    cognitoUsername: path(['cognitoUsername'])(signupCognitoIdentity),
   }
 
   const handleFormTransform = (values) => values

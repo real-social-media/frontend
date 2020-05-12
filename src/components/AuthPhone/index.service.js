@@ -15,6 +15,7 @@ const AuthPhoneComponentService = ({ children }) => {
   const signupPhone = useSelector(state => state.signup.signupPhone)
   const signupPassword = useSelector(state => state.signup.signupPassword)
   const signupCreate = useSelector(state => state.signup.signupCreate)
+  const signupCognitoIdentity = useSelector(state => state.signup.signupCognitoIdentity)
 
   const handleFormSubmit = (payload) => {
     dispatch(signupActions.signupEmailIdle())
@@ -35,6 +36,15 @@ const AuthPhoneComponentService = ({ children }) => {
       !signupPhone.payload.phone ||
       !signupPassword.payload.password
     ) return
+
+    if (
+      signupUsername.payload.username === signupCognitoIdentity.username &&
+      signupPhone.payload.phone === signupCognitoIdentity.cognitoUsername &&
+      signupPassword.payload.password === signupCognitoIdentity.password
+    ) {
+      navigationActions.navigateAuthPhoneConfirm(navigation)()
+      return
+    }
 
     const payload = {
       username: signupUsername.payload.username,

@@ -5,10 +5,8 @@ import {
   StyleSheet,
 } from 'react-native'
 import FormComponent from 'components/AuthPhoneConfirm/Form'
-import AuthActionTemplate from 'templates/Auth/Action'
 import AuthHeaderTemplate from 'templates/Auth/Header'
 import AuthErrorTemplate from 'templates/Auth/Error'
-import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -38,7 +36,7 @@ const AuthPhoneConfirm = ({
       <View style={styling.root}>
         <AuthHeaderTemplate
           title={t('Enter 6 digit code')}
-          subtitle={t('Sent to {{phone}}', formInitialValues)}
+          subtitle={t('Sent to {{cognitoUsername}}', formInitialValues)}
         />
 
         <View style={styling.content}>
@@ -51,10 +49,6 @@ const AuthPhoneConfirm = ({
           />
         </View>
       </View>
-
-      <AuthActionTemplate onPress={navigationActions.navigateAuthEmail(navigation)}>
-        {t('Signup with Email Address')}
-      </AuthActionTemplate>
     </React.Fragment>
   )
 }

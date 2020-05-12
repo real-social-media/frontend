@@ -18,13 +18,11 @@ const formSchema = Yup.object().shape({
   username: Yup.string()
     .min(3)
     .max(50)
-    .matches(/^[a-zA-Z0-9_.]{3,30}$/, 'username must only contain letters & numbers')
     .trim()
     .required(),
   password: Yup.string()
     .min(8)
     .max(50)
-    .matches(/^\S*$/, 'no whitespace')
     .trim()
     .required(),
 })
@@ -51,7 +49,7 @@ const SigninForm = ({
   return (
     <View style={styling.root}>
       <View style={styling.input}>
-        <Field name="username" component={TextField} placeholder={t('Username')} keyboardType="default" textContentType="username" autoCompleteType="username" />
+        <Field name="username" component={TextField} placeholder={t('Email or Phone number')} keyboardType="default" textContentType="username" autoCompleteType="username" />
       </View>
       <View style={styling.input}>
         <Field name="password" component={TextField} placeholder={t('Password')} secureTextEntry keyboardType="default" textContentType="password" autoCompleteType="password" />

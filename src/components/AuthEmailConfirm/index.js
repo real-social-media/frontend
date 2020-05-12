@@ -38,7 +38,7 @@ const AuthEmailConfirm = ({
       <View style={styling.root}>
         <AuthHeaderTemplate
           title={t('Enter 6 digit code')}
-          subtitle={t('Sent to {{email}}', formInitialValues)}
+          subtitle={t('Sent to {{cognitoUsername}}', formInitialValues)}
         />
 
         <View style={styling.content}>

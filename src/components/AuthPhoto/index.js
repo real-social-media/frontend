@@ -5,10 +5,8 @@ import {
   StyleSheet,
 } from 'react-native'
 import ActionsComponent from 'components/AuthPhoto/Actions'
-import AuthActionTemplate from 'templates/Auth/Action'
 import AuthHeaderTemplate from 'templates/Auth/Header'
 import PhotoTemplate from 'templates/Auth/Photo'
-import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -37,10 +35,6 @@ const AuthPhoto = ({
           />
         </View>
       </View>
-
-      <AuthActionTemplate onPress={navigationActions.navigateAuthSignin(navigation)}>
-        {t('Already Have an Account ? Log In')}
-      </AuthActionTemplate>
     </React.Fragment>
   )
 }

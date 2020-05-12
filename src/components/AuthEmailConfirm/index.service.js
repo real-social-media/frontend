@@ -2,11 +2,13 @@ import { useEffect } from 'react'
 import * as signupActions from 'store/ducks/signup/actions'
 import * as navigationActions from 'navigation/actions'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
+import path from 'ramda/src/path'
 
 const AuthEmailConfirmComponentService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
+  const route = useRoute()
 
   const signupUsername = useSelector(state => state.signup.signupUsername)
   const signupEmail = useSelector(state => state.signup.signupEmail)
@@ -19,8 +21,8 @@ const AuthEmailConfirmComponentService = ({ children }) => {
       confirmationCode: payload.confirmationCode,
       cognitoUsername: signupCognitoIdentity.cognitoUsername,
       cognitoUserId: signupCognitoIdentity.cognitoUserId,
-      username: signupUsername.payload.username,
-      password: signupPassword.payload.password,
+      username: signupCognitoIdentity.username,
+      password: signupCognitoIdentity.password,
     }
     dispatch(signupActions.signupConfirmRequest(nextPayload))
   }
@@ -63,7 +65,8 @@ const AuthEmailConfirmComponentService = ({ children }) => {
   const formErrorMessage = signupConfirm.error.text
 
   const formInitialValues = {
-    email: signupEmail.payload.email,
+    cognitoUsername: path(['cognitoUsername'])(signupCognitoIdentity),
+    confirmationCode: path(['params', 'confirmationCode'])(route),
   }
 
   const handleFormTransform = (values) => values

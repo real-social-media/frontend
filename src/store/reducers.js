@@ -41,10 +41,10 @@ const authPersistConfig = {
 }
 
 const signupPersistConfig = {
-  key: 'signupCognitoIdentity',
+  key: 'signup',
   storage: AsyncStorage,
   whitelist: [
-    'user',
+    'signupCognitoIdentity',
   ],
 }
 

@@ -133,6 +133,7 @@ function* handleSignupCreateRequest(payload) {
 
   return {
     username: payload.username,
+    password: payload.password,
     cognitoUserId: path(['user', 'username'])(signup),
     cognitoUsername: payload.email || payload.phone,
     cognitoDelivery: path(['codeDeliveryDetails', 'DeliveryMedium'])(signup),

@@ -6,11 +6,9 @@ import {
 } from 'react-native'
 import ActionsComponent from 'components/AuthPhotoUpload/Actions'
 import ProgressComponent from 'components/AuthPhotoUpload/Progress'
-import AuthActionTemplate from 'templates/Auth/Action'
 import AuthHeaderTemplate from 'templates/Auth/Header'
 import PhotoTemplate from 'templates/Auth/Photo'
 import AuthErrorTemplate from 'templates/Auth/Error'
-import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -55,10 +53,6 @@ const AuthPhotoUpload = ({
           : null}
         </View>
       </View>
-
-      <AuthActionTemplate onPress={navigationActions.navigateAuthSignin(navigation)}>
-        {t('Already Have an Account ? Log In')}
-      </AuthActionTemplate>
     </React.Fragment>
   )
 }

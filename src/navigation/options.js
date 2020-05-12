@@ -13,7 +13,7 @@ import CameraIcon from 'assets/svg/header/Camera'
 import DirectIcon from 'assets/svg/header/Direct'
 import BackIcon from 'assets/svg/header/Back'
 
-const pageHeaderLeft = ({ onPress, label, labelStyle }) => {
+export const pageHeaderLeft = ({ onPress, label, labelStyle }) => {
   if (!onPress) { return null }
   return (
     <TouchableOpacity style={{ paddingHorizontal: 12 }} onPress={onPress}>
@@ -180,7 +180,6 @@ export const stackScreenAuthProps = ({ theme }) => ({ options } = {}) => ({
     headerTitleStyle: {
       color: '#ffffff',
     },
-    headerLeft: pageHeaderLeft,
     ...options,
   }),
 })

@@ -52,7 +52,7 @@ const AuthSignin = ({
         </View>
       </View>
 
-      <AuthActionTemplate onPress={navigationActions.navigateAuthPhone(navigation)}>
+      <AuthActionTemplate onPress={navigationActions.navigateAuthUsername(navigation)}>
         {t('Signup with Phone Number')}
       </AuthActionTemplate>
     </React.Fragment>

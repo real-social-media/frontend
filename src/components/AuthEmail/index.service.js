@@ -15,6 +15,7 @@ const AuthEmailComponentService = ({ children }) => {
   const signupEmail = useSelector(state => state.signup.signupEmail)
   const signupPassword = useSelector(state => state.signup.signupPassword)
   const signupCreate = useSelector(state => state.signup.signupCreate)
+  const signupCognitoIdentity = useSelector(state => state.signup.signupCognitoIdentity)
 
   const handleFormSubmit = (payload) => {
     dispatch(signupActions.signupPhoneIdle())
@@ -35,6 +36,15 @@ const AuthEmailComponentService = ({ children }) => {
       !signupEmail.payload.email ||
       !signupPassword.payload.password
     ) return
+
+    if (
+      signupUsername.payload.username === signupCognitoIdentity.username &&
+      signupEmail.payload.email === signupCognitoIdentity.cognitoUsername &&
+      signupPassword.payload.password === signupCognitoIdentity.password
+    ) {
+      navigationActions.navigateAuthEmailConfirm(navigation)()
+      return
+    }
 
     const payload = {
       username: signupUsername.payload.username,

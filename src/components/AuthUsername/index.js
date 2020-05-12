@@ -5,10 +5,8 @@ import {
   StyleSheet,
 } from 'react-native'
 import FormComponent from 'components/AuthUsername/Form'
-import AuthActionTemplate from 'templates/Auth/Action'
 import AuthHeaderTemplate from 'templates/Auth/Header'
 import AuthErrorTemplate from 'templates/Auth/Error'
-import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -51,10 +49,6 @@ const AuthUsername = ({
           />
         </View>
       </View>
-
-      <AuthActionTemplate onPress={navigationActions.navigateAuthPhone(navigation)}>
-        {t('Signup with Phone Number')}
-      </AuthActionTemplate>
     </React.Fragment>
   )
 }

@@ -69,49 +69,49 @@ const AuthNavigator = ({ theme }) => {
       <Stack.Screen
         name="Signup"
         component={SignupNavigator}
-        {...stackScreenAuthProps({ options: { title: 'Signup' } })}
+        {...stackScreenAuthProps({ options: { title: 'Signup', headerLeft: navigationOptions.pageHeaderLeft, } })}
       />
 
       <Stack.Screen
         name="AuthSignin"
         component={AuthSigninScreen}
-        {...stackScreenAuthProps({ options: { title: 'Signin' } })}
+        {...stackScreenAuthProps({ options: { title: 'Signin', headerLeft: navigationOptions.pageHeaderLeft, } })}
       />
 
       <Stack.Screen
         name="AuthUsername"
         component={AuthUsernameScreen}
-        {...stackScreenAuthProps({ options: { title: 'Signup' } })}
+        {...stackScreenAuthProps({ options: { title: 'Signup', headerLeft: navigationOptions.pageHeaderLeft, } })}
       />
 
       <Stack.Screen
         name="AuthPassword"
         component={AuthPasswordScreen}
-        {...stackScreenAuthProps({ options: { title: 'Signup' } })}
+        {...stackScreenAuthProps({ options: { title: 'Signup', headerLeft: navigationOptions.pageHeaderLeft, } })}
       />
 
       <Stack.Screen
         name="AuthEmailConfirm"
         component={AuthEmailConfirmScreen}
-        {...stackScreenAuthProps({ options: { title: 'Email Confirm' } })}
+        {...stackScreenAuthProps({ options: { title: 'Email Confirm', headerLeft: null, } })}
       />
 
       <Stack.Screen
         name="AuthPhoneConfirm"
         component={AuthPhoneConfirmScreen}
-        {...stackScreenAuthProps({ options: { title: 'Phone Confirm' } })}
+        {...stackScreenAuthProps({ options: { title: 'Phone Confirm', headerLeft: null, } })}
       />
 
       <Stack.Screen
         name="AuthPhotoUpload"
         component={AuthPhotoUploadScreen}
-        {...stackScreenAuthProps({ options: { title: 'Signup' } })}
+        {...stackScreenAuthProps({ options: { title: 'Signup', headerLeft: null, } })}
       />
 
       <Stack.Screen
         name="AuthPhoto"
         component={AuthPhotoScreen}
-        {...stackScreenAuthProps({ options: { title: 'Signup' } })}
+        {...stackScreenAuthProps({ options: { title: 'Signup', headerLeft: null, } })}
       />
 
       <Stack.Screen
