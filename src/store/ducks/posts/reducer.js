@@ -428,6 +428,23 @@ export const postsEditSuccess = (state, action) => update(state, {
       $feedPostUpdate: { postId: action.payload.data.postId, post: action.payload.data },
     },
   },
+  postsGet: {
+    data: {
+      $feedPostUpdate: { postId: action.payload.data.postId, post: action.payload.data },
+    },
+  },
+  postsGetCache: {
+    [action.payload.data.postedBy.userId]: {
+      data: {
+        $feedPostUpdate: { postId: action.payload.data.postId, post: action.payload.data },
+      },
+    },
+  },
+  postsGetArchived: {
+    data: {
+      $feedPostUpdate: { postId: action.payload.data.postId, post: action.payload.data },
+    },
+  },
 })
 
 const postsEditFailure = (state, action) => update(state, {
