@@ -418,29 +418,12 @@ const postsEditRequest = (state, action) => update(state, {
   },
 })
 
-const postsEditSuccess = (state, action) => update(state, {
+export const postsEditSuccess = (state, action) => update(state, {
   postsEdit: {
     data: { $set: action.payload.data },
     status: { $set: 'success' },
   },
   postsFeedGet: {
-    data: {
-      $feedPostUpdate: { postId: action.payload.data.postId, post: action.payload.data },
-    },
-  },
-  postsGet: {
-    data: {
-      $feedPostUpdate: { postId: action.payload.data.postId, post: action.payload.data },
-    },
-  },
-  postsGetCache: {
-    [action.payload.data.postedBy.userId]: {
-      data: {
-        $feedPostUpdate: { postId: action.payload.data.postId, post: action.payload.data },
-      },
-    },
-  },
-  postsGetArchived: {
     data: {
       $feedPostUpdate: { postId: action.payload.data.postId, post: action.payload.data },
     },

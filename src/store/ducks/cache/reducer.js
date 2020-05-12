@@ -41,7 +41,7 @@ const initialState = {
 /**
  *
  */
-const cacheFetchProgress = (state, action) => update(state, {
+export const cacheFetchProgress = (state, action) => update(state, {
   buffer: {
     [action.payload.signature.partial]: {
       $set: {
@@ -58,7 +58,7 @@ const cacheFetchProgress = (state, action) => update(state, {
   },
 })
 
-const cacheFetchSuccess = (state, action) => update(state, {
+export const cacheFetchSuccess = (state, action) => update(state, {
   cached: {
     [action.payload.signature.pathFolder]: {
       $cacheUnique: action.payload.signature.path,
