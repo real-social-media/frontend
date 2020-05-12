@@ -36,6 +36,7 @@ const Routes = ({ authenticated }) => {
     prefixes: ['real.app://'],
     config: {
       AuthEmailConfirm: 'email/confirm/:userId/:confirmationCode',
+      AuthForgotConfirm: 'forgot/confirm/:userId/:confirmationCode',
     },
   }
 

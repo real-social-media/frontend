@@ -128,7 +128,7 @@ const authOnboardSuccess = (state, action) => update(state, {
 const authOnboardFailure = (state, action) => update(state, {
   authOnboard: {
     message: { $set: action.payload.message },
-    error: { $set: action.payload.error },
+    error: { $set: action.payload.message },
     status: { $set: 'failure' },
     nextRoute: { $set: action.payload.nextRoute },
   },
@@ -164,7 +164,7 @@ const authCheckSuccess = (state, action) => update(state, {
 const authCheckFailure = (state, action) => update(state, {
   authCheck: {
     message: { $set: action.payload.message },
-    error: { $set: action.payload.error },
+    error: { $set: action.payload.message },
     status: { $set: 'failure' },
     nextRoute: { $set: action.payload.nextRoute },
     meta: { $set: action.payload.meta },
@@ -205,7 +205,7 @@ const authSigninSuccess = (state, action) => update(state, {
 const authSigninFailure = (state, action) => update(state, {
   authSignin: {
     message: { $set: action.payload.message },
-    error: { $set: action.payload.error },
+    error: { $set: action.payload.message },
     status: { $set: 'failure' },
     nextRoute: { $set: action.payload.nextRoute },
   },
@@ -240,7 +240,7 @@ const authSignupSuccess = (state, action) => update(state, {
 const authSignupFailure = (state, action) => update(state, {
   authSignup: {
     message: { $set: action.payload.message },
-    error: { $set: action.payload.error },
+    error: { $set: action.payload.message },
     status: { $set: 'failure' },
     nextRoute: { $set: action.payload.nextRoute },
   },
@@ -273,7 +273,7 @@ const authSignupResendSuccess = (state, action) => update(state, {
 const authSignupResendFailure = (state, action) => update(state, {
   authSignupResend: {
     message: { $set: action.payload.message },
-    error: { $set: action.payload.error },
+    error: { $set: action.payload.message },
     status: { $set: 'failure' },
   },
 })
@@ -305,7 +305,7 @@ const authSignupConfirmSuccess = (state, action) => update(state, {
 const authSignupConfirmFailure = (state, action) => update(state, {
   authSignupConfirm: {
     message: { $set: action.payload.message },
-    error: { $set: action.payload.error },
+    error: { $set: action.payload.message },
     status: { $set: 'failure' },
   },
 })
@@ -338,7 +338,7 @@ const authForgotSuccess = (state, action) => update(state, {
 const authForgotFailure = (state, action) => update(state, {
   authForgot: {
     message: { $set: action.payload.message },
-    error: { $set: action.payload.error },
+    error: { $set: action.payload.message },
     status: { $set: 'failure' },
   },
 })
@@ -370,7 +370,7 @@ const authForgotConfirmSuccess = (state, action) => update(state, {
 const authForgotConfirmFailure = (state, action) => update(state, {
   authForgotConfirm: {
     message: { $set: action.payload.message },
-    error: { $set: action.payload.error },
+    error: { $set: action.payload.message },
     status: { $set: 'failure' },
   },
 })
@@ -402,7 +402,7 @@ const authFacebookSuccess = (state, action) => update(state, {
 const authFacebookFailure = (state, action) => update(state, {
   authFacebook: {
     message: { $set: action.payload.message },
-    error: { $set: action.payload.error },
+    error: { $set: action.payload.message },
     status: { $set: 'failure' },
   },
 })
@@ -434,7 +434,7 @@ const authGoogleSuccess = (state, action) => update(state, {
 const authGoogleFailure = (state, action) => update(state, {
   authGoogle: {
     message: { $set: action.payload.message },
-    error: { $set: action.payload.error },
+    error: { $set: action.payload.message },
     status: { $set: 'failure' },
   },
 })
@@ -465,7 +465,7 @@ const authSignoutSuccess = (state, action) => update(initialState, {
 const authSignoutFailure = (state, action) => update(state, {
   authSignout: {
     message: { $set: action.payload.message },
-    error: { $set: action.payload.error },
+    error: { $set: action.payload.message },
     status: { $set: 'failure' },
   },
 })

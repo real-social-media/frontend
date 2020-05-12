@@ -50,8 +50,8 @@ SignupForm.propTypes = {
   handleSubmit: PropTypes.any,
   submitErrors: PropTypes.any,
   dirtySinceLastSubmit: PropTypes.any,
-  authSignin: PropTypes.any,
   authSignup: PropTypes.any,
+  authSignupRequest: PropTypes.any,
   t: PropTypes.any,
   loading: PropTypes.any,
 }

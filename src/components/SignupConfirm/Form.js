@@ -50,8 +50,8 @@ ConfirmForm.propTypes = {
   handleSubmit: PropTypes.any,
   submitErrors: PropTypes.any,
   dirtySinceLastSubmit: PropTypes.any,
-  authSignin: PropTypes.any,
   authSignupConfirm: PropTypes.any,
+  authSignupConfirmRequest: PropTypes.any,
   t: PropTypes.any,
   loading: PropTypes.any,
 }

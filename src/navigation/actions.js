@@ -143,18 +143,15 @@ export const navigateAuthPhoto = (navigation, params) => () =>
 export const navigateAuthPhotoUpload = (navigation, params) => () =>
   navigation.navigate('AuthPhotoUpload', params)
 
-export const navigateAuthCamera = (navigation, params) => () =>
-  navigation.navigate('AuthCamera', params)
-
-/**
- *
- */
 export const navigateAuthForgot = (navigation, params) => () =>
   navigation.navigate('AuthForgot', params)
 
 export const navigateAuthForgotConfirm = (navigation, params) => () =>
   navigation.navigate('AuthForgotConfirm', params)
 
+/**
+ *
+ */
 export const navigateAuthSignup = (navigation, params) => () =>
   navigation.navigate('AuthSignup', params)
 

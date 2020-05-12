@@ -2,12 +2,13 @@ import { useEffect } from 'react'
 import * as signupActions from 'store/ducks/signup/actions'
 import * as navigationActions from 'navigation/actions'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import path from 'ramda/src/path'
 
 const AuthPhoneConfirmComponentService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
+  const route = useRoute()
 
   const signupUsername = useSelector(state => state.signup.signupUsername)
   const signupPhone = useSelector(state => state.signup.signupPhone)
@@ -65,6 +66,7 @@ const AuthPhoneConfirmComponentService = ({ children }) => {
 
   const formInitialValues = {
     cognitoUsername: path(['cognitoUsername'])(signupCognitoIdentity),
+    confirmationCode: path(['params', 'confirmationCode'])(route),
   }
 
   const handleFormTransform = (values) => values

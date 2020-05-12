@@ -1,19 +1,20 @@
 import React from 'react'
-import ForgotConfirmComponent from 'components/ForgotConfirm'
-import ForgotConfirmServiceComponent from 'components/ForgotConfirm/index.service'
+import AuthForgotConfirmComponent from 'components/AuthForgotConfirm'
+import AuthForgotConfirmServiceComponent from 'components/AuthForgotConfirm/index.service'
+import ScreenWrapper from 'templates/Auth/ScreenWrapper'
 
 class AuthForgotConfirmScreen extends React.Component {
   render() {
     return (
-      <ForgotConfirmServiceComponent>
+      <AuthForgotConfirmServiceComponent>
         {(props) => (
-          <ForgotConfirmComponent
+          <AuthForgotConfirmComponent
             {...props}
           />
         )}
-      </ForgotConfirmServiceComponent>
+      </AuthForgotConfirmServiceComponent>
     )
   }
 }
 
-export default AuthForgotConfirmScreen
+export default ScreenWrapper(AuthForgotConfirmScreen)

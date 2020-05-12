@@ -80,7 +80,6 @@ UsernameForm.propTypes = {
   theme: PropTypes.any,
   handleSubmit: PropTypes.any,
   loading: PropTypes.any,
-  authSignin: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(({

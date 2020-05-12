@@ -8,35 +8,46 @@ import TextField from 'components/Formik/TextField'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
+import Config from 'react-native-config'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const formSchema = Yup.object().shape({
-  phone: Yup.string()
-    .matches(/([0-9\s\-]{7,})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?$/, 'internation format required (e.g. +1555)')
+  username: Yup.string()
     .min(3)
     .max(50)
     .trim()
     .required(),
 })
 
-const PhoneForm = ({
+const ForgotForm = ({
   t,
   theme,
   handleSubmit,
   loading,
+  disabled,
+  dirty,
+  isValid,
+  isValidating,
 }) => {
   const styling = styles(theme)
-  
+
+  const submitDisabled = (
+    disabled ||
+    !isValid ||
+    isValidating ||
+    !dirty
+  )
+
   return (
     <View style={styling.root}>
       <View style={styling.input}>
-        <Field name="phone" component={TextField} placeholder={t('Phone Number')} keyboardType="phone-pad" textContentType="telephoneNumber" autoCompleteType="tel" autoFocus />
+        <Field name="username" component={TextField} placeholder={t('Email or Phone number')} keyboardType="default" textContentType="username" autoCompleteType="username" />
       </View>
       <View style={styling.input}>
-        <DefaultButton label={t('Next')} onPress={handleSubmit} loading={loading} disabled={loading} />
+        <DefaultButton label={t('Next')} onPress={handleSubmit} loading={loading} disabled={submitDisabled} />
       </View>
     </View>
   )
@@ -50,7 +61,7 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-PhoneForm.propTypes = {
+ForgotForm.propTypes = {
   t: PropTypes.any,
   theme: PropTypes.any,
   handleSubmit: PropTypes.any,
@@ -59,8 +70,9 @@ PhoneForm.propTypes = {
 
 export default withTranslation()(withTheme(({
   handleFormSubmit,
-  formSubmitLoading,
   handleFormTransform,
+  formSubmitLoading,
+  formSubmitDisabled,
   formInitialValues,
   ...props
 }) => (
@@ -71,12 +83,14 @@ export default withTranslation()(withTheme(({
     enableReinitialize
   >
     {(formikProps) => (
-      <PhoneForm
+      <ForgotForm
         {...formikProps}
         {...props}
         loading={formSubmitLoading}
+        disabled={formSubmitDisabled}
         handleSubmit={() => {
           const nextValues = handleFormTransform(formikProps.values)
+          formikProps.setValues(nextValues)
           handleFormSubmit(nextValues)
         }}
       />

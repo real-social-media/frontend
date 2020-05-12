@@ -91,7 +91,7 @@ const AuthPhoneComponentService = ({ children }) => {
   const formErrorMessage = signupCreate.error.text
 
   const formInitialValues = {
-    phone: signupPhone.payload.phone,
+    phone: signupPhone.payload.phone || '+1',
   }
 
   const handleFormTransform = (values) => ({

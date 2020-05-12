@@ -4,7 +4,7 @@ import {
   View,
   StyleSheet,
 } from 'react-native'
-import FormComponent from 'components/AuthSignin/Form'
+import FormComponent from 'components/AuthForgotConfirm/Form'
 import AuthActionTemplate from 'templates/Auth/Action'
 import AuthHeaderTemplate from 'templates/Auth/Header'
 import AuthErrorTemplate from 'templates/Auth/Error'
@@ -14,7 +14,7 @@ import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
-const AuthSignin = ({
+const AuthForgotConfirm = ({
   t,
   theme,
   formErrorMessage,
@@ -37,8 +37,8 @@ const AuthSignin = ({
 
       <View style={styling.root}>
         <AuthHeaderTemplate
-          title={t('Welcome Back!')}
-          subtitle={t('Signin to proceed')}
+          title={t('Enter 6 digit code')}
+          subtitle={t('Sent to you')}
         />
 
         <View style={styling.content}>
@@ -52,8 +52,8 @@ const AuthSignin = ({
         </View>
       </View>
 
-      <AuthActionTemplate onPress={navigationActions.navigateAuthForgot(navigation)}>
-        {t('Reset your Password')}
+      <AuthActionTemplate onPress={navigationActions.navigateAuthSignin(navigation)}>
+        {t('Already Have an Account ? Log In')}
       </AuthActionTemplate>
     </React.Fragment>
   )
@@ -72,7 +72,7 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-AuthSignin.propTypes = {
+AuthForgotConfirm.propTypes = {
   t: PropTypes.any,
   theme: PropTypes.any,
   formErrorMessage: PropTypes.any,
@@ -83,4 +83,4 @@ AuthSignin.propTypes = {
   formInitialValues: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(AuthSignin))
+export default withTranslation()(withTheme(AuthForgotConfirm))

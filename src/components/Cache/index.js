@@ -136,13 +136,14 @@ const CacheComponent = ({
    * 
    */
   const handleError = ({ nativeEvent }) => {
-    dispatch(actions.cacheFetchIdle({
-      signature: {
-        pathFolder,
-      },
-    }))
-    
-    fetchRemoteImages()
+    signatures.forEach(([signature, shouldDownload], index) => {
+      dispatch(actions.cacheFetchFailure({
+        signature,
+        jobId: 0,
+        error: nativeEvent,
+        progress: 0,
+      }))
+    })
   }
 
   /**

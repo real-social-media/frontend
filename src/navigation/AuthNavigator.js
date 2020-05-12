@@ -17,9 +17,9 @@ import AuthEmailConfirmScreen from 'screens/AuthEmailConfirmScreen'
 import AuthPhotoScreen from 'screens/AuthPhotoScreen'
 import AuthPhotoUploadScreen from 'screens/AuthPhotoUploadScreen'
 import CameraScreen from 'screens/CameraScreen'
+import AuthForgotScreen from 'screens/AuthForgotScreen'
+import AuthForgotConfirmScreen from 'screens/AuthForgotConfirmScreen'
 
-// import AuthForgotScreen from 'screens/AuthForgotScreen'
-// import AuthForgotConfirmScreen from 'screens/AuthForgotConfirmScreen'
 // import AuthSignupScreen from 'screens/AuthSignupScreen'
 // import AuthSignupConfirmScreen from 'screens/AuthSignupConfirmScreen'
 // import OnboardNameScreen from 'screens/OnboardNameScreen'
@@ -118,6 +118,18 @@ const AuthNavigator = ({ theme }) => {
         name="AuthCamera"
         component={CameraScreen}
         {...stackScreenBlankProps}
+      />
+
+      <Stack.Screen
+        name="AuthForgot"
+        component={AuthForgotScreen}
+        {...stackScreenAuthProps({ options: { title: 'Forgot', headerLeft: navigationOptions.pageHeaderLeft, } })}
+      />
+
+      <Stack.Screen
+        name="AuthForgotConfirm"
+        component={AuthForgotConfirmScreen}
+        {...stackScreenAuthProps({ options: { title: 'Forgot Confirm', headerLeft: navigationOptions.pageHeaderLeft, } })}
       />
     </Stack.Navigator>
   )
