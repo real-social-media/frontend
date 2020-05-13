@@ -1,8 +1,8 @@
-import { useEffect, useCallback } from 'react'
+import { useEffect } from 'react'
 import * as signupActions from 'store/ducks/signup/actions'
 import * as navigationActions from 'navigation/actions'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigation, useFocusEffect } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import trim from 'ramda/src/trim'
 import compose from 'ramda/src/compose'
 import toLower from 'ramda/src/toLower'
@@ -16,20 +16,6 @@ const AuthUsernameComponentService = ({ children }) => {
   const handleFormSubmit = (payload) => {
     dispatch(signupActions.signupUsernameRequest(payload))
   }
-
-  /**
-   * Cleaning up email verification sending on screen blur
-   */
-  useFocusEffect(
-    useCallback(() => {
-      dispatch(signupActions.signupUsernameIdle())
-      dispatch(signupActions.signupPasswordIdle())
-      dispatch(signupActions.signupEmailIdle())
-      dispatch(signupActions.signupPhoneIdle())
-
-      return () => {}
-    }, [])
-  )
 
   /**
    * Redirect to password selection once username is available

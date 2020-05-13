@@ -25,6 +25,7 @@ const Actions = ({
       {progress ?
         <View style={styling.item}>
           <SubtitleTemplate
+            disabled
             actions={[{
               onPress: () => {},
               title: t('Upload progress {{progress}}%', { progress }),
@@ -36,6 +37,7 @@ const Actions = ({
       {!progress ?
         <View style={styling.item}>
           <SubtitleTemplate
+            disabled
             actions={[{
               onPress: () => {},
               title: t('Processing'),

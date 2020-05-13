@@ -49,7 +49,7 @@ const ForgotConfirmForm = ({
         <Field name="confirmationCode" component={TextField} placeholder={t('Confirmation Code')} keyboardType="number-pad" textContentType="oneTimeCode" autoCompleteType="off" autoFocus />
       </View>
       <View style={styling.input}>
-        <Field name="password" component={TextField} placeholder={t('Password')} secureTextEntry keyboardType="default" textContentType="password" autoCompleteType="password" />
+        <Field name="password" component={TextField} placeholder={t('New Password')} secureTextEntry keyboardType="default" textContentType="password" autoCompleteType="password" />
       </View>
       <View style={styling.input}>
         <DefaultButton label={t('Next')} onPress={handleSubmit} loading={loading} disabled={loading} />

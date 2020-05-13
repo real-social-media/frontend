@@ -38,7 +38,7 @@ const AuthSignin = ({
       <View style={styling.root}>
         <AuthHeaderTemplate
           title={t('Welcome Back!')}
-          subtitle={t('Signin to proceed')}
+          subtitle={t('Please login to continue')}
         />
 
         <View style={styling.content}>

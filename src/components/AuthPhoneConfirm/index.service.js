@@ -55,6 +55,9 @@ const AuthPhoneConfirmComponentService = ({ children }) => {
       signupConfirm.status !== 'success'
     ) return
 
+    dispatch(signupActions.signupCreateIdle())
+    dispatch(signupActions.signupConfirmIdle())
+
     navigationActions.navigateAuthPhoto(navigation)()
   }, [
     signupConfirm.status === 'success',

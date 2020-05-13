@@ -7,7 +7,6 @@ import PostShareScreen from 'screens/PostShareScreen'
 import ProfileScreen from 'screens/ProfileScreen'
 import ProfileFollowedScreen from 'screens/ProfileFollowedScreen'
 import ProfileFollowerScreen from 'screens/ProfileFollowerScreen'
-import VerificationScreen from 'screens/VerificationScreen'
 import AlbumScreen from 'screens/AlbumScreen'
 import AlbumsScreen from 'screens/AlbumsScreen'
 import AlbumCreateScreen from 'screens/AlbumCreateScreen'
@@ -98,12 +97,6 @@ export const media = ({
         name="PostEdit"
         component={PostEditScreen}
         {...stackScreenPageProps({ options: { title: 'Edit Post' } })}
-      />
-
-      <Stack.Screen
-        name="Verification"
-        component={VerificationScreen}
-        {...stackScreenPageProps({ options: { title: 'Verification Failed' } })}
       />
     </>
   )

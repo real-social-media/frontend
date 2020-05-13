@@ -15,17 +15,19 @@ const Subtitle = ({
   t,
   theme,
   actions,
+  disabled,
 }) => {
   const styling = styles(theme)
   
-  
+  const textStyle = disabled ? [styling.text] : [styling.active, styling.text]
+
   return (
     <View style={styling.root}>
       <View style={styling.action}>
         {actions.map((action, key) => (
           <View style={styling.actionItem} key={key}>
             <TouchableOpacity onPress={action.onPress} disabled={!action.onPress}>
-              <Text style={styling.text}>{action.title}</Text>
+              <Text style={textStyle}>{action.title}</Text>
             </TouchableOpacity>
           </View>
         ))}
@@ -48,6 +50,10 @@ const styles = theme => StyleSheet.create({
   },
   actionItem: {
     padding: 12,
+  },
+  active: {
+    color: theme.colors.primary,
+    textDecorationLine: 'underline',
   },
   text: {
     textAlign: 'center',

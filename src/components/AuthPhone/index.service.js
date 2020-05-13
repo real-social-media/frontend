@@ -1,8 +1,8 @@
-import { useEffect, useCallback } from 'react'
+import { useEffect } from 'react'
 import * as signupActions from 'store/ducks/signup/actions'
 import * as navigationActions from 'navigation/actions'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigation, useFocusEffect } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import trim from 'ramda/src/trim'
 import compose from 'ramda/src/compose'
 import toLower from 'ramda/src/toLower'
@@ -17,9 +17,30 @@ const AuthPhoneComponentService = ({ children }) => {
   const signupCreate = useSelector(state => state.signup.signupCreate)
   const signupCognitoIdentity = useSelector(state => state.signup.signupCognitoIdentity)
 
+  /**
+   *
+   */
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(signupActions.signupCreateIdle())
+    })
+    return unsubscribe
+  }, [navigation])
+
   const handleFormSubmit = (payload) => {
-    dispatch(signupActions.signupEmailIdle())
     dispatch(signupActions.signupPhoneRequest(payload))
+
+    /**
+     *
+     */
+    const signupCreatePayload = {
+      username: signupUsername.payload.username,
+      usernameType: 'phone',
+      phone: signupPhone.payload.phone,
+      email: null,
+      password: signupPassword.payload.password,
+    }
+    dispatch(signupActions.signupCreateRequest(signupCreatePayload))
   }
 
   /**
@@ -45,19 +66,14 @@ const AuthPhoneComponentService = ({ children }) => {
       navigationActions.navigateAuthPhoneConfirm(navigation)()
       return
     }
-
-    const payload = {
-      username: signupUsername.payload.username,
-      usernameType: 'phone',
-      phone: signupPhone.payload.phone,
-      email: null,
-      password: signupPassword.payload.password,
-    }
-    dispatch(signupActions.signupCreateRequest(payload))
   }, [
-    signupUsername.status === 'success',
-    signupPhone.status === 'success',
-    signupPassword.status === 'success'
+    signupUsername.payload.username,
+    signupPhone.payload.phone,
+    signupPassword.payload.password,
+
+    signupUsername.status,
+    signupPhone.status,
+    signupPassword.status
   ])
 
   /**
@@ -71,20 +87,8 @@ const AuthPhoneComponentService = ({ children }) => {
 
     navigationActions.navigateAuthPhoneConfirm(navigation)()
   }, [
-    signupCreate.status === 'success',
+    signupCreate.status,
   ])
-
-  /**
-   * Cleaning up phone verification sending on screen blur
-   */
-  useFocusEffect(
-    useCallback(() => {
-      return () => {
-        // dispatch(signupActions.signupEmailIdle())
-        // dispatch(signupActions.signupPhoneIdle())
-      }
-    }, [])
-  )
 
   const formSubmitLoading = signupCreate.status === 'loading'
   const formSubmitDisabled = signupCreate.status === 'loading'

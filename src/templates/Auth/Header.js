@@ -43,6 +43,7 @@ const styles = theme => StyleSheet.create({
     fontWeight: '400',
     fontSize: 18,
     letterSpacing: 0,
+    color: '#333333',
   },
 })
 

@@ -145,6 +145,7 @@ function* signupCreateRequest(req) {
     const data = yield handleSignupCreateRequest(req.payload)
     yield put(actions.signupCreateSuccess({
       message: errors.getMessagePayload(constants.SIGNUP_CREATE_SUCCESS, 'GENERIC'),
+      payload: req.payload,
       data,
     }))
   } catch (error) {
@@ -231,6 +232,7 @@ function* signupConfirmRequest(req) {
     const data = yield handleSignupConfirmRequest(req.payload)
     yield put(actions.signupConfirmSuccess({
       message: errors.getMessagePayload(constants.SIGNUP_CONFIRM_SUCCESS, 'GENERIC'),
+      payload: req.payload,
       data,
     }))
   } catch (error) {

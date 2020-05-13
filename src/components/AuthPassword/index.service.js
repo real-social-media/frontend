@@ -1,8 +1,8 @@
-import { useEffect, useCallback } from 'react'
+import { useEffect } from 'react'
 import * as signupActions from 'store/ducks/signup/actions'
 import * as navigationActions from 'navigation/actions'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigation, useFocusEffect } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 
 const AuthPasswordComponentService = ({ children }) => {
   const dispatch = useDispatch()
@@ -26,19 +26,6 @@ const AuthPasswordComponentService = ({ children }) => {
   }, [
     signupPassword.status === 'success',
   ])
-
-  /**
-   * Cleaning up email verification sending on screen blur
-   */
-  useFocusEffect(
-    useCallback(() => {
-      dispatch(signupActions.signupPasswordIdle())
-      dispatch(signupActions.signupEmailIdle())
-      dispatch(signupActions.signupPhoneIdle())
-
-      return () => {}
-    }, [])
-  )
 
   const formSubmitLoading = signupPassword.status === 'loading'
   const formSubmitDisabled = signupPassword.status === 'loading'

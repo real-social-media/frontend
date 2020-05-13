@@ -3,12 +3,11 @@ import PropTypes from 'prop-types'
 import {
   View,
   StyleSheet,
-  Linking,
 } from 'react-native'
 import ActionsComponent from 'components/AuthHome/Actions'
-import SubtitleTemplate from 'templates/Subtitle'
 import AuthActionTemplate from 'templates/Auth/Action'
 import AuthHeaderTemplate from 'templates/Auth/Header'
+import AuthTermsTemplate from 'templates/Auth/Terms'
 import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
@@ -39,12 +38,7 @@ const AuthHome = ({
           />
         </View>
 
-        <SubtitleTemplate
-          actions={[{
-            onPress: () => Linking.openURL('https://real.app/real-eula-html-english.html').catch(() => {}),
-            title: t('By tapping to continue, you are indicating that you have read the EULA and agree to the Terms of Service'),
-          }]}
-        />
+        <AuthTermsTemplate />
       </View>
 
       <AuthActionTemplate onPress={navigationActions.navigateAuthSignin(navigation)}>

@@ -55,9 +55,31 @@ const AuthEmailConfirmComponentService = ({ children }) => {
       signupConfirm.status !== 'success'
     ) return
 
+    dispatch(signupActions.signupCreateIdle())
+    dispatch(signupActions.signupConfirmIdle())
+
     navigationActions.navigateAuthPhoto(navigation)()
   }, [
     signupConfirm.status === 'success',
+  ])
+
+  /**
+   * Redirect to verification confirmation once signup was successful
+   */
+  useEffect(() => {
+    if (
+      path(['params', 'confirmationCode', 'length'])(route) !== 6 ||
+      !path(['cognitoUsername', 'length'])(signupCognitoIdentity) ||
+      !path(['cognitoUserId', 'length'])(signupCognitoIdentity) ||
+      !path(['username', 'length'])(signupCognitoIdentity) ||
+      !path(['password', 'length'])(signupCognitoIdentity)
+    ) return
+
+    handleFormSubmit({
+      confirmationCode: path(['params', 'confirmationCode'])(route),
+    })
+  }, [
+    path(['params', 'confirmationCode'])(route),
   ])
 
   const formSubmitLoading = signupConfirm.status === 'loading'

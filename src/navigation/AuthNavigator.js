@@ -20,12 +20,6 @@ import CameraScreen from 'screens/CameraScreen'
 import AuthForgotScreen from 'screens/AuthForgotScreen'
 import AuthForgotConfirmScreen from 'screens/AuthForgotConfirmScreen'
 
-// import AuthSignupScreen from 'screens/AuthSignupScreen'
-// import AuthSignupConfirmScreen from 'screens/AuthSignupConfirmScreen'
-// import OnboardNameScreen from 'screens/OnboardNameScreen'
-// import OnboardPhotoScreen from 'screens/OnboardPhotoScreen'
-// import VerificationScreen from 'screens/VerificationScreen'
-
 const SignupNavigator = () => {
   const Tab = createMaterialTopTabNavigator()
   const { theme, themes } = useContext(ThemesContext)
@@ -75,7 +69,7 @@ const AuthNavigator = ({ theme }) => {
       <Stack.Screen
         name="AuthSignin"
         component={AuthSigninScreen}
-        {...stackScreenAuthProps({ options: { title: 'Signin', headerLeft: navigationOptions.pageHeaderLeft, } })}
+        {...stackScreenAuthProps({ options: { title: 'Log In', headerLeft: navigationOptions.pageHeaderLeft, } })}
       />
 
       <Stack.Screen
@@ -93,13 +87,13 @@ const AuthNavigator = ({ theme }) => {
       <Stack.Screen
         name="AuthEmailConfirm"
         component={AuthEmailConfirmScreen}
-        {...stackScreenAuthProps({ options: { title: 'Email Confirm', headerLeft: null, } })}
+        {...stackScreenAuthProps({ options: { title: 'Email Confirm', headerLeft: navigationOptions.pageHeaderLeft, } })}
       />
 
       <Stack.Screen
         name="AuthPhoneConfirm"
         component={AuthPhoneConfirmScreen}
-        {...stackScreenAuthProps({ options: { title: 'Phone Confirm', headerLeft: null, } })}
+        {...stackScreenAuthProps({ options: { title: 'Phone Confirm', headerLeft: navigationOptions.pageHeaderLeft, } })}
       />
 
       <Stack.Screen

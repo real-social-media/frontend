@@ -29,7 +29,7 @@ export const chatHeaderLeft = ({ theme, navigation }) => () => (
 )
 
 const homeHeaderLeft = ({ theme, navigation }) => () => (
-  <TouchableOpacity style={{ padding: 12 }} onPress={navigationActions.navigateCamera(navigation)}>
+  <TouchableOpacity style={{ paddingHorizontal: 12 }} onPress={navigationActions.navigateCamera(navigation)}>
     <CameraIcon
       fill={theme.colors.primaryIcon}
     />
@@ -46,7 +46,7 @@ const homeHeaderTitle = ({ theme }) => () => (
 const homeHeaderRight = ({ theme, navigation }) => () => (
   <UIContextComponent.Consumer>
     {(props) => (
-      <TouchableOpacity style={{ padding: 12 }} onPress={() => {
+      <TouchableOpacity style={{ paddingHorizontal: 12 }} onPress={() => {
         props.uiNotificationIdle()
         navigationActions.navigateChat(navigation)()
       }}>

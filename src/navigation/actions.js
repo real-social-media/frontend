@@ -149,6 +149,9 @@ export const navigateAuthForgot = (navigation, params) => () =>
 export const navigateAuthForgotConfirm = (navigation, params) => () =>
   navigation.navigate('AuthForgotConfirm', params)
 
+export const navigateAuthCamera = (navigation, params) => () =>
+  navigation.navigate('AuthCamera', params)
+
 /**
  *
  */
