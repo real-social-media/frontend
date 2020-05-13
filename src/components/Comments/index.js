@@ -60,7 +60,10 @@ const Comments = ({
         : null}
         renderItem={({ item: comment, index }) => (
           <View style={styling.comment}>
-            {comment.commentedBy.userId === user.userId ?
+            {(
+              path(['postedBy', 'userId'])(post) === user.userId ||
+              comment.commentedBy.userId === user.userId
+            ) ?
               <SwipeableComponent onPress={() => commentsDeleteRequest({ commentId: comment.commentId })}>
                 <CommentComponent comment={comment} />
               </SwipeableComponent>

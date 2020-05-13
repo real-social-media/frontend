@@ -6,6 +6,8 @@ import { useNavigation } from '@react-navigation/native'
 import trim from 'ramda/src/trim'
 import compose from 'ramda/src/compose'
 import toLower from 'ramda/src/toLower'
+import replace from 'ramda/src/replace'
+import pathOr from 'ramda/src/pathOr'
 
 const AuthPhoneComponentService = ({ children }) => {
   const dispatch = useDispatch()
@@ -99,13 +101,16 @@ const AuthPhoneComponentService = ({ children }) => {
   }
 
   const handleFormTransform = (values) => ({
-    phone: compose(trim, toLower)(values.phone),
+    phone: compose(replace(/[^+0-9]/g, ''),  trim, toLower, pathOr('', ['phone']))(values),
   })
+
+  const handleErrorClose = () => dispatch(signupActions.signupCreateIdle())
 
   return children({
     formErrorMessage,
     handleFormSubmit,
     handleFormTransform,
+    handleErrorClose,
     formSubmitLoading,
     formSubmitDisabled,
     formInitialValues,

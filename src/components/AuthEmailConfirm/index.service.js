@@ -42,9 +42,9 @@ const AuthEmailConfirmComponentService = ({ children }) => {
       !signupPassword.payload.password
     ) return
   }, [
-    signupUsername.status === 'success',
-    signupEmail.status === 'success',
-    signupPassword.status === 'success'
+    signupUsername.status,
+    signupEmail.status,
+    signupPassword.status
   ])
 
   /**
@@ -60,7 +60,7 @@ const AuthEmailConfirmComponentService = ({ children }) => {
 
     navigationActions.navigateAuthPhoto(navigation)()
   }, [
-    signupConfirm.status === 'success',
+    signupConfirm.status,
   ])
 
   /**
@@ -93,10 +93,13 @@ const AuthEmailConfirmComponentService = ({ children }) => {
 
   const handleFormTransform = (values) => values
 
+  const handleErrorClose = () => dispatch(signupActions.signupConfirmIdle())
+
   return children({
     formErrorMessage,
     handleFormSubmit,
     handleFormTransform,
+    handleErrorClose,
     formSubmitLoading,
     formSubmitDisabled,
     formInitialValues,

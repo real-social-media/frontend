@@ -113,11 +113,17 @@ const AuthPhotoUploadComponentService = ({ children }) => {
 
   const formErrorMessage = usersEditProfile.error.text
 
+  const handleErrorClose = () => {
+    dispatch(usersActions.usersEditProfileIdle())
+    navigationActions.navigateAuthPhoto(navigation)()
+  }
+
   return children({
     formErrorMessage,
     activeUpload,
     postsCreateRequest,
     postsCreateQueue,
+    handleErrorClose,
   })
 }
 

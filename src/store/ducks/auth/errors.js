@@ -4,34 +4,6 @@ const messageCodes = {
   /**
    * 
    */
-  [constants.AUTH_ONBOARD_SUCCESS]: {
-    GENERIC: {
-      code: 'GENERIC',
-      text: 'Successfully created profile',
-    },
-  },
-  [constants.AUTH_ONBOARD_FAILURE]: {
-    GENERIC: {
-      code: 'GENERIC',
-      text: 'Failed to create profile',
-    },
-    INVALID_USERNAME: {
-      code: 'INVALID_USERNAME',
-      text: 'Username must contain only letters & numbers',
-    },
-    USER_TAKEN: {
-      code: 'USER_TAKEN',
-      text: 'Username you entered already reserved',
-    },
-    USER_EXISTS: {
-      code: 'USER_EXISTS',
-      text: 'You have already created an account',
-    },
-  },
-
-  /**
-   * 
-   */
   [constants.AUTH_CHECK_SUCCESS]: {
     GENERIC: {
       code: 'GENERIC',
@@ -85,71 +57,29 @@ const messageCodes = {
     },
   },
 
-  /**
-   * 
-   */
-  [constants.AUTH_SIGNUP_SUCCESS]: {
+  [constants.AUTH_GOOGLE_SUCCESS]: {
     GENERIC: {
       code: 'GENERIC',
-      text: 'Successfully create account',
+      text: 'Successfully signed in via Google',
     },
   },
-  [constants.AUTH_SIGNUP_FAILURE]: {
+  [constants.AUTH_GOOGLE_FAILURE]: {
     GENERIC: {
       code: 'GENERIC',
-      text: 'Failed to create account',
-    },
-    USER_CONFIRMATION_DELIVERY: {
-      code: 'USER_CONFIRMATION_DELIVERY',
-      text: 'Failed to deliver confirmation code',
-    },
-    USER_EXISTS: {
-      code: 'USER_EXISTS',
-      text: 'User already signed up but did not confirm email address or phone number',
-    },
-    INVALID_PASSWORD: {
-      code: 'INVALID_PASSWORD',
-      text: 'Password did not conform with policy: Password must have uppercase-alpha-numeric-special characters',
-    },
-    INVALID_PARAMETER: {
-      code: 'INVALID_PARAMETER',
-      text: 'Invalid Email or Phone number provided',
+      text: 'Failed to sign in via Google',
     },
   },
 
-  /**
-   * 
-   */
-  [constants.AUTH_SIGNUP_RESEND_SUCCESS]: {
+  [constants.AUTH_SIGNOUT_SUCCESS]: {
     GENERIC: {
       code: 'GENERIC',
-      text: 'Successfully re-sent confirmation code',
+      text: 'Successfully signed out',
     },
   },
-  [constants.AUTH_SIGNUP_RESEND_FAILURE]: {
+  [constants.AUTH_SIGNOUT_FAILURE]: {
     GENERIC: {
       code: 'GENERIC',
-      text: 'Failed to re-send confirmation code',
-    },
-  },
-
-  /**
-   * 
-   */
-  [constants.AUTH_SIGNUP_CONFIRM_SUCCESS]: {
-    GENERIC: {
-      code: 'GENERIC',
-      text: 'Successfully confirmed account, you can signin now',
-    },
-  },
-  [constants.AUTH_SIGNUP_CONFIRM_FAILURE]: {
-    GENERIC: {
-      code: 'GENERIC',
-      text: 'Failed to confirm account',
-    },
-    CODE_MISMATCH: {
-      code: 'CODE_MISMATCH',
-      text: 'Invalid verification code provided',
+      text: 'Failed to sign out',
     },
   },
 
@@ -197,47 +127,6 @@ const messageCodes = {
     },
   },
 
-  /**
-   * 
-   */
-  [constants.AUTH_FACEBOOK_SUCCESS]: {
-    GENERIC: {
-      code: 'GENERIC',
-      text: 'Successfully signed in via Facebook',
-    },
-  },
-  [constants.AUTH_FACEBOOK_FAILURE]: {
-    GENERIC: {
-      code: 'GENERIC',
-      text: 'Failed to sign in via Facebook',
-    },
-  },
-
-  [constants.AUTH_GOOGLE_SUCCESS]: {
-    GENERIC: {
-      code: 'GENERIC',
-      text: 'Successfully signed in via Google',
-    },
-  },
-  [constants.AUTH_GOOGLE_FAILURE]: {
-    GENERIC: {
-      code: 'GENERIC',
-      text: 'Failed to sign in via Google',
-    },
-  },
-
-  [constants.AUTH_SIGNOUT_SUCCESS]: {
-    GENERIC: {
-      code: 'GENERIC',
-      text: 'Successfully signed out',
-    },
-  },
-  [constants.AUTH_SIGNOUT_FAILURE]: {
-    GENERIC: {
-      code: 'GENERIC',
-      text: 'Failed to sign out',
-    },
-  },
 }
 
 export const getMessagePayload = (key, status = 'GENERIC', nativeError = '') => {

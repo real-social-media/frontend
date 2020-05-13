@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native'
 import trim from 'ramda/src/trim'
 import compose from 'ramda/src/compose'
 import toLower from 'ramda/src/toLower'
+import pathOr from 'ramda/src/pathOr'
 
 const AuthEmailComponentService = ({ children }) => {
   const dispatch = useDispatch()
@@ -99,13 +100,16 @@ const AuthEmailComponentService = ({ children }) => {
   }
 
   const handleFormTransform = (values) => ({
-    email: compose(trim, toLower)(values.email),
+    email: compose(trim, toLower, pathOr('', ['email']))(values),
   })
+
+  const handleErrorClose = () => dispatch(signupActions.signupCreateIdle())
 
   return children({
     formErrorMessage,
     handleFormSubmit,
     handleFormTransform,
+    handleErrorClose,
     formSubmitLoading,
     formSubmitDisabled,
     formInitialValues,

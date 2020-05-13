@@ -1,11 +1,12 @@
-import { useEffect, useCallback } from 'react'
+import { useEffect } from 'react'
 import * as authActions from 'store/ducks/auth/actions'
 import * as navigationActions from 'navigation/actions'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigation, useFocusEffect } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import trim from 'ramda/src/trim'
 import compose from 'ramda/src/compose'
 import toLower from 'ramda/src/toLower'
+import pathOr from 'ramda/src/pathOr'
 
 const AuthForgotComponentService = ({ children }) => {
   const dispatch = useDispatch()
@@ -41,13 +42,16 @@ const AuthForgotComponentService = ({ children }) => {
   }
 
   const handleFormTransform = (values) => ({
-    username: compose(trim, toLower)(values.username),
+    username: compose(trim, toLower, pathOr('', ['username']))(values),
   })
+
+  const handleErrorClose = () => dispatch(authActions.authForgotIdle())
 
   return children({
     formErrorMessage,
     handleFormSubmit,
     handleFormTransform,
+    handleErrorClose,
     formSubmitLoading,
     formSubmitDisabled,
     formInitialValues,

@@ -1,11 +1,10 @@
-import { useEffect, useCallback } from 'react'
 import * as authActions from 'store/ducks/auth/actions'
-import * as navigationActions from 'navigation/actions'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigation, useFocusEffect } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import trim from 'ramda/src/trim'
 import compose from 'ramda/src/compose'
 import toLower from 'ramda/src/toLower'
+import pathOr from 'ramda/src/pathOr'
 
 const guessUsernameType = (username) => {
   const hasEmail = /\S+@\S+\.\S+/.test(username)
@@ -26,7 +25,6 @@ const AuthSigninComponentService = ({ children }) => {
 
   const handleFormSubmit = (payload) => {
     const usernameType = guessUsernameType(payload.username)
-    dispatch(authActions.authSignupIdle())
     dispatch(authActions.authSigninRequest({
       usernameType,
       username: toLower(payload.username),
@@ -43,14 +41,17 @@ const AuthSigninComponentService = ({ children }) => {
   }
 
   const handleFormTransform = (values) => ({
-    username: compose(trim, toLower)(values.username),
+    username: compose(trim, toLower, pathOr('', ['username']))(values),
     password: values.password,
   })
+
+  const handleErrorClose = () => dispatch(authActions.authSigninIdle())
 
   return children({
     formErrorMessage,
     handleFormSubmit,
     handleFormTransform,
+    handleErrorClose,
     formSubmitLoading,
     formSubmitDisabled,
     formInitialValues,

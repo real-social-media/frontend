@@ -20,6 +20,7 @@ const AuthSignin = ({
   formErrorMessage,
   handleFormSubmit,
   handleFormTransform,
+  handleErrorClose,
   formSubmitLoading,
   formSubmitDisabled,
   formInitialValues,
@@ -32,6 +33,7 @@ const AuthSignin = ({
       {formErrorMessage ?
         <AuthErrorTemplate
           text={formErrorMessage}
+          onClose={handleErrorClose}
         />
       : null}
 
@@ -78,6 +80,7 @@ AuthSignin.propTypes = {
   formErrorMessage: PropTypes.any,
   handleFormSubmit: PropTypes.any,
   handleFormTransform: PropTypes.any,
+  handleErrorClose: PropTypes.any,
   formSubmitLoading: PropTypes.any,
   formSubmitDisabled: PropTypes.any,
   formInitialValues: PropTypes.any,

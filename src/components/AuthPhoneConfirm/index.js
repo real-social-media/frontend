@@ -18,6 +18,7 @@ const AuthPhoneConfirm = ({
   formErrorMessage,
   handleFormSubmit,
   handleFormTransform,
+  handleErrorClose,
   formSubmitLoading,
   formSubmitDisabled,
   formInitialValues,
@@ -30,6 +31,7 @@ const AuthPhoneConfirm = ({
       {formErrorMessage ?
         <AuthErrorTemplate
           text={formErrorMessage}
+          onClose={handleErrorClose}
         />
       : null}
 
@@ -72,6 +74,7 @@ AuthPhoneConfirm.propTypes = {
   formErrorMessage: PropTypes.any,
   handleFormSubmit: PropTypes.any,
   handleFormTransform: PropTypes.any,
+  handleErrorClose: PropTypes.any,
   formSubmitLoading: PropTypes.any,
   formSubmitDisabled: PropTypes.any,
   formInitialValues: PropTypes.any,

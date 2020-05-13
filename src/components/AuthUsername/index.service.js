@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native'
 import trim from 'ramda/src/trim'
 import compose from 'ramda/src/compose'
 import toLower from 'ramda/src/toLower'
+import pathOr from 'ramda/src/pathOr'
 
 const AuthUsernameComponentService = ({ children }) => {
   const dispatch = useDispatch()
@@ -27,7 +28,8 @@ const AuthUsernameComponentService = ({ children }) => {
 
     navigationActions.navigateAuthPassword(navigation)()
   }, [
-    signupUsername.status === 'success',
+    signupUsername.status,
+    signupUsername.payload.username,
   ])
 
   const formSubmitLoading = signupUsername.status === 'loading'
@@ -39,13 +41,16 @@ const AuthUsernameComponentService = ({ children }) => {
   }
 
   const handleFormTransform = (values) => ({
-    username: compose(trim, toLower)(values.username),
+    username: compose(trim, toLower, pathOr('', ['username']))(values),
   })
+
+  const handleErrorClose = () => dispatch(signupActions.signupUsernameIdle())
 
   return children({
     formErrorMessage,
     handleFormSubmit,
     handleFormTransform,
+    handleErrorClose,
     formSubmitLoading,
     formSubmitDisabled,
     formInitialValues,

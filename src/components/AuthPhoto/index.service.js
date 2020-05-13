@@ -3,6 +3,7 @@ import { handleGallery } from 'components/Camera/index.service'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import * as navigationActions from 'navigation/actions'
 import * as cameraActions from 'store/ducks/camera/actions'
+import * as usersActions from 'store/ducks/users/actions'
 import path from 'ramda/src/path'
 
 const AuthPhotoComponentService = ({ children }) => {
@@ -33,9 +34,12 @@ const AuthPhotoComponentService = ({ children }) => {
 
   const formErrorMessage = usersEditProfile.error.text
 
+  const handleErrorClose = () => dispatch(usersActions.usersEditProfileIdle())
+
   return children({
   	handleLibrarySnap,
     formErrorMessage,
+    handleErrorClose,
   })
 }
 

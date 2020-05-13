@@ -24,7 +24,8 @@ const AuthPasswordComponentService = ({ children }) => {
 
     navigationActions.navigateSignup(navigation)()
   }, [
-    signupPassword.status === 'success',
+    signupPassword.status,
+    signupPassword.payload.password,
   ])
 
   const formSubmitLoading = signupPassword.status === 'loading'
@@ -36,10 +37,13 @@ const AuthPasswordComponentService = ({ children }) => {
 
   const handleFormTransform = (values) => values
 
+  const handleErrorClose = () => dispatch(signupActions.signupPasswordIdle())
+
   return children({
     formErrorMessage,
     handleFormSubmit,
     handleFormTransform,
+    handleErrorClose,
     formSubmitLoading,
     formSubmitDisabled,
     formInitialValues,

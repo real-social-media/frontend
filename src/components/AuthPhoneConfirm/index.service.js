@@ -42,9 +42,9 @@ const AuthPhoneConfirmComponentService = ({ children }) => {
       !signupPassword.payload.password
     ) return
   }, [
-    signupUsername.status === 'success',
-    signupPhone.status === 'success',
-    signupPassword.status === 'success'
+    signupUsername.status,
+    signupPhone.status,
+    signupPassword.status
   ])
 
   /**
@@ -60,7 +60,7 @@ const AuthPhoneConfirmComponentService = ({ children }) => {
 
     navigationActions.navigateAuthPhoto(navigation)()
   }, [
-    signupConfirm.status === 'success',
+    signupConfirm.status,
   ])
 
   const formSubmitLoading = signupConfirm.status === 'loading'
@@ -74,10 +74,13 @@ const AuthPhoneConfirmComponentService = ({ children }) => {
 
   const handleFormTransform = (values) => values
 
+  const handleErrorClose = () => dispatch(signupActions.signupConfirmIdle())
+
   return children({
     formErrorMessage,
     handleFormSubmit,
     handleFormTransform,
+    handleErrorClose,
     formSubmitLoading,
     formSubmitDisabled,
     formInitialValues,

@@ -18,6 +18,7 @@ const AuthPhotoUpload = ({
   t,
   theme,
   formErrorMessage,
+  handleErrorClose,
   activeUpload,
 }) => {
   const styling = styles(theme)
@@ -28,6 +29,7 @@ const AuthPhotoUpload = ({
       {formErrorMessage ?
         <AuthErrorTemplate
           text={formErrorMessage}
+          onClose={handleErrorClose}
         />
       : null}
 
@@ -74,6 +76,7 @@ AuthPhotoUpload.propTypes = {
   t: PropTypes.any,
   theme: PropTypes.any,
   formErrorMessage: PropTypes.any,
+  handleErrorClose: PropTypes.any,
   activeUpload: PropTypes.any,
 }
 

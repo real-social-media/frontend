@@ -20,15 +20,6 @@ export const createGoogleUser = `
   ${userFragment}
 `
 
-export const createFacebookUser = `
-  mutation createFacebookUser($username: String!, $fullName: String, $facebookAccessToken: String!) {
-    createFacebookUser(username: $username, fullName: $fullName, facebookAccessToken: $facebookAccessToken) {
-      ...userFragment
-    }
-  }
-  ${userFragment}
-`
-
 export const setUserAcceptedEULAVersion = `
   mutation SetUserAcceptedEULAVersion($version: String!) {
     setUserAcceptedEULAVersion(version: $version) {

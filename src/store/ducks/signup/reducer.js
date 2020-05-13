@@ -78,6 +78,7 @@ const signupUsernameIdle = (state, action) => update(state, {
   signupUsername: {
     status: { $set: 'idle' },
     payload: { $set: initialState.signupUsername.payload },
+    error: { $set: initialState.signupUsername.error },
   },
 })
 
@@ -111,6 +112,7 @@ const signupPhoneIdle = (state, action) => update(state, {
   signupPhone: {
     status: { $set: 'idle' },
     payload: { $set: initialState.signupPhone.payload },
+    error: { $set: initialState.signupPhone.error },
   },
 })
 
@@ -144,6 +146,7 @@ const signupEmailIdle = (state, action) => update(state, {
   signupEmail: {
     status: { $set: 'idle' },
     payload: { $set: initialState.signupEmail.payload },
+    error: { $set: initialState.signupEmail.error },
   },
 })
 
@@ -177,6 +180,7 @@ const signupPasswordIdle = (state, action) => update(state, {
   signupPassword: {
     status: { $set: 'idle' },
     payload: { $set: initialState.signupPassword.payload },
+    error: { $set: initialState.signupPassword.error },
   },
 })
 
@@ -213,6 +217,7 @@ const signupCreateIdle = (state, action) => update(state, {
   signupCreate: {
     status: { $set: 'idle' },
     payload: { $set: initialState.signupCreate.payload },
+    error: { $set: initialState.signupCreate.error },
   },
 })
 
@@ -248,7 +253,8 @@ const signupConfirmFailure = (state, action) => update(state, {
 const signupConfirmIdle = (state, action) => update(state, {
   signupConfirm: {
     status: { $set: 'idle' },
-    payload: { $set: initialState.signupCreate.payload },
+    payload: { $set: initialState.signupConfirm.payload },
+    error: { $set: initialState.signupConfirm.error },
   },
 })
 
