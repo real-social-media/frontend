@@ -171,7 +171,7 @@ const initialState = {
 /**
  *
  */
-const postsGetRequest = (state, action) => update(state, {
+export const postsGetRequest = (state, action) => update(state, {
   postsGet: {
     status: { $set: 'loading' },
     payload: { $set: action.payload },
@@ -185,7 +185,7 @@ const postsGetRequest = (state, action) => update(state, {
   },
 })
 
-const postsGetSuccess = (state, action) => update(state, {
+export const postsGetSuccess = (state, action) => update(state, {
   postsGet: {
     status: { $set: 'success' },
     payload: { $set: action.payload },
@@ -199,7 +199,7 @@ const postsGetSuccess = (state, action) => update(state, {
   },
 })
 
-const postsGetFailure = (state, action) => update(state, {
+export const postsGetFailure = (state, action) => update(state, {
   postsGet: {
     status: { $set: 'failure' },
     payload: { $set: action.payload },
@@ -213,7 +213,7 @@ const postsGetFailure = (state, action) => update(state, {
   },
 })
 
-const postsGetIdle = (state, action) => update(state, {
+export const postsGetIdle = (state, action) => update(state, {
   postsGet: {
     status: { $set: 'idle' },
     payload: { $set: action.payload },
@@ -227,7 +227,7 @@ const postsGetIdle = (state, action) => update(state, {
   },
 })
 
-const postsGetMoreRequest = (state, action) => update(state, {
+export const postsGetMoreRequest = (state, action) => update(state, {
   postsGet: {
     status: { $set: 'loading' },
     payload: { $set: action.payload },
@@ -241,7 +241,7 @@ const postsGetMoreRequest = (state, action) => update(state, {
   },
 })
 
-const postsGetMoreSuccess = (state, action) => update(state, {
+export const postsGetMoreSuccess = (state, action) => update(state, {
   postsGet: {
     status: { $set: 'success' },
     payload: { $set: action.payload },
@@ -792,7 +792,7 @@ const postsCreateFailure = (state, action) => update(state, {
   },
 })
 
-const postsCreateIdle = (state, action) => update(state, {
+export const postsCreateIdle = (state, action) => update(state, {
   postsCreate: {
     data: { $set: initialState.postsCreate.data },
     status: { $set: 'idle' },
@@ -806,7 +806,7 @@ const postsCreateIdle = (state, action) => update(state, {
   },
 })
 
-const postsCreateProgress = (state, action) => update(state, {
+export const postsCreateProgress = (state, action) => update(state, {
   postsCreate: {
     status: { $set: 'loading' },
     meta: { $set: action.payload.meta },

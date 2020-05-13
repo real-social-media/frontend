@@ -92,7 +92,7 @@ extend('$resourceCacheAlterRequest', ({ payload, resourceKey, initialState }, or
 
   return update(nextState, {
     [resourceKey]: {
-      data: { $set: payload.payload.data },
+      data: { $set: payload.data },
       status: { $set: 'loading' },
       error: { $set: {} },
       payload: { $set: payload.payload || {} },
