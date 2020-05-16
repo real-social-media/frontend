@@ -41,23 +41,6 @@ const PhoneField = ({
 }
 
 const styles = theme => StyleSheet.create({
-  root: {
-    position: 'relative',
-    marginTop: -6,
-  },
-  input: {
-    padding: 0,
-    margin: 0,
-    fontSize: 14,
-    height: 38,
-  },
-  error: {
-    textAlign: 'right',
-    fontSize: 11,
-    color: 'red',
-  },
-  flag: {
-  },
 })
 
 PhoneField.propTypes = {
