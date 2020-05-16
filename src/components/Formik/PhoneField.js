@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -16,14 +16,26 @@ const PhoneField = ({
   ...props
 }) => {
   const styling = styles(theme)
+
+  const inputRef = useRef(null)
   
+  /**
+   * Manually updating country when new country code selected
+   */
+  const onSelectCountry = (country) => {
+    const nextValue = `+${inputRef.current.getCountryCode(country)}`
+    props.form.setFieldValue(props.field.name, nextValue)
+  }
+
   return (
     <PhoneInput
+      ref={inputRef}
       flagStyle={styling.flag}
       textProps={props}
       onChangePhoneNumber={props.field.onChange}
       value={props.field.value}
       textComponent={TextField}
+      onSelectCountry={onSelectCountry}
     />
   )
 }
