@@ -4,11 +4,10 @@ import {
   StyleSheet,
   View,
 } from 'react-native'
-import TextField from 'components/Formik/TextField'
+import PhoneField from 'components/Formik/PhoneField'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
-
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
@@ -33,7 +32,7 @@ const PhoneForm = ({
   return (
     <View style={styling.root}>
       <View style={styling.input}>
-        <Field name="phone" component={TextField} placeholder={t('Phone Number')} keyboardType="phone-pad" textContentType="telephoneNumber" autoCompleteType="tel" autoFocus />
+        <Field name="phone" component={PhoneField} placeholder={t('Phone Number')} keyboardType="phone-pad" textContentType="telephoneNumber" autoCompleteType="tel" autoFocus />
       </View>
       <View style={styling.input}>
         <DefaultButton label={t('Next')} onPress={handleSubmit} loading={loading} disabled={loading} />
