@@ -55,7 +55,6 @@ function* authCheckRequest(req) {
       nextRoute: 'Root',
     }))
   } catch (error) {
-    // yield AwsAuth.signOut({ global: true })
     if (path(['message'])(error) === 'PROFILE_PHOTO_MISSING') {
       yield put(actions.authCheckFailure({
         message: errors.getMessagePayload(constants.AUTH_CHECK_FAILURE, 'PROFILE_PHOTO_MISSING', error.message),
@@ -64,7 +63,7 @@ function* authCheckRequest(req) {
     } else if (path(['errors', '0', 'path', '0'])(error) === 'self') {
       yield put(actions.authCheckFailure({
         message: errors.getMessagePayload(constants.AUTH_CHECK_FAILURE, 'USER_JUST_CREATED', error.message),
-        nextRoute: 'OnboardName',
+        nextRoute: 'AuthCognito',
       }))
     } else {
       yield put(actions.authCheckFailure({

@@ -48,3 +48,11 @@ export const signupConfirmIdle = createAction(constants.SIGNUP_CONFIRM_IDLE)
 export const signupConfirmRequest = createAction(constants.SIGNUP_CONFIRM_REQUEST)
 export const signupConfirmSuccess = createAction(constants.SIGNUP_CONFIRM_SUCCESS)
 export const signupConfirmFailure = createAction(constants.SIGNUP_CONFIRM_FAILURE)
+
+/**
+ * 
+ */
+export const signupCognitoIdle = createAction(constants.SIGNUP_COGNITO_IDLE)
+export const signupCognitoRequest = createAction(constants.SIGNUP_COGNITO_REQUEST)
+export const signupCognitoSuccess = createAction(constants.SIGNUP_COGNITO_SUCCESS)
+export const signupCognitoFailure = createAction(constants.SIGNUP_COGNITO_FAILURE)

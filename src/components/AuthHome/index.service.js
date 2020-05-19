@@ -66,9 +66,8 @@ const AuthHomeComponentService = ({ children }) => {
     const shouldRedirect = [
       'AuthHome',
       'AuthPhoto',
+      'AuthCognito',
 
-      'OnboardName',
-      'OnboardPhoto',
       'AuthSignup',
       'AuthSignupConfirm',
     ].includes(authCheck.nextRoute)

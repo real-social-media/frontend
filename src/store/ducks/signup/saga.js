@@ -8,8 +8,8 @@ import * as authActions from 'store/ducks/auth/actions'
 import * as actions from 'store/ducks/signup/actions'
 import * as constants from 'store/ducks/signup/constants'
 import * as errors from 'store/ducks/signup/errors'
+import * as queries from 'store/ducks/signup/queries'
 import * as queryService from 'services/Query'
-import * as queries from 'store/ducks/auth/queries'
 
 /**
  *
@@ -260,6 +260,49 @@ function* signupConfirmRequest(req) {
   }
 }
 
+/**
+ * Google only execution
+ */
+function* handleCognitoRequest(payload) {
+  const AwsAuth = yield getContext('AwsAuth')
+
+  const data = yield AwsAuth.currentAuthenticatedUser({
+    bypassCache: false,
+  })
+
+  const selector = path(['data', 'createGoogleUser'])
+  yield queryService.apiRequest(queries.createGoogleUser, {
+    username: payload.username,
+    googleIdToken: data.token,
+  })
+
+  yield queryService.apiRequest(queries.setUserAcceptedEULAVersion, { version: '15-11-2019' })
+
+  yield put(authActions.authCheckReady({
+    data: { userId: selector(data).userId },
+  }))
+
+  yield put(authActions.globalAuthUserTrigger({
+    data: selector(data),
+  }))
+}
+
+function* signupCognitoRequest(req) {
+  try {
+    const data = yield handleCognitoRequest(req.payload)
+    yield put(actions.signupCognitoSuccess({
+      message: errors.getMessagePayload(constants.SIGNUP_COGNITO_SUCCESS, 'GENERIC'),
+      payload: req.payload,
+      data,
+    }))
+  } catch (error) {
+    yield put(actions.signupCognitoFailure({
+      message: errors.getMessagePayload(constants.SIGNUP_COGNITO_FAILURE, 'GENERIC', error.message),
+      payload: req.payload,
+    }))
+  }
+}
+
 export default () => [
   takeLatest(constants.SIGNUP_USERNAME_REQUEST, signupUsernameRequest),
   takeLatest(constants.SIGNUP_PHONE_REQUEST, signupPhoneRequest),
@@ -268,4 +311,6 @@ export default () => [
 
   takeLatest(constants.SIGNUP_CREATE_REQUEST, signupCreateRequest),
   takeLatest(constants.SIGNUP_CONFIRM_REQUEST, signupConfirmRequest),
+
+  takeLatest(constants.SIGNUP_COGNITO_REQUEST, signupCognitoRequest),
 ]

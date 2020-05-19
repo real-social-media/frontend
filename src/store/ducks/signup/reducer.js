@@ -46,6 +46,12 @@ const initialState = {
     error: {},
     payload: {},
   },
+  signupCognito: {
+    data: [],
+    status: 'idle',
+    error: {},
+    payload: {},
+  },
 }
 
 /**
@@ -258,6 +264,41 @@ const signupConfirmIdle = (state, action) => update(state, {
   },
 })
 
+/**
+ *
+ */
+const signupCognitoRequest = (state, action) => update(state, {
+  signupCognito: {
+    status: { $set: 'loading' },
+    payload: { $set: action.payload },
+  },
+})
+
+const signupCognitoSuccess = (state, action) => update(state, {
+  signupCognito: {
+    data: { $set: action.payload.data },
+    status: { $set: 'success' },
+    payload: { $set: action.payload.payload },
+  },
+})
+
+const signupCognitoFailure = (state, action) => update(state, {
+  signupCognito: {
+    status: { $set: 'failure' },
+    payload: { $set: action.payload.payload },
+    error: { $set: action.payload.message },
+  },
+})
+
+const signupCognitoIdle = (state, action) => update(state, {
+  signupCognito: {
+    status: { $set: 'idle' },
+    payload: { $set: initialState.signupConfirm.payload },
+    error: { $set: initialState.signupConfirm.error },
+  },
+})
+
+
 export default handleActions({
   [constants.SIGNUP_USERNAME_REQUEST]: signupUsernameRequest,
   [constants.SIGNUP_USERNAME_SUCCESS]: signupUsernameSuccess,
@@ -288,4 +329,9 @@ export default handleActions({
   [constants.SIGNUP_CONFIRM_SUCCESS]: signupConfirmSuccess,
   [constants.SIGNUP_CONFIRM_FAILURE]: signupConfirmFailure,
   [constants.SIGNUP_CONFIRM_IDLE]: signupConfirmIdle,
+
+  [constants.SIGNUP_COGNITO_REQUEST]: signupCognitoRequest,
+  [constants.SIGNUP_COGNITO_SUCCESS]: signupCognitoSuccess,
+  [constants.SIGNUP_COGNITO_FAILURE]: signupCognitoFailure,
+  [constants.SIGNUP_COGNITO_IDLE]: signupCognitoIdle,
 }, initialState)

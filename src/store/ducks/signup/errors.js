@@ -80,6 +80,22 @@ const messageCodes = {
       text: 'Username is not available',
     },
   },
+
+  /**
+   * 
+   */
+  [constants.SIGNUP_COGNITO_SUCCESS]: {
+    GENERIC: {
+      code: 'GENERIC',
+      text: 'Successfully signed up',
+    },
+  },
+  [constants.SIGNUP_COGNITO_FAILURE]: {
+    GENERIC: {
+      code: 'GENERIC',
+      text: 'Failed to sign up',
+    },
+  },
 }
 
 export const getMessagePayload = (key, status = 'GENERIC', nativeError = '') => {

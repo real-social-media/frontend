@@ -19,6 +19,7 @@ import AuthPhotoUploadScreen from 'screens/AuthPhotoUploadScreen'
 import CameraScreen from 'screens/CameraScreen'
 import AuthForgotScreen from 'screens/AuthForgotScreen'
 import AuthForgotConfirmScreen from 'screens/AuthForgotConfirmScreen'
+import AuthCognitoScreen from 'screens/AuthCognitoScreen'
 
 const SignupNavigator = () => {
   const Tab = createMaterialTopTabNavigator()
@@ -124,6 +125,12 @@ const AuthNavigator = ({ theme }) => {
         name="AuthForgotConfirm"
         component={AuthForgotConfirmScreen}
         {...stackScreenAuthProps({ options: { title: 'Forgot Confirm', headerLeft: navigationOptions.pageHeaderLeft, } })}
+      />
+
+      <Stack.Screen
+        name="AuthCognito"
+        component={AuthCognitoScreen}
+        {...stackScreenAuthProps({ options: { title: 'Signup', headerLeft: null } })}
       />
     </Stack.Navigator>
   )
