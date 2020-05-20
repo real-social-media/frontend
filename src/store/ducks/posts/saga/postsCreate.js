@@ -1,11 +1,10 @@
 import { graphqlOperation } from '@aws-amplify/api'
 import { call, put, takeEvery, all, getContext, select } from 'redux-saga/effects'
-import { eventChannel } from 'redux-saga'
+import { eventChannel, END } from 'redux-saga'
 import path from 'ramda/src/path'
 import * as actions from 'store/ducks/posts/actions'
 import * as queries from 'store/ducks/posts/queries'
 import * as constants from 'store/ducks/posts/constants'
-import promiseRetry from 'promise-retry'
 import dayjs from 'dayjs'
 import { v4 as uuid } from 'uuid'
 import RNFS from 'react-native-fs' 
@@ -47,10 +46,12 @@ function initPostsCreateUploadChannel({ image, uploadUrl }) {
 
   const handleSuccess = (emitter) => (response) => {
     emitter({ status: 'success', progress: 100 })
+    emitter(END)
   }
 
   const handleFailure = (emitter) => (response) => {
     emitter({ status: 'failure', progress: 0 })
+    emitter(END)
   }
 
   const initUpload = (emitter) => (begin, progress) =>
