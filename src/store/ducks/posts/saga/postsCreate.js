@@ -2,7 +2,6 @@ import { graphqlOperation } from '@aws-amplify/api'
 import { call, put, takeEvery, all, getContext, select } from 'redux-saga/effects'
 import { eventChannel } from 'redux-saga'
 import path from 'ramda/src/path'
-import RNFetchBlob from 'rn-fetch-blob'
 import * as actions from 'store/ducks/posts/actions'
 import * as queries from 'store/ducks/posts/queries'
 import * as constants from 'store/ducks/posts/constants'
@@ -11,44 +10,89 @@ import dayjs from 'dayjs'
 import { v4 as uuid } from 'uuid'
 import RNFS from 'react-native-fs' 
 import * as Logger from 'services/Logger'
+import filePath from 'path'
 
-/**
- * 
- */
-function initPostsCreateUploadChannel({ image, imageUrl }) {
-  if (!image || !imageUrl) {
-    return eventChannel(emitter => {
-      emitter({ status: 'success', progress: 100 })
-
-      return () => {
-      }
-    })
+function initPostsCreateUploadChannel({ image, uploadUrl }) {
+  const getName = (image) => {
+    return filePath.basename(image, '.jpg')
   }
 
-  const imagePath = RNFetchBlob.wrap((image || '').replace('file://', ''))
+  const getFilename = (image) => {
+    return filePath.basename(image)
+  }
 
-  return eventChannel(emitter => {
-    promiseRetry((retry, attempt) => {
-      emitter({ status: 'retry', progress: 0, attempt })
+  const getFilepath = (image) => {
+    return image
+  }
 
-      return RNFetchBlob
-        .fetch('PUT', imageUrl, { 'Content-Type' : 'application/octet-stream' }, imagePath)
-        .uploadProgress((written, total) => {
-          emitter({ status: 'progress', progress: parseInt(written / total * 100, 10), attempt })
-        })
-        .catch((error) => {
-          emitter({ status: 'progress', progress: 0, attempt, error })
-          retry(error)
-        })
-    }, { retries: 5 })
-    .then((resp) => {
-      emitter({ status: 'success', progress: 100 })
+  const getFiletype = (image) => {
+    return 'image/jpeg'
+  }
+
+  const files = [{
+    name: getName(image),
+    filename: getFilename(image),
+    filepath: getFilepath(image),
+    filetype: getFiletype(image),
+  }]
+
+  const handleRequest = (emitter) => (response) => {
+    emitter({ status: 'retry', progress: 0, attempt: 0 })
+  }
+
+  const handleProgress = (emitter) => (response) => {
+    const progress = parseInt(response.totalBytesSent / response.totalBytesExpectedToSend * 100, 10)
+    emitter({ status: 'progress', progress, attempt: 0 })
+  }
+
+  const handleSuccess = (emitter) => (response) => {
+    emitter({ status: 'success', progress: 100 })
+  }
+
+  const handleFailure = (emitter) => (response) => {
+    emitter({ status: 'failure', progress: 0 })
+  }
+
+  const initUpload = (emitter) => (begin, progress) =>
+    RNFS.uploadFiles({
+      binaryStreamOnly: true,
+      toUrl: uploadUrl,
+      files: files,
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/octet-stream',
+      },
+      begin,
+      progress,
     })
-    .catch((error) => {
-      emitter({ status: 'failure', progress: 0 })
-    })
+
+  /**
+   *
+   */
+  return eventChannel((emitter) => {
+    const uploader = initUpload(emitter)(
+      handleRequest(emitter),
+      handleProgress(emitter)
+    )
+
+    const next = (response) => {
+      if (response.statusCode === 200) {
+        handleSuccess(emitter)(response)
+      } else {
+        handleFailure(emitter)(response)
+      }
+    }
+
+    const fail = (error) => {
+      handleFailure(emitter)(error)
+    }
+
+    uploader.promise
+      .then(next)
+      .catch(fail)
 
     return () => {
+      RNFS.stopUpload(uploader.jobId)
     }
   })
 }
@@ -99,7 +143,7 @@ function* handleImagePost(req) {
     const data = yield handlePostsCreateRequest(req.payload)
 
     const channel = yield call(initPostsCreateUploadChannel, {
-      imageUrl: data.imageUrl,
+      uploadUrl: data.imageUrl,
       image: data.image,
     })
 

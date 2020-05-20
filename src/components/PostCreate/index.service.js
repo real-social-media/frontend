@@ -69,9 +69,6 @@ const PostCreateService = ({ children }) => {
      */
     if (postType === 'TEXT_ONLY') {
       navigationActions.navigateHome(navigation)()
-      navigation.setParams({
-        type: 'IMAGE'
-      })
     }
 
     /**
@@ -79,9 +76,6 @@ const PostCreateService = ({ children }) => {
      */
     if (postType === 'IMAGE' && cameraCaptureLength === 1) {
       navigationActions.navigateHome(navigation)()
-      navigation.setParams({
-        type: 'IMAGE'
-      })
     }
 
     if (postType === 'IMAGE') {
