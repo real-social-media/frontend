@@ -294,6 +294,24 @@ function* usersGetTrendingUsersRequest(req) {
   }
 }
 
+/**
+ *
+ */
+function* usersGetCardsRequest(req) {
+  const errorWrapper = yield getContext('errorWrapper')
+
+  try {
+    const data = yield queryService.apiRequest(queries.getCards, req.payload)
+    console.log(data)
+    const selector = path(['data', 'self', 'cards', 'items'])
+    const metaSelector = compose(omit(['items']), path(['data', 'self', 'cards']))
+
+    yield put(actions.usersGetCardsSuccess({ payload: req.payload, data: selector(data), meta: metaSelector(data) }))
+  } catch (error) {
+    yield put(actions.usersGetCardsFailure({ payload: req.payload, message: errorWrapper(error) }))
+  }
+}
+
 export default () => [
   takeEvery(constants.USERS_SEARCH_REQUEST, usersSearchRequest),
   takeLatest(constants.USERS_GET_FOLLOWED_USERS_WITH_STORIES_REQUEST, usersGetFollowedUsersWithStoriesRequest),
@@ -311,4 +329,5 @@ export default () => [
   takeLatest(constants.USERS_EDIT_PROFILE_REQUEST, usersEditProfileRequest),
   takeLatest(constants.USERS_IMAGE_POSTS_GET_REQUEST, usersImagePostsGetRequest),
   takeEvery(constants.USERS_GET_TRENDING_USERS_REQUEST, usersGetTrendingUsersRequest),
+  takeLatest(constants.USERS_GET_CARDS_REQUEST, usersGetCardsRequest),
 ]

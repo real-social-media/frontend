@@ -93,6 +93,12 @@ const initialState = {
     error: {},
     payload: {},
   },
+  usersGetCards: {
+    data: [],
+    status: 'idle',
+    error: {},
+    payload: {},
+  },
 
   usersPool: {
 
@@ -784,6 +790,38 @@ const usersGetTrendingUsersIdle = (state, action) => update(state, {
   },
 })
 
+/**
+ *
+ */
+const usersGetCardsRequest = (state, action) => update(state, {
+  usersGetCards: {
+    status: { $set: 'loading' },
+    payload: { $set: action.payload },
+  },
+})
+
+const usersGetCardsSuccess = (state, action) => update(state, {
+  usersGetCards: {
+    data: { $usersResourceSetSuccess: action },
+    status: { $set: 'success' },
+  },
+})
+
+const usersGetCardsFailure = (state, action) => update(state, {
+  usersGetCards: {
+    status: { $set: 'failure' },
+    error: { $set: action.payload.message },
+  },
+})
+
+const usersGetCardsIdle = (state, action) => update(state, {
+  usersGetCards: {
+    data: { $set: initialState.usersGetCards.data },
+    error: { $set: initialState.usersGetCards.error },
+    status: { $set: 'idle' },
+  },
+})
+
 export default handleActions({
   [constants.USERS_SEARCH_REQUEST]: usersSearchRequest,
   [constants.USERS_SEARCH_SUCCESS]: usersSearchSuccess,
@@ -855,10 +893,10 @@ export default handleActions({
   [constants.USERS_IMAGE_POSTS_GET_FAILURE]: usersImagePostsGetFailure,
   [constants.USERS_IMAGE_POSTS_GET_IDLE]: usersImagePostsGetIdle,
 
-  [constants.USERS_GET_TRENDING_USERS_REQUEST]: usersGetTrendingUsersRequest,
-  [constants.USERS_GET_TRENDING_USERS_SUCCESS]: usersGetTrendingUsersSuccess,
-  [constants.USERS_GET_TRENDING_USERS_FAILURE]: usersGetTrendingUsersFailure,
-  [constants.USERS_GET_TRENDING_USERS_IDLE]: usersGetTrendingUsersIdle,
+  [constants.USERS_GET_CARDS_REQUEST]: usersGetCardsRequest,
+  [constants.USERS_GET_CARDS_SUCCESS]: usersGetCardsSuccess,
+  [constants.USERS_GET_CARDS_FAILURE]: usersGetCardsFailure,
+  [constants.USERS_GET_CARDS_IDLE]: usersGetCardsIdle,
 
   [constants.USERS_RESOURCE_POOL_MERGE]: usersResourcePoolMerge,
 

@@ -133,3 +133,11 @@ export const usersGetTrendingUsersIdle = createAction(constants.USERS_GET_TRENDI
 export const usersGetTrendingUsersRequest = createAction(constants.USERS_GET_TRENDING_USERS_REQUEST)
 export const usersGetTrendingUsersSuccess = createAction(constants.USERS_GET_TRENDING_USERS_SUCCESS)
 export const usersGetTrendingUsersFailure = createAction(constants.USERS_GET_TRENDING_USERS_FAILURE)
+
+/**
+ * 
+ */
+export const usersGetCardsIdle = createAction(constants.USERS_GET_CARDS_IDLE)
+export const usersGetCardsRequest = createAction(constants.USERS_GET_CARDS_REQUEST)
+export const usersGetCardsSuccess = createAction(constants.USERS_GET_CARDS_SUCCESS)
+export const usersGetCardsFailure = createAction(constants.USERS_GET_CARDS_FAILURE)

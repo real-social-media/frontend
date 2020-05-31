@@ -1,5 +1,5 @@
 import {
-  imageFragment,
+  cardFragment,
   postFragment,
   userFragment,
 } from 'store/fragments'
@@ -189,4 +189,18 @@ export const trendingUsers = `
     }
   }
   ${userFragment}
+`
+
+export const getCards = `
+  query getCards($limit: Int, $nextToken: String) {
+    self {
+      cards(limit: $limit, nextToken: $nextToken) {
+        items {
+          ...cardFragment
+        }
+        nextToken
+      }
+    }
+  }
+  ${cardFragment}
 `

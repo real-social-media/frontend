@@ -25,11 +25,11 @@ function* postSubscription(req) {
   const subscription = AwsAPI.graphql(
     graphqlOperation(postsQueries.onPostNotification, { userId })
   )
-
   yield put(postsActions.postsFeedGetRequest({ limit: 20 }))
   yield put(postsActions.postsGetTrendingPostsRequest({ limit: 20 }))
   yield put(usersActions.usersGetPendingFollowersRequest({ userId }))
   yield put(usersActions.usersGetFollowedUsersWithStoriesRequest({}))
+  yield put(usersActions.usersGetCardsRequest({}))
 
   const channel = yield call(postSubscriptionChannel, {
     subscription,

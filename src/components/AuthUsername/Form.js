@@ -14,6 +14,19 @@ import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
+const remoteUsernameValidation = (value) =>
+  new Promise((resolve, reject) => {
+    fetch(`${Config.AWS_API_GATEWAY_ENDPOINT}/username/status?username=${value}`, {
+      method: 'GET',
+      headers: {
+        'X-Api-Key': Config.AWS_API_GATEWAY_KEY,
+      },
+    })
+    .then((resp) => resp.json())
+    .then((resp) => resolve(resp.status === 'AVAILABLE'))
+    .catch((error) => resolve(true))
+  })
+
 const formSchema = Yup.object().shape({
   username: Yup.string()
     .min(3)
@@ -21,19 +34,7 @@ const formSchema = Yup.object().shape({
     .matches(/^[a-zA-Z0-9_.]{3,30}$/, 'username must only contain letters & numbers')
     .trim()
     .required()
-    .test('usernameReserve', 'username is reserved', (value) =>
-      new Promise((resolve, reject) => {
-        fetch(`${Config.AWS_API_GATEWAY_ENDPOINT}/username/status?username=${value}`, {
-          method: 'GET',
-          headers: {
-            'X-Api-Key': Config.AWS_API_GATEWAY_KEY,
-          },
-        })
-        .then((resp) => resp.json())
-        .then((resp) => resolve(resp.status === 'AVAILABLE'))
-        .catch((error) => resolve(true))
-      })
-    ),
+    .test('usernameReserve', 'username is reserved', remoteUsernameValidation),
 })
 
 const UsernameForm = ({
