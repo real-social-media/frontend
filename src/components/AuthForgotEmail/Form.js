@@ -37,8 +37,7 @@ const ForgotForm = ({
   const submitDisabled = (
     disabled ||
     !isValid ||
-    isValidating ||
-    !dirty
+    isValidating
   )
 
   return (

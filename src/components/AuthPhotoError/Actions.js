@@ -5,7 +5,6 @@ import {
   View,
 } from 'react-native'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
-import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -14,14 +13,14 @@ import { withTranslation } from 'react-i18next'
 const Actions = ({
   t,
   theme,
+  handleGoBack,
 }) => {
   const styling = styles(theme)
-  const navigation = useNavigation()
   
   return (
     <View style={styling.root}>
       <View style={styling.item}>
-        <DefaultButton testID="components/AuthPhotoError/Actions/retry" label={t('Try Again')} onPress={navigationActions.navigateAuthPhoto(navigation)} loading={false} />
+        <DefaultButton testID="components/AuthPhotoError/Actions/retry" label={t('Try Again')} onPress={handleGoBack} loading={false} />
       </View>
     </View>
   )
@@ -30,6 +29,7 @@ const Actions = ({
 Actions.propTypes = {
   theme: PropTypes.any,
   t: PropTypes.any,
+  handleGoBack: PropTypes.any,
 }
 
 const styles = theme => StyleSheet.create({

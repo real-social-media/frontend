@@ -23,6 +23,7 @@ const AuthPhotoComponentService = ({ children }) => {
       return
     }
     
+    dispatch(usersActions.usersEditProfileIdle({}))
     dispatch(cameraActions.cameraCaptureRequest(photos))
   
     if (route.params && route.params.nextRoute) {
@@ -32,12 +33,21 @@ const AuthPhotoComponentService = ({ children }) => {
     }
   }
 
+  /**
+   *
+   */
+  const handleCameraSnap = () => {
+    dispatch(usersActions.usersEditProfileIdle({}))
+    navigationActions.navigateAuthCamera(navigation, { nextRoute: 'AuthPhotoUpload' })()
+  }
+
   const formErrorMessage = usersEditProfile.error.text
 
   const handleErrorClose = () => dispatch(usersActions.usersEditProfileIdle({}))
 
   return children({
   	handleLibrarySnap,
+    handleCameraSnap,
     formErrorMessage,
     handleErrorClose,
   })

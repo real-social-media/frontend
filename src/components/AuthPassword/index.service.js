@@ -1,15 +1,30 @@
-import { useEffect } from 'react'
+import { useEffect, useCallback } from 'react'
 import * as signupActions from 'store/ducks/signup/actions'
 import * as navigationActions from 'navigation/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
 import { logEvent } from 'services/Analytics'
+import { pageHeaderLeft } from 'navigation/options'
 
 const AuthPasswordComponentService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
 
   const signupPassword = useSelector(state => state.signup.signupPassword)
+
+  /**
+   * Navigation state reset on back button press
+   */
+  const handleGoBack = useCallback(() => {
+    dispatch(signupActions.signupPasswordIdle({}))
+    navigationActions.navigateAuthUsername(navigation)()
+  }, [])
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: (props) => pageHeaderLeft({ ...props, onPress: handleGoBack }),
+    })
+  }, [])
 
   const handleFormSubmit = (payload) => {
     logEvent('SIGNUP_PASSWORD_REQUEST')

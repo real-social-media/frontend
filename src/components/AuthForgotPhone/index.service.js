@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useCallback } from 'react'
 import * as authActions from 'store/ducks/auth/actions'
 import * as navigationActions from 'navigation/actions'
 import { useDispatch, useSelector } from 'react-redux'
@@ -8,6 +8,7 @@ import compose from 'ramda/src/compose'
 import replace from 'ramda/src/replace'
 import toLower from 'ramda/src/toLower'
 import pathOr from 'ramda/src/pathOr'
+import { pageHeaderLeft } from 'navigation/options'
 
 const AuthForgotComponentService = ({ children }) => {
   const dispatch = useDispatch()
@@ -21,6 +22,22 @@ const AuthForgotComponentService = ({ children }) => {
       username: `${payload.countryCode}${payload.username}`,
     }))
   }
+
+  /**
+   * Navigation state reset on back button press
+   */
+  const handleGoBack = useCallback(() => {
+    dispatch(signupActions.navigateAuthForgotIdle({}))
+    navigationActions.navigateAuthHome(navigation)()
+  }, [])
+
+  useEffect(() => {
+    const tabNavigator = navigation.dangerouslyGetParent();
+    if (!tabNavigator) return
+    tabNavigator.setOptions({
+      headerLeft: (props) => pageHeaderLeft({ ...props, onPress: handleGoBack }),
+    })
+  }, [])
 
   /**
    * Redirect to verification confirmation once reset was successful

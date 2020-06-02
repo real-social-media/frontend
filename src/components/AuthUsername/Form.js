@@ -51,8 +51,7 @@ const UsernameForm = ({
   const submitDisabled = (
     disabled ||
     !isValid ||
-    isValidating ||
-    !dirty
+    isValidating
   )
 
   return (
