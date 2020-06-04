@@ -50,7 +50,7 @@ Cards.propTypes = {
 
 const styles = theme => StyleSheet.create({
   root: {
-    height: 200,
+    height: 160,
     backgroundColor: theme.colors.secondary,
   },
 })

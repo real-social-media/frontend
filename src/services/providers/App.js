@@ -65,6 +65,8 @@ export const AuthProvider = ({
     dispatch(postsActions.postsCreateSchedulerRequest(payload))
   const uiNotificationIdle = (payload) =>
     dispatch(uiActions.uiNotificationIdle(payload))
+  const postsFeedGetRequest = (payload) =>
+    dispatch(postsActions.postsFeedGetRequest(payload))
   // useEffect(() => {
   //   BackgroundTimer.runBackgroundTimer(() => { 
   //     dispatch(postsActions.postsCreateSchedulerRequest({}))
@@ -88,6 +90,7 @@ export const AuthProvider = ({
     onForeground: () => {
       authCheckRequest({})
       postsCreateSchedulerRequest({})
+      postsFeedGetRequest({ limit: 20 })
       Updates.versionCheck()
     },
   })

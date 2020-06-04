@@ -8,12 +8,15 @@ import {
   ActivityIndicator,
 } from 'react-native'
 import path from 'ramda/src/path'
-import PostComponent from 'components/Post'
 import UploadingComponent from 'components/PostsList/Uploading'
 import PendingRequestsComponent from 'components/PostsList/PendingRequests'
 import BookmarkComponent from 'components/PostsList/Bookmark'
-import NativeError from 'templates/NativeError'
+import PostComponent from 'components/Post'
+import PostServiceComponent from 'components/Post/index.service'
 import StoriesComponent from 'components/Stories'
+import StoriesServiceComponent from 'components/Stories/index.service'
+import CardsComponent from 'components/Cards'
+import CardsServiceComponent from 'components/Cards/index.service'
 import ContextComponent from 'components/Cache/Context'
 import ScrollService from 'services/Scroll'
 
@@ -24,46 +27,35 @@ import { withTranslation } from 'react-i18next'
 const PostsList = ({
   t,
   theme,
-  themes,
   user,
   postsFeedGet,
   postsFeedGetRequest,
   postsFeedGetMoreRequest,
-  postsShareRequest,
-  handleEditPress,
-  postsArchiveRequest,
-  postsRestoreArchivedRequest,
-  postsFlag,
-  postsFlagRequest,
-  postsDeleteRequest,
-  postsAnonymouslyLikeRequest,
-  postsOnymouslyLikeRequest,
-  postsDislikeRequest,
-  usersGetFollowedUsersWithStories,
-  usersGetFollowedUsersWithStoriesRequest,
+
   postsCreateRequest,
   postsCreateIdle,
   postsCreateQueue,
   usersGetPendingFollowers,
-  onViewableItemsChanged,
   handleScrollPrev,
   handleScrollNext,
   postsGetTrendingPosts,
 
   bookmarkSeparatorIndex,
   feedRef,
-  actionSheetRefs,
-  textPostRefs,
   onViewableItemsChangedRef,
   viewabilityConfigRef,
+
+  createActionSheetRef,
+  getActionSheetRef,
+  createTextPostRef,
+  getTextPostRef,
 }) => {
   const styling = styles(theme)
   
   const scroll = ScrollService({
     resource: postsFeedGet,
     loadInit: () => (
-      postsFeedGetRequest() &&
-      usersGetFollowedUsersWithStoriesRequest()
+      postsFeedGetRequest()
     ),
     loadMore: postsFeedGetMoreRequest,
     multiplier: 3,
@@ -79,56 +71,31 @@ const PostsList = ({
             />
           : null}
 
-          <PostComponent
-            themes={themes}
-            user={user}
+          <PostServiceComponent>
+            {(postProps) => (
+              <PostComponent
+                {...postProps}
+                post={post}
+                priorityIndex={index}
 
-            handleEditPress={handleEditPress}
-            postsArchiveRequest={postsArchiveRequest}
-            postsRestoreArchivedRequest={postsRestoreArchivedRequest}
-            postsFlagRequest={postsFlagRequest}
-            postsDeleteRequest={postsDeleteRequest}
-            postsShareRequest={postsShareRequest}
-            postsAnonymouslyLikeRequest={postsAnonymouslyLikeRequest}
-            postsOnymouslyLikeRequest={postsOnymouslyLikeRequest}
-            postsDislikeRequest={postsDislikeRequest}
-
-            post={post}
-            priorityIndex={index}
-
-            handleScrollPrev={handleScrollPrev(index)}
-            handleScrollNext={handleScrollNext(index)}
-            createActionSheetRef={element => {
-              if (!actionSheetRefs.current[post.postId]) {
-                actionSheetRefs.current[post.postId] = element
-              }
-            }}
-            actionSheetRef={actionSheetRefs.current[post.postId]}
-            createTextPostRef={element => {
-              if (!textPostRefs.current[post.postId]) {
-                textPostRefs.current[post.postId] = element
-              }
-            }}
-            textPostRef={textPostRefs.current[post.postId]}
-            feedRef={feedRef}
-            priorityQueueInstance={contextProps.feedImages}
-          />
+                handleScrollPrev={handleScrollPrev(index)}
+                handleScrollNext={handleScrollNext(index)}
+                createActionSheetRef={createActionSheetRef(post)}
+                actionSheetRef={getActionSheetRef(post)}
+                createTextPostRef={createTextPostRef(post)}
+                textPostRef={getTextPostRef(post)}
+                feedRef={feedRef}
+                priorityQueueInstance={contextProps.feedImages}
+              />
+            )}
+          </PostServiceComponent>
         </React.Fragment>
       )}
     </ContextComponent.Consumer>
-  ))
+  ), [path(['data'])(postsFeedGet)])
 
   return (
     <View style={styling.root}>
-      <NativeError
-        handleCancelPress={() => {}}
-        titleText={t('All good!')}
-        messageText={t('This post has been flagged as inappropriate')}
-        actionText={t('Done')}
-        status={postsFlag.status}
-        triggerOn="success"
-      />
-
       <FlatList
         ref={feedRef}
         keyExtractor={item => item.postId}
@@ -145,13 +112,24 @@ const PostsList = ({
         )}
         onViewableItemsChanged={onViewableItemsChangedRef.current}
         viewabilityConfig={viewabilityConfigRef.current}
-        ListHeaderComponent={() => (
+        ListHeaderComponent={useCallback(() => (
           <React.Fragment>
-            <StoriesComponent
-              user={user}
-              usersGetFollowedUsersWithStories={usersGetFollowedUsersWithStories}
-            />
-  
+            <StoriesServiceComponent>
+              {((storiesProps) => (
+                <StoriesComponent
+                  {...storiesProps}
+                />
+              ))}
+            </StoriesServiceComponent>
+
+            <CardsServiceComponent>
+              {(cardsProps) => (
+                <CardsComponent
+                  {...cardsProps}
+                />
+              )}
+            </CardsServiceComponent>
+
             <View style={styling.uploading}>
               {Object.values(postsCreateQueue).map((post, key) => (
                 <UploadingComponent
@@ -170,7 +148,7 @@ const PostsList = ({
               />
             </View>
           </React.Fragment>
-        )}
+        ), [])}
         renderItem={renderItem}
         ListFooterComponent={scroll.loadingmore ? ActivityIndicator : null}
         ListFooterComponentStyle={styling.loading}
@@ -210,8 +188,6 @@ PostsList.propTypes = {
   postsAnonymouslyLikeRequest: PropTypes.any,
   postsOnymouslyLikeRequest: PropTypes.any,
   postsDislikeRequest: PropTypes.any,
-  usersGetFollowedUsersWithStories: PropTypes.any,
-  usersGetFollowedUsersWithStoriesRequest: PropTypes.any,
   t: PropTypes.any,
   themes: PropTypes.any,
   postsFeedGetMoreRequest: PropTypes.any,
@@ -220,15 +196,16 @@ PostsList.propTypes = {
   postsCreateIdle: PropTypes.any,
   postsCreateQueue: PropTypes.any,
   usersGetPendingFollowers: PropTypes.any,
-  onViewableItemsChanged: PropTypes.any,
   handleScrollPrev: PropTypes.any,
   handleScrollNext: PropTypes.any,
   postsGetTrendingPosts: PropTypes.any,
   bookmarkSeparatorIndex: PropTypes.any,
-  actionSheetRefs: PropTypes.any,
-  textPostRefs: PropTypes.any,
   onViewableItemsChangedRef: PropTypes.any,
   viewabilityConfigRef: PropTypes.any,
+  createActionSheetRef: PropTypes.any,
+  getActionSheetRef: PropTypes.any,
+  createTextPostRef: PropTypes.any,
+  getTextPostRef: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(PostsList))

@@ -4,7 +4,7 @@ import {
   View,
   StyleSheet,
 } from 'react-native'
-
+import CloseIcon from 'assets/svg/post/Close'
 import { Text } from 'react-native-paper'
 
 const Card = ({
@@ -18,7 +18,17 @@ const Card = ({
 
   return (
     <View style={[styles.root, customStyle]}>
-      <Text>asds</Text>
+      <View style={styles.header}>
+        <View style={styles.headerTitle}>
+          <Text>New comments</Text>
+        </View>
+
+        <View style={styles.headerIcon}>
+          <CloseIcon fill="#ffffff" />
+        </View>
+      </View>
+
+      <Text>You have 11 new comments</Text>
     </View>
   )
 }
@@ -35,6 +45,11 @@ const styles = StyleSheet.create({
     margin: 12,
     borderRadius: 4,
     borderWidth: 1,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 12,
   },
 })
 

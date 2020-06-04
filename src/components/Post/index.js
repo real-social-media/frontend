@@ -27,7 +27,6 @@ import { withTranslation } from 'react-i18next'
 const PostComponent = ({
   t,
   theme,
-  themes,
   user,
   post,
   postsShareRequest,

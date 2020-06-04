@@ -1,15 +1,11 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { InteractionManager } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
-import { v4 as uuid } from 'uuid'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as usersActions from 'store/ducks/users/actions'
 import { useNavigation, useScrollToTop } from '@react-navigation/native'
 import path from 'ramda/src/path'
 import pathOr from 'ramda/src/pathOr'
-import * as navigationActions from 'navigation/actions'
-import useAppState from 'services/AppState'
-import useS3ExpiryState from 'services/S3ExpiryState'
 import * as authSelector from 'store/ducks/auth/selectors'
 import * as postsSelector from 'store/ducks/posts/selectors'
 
@@ -18,19 +14,11 @@ const PostsListService = ({ children }) => {
   const navigation = useNavigation()
   const user = useSelector(authSelector.authUserSelector)
   const postsFeedGet = useSelector(postsSelector.postsFeedGetSelector())
-  const postsDelete = useSelector(state => state.posts.postsDelete)
-  const postsArchive = useSelector(state => state.posts.postsArchive)
-  const postsRestoreArchived = useSelector(state => state.posts.postsRestoreArchived)
-  const postsAnonymouslyLike = useSelector(state => state.posts.postsAnonymouslyLike)
-  const postsOnymouslyLike = useSelector(state => state.posts.postsOnymouslyLike)
-  const postsDislike = useSelector(state => state.posts.postsDislike)
-  const postsFlag = useSelector(state => state.posts.postsFlag)
   const postsCreate = useSelector(state => state.posts.postsCreate)
   const postsCreateQueue = useSelector(state => state.posts.postsCreateQueue)
   const usersGetPendingFollowers = useSelector(state => state.users.usersGetPendingFollowers)
   const usersAcceptFollowerUser = useSelector(state => state.users.usersAcceptFollowerUser)
   const postsGetTrendingPosts = useSelector(postsSelector.postsGetTrendingPostsSelector())
-  const themes = useSelector(state => state.theme.themeFetch.data)
   
   const postsFeedGetRequest = (payload) =>
     dispatch(postsActions.postsFeedGetRequest(payload))
@@ -38,30 +26,6 @@ const PostsListService = ({ children }) => {
   const postsFeedGetMoreRequest = (payload) =>
     dispatch(postsActions.postsFeedGetMoreRequest(payload))
   
-  const postsShareRequest = (payload) =>
-    dispatch(postsActions.postsShareRequest(payload))
-
-  const postsAnonymouslyLikeRequest = (payload) =>
-    dispatch(postsActions.postsAnonymouslyLikeRequest(payload))
-
-  const postsOnymouslyLikeRequest = (payload) =>
-    dispatch(postsActions.postsOnymouslyLikeRequest(payload))
-
-  const postsDislikeRequest = (payload) =>
-    dispatch(postsActions.postsDislikeRequest(payload))
-
-  const postsArchiveRequest = (payload) =>
-    dispatch(postsActions.postsArchiveRequest(payload))
-
-  const postsRestoreArchivedRequest = (payload) =>
-    dispatch(postsActions.postsRestoreArchivedRequest(payload))
-
-  const postsFlagRequest = (payload) =>
-    dispatch(postsActions.postsFlagRequest(payload))
-  
-  const postsDeleteRequest = (payload) =>
-    dispatch(postsActions.postsDeleteRequest(payload))
-
   const usersGetPendingFollowersRequest = (payload) => 
     dispatch(usersActions.usersGetPendingFollowersRequest(payload))
 
@@ -72,18 +36,9 @@ const PostsListService = ({ children }) => {
   const postsCreateIdle = (payload) =>
     dispatch(postsActions.postsCreateIdle(payload))
 
-  useAppState({
-    onForeground: () => {
-      postsFeedGetRequest({ limit: 20 })
-    },
-  })
-
   useEffect(() => {
     usersGetPendingFollowersRequest({ userId: user.userId })
   }, [usersAcceptFollowerUser.status])
-
-  const handleEditPress = (post) =>
-    navigationActions.navigatePostEdit(navigation, { post })()
 
   const onViewableItemsChanged = ({ viewableItems }) => {
     const postIds = viewableItems.map(viewable => path(['item', 'postId'])(viewable))
@@ -148,44 +103,45 @@ const PostsListService = ({ children }) => {
     waitForInteraction: false,
   })
 
+  const createActionSheetRef = post => element => {
+    if (!actionSheetRefs.current[post.postId]) {
+      actionSheetRefs.current[post.postId] = element
+    }
+  }
+
+  const getActionSheetRef = post => actionSheetRefs.current[post.postId]
+  
+  const createTextPostRef = post => element => {
+    if (!textPostRefs.current[post.postId]) {
+      textPostRefs.current[post.postId] = element
+    }
+  }
+
+  const getTextPostRef = post => textPostRefs.current[post.postId]
+
   return children({
-    themes,
     user,
     postsFeedGet,
     postsFeedGetRequest,
     postsFeedGetMoreRequest,
-    postsShareRequest,
-    postsAnonymouslyLike,
-    postsAnonymouslyLikeRequest,
-    postsOnymouslyLike,
-    postsOnymouslyLikeRequest,
-    postsDislike,
-    postsDislikeRequest,
-    handleEditPress,
-    postsArchive,
-    postsArchiveRequest,
-    postsRestoreArchived,
-    postsRestoreArchivedRequest,
-    postsFlag,
-    postsFlagRequest,
-    postsDelete,
-    postsDeleteRequest,
     postsCreate,
     postsCreateRequest,
     postsCreateIdle,
     postsCreateQueue,
     usersGetPendingFollowers,
     postsGetTrendingPosts,
-    onViewableItemsChanged,
     handleScrollPrev,
     handleScrollNext,
 
     bookmarkSeparatorIndex,
-    feedRef,
-    actionSheetRefs,
-    textPostRefs,
     onViewableItemsChangedRef,
     viewabilityConfigRef,
+
+    feedRef,
+    createActionSheetRef,
+    getActionSheetRef,
+    createTextPostRef,
+    getTextPostRef,
   })
 }
 
