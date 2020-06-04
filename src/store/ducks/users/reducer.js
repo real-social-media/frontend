@@ -802,7 +802,7 @@ const usersGetCardsRequest = (state, action) => update(state, {
 
 const usersGetCardsSuccess = (state, action) => update(state, {
   usersGetCards: {
-    data: { $usersResourceSetSuccess: action },
+    data: { $set: action.payload.data },
     status: { $set: 'success' },
   },
 })

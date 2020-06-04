@@ -10,7 +10,7 @@ import { Text } from 'react-native-paper'
 const Card = ({
   borderColor,
   backgroundColor,
-}) => () => {
+}) => ({ item: card }) => {
   const customStyle = {
     borderColor,
     backgroundColor,
@@ -20,15 +20,13 @@ const Card = ({
     <View style={[styles.root, customStyle]}>
       <View style={styles.header}>
         <View style={styles.headerTitle}>
-          <Text>New comments</Text>
+          <Text>{card.title}</Text>
         </View>
 
         <View style={styles.headerIcon}>
           <CloseIcon fill="#ffffff" />
         </View>
       </View>
-
-      <Text>You have 11 new comments</Text>
     </View>
   )
 }
@@ -45,11 +43,11 @@ const styles = StyleSheet.create({
     margin: 12,
     borderRadius: 4,
     borderWidth: 1,
+    justifyContent: 'center',
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 12,
   },
 })
 

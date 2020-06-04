@@ -31,6 +31,23 @@ function* postsGetRequest(req) {
   }
 }
 
+/**
+ *
+ */
+function* postsGetUnreadCommentsRequest(req) {
+  const errorWrapper = yield getContext('errorWrapper')
+
+  try {
+    const data = yield queryService.apiRequest(queries.getPosts, req.payload)
+    const dataSelector = path(['data', 'self', 'posts', 'items'])
+    const metaSelector = compose(omit(['items']), path(['data', 'self', 'posts']))
+
+    yield put(actions.postsGetUnreadCommentsSuccess({ payload: req.payload, data: dataSelector(data), meta: metaSelector(data) }))
+  } catch (error) {
+    yield put(actions.postsGetUnreadCommentsFailure({ payload: req.payload, message: errorWrapper(error) }))
+  }
+}
+
 function* postsGetMoreRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
@@ -421,6 +438,7 @@ function* commentsDeleteRequest(req) {
 export default () => [  
   takeEvery(constants.POSTS_GET_REQUEST, postsGetRequest),
   takeEvery(constants.POSTS_GET_MORE_REQUEST, postsGetMoreRequest),
+  takeEvery(constants.POSTS_GET_UNREAD_COMMENTS_REQUEST, postsGetUnreadCommentsRequest),
 
   takeEvery(constants.POSTS_VIEWS_GET_REQUEST, postsViewsGetRequest),
   takeEvery(constants.POSTS_VIEWS_GET_MORE_REQUEST, postsViewsGetMoreRequest),

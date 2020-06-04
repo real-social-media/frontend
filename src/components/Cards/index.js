@@ -14,6 +14,7 @@ import { withTranslation } from 'react-i18next'
 const Cards = ({
   t,
   theme,
+  usersGetCards,
 }) => {
   const styling = styles(theme)
   const cardsRef = useRef(null)
@@ -23,7 +24,7 @@ const Cards = ({
       <Carousel
         ref={cardsRef}
         enableMomentum
-        data={[1, 2, 3, 1, 2, 3, 1, 2, 3]}
+        data={usersGetCards.data}
         renderItem={Card({
           borderColor: theme.colors.border,
           backgroundColor: theme.colors.backgroundSecondary,
@@ -46,11 +47,12 @@ const Cards = ({
 Cards.propTypes = {
   t: PropTypes.any,
   theme: PropTypes.any,
+  usersGetCards: PropTypes.any,
 }
 
 const styles = theme => StyleSheet.create({
   root: {
-    height: 160,
+    height: 80,
     backgroundColor: theme.colors.secondary,
   },
 })

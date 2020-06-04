@@ -10,6 +10,13 @@ const initialState = {
     payload: {},
     meta: {},
   },
+  postsGetUnreadComments: {
+    data: [],
+    status: 'idle',
+    error: {},
+    payload: {},
+    meta: {},
+  },
   postsViewsGet: {
     data: [],
     status: 'idle',
@@ -275,6 +282,60 @@ const postsGetMoreSuccess = (state, action) => update(state, {
     },
   },
 })
+
+/**
+ *
+ */
+const postsGetUnreadCommentsRequest = (state, action) => update(state, {
+  postsGetUnreadComments: {
+    status: { $set: 'loading' },
+    payload: { $set: action.payload },
+  },
+})
+
+const postsGetUnreadCommentsSuccess = (state, action) => update(state, {
+  postsGetUnreadComments: {
+    status: { $set: 'success' },
+    payload: { $set: action.payload.payload },
+    meta: { $set: action.payload.meta },
+  },
+  
+  /**
+   * 
+   */
+  postsGetUnreadCommentsCache: {
+    $postsResourceCacheSetSuccess: {
+      ...action,
+      resourceKey: action.payload.payload.userId,
+      initialState: initialState.postsGetUnreadComments,
+    },
+  },
+
+  /**
+   *
+   */
+  postsPool: {
+    $postsResourcePoolMerge: {
+      ...action,
+      initialState: initialState.postsSingleGet,
+    },
+  },
+})
+
+const postsGetUnreadCommentsFailure = (state, action) => update(state, {
+  postsGetUnreadComments: {
+    status: { $set: 'failure' },
+    payload: { $set: action.payload.payload },
+  },
+})
+
+const postsGetUnreadCommentsIdle = (state, action) => update(state, {
+  postsGetUnreadComments: {
+    status: { $set: 'idle' },
+    payload: { $set: action.payload.payload },
+  },
+})
+
 
 /**
  *

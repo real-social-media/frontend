@@ -302,7 +302,6 @@ function* usersGetCardsRequest(req) {
 
   try {
     const data = yield queryService.apiRequest(queries.getCards, req.payload)
-    console.log(data)
     const selector = path(['data', 'self', 'cards', 'items'])
     const metaSelector = compose(omit(['items']), path(['data', 'self', 'cards']))
 
