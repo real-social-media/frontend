@@ -4,6 +4,7 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import * as navigationActions from 'navigation/actions'
 import * as cameraActions from 'store/ducks/camera/actions'
 import * as usersActions from 'store/ducks/users/actions'
+import * as postsActions from 'store/ducks/posts/actions'
 import path from 'ramda/src/path'
 
 const AuthPhotoComponentService = ({ children }) => {
@@ -12,11 +13,21 @@ const AuthPhotoComponentService = ({ children }) => {
   const route = useRoute()
 
   const usersEditProfile = useSelector(state => state.users.usersEditProfile)
+  const postsCreateQueue = useSelector(state => state.posts.postsCreateQueue)
   
+  const cancelActiveUploads = () =>
+    (Object.values(postsCreateQueue) || [])
+      .filter(path(['payload', 'postId']))
+      .forEach(post =>
+        dispatch(postsActions.postsCreateIdle(post))
+      )
+
   /**
    *
    */
   const handleLibrarySnap = async () => {
+    cancelActiveUploads()
+
     const photos = await handleGallery('1:1', false)
   
     if (!photos.length) {
@@ -37,6 +48,7 @@ const AuthPhotoComponentService = ({ children }) => {
    *
    */
   const handleCameraSnap = () => {
+    cancelActiveUploads()
     dispatch(usersActions.usersEditProfileIdle({}))
     navigationActions.navigateAuthCamera(navigation, { nextRoute: 'AuthPhotoUpload' })()
   }

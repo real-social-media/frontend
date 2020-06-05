@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
 import { v4 as uuid } from 'uuid'
 import dayjs from 'dayjs'
+import path from 'ramda/src/path'
 import pathOr from 'ramda/src/pathOr'
 import last from 'ramda/src/last'
 import { logEvent } from 'services/Analytics'
@@ -95,7 +96,6 @@ const AuthPhotoUploadComponentService = ({ children }) => {
     if (usersEditProfile.status === 'success') {
       logEvent('POST_CREATE_SUCCESS')
       dispatch(usersActions.usersEditProfileIdle({}))
-      dispatch(postsActions.postsCreateIdle({ payload: postsCreate.payload }))
       dispatch(authActions.authCheckIdle({ nextRoute: 'Root' }))
     }
 
@@ -103,11 +103,21 @@ const AuthPhotoUploadComponentService = ({ children }) => {
       logEvent('POST_CREATE_FAILURE')
       navigationActions.navigateAuthPhotoError(navigation)()
     }
+
+    if ((
+      usersEditProfile.status === 'success' ||
+      usersEditProfile.status === 'failure'
+    ) && path(['payload', 'postId'])(activeUpload)) {
+      dispatch(postsActions.postsCreateIdle(activeUpload))
+    }
   }, [usersEditProfile.status])
 
   const formErrorMessage = usersEditProfile.error.text
 
   const handleErrorClose = () => {
+    if (path(['payload', 'postId'])(activeUpload)) {
+      dispatch(postsActions.postsCreateIdle(activeUpload))
+    }
     dispatch(usersActions.usersEditProfileIdle({}))
     navigationActions.navigateAuthPhoto(navigation)()
   }
