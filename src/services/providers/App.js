@@ -61,16 +61,9 @@ export const AuthProvider = ({
     dispatch(themeActions.themeFetchRequest(payload))
   const translationFetchRequest = (payload) =>
     dispatch(translationActions.translationFetchRequest(payload))
-  const postsCreateSchedulerRequest = (payload) =>
-    dispatch(postsActions.postsCreateSchedulerRequest(payload))
   const uiNotificationIdle = (payload) =>
     dispatch(uiActions.uiNotificationIdle(payload))
-  // useEffect(() => {
-  //   BackgroundTimer.runBackgroundTimer(() => { 
-  //     dispatch(postsActions.postsCreateSchedulerRequest({}))
-  //   }, 60000)
-  // }, [])
-
+  
   /**
    * Constructor function to fetch: Translations, Themes and Auth data
    */
@@ -87,7 +80,6 @@ export const AuthProvider = ({
   useAppState({
     onForeground: () => {
       authCheckRequest({})
-      postsCreateSchedulerRequest({})
       Updates.versionCheck()
     },
   })
