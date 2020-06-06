@@ -5,9 +5,9 @@ import {
 } from 'store/fragments'
 
 export const getPosts = `
-  query GetPosts($userId: ID!, $postStatus: PostStatus, $hasNewCommentActivity: Boolean = false, $nextToken: String = null) {
+  query GetPosts($userId: ID!, $postStatus: PostStatus, $nextToken: String = null) {
     user(userId: $userId) {
-      posts(postStatus: $postStatus, hasNewCommentActivity: $hasNewCommentActivity, nextToken: $nextToken) {
+      posts(postStatus: $postStatus, nextToken: $nextToken) {
         items {
           ...postFragment
         }
@@ -19,9 +19,9 @@ export const getPosts = `
 `
 
 export const getPostsUnreadComments = `
-  query GetPosts($postStatus: PostStatus, $hasNewCommentActivity: Boolean, $nextToken: String = null) {
+  query GetPosts($limit: Int, $nextToken: String = null) {
     self {
-      posts(postStatus: $postStatus, hasNewCommentActivity: $hasNewCommentActivity, nextToken: $nextToken) {
+      postsByNewCommentActivity(limit: $limit, nextToken: $nextToken) {
         items {
           ...postFragment
         }

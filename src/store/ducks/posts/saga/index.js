@@ -38,9 +38,9 @@ function* postsGetUnreadCommentsRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield queryService.apiRequest(queries.getPosts, req.payload)
-    const dataSelector = path(['data', 'self', 'posts', 'items'])
-    const metaSelector = compose(omit(['items']), path(['data', 'self', 'posts']))
+    const data = yield queryService.apiRequest(queries.getPostsUnreadComments, req.payload)
+    const dataSelector = path(['data', 'self', 'postsByNewCommentActivity', 'items'])
+    const metaSelector = compose(omit(['items']), path(['data', 'self', 'postsByNewCommentActivity']))
 
     yield put(actions.postsGetUnreadCommentsSuccess({ payload: req.payload, data: dataSelector(data), meta: metaSelector(data) }))
   } catch (error) {

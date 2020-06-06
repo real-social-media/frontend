@@ -180,12 +180,14 @@ const CacheComponent = ({
     )
   }
 
+  const filename = getFilename(uri)
+
   return (
     <View style={styling.root}>
       <View style={[styling.image, style]}>
-        {!hideLabel && getFilename(uri) ?
+        {!hideLabel && filename ?
           <View style={styling.label}>
-            <Text style={styling.text}>{getFilename(uri)}</Text>
+            <Text style={styling.text}>{filename}</Text>
           </View>
         : null}
 
@@ -207,7 +209,7 @@ const CacheComponent = ({
             resizeMode={resizeMode}
             style={[styling.image, style]}
             onError={handleError}
-            blurRadius={getFilename(uri) === '64p' && !hideProgress ? 5 : 0}
+            blurRadius={filename === '64p' && !hideProgress ? 5 : 0}
           />
         ) : (
           <Image
@@ -215,7 +217,7 @@ const CacheComponent = ({
             resizeMode={resizeMode}
             style={[styling.image, style]}
             onError={handleError}
-            blurRadius={getFilename(uri) === '64p' && !hideProgress ? 5 : 0}
+            blurRadius={filename === '64p' && !hideProgress ? 5 : 0}
           />
         )}
       </View>
