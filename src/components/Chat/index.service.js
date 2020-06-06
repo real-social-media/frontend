@@ -11,7 +11,6 @@ import * as chatSelector from 'store/ducks/chat/selectors'
 const ChatService = ({ children }) => {
   const dispatch = useDispatch()
   const user = useSelector(authSelector.authUserSelector)
-  const usersGetTrendingUsers = useSelector(usersSelector.usersGetTrendingUsersSelector())
   const usersSearch = useSelector(usersSelector.usersSearchSelector())
   const chatGetChats = useSelector(chatSelector.chatGetChatsSelector())
 
@@ -56,7 +55,6 @@ const ChatService = ({ children }) => {
     chatGetChatsRequest,
     usersSearch,
     usersSearchRequest,
-    usersGetTrendingUsers,
   })
 }
 

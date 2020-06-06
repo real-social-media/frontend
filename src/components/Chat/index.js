@@ -30,7 +30,6 @@ const Chat = ({
   chatGetChatsRequest,
   usersSearch,
   usersSearchRequest,
-  usersGetTrendingUsers,
 }) => {
   const styling = styles(theme)
 
@@ -111,7 +110,6 @@ Chat.propTypes = {
   chatGetChatsRequest: PropTypes.any,
   usersSearch: PropTypes.any,
   usersSearchRequest: PropTypes.any,
-  usersGetTrendingUsers: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Chat))
