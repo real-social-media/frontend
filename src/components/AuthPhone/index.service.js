@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useCallback } from 'react'
 import * as signupActions from 'store/ducks/signup/actions'
 import * as navigationActions from 'navigation/actions'
 import { useDispatch, useSelector } from 'react-redux'
@@ -9,6 +9,7 @@ import toLower from 'ramda/src/toLower'
 import replace from 'ramda/src/replace'
 import pathOr from 'ramda/src/pathOr'
 import { logEvent } from 'services/Analytics'
+import { pageHeaderLeft } from 'navigation/options'
 
 const AuthPhoneComponentService = ({ children }) => {
   const dispatch = useDispatch()
@@ -21,14 +22,22 @@ const AuthPhoneComponentService = ({ children }) => {
   const signupCognitoIdentity = useSelector(state => state.signup.signupCognitoIdentity)
 
   /**
-   *
+   * Navigation state reset on back button press
    */
+  const handleGoBack = useCallback(() => {
+    dispatch(signupActions.signupEmailIdle({}))
+    dispatch(signupActions.signupPhoneIdle({}))
+    dispatch(signupActions.signupCreateIdle({}))
+    navigationActions.navigateAuthPassword(navigation)()
+  }, [])
+
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      dispatch(signupActions.signupCreateIdle({}))
+    const tabNavigator = navigation.dangerouslyGetParent();
+    if (!tabNavigator) return
+    tabNavigator.setOptions({
+      headerLeft: (props) => pageHeaderLeft({ ...props, onPress: handleGoBack }),
     })
-    return unsubscribe
-  }, [navigation])
+  }, [])
 
   const handleFormSubmit = (payload) => {
     dispatch(signupActions.signupPhoneRequest(payload))

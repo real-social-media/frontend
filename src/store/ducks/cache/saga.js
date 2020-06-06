@@ -127,7 +127,15 @@ function* cacheFetchIdle(req) {
   }
 }
 
+function* cacheFetchFailure(req) {
+  try {
+    yield service.removeLocalFolder(req.payload.signature.pathFolder)
+  } catch (error) {
+  }
+}
+
 export default () => [
   takeEvery(constants.CACHE_FETCH_REQUEST, cacheFetchRequest),
+  takeEvery(constants.CACHE_FETCH_FAILURE, cacheFetchFailure),
   takeEvery(constants.CACHE_FETCH_IDLE, cacheFetchIdle),
 ]

@@ -5,7 +5,6 @@ import {
   View,
 } from 'react-native'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
-import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -15,6 +14,7 @@ const Actions = ({
   t,
   theme,
   handleLibrarySnap,
+  handleCameraSnap,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
@@ -22,7 +22,7 @@ const Actions = ({
   return (
     <View style={styling.root}>
       <View style={styling.item}>
-        <DefaultButton testID="components/AuthPhoto/Actions/photo" label={t('Take Photo')} onPress={navigationActions.navigateAuthCamera(navigation, { nextRoute: 'AuthPhotoUpload' })} loading={false} />
+        <DefaultButton testID="components/AuthPhoto/Actions/photo" label={t('Take Photo')} onPress={handleCameraSnap} loading={false} />
       </View>
       <View style={styling.item}>
         <DefaultButton testID="components/AuthPhoto/Actions/library" label={t('Choose from Library')} onPress={handleLibrarySnap} loading={false} />
@@ -35,6 +35,7 @@ Actions.propTypes = {
   theme: PropTypes.any,
   t: PropTypes.any,
   handleLibrarySnap: PropTypes.any,
+  handleCameraSnap: PropTypes.any,
 }
 
 const styles = theme => StyleSheet.create({

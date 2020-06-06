@@ -87,8 +87,20 @@ export const priorotizedRemoteImageFetch = ({
   successCallback,
   failureCallback,
 }) => {
-  const queue = queueInstance || priorityQueueInstance
-  queue.push({
+  const hasDuplicates = (() => {
+    try {
+      return priorityQueueInstance._tasks.toArray()
+        .find(task => task.signature.path === signature.path)
+    } catch (error) {
+      return false
+    }
+  })()
+
+  if (hasDuplicates) {
+    return
+  }
+
+  priorityQueueInstance.push({
     signature,
     progressCallback,
     requestCallback,

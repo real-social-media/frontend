@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useCallback } from 'react'
 import * as signupActions from 'store/ducks/signup/actions'
 import * as navigationActions from 'navigation/actions'
 import { useDispatch, useSelector } from 'react-redux'
@@ -8,6 +8,7 @@ import compose from 'ramda/src/compose'
 import toLower from 'ramda/src/toLower'
 import pathOr from 'ramda/src/pathOr'
 import { logEvent } from 'services/Analytics'
+import { pageHeaderLeft } from 'navigation/options'
 
 const AuthUsernameComponentService = ({ children }) => {
   const dispatch = useDispatch()
@@ -19,6 +20,20 @@ const AuthUsernameComponentService = ({ children }) => {
     logEvent('SIGNUP_USERNAME_REQUEST')
     dispatch(signupActions.signupUsernameRequest(payload))
   }
+
+  /**
+   * Navigation state reset on back button press
+   */
+  const handleGoBack = useCallback(() => {
+    dispatch(signupActions.signupUsernameIdle({}))
+    navigationActions.navigateAuthHome(navigation)()
+  }, [])
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: (props) => pageHeaderLeft({ ...props, onPress: handleGoBack }),
+    })
+  }, [])
 
   /**
    * Redirect to password selection once username is available

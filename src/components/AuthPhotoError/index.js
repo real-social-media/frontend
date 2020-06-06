@@ -15,7 +15,7 @@ import { withTranslation } from 'react-i18next'
 const AuthPhotoError = ({
   t,
   theme,
-  handleLibrarySnap,
+  handleGoBack,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
@@ -31,7 +31,7 @@ const AuthPhotoError = ({
         <View style={styling.content}>
           <AuthVerificationTemplate />
           <ActionsComponent
-            handleLibrarySnap={handleLibrarySnap}
+            handleGoBack={handleGoBack}
           />
         </View>
       </View>
@@ -55,7 +55,7 @@ const styles = theme => StyleSheet.create({
 AuthPhotoError.propTypes = {
   t: PropTypes.any,
   theme: PropTypes.any,
-  handleLibrarySnap: PropTypes.any,
+  handleGoBack: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(AuthPhotoError))

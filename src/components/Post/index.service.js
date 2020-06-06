@@ -11,11 +11,10 @@ import * as navigationActions from 'navigation/actions'
 import * as authSelector from 'store/ducks/auth/selectors'
 import * as postsSelector from 'store/ducks/posts/selectors'
 
-const PostsListService = ({ children }) => {
+const PostsService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const user = useSelector(authSelector.authUserSelector)
-  const postsFeedGet = useSelector(postsSelector.postsFeedGetSelector())
   const postsDelete = useSelector(state => state.posts.postsDelete)
   const postsArchive = useSelector(state => state.posts.postsArchive)
   const postsRestoreArchived = useSelector(state => state.posts.postsRestoreArchived)
@@ -23,16 +22,6 @@ const PostsListService = ({ children }) => {
   const postsOnymouslyLike = useSelector(state => state.posts.postsOnymouslyLike)
   const postsDislike = useSelector(state => state.posts.postsDislike)
   const postsFlag = useSelector(state => state.posts.postsFlag)
-  const postsCreate = useSelector(state => state.posts.postsCreate)
-  const postsCreateQueue = useSelector(state => state.posts.postsCreateQueue)
-  const usersGetPendingFollowers = useSelector(state => state.users.usersGetPendingFollowers)
-  const usersAcceptFollowerUser = useSelector(state => state.users.usersAcceptFollowerUser)
-  
-  const postsFeedGetRequest = (payload) =>
-    dispatch(postsActions.postsFeedGetRequest(payload))
-
-  const postsFeedGetMoreRequest = (payload) =>
-    dispatch(postsActions.postsFeedGetMoreRequest(payload))
   
   const postsShareRequest = (payload) =>
     dispatch(postsActions.postsShareRequest(payload))
@@ -57,22 +46,6 @@ const PostsListService = ({ children }) => {
   
   const postsDeleteRequest = (payload) =>
     dispatch(postsActions.postsDeleteRequest(payload))
-
-  const usersGetPendingFollowersRequest = (payload) => 
-    dispatch(usersActions.usersGetPendingFollowersRequest(payload))
-
-  const postsCreateRequest = (post) => {
-    const postId = uuid()
-    const mediaId = uuid()
-    dispatch(postsActions.postsCreateRequest({
-      ...post,
-      postId,
-      mediaId,
-    }))
-  }
-
-  const postsCreateIdle = (payload) =>
-    dispatch(postsActions.postsCreateIdle(payload))
 
   const handleEditPress = (post) =>
     navigationActions.navigatePostEdit(navigation, { post })()
@@ -109,12 +82,6 @@ const PostsListService = ({ children }) => {
   }
 
   /**
-   * You are all caught up separator position
-   */
-  const bookmarkSeparatorIndex = pathOr([], ['data'])(postsFeedGet)
-    .findIndex(post => post.viewedStatus === 'VIEWED')
-
-  /**
    * FlatList feed ref, used for scroll to top on tab bar press
    */
   const feedRef = useRef(null)
@@ -142,9 +109,6 @@ const PostsListService = ({ children }) => {
 
   return children({
     user,
-    postsFeedGet,
-    postsFeedGetRequest,
-    postsFeedGetMoreRequest,
     postsShareRequest,
     postsAnonymouslyLike,
     postsAnonymouslyLikeRequest,
@@ -161,16 +125,10 @@ const PostsListService = ({ children }) => {
     postsFlagRequest,
     postsDelete,
     postsDeleteRequest,
-    postsCreate,
-    postsCreateRequest,
-    postsCreateIdle,
-    postsCreateQueue,
-    usersGetPendingFollowers,
     onViewableItemsChanged,
     handleScrollPrev,
     handleScrollNext,
 
-    bookmarkSeparatorIndex,
     feedRef,
     actionSheetRefs,
     textPostRefs,
@@ -179,4 +137,4 @@ const PostsListService = ({ children }) => {
   })
 }
 
-export default PostsListService
+export default PostsService

@@ -14,6 +14,7 @@ import RNFS from 'react-native-fs'
 import qs from 'query-string'
 import path from 'ramda/src/path'
 import last from 'ramda/src/last'
+import useTimeoutFn from 'react-use/lib/useTimeoutFn'
 
 /**
  * 
@@ -63,10 +64,11 @@ const CacheComponent = ({
   style,
   hideProgress,
   hideLabel,
-  priorityQueueInstance,
 }) => {
   const styling = styles()
   const dispatch = useDispatch()
+
+  const [hasError, setHasError] = useState(false)
 
   const signatures = images
     .filter(([source, shouldDownload]) => source)
@@ -74,7 +76,6 @@ const CacheComponent = ({
 
   const pathFolder = path([0, 0, 'pathFolder'])(signatures)
   const cached = useSelector(path(['cache', 'cached', pathFolder]))
-  const failed = useSelector(path(['cache', 'failed', pathFolder]))
   const progress = useSelector(path(['cache', 'progress', pathFolder, 'progress']))
 
   const uri = last(cached || [])
@@ -90,14 +91,17 @@ const CacheComponent = ({
   }
 
   const getPriority = (filename = '', priority = 0) => {
-    if (filename.includes('480p')) {
+    if (filename.includes('64p')) {
       return priority
     }
-    if (filename.includes('4k')) {
+    if (filename.includes('480p')) {
       return 1000 + priority
     }
-    if (filename.includes('native')) {
+    if (filename.includes('4K')) {
       return 10000 + priority
+    }
+    if (filename.includes('native')) {
+      return 100000 + priority
     }
     return 0
   }
@@ -111,8 +115,6 @@ const CacheComponent = ({
       }
 
       dispatch(actions.cacheFetchRequest({
-        priorityQueueInstance,
-
         /**
          * Image source
          */
@@ -124,6 +126,21 @@ const CacheComponent = ({
         priority,
       }))
     })
+
+  const [isReady, cancelTimeout, resetTimeout] = useTimeoutFn(() => {
+    fetchRemoteImages()
+  }, 15000)
+
+  useEffect(() => {
+    if ((cached && cached.length) === (signatures && signatures.length) && isReady() === false) {
+      cancelTimeout()
+    }
+
+    if ((cached && cached.length) !== (signatures && signatures.length) && isReady() === true) {
+      // resetTimeout()
+    }
+    
+  }, [uri, cached])
 
   useEffect(() => {
     fetchRemoteImages()
@@ -138,20 +155,24 @@ const CacheComponent = ({
    * 
    */
   const handleError = ({ nativeEvent }) => {
-    signatures.forEach(([signature, shouldDownload], index) => {
-      dispatch(actions.cacheFetchFailure({
-        signature,
-        jobId: 0,
-        error: nativeEvent,
-        progress: 0,
-      }))
-    })
+    setHasError(true)
+
+    signatures
+      .filter(([signature]) => signature.path === uri)
+      .forEach(([signature, shouldDownload]) => {
+        dispatch(actions.cacheFetchFailure({
+          signature,
+          jobId: 0,
+          error: nativeEvent,
+          progress: 0,
+        }))
+      })
   }
 
   /**
    * Show loading indicator image if placeholder image is not loaded, yet.
    */
-  if (!uri && !progress && !failed) {
+  if (!uri && !progress && !hasError) {
     return (
       <ActivityIndicator
         style={styling.image}
@@ -180,15 +201,13 @@ const CacheComponent = ({
           </View>
         : null}
 
-        {uri ? (
+        {uri && !hasError ? (
           <Image
-            source={{
-              uri,
-              cache: 'reload',
-            }}
+            source={{ uri }}
             resizeMode={resizeMode}
             style={[styling.image, style]}
             onError={handleError}
+            blurRadius={getFilename(uri) === '64p' && !hideProgress ? 5 : 0}
           />
         ) : (
           <Image
@@ -196,6 +215,7 @@ const CacheComponent = ({
             resizeMode={resizeMode}
             style={[styling.image, style]}
             onError={handleError}
+            blurRadius={getFilename(uri) === '64p' && !hideProgress ? 5 : 0}
           />
         )}
       </View>

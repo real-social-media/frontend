@@ -16,11 +16,12 @@ class PostMediaScreen extends React.Component {
     return (
       <PostServiceComponent>
         {(postProps) => (
-          <PostMediaServiceComponent {...postProps}>
-            {(postsProps) => (
+          <PostMediaServiceComponent>
+            {(postMediaProps) => (
               <ContextComponent.Provider value={queues}>
                 <PostMediaComponent
-                  {...postsProps}
+                  {...postMediaProps}
+                  {...postProps}
                   priorityQueueInstance={priorityQueueInstance}
                 />
               </ContextComponent.Provider>

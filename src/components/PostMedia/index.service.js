@@ -8,7 +8,7 @@ import { useNavigation, useScrollToTop, useRoute } from '@react-navigation/nativ
 import path from 'ramda/src/path'
 import * as navigationActions from 'navigation/actions'
 
-const PostMediaService = ({ children, ...props }) => {
+const PostMediaService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const route = useRoute()
@@ -104,7 +104,6 @@ const PostMediaService = ({ children, ...props }) => {
     postsSingleGet,
     postsGetTrendingPosts,
     postsSingleGetRequest,
-    ...props,
     feedRef,
     handleScrollPrev,
     handleScrollNext,

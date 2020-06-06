@@ -43,8 +43,7 @@ const SigninForm = ({
   const submitDisabled = (
     disabled ||
     !isValid ||
-    isValidating ||
-    !dirty
+    isValidating
   )
 
   

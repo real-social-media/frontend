@@ -28,7 +28,7 @@ const Uploading = ({
   const styling = styles(theme)
   const navigation = useNavigation()
 
-  if (!['loading', 'failure', 'success'].includes(post.status)) {
+  if (!['loading', 'failure'].includes(post.status)) {
     return null
   }
 
