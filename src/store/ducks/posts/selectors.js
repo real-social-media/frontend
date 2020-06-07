@@ -40,6 +40,24 @@ export const postsGetSelector = (userId) => createDeepEqualSelector(
 /**
  *
  */
+const postsGetUnreadComments = () => path(['posts', 'postsGetUnreadComments'])
+
+export const postsGetUnreadCommentsSelector = (userId) => createDeepEqualSelector(
+  [postsGetUnreadComments(), postsPool()],
+  (postsGetUnreadComments, postsPool) => {
+    const mappedPosts = pathOr([], ['data'])(postsGetUnreadComments)
+      .map(postId =>
+        path([postId, 'data'])(postsPool)
+      )
+      .filter(post => post)
+
+    return assocPath(['data'], mappedPosts)(postsGetUnreadComments)
+  },
+)
+
+/**
+ *
+ */
 const postsGetArchived = () => path(['posts', 'postsGetArchived'])
 
 export const postsGetArchivedSelector = () => createDeepEqualSelector(

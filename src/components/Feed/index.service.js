@@ -9,7 +9,7 @@ import pathOr from 'ramda/src/pathOr'
 import * as authSelector from 'store/ducks/auth/selectors'
 import * as postsSelector from 'store/ducks/posts/selectors'
 
-const PostsListService = ({ children }) => {
+const FeedService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const user = useSelector(authSelector.authUserSelector)
@@ -145,4 +145,4 @@ const PostsListService = ({ children }) => {
   })
 }
 
-export default PostsListService
+export default FeedService

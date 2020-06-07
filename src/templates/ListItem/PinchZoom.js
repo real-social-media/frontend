@@ -9,7 +9,7 @@ import {
   PanGestureHandler,
   State,
 } from 'react-native-gesture-handler'
-import ContextComponent from 'components/PostsList/Context'
+import ContextComponent from 'components/Feed/Context'
 
 export class PinchZoom extends React.Component {
   baseScale = new Animated.Value(1)

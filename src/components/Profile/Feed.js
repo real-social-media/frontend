@@ -7,7 +7,7 @@ import {
 import PostsGridComponent from 'components/PostsGrid'
 import PostsGridServiceComponent from 'components/PostsGrid/index.service'
 import path from 'ramda/src/path'
-import PostsLoadingComponent from 'components/PostsList/PostsLoading'
+import PostsLoadingComponent from 'components/Feed/PostsLoading'
 import ContextComponent from 'components/Cache/Context'
 
 import { withTheme } from 'react-native-paper'

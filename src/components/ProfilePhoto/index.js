@@ -14,7 +14,7 @@ import UncheckedIcon from 'assets/svg/other/Unchecked'
 import { Caption } from 'react-native-paper'
 import HeaderRight from 'navigation/HeaderRight'
 import ProfilePhotoComponent from 'components/ProfilePhoto/ProfilePhoto'
-import UploadingComponent from 'components/PostsList/Uploading'
+import UploadingComponent from 'components/Feed/Uploading'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'

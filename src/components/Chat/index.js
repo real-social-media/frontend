@@ -10,6 +10,8 @@ import ContactsComponent from 'components/Chat/Contacts'
 import UsersComponent from 'components/Chat/Users'
 import HeaderComponent from 'components/Search/Header'
 import FormComponent from 'components/Search/Form'
+import ChatCardsComponent from 'components/ChatCards'
+import ChatCardsServiceComponent from 'components/ChatCards/index.service'
 import { Subheading } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
@@ -35,6 +37,14 @@ const Chat = ({
 
   return (
     <View style={styling.root}>
+      <ChatCardsServiceComponent>
+        {(cardsProps) => (
+          <ChatCardsComponent
+            {...cardsProps}
+          />
+        )}
+      </ChatCardsServiceComponent>
+
       <HeaderComponent>
         <FormComponent
           usersSearch={usersSearch}

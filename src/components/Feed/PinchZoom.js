@@ -7,7 +7,7 @@ import {
 import { getDimensionsFromPostSize } from 'services/Camera'
 import CacheComponent from 'components/Cache'
 import { withTheme } from 'react-native-paper'
-import ContextComponent from 'components/PostsList/Context'
+import ContextComponent from 'components/Feed/Context'
 import { initializePriorityQueue } from 'store/ducks/cache/service'
 
 const priorityQueueInstance = initializePriorityQueue()

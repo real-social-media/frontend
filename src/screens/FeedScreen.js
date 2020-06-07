@@ -1,6 +1,6 @@
 import React from 'react'
-import PostsListComponent from 'components/PostsList'
-import PostsListServiceComponent from 'components/PostsList/index.service'
+import FeedComponent from 'components/Feed'
+import FeedServiceComponent from 'components/Feed/index.service'
 import ContextComponent from 'components/Cache/Context'
 import { initializePriorityQueue } from 'store/ducks/cache/service'
 
@@ -12,15 +12,15 @@ const queues = {
 class FeedScreen extends React.Component {
   render() {
     return (
-      <PostsListServiceComponent>
+      <FeedServiceComponent>
         {(postsProps) => (
           <ContextComponent.Provider value={queues}>
-            <PostsListComponent
+            <FeedComponent
               {...postsProps}
             />
           </ContextComponent.Provider>
         )}
-      </PostsListServiceComponent>
+      </FeedServiceComponent>
     )
   }
 }

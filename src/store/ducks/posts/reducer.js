@@ -295,22 +295,12 @@ const postsGetUnreadCommentsRequest = (state, action) => update(state, {
 
 const postsGetUnreadCommentsSuccess = (state, action) => update(state, {
   postsGetUnreadComments: {
+    data: { $postsResourceSetSuccess: action },
     status: { $set: 'success' },
     payload: { $set: action.payload.payload },
     meta: { $set: action.payload.meta },
   },
   
-  /**
-   * 
-   */
-  postsGetUnreadCommentsCache: {
-    $postsResourceCacheSetSuccess: {
-      ...action,
-      resourceKey: action.payload.payload.userId,
-      initialState: initialState.postsGetUnreadComments,
-    },
-  },
-
   /**
    *
    */
@@ -1220,6 +1210,11 @@ export default handleActions({
   [constants.POSTS_VIEWS_GET_IDLE]: postsViewsGetIdle,
   [constants.POSTS_VIEWS_GET_MORE_REQUEST]: postsViewsGetMoreRequest,
   [constants.POSTS_VIEWS_GET_MORE_SUCCESS]: postsViewsGetMoreSuccess,
+
+  [constants.POSTS_GET_UNREAD_COMMENTS_REQUEST]: postsGetUnreadCommentsRequest,
+  [constants.POSTS_GET_UNREAD_COMMENTS_SUCCESS]: postsGetUnreadCommentsSuccess,
+  [constants.POSTS_GET_UNREAD_COMMENTS_FAILURE]: postsGetUnreadCommentsFailure,
+  [constants.POSTS_GET_UNREAD_COMMENTS_IDLE]: postsGetUnreadCommentsIdle,
 
   [constants.POSTS_LIKES_GET_REQUEST]: postsLikesGetRequest,
   [constants.POSTS_LIKES_GET_SUCCESS]: postsLikesGetSuccess,

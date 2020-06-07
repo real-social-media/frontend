@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux'
 
-const CardsService = ({ children }) => {
+const FeedCardsService = ({ children }) => {
   const dispatch = useDispatch()
   const usersGetCards = useSelector(state => state.users.usersGetCards)
  
@@ -9,4 +9,4 @@ const CardsService = ({ children }) => {
   })
 }
 
-export default CardsService
+export default FeedCardsService

@@ -8,15 +8,15 @@ import {
   ActivityIndicator,
 } from 'react-native'
 import path from 'ramda/src/path'
-import UploadingComponent from 'components/PostsList/Uploading'
-import PendingRequestsComponent from 'components/PostsList/PendingRequests'
-import BookmarkComponent from 'components/PostsList/Bookmark'
+import UploadingComponent from 'components/Feed/Uploading'
+import PendingRequestsComponent from 'components/Feed/PendingRequests'
+import BookmarkComponent from 'components/Feed/Bookmark'
 import PostComponent from 'components/Post'
 import PostServiceComponent from 'components/Post/index.service'
 import StoriesComponent from 'components/Stories'
 import StoriesServiceComponent from 'components/Stories/index.service'
-import CardsComponent from 'components/Cards'
-import CardsServiceComponent from 'components/Cards/index.service'
+import FeedCardsComponent from 'components/FeedCards'
+import FeedCardsServiceComponent from 'components/FeedCards/index.service'
 import ContextComponent from 'components/Cache/Context'
 import ScrollService from 'services/Scroll'
 
@@ -24,7 +24,7 @@ import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
-const PostsList = ({
+const Feed = ({
   t,
   theme,
   user,
@@ -122,13 +122,13 @@ const PostsList = ({
               ))}
             </StoriesServiceComponent>
 
-            <CardsServiceComponent>
+            <FeedCardsServiceComponent>
               {(cardsProps) => (
-                <CardsComponent
+                <FeedCardsComponent
                   {...cardsProps}
                 />
               )}
-            </CardsServiceComponent>
+            </FeedCardsServiceComponent>
 
             <View style={styling.uploading}>
               {Object.values(postsCreateQueue).map((post, key) => (
@@ -169,11 +169,11 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-PostsList.defaultProps = {
+Feed.defaultProps = {
   postsGet: {},
 }
 
-PostsList.propTypes = {
+Feed.propTypes = {
   theme: PropTypes.any,
   user: PropTypes.any,
   feedRef: PropTypes.any,
@@ -208,4 +208,4 @@ PostsList.propTypes = {
   getTextPostRef: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(PostsList))
+export default withTranslation()(withTheme(Feed))

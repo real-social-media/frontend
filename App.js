@@ -13,8 +13,8 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import 'services/Logger'
 import { enableScreens } from 'react-native-screens'
-import PinchZoomComponent from 'components/PostsList/PinchZoom'
-import PostsListContextComponent from 'components/PostsList/Context'
+import PinchZoomComponent from 'components/Feed/PinchZoom'
+import FeedContextComponent from 'components/Feed/Context'
 import UIContextComponent from 'components/UI/Context'
 import ErrorTemplate from 'templates/Error'
 
@@ -85,7 +85,7 @@ const App = () => {
             handleErrorClose,
           }) => (
             <ThemesContext.Provider value={{ theme, themes }}>
-              <PostsListContextComponent.Provider value={{ draggedImage, setDraggedImage }}>
+              <FeedContextComponent.Provider value={{ draggedImage, setDraggedImage }}>
                 <UIContextComponent.Provider value={{ uiNotifications, uiNotificationIdle }}>
                   <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
                   <PinchZoomComponent />
@@ -95,7 +95,7 @@ const App = () => {
                     handleErrorClose={handleErrorClose}
                   />
                 </UIContextComponent.Provider>
-              </PostsListContextComponent.Provider>
+              </FeedContextComponent.Provider>
             </ThemesContext.Provider>
           )}
         </AuthProvider>

@@ -7,7 +7,7 @@ import {
 import CloseIcon from 'assets/svg/post/Close'
 import { Text } from 'react-native-paper'
 
-const Card = ({
+const FeedCard = ({
   borderColor,
   backgroundColor,
 }) => ({ item: card }) => {
@@ -31,7 +31,7 @@ const Card = ({
   )
 }
 
-Card.propTypes = {
+FeedCard.propTypes = {
   t: PropTypes.any,
   theme: PropTypes.any,
 }
@@ -51,4 +51,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default Card
+export default FeedCard

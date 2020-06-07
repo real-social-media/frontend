@@ -33,6 +33,11 @@ const ChatNavigator = ({ navigation }) => {
         component={ChatDirectScreen}
         {...stackScreenPageProps({ options: { title: 'Chat' } })}
       />
+      <Stack.Screen
+        name="Comments"
+        component={CommentsScreen}
+        {...stackScreenPageProps({ options: { title: 'Comments' } })}
+      />
     </Stack.Navigator>
   )
 }

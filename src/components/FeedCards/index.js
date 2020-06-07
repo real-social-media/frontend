@@ -4,20 +4,24 @@ import {
   View,
   StyleSheet,
 } from 'react-native'
-import Card from 'components/Cards/Card'
+import Card from 'components/FeedCards/Card'
 import Layout from 'constants/Layout'
 import Carousel from 'react-native-snap-carousel'
 
 import { withTheme } from 'react-native-paper'
 import { withTranslation } from 'react-i18next'
 
-const Cards = ({
+const FeedCards = ({
   t,
   theme,
   usersGetCards,
 }) => {
   const styling = styles(theme)
   const cardsRef = useRef(null)
+
+  if (!usersGetCards.data.length) {
+    return null
+  }
 
   return (
     <View style={styling.root}>
@@ -44,7 +48,7 @@ const Cards = ({
   )
 }
 
-Cards.propTypes = {
+FeedCards.propTypes = {
   t: PropTypes.any,
   theme: PropTypes.any,
   usersGetCards: PropTypes.any,
@@ -57,4 +61,4 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-export default withTranslation()(withTheme(Cards))
+export default withTranslation()(withTheme(FeedCards))

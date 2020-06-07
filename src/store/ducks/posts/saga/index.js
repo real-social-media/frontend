@@ -31,6 +31,20 @@ function* postsGetRequest(req) {
   }
 }
 
+function* postsGetMoreRequest(req) {
+  const errorWrapper = yield getContext('errorWrapper')
+
+  try {
+    const data = yield queryService.apiRequest(queries.getPosts, { ...req.payload, postStatus: 'COMPLETED' })
+    const dataSelector = path(['data', 'user', 'posts', 'items'])
+    const metaSelector = compose(omit(['items']), path(['data', 'user', 'posts']))
+
+    yield put(actions.postsGetMoreSuccess({ payload: req.payload, data: dataSelector(data), meta: metaSelector(data) }))
+  } catch (error) {
+    yield put(actions.postsGetMoreFailure({ payload: req.payload, message: errorWrapper(error) }))
+  }
+}
+
 /**
  *
  */
@@ -45,20 +59,6 @@ function* postsGetUnreadCommentsRequest(req) {
     yield put(actions.postsGetUnreadCommentsSuccess({ payload: req.payload, data: dataSelector(data), meta: metaSelector(data) }))
   } catch (error) {
     yield put(actions.postsGetUnreadCommentsFailure({ payload: req.payload, message: errorWrapper(error) }))
-  }
-}
-
-function* postsGetMoreRequest(req) {
-  const errorWrapper = yield getContext('errorWrapper')
-
-  try {
-    const data = yield queryService.apiRequest(queries.getPosts, { ...req.payload, postStatus: 'COMPLETED' })
-    const dataSelector = path(['data', 'user', 'posts', 'items'])
-    const metaSelector = compose(omit(['items']), path(['data', 'user', 'posts']))
-
-    yield put(actions.postsGetMoreSuccess({ payload: req.payload, data: dataSelector(data), meta: metaSelector(data) }))
-  } catch (error) {
-    yield put(actions.postsGetMoreFailure({ payload: req.payload, message: errorWrapper(error) }))
   }
 }
 
