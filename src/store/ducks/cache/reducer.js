@@ -42,57 +42,69 @@ const initialState = {
  *
  */
 const cacheFetchProgress = (state, action) => update(state, {
-  buffer: {
-    [action.payload.signature.partial]: {
-      $set: {
-        progress: action.payload.progress,
-        jobId: action.payload.jobId,
-        path: action.payload.signature.path,
-      },
-    },
-  },
   progress: {
-    [action.payload.signature.pathFolder]: {
-      $cacheProgress: action.payload.progress,
-    },
+    [action.payload.signature.partial]: { $set: action.payload.progress },
   },
+  // buffer: {
+  //   [action.payload.signature.partial]: {
+  //     $set: {
+  //       progress: action.payload.progress,
+  //       jobId: action.payload.jobId,
+  //       path: action.payload.signature.path,
+  //     },
+  //   },
+  // },
+  // progress: {
+  //   [action.payload.signature.pathFolder]: {
+  //     $cacheProgress: action.payload.progress,
+  //   },
+  // },
 })
 
 const cacheFetchSuccess = (state, action) => update(state, {
   cached: {
-    [action.payload.signature.pathFolder]: {
-      $cacheUnique: action.payload.signature.path,
-    },
+    [action.payload.signature.partial]: { $set: action.payload.signature.path },
   },
-  buffer: {
-    $unset: [action.payload.signature.partial],
-  },
-  progress: {
-    $unset: [action.payload.signature.pathFolder],
-  },
+  // cached: {
+  //   [action.payload.signature.pathFolder]: {
+  //     $cacheUnique: action.payload.signature.path,
+  //   },
+  // },
+  // buffer: {
+  //   $unset: [action.payload.signature.partial],
+  // },
+  // progress: {
+  //   $unset: [action.payload.signature.pathFolder],
+  // },
 })
 
 const cacheFetchFailure = (state, action) => update(state, {
-  buffer: {
+  cached: {
     $unset: [action.payload.signature.partial],
   },
-  progress: {
-    $unset: [action.payload.signature.pathFolder],
-  },
-  failed: {
-    [action.payload.signature.pathFolder]: {
-      $cacheUnique: action.payload.signature.path,
-    },
-  },
+  // buffer: {
+  //   $unset: [action.payload.signature.partial],
+  // },
+  // progress: {
+  //   $unset: [action.payload.signature.pathFolder],
+  // },
+  // failed: {
+  //   [action.payload.signature.pathFolder]: {
+  //     $cacheUnique: action.payload.signature.path,
+  //   },
+  // },
 })
 
 const cacheFetchIdle = (state, action) => update(state, {
   cached: {
-    $unset: [action.payload.signature.pathFolder],
+    $unset: [action.payload.signature.partial],
   },
-  progress: {
-    $unset: [action.payload.signature.pathFolder],
-  },
+  // cached: {
+  //   $unset: [action.payload.signature.pathFolder],
+  // },
+  // progress: {
+  //   $unset: [action.payload.signature.pathFolder],
+  // },
 })
 
 export default handleActions({

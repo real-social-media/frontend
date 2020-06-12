@@ -53,6 +53,30 @@ const generateSignature = (source) => {
   }
 }
 
+const getPriority = (filename = '', priority = 0) => {
+  if (filename.includes('64p')) {
+    return priority
+  }
+  if (filename.includes('480p')) {
+    return 1000 + priority
+  }
+  if (filename.includes('4K')) {
+    return 10000 + priority
+  }
+  if (filename.includes('native')) {
+    return 100000 + priority
+  }
+  return 0
+}
+
+const getFilename = (source) => {
+  if (!source) return ''
+  const withoutQuery = source.split('?').shift()
+  const withoutPath = withoutQuery.split('/').pop()
+  const withoutExt = withoutPath.split('.').shift()
+  return withoutExt
+}
+
 /**
  * UI Component
  */
@@ -74,37 +98,17 @@ const CacheComponent = ({
     .filter(([source, shouldDownload]) => source)
     .map(([source, shouldDownload]) => [generateSignature(source), shouldDownload])
 
-  const pathFolder = path([0, 0, 'pathFolder'])(signatures)
-  const cached = useSelector(path(['cache', 'cached', pathFolder]))
-  const progress = useSelector(path(['cache', 'progress', pathFolder, 'progress']))
+  const partial = path([1, 0, 'partial'])(signatures)
+  const cached = useSelector(path(['cache', 'cached', partial]))
+  const progress = 0
 
-  const uri = last(cached || [])
+  const uri = cached
+
+  // if (uri && uri.includes('/Users/azimgd/Library/Developer/CoreSimulator/Devices/218354C0-ACA3-408F-BF79-F1AAE29BA78E/data/Containers/Data/Application/7D209675-2471-4EE5-9960-759AFE6871E0/Library/Caches/REAL/us-east-1-b09d7e4d-02d7-4553-9cff-851c3f089920/post/8fdcbd87-db77-41fb-b886-1e5efbe1122f/image/'))
+  if (!uri)
+    console.log(uri, partial)
 
   const progressVisibility = !hideProgress && progress
-
-  const getFilename = (source) => {
-    if (!source) return ''
-    const withoutQuery = source.split('?').shift()
-    const withoutPath = withoutQuery.split('/').pop()
-    const withoutExt = withoutPath.split('.').shift()
-    return withoutExt
-  }
-
-  const getPriority = (filename = '', priority = 0) => {
-    if (filename.includes('64p')) {
-      return priority
-    }
-    if (filename.includes('480p')) {
-      return 1000 + priority
-    }
-    if (filename.includes('4K')) {
-      return 10000 + priority
-    }
-    if (filename.includes('native')) {
-      return 100000 + priority
-    }
-    return 0
-  }
 
   const fetchRemoteImages = () =>
     signatures.forEach(([signature, shouldDownload], index) => {
@@ -127,21 +131,6 @@ const CacheComponent = ({
       }))
     })
 
-  const [isReady, cancelTimeout, resetTimeout] = useTimeoutFn(() => {
-    fetchRemoteImages()
-  }, 15000)
-
-  useEffect(() => {
-    if ((cached && cached.length) === (signatures && signatures.length) && isReady() === false) {
-      cancelTimeout()
-    }
-
-    if ((cached && cached.length) !== (signatures && signatures.length) && isReady() === true) {
-      // resetTimeout()
-    }
-    
-  }, [uri, cached])
-
   useEffect(() => {
     fetchRemoteImages()
 
@@ -157,16 +146,16 @@ const CacheComponent = ({
   const handleError = ({ nativeEvent }) => {
     setHasError(true)
 
-    signatures
-      .filter(([signature]) => signature.path === uri)
-      .forEach(([signature, shouldDownload]) => {
-        dispatch(actions.cacheFetchFailure({
-          signature,
-          jobId: 0,
-          error: nativeEvent,
-          progress: 0,
-        }))
-      })
+    // signatures
+    //   .filter(([signature]) => signature.path === uri)
+    //   .forEach(([signature, shouldDownload]) => {
+    //     dispatch(actions.cacheFetchFailure({
+    //       signature,
+    //       jobId: 0,
+    //       error: nativeEvent,
+    //       progress: 0,
+    //     }))
+    //   })
   }
 
   /**
