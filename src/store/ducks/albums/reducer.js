@@ -39,13 +39,6 @@ const albumsGetRequest = (state, action) => update(state, {
     status: { $set: 'loading' },
     payload: { $set: action.payload },
   },
-  albumsGetCache: {
-    $resourceCacheSetRequest: {
-      ...action,
-      resourceKey: action.payload.userId,
-      initialState: initialState.albumsGet,
-    },
-  },
 })
 
 const albumsGetSuccess = (state, action) => update(state, {
@@ -53,6 +46,10 @@ const albumsGetSuccess = (state, action) => update(state, {
     status: { $set: 'success' },
     payload: { $set: action.payload.payload },
   },
+
+  /**
+   *
+   */
   albumsGetCache: {
     $resourceCacheSetSuccess: {
       ...action,
@@ -67,26 +64,12 @@ const albumsGetFailure = (state, action) => update(state, {
     status: { $set: 'failure' },
     payload: { $set: action.payload.payload },
   },
-  albumsGetCache: {
-    $resourceCacheSetFailure: {
-      ...action,
-      resourceKey: action.payload.payload.userId,
-      initialState: initialState.albumsGet,
-    },
-  },
 })
 
 const albumsGetIdle = (state, action) => update(state, {
   albumsGet: {
     status: { $set: 'idle' },
     payload: { $set: action.payload.payload },
-  },
-  albumsGetCache: {
-    $resourceCacheSetIdle: {
-      ...action,
-      resourceKey: action.payload.payload.userId,
-      initialState: initialState.albumsGet,
-    },
   },
 })
 

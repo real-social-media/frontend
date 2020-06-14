@@ -1,30 +1,16 @@
 import { createSelector } from 'reselect'
-import update from 'immutability-helper'
 import pathOr from 'ramda/src/pathOr'
+import path from 'ramda/src/path'
+import * as normalizer from 'normalizer/schemas'
+
+const entities = () => path(['entities'])
+const authUser = () => path(['auth', 'user'])
 
 export const authUserSelector = createSelector(
-  state => state.auth.user,
-  authUser => update(authUser, {
-    data: {
-      $set: {
-        username: pathOr('', ['data', 'username'], authUser),
-        fullName: pathOr('', ['data', 'fullName'], authUser),
-        bio: pathOr('', ['data', 'bio'], authUser),
-        email: pathOr('', ['data', 'email'], authUser),
-        phoneNumber: pathOr('', ['data', 'phoneNumber'], authUser),
-        privacyStatus: pathOr('', ['data', 'privacyStatus'], authUser),
-        followCountsHidden: pathOr('', ['data', 'followCountsHidden'], authUser),
-        viewCountsHidden: pathOr('', ['data', 'viewCountsHidden'], authUser),
-        photo: {
-          url: pathOr('', ['data', 'photo', 'url'], authUser),
-          url64p: pathOr('', ['data', 'photo', 'url64p'], authUser),
-          url480p: pathOr('', ['data', 'photo', 'url480p'], authUser),
-          url1080p: pathOr('', ['data', 'photo', 'url1080p'], authUser),
-          url4k: pathOr('', ['data', 'photo', 'url4k'], authUser),
-        },
-      },
-    },
-  })
+  [authUser(), entities()],
+  (authUser, entities) => {
+    return normalizer.denormalizeUserGet(authUser, entities)
+  }
 )
 
 export const languageCodeSelector = 

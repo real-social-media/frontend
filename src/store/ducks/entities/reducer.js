@@ -13,6 +13,8 @@ const initialState = {
   },
   images: {
   },
+  chats: {
+  },
 }
 
 const entitiesAlbumsMerge = (state, action) => update(state, {
@@ -45,10 +47,17 @@ const entitiesImagesMerge = (state, action) => update(state, {
   },
 })
 
+const entitiesChatsMerge = (state, action) => update(state, {
+  chats: {
+    $merge: action.payload.data,
+  },
+})
+
 export default handleActions({
   [constants.ENTITIES_ALBUMS_MERGE]: entitiesAlbumsMerge,
   [constants.ENTITIES_POSTS_MERGE]: entitiesPostsMerge,
   [constants.ENTITIES_COMMENTS_MERGE]: entitiesCommentsMerge,
   [constants.ENTITIES_USERS_MERGE]: entitiesUsersMerge,
   [constants.ENTITIES_IMAGES_MERGE]: entitiesImagesMerge,
+  [constants.ENTITIES_CHATS_MERGE]: entitiesChatsMerge,
 }, initialState)

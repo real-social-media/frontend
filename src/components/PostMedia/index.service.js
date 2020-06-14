@@ -15,7 +15,7 @@ const PostMediaService = ({ children }) => {
   const postId = path(['params', 'post', 'postId'])(route)
   const postUserId = path(['params', 'post', 'postedBy', 'userId'])(route)
   const navigationParamPost = path(['params', 'post'])(route)
-  const postsSingleGet = useSelector(postsSelector.postsSingleGetSelector(navigationParamPost))
+  const postsSingleGet = useSelector(postsSelector.postsSingleGetSelector(postId))
   const postsDelete = useSelector(state => state.posts.postsDelete)
   const postsGetTrendingPosts = useSelector(postsSelector.postsGetTrendingPostsSelector())
 

@@ -361,6 +361,17 @@ const postsLikesGetSuccess = (state, action) => update(state, {
     data: { $set: action.payload.data },
     status: { $set: 'success' },
   },
+
+  /**
+   * 
+   */
+  postsLikesGetCache: {
+    $postsResourceCacheSetSuccess: {
+      ...action,
+      resourceKey: action.payload.payload.postId,
+      initialState: initialState.postsCommentsGet,
+    },
+  },
 })
 
 const postsLikesGetFailure = (state, action) => update(state, {
@@ -956,7 +967,6 @@ const postsCommentsGetSuccess = (state, action) => update(state, {
       ...action,
       resourceKey: action.payload.payload.postId,
       initialState: initialState.postsCommentsGet,
-      selector: 'commentId',
     },
   },
 })

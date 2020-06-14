@@ -10,6 +10,8 @@ import * as constants from 'store/ducks/signup/constants'
 import * as errors from 'store/ducks/signup/errors'
 import * as queries from 'store/ducks/signup/queries'
 import * as queryService from 'services/Query'
+import * as entitiesActions from 'store/ducks/entities/actions'
+import * as normalizer from 'normalizer/schemas'
 
 /**
  *
@@ -186,6 +188,27 @@ function* signupCreateRequest(req) {
  * entry to user pool entry. Loosing identiyId between transition
  * will fail signup process!
  */
+function* handleSignupConfirmRequestData(req, api) {
+  const dataSelector = path(['data', 'createCognitoOnlyUser'])
+
+  const data = dataSelector(api)
+  const meta = {}
+  const payload = req.payload
+
+  const normalized = normalizer.normalizeUserGet(data)
+  yield put(entitiesActions.entitiesAlbumsMerge({ data: normalized.entities.albums || {} }))
+  yield put(entitiesActions.entitiesPostsMerge({ data: normalized.entities.posts || {} }))
+  yield put(entitiesActions.entitiesUsersMerge({ data: normalized.entities.users || {} }))
+  yield put(entitiesActions.entitiesCommentsMerge({ data: normalized.entities.comments || {} }))
+  yield put(entitiesActions.entitiesImagesMerge({ data: normalized.entities.images || {} }))
+
+  return {
+    data: normalized.result,
+    meta,
+    payload,
+  }
+}
+
 function* handleSignupConfirmRequest(payload) {
   const AwsAuth = yield getContext('AwsAuth')
 
@@ -208,21 +231,13 @@ function* handleSignupConfirmRequest(payload) {
 
   yield AwsAuth.signIn(payload.cognitoUsername, payload.password)
 
-  const selector = path(['data', 'createCognitoOnlyUser'])
   const data = yield queryService.apiRequest(queries.createCognitoOnlyUser, {
     username: payload.username,
     fullName: payload.username,
   })
-
+  const next = yield handleSignupConfirmRequestData({ payload }, data)
+  yield put(actions.authCheckReady({ data: next.data, payload: next.payload, meta: next.meta }))
   yield queryService.apiRequest(queries.setUserAcceptedEULAVersion, { version: '15-11-2019' })
-
-  yield put(authActions.authCheckReady({
-    data: { userId: selector(data).userId },
-  }))
-
-  yield put(authActions.globalAuthUserTrigger({
-    data: selector(data),
-  }))
 }
 
 /**
@@ -264,6 +279,27 @@ function* signupConfirmRequest(req) {
 /**
  * Google only execution
  */
+function* handleCognitoRequestData(req, api) {
+  const dataSelector = path(['data', 'createGoogleUser'])
+
+  const data = dataSelector(api)
+  const meta = {}
+  const payload = req.payload
+
+  const normalized = normalizer.normalizeUserGet(data)
+  yield put(entitiesActions.entitiesAlbumsMerge({ data: normalized.entities.albums || {} }))
+  yield put(entitiesActions.entitiesPostsMerge({ data: normalized.entities.posts || {} }))
+  yield put(entitiesActions.entitiesUsersMerge({ data: normalized.entities.users || {} }))
+  yield put(entitiesActions.entitiesCommentsMerge({ data: normalized.entities.comments || {} }))
+  yield put(entitiesActions.entitiesImagesMerge({ data: normalized.entities.images || {} }))
+
+  return {
+    data: normalized.result,
+    meta,
+    payload,
+  }
+}
+
 function* handleCognitoRequest(payload) {
   const AwsAuth = yield getContext('AwsAuth')
 
@@ -271,22 +307,14 @@ function* handleCognitoRequest(payload) {
     bypassCache: false,
   })
 
-  const selector = path(['data', 'createGoogleUser'])
   const data = yield queryService.apiRequest(queries.createGoogleUser, {
     username: payload.username,
     fullName: session.name,
     googleIdToken: session.token,
   })
-
+  const next = yield handleCognitoRequestData({ payload }, data)
+  yield put(actions.authCheckReady({ data: next.data, payload: next.payload, meta: next.meta }))
   yield queryService.apiRequest(queries.setUserAcceptedEULAVersion, { version: '15-11-2019' })
-
-  yield put(authActions.authCheckReady({
-    data: { userId: selector(data).userId },
-  }))
-
-  yield put(authActions.globalAuthUserTrigger({
-    data: selector(data),
-  }))
 }
 
 function* signupCognitoRequest(req) {

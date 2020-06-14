@@ -17,7 +17,7 @@ const ShareService = ({ children }) => {
   const postUserId = path(['params', 'post', 'postedBy', 'userId'])(route)
   const user = useSelector(authSelector.authUserSelector)
   const navigationParamPost = path(['params', 'post'])(route)
-  const postsSingleGet = useSelector(postsSelector.postsSingleGetSelector(navigationParamPost))
+  const postsSingleGet = useSelector(postsSelector.postsSingleGetSelector(postId))
   const postsShare = useSelector(state => state.posts.postsShare)
   const cameraCapture = useSelector(state => state.camera.cameraCapture)
 

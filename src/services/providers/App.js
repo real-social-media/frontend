@@ -23,6 +23,7 @@ export const AuthProvider = ({
   children,
 }) => {
   const dispatch = useDispatch()
+  const user = useSelector(authSelector.authUserSelector)
   const themeFetch = useSelector(state => state.theme.themeFetch)
   const nextRoute = useSelector(state => state.auth.authCheck.nextRoute)
   const status = useSelector(state => state.auth.authCheck.status)
@@ -30,7 +31,6 @@ export const AuthProvider = ({
   const languageCode = useSelector(authSelector.languageCodeSelector)
   const theme = useSelector(authSelector.themeSelector)
   const uiNotifications = useSelector(state => state.ui.notifications)
-  const authUserId = useSelector(state => path(['userId'])(state.auth.user))
   const authGoogle = useSelector(state => state.auth.authGoogle)
   const authCheck = useSelector(state => state.auth.authCheck)
 
@@ -49,11 +49,6 @@ export const AuthProvider = ({
   const { appErrorMessage, handleErrorClose } = errorsPool
     .filter(error => error.appErrorMessage && !error.appErrorMessage.includes('Failed to authorize'))
     .pop() || {}
-
-  const user = useSelector(
-    authSelector.authUserSelector,
-    (prevProps = {}, nextProps = {}) => prevProps.userId === nextProps.userId
-  )
 
   const uiNotificationIdle = (payload) =>
     dispatch(uiActions.uiNotificationIdle(payload))
@@ -146,7 +141,7 @@ export const AuthProvider = ({
   }
 
   const authenticated = (
-    authUserId && (
+    user.userId && (
       nextRoute === null ||
       nextRoute === 'Root'
     ) && (

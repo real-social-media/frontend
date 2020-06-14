@@ -10,25 +10,40 @@ import * as constants from 'store/ducks/chat/constants'
 import * as uiActions from 'store/ducks/ui/actions'
 import * as chatActions from 'store/ducks/chat/actions'
 import * as queryService from 'services/Query'
-import * as usersActions from 'store/ducks/users/actions'
-
-const usersResourcePoolMergeChatUsers = (data) => data.reduce((acc, chat) => {
-  return acc.concat(chat.users.items)
-}, [])
-
-const usersResourcePoolMergeChatUser = (data) => data.users.items
+import * as entitiesActions from 'store/ducks/entities/actions'
+import * as normalizer from 'normalizer/schemas'
 
 /**
  * 
  */
+function* chatGetChatsRequestData(req, api) {
+  const dataSelector = path(['data', 'self', 'chats', 'items'])
+  const metaSelector = compose(omit(['items']), path(['data', 'self', 'chats']))
+
+  const data = dataSelector(api)
+  const meta = metaSelector(api)
+  const payload = req.payload
+
+  const normalized = normalizer.normalizeChatsGet(data)
+  yield put(entitiesActions.entitiesAlbumsMerge({ data: normalized.entities.albums || {} }))
+  yield put(entitiesActions.entitiesPostsMerge({ data: normalized.entities.posts || {} }))
+  yield put(entitiesActions.entitiesUsersMerge({ data: normalized.entities.users || {} }))
+  yield put(entitiesActions.entitiesCommentsMerge({ data: normalized.entities.comments || {} }))
+  yield put(entitiesActions.entitiesImagesMerge({ data: normalized.entities.images || {} }))
+  yield put(entitiesActions.entitiesChatsMerge({ data: normalized.entities.chats || {} }))
+
+  return {
+    data: normalized.result,
+    meta,
+    payload,
+  }
+}
+
 function* chatGetChatsRequest(req) {
   try {
     const data = yield queryService.apiRequest(queries.chats, req.payload)
-    const dataSelector = path(['data', 'self', 'chats', 'items'])
-    const metaSelector = compose(omit(['items']), path(['data', 'self', 'chats']))
-
-    yield put(usersActions.usersResourcePoolMerge({ data: usersResourcePoolMergeChatUsers(dataSelector(data)) }))
-    yield put(actions.chatGetChatsSuccess({ payload: req.payload, data: dataSelector(data), meta: metaSelector(data) }))
+    const next = yield chatGetChatsRequestData(req, data)
+    yield put(actions.chatGetChatsSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
     yield put(actions.chatGetChatsFailure({ message: error.message, payload: req.payload }))
   }
@@ -37,13 +52,33 @@ function* chatGetChatsRequest(req) {
 /**
  * 
  */
+function* chatGetChatRequestData(req, api) {
+  const dataSelector = path(['data', 'chat'])
+
+  const data = dataSelector(api)
+  const meta = {}
+  const payload = req.payload
+
+  const normalized = normalizer.normalizeChatGet(data)
+  yield put(entitiesActions.entitiesAlbumsMerge({ data: normalized.entities.albums || {} }))
+  yield put(entitiesActions.entitiesPostsMerge({ data: normalized.entities.posts || {} }))
+  yield put(entitiesActions.entitiesUsersMerge({ data: normalized.entities.users || {} }))
+  yield put(entitiesActions.entitiesCommentsMerge({ data: normalized.entities.comments || {} }))
+  yield put(entitiesActions.entitiesImagesMerge({ data: normalized.entities.images || {} }))
+  yield put(entitiesActions.entitiesChatsMerge({ data: normalized.entities.chats || {} }))
+
+  return {
+    data: normalized.result,
+    meta,
+    payload,
+  }
+}
+
 function* chatGetChatRequest(req) {
   try {
     const data = yield queryService.apiRequest(queries.chat, req.payload)
-    const dataSelector = path(['data', 'chat'])
-
-    yield put(usersActions.usersResourcePoolMerge({ data: usersResourcePoolMergeChatUser(dataSelector(data)) }))
-    yield put(actions.chatGetChatSuccess({ data: dataSelector(data), payload: req.payload, meta: data }))
+    const next = yield chatGetChatRequestData(req, data)
+    yield put(actions.chatGetChatSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
     yield put(actions.chatGetChatFailure({ message: error.message, payload: req.payload }))
   }
@@ -52,13 +87,33 @@ function* chatGetChatRequest(req) {
 /**
  * 
  */
+function* chatCreateDirectRequestData(req, api) {
+  const dataSelector = path(['data', 'createDirectChat'])
+
+  const data = dataSelector(api)
+  const meta = {}
+  const payload = req.payload
+
+  const normalized = normalizer.normalizeChatGet(data)
+  yield put(entitiesActions.entitiesAlbumsMerge({ data: normalized.entities.albums || {} }))
+  yield put(entitiesActions.entitiesPostsMerge({ data: normalized.entities.posts || {} }))
+  yield put(entitiesActions.entitiesUsersMerge({ data: normalized.entities.users || {} }))
+  yield put(entitiesActions.entitiesCommentsMerge({ data: normalized.entities.comments || {} }))
+  yield put(entitiesActions.entitiesImagesMerge({ data: normalized.entities.images || {} }))
+  yield put(entitiesActions.entitiesChatsMerge({ data: normalized.entities.chats || {} }))
+
+  return {
+    data: normalized.result,
+    meta,
+    payload,
+  }
+}
+
 function* chatCreateDirectRequest(req) {
   try {
     const data = yield queryService.apiRequest(queries.createDirectChat, req.payload)
-    const dataSelector = path(['data', 'createDirectChat'])
-
-    yield put(usersActions.usersResourcePoolMerge({ data: usersResourcePoolMergeChatUser(dataSelector(data)) }))
-    yield put(actions.chatCreateDirectSuccess({ data: dataSelector(data), payload: req.payload, meta: data }))
+    const next = yield chatCreateDirectRequestData(req, data)
+    yield put(actions.chatCreateDirectSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
     yield put(actions.chatCreateDirectFailure({ message: error.message, payload: req.payload }))
   }

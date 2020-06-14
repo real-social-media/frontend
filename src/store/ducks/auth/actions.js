@@ -1,8 +1,6 @@
 import { createAction } from 'redux-actions'
 import * as constants from 'store/ducks/auth/constants'
 
-export const globalAuthUserTrigger = createAction('GLOBAL_AUTH_USER_TRIGGER')
-
 /**
  * 
  */

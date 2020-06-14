@@ -10,6 +10,8 @@ import * as actions from 'store/ducks/auth/actions'
 import * as queries from 'store/ducks/auth/queries'
 import * as constants from 'store/ducks/auth/constants'
 import * as errors from 'store/ducks/auth/errors'
+import * as entitiesActions from 'store/ducks/entities/actions'
+import * as normalizer from 'normalizer/schemas'
 import Config from 'react-native-config'
 import * as queryService from 'services/Query'
 
@@ -26,7 +28,7 @@ function* handleAuthCheckRequest() {
 }
 
 function handleAuthCheckValidation(self) {
-  const photoUrl = path(['photo', 'url'])(self)
+  const photoUrl = path(['data', 'self', 'photo', 'url'])(self)
   return (!photoUrl || photoUrl.includes('placeholder-photos'))
 }
 
@@ -35,24 +37,36 @@ function handleAuthCheckValidation(self) {
  * Authenticated users with empty `self graphql query` return will be redirected to Onboard page,
  * meaning that user authenticated in Cognito pool but didn't create an entry in database on backend.
  */
+function* authCheckRequestData(req, api) {
+  const dataSelector = path(['data', 'self'])
+
+  const data = dataSelector(api)
+  const meta = {}
+  const payload = req.payload
+
+  const normalized = normalizer.normalizeUserGet(data)
+  yield put(entitiesActions.entitiesAlbumsMerge({ data: normalized.entities.albums || {} }))
+  yield put(entitiesActions.entitiesPostsMerge({ data: normalized.entities.posts || {} }))
+  yield put(entitiesActions.entitiesUsersMerge({ data: normalized.entities.users || {} }))
+  yield put(entitiesActions.entitiesCommentsMerge({ data: normalized.entities.comments || {} }))
+  yield put(entitiesActions.entitiesImagesMerge({ data: normalized.entities.images || {} }))
+
+  return {
+    data: normalized.result,
+    meta,
+    payload,
+  }
+}
+
 function* authCheckRequest(req) {
   try {
     yield handleAuthCheckRequest(req.payload)
 
     const data = yield queryService.apiRequest(queries.self, req.payload)
-    const selector = path(['data', 'self'])
-
-    yield put(actions.authCheckReady({
-      data: { userId: selector(data).userId },
-    }))
-
-    const nextRoute = handleAuthCheckValidation(selector(data)) ? 'AuthPhoto' : 'Root'
-
-    yield put(actions.authCheckSuccess({
-      message: errors.getMessagePayload(constants.AUTH_CHECK_SUCCESS, 'GENERIC'),
-      data: selector(data),
-      nextRoute,
-    }))
+    const nextRoute = handleAuthCheckValidation(data) ? 'AuthPhoto' : 'Root'
+    const next = yield authCheckRequestData(req, data)
+    yield put(actions.authCheckReady({ data: next.data }))
+    yield put(actions.authCheckSuccess({ data: next.data, payload: next.payload, meta: next.meta, nextRoute }))
   } catch (error) {
     if (pathOr('', ['message'])(error).includes('Network request failed')) {
       yield put(actions.authCheckFailure({
@@ -83,8 +97,7 @@ function* authCheckRequest(req) {
  */
 function* handleAuthSigninRequest(payload) {
   const AwsAuth = yield getContext('AwsAuth')
-
-  yield AwsAuth.signIn(payload.username, payload.password)
+  return yield AwsAuth.signIn(payload.username, payload.password)
 }
 
 function* authSigninRequest(req) {

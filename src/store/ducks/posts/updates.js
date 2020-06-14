@@ -11,7 +11,7 @@ const getFilteredState = map(set(lensProp('status'), 'idle'))
 /**
  *
  */
-extend('$postsResourceCacheSetSuccess', ({ payload, resourceKey, initialState, selector = 'postId' }, original) => {
+extend('$postsResourceCacheSetSuccess', ({ payload, resourceKey, initialState }, original) => {
   const filtered = getFilteredState(original)
   const nextState = (path([resourceKey])(filtered)) ?
     filtered :
@@ -19,7 +19,7 @@ extend('$postsResourceCacheSetSuccess', ({ payload, resourceKey, initialState, s
 
   return update(nextState, {
     [resourceKey]: {
-      data: { $set: pathOr([], ['data'])(payload).map(post => post[selector]) },
+      data: { $set: payload.data },
       status: { $set: 'success' },
       error: { $set: {} },
       payload: { $set: payload.payload || {} },
@@ -31,7 +31,7 @@ extend('$postsResourceCacheSetSuccess', ({ payload, resourceKey, initialState, s
 /**
  *
  */
-extend('$postsResourceCachePushSuccess', ({ payload, resourceKey, initialState, selector = 'postId' }, original) => {
+extend('$postsResourceCachePushSuccess', ({ payload, resourceKey, initialState }, original) => {
   const filtered = getFilteredState(original)
   const nextState = (path([resourceKey])(filtered)) ?
     filtered :
@@ -39,7 +39,7 @@ extend('$postsResourceCachePushSuccess', ({ payload, resourceKey, initialState, 
 
   return update(nextState, {
     [resourceKey]: {
-      data: { $push: pathOr([], ['data'])(payload).map(post => post[selector]) },
+      data: { $push: payload.data },
       status: { $set: 'success' },
       error: { $set: {} },
       payload: { $set: payload.payload || {} },
@@ -51,18 +51,18 @@ extend('$postsResourceCachePushSuccess', ({ payload, resourceKey, initialState, 
 /**
  *
  */
-extend('$postsResourceSetSuccess', ({ payload, selector = 'postId' }, original) => {
-  return update(original, { $set: pathOr([], ['data'])(payload).map(post => post[selector]) })
+extend('$postsResourceSetSuccess', ({ payload }, original) => {
+  return update(original, { $set: payload.data })
 })
 
 /**
  *
  */
-extend('$postsResourcePushSuccess', ({ payload, selector = 'postId' }, original) => {
-  return update(original, { $push: pathOr([], ['data'])(payload).map(post => post[selector]) })
+extend('$postsResourcePushSuccess', ({ payload }, original) => {
+  return update(original, { $push: payload.data })
 })
 
-extend('$postsResourceRemoveSuccess', ({ payload, selector = 'postId' }, original) => {
+extend('$postsResourceRemoveSuccess', ({ payload }, original) => {
   return update(original, {
     $set: without([payload.data[selector]], original),
   })
@@ -72,16 +72,16 @@ extend('$postsResourceRemoveSuccess', ({ payload, selector = 'postId' }, origina
  * Resource pool post hash, will replace post object with postId key
  * [{postId, image ...}, {postId, image ...}] -> [postId, postId]
  */
-extend('$postsResourcePoolHash', ({ payload, selector = 'postId' }, original) => {
+extend('$postsResourcePoolHash', ({ payload }, original) => {
   return update(original, {
-    $set: pathOr([], ['data'])(payload).map(post => post[selector])
+    $set: payload.data
   })
 })
 
 /**
  * Resource pool set
  */
-extend('$postsResourcePoolSet', ({ payload, selector = 'postId' }, original) => {
+extend('$postsResourcePoolSet', ({ payload }, original) => {
   return update(original, {
     [payload.data[selector]]: {
       data: { $set: payload.data },
@@ -93,7 +93,7 @@ extend('$postsResourcePoolSet', ({ payload, selector = 'postId' }, original) => 
 /**
  * Resource pool merge
  */
-extend('$postsResourcePoolMerge', ({ payload, initialState, selector = 'postId' }, original) => {
+extend('$postsResourcePoolMerge', ({ payload, initialState }, original) => {
   return update(original, {
     $merge: pathOr([], ['data'])(payload).reduce((acc, post) => {
       acc[post[selector]] = update(initialState, {

@@ -31,8 +31,6 @@ const initialState = {
   /**
    *
    */
-  chatPool: {},
-
   chatGetChatCache: {},
 }
 
@@ -48,19 +46,9 @@ const chatGetChatsRequest = (state, action) => update(state, {
 
 const chatGetChatsSuccess = (state, action) => update(state, {
   chatGetChats: {
-    data: { $chatResourceSetSuccess: action },
+    data: { $set: action.payload.data },
     status: { $set: 'success' },
     payload: { $set: action.payload.payload },
-  },
-
-  /**
-   * Chat pool entry
-   */
-  chatPool: {
-    $chatResourcePoolMerge: {
-      ...action,
-      initialState: initialState.chatGetChat,
-    },
   },
 })
 
@@ -90,18 +78,9 @@ const chatGetChatRequest = (state, action) => update(state, {
 
 const chatGetChatSuccess = (state, action) => update(state, {
   chatGetChat: {
+    data: { $set: action.payload.data },
     status: { $set: 'success' },
     payload: { $set: action.payload.payload },
-  },
-
-  /**
-   * Chat pool entry
-   */
-  chatPool: {
-    $chatResourcePoolSet: {
-      ...action,
-      initialState: initialState.chatGetChat,
-    },
   },
 })
 
@@ -131,18 +110,9 @@ const chatCreateDirectRequest = (state, action) => update(state, {
 
 const chatCreateDirectSuccess = (state, action) => update(state, {
   chatCreateDirect: {
+    data: { $set: action.payload.data },
     status: { $set: 'success' },
     payload: { $set: action.payload.payload },
-  },
-
-  /**
-   * Chat pool entry
-   */
-  chatPool: {
-    $chatResourcePoolSet: {
-      ...action,
-      initialState: initialState.chatGetChat,
-    },
   },
 })
 

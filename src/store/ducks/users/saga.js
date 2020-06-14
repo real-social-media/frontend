@@ -371,7 +371,6 @@ function* usersGetProfileSelfRequest(req) {
     const data = yield queryService.apiRequest(queries.self)
     const next = yield usersGetProfileSelfRequestData(req, data)
     yield put(actions.usersGetProfileSelfSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
-    yield put(actions.globalAuthUserTrigger({ data: selector(data) }))
   } catch (error) {
     yield put(actions.usersGetProfileSelfFailure({ payload: req.payload, message: errorWrapper(error) }))
   }
@@ -408,7 +407,6 @@ function* usersEditProfileRequest(req) {
     const data = yield queryService.apiRequest(queries.setUserDetails, req.payload)
     const next = yield usersEditProfileRequestData(req, data)
     yield put(actions.usersEditProfileSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
-    yield put(actions.globalAuthUserTrigger({ payload: req.payload, data: selector(data), meta }))
   } catch (error) {
     const errorMessage = path(['errors', '0', 'message'])(error)
     if (errorMessage && errorMessage.includes('is not verified')) {

@@ -175,6 +175,52 @@ const albumSchema = new schema.Entity(
 	}
 )
 
+const messageSchema = new schema.Entity(
+	/**
+	 * Key
+	 */
+	'chats',
+	/**
+	 * Definition
+	 */
+	{
+		textTaggedUsers: [{
+			user: usersSchema,
+		}],
+		author: usersSchema,
+	},
+	/**
+	 * Options
+	 */
+	{
+		idAttribute: 'messageId'
+	}
+)
+
+const chatSchema = new schema.Entity(
+	/**
+	 * Key
+	 */
+	'chats',
+	/**
+	 * Definition
+	 */
+	{
+		users: {
+			items: [usersSchema],
+		},
+		messages: {
+			items: [messageSchema],
+		},
+	},
+	/**
+	 * Options
+	 */
+	{
+		idAttribute: 'chatId'
+	}
+)
+
 const originalPostSchema = new schema.Entity(
 	/**
 	 * Key
@@ -249,6 +295,9 @@ export function denormalizePostGet(payload, entities) {
 	return denormalize(payload, postSchema, entities)
 }
 
+/**
+ *
+ */
 export function normalizeCommentsGet(payload) {
 	return normalize(payload, [commentsSchema])
 }
@@ -265,6 +314,9 @@ export function denormalizeCommentGet(payload, entities) {
 	return denormalize(payload, commentsSchema, entities)
 }
 
+/**
+ *
+ */
 export function normalizeUsersGet(payload) {
 	return normalize(payload, [usersSchema])
 }
@@ -280,3 +332,42 @@ export function normalizeUserGet(payload) {
 export function denormalizeUserGet(payload, entities) {
 	return denormalize(payload, usersSchema, entities)
 }
+
+/**
+ *
+ */
+export function normalizeAlbumsGet(payload) {
+	return normalize(payload, [albumSchema])
+}
+
+export function denormalizeAlbumsGet(payload, entities) {
+	return denormalize(payload, [albumSchema], entities)
+}
+
+export function normalizeAlbumGet(payload) {
+	return normalize(payload, albumSchema)
+}
+
+export function denormalizeAlbumGet(payload, entities) {
+	return denormalize(payload, albumSchema, entities)
+}
+
+/**
+ *
+ */
+export function normalizeChatsGet(payload) {
+	return normalize(payload, [chatSchema])
+}
+
+export function denormalizeChatsGet(payload, entities) {
+	return denormalize(payload, [chatSchema], entities)
+}
+
+export function normalizeChatGet(payload) {
+	return normalize(payload, chatSchema)
+}
+
+export function denormalizeChatGet(payload, entities) {
+	return denormalize(payload, chatSchema, entities)
+}
+
