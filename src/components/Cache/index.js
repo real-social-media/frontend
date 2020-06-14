@@ -11,6 +11,7 @@ import {
 import { Text } from 'react-native-paper'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
 import CacheServiceComponent from 'components/Cache/index.service'
+import equals from 'ramda/src/equals'
 
 const CacheComponent = ({
   uri,
@@ -127,4 +128,4 @@ export default memo((props) =>
       <CacheComponent {...cacheProps} />
     )}
   </CacheServiceComponent>
-)
+, equals)

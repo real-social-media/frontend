@@ -57,6 +57,7 @@ const AvatarTemplate = ({
             priorityIndex={0}
             resizeMode="cover"
             hideProgress
+            key={imageSource.uri}
           />
         </View>
 
