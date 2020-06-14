@@ -106,5 +106,5 @@ export const priorotizedRemoteImageFetch = ({
     requestCallback,
     failureCallback,
     successCallback,
-  }, priority, console.log)
+  }, priority)
 }

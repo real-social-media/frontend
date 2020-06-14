@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, memo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import * as actions from 'store/ducks/cache/actions'
@@ -10,178 +10,37 @@ import {
 } from 'react-native'
 import { Text } from 'react-native-paper'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
-import RNFS from 'react-native-fs'
-import qs from 'query-string'
-import path from 'ramda/src/path'
-import last from 'ramda/src/last'
-import useTimeoutFn from 'react-use/lib/useTimeoutFn'
+import CacheServiceComponent from 'components/Cache/index.service'
 
-/**
- * 
- */
-const getPartial = (source) => {
-  if (!source.includes('cloudfront.net')) {
-    return source
-  }
-  return qs.parseUrl(source).url.split('cloudfront.net')[1].replace(':', '-')
-}
-
-const getIsRemote = (source) => {
-  return source.includes('http://') || source.includes('https://')
-}
-
-const generateSignature = (source) => {
-  if (typeof source !== 'string' || !source.length) {
-    return {
-      partial: '',
-      path: '',
-      isRemote: '',
-    }
-  }
-
-  const isRemote = getIsRemote(source)
-  const partial = getPartial(source)
-  const path = isRemote ? `${RNFS.CachesDirectoryPath}/REAL${partial}` : source
-  const pathFolder = path.substring(0, path.lastIndexOf('/'))
-
-  return {
-    source,
-    partial,
-    path,
-    pathFolder,
-    isRemote,
-  }
-}
-
-const getPriority = (filename = '', priority = 0) => {
-  if (filename.includes('64p')) {
-    return priority
-  }
-  if (filename.includes('480p')) {
-    return 1000 + priority
-  }
-  if (filename.includes('4K')) {
-    return 10000 + priority
-  }
-  if (filename.includes('native')) {
-    return 100000 + priority
-  }
-  return 0
-}
-
-const getFilename = (source) => {
-  if (!source) return ''
-  const withoutQuery = source.split('?').shift()
-  const withoutPath = withoutQuery.split('/').pop()
-  const withoutExt = withoutPath.split('.').shift()
-  return withoutExt
-}
-
-/**
- * UI Component
- */
 const CacheComponent = ({
-  images,
-  fallback,
+  uri,
   resizeMode,
-  priorityIndex,
   style,
+  handleError,
+  progress,
   hideProgress,
   hideLabel,
+  filename,
 }) => {
-  const styling = styles()
   const dispatch = useDispatch()
 
-  const [hasError, setHasError] = useState(false)
-
-  const signatures = images
-    .filter(([source, shouldDownload]) => source)
-    .map(([source, shouldDownload]) => [generateSignature(source), shouldDownload])
-
-  const partial = path([1, 0, 'partial'])(signatures)
-  const cached = useSelector(path(['cache', 'cached', partial]))
-  const progress = 0
-
-  const uri = cached
-
-  // if (uri && uri.includes('/Users/azimgd/Library/Developer/CoreSimulator/Devices/218354C0-ACA3-408F-BF79-F1AAE29BA78E/data/Containers/Data/Application/7D209675-2471-4EE5-9960-759AFE6871E0/Library/Caches/REAL/us-east-1-b09d7e4d-02d7-4553-9cff-851c3f089920/post/8fdcbd87-db77-41fb-b886-1e5efbe1122f/image/'))
-  if (!uri)
-    console.log(uri, partial)
-
-  const progressVisibility = !hideProgress && progress
-
-  const fetchRemoteImages = () =>
-    signatures.forEach(([signature, shouldDownload], index) => {
-      const priority = getPriority(getFilename(signature.source), priorityIndex)
-
-      if (!shouldDownload) {
-        return
-      }
-
-      dispatch(actions.cacheFetchRequest({
-        /**
-         * Image source
-         */
-        signature,
-
-        /**
-         * Priority of the image, usually is the position of the item in list
-         */
-        priority,
-      }))
-    })
-
-  useEffect(() => {
-    fetchRemoteImages()
-
-    /**
-     * Cancel all pending tasks on image remove
-     */
-    return () => {}
-  }, [])
-
-  /**
-   * 
-   */
-  const handleError = ({ nativeEvent }) => {
-    setHasError(true)
-
-    // signatures
-    //   .filter(([signature]) => signature.path === uri)
-    //   .forEach(([signature, shouldDownload]) => {
-    //     dispatch(actions.cacheFetchFailure({
-    //       signature,
-    //       jobId: 0,
-    //       error: nativeEvent,
-    //       progress: 0,
-    //     }))
-    //   })
-  }
-
-  /**
-   * Show loading indicator image if placeholder image is not loaded, yet.
-   */
-  if (!uri && !progress && !hasError) {
-    return (
-      <ActivityIndicator
-        style={styling.image}
-      />
-    )
-  }
-
-  const filename = getFilename(uri)
-
   return (
-    <View style={styling.root}>
-      <View style={[styling.image, style]}>
-        {!hideLabel && filename ?
-          <View style={styling.label}>
-            <Text style={styling.text}>{filename}</Text>
+    <View style={styles.root}>
+      <View style={[styles.image, style]}>
+        {!hideProgress && !progress && !uri ?
+          <View style={styles.progress}>
+            <AnimatedCircularProgress
+              size={40}
+              width={2}
+              fill={0}
+              tintColor="#21ce99"
+              backgroundColor="#ffffff"
+            />
           </View>
         : null}
 
-        {progressVisibility ?
-          <View style={styling.progress}>
+        {!hideProgress && progress ?
+          <View style={styles.progress}>
             <AnimatedCircularProgress
               size={40}
               width={2}
@@ -192,21 +51,18 @@ const CacheComponent = ({
           </View>
         : null}
 
-        {uri && !hasError ? (
-          <Image
-            source={{ uri }}
-            resizeMode={resizeMode}
-            style={[styling.image, style]}
-            onError={handleError}
-          />
-        ) : (
-          <Image
-            source={{ uri: fallback }}
-            resizeMode={resizeMode}
-            style={[styling.image, style]}
-            onError={handleError}
-          />
-        )}
+        <Image
+          source={{ uri }}
+          resizeMode={resizeMode}
+          style={[styles.image, style]}
+          onError={handleError}
+        />
+
+        {!hideLabel && filename ?
+          <View style={styles.label}>
+            <Text style={styles.text}>{filename}</Text>
+          </View>
+        : null}
       </View>
     </View>
   )
@@ -229,7 +85,7 @@ CacheComponent.defaultProps = {
   hideLabel: true,
 }
 
-const styles = () => StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
     width: '100%',
     height: '100%',
@@ -265,4 +121,10 @@ const styles = () => StyleSheet.create({
 })
 
 export const CacheContext = React.createContext(null)
-export default CacheComponent
+export default memo((props) =>
+  <CacheServiceComponent {...props}>
+    {(cacheProps) => (
+      <CacheComponent {...cacheProps} />
+    )}
+  </CacheServiceComponent>
+)
