@@ -25,8 +25,8 @@ export const userFragment = `
     privacyStatus
     followedStatus
     followerStatus
-    followedCount
-    followerCount
+    followedsCount
+    followersCount
     followCountsHidden
     viewCountsHidden
     commentsDisabled
