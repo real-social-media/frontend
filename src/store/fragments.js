@@ -233,7 +233,7 @@ export const chatFragment = `
     name
     createdAt
     lastMessageActivityAt
-    userCount
+    usersCount
   }
 
   fragment chatFragment on Chat {
