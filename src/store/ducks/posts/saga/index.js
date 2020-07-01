@@ -66,8 +66,8 @@ function* postsGetMoreRequest(req) {
  *
  */
 function* postsGetUnreadCommentsRequestData(req, api) {
-  const dataSelector = path(['data', 'self', 'postsByNewCommentActivity', 'items'])
-  const metaSelector = compose(omit(['items']), path(['data', 'self', 'postsByNewCommentActivity']))
+  const dataSelector = path(['data', 'self', 'postsWithUnviewedComments', 'items'])
+  const metaSelector = compose(omit(['items']), path(['data', 'self', 'postsWithUnviewedComments']))
 
   const data = dataSelector(api)
   const meta = metaSelector(api)
