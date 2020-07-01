@@ -46,7 +46,7 @@ const ChatCard = ({
             </View>
 
             <View style={styles.comments}>
-              <Text>You have {post.commentCount} comments</Text>
+              <Text>You have {post.commentsCount} comments</Text>
               {users.length > 3 ?
                 <Text>From {users.slice(0, 3).join(', ')} and others</Text>
               : null}

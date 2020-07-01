@@ -127,7 +127,7 @@ export const postFragment = `
     imageUploadUrl
     isVerified
     likeStatus
-    commentCount
+    commentsCount
     commentsDisabled
     likesDisabled
     sharingDisabled
