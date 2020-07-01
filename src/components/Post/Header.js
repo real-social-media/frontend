@@ -106,7 +106,7 @@ const Header = ({
         : null}
       </View>
 
-      {path(['hasNewCommentActivity'])(post) ?
+      {path(['commentsUnviewedCount'])(post) ?
         <TouchableOpacity style={styling.headerAction} onPress={navigationActions.navigateComments(navigation, { postId: post.postId, userId: post.postedBy.userId })}>
           <BellIcon fill="red" />
         </TouchableOpacity>

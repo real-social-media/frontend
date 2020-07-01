@@ -128,6 +128,7 @@ export const postFragment = `
     isVerified
     likeStatus
     commentsCount
+    commentsUnviewedCount: commentsCount(viewedStatus: NOT_VIEWED)
     commentsDisabled
     likesDisabled
     sharingDisabled
@@ -136,7 +137,6 @@ export const postFragment = `
     anonymousLikeCount
     viewedByCount
     viewedStatus
-    hasNewCommentActivity
   }
 
   fragment postFragment on Post {

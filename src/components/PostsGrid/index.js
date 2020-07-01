@@ -36,7 +36,7 @@ const PostsGrid = ({
         {(post, priorityIndex) => (
           <GridItemComponent
             onPress={navigationActions.navigatePostMedia(navigation, { postId: post.postId, userId: post.postedBy.userId })}
-            active={path(['hasNewCommentActivity'])(post)}
+            active={path(['commentsUnviewedCount'])(post) > 0}
             activeIcon={activeIcon}
             inactiveIcon={null}
           >
