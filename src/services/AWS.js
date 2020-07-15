@@ -2,6 +2,7 @@ import Auth from '@aws-amplify/auth'
 import Api from '@aws-amplify/api'
 import Config from 'react-native-config'
 import * as Google from 'services/Google'
+import * as Apple from 'services/Apple'
 import DeviceInfo from 'react-native-device-info'
 
 /**
@@ -15,6 +16,7 @@ export const amplifyConfig = async () => {
     identityPoolId: Config.AWS_COGNITO_IDENTITY_POOL_ID,
     refreshHandlers: {
       'google': Google.refresh,
+      'apple': Apple.refresh,
     },
   })
 
@@ -33,3 +35,6 @@ export const amplifyConfig = async () => {
 
 export const federatedGoogleSignin = Google.signin
 export const federatedGoogleSignout = Google.signout
+
+export const federatedAppleSignin = Apple.signin
+export const federatedAppleSignout = Apple.signout

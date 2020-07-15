@@ -12,6 +12,7 @@ import path from 'ramda/src/path'
 import pathOr from 'ramda/src/pathOr'
 import last from 'ramda/src/last'
 import { logEvent } from 'services/Analytics'
+import { pageHeaderLeft } from 'navigation/options'
 
 const AuthPhotoUploadComponentService = ({ children }) => {
   const dispatch = useDispatch()
@@ -36,6 +37,8 @@ const AuthPhotoUploadComponentService = ({ children }) => {
     takenInReal = false,
     originalFormat = 'jpg',
     originalMetadata = '',
+    imageFormat = 'JPEG',
+    crop = null,
   }) => {
     logEvent('POST_CREATE_REQUEST')
 
@@ -57,6 +60,8 @@ const AuthPhotoUploadComponentService = ({ children }) => {
       takenInReal,
       originalFormat,
       originalMetadata,
+      imageFormat,
+      crop,
       setAsUserPhoto: true,
       createdAt: dayjs().toJSON(),
       attempt: 0,
@@ -121,6 +126,12 @@ const AuthPhotoUploadComponentService = ({ children }) => {
     dispatch(usersActions.usersEditProfileIdle({}))
     navigationActions.navigateAuthPhoto(navigation)()
   }
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: (props) => pageHeaderLeft({ ...props, onPress: handleErrorClose }),
+    })
+  }, [])
 
   return children({
     formErrorMessage,

@@ -5,6 +5,7 @@ import pathOr from 'ramda/src/pathOr'
 import {
   federatedGoogleSignin,
   federatedGoogleSignout,
+  federatedAppleSignin,
 } from 'services/AWS'
 import * as actions from 'store/ducks/auth/actions'
 import * as queries from 'store/ducks/auth/queries'
@@ -184,6 +185,56 @@ function* authGoogleRequest(req) {
 /**
  *
  */
+function* handleAuthAppleRequest() {
+  const AwsAuth = yield getContext('AwsAuth')
+
+  const apple = yield federatedAppleSignin()
+
+  const userPayload = {
+    id: apple.user.id,
+    name: apple.user.name,
+    email: apple.user.email,
+    authProvider: 'APPLE',
+    token: apple.token,
+  }
+
+  const AppleCognitoIdentityCredentials = yield AwsAuth.federatedSignIn('appleid.apple.com', {
+    token: apple.token,
+    expires_at: apple.expires_at,
+  }, userPayload)
+
+  AWS.config.region = Config.AWS_COGNITO_REGION
+  AWS.config.credentials = AppleCognitoIdentityCredentials
+
+  return apple
+}
+
+/**
+ *
+ */
+function* authAppleRequest(req) {
+  try {
+    const data = yield handleAuthAppleRequest(req.payload)
+    yield put(actions.authAppleSuccess({
+      message: errors.getMessagePayload(constants.AUTH_APPLE_SUCCESS, 'GENERIC'),
+      data,
+    }))
+  } catch (error) {
+    if (error.message && error.message.includes('The user canceled the sign in request')) {
+      yield put(actions.authAppleFailure({
+        message: errors.getMessagePayload(constants.AUTH_APPLE_FAILURE, 'CANCELED', error.message),
+      }))
+    } else {
+      yield put(actions.authAppleFailure({
+        message: errors.getMessagePayload(constants.AUTH_APPLE_FAILURE, 'GENERIC', error.message),
+      }))
+    }
+  }
+}
+
+/**
+ *
+ */
 function* handleAuthSignoutRequest() {
   const AwsAuth = yield getContext('AwsAuth')
   const AwsCache = yield getContext('AwsCache')
@@ -285,6 +336,7 @@ export default (persistor) => [
   takeEvery(constants.AUTH_CHECK_REQUEST, authCheckRequest),
   takeEvery(constants.AUTH_SIGNIN_REQUEST, authSigninRequest),
   takeEvery(constants.AUTH_GOOGLE_REQUEST, authGoogleRequest),
+  takeEvery(constants.AUTH_APPLE_REQUEST, authAppleRequest),
   takeEvery(constants.AUTH_SIGNOUT_REQUEST, authSignoutRequest, persistor),
   takeLatest(constants.AUTH_FORGOT_REQUEST, authForgotRequest),
   takeLatest(constants.AUTH_FORGOT_CONFIRM_REQUEST, authForgotConfirmRequest),

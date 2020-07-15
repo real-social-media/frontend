@@ -1,6 +1,5 @@
-import {
-  albumFragment,
-} from 'store/fragments'
+import * as albumsGrid from 'store/ducks/albums/queries/grid'
+import * as albumsSingle from 'store/ducks/albums/queries/single'
 
 export const addAlbum = `
   mutation addAlbum(
@@ -11,24 +10,47 @@ export const addAlbum = `
       albumId: $albumId,
       name: $name
     ) {
-      ...albumFragment
+      ...singleAlbumFragment
     }
   }
-  ${albumFragment}
+  ${albumsSingle.singleAlbumFragment}
 `
 
-export const getAlbums = `
-  query getAlbums($userId: ID!) {
-    user(userId: $userId) {
-      albums(limit: 10) {
+export const getAlbum = `
+  query getAlbum($albumId: ID!, $limit: Int, $nextToken: String = null) {
+    album(albumId: $albumId) {
+      ...singleAlbumFragment
+    }
+  }
+  ${albumsSingle.singleAlbumFragment}
+`
+
+export const getAlbumPosts = `
+  query getAlbumPosts($albumId: ID!, $limit: Int, $nextToken: String = null) {
+    album(albumId: $albumId) {
+      posts(limit: $limit, nextToken: $nextToken) {
         items {
-          ...albumFragment
+          ...singleAlbumPostFragment
         }
         nextToken
       }
     }
   }
-  ${albumFragment}
+  ${albumsSingle.singleAlbumPostFragment}
+`
+
+export const getAlbums = `
+  query getAlbums($userId: ID!) {
+    user(userId: $userId) {
+      albums(limit) {
+        items {
+          ...gridAlbumFragment
+        }
+        nextToken
+      }
+    }
+  }
+  ${albumsGrid.gridAlbumFragment}
 `
 
 export const editAlbum = `
@@ -40,17 +62,17 @@ export const editAlbum = `
       albumId: $albumId,
       name: $name,
     ) {
-      ...albumFragment
+      ...singleAlbumFragment
     }
   }
-  ${albumFragment}
+  ${albumsSingle.singleAlbumFragment}
 `
 
 export const deleteAlbum = `
   mutation deleteAlbum($albumId: ID!) {
     deleteAlbum (albumId: $albumId) {
-      ...albumFragment
+      ...singleAlbumFragment
     }
   }
-  ${albumFragment}
+  ${albumsSingle.singleAlbumFragment}
 `

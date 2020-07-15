@@ -9,6 +9,7 @@ import GridItemComponent from 'templates/GridItem'
 import CacheComponent from 'components/Cache'
 import path from 'ramda/src/path'
 import * as navigationActions from 'navigation/actions'
+import { Text } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -38,6 +39,10 @@ const AlbumsGrid = ({
               resizeMode="cover"
               hideProgress={true}
             />
+
+            <View style={styling.title}>
+              <Text numberOfLines={1} style={styling.text}>{album.name}</Text>
+            </View>
           </GridItemComponent>
         )}
       </GridComponent>
@@ -51,7 +56,12 @@ const styles = theme => StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
-  item: {
+  title: {
+    position: 'absolute',
+    padding: 4,
+    bottom: 0,
+    right: 0,
+    backgroundColor: theme.colors.backgroundPrimary,
   },
 })
 

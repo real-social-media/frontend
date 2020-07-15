@@ -279,10 +279,14 @@ function* signupConfirmRequest(req) {
 /**
  * Google only execution
  */
-function* handleCognitoRequestData(req, api) {
-  const dataSelector = path(['data', 'createGoogleUser'])
+function* handleSignupCognitoRequestData(req, api, selectorType) {
+  const selector = (() => {
+    if (selectorType === 'GOOGLE') return path(['data', 'createGoogleUser'])
+    if (selectorType === 'APPLE') return path(['data', 'createAppleUser'])
+    if (selectorType === 'COGNITO') return path(['data', 'createCognitoOnlyUser'])
+  })()
 
-  const data = dataSelector(api)
+  const data = selector(api)
   const meta = {}
   const payload = req.payload
 
@@ -300,26 +304,58 @@ function* handleCognitoRequestData(req, api) {
   }
 }
 
-function* handleCognitoRequest(payload) {
+function* handleSignupCognitoRequest(payload) {
   const AwsAuth = yield getContext('AwsAuth')
 
   const session = yield AwsAuth.currentAuthenticatedUser({
     bypassCache: false,
   })
 
-  const data = yield queryService.apiRequest(queries.createGoogleUser, {
-    username: payload.username,
-    fullName: session.name,
-    googleIdToken: session.token,
-  })
-  const next = yield handleCognitoRequestData({ payload }, data)
-  yield put(authActions.authCheckReady({ data: next.data, payload: next.payload, meta: next.meta }))
-  yield queryService.apiRequest(queries.setUserAcceptedEULAVersion, { version: '15-11-2019' })
+  /**
+   *
+   */
+  if (session.authProvider === 'APPLE') {
+    const data = yield queryService.apiRequest(queries.createAppleUser, {
+      username: payload.username,
+      fullName: session.name,
+      appleIdToken: session.token,
+    })
+    const next = yield handleSignupCognitoRequestData({ payload }, data, session.authProvider)
+    yield put(authActions.authCheckReady({ data: next.data, payload: next.payload, meta: next.meta }))
+    yield queryService.apiRequest(queries.setUserAcceptedEULAVersion, { version: '15-11-2019' })
+  }
+
+  /**
+   *
+   */
+  else if (session.authProvider === 'GOOGLE') {
+    const data = yield queryService.apiRequest(queries.createGoogleUser, {
+      username: payload.username,
+      fullName: session.name,
+      googleIdToken: session.token,
+    })
+    const next = yield handleSignupCognitoRequestData({ payload }, data, session.authProvider)
+    yield put(authActions.authCheckReady({ data: next.data, payload: next.payload, meta: next.meta }))    
+    yield queryService.apiRequest(queries.setUserAcceptedEULAVersion, { version: '15-11-2019' })
+  }
+
+  /**
+   *
+   */
+  else {
+    const data = yield queryService.apiRequest(queries.createCognitoOnlyUser, {
+      username: payload.username,
+      fullName: payload.username,
+    })
+    const next = yield handleSignupCognitoRequestData({ payload }, data, 'COGNITO')
+    yield put(authActions.authCheckReady({ data: next.data, payload: next.payload, meta: next.meta }))    
+    yield queryService.apiRequest(queries.setUserAcceptedEULAVersion, { version: '15-11-2019' })
+  }
 }
 
 function* signupCognitoRequest(req) {
   try {
-    const data = yield handleCognitoRequest(req.payload)
+    const data = yield handleSignupCognitoRequest(req.payload)
     yield put(actions.signupCognitoSuccess({
       message: errors.getMessagePayload(constants.SIGNUP_COGNITO_SUCCESS, 'GENERIC'),
       payload: req.payload,

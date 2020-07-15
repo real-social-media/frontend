@@ -28,7 +28,7 @@ const AuthForgotComponentService = ({ children }) => {
    * Navigation state reset on back button press
    */
   const handleGoBack = useCallback(() => {
-    dispatch(signupActions.navigateAuthForgotIdle({}))
+    dispatch(authActions.authForgotIdle({}))
     navigationActions.navigateAuthHome(navigation)()
   }, [])
 

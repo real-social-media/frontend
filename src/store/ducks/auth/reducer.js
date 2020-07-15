@@ -36,6 +36,14 @@ const initialState = {
     payload: {},
     nextRoute: null,
   },
+  authApple: {
+    data: [],
+    status: 'idle',
+    error: {},
+    message: {},
+    payload: {},
+    nextRoute: null,
+  },
   authSignout: {
     data: [],
     status: 'idle',
@@ -181,6 +189,40 @@ const authGoogleIdle = (state, action) => update(state, {
 /**
  *
  */
+const authAppleRequest = (state, action) => update(state, {
+  authApple: {
+    status: { $set: 'loading' },
+  },
+})
+
+const authAppleSuccess = (state, action) => update(state, {
+  authApple: {
+    message: { $set: action.payload.message },
+    data: { $set: action.payload.data },
+    status: { $set: 'success' },
+  },
+})
+
+const authAppleFailure = (state, action) => update(state, {
+  authApple: {
+    message: { $set: action.payload.message },
+    error: { $set: action.payload.message },
+    status: { $set: 'failure' },
+  },
+})
+
+const authAppleIdle = (state, action) => update(state, {
+  authApple: {
+    data: { $set: initialState.authApple.data },
+    status: { $set: 'idle' },
+    error: { $set: initialState.authApple.error },
+    message: { $set: initialState.authApple.message },
+  },
+})
+
+/**
+ *
+ */
 const authSignoutRequest = (state, action) => update(state, {
   authSignout: {
     status: { $set: 'loading' },
@@ -297,6 +339,11 @@ export default handleActions({
   [constants.AUTH_GOOGLE_SUCCESS]: authGoogleSuccess,
   [constants.AUTH_GOOGLE_FAILURE]: authGoogleFailure,
   [constants.AUTH_GOOGLE_IDLE]: authGoogleIdle,
+
+  [constants.AUTH_APPLE_REQUEST]: authAppleRequest,
+  [constants.AUTH_APPLE_SUCCESS]: authAppleSuccess,
+  [constants.AUTH_APPLE_FAILURE]: authAppleFailure,
+  [constants.AUTH_APPLE_IDLE]: authAppleIdle,
 
   [constants.AUTH_SIGNOUT_REQUEST]: authSignoutRequest,
   [constants.AUTH_SIGNOUT_SUCCESS]: authSignoutSuccess,

@@ -7,8 +7,6 @@ import * as navigationOptions from 'navigation/options'
 import * as navigationFragments from 'navigation/fragments'
 
 import FeedScreen from 'screens/FeedScreen'
-import ProfileRequestsScreen from 'screens/ProfileRequestsScreen'
-
 
 const AppNavigator = () => {
   const { theme, themes } = useContext(ThemesContext)
@@ -24,12 +22,6 @@ const AppNavigator = () => {
         name="Feed"
         component={FeedScreen}
         {...stackScreenDefaultProps}
-      />
-
-      <Stack.Screen
-        name="ProfileRequests"
-        component={ProfileRequestsScreen}
-        {...stackScreenPageProps({ options: { title: 'Follower Requests' } })}
       />
       
       {navigationFragments.media({

@@ -21,7 +21,7 @@ const Photo = ({
   const styling = styles(theme)
   const progress = pathOr(0, ['meta', 'progress'])(activeUpload)
   const image = (
-    pathOr(null, ['payload', 'images', 0])(activeUpload) ||
+    pathOr(null, ['payload', 'preview', 0])(activeUpload) ||
     pathOr(null, ['payload', 'image', 'url480p'])(activeUpload)
   )
 

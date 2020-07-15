@@ -47,7 +47,6 @@ const AuthPhotoUpload = ({
           {!formErrorMessage ?
             <ProgressComponent
               activeUpload={activeUpload}
-              handleErrorClose={handleErrorClose}
             />
           : null}
 

@@ -16,7 +16,6 @@ import StoriesComponent from 'components/Stories'
 import StoriesServiceComponent from 'components/Stories/index.service'
 import FeedCardsComponent from 'components/FeedCards'
 import FeedCardsServiceComponent from 'components/FeedCards/index.service'
-import ContextComponent from 'components/Cache/Context'
 import ScrollService from 'services/Scroll'
 
 import { withTheme } from 'react-native-paper'
@@ -94,6 +93,11 @@ const Feed = ({
         onEndReached={scroll.handleLoadMore}
         onEndReachedThreshold={15}
         scrollEventThrottle={500}
+        ListEmptyComponent={scroll.refreshing && (
+          <ActivityIndicator
+            tintColor={theme.colors.border}
+          />
+        )}
         refreshControl={(
           <RefreshControl
             tintColor={theme.colors.border}

@@ -2,6 +2,8 @@ import React, { useContext } from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import { withTheme } from 'react-native-paper'
+import { AppProvider } from 'services/providers/App'
+import UIContextComponent from 'components/UI/Context'
 
 import { ThemesContext } from 'navigation/context'
 import * as navigationOptions from 'navigation/options'
@@ -14,6 +16,9 @@ import CommentsScreen from 'screens/CommentsScreen'
 import CameraScreen from 'screens/CameraScreen'
 import ChatScreen from 'screens/ChatScreen'
 import ChatDirectScreen from 'screens/ChatDirectScreen'
+import ChatOptionsScreen from 'screens/ChatOptionsScreen'
+import ProfileScreen from 'screens/ProfileScreen'
+import ProfileRequestsScreen from 'screens/ProfileRequestsScreen'
 
 const ChatNavigator = ({ navigation }) => {
   const { theme, themes } = useContext(ThemesContext)
@@ -34,9 +39,24 @@ const ChatNavigator = ({ navigation }) => {
         {...stackScreenPageProps({ options: { title: 'Chat' } })}
       />
       <Stack.Screen
+        name="ChatOptions"
+        component={ChatOptionsScreen}
+        {...stackScreenPageProps({ options: { title: 'Chat' } })}
+      />
+      <Stack.Screen
         name="Comments"
         component={CommentsScreen}
         {...stackScreenPageProps({ options: { title: 'Comments' } })}
+      />
+      <Stack.Screen
+        name="ProfileRequests"
+        component={ProfileRequestsScreen}
+        {...stackScreenPageProps({ options: { title: 'Follower Requests' } })}
+      />
+      <Stack.Screen
+        name="Profile"
+        component={ProfileScreen}
+        {...stackScreenPageProps({ options: { title: 'Profile' } })}
       />
     </Stack.Navigator>
   )
@@ -52,40 +72,45 @@ const RootNavigator = () => {
   const stackScreenCardProps = navigationOptions.stackScreenCardProps({ theme, themes })
 
   return (
-    <Stack.Navigator {...stackNavigatorDefaultProps}>
-      <Stack.Screen
-        name="Home"
-        component={TabNavigator}
-        {...stackScreenBlankProps}
-      />
+    <AppProvider>
+      {(({ user }) =>
+        <UIContextComponent.Provider value={{ user }}>
+          <Stack.Navigator {...stackNavigatorDefaultProps}>
+            <Stack.Screen
+              name="Home"
+              component={TabNavigator}
+              {...stackScreenBlankProps}
+            />
 
-      <Stack.Screen
-        name="PostType"
-        component={PostTypeScreen}
-        {...stackScreenModalProps}
-      />
+            <Stack.Screen
+              name="PostType"
+              component={PostTypeScreen}
+              {...stackScreenModalProps}
+            />
 
-      <Stack.Screen
-        name="Story"
-        component={StoryScreen}
-        {...stackScreenModalProps}
-      />
+            <Stack.Screen
+              name="Story"
+              component={StoryScreen}
+              {...stackScreenModalProps}
+            />
 
-      <Stack.Screen
-        name="Comments"
-        component={CommentsScreen}
-        {...stackScreenPageProps({ options: { title: 'Comments' } })}
-      />
+            <Stack.Screen
+              name="Comments"
+              component={CommentsScreen}
+              {...stackScreenPageProps({ options: { title: 'Comments' } })}
+            />
 
-      {navigationFragments.media({
-        Stack,
-        stackScreenCardProps,
-        stackScreenPageProps,
-      })}
-    </Stack.Navigator>
+            {navigationFragments.media({
+              Stack,
+              stackScreenCardProps,
+              stackScreenPageProps,
+            })}
+          </Stack.Navigator>
+        </UIContextComponent.Provider>
+      )}
+    </AppProvider>
   )
 }
-
 
 const AppNavigator = withTheme(({ theme }) => {
   const Tab = createMaterialTopTabNavigator()

@@ -15,10 +15,23 @@ const AuthCognitoComponentService = ({ children }) => {
 
   const signupUsername = useSelector(state => state.signup.signupUsername)
   const signupCognito = useSelector(state => state.signup.signupCognito)
+  const authSignout = useSelector(state => state.auth.authSignout)
+
+  const authSignoutRequest = () => 
+    dispatch(authActions.authSignoutRequest({}))
 
   const handleFormSubmit = (payload) => {
     dispatch(signupActions.signupUsernameRequest(payload))
   }
+
+  useEffect(() => {
+    if (authSignout.status === 'success') {
+      dispatch(authActions.authCheckIdle({}))
+      dispatch(authActions.authSignoutIdle({}))
+    }
+  }, [
+    authSignout.status,
+  ])
 
   /**
    * Create cognito user
@@ -66,6 +79,7 @@ const AuthCognitoComponentService = ({ children }) => {
   const handleErrorClose = () => dispatch(signupActions.signupUsernameIdle({}))
 
   return children({
+    authSignoutRequest,
     formErrorMessage,
     handleFormSubmit,
     handleFormTransform,

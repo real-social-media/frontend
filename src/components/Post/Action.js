@@ -45,7 +45,7 @@ const Action = ({
    * - Like hasn't been set before, which allows only 1 like per post
    */
   const likeButtonVisibility = (
-    !post.likesDisabled &&
+    post.likesDisabled === false &&
     !path(['postedBy', 'likesDisabled'])(post) &&
     !path(['likesDisabled'])(user)
   )
@@ -56,7 +56,7 @@ const Action = ({
    * - Post owner has not enabled commentsDisabled global setting
    */
   const commentButtonVisibility = (
-    !post.commentsDisabled &&
+    post.commentsDisabled === false &&
     !path(['postedBy', 'commentsDisabled'])(post) &&
     !path(['commentsDisabled'])(user)
   )
@@ -68,7 +68,7 @@ const Action = ({
    * - Current authenticated user is tagged in post by author
    */
   const shareButtonVisibility = (
-    !post.sharingDisabled &&
+    post.sharingDisabled === false &&
     !path(['sharingDisabled'])(user) &&
     tagged
   )
@@ -116,7 +116,7 @@ const Action = ({
       </View>
 
       {seenByVisibility ?
-        <TouchableOpacity style={styling.actionRight} onPress={navigationActions.navigatePostViews(navigation, { post })}>
+        <TouchableOpacity style={styling.actionRight} onPress={navigationActions.navigatePostViews(navigation, { postId: post.postId, userId: post.postedBy.userId })}>
           <Caption>{t('Seen by {{viewedByCount}} people', { viewedByCount: post.viewedByCount })}</Caption>
         </TouchableOpacity>
       :

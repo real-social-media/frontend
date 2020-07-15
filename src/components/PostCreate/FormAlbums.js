@@ -31,6 +31,10 @@ const FormAlbums = ({
   return (
     <View style={styling.root}>
       <ScrollView style={styling.albums} horizontal>
+        <TouchableOpacity style={[styling.album, styling.albumCreate]} onPress={navigationActions.navigateAlbums(navigation)}>
+          <Text>{t('New Album')}</Text>
+        </TouchableOpacity>
+
         {pathOr([], ['data'])(albumsGet).map((album, key) => {
           const style = (values.albumId === album.albumId) ?
             [styling.album, styling.albumSelected] :
@@ -42,10 +46,6 @@ const FormAlbums = ({
             </TouchableOpacity>
           )
         })}
-
-        <TouchableOpacity style={[styling.album, styling.albumCreate]} onPress={navigationActions.navigateAlbums(navigation)}>
-          <Text>{t('Create new album')}</Text>
-        </TouchableOpacity>
       </ScrollView>
 
       <TouchableOpacity onPress={navigationActions.navigateAlbums(navigation)}>

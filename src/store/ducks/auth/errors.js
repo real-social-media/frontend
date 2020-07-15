@@ -78,6 +78,19 @@ const messageCodes = {
     },
   },
 
+  [constants.AUTH_APPLE_SUCCESS]: {
+    GENERIC: {
+      code: 'GENERIC',
+      text: 'Successfully signed with Apple',
+    },
+  },
+  [constants.AUTH_APPLE_FAILURE]: {
+    GENERIC: {
+      code: 'GENERIC',
+      text: 'Failed to sign with Apple',
+    },
+  },
+
   [constants.AUTH_SIGNOUT_SUCCESS]: {
     GENERIC: {
       code: 'GENERIC',

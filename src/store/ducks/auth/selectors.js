@@ -5,11 +5,20 @@ import * as normalizer from 'normalizer/schemas'
 
 const entities = () => path(['entities'])
 const authUser = () => path(['auth', 'user'])
+const usersEditProfile = () => path(['users', 'usersEditProfile'])
+const usersGetProfileSelf = () => path(['users', 'usersGetProfileSelf'])
 
 export const authUserSelector = createSelector(
-  [authUser(), entities()],
-  (authUser, entities) => {
+  [authUser(), usersEditProfile(), usersGetProfileSelf(), entities()],
+  (authUser, usersEditProfile, usersGetProfileSelf, entities) => {
     return normalizer.denormalizeUserGet(authUser, entities)
+  }
+)
+
+export const authUserIdSelector = createSelector(
+  [authUser()],
+  (authUser) => {
+    return authUser
   }
 )
 
@@ -23,9 +32,10 @@ export const themeFetchSelector =
   state => pathOr([], ['theme', 'themeFetch', 'data'], state)
 
 export const themeSelector = createSelector(
-  themeCodeSelector,
+  authUserSelector,
   themeFetchSelector,
-  (themeCode, themeFetch) => {
-    return (themeFetch.find(theme => theme.key === themeCode) || {}).theme
+  (authUser, themeFetch) => {
+    const activeTheme = (authUser.themeCode || 'black.green')
+    return (themeFetch.find(theme => theme.key === activeTheme) || {}).theme
   }
 )

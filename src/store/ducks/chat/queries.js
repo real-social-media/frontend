@@ -1,29 +1,28 @@
-import {
-  chatFragment,
-  chatMessageFragment,
-} from 'store/fragments'
+import * as chatSingle from 'store/ducks/chat/queries/single'
+import * as chatList from 'store/ducks/chat/queries/list'
+import * as message from 'store/ducks/chat/queries/message'
 
 export const chats = `
   query chats($limit: Int, $nextToken: String) {
     self {
       chats(limit: $limit, nextToken: $nextToken) {
         items {
-          ...chatFragment
+          ...listChatFragment
         }
         nextToken
       }
     }
   }
-  ${chatFragment}
+  ${chatList.listChatFragment}
 `
 
 export const chat = `
   query chat($chatId: ID!) {
     chat(chatId: $chatId) {
-      ...chatFragment
+      ...singleChatFragment
     }
   }
-  ${chatFragment}
+  ${chatSingle.singleChatFragment}
 `
 
 export const onChatMessageNotification = `
@@ -67,10 +66,10 @@ export const createDirectChat = `
       messageId: $messageId,
       messageText: $messageText,
     ) {
-      ...chatFragment
+      ...singleChatFragment
     }
   }
-  ${chatFragment}
+  ${chatSingle.singleChatFragment}
 `
 
 export const addChatMessage = `
@@ -87,15 +86,41 @@ export const addChatMessage = `
       ...chatMessageFragment
     }
   }
-  ${chatMessageFragment}
+  ${message.chatMessageFragment}
 `
 
-export const reportChatMessageViews = `
-  mutation reportChatMessageViews(
-    $messageIds: [ID!]!,
+export const reportChatViews = `
+  mutation reportChatViews(
+    $chatIds: [ID!]!,
   ) {
-    reportChatMessageViews(
-      messageIds: $messageIds,
+    reportChatViews(
+      chatIds: $chatIds,
     )
   }
+`
+
+export const flagChatMessage = `
+  mutation flagChatMessage(
+    $messageId: ID!,
+  ) {
+    flagChatMessage(
+      messageId: $messageId,
+    ) {
+      ...chatMessageFragment
+    }
+  }
+  ${message.chatMessageFragment}
+`
+
+export const deleteChatMessage = `
+  mutation deleteChatMessage(
+    $messageId: ID!,
+  ) {
+    deleteChatMessage(
+      messageId: $messageId,
+    ) {
+      ...chatMessageFragment
+    }
+  }
+  ${message.chatMessageFragment}
 `

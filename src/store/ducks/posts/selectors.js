@@ -56,10 +56,12 @@ export const postsGetArchivedSelector = () => createDeepEqualSelector(
  *
  */
 const postsFeedGet = () => path(['posts', 'postsFeedGet'])
+const postsOnymouslyLike = () => path(['posts', 'postsOnymouslyLike'])
+const postsDislike = () => path(['posts', 'postsDislike'])
 
 export const postsFeedGetSelector = () => createDeepEqualSelector(
-  [postsFeedGet(), entities()],
-  (postsFeedGet, entities) => {
+  [postsFeedGet(), postsOnymouslyLike(), postsDislike(), entities()],
+  (postsFeedGet, postsOnymouslyLike, postsDislike, entities) => {
     const denormalized = normalizer.denormalizePostsGet(postsFeedGet.data, entities)
     return assocPath(['data'], denormalized)(postsFeedGet)
   }

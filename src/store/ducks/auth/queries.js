@@ -1,12 +1,10 @@
-import {
-  userFragment,
-} from 'store/fragments'
+import * as usersSingle from 'store/ducks/users/queries/single'
 
 export const self = `
   query self {
     self {
-      ...userFragment
+      ...singleUserFragment
     }
   }
-  ${userFragment}
+  ${usersSingle.singleUserFragment}
 `

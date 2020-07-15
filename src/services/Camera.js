@@ -9,8 +9,8 @@ export const getScreenAspectRatio = (aspect, baseWidth) => {
   })()
 
   return {
-    x: parseInt(baseWidth),
-    y: parseInt(baseWidth * ratio),
+    x: Math.floor(baseWidth),
+    y: Math.floor(baseWidth * ratio),
   }
 }
 

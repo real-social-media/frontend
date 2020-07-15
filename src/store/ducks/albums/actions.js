@@ -12,10 +12,34 @@ export const albumsGetFailure = createAction(constants.ALBUMS_GET_FAILURE)
 /**
  * 
  */
+export const albumsSingleGetIdle = createAction(constants.ALBUMS_SINGLE_GET_IDLE)
+export const albumsSingleGetRequest = createAction(constants.ALBUMS_SINGLE_GET_REQUEST)
+export const albumsSingleGetSuccess = createAction(constants.ALBUMS_SINGLE_GET_SUCCESS)
+export const albumsSingleGetFailure = createAction(constants.ALBUMS_SINGLE_GET_FAILURE)
+
+/**
+ * 
+ */
 export const albumsCreateIdle = createAction(constants.ALBUMS_CREATE_IDLE)
 export const albumsCreateRequest = createAction(constants.ALBUMS_CREATE_REQUEST)
 export const albumsCreateSuccess = createAction(constants.ALBUMS_CREATE_SUCCESS)
 export const albumsCreateFailure = createAction(constants.ALBUMS_CREATE_FAILURE)
+
+/**
+ * 
+ */
+export const albumsPostsGetIdle = createAction(constants.ALBUMS_POSTS_GET_IDLE)
+export const albumsPostsGetRequest = createAction(constants.ALBUMS_POSTS_GET_REQUEST)
+export const albumsPostsGetSuccess = createAction(constants.ALBUMS_POSTS_GET_SUCCESS)
+export const albumsPostsGetFailure = createAction(constants.ALBUMS_POSTS_GET_FAILURE)
+
+/**
+ * 
+ */
+export const albumsPostsGetMoreIdle = createAction(constants.ALBUMS_POSTS_GET_MORE_IDLE)
+export const albumsPostsGetMoreRequest = createAction(constants.ALBUMS_POSTS_GET_MORE_REQUEST)
+export const albumsPostsGetMoreSuccess = createAction(constants.ALBUMS_POSTS_GET_MORE_SUCCESS)
+export const albumsPostsGetMoreFailure = createAction(constants.ALBUMS_POSTS_GET_MORE_FAILURE)
 
 /**
  * 

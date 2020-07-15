@@ -30,6 +30,14 @@ export const authGoogleFailure = createAction(constants.AUTH_GOOGLE_FAILURE)
 /**
  * 
  */
+export const authAppleIdle = createAction(constants.AUTH_APPLE_IDLE)
+export const authAppleRequest = createAction(constants.AUTH_APPLE_REQUEST)
+export const authAppleSuccess = createAction(constants.AUTH_APPLE_SUCCESS)
+export const authAppleFailure = createAction(constants.AUTH_APPLE_FAILURE)
+
+/**
+ * 
+ */
 export const authSignoutIdle = createAction(constants.AUTH_SIGNOUT_IDLE)
 export const authSignoutRequest = createAction(constants.AUTH_SIGNOUT_REQUEST)
 export const authSignoutSuccess = createAction(constants.AUTH_SIGNOUT_SUCCESS)

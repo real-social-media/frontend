@@ -1,5 +1,5 @@
 import { graphqlOperation } from '@aws-amplify/api'
-import { call, put, takeLatest, getContext, select } from 'redux-saga/effects'
+import { put, takeLatest, getContext, select } from 'redux-saga/effects'
 import { eventChannel } from 'redux-saga'
 import path from 'ramda/src/path'
 import compose from 'ramda/src/compose'
@@ -585,23 +585,6 @@ function* postsReportPostViewsRequest(req) {
 /**
  *
  */
-function* postsReportCommentViewsRequest(req) {
-  const errorWrapper = yield getContext('errorWrapper')
-
-  try {
-    const data = yield queryService.apiRequest(queries.reportCommentViews, req.payload)
-    const selector = path(['data', 'reportCommentViews'])
-    const meta = {}
-
-    yield put(actions.postsReportCommentViewsSuccess({ data: selector(data), payload: req.payload, meta }))
-  } catch (error) {
-    yield put(actions.postsReportCommentViewsFailure({ message: errorWrapper(error), payload: req.payload }))
-  }
-}
-
-/**
- *
- */
 function* handlePostsGetTrendingPostsRequest(payload, extraData = []) {
   const api = yield queryService.apiRequest(queries.trendingPosts, { ...payload, viewedStatus: 'NOT_VIEWED' })
   const dataSelector = path(['data', 'trendingPosts', 'items'])
@@ -797,7 +780,6 @@ export default () => [
   takeLatest(constants.POSTS_ONYMOUSLY_LIKE_REQUEST, postsOnymouslyLikeRequest),
   takeLatest(constants.POSTS_DISLIKE_REQUEST, postsDislikeRequest),
   takeLatest(constants.POSTS_REPORT_POST_VIEWS_REQUEST, postsReportPostViewsRequest),
-  takeLatest(constants.POSTS_REPORT_COMMENT_VIEWS_REQUEST, postsReportCommentViewsRequest),
 
   takeLatest(constants.POSTS_GET_TRENDING_POSTS_REQUEST, postsGetTrendingPostsRequest),
   takeLatest(constants.POSTS_GET_TRENDING_POSTS_MORE_REQUEST, postsGetTrendingPostsMoreRequest),

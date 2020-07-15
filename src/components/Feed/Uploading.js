@@ -37,9 +37,9 @@ const Uploading = ({
    */
   const pseudoPost = {
     image: {
-      url64p: path(['payload', 'images', '0'])(post),
-      url480p: path(['payload', 'images', '0'])(post),
-      url1080p: path(['payload', 'images', '0'])(post),
+      url64p: path(['payload', 'preview', '0'])(post),
+      url480p: path(['payload', 'preview', '0'])(post),
+      url1080p: path(['payload', 'preview', '0'])(post),
     },
     postedBy: user,
     postedAt: Date.now(),
@@ -48,8 +48,8 @@ const Uploading = ({
   return (
     <View style={styling.root}>
       <Avatar
-        thumbnailSource={{ uri: path(['payload', 'images', '0'])(post) }}
-        imageSource={{ uri: path(['payload', 'images', '0'])(post) }}
+        thumbnailSource={{ uri: path(['payload', 'preview', '0'])(post) }}
+        imageSource={{ uri: path(['payload', 'preview', '0'])(post) }}
       />
 
       {post.status === 'loading' ?

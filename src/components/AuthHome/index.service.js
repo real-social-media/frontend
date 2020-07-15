@@ -20,10 +20,14 @@ const AuthHomeComponentService = ({ children }) => {
   const navigation = useNavigation()
   const authCheck = useSelector(state => state.auth.authCheck)
   const authGoogle = useSelector(state => state.auth.authGoogle)
+  const authApple = useSelector(state => state.auth.authApple)
   const authSignin = useSelector(state => state.auth.authSignin)
 
   const authGoogleRequest = () => 
     dispatch(authActions.authGoogleRequest())
+
+  const authAppleRequest = () => 
+    dispatch(authActions.authAppleRequest())
   
   const authSigninRequest = (payload) => {
     const usernameType = guessUsernameType(payload.username)
@@ -46,6 +50,17 @@ const AuthHomeComponentService = ({ children }) => {
     }
   }, [
     authGoogle.status,
+  ])
+
+  useEffect(() => {
+    if (authApple.status === 'success') {
+      dispatch(authActions.authCheckIdle({}))
+      dispatch(authActions.authCheckRequest(authApple.data))
+      dispatch(authActions.authAppleIdle({}))
+      dispatch(authActions.authSigninIdle({}))
+    }
+  }, [
+    authApple.status,
   ])
   
   useEffect(() => {
@@ -80,6 +95,8 @@ const AuthHomeComponentService = ({ children }) => {
     authCheck,
     authGoogle,
     authGoogleRequest,
+    authApple,
+    authAppleRequest,
     authSignin,
     authSigninRequest,
     authSigninIdle,

@@ -16,6 +16,7 @@ const DefaultButton = ({
   label,
   size,
   mode,
+  labelStyle,
   ...props
 }) => {
   const styling = styles(theme)
@@ -26,7 +27,7 @@ const DefaultButton = ({
 
   return (
     <View style={styling.root}>
-      <Button {...props} contentStyle={contentStyle} uppercase={false} compact mode={mode} labelStyle={[styling.text, colorStyle]}>
+      <Button {...props} contentStyle={contentStyle} uppercase={false} compact mode={mode} labelStyle={[styling.text, colorStyle, labelStyle]}>
         {label}
       </Button>
     </View>
@@ -60,6 +61,7 @@ DefaultButton.propTypes = {
 DefaultButton.defaultProps = {
   mode: 'contained',
   size: 'default',
+  labelStyle: {},
 }
 
 export default withTranslation()(withTheme(DefaultButton))

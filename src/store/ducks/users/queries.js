@@ -1,73 +1,75 @@
 import {
   cardFragment,
   postFragment,
-  userFragment,
 } from 'store/fragments'
+
+import * as usersSingle from 'store/ducks/users/queries/single'
+import * as usersList from 'store/ducks/users/queries/list'
 
 export const searchUsers = `
   query SearchUsers($searchToken: String!, $limit: Int, $nextToken: String) {
     searchUsers(searchToken: $searchToken, limit: $limit, nextToken: $nextToken) {
       items {
-        ...userFragment
+        ...singleUserFragment
       }
       nextToken
     }
   }
-  ${userFragment}
+  ${usersSingle.singleUserFragment}
 `
 
 export const followUser = `
   mutation FollowUser($userId: ID!) {
     followUser (userId: $userId) {
-      ...userFragment
+      ...singleUserFragment
     }
   }
-  ${userFragment}
+  ${usersSingle.singleUserFragment}
 `
 
 export const unfollowUser = `
   mutation UnfollowUser($userId: ID!) {
     unfollowUser (userId: $userId) {
-      ...userFragment
+      ...singleUserFragment
     }
   }
-  ${userFragment}
+  ${usersSingle.singleUserFragment}
 `
 
 export const deleteUser = `
   mutation deleteUser {
     deleteUser {
-      ...userFragment
+      ...singleUserFragment
     }
   }
-  ${userFragment}
+  ${usersSingle.singleUserFragment}
 `
 
 export const blockUser = `
   mutation BlockUser($userId: ID!) {
     blockUser (userId: $userId) {
-      ...userFragment
+      ...singleUserFragment
     }
   }
-  ${userFragment}
+  ${usersSingle.singleUserFragment}
 `
 
 export const unblockUser = `
   mutation UnblockUser($userId: ID!) {
     unblockUser (userId: $userId) {
-      ...userFragment
+      ...singleUserFragment
     }
   }
-  ${userFragment}
+  ${usersSingle.singleUserFragment}
 `
 
 export const user = `
   query user($userId: ID!) {
     user(userId: $userId) {
-      ...userFragment
+      ...singleUserFragment
     }
   }
-  ${userFragment}
+  ${usersSingle.singleUserFragment}
 `
 
 export const setUserDetails = `
@@ -99,10 +101,10 @@ export const setUserDetails = `
       languageCode: $languageCode,
       verificationHidden: $verificationHidden
     ) {
-      ...userFragment
+      ...singleUserFragment
     }
   }
-  ${userFragment}
+  ${usersSingle.singleUserFragment}
 `
 
 export const getImagePosts = `
@@ -124,13 +126,13 @@ export const getFollowedUsersWithStories = `
     self {
       followedUsersWithStories(limit: $limit, nextToken: $nextToken) {
         items {
-          ...userFragment
+          ...listUserFragment
         }
         nextToken
       }
     }
   }
-  ${userFragment}
+  ${usersList.listUserFragment}
 `
 
 export const getFollowedUsers = `
@@ -138,13 +140,13 @@ export const getFollowedUsers = `
     user(userId: $userId) {
       followedUsers (followStatus: $followStatus) {
         items {
-          ...userFragment
+          ...listUserFragment
         }
         nextToken
       }
     }
   }
-  ${userFragment}
+  ${usersList.listUserFragment}
 `
 
 export const getFollowerUsers = `
@@ -152,52 +154,52 @@ export const getFollowerUsers = `
     user(userId: $userId) {
       followerUsers (followStatus: $followStatus) {
         items {
-          ...userFragment
+          ...listUserFragment
         }
         nextToken
       }
     }
   }
-  ${userFragment}
+  ${usersList.listUserFragment}
 `
 
 export const acceptFollowerUser = `
   mutation AcceptFollowerUser($userId: ID!) {
     acceptFollowerUser (userId: $userId) {
-      ...userFragment
+      ...singleUserFragment
     }
   }
-  ${userFragment}
+  ${usersSingle.singleUserFragment}
 `
 
 export const denyFollowerUser = `
   mutation DenyFollowerUser($userId: ID!) {
     denyFollowerUser (userId: $userId) {
-      ...userFragment
+      ...singleUserFragment
     }
   }
-  ${userFragment}
+  ${usersSingle.singleUserFragment}
 `
 
 export const self = `
   query self {
     self {
-      ...userFragment
+      ...singleUserFragment
     }
   }
-  ${userFragment}
+  ${usersSingle.singleUserFragment}
 `
 
 export const trendingUsers = `
   query trendingUsers($limit: Int) {
     trendingUsers(limit: $limit) {
       items {
-        ...userFragment
+        ...listUserFragment
       }
       nextToken
     }
   }
-  ${userFragment}
+  ${usersList.listUserFragment}
 `
 
 export const getCards = `

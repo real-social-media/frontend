@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import * as postsActions from 'store/ducks/posts/actions'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { v4 as uuid } from 'uuid'
-import path from 'ramda/src/path'
 import { ifIphoneX } from 'react-native-iphone-x-helper'
 import * as authSelector from 'store/ducks/auth/selectors'
 import * as postsSelector from 'store/ducks/posts/selectors'
@@ -25,6 +24,8 @@ const CommentsService = ({ children }) => {
   useEffect(() => {
     dispatch(postsActions.postsSingleGetRequest({ postId, userId: postUserId }))
     dispatch(postsActions.postsCommentsGetRequest({ postId, userId: postUserId }))
+    dispatch(postsActions.postsReportPostViewsRequest({ postIds: [postId] }))
+
   }, [])
 
   useEffect(() => {
@@ -77,16 +78,6 @@ const CommentsService = ({ children }) => {
   const marginBottom = offset + ifIphoneX(40, 0)
   
   const onViewableItemsChanged = ({ viewableItems }) => {
-    const commentIds = viewableItems.map(viewable => path(['item', 'commentId'])(viewable))
-      .filter(item => item)
-
-    if (!Array.isArray(commentIds) || !commentIds.length) {
-      return
-    }
-
-    InteractionManager.runAfterInteractions(() => {
-      dispatch(postsActions.postsReportCommentViewsRequest({ commentIds }))
-    })
   }
 
   /**

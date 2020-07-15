@@ -25,3 +25,30 @@ export const albumsGetSelector = (userId) => createDeepEqualSelector(
     return assocPath(['data'], denormalized)(albums)
   }
 )
+
+/**
+ *
+ */
+const albumsSingleGet = () => path(['albums', 'albumsSingleGet'])
+
+export const albumsSingleGetSelector = (albumId) => createDeepEqualSelector(
+  [albumsSingleGet(), entities()],
+  (albumsSingleGet, entities) => {
+    const denormalized = normalizer.denormalizeAlbumGet(albumId, entities)
+    return assocPath(['data'], denormalized)(albumsSingleGet)
+  }
+)
+
+/**
+ *
+ */
+const albumsPostsGetCache = (albumId) => path(['albums', 'albumsPostsGetCache', albumId])
+
+export const albumsPostsGetSelector = (albumId) => createDeepEqualSelector(
+  [albumsPostsGetCache(albumId), entities()],
+  (albumsPostsGetCache, entities) => {
+    const posts = path(['data'])(albumsPostsGetCache) ? albumsPostsGetCache : initialState.albumsPostsGet
+    const denormalized = normalizer.denormalizePostsGet(posts.data, entities)
+    return assocPath(['data'], denormalized)(posts)
+  }
+)

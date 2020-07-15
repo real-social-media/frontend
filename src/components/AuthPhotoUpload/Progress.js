@@ -15,7 +15,6 @@ const Actions = ({
   t,
   theme,
   activeUpload,
-  handleErrorClose,
 }) => {
   const styling = styles(theme)
   
@@ -30,10 +29,6 @@ const Actions = ({
             actions={[{
               onPress: () => {},
               title: t('Upload progress {{progress}}%', { progress }),
-            }, {
-              onPress: handleErrorClose,
-              title: t('Cancel upload'),
-              active: true,
             }]}
           />
         </View>
@@ -46,10 +41,6 @@ const Actions = ({
             actions={[{
               onPress: () => {},
               title: t('Processing'),
-            }, {
-              onPress: handleErrorClose,
-              title: t('Cancel upload'),
-              active: true,
             }]}
           />
         </View>

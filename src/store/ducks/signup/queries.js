@@ -20,6 +20,15 @@ export const createGoogleUser = `
   ${userFragment}
 `
 
+export const createAppleUser = `
+  mutation createAppleUser($username: String!, $fullName: String, $appleIdToken: String!) {
+    createAppleUser(username: $username, fullName: $fullName, appleIdToken: $appleIdToken) {
+      ...userFragment
+    }
+  }
+  ${userFragment}
+`
+
 export const setUserAcceptedEULAVersion = `
   mutation SetUserAcceptedEULAVersion($version: String!) {
     setUserAcceptedEULAVersion(version: $version) {

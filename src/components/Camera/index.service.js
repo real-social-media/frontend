@@ -8,6 +8,7 @@ import { getScreenAspectRatio } from 'services/Camera'
 import series from 'async/series'
 import * as navigationActions from 'navigation/actions'
 import path from 'ramda/src/path'
+import * as AssetService from 'services/Asset'
 
 const cameraManager = (cameraRef) => ({
   resumePreview: props => {
@@ -36,13 +37,15 @@ export const handleGallery = async (photoSize = '1:1', multiple = false) => {
       multiple,
       avoidEmptySpaceAroundImage: false,
       mediaType: 'photo',
+      includeExif: true,
+      compressImageQuality: 1,
     })
 
     const responses = Array.isArray(selected) ? selected : [selected]
   
     const cropped = await series(
-      responses.map(response => (callback) =>
-        CropPicker.openCropper({
+      responses.map(response => async (callback) => {
+        const cropperOptions = ({
           avoidEmptySpaceAroundImage: false,
           path: response.path,
           width: getScreenAspectRatio(photoSize, response.width).x,
@@ -50,26 +53,24 @@ export const handleGallery = async (photoSize = '1:1', multiple = false) => {
           includeExif: true,
           compressImageQuality: 1,
         })
-        .then(res => ({
-          ...res,
-          originalFormat: response.filename.split('.').pop(),
-        }))
-        .then(res => callback(null, res))
-        .catch(() => callback(null, null))
-      )
+        const sourcePhoto = await AssetService.getAssetFileAbsolutePath(response.localIdentifier, response.filename)
+        const croppedPhoto = await CropPicker.openCropper(cropperOptions)
+        const croppedCoords = AssetService.generateCroppedCoordinates(croppedPhoto.cropRect)
+
+        callback(null, {
+          uri: sourcePhoto.path,
+          preview: croppedPhoto.path,
+          originalFormat: sourcePhoto.extension,
+          crop: croppedCoords,
+          originalMetadata: JSON.stringify(response.exif),
+          imageFormat: sourcePhoto.imageFormat,
+          takenInReal: false,
+          photoSize,
+        })
+      })
     )
 
-    const photos = cropped
-    .filter(item => item)
-    .map(photo => ({
-      uri: photo.path,
-      photoSize,
-      takenInReal: false,
-      originalFormat: photo.originalFormat,
-      originalMetadata: JSON.stringify(photo.exif),
-    }))
-  
-    return photos
+    return cropped.filter(item => item)
   } catch (error) {
     return []
   }
@@ -98,11 +99,12 @@ const CameraService = ({ children }) => {
       const snappedPhoto = await camera.takePictureAsync({
         quality: 1,
         base64: false,
+        writeExif: true,
         exif: true,
-        mirrorImage: true,
+        mirrorImage: false,
       })
 
-      const croppedPhoto = await CropPicker.openCropper({
+      const cropperOptions = ({
         avoidEmptySpaceAroundImage: false,
         path: snappedPhoto.uri,
         width: getScreenAspectRatio(photoSize, snappedPhoto.width).x,
@@ -111,12 +113,18 @@ const CameraService = ({ children }) => {
         compressImageQuality: 1,
       })
 
+      const croppedPhoto = await CropPicker.openCropper(cropperOptions)
+      const croppedCoords = AssetService.generateCroppedCoordinates(croppedPhoto.cropRect)
+
       dispatch(cameraActions.cameraCaptureRequest([{
-        uri: croppedPhoto.path,
-        photoSize,
-        takenInReal: true,
-        originalFormat: snappedPhoto.uri.split('.').pop(),
+        uri: snappedPhoto.uri,
+        preview: croppedPhoto.path,
+        originalFormat: 'jpg',
+        crop: croppedCoords,
         originalMetadata: JSON.stringify(snappedPhoto.exif),
+        imageFormat: 'JPEG',
+        takenInReal: false,
+        photoSize,
       }]))
 
       if (route.params && route.params.nextRoute) {

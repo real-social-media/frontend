@@ -14,7 +14,6 @@ import PostsGridComponent from 'components/PostsGrid'
 import { Subheading } from 'react-native-paper'
 import path from 'ramda/src/path'
 import PostsLoadingComponent from 'components/Feed/PostsLoading'
-import ContextComponent from 'components/Cache/Context'
 import ScrollService from 'services/Scroll'
 
 import { withTheme } from 'react-native-paper'

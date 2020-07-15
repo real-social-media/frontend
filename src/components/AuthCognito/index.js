@@ -5,6 +5,7 @@ import {
   StyleSheet,
 } from 'react-native'
 import FormComponent from 'components/AuthCognito/Form'
+import ActionsComponent from 'components/AuthCognito/Actions'
 import AuthHeaderTemplate from 'templates/Auth/Header'
 import AuthErrorTemplate from 'templates/Auth/Error'
 
@@ -15,6 +16,7 @@ import { withTranslation } from 'react-i18next'
 const AuthCognito = ({
   t,
   theme,
+  authSignoutRequest,
   formErrorMessage,
   handleFormSubmit,
   handleFormTransform,
@@ -49,6 +51,10 @@ const AuthCognito = ({
             formSubmitDisabled={formSubmitDisabled}
             formInitialValues={formInitialValues}
           />
+
+          <ActionsComponent
+            authSignoutRequest={authSignoutRequest}
+          />
         </View>
       </View>
     </View>
@@ -71,6 +77,7 @@ const styles = theme => StyleSheet.create({
 AuthCognito.propTypes = {
   t: PropTypes.any,
   theme: PropTypes.any,
+  authSignoutRequest: PropTypes.any,
   formErrorMessage: PropTypes.any,
   handleFormSubmit: PropTypes.any,
   handleFormTransform: PropTypes.any,

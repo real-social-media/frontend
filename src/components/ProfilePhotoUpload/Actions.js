@@ -21,7 +21,7 @@ const Actions = ({
   return (
     <View style={styling.root}>
       <View style={styling.item}>
-        <DefaultButton testID="components/AuthPhotoUpload/Actions/retry" label={t('Try Again')} onPress={navigationActions.navigateAuthPhoto(navigation)} loading={false} />
+        <DefaultButton testID="components/AuthPhotoUpload/Actions/retry" label={t('Try Again')} onPress={navigationActions.navigateSettings(navigation)} loading={false} />
       </View>
     </View>
   )

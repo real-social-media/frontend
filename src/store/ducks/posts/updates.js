@@ -64,7 +64,7 @@ extend('$postsResourcePushSuccess', ({ payload }, original) => {
 
 extend('$postsResourceRemoveSuccess', ({ payload }, original) => {
   return update(original, {
-    $set: without([payload.data[selector]], original),
+    $set: without([payload.data], original),
   })
 })
 
@@ -83,7 +83,7 @@ extend('$postsResourcePoolHash', ({ payload }, original) => {
  */
 extend('$postsResourcePoolSet', ({ payload }, original) => {
   return update(original, {
-    [payload.data[selector]]: {
+    [payload.data]: {
       data: { $set: payload.data },
       status: { $set: 'success' },
     },

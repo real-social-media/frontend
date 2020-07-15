@@ -1,8 +1,9 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
   ScrollView,
+  RefreshControl,
   View,
 } from 'react-native'
 import Layout from 'constants/Layout'
@@ -12,48 +13,68 @@ import path from 'ramda/src/path'
 import * as navigationActions from 'navigation/actions'
 import ActionSheet from 'react-native-actionsheet'
 import { useHeader } from 'components/Album/header'
+import ScrollService from 'services/Scroll'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation, useRoute } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const Album = ({
   t,
   theme,
   user,
+  albumsSingleGet,
+  albumsPostsGet,
+  albumsPostsGetRequest,
+  albumsPostsGetMoreRequest,
   albumsDeleteRequest,
   themeFetch,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
-  const route = useRoute()
-  const album = path(['params', 'album'])(route)
   const actionSheetRef = useRef(null)
 
   useHeader({
     user,
-    album,
+    album: albumsSingleGet.data,
     title: 'Edit',
     onPress: () => actionSheetRef.current && actionSheetRef.current.show(),
   })
 
+  const scroll = ScrollService({
+    resource: albumsPostsGet,
+    loadInit: albumsPostsGetRequest,
+    loadMore: albumsPostsGetMoreRequest,
+    extra: { albumId: path(['data', 'albumId'])(albumsSingleGet) },
+  })
+
   return (
     <View style={styling.root}>
-      <ScrollView bounces={false}>
+      <ScrollView
+        onScroll={scroll.handleScrollChange}
+        scrollEventThrottle={400}
+        refreshControl={(
+          <RefreshControl
+            tintColor={theme.colors.border}
+            onRefresh={scroll.handleRefresh}
+            refreshing={scroll.refreshing}
+          />
+        )}
+      >
         <View style={styling.content}>
           <ModalProfileComponent
-            thumbnailSource={{ uri: path(['ownedBy', 'photo', 'url64p'])(album) }}
-            imageSource={{ uri: path(['ownedBy', 'photo', 'url480p'])(album) }}
-            title={path(['ownedBy', 'username'])(album)}
-            subtitle={path(['ownedBy', 'fullName'])(album)}
+            thumbnailSource={{ uri: path(['ownedBy', 'photo', 'url64p'])(albumsSingleGet.data) }}
+            imageSource={{ uri: path(['ownedBy', 'photo', 'url480p'])(albumsSingleGet.data) }}
+            title={path(['ownedBy', 'username'])(albumsSingleGet.data)}
+            subtitle={path(['ownedBy', 'fullName'])(albumsSingleGet.data)}
           />
         </View>
 
         <View>
           <PostsGridComponent
-            postsGet={{ data: album.posts.items }}
+            postsGet={albumsPostsGet}
             themeFetch={themeFetch}
-            themeCode={path(['ownedBy', 'themeCode'])(album)}
+            themeCode={path(['ownedBy', 'themeCode'])(albumsSingleGet.data)}
             thread="albums"
           />
         </View>
@@ -65,10 +86,10 @@ const Album = ({
           destructiveButtonIndex={1}
           onPress={(index) => {
             if (index === 0) {
-              navigationActions.navigateAlbumEdit(navigation, { album })()
+              navigationActions.navigateAlbumEdit(navigation, { album: albumsSingleGet.data })()
             }
             if (index === 1) {
-              albumsDeleteRequest({ albumId: album.albumId })
+              albumsDeleteRequest({ albumId: albumsSingleGet.data.albumId })
             }
           }}
         />
@@ -115,8 +136,7 @@ const styles = theme => StyleSheet.create({
 Album.propTypes = {
   albumsDeleteRequest: PropTypes.any,
   postsSingleGet: PropTypes.any,
-  postsShare: PropTypes.any,
-  postsShareRequest: PropTypes.any,
+  albumsSingleGet: PropTypes.any,
   t: PropTypes.any,
   theme: PropTypes.any,
   themeFetch: PropTypes.any,

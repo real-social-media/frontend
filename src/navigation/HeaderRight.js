@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {
+  View,
   StyleSheet,
   TouchableOpacity,
 } from 'react-native'
@@ -15,6 +16,7 @@ const HeaderRight = ({
   onPress,
   hidden,
   style = {},
+  children,
 }) => {
   const styling = styles(theme)
   
@@ -24,7 +26,10 @@ const HeaderRight = ({
   
   return (
     <TouchableOpacity onPress={onPress}>
-      <Text style={[styling.headerRight, style]}>{t(title)}</Text>
+      {children ?
+        <View style={[styling.headerRight, style]}>{children}</View> :
+        <Text style={[styling.headerRight, style]}>{t(title)}</Text>
+      }
     </TouchableOpacity>
   )
 }
@@ -36,6 +41,7 @@ HeaderRight.propTypes = {
   onPress: PropTypes.any,
   hidden: PropTypes.any,
   style: PropTypes.any,
+  children: PropTypes.any,
 }
 
 HeaderRight.defaultProps = {

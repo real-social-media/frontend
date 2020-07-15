@@ -61,6 +61,7 @@
 		631A273B248D8F1000A76AA4 /* REAL.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = REAL.entitlements; path = REAL/REAL.entitlements; sourceTree = "<group>"; };
 		6338E7AB2436093000CFD646 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		63463B882435B6920088EDDC /* REAL-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "REAL-Bridging-Header.h"; sourceTree = "<group>"; };
+		638E61DC24B5CBDB00A69F9C /* REALRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = REALRelease.entitlements; path = REAL/REALRelease.entitlements; sourceTree = "<group>"; };
 		7A6918AF89EFE331653013A2 /* Pods-REAL-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-REAL-tvOS.release.xcconfig"; path = "Target Support Files/Pods-REAL-tvOS/Pods-REAL-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		884C4F3E9253106878E10E6B /* Pods-REAL.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-REAL.release.xcconfig"; path = "Target Support Files/Pods-REAL/Pods-REAL.release.xcconfig"; sourceTree = "<group>"; };
 		9691F1D9CFD8434EFF23AE57 /* Pods-REAL-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-REAL-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-REAL-tvOSTests/Pods-REAL-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -134,6 +135,7 @@
 		13B07FAE1A68108700A75B9A /* REAL */ = {
 			isa = PBXGroup;
 			children = (
+				638E61DC24B5CBDB00A69F9C /* REALRelease.entitlements */,
 				631A273B248D8F1000A76AA4 /* REAL.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -728,7 +730,7 @@
 				CODE_SIGN_ENTITLEMENTS = REAL/REAL.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 337;
+				CURRENT_PROJECT_VERSION = 360;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = YA5Y244F5C;
 				INFOPLIST_FILE = REAL/Info.plist;
@@ -824,7 +826,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = app.real.mobile.development;
+				PRODUCT_BUNDLE_IDENTIFIER = app.real.mobile;
 				PRODUCT_NAME = REAL;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "REAL-Bridging-Header.h";
@@ -841,10 +843,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = REAL/REAL.entitlements;
+				CODE_SIGN_ENTITLEMENTS = REAL/REALRelease.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 337;
+				CURRENT_PROJECT_VERSION = 360;
 				DEVELOPMENT_TEAM = YA5Y244F5C;
 				INFOPLIST_FILE = REAL/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -938,7 +940,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = app.real.mobile.development;
+				PRODUCT_BUNDLE_IDENTIFIER = app.real.mobile;
 				PRODUCT_NAME = REAL;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "REAL-Bridging-Header.h";

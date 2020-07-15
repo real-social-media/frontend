@@ -1,5 +1,5 @@
 import { graphqlOperation } from '@aws-amplify/api'
-import { call, put, takeLatest, getContext } from 'redux-saga/effects'
+import { put, takeLatest, getContext } from 'redux-saga/effects'
 import path from 'ramda/src/path'
 import compose from 'ramda/src/compose'
 import omit from 'ramda/src/omit'
@@ -260,7 +260,7 @@ function* usersAcceptFollowerUserRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield call(() => queryService.apiRequest(queries.acceptFollowerUser, req.payload))
+    const data = yield queryService.apiRequest(queries.acceptFollowerUser, req.payload)
     const next = yield usersAcceptFollowerUserRequestData(req, data)
     yield put(actions.usersAcceptFollowerUserSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
@@ -296,7 +296,7 @@ function* usersDeclineFollowerUserRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield call(() => queryService.apiRequest(queries.denyFollowerUser, req.payload))
+    const data = yield queryService.apiRequest(queries.denyFollowerUser, req.payload)
     const next = yield usersDeclineFollowerUserRequestData(req, data)
     yield put(actions.usersDeclineFollowerUserSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
@@ -451,7 +451,7 @@ function* usersFollowRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield call(() => queryService.apiRequest(queries.followUser, req.payload))
+    const data = yield queryService.apiRequest(queries.followUser, req.payload)
     const next = yield usersFollowRequestData(req, data)
     yield put(actions.usersFollowSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
@@ -487,7 +487,7 @@ function* usersUnfollowRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield call(() => queryService.apiRequest(queries.unfollowUser, req.payload))
+    const data = yield queryService.apiRequest(queries.unfollowUser, req.payload)
     const next = yield usersUnfollowRequestData(req, data)
     yield put(actions.usersUnfollowSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
@@ -523,7 +523,7 @@ function* usersBlockRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield call(() => queryService.apiRequest(queries.blockUser, req.payload))
+    const data = yield queryService.apiRequest(queries.blockUser, req.payload)
     const next = yield usersBlockRequestData(req, data)
     yield put(actions.usersBlockSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
@@ -559,7 +559,7 @@ function* usersUnblockRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield call(() => queryService.apiRequest(queries.unblockUser, req.payload))
+    const data = yield queryService.apiRequest(queries.unblockUser, req.payload)
     const next = yield usersUnblockRequestData(req, data)
     yield put(actions.usersUnblockSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {

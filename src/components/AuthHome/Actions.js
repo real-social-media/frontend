@@ -6,6 +6,9 @@ import {
 } from 'react-native'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 import * as navigationActions from 'navigation/actions'
+import PhoneIcon from 'assets/svg/auth/Phone'
+import AppleIcon from 'assets/svg/auth/Apple'
+import GoogleIcon from 'assets/svg/auth/Google'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -16,6 +19,8 @@ const Actions = ({
   theme,
   authGoogle,
   authGoogleRequest,
+  authApple,
+  authAppleRequest,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
@@ -23,10 +28,13 @@ const Actions = ({
   return (
     <View style={styling.root}>
       <View style={styling.item}>
-        <DefaultButton testID="components/AuthHome/Actions/signin" label={t('Use Phone or Email')} onPress={navigationActions.navigateAuthUsername(navigation)} loading={false} />
+        <DefaultButton testID="components/AuthHome/Actions/signin" icon={PhoneIcon} label={t('Use Phone or Email')} onPress={navigationActions.navigateAuthUsername(navigation)} style={styling.phone} labelStyle={styling.labelStyle} />
       </View>
       <View style={styling.item}>
-        <DefaultButton testID="components/AuthHome/Actions/google" label={t('Login with Google')} onPress={authGoogleRequest} loading={authGoogle.status === 'loading'} />
+        <DefaultButton testID="components/AuthHome/Actions/apple" icon={AppleIcon} label={t('Sign in with Apple')} onPress={authAppleRequest} loading={authApple.status === 'loading'} style={styling.apple} labelStyle={styling.labelStyle} />
+      </View>
+      <View style={styling.item}>
+        <DefaultButton testID="components/AuthHome/Actions/google" icon={GoogleIcon} label={t('Sign in with Google')} onPress={authGoogleRequest} loading={authGoogle.status === 'loading'} style={styling.google} labelStyle={styling.labelStyle} />
       </View>
     </View>
   )
@@ -37,6 +45,8 @@ Actions.propTypes = {
   theme: PropTypes.any,
   authGoogle: PropTypes.any,
   authGoogleRequest: PropTypes.any,
+  authApple: PropTypes.any,
+  authAppleRequest: PropTypes.any,
 }
 
 const styles = theme => StyleSheet.create({
@@ -44,6 +54,18 @@ const styles = theme => StyleSheet.create({
   },
   item: {
     marginBottom: 12,
+  },
+  labelStyle: {
+    marginLeft: 12,
+  },
+  phone: {
+    backgroundColor: '#34495e',
+  },
+  apple: {
+    backgroundColor: 'black',
+  },
+  google: {
+    backgroundColor: '#4285F4',
   },
 })
 

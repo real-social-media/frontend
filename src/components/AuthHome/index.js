@@ -19,6 +19,8 @@ const AuthHome = ({
   theme,
   authGoogle,
   authGoogleRequest,
+  authApple,
+  authAppleRequest,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
@@ -35,6 +37,8 @@ const AuthHome = ({
           <ActionsComponent
             authGoogle={authGoogle}
             authGoogleRequest={authGoogleRequest}
+            authApple={authApple}
+            authAppleRequest={authAppleRequest}
           />
         </View>
 

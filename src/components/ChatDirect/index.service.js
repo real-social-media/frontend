@@ -22,20 +22,43 @@ const ChatDirectService = ({ children }) => {
   const usersGetTrendingUsers = useSelector(usersSelector.usersGetTrendingUsersSelector())
   const chatCreateDirect = useSelector(state => state.chat.chatCreateDirect)
   const chatAddMessage = useSelector(state => state.chat.chatAddMessage)
+  const chatFlagMessage = useSelector(state => state.chat.chatFlagMessage)
+  const chatDeleteMessage = useSelector(state => state.chat.chatDeleteMessage)
   const chatGetChat = useSelector(chatSelector.chatGetChatSelector(chatId))
+
+  const chatDeleteMessageRequest = (payload) =>
+    dispatch(chatActions.chatDeleteMessageRequest(payload))
+
+  const chatFlagMessageRequest = (payload) =>
+    dispatch(chatActions.chatFlagMessageRequest(payload))
 
   useEffect(() => {
     dispatch(chatActions.chatGetChatRequest({ chatId }))
   }, [])
 
   useEffect(() => {
+    if (chatDeleteMessage.status !== 'success') {
+      return
+    }
+
+    dispatch(chatActions.chatDeleteMessageIdle({}))
+    dispatch(chatActions.chatGetChatRequest({ chatId }))
+  }, [chatDeleteMessage.status])
+
+  useEffect(() => {
+    if (chatFlagMessage.status !== 'success') {
+      return
+    }
+
+    dispatch(chatActions.chatFlagMessageIdle({}))
+  }, [chatFlagMessage.status])
+
+  useEffect(() => {
     if (chatGetChat.status !== 'success') {
       return
     }
 
-    const messageIds = pathOr([], ['data', 'messages', 'items'])(chatGetChat)
-      .map(message => message.messageId)
-    dispatch(chatActions.chatReportMessageViewRequest({ messageIds }))
+    dispatch(chatActions.chatReportViewRequest({ chatIds: [chatId] }))    
   }, [chatGetChat.status])
 
   useEffect(() => {
@@ -109,6 +132,8 @@ const ChatDirectService = ({ children }) => {
     usersGetTrendingUsers,
     chatGetChat,
     marginBottom,
+    chatDeleteMessageRequest,
+    chatFlagMessageRequest,
   })
 }
 

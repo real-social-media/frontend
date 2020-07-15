@@ -28,8 +28,8 @@ export const chatGetChatSelector = (chatId) => createDeepEqualSelector(
  */
 const chatGetChats = () => path(['chat', 'chatGetChats'])
 export const chatGetChatsSelector = () => createDeepEqualSelector(
-  [chatGetChats(), entities()],
-  (chatGetChats, entities) => {
+  [chatGetChats(), chatGetChat(), entities()],
+  (chatGetChats, chatGetChat, entities) => {
     const denormalized = normalizer.denormalizeChatsGet(chatGetChats.data, entities)
     return assocPath(['data'], denormalized)(chatGetChats)
   }

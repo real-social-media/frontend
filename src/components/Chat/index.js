@@ -116,6 +116,7 @@ Chat.propTypes = {
   chatGetChatsRequest: PropTypes.any,
   usersSearch: PropTypes.any,
   usersSearchRequest: PropTypes.any,
+  usersGetPendingFollowers: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Chat))

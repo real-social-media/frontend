@@ -155,14 +155,6 @@ export const postsReportPostViewsFailure = createAction(constants.POSTS_REPORT_P
 /**
  * 
  */
-export const postsReportCommentViewsIdle = createAction(constants.POSTS_REPORT_COMMENT_VIEWS_IDLE)
-export const postsReportCommentViewsRequest = createAction(constants.POSTS_REPORT_COMMENT_VIEWS_REQUEST)
-export const postsReportCommentViewsSuccess = createAction(constants.POSTS_REPORT_COMMENT_VIEWS_SUCCESS)
-export const postsReportCommentViewsFailure = createAction(constants.POSTS_REPORT_COMMENT_VIEWS_FAILURE)
-
-/**
- * 
- */
 export const postsGetTrendingPostsIdle = createAction(constants.POSTS_GET_TRENDING_POSTS_IDLE)
 export const postsGetTrendingPostsRequest = createAction(constants.POSTS_GET_TRENDING_POSTS_REQUEST)
 export const postsGetTrendingPostsSuccess = createAction(constants.POSTS_GET_TRENDING_POSTS_SUCCESS)

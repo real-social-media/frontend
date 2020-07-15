@@ -9,7 +9,7 @@ const PostsLikesService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const route = useRoute()
-  const postId = route.params.post.postId
+  const postId = route.params.postId
   const postsLikesGet = useSelector(postsSelector.postsLikesGetSelector(postId))
   const usersFollow = useSelector(state => state.users.usersFollow)
   const usersUnfollow = useSelector(state => state.users.usersUnfollow)

@@ -2,6 +2,15 @@ import { handleActions } from 'redux-actions'
 import update from 'immutability-helper'
 import * as constants from 'store/ducks/entities/constants'
 
+const innerMerge = (state, action) => {
+  const entries = Object.entries(action.payload.data)
+
+  return entries.reduce((acc, [key, value]) => {
+    acc[key] = ({ ...acc[key] || {}, ...value })
+    return acc
+  }, state)
+}
+
 const initialState = {
   albums: {
   },
@@ -19,45 +28,45 @@ const initialState = {
   },
 }
 
+const entitiesUsersMerge = (state, action) => update(state, {
+  users: {
+    $merge: innerMerge(state.users, action),
+  },
+})
+
 const entitiesAlbumsMerge = (state, action) => update(state, {
   albums: {
-    $merge: action.payload.data,
+    $merge: innerMerge(state.albums, action),
   },
 })
 
 const entitiesPostsMerge = (state, action) => update(state, {
   posts: {
-    $merge: action.payload.data,
+    $merge: innerMerge(state.posts, action),
   },
 })
 
 const entitiesCommentsMerge = (state, action) => update(state, {
   comments: {
-    $merge: action.payload.data,
-  },
-})
-
-const entitiesUsersMerge = (state, action) => update(state, {
-  users: {
-    $merge: action.payload.data,
+    $merge: innerMerge(state.comments, action),
   },
 })
 
 const entitiesImagesMerge = (state, action) => update(state, {
   images: {
-    $merge: action.payload.data,
+    $merge: innerMerge(state.images, action),
   },
 })
 
 const entitiesChatsMerge = (state, action) => update(state, {
   chats: {
-    $merge: action.payload.data,
+    $merge: innerMerge(state.chats, action),
   },
 })
 
 const entitiesMessagesMerge = (state, action) => update(state, {
   messages: {
-    $merge: action.payload.data,
+    $merge: innerMerge(state.messages, action),
   },
 })
 

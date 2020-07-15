@@ -15,6 +15,7 @@ const PostMediaService = ({ children }) => {
   const postUserId = route.params.userId
   const postsSingleGet = useSelector(postsSelector.postsSingleGetSelector(postId))
   const postsDelete = useSelector(state => state.posts.postsDelete)
+  const postsArchive = useSelector(state => state.posts.postsArchive)
   const postsGetTrendingPosts = useSelector(postsSelector.postsGetTrendingPostsSelector())
 
   useEffect(() => {
@@ -37,13 +38,16 @@ const PostMediaService = ({ children }) => {
   }, [])
 
   useEffect(() => {
-    if (postsDelete.status === 'success') {
-      dispatch(postsActions.postsDeleteIdle({}))
-    }
     if (postsDelete.status === 'loading') {
       navigationActions.navigateBack(navigation)()
     }
-  }, [postsDelete.status])
+    if (postsArchive.status === 'loading') {
+      navigationActions.navigateBack(navigation)()
+    }
+  }, [
+    postsDelete.status,
+    postsArchive.status,
+  ])
 
   const onViewableItemsChanged = ({ viewableItems }) => {
   }

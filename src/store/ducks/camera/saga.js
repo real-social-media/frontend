@@ -6,8 +6,11 @@ function* handleCameraCaptureRequest(payload) {
   const response = yield payload.map(photo => ({
     uri: photo.uri,
     takenInReal: photo.takenInReal,
+    preview: photo.preview,
     originalFormat: photo.originalFormat,
     originalMetadata: photo.originalMetadata,
+    imageFormat: photo.imageFormat,
+    crop: photo.crop,
   }))
   return response
 }

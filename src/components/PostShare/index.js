@@ -107,28 +107,29 @@ const PostShare = ({
           />
         </View>
 
-        <View style={styling.content}>
-          <Headline style={styling.headline}>{t('Store as')}</Headline>
-          <View style={styling.bottomSpacing} />
-          <AccordionComponent
-            items={[
-              {
-                text: t('Repost on REAL'),
-                onPress: handleRepost,
-                loading: postsShare.status === 'loading' && postsShare.payload.type === 'repost',
-                disabled: !repostButtonVisibility,
-              },
-              {
-                text: t('Copy to Photos'),
-                onPress: handleGallerySave,
-                loading: postsShare.status === 'loading' && postsShare.payload.type === 'cameraroll',
-              },
-            ]}
-          />
-          <View style={styling.bottomSpacing} />
-          <Caption style={[styling.bottomSpacing]}>{t('Prove your post is verified by sharing a link to your REAL profile in it\'s description')}</Caption>
-          <View style={styling.bottomSpacing} />
-        </View>
+        {repostButtonVisibility ?
+          <View style={styling.content}>
+            <Headline style={styling.headline}>{t('Store as')}</Headline>
+            <View style={styling.bottomSpacing} />
+            <AccordionComponent
+              items={[
+                {
+                  text: t('Repost on REAL'),
+                  onPress: handleRepost,
+                  loading: postsShare.status === 'loading' && postsShare.payload.type === 'repost',
+                },
+                {
+                  text: t('Copy to Photos'),
+                  onPress: handleGallerySave,
+                  loading: postsShare.status === 'loading' && postsShare.payload.type === 'cameraroll',
+                },
+              ]}
+            />
+            <View style={styling.bottomSpacing} />
+            <Caption style={[styling.bottomSpacing]}>{t('Prove your post is verified by sharing a link to your REAL profile in it\'s description')}</Caption>
+            <View style={styling.bottomSpacing} />
+          </View>
+        : null}
 
         <View style={styling.content}>
           <Headline style={styling.headline}>{t('Share as')}</Headline>

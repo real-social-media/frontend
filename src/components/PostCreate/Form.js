@@ -44,9 +44,9 @@ const PostCreateForm = ({
   const navigation = useNavigation()
 
   const image = {
-    url4k: values.images[0],
-    url64p: values.images[0],
-    url1080p: values.images[0],
+    url4k: values.preview[0],
+    url64p: values.preview[0],
+    url1080p: values.preview[0],
   }
 
   useHeader({
@@ -61,10 +61,10 @@ const PostCreateForm = ({
           {values.postType === 'IMAGE' ?
             <TouchableOpacity onPress={() => handlePostPress({ image })}>
               <Avatar
-                key={values.images[0]}
+                key={values.preview[0]}
                 size="bigger"
-                thumbnailSource={{ uri: values.images[0] }}
-                imageSource={{ uri: values.images[0] }}
+                thumbnailSource={{ uri: values.preview[0] }}
+                imageSource={{ uri: values.preview[0] }}
               />
             </TouchableOpacity>
           : null}
@@ -208,10 +208,13 @@ const FormWrapper = ({
       sharingDisabled: props.user.sharingDisabled,
       verificationHidden: props.user.verificationHidden,
       text: '',
+      preview: [path(['preview'])(cameraCapture)],
       images: [path(['uri'])(cameraCapture)],
       takenInReal: path(['takenInReal'])(cameraCapture),
+      imageFormat: path(['imageFormat'])(cameraCapture),
       originalFormat: path(['originalFormat'])(cameraCapture),
       originalMetadata: path(['originalMetadata'])(cameraCapture),
+      crop: path(['crop'])(cameraCapture),
     }}
     validationSchema={formSchema}
     onSubmit={postsCreateRequest}

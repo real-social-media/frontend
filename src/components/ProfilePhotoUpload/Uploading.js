@@ -30,8 +30,8 @@ const Uploading = ({
   return (
     <View style={styling.root}>
       <Avatar
-        thumbnailSource={{ uri: path(['payload', 'images', '0'])(post) }}
-        imageSource={{ uri: path(['payload', 'images', '0'])(post) }}
+        thumbnailSource={{ uri: path(['payload', 'preview', '0'])(post) }}
+        imageSource={{ uri: path(['payload', 'preview', '0'])(post) }}
       />
 
       {post.status === 'loading' ?

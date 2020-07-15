@@ -31,7 +31,7 @@ const PostViews = ({
 }) => {
   const styling = styles(theme)
   const route = useRoute()
-  const postId = route.params.post.postId
+  const postId = route.params.postId
 
   const scroll = ScrollService({
     resource: postsViewsGet,

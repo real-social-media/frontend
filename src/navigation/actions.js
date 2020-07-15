@@ -3,6 +3,33 @@ import throttle from 'lodash.throttle'
 const defaultThrottle = functor => throttle(functor, 200, { trailing: false })
 
 /**
+ *
+ */
+export const navigateNestedPost = (navigation, params) => () =>
+  navigation.navigate('Root', {
+    screen: 'PostMedia',
+    params,
+  })
+
+export const navigateNestedPostViews = (navigation, params) => () =>
+  navigation.navigate('Root', {
+    screen: 'PostViews',
+    params,
+  })
+
+export const navigateNestedComments = (navigation, params) => () =>
+  navigation.navigate('Root', {
+    screen: 'Comments',
+    params,
+  })
+
+export const navigateNestedPostLikes = (navigation, params) => () =>
+  navigation.navigate('Root', {
+    screen: 'PostLikes',
+    params,
+  })
+
+/**
  * Root -> Home -> Feed -> Feed
  */
 
@@ -30,14 +57,15 @@ export const navigatePostCreate = (navigation, params) => () =>
     params,
   })
 
-export const navigateCamera = (navigation, params) => () =>
-  navigation.navigate('Camera', params)
-
 export const navigateSearch = (navigation, params) => () =>
   navigation.navigate('Search', {
     screen: 'Search',
     params,
   })
+
+export const navigateCamera = (navigation, params) => () =>
+  navigation.navigate('Camera', params)
+
   
 export const navigateStory = (navigation, params) => defaultThrottle(() =>
   navigation.push('Story', params)
@@ -49,6 +77,10 @@ export const navigateChat = (navigation, params) => defaultThrottle(() =>
 
 export const navigateChatDirect = (navigation, params) => defaultThrottle(() =>
   navigation.navigate('ChatDirect', params)
+)
+
+export const navigateChatOptions = (navigation, params) => defaultThrottle(() =>
+  navigation.navigate('ChatOptions', params)
 )
 
 export const navigatePostError = (navigation, params) => defaultThrottle(() =>

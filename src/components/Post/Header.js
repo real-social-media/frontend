@@ -39,7 +39,6 @@ const Header = ({
   const handleOptionsPress = () => actionSheetRef && actionSheetRef.show()
   const archived = path(['postStatus'])(post) === 'ARCHIVED'
   const repostedUsername = path(['originalPost', 'postedBy', 'username'])(post)
-  const repostedPostId = path(['originalPost', 'postId'])(post)
 
   const repostVisiblity = (
     path(['originalPost', 'postedBy', 'username', 'length'])(post) &&
@@ -48,7 +47,7 @@ const Header = ({
 
   const failedVerificationVisibility = (
     !repostVisiblity &&
-    !path(['isVerified'])(post) &&
+    path(['isVerified'])(post) === false &&
     path(['postType'])(post) !== 'TEXT_ONLY'
   )
 

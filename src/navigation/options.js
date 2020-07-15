@@ -46,13 +46,10 @@ const homeHeaderTitle = ({ theme }) => () => (
 const homeHeaderRight = ({ theme, navigation }) => () => (
   <UIContextComponent.Consumer>
     {(props) => (
-      <TouchableOpacity style={{ paddingHorizontal: 12, height: 24 }} onPress={() => {
-        props.uiNotificationIdle()
-        navigationActions.navigateChat(navigation)()
-      }}>
+      <TouchableOpacity style={{ paddingHorizontal: 12, height: 24 }} onPress={navigationActions.navigateChat(navigation)}>
         <DirectIcon
           fill={theme.colors.primaryIcon}
-          uiNotifications={props.uiNotifications}
+          user={props.user}
         />
       </TouchableOpacity>
     )}
