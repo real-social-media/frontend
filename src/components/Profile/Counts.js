@@ -26,18 +26,22 @@ const ProfileCounts = ({
   const followedsCount = path(['data', 'followedsCount'])(usersGetProfile)
 
   const followingVisibility = (
-    !path(['data', 'followCountsHidden'])(usersGetProfile) &&
     is(Number)(followedsCount) &&
-    !(
+    (
+      path(['data', 'followCountsHidden'])(usersGetProfile) !== true ||
+      path(['data', 'followedStatus'])(usersGetProfile) === 'SELF'
+    ) && !(
       path(['data', 'followedStatus'])(usersGetProfile) === 'NOT_FOLLOWING' &&
       path(['data', 'privacyStatus'])(usersGetProfile) === 'PRIVATE'
     )
   )
 
   const followerVisibility = (
-    !path(['data', 'followCountsHidden'])(usersGetProfile) &&
     is(Number)(followersCount) &&
-    !(
+    (
+      path(['data', 'followCountsHidden'])(usersGetProfile) !== true ||
+      path(['data', 'followedStatus'])(usersGetProfile) === 'SELF'
+    ) && !(
       path(['data', 'followedStatus'])(usersGetProfile) === 'NOT_FOLLOWING' &&
       path(['data', 'privacyStatus'])(usersGetProfile) === 'PRIVATE'
     )

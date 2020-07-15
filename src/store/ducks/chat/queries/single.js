@@ -48,7 +48,7 @@ export const singleChatFragment = `
     name
     createdAt
     lastMessageActivityAt
-    userCount
+    usersCount
 
     users(limit: 10) {
       items {

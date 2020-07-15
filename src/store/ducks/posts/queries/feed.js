@@ -66,6 +66,10 @@ export const feedPostFragment = `
     username
     fullName
     themeCode
+
+    photo {
+      ...imageFragment
+    }
   }
 
   fragment originalPostFragment on Post {
@@ -133,7 +137,8 @@ export const feedPostFragment = `
     imageUploadUrl
     isVerified
     likeStatus
-    commentCount
+    commentsCount
+    commentsUnviewedCount: commentsCount(viewedStatus: NOT_VIEWED)
     commentsDisabled
     likesDisabled
     sharingDisabled
@@ -142,7 +147,6 @@ export const feedPostFragment = `
     anonymousLikeCount
     viewedByCount
     viewedStatus
-    hasNewCommentActivity
 
     textTaggedUsers {
       tag

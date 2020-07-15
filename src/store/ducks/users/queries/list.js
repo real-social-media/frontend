@@ -47,8 +47,8 @@ export const listUserFragment = `
     privacyStatus
     followedStatus
     followerStatus
-    followedCount
-    followerCount
+    followedsCount
+    followersCount
     postCount
     fullName
     themeCode

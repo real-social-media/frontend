@@ -48,7 +48,7 @@ export const listChatFragment = `
     name
     createdAt
     lastMessageActivityAt
-    userCount
+    usersCount
 
     users(limit: 10) {
       items {
