@@ -1,49 +1,17 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  View,
-} from 'react-native'
-import { Paragraph, Title } from 'react-native-paper'
+import React from "react";
+import DatingCard from "components/Dating/Card";
 
-import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
-
-const Dating = ({
-  t,
-  theme,
-}) => {
-  const styling = styles(theme)
-
+const Dating = () => {
   return (
-    <View style={styling.root}>
-      <Title style={styling.title}>{t('REAL Dating Coming Soon')}</Title>
-      <Paragraph style={styling.paragraph}>{t('REAL is fully Open Source & built by the people')}. {t('Help us move faster by contributing code')}.</Paragraph>
-    </View>
-  )
-}
-  
-const styles = theme => StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: theme.colors.backgroundPrimary,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    textAlign: 'center',
-    marginBottom: 12,
-  },
-  paragraph: {
-    textAlign: 'center',
-    maxWidth: 280,
-  },
-})
+    <DatingCard
+      name="Alice"
+      age={30}
+      photo="https://randomuser.me/api/portraits/women/88.jpg"
+      city="New York"
+      onDecline={() => {}}
+      onAccept={() => {}}
+    />
+  );
+};
 
-Dating.propTypes = {
-  theme: PropTypes.any,
-  t: PropTypes.any,
-}
-
-export default withTranslation()(withTheme(Dating))
+export default Dating;
