@@ -16,6 +16,7 @@ import translation from 'store/ducks/translation/reducer'
 import ui from 'store/ducks/ui/reducer'
 import cache from 'store/ducks/cache/reducer'
 import entities from 'store/ducks/entities/reducer'
+import dating from 'store/ducks/dating/reducer'
 
 import 'store/ducks/posts/updates'
 import 'store/ducks/users/updates'
@@ -82,4 +83,5 @@ export default combineReducers({
   ui,
   cache,
   entities,
+  dating
 })
