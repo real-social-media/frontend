@@ -1,6 +1,6 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
-import DatingCard from "./Card";
+import DatingCard from "./index";
 
 const name = "Alice";
 const age = 30;
