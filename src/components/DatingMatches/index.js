@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
 import { withTranslation } from 'react-i18next';
 import { withTheme } from 'react-native-paper';
 import DatingMatchesEmpty from 'components/DatingMatches/Empty';
+import DatingMatchesRow from 'components/DatingMatches/Row';
 
 const DatingMatches = ({ t, theme, users, goBack }) => {
   const styling = styles(theme);
@@ -13,10 +14,19 @@ const DatingMatches = ({ t, theme, users, goBack }) => {
     return <DatingMatchesEmpty goBack={goBack} />;
   }
 
+  const renderItem = ({ item }) => (
+    <View style={styling.row}>
+      <DatingMatchesRow {...item} />
+    </View>
+  );
+
   return (
     <View>
       <View style={styling.header}>
         <Text style={styling.title}>{t('They like you')}</Text>
+      </View>
+      <View style={styling.inner}>
+        <FlatList data={users} renderItem={renderItem} />
       </View>
     </View>
   );
@@ -29,18 +39,35 @@ const styles = (theme) =>
       alignItems: 'center',
       justifyContent: 'center',
       height: 70,
+      marginBottom: 10,
     },
     title: {
       fontSize: 20,
       color: '#ffffff',
       fontWeight: '600',
     },
+    inner: {
+      padding: 15,
+    },
+    row: {
+      marginBottom: 15
+    }
   });
 
 DatingMatches.propTypes = {
   t: PropTypes.any.isRequired,
   goBack: PropTypes.func.isRequired,
-  users: PropTypes.array,
+  users: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      age: PropTypes.number,
+      matchedDate: PropTypes.string,
+      photo: PropTypes.string,
+    }),
+  ),
+  row: {
+    marginBottom: 10,
+  },
 };
 
 DatingMatches.defaultProps = {
