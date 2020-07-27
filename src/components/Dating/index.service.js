@@ -7,10 +7,11 @@ import * as datingSelector from 'store/ducks/dating/selectors';
 const DatingService = ({ children }) => {
   const dispatch = useDispatch();
   const items = useSelector(datingSelector.datingSearchItemsSelector);
-  const count = 4;
+  const count = useSelector(datingSelector.datingMatchedCounter);
 
   useEffect(() => {
     dispatch(datingActions.datingSearchRequest());
+    dispatch(datingActions.datingMatchedRequest());
   }, []);
 
   useHeader({ count });

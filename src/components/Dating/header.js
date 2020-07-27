@@ -21,5 +21,5 @@ export const useHeader = ({ count }) => {
     navigation.setOptions({
       headerLeft,
     });
-  }, []);
+  }, [count]);
 };
