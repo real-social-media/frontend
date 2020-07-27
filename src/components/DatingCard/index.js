@@ -1,12 +1,14 @@
-import React from "react";
-import { Text, ImageBackground, StyleSheet, View } from "react-native";
-import { IconButton } from "react-native-paper";
-import PropTypes from "prop-types";
-import CloseIcon from "assets/svg/post/Close";
-import HeartIcon from "assets/svg/action/Heart";
+import React from 'react';
+import { Text, ImageBackground, StyleSheet, View } from 'react-native';
+import { IconButton } from 'react-native-paper';
+import PropTypes from 'prop-types';
+import CloseIcon from 'assets/svg/camera/Close';
+import HeartIcon from 'assets/svg/dating/Heart';
 
 const DatingCard = ({ name, age, photo, city, onDecline, onAccept }) => {
   const styling = styles();
+
+  const renderCloseIcon = () => <CloseIcon fill="#CDCDCD" />;
 
   return (
     <ImageBackground
@@ -21,7 +23,7 @@ const DatingCard = ({ name, age, photo, city, onDecline, onAccept }) => {
         </Text>
         <Text style={styling.city}>{city}</Text>
         <View style={styling.actions}>
-          <IconButton style={styling.button} accessibilityLabel="Decline" icon={CloseIcon} onPress={onDecline} />
+          <IconButton style={styling.button} accessibilityLabel="Decline" icon={renderCloseIcon} onPress={onDecline} />
           <IconButton style={styling.button} accessibilityLabel="Accept" icon={HeartIcon} onPress={onAccept} />
         </View>
       </View>
@@ -33,31 +35,31 @@ const styles = () =>
   StyleSheet.create({
     photo: {
       flex: 1,
-      justifyContent: "flex-end",
-      resizeMode: "cover",
+      justifyContent: 'flex-end',
+      resizeMode: 'cover',
     },
     inner: {
       padding: 30,
     },
     name: {
       fontSize: 30,
-      fontWeight: "600",
-      color: "#ffffff",
-      textAlign: "center",
+      fontWeight: '600',
+      color: '#ffffff',
+      textAlign: 'center',
       marginBottom: 5,
     },
     city: {
       fontSize: 20,
-      color: "#ffffff",
-      textAlign: "center",
+      color: '#ffffff',
+      textAlign: 'center',
       marginBottom: 20,
     },
     actions: {
-      flexDirection: "row",
-      justifyContent: "center",
+      flexDirection: 'row',
+      justifyContent: 'center',
     },
     button: {
-      backgroundColor: "#ffffff",
+      backgroundColor: '#ffffff',
       width: 70,
       height: 70,
       borderRadius: 70,
