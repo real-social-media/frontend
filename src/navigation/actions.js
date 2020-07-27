@@ -237,3 +237,12 @@ export const navigateAuthSignup = (navigation, params) => () =>
 
 export const navigateAuthSignupConfirm = (navigation, params) => () =>
   navigation.navigate('AuthSignupConfirm', params)
+
+/**
+ *
+ */
+export const navigateDating = (navigation) => () =>
+  navigation.navigate('Dating')
+
+export const navigateDatingMatches = (navigation) => () =>
+  navigation.navigate('DatingMatches')
