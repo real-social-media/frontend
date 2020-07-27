@@ -6,10 +6,10 @@ import { Text, Image, View, StyleSheet } from 'react-native';
 import UserRowComponent from 'templates/UserRow';
 import DefaultButton from 'components/Formik/Button/DefaultButton';
 
-const DatingMatchesRow = ({ t, id, photo, name, age, matchedDate, onRemove }) => {
+const DatingMatchesRow = ({ t, id, photo, name, age, matchedDate, onRemove, onMessage }) => {
   const styling = styles();
 
-  const handleRemove = () => onRemove({id});
+  const handleRemove = () => onRemove({ id });
 
   const renderAvatar = () => (
     <View style={styling.avatar}>
@@ -31,7 +31,7 @@ const DatingMatchesRow = ({ t, id, photo, name, age, matchedDate, onRemove }) =>
       <View style={styling.removeBtn}>
         <DefaultButton label={t('Hide')} onPress={handleRemove} mode="outlined" />
       </View>
-      <DefaultButton label={t('Message')} onPress={() => {}} />
+      <DefaultButton label={t('Message')} onPress={onMessage} />
     </View>
   );
 
@@ -79,6 +79,7 @@ DatingMatchesRow.propTypes = {
   age: PropTypes.number.isRequired,
   matchedDate: PropTypes.string.isRequired,
   onRemove: PropTypes.func.isRequired,
+  onMessage: PropTypes.func.isRequired,
 };
 
 export default withTranslation()(DatingMatchesRow);

@@ -12,10 +12,11 @@ const DatingMatchesService = ({ children }) => {
   const users = useSelector(datingSelector.datingMatchedItemsSelector);
 
   const datingMatchedRemove = (payload) => dispatch(datingActions.datingMatchedRemove(payload));
+  const openChat = navigationActions.navigateChat(navigation);
 
   useHeader({ goBack, navigation });
 
-  return children({ goBack, users, datingMatchedRemove });
+  return children({ goBack, users, datingMatchedRemove, openChat });
 };
 
 export default DatingMatchesService;

@@ -7,7 +7,7 @@ import { withTheme } from 'react-native-paper';
 import DatingMatchesEmpty from 'components/DatingMatches/Empty';
 import DatingMatchesRow from 'components/DatingMatches/Row';
 
-const DatingMatches = ({ t, theme, users, goBack, datingMatchedRemove }) => {
+const DatingMatches = ({ t, theme, users, goBack, datingMatchedRemove, openChat }) => {
   const styling = styles(theme);
   const isEmpty = users.length === 0;
 
@@ -17,7 +17,7 @@ const DatingMatches = ({ t, theme, users, goBack, datingMatchedRemove }) => {
 
   const renderItem = ({ item }) => (
     <View style={styling.row}>
-      <DatingMatchesRow {...item} onRemove={datingMatchedRemove} />
+      <DatingMatchesRow {...item} onRemove={datingMatchedRemove} onMessage={openChat} />
     </View>
   );
 
@@ -58,6 +58,7 @@ const styles = (theme) =>
 DatingMatches.propTypes = {
   t: PropTypes.any.isRequired,
   goBack: PropTypes.func.isRequired,
+  openChat: PropTypes.func.isRequired,
   datingMatchedRemove: PropTypes.func.isRequired,
   users: PropTypes.arrayOf(
     PropTypes.shape({
