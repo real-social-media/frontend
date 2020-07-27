@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import path from 'ramda/src/path';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
 import { withTranslation } from 'react-i18next';
 import { withTheme } from 'react-native-paper';
 import DatingMatchesEmpty from 'components/DatingMatches/Empty';
 import DatingMatchesRow from 'components/DatingMatches/Row';
 
-const DatingMatches = ({ t, theme, users, goBack }) => {
+const DatingMatches = ({ t, theme, users, goBack, datingMatchedRemove }) => {
   const styling = styles(theme);
   const isEmpty = users.length === 0;
 
@@ -16,7 +17,7 @@ const DatingMatches = ({ t, theme, users, goBack }) => {
 
   const renderItem = ({ item }) => (
     <View style={styling.row}>
-      <DatingMatchesRow {...item} />
+      <DatingMatchesRow {...item} onRemove={datingMatchedRemove} />
     </View>
   );
 
@@ -26,7 +27,7 @@ const DatingMatches = ({ t, theme, users, goBack }) => {
         <Text style={styling.title}>{t('They like you')}</Text>
       </View>
       <View style={styling.inner}>
-        <FlatList data={users} renderItem={renderItem} />
+        <FlatList data={users} renderItem={renderItem} keyExtractor={path['id']} />
       </View>
     </View>
   );
@@ -50,15 +51,17 @@ const styles = (theme) =>
       padding: 15,
     },
     row: {
-      marginBottom: 15
-    }
+      marginBottom: 15,
+    },
   });
 
 DatingMatches.propTypes = {
   t: PropTypes.any.isRequired,
   goBack: PropTypes.func.isRequired,
+  datingMatchedRemove: PropTypes.func.isRequired,
   users: PropTypes.arrayOf(
     PropTypes.shape({
+      id: PropTypes.string,
       name: PropTypes.string,
       age: PropTypes.number,
       matchedDate: PropTypes.string,

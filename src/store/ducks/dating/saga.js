@@ -29,6 +29,7 @@ function* datingSearchRequest() {
  */
 function normalizeMatchedItems(items) {
   return items.map((item) => ({
+    id: path(['login', 'uuid'], item),
     name: path(['name', 'first'], item),
     age: path(['dob', 'age'], item),
     matchedDate: path(['registered', 'date'], item),

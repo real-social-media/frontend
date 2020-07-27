@@ -1,5 +1,5 @@
-import { createAction } from "redux-actions";
-import * as constants from "store/ducks/dating/constants";
+import { createAction } from 'redux-actions';
+import * as constants from 'store/ducks/dating/constants';
 
 /**
  *
@@ -12,3 +12,8 @@ export const datingSearchSuccess = createAction(constants.DATING_SEARCH_SUCCESS)
  */
 export const datingMatchedRequest = createAction(constants.DATING_MATCHED_REQUEST);
 export const datingMatchedSuccess = createAction(constants.DATING_MATCHED_SUCCESS);
+
+/**
+ *
+ */
+export const datingMatchedRemove = createAction(constants.DATING_MATCHED_REMOVE);

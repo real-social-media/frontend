@@ -31,11 +31,19 @@ const datingMatchedSuccess = (state, action) =>
     },
   });
 
+const datingMatchedRemove = (state, action) =>
+  update(state, {
+    datingMatched: {
+      data: { $set: state.datingMatched.data.filter(({ id }) => id !== action.payload.id) },
+    },
+  });
+
 export default handleActions(
   {
     [constants.DATING_SEARCH_SUCCESS]: datingSearchSuccess,
 
     [constants.DATING_MATCHED_SUCCESS]: datingMatchedSuccess,
+    [constants.DATING_MATCHED_REMOVE]: datingMatchedRemove,
 
     /**
      * Clear on logout

@@ -4,12 +4,12 @@ import dayjs from 'dayjs';
 import { withTranslation } from 'react-i18next';
 import { Text, Image, View, StyleSheet } from 'react-native';
 import UserRowComponent from 'templates/UserRow';
-import { Button } from 'react-native-paper';
 import DefaultButton from 'components/Formik/Button/DefaultButton';
-import CloseIcon from 'assets/svg/header/Close';
 
-const DatingMatchesRow = ({ t, photo, name, age, matchedDate }) => {
+const DatingMatchesRow = ({ t, id, photo, name, age, matchedDate, onRemove }) => {
   const styling = styles();
+
+  const handleRemove = () => onRemove({id});
 
   const renderAvatar = () => (
     <View style={styling.avatar}>
@@ -28,8 +28,8 @@ const DatingMatchesRow = ({ t, photo, name, age, matchedDate }) => {
 
   const renderActions = () => (
     <View style={styling.actions}>
-      <View style={styling.hideBtn}>
-        <DefaultButton label={t('Hide')} onPress={() => {}} mode="outlined" />
+      <View style={styling.removeBtn}>
+        <DefaultButton label={t('Hide')} onPress={handleRemove} mode="outlined" />
       </View>
       <DefaultButton label={t('Message')} onPress={() => {}} />
     </View>
@@ -66,17 +66,19 @@ const styles = () =>
     actions: {
       flexDirection: 'row',
     },
-    hideBtn: {
+    removeBtn: {
       marginRight: 15,
     },
   });
 
 DatingMatchesRow.propTypes = {
   t: PropTypes.any.isRequired,
+  id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   photo: PropTypes.string.isRequired,
   age: PropTypes.number.isRequired,
   matchedDate: PropTypes.string.isRequired,
+  onRemove: PropTypes.func.isRequired,
 };
 
 export default withTranslation()(DatingMatchesRow);
