@@ -1,9 +1,14 @@
+import { useNavigation } from '@react-navigation/native';
+import * as navigationActions from 'navigation/actions';
 import { useHeader } from 'components/DatingMatches/header';
 
 const DatingMatchesService = ({ children }) => {
-  useHeader();
+  const navigation = useNavigation();
+  const goBack = navigationActions.navigateDating(navigation);
 
-  return children();
+  useHeader({ goBack, navigation });
+
+  return children({ goBack });
 };
 
 export default DatingMatchesService;
