@@ -74,6 +74,7 @@ const composeEnhancers = composeWithDevTools({
     'ENTITIES_USERS_MERGE',
     'ENTITIES_IMAGES_MERGE',
     'ENTITIES_CHATS_MERGE',
+    'ENTITIES_DATING_MERGE',
   ],
 })
 

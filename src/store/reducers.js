@@ -9,6 +9,7 @@ import camera from 'store/ducks/camera/reducer'
 import theme from 'store/ducks/theme/reducer'
 import posts from 'store/ducks/posts/reducer'
 import albums from 'store/ducks/albums/reducer'
+import dating from 'store/ducks/dating/reducer'
 import chat from 'store/ducks/chat/reducer'
 import users from 'store/ducks/users/reducer'
 import layout from 'store/ducks/layout/reducer'
@@ -30,7 +31,7 @@ const postsPersistConfig = {
     // 'postsGetCache',
     // 'postsGetTrendingPosts',
     // 'postsPool',
-    
+
     // 'postsCreateQueue',
     // 'postsRecreateQueue',
   ],
@@ -77,6 +78,7 @@ export default combineReducers({
   chat: persistReducer(chatPersistConfig, chat),
   posts: persistReducer(postsPersistConfig, posts),
   users: persistReducer(usersPersistConfig, users),
+  dating,
   layout,
   translation,
   ui,

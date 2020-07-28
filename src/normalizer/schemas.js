@@ -43,7 +43,7 @@ const storyCommentsSchema = new schema.Entity(
 	/**
 	 * Key
 	 */
-	'comments', 
+	'comments',
 	/**
 	 * Definition
 	 */
@@ -108,7 +108,7 @@ const commentsSchema = new schema.Entity(
 	/**
 	 * Key
 	 */
-	'comments', 
+	'comments',
 	/**
 	 * Definition
 	 */
@@ -252,7 +252,7 @@ const postSchema = new schema.Entity(
 	/**
 	 * Key
 	 */
-	'posts', 
+	'posts',
 	/**
 	 * Definition
 	 */
@@ -273,6 +273,24 @@ const postSchema = new schema.Entity(
 	 */
 	{
 		idAttribute: 'postId'
+	}
+)
+
+const datingSchema = new schema.Entity(
+	/**
+	 * Key
+	 */
+	'dating',
+	/**
+	 * Definition
+	 */
+	{
+	},
+	/**
+	 * Options
+	 */
+	{
+		idAttribute: 'datingId'
 	}
 )
 
@@ -371,3 +389,13 @@ export function denormalizeChatGet(payload, entities) {
 	return denormalize(payload, chatSchema, entities)
 }
 
+/**
+ *
+ */
+export function normalizeDatingGet(payload) {
+	return normalize(payload, [datingSchema])
+}
+
+export function denormalizeDatingGet(payload, entities) {
+	return denormalize(payload, [datingSchema], entities)
+}

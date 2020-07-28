@@ -10,6 +10,7 @@ import layout from 'store/ducks/layout/saga'
 import translation from 'store/ducks/translation/saga'
 import cache from 'store/ducks/cache/saga'
 import subscriptions from 'store/ducks/subscriptions/saga'
+import dating from 'store/ducks/dating/saga'
 
 import posts from 'store/ducks/posts/saga'
 import postsCreate from 'store/ducks/posts/saga/postsCreate'
@@ -41,6 +42,7 @@ export default function* rootSaga(persistor) {
     .concat(translation())
     .concat(cache())
     .concat(subscriptions())
+    .concat(dating())
 
     .concat(posts())
     .concat(postsCreate())

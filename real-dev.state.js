@@ -1704,6 +1704,7 @@ export default {
   },
   entities: {
     albums: {},
+    dating: {},
     posts: {
       'd056a3de-8bae-4ebe-a9e9-f084bf5a28ac': {
         postId: 'd056a3de-8bae-4ebe-a9e9-f084bf5a28ac',

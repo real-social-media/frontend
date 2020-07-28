@@ -34,7 +34,7 @@ const Profile = ({
   postsGet,
   postsGetRequest,
   postsGetMoreRequest,
-  
+
   albumsGet,
   albumsGetRequest,
   albumsGetMoreRequest,
