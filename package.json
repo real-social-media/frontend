@@ -7,6 +7,8 @@
     "dev": "react-native run-ios --simulator='iPhone 11' --scheme REAL.development -- --reset-cache",
     "test": "jest",
     "lint": "eslint .",
+    "install:pod": "cd ios && pod install",
+    "open:xcode": "open -a Xcode ios/REAL.xcworkspace",
     "translations-scan": "i18next-scanner --config i18next-scanner.config.engine.js src/**/*.js"
   },
   "dependencies": {
@@ -58,6 +60,7 @@
     "react-native-animatable": "^1.3.3",
     "react-native-background-timer": "^2.2.0",
     "react-native-camera": "^3.31.0",
+    "react-native-card-stack-swiper": "^1.2.4",
     "react-native-circular-progress": "^1.3.6",
     "react-native-code-push": "^6.2.1",
     "react-native-config": "^1.2.1",

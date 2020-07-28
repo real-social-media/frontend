@@ -11,4 +11,5 @@ import { amplifyConfig } from 'services/AWS'
 enableScreens()
 amplifyConfig()
 
+console.disableYellowBox = true;
 AppRegistry.registerComponent(appName, () => gestureHandlerRootHOC(App))

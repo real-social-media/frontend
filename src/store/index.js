@@ -87,6 +87,19 @@ const store = createStore(
 
 export const persistor = persistStore(store)
 
-sagaMiddleware.run(rootSaga, persistor)
+
+/**
+ * prevent duplicated Saga runner
+ */
+let sagaRunner;
+ function runSaga (rootSaga) {
+  if (global.__DEV__ && module.hot && sagaRunner) {
+    sagaRunner.cancel();
+  }
+
+  sagaRunner = sagaMiddleware.run(rootSaga, persistor);
+}
+
+runSaga(rootSaga)
 
 export default store

@@ -4,6 +4,7 @@ import signup from 'store/ducks/signup/saga'
 import camera from 'store/ducks/camera/saga'
 import theme from 'store/ducks/theme/saga'
 import albums from 'store/ducks/albums/saga'
+import dating from 'store/ducks/dating/saga'
 import chat from 'store/ducks/chat/saga'
 import users from 'store/ducks/users/saga'
 import layout from 'store/ducks/layout/saga'
@@ -35,6 +36,7 @@ export default function* rootSaga(persistor) {
     .concat(camera())
     .concat(theme())
     .concat(albums())
+    .concat(dating())
     .concat(chat())
     .concat(users())
     .concat(layout())

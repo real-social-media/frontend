@@ -1,29 +1,50 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
   View,
+  Text,
+  TouchableOpacity,
 } from 'react-native'
-import { Paragraph, Title } from 'react-native-paper'
-
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
+import CardDesk from './CardDesk'
 
 const Dating = ({
-  t,
   theme,
+  datingGetPartners,
+  partnersInfo,
+  partners
 }) => {
   const styling = styles(theme)
 
+  const [cards, setCards] = useState(partners || [])
+
+  useEffect(() => {
+    const newCards = cards.concat(partners)
+    setCards(newCards)
+  }, [partners])
+
+  const appendCards = () => {
+    // TODO: maybe call with multiple parameters
+    datingGetPartners({page: (partnersInfo?.page || 0) + 1})
+  }
+
   return (
     <View style={styling.root}>
-      <Title style={styling.title}>{t('REAL Dating Coming Soon')}</Title>
-      <Paragraph style={styling.paragraph}>{t('REAL is fully Open Source & built by the people')}. {t('Help us move faster by contributing code')}.</Paragraph>
+    <CardDesk cards={cards} appendCards={appendCards} />
+
+    {/* temp button to test fetch */}
+    {/* <TouchableOpacity  style={{
+      borderColor: 'red',
+      borderWidth: 3
+    }} onPress={appendCards}>
+      <Text>OK OK</Text>
+    </TouchableOpacity> */}
     </View>
   )
 }
-  
+
 const styles = theme => StyleSheet.create({
   root: {
     flex: 1,
@@ -44,6 +65,9 @@ const styles = theme => StyleSheet.create({
 Dating.propTypes = {
   theme: PropTypes.any,
   t: PropTypes.any,
+  datingGetPartners: PropTypes.func.isRequired,
+  partnersInfo: PropTypes.shape({page: PropTypes.number}),
+  partners: PropTypes.arrayOf(PropTypes.shape({}))
 }
 
 export default withTranslation()(withTheme(Dating))
