@@ -15,6 +15,8 @@ import posts from 'store/ducks/posts/saga'
 import postsCreate from 'store/ducks/posts/saga/postsCreate'
 import postsShare from 'store/ducks/posts/saga/postsShare'
 
+import dating from 'store/ducks/dating/saga'
+
 import * as Logger from 'services/Logger'
 import path from 'ramda/src/path'
 
@@ -45,6 +47,8 @@ export default function* rootSaga(persistor) {
     .concat(posts())
     .concat(postsCreate())
     .concat(postsShare())
+
+    .concat(dating())
 
     .concat([
       takeEvery(action => /FAILURE$/.test(action.type), captureErrors)

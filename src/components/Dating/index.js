@@ -2,48 +2,45 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
+  ScrollView,
   View,
 } from 'react-native'
-import { Paragraph, Title } from 'react-native-paper'
+import DatingGridComponent from 'components/DatingGrid'
+import path from 'ramda/src/path'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const Dating = ({
-  t,
   theme,
+  datingGet,
+  user,
 }) => {
   const styling = styles(theme)
 
   return (
     <View style={styling.root}>
-      <Title style={styling.title}>{t('REAL Dating Coming Soon')}</Title>
-      <Paragraph style={styling.paragraph}>{t('REAL is fully Open Source & built by the people')}. {t('Help us move faster by contributing code')}.</Paragraph>
+      <ScrollView bounces={false}>
+        <DatingGridComponent 
+          datingGet={datingGet}
+          themeCode={path(['data', 'themeCode'])(user)}
+        />
+      </ScrollView>
     </View>
   )
 }
-  
+
 const styles = theme => StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: theme.colors.backgroundPrimary,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    textAlign: 'center',
-    marginBottom: 12,
-  },
-  paragraph: {
-    textAlign: 'center',
-    maxWidth: 280,
   },
 })
 
 Dating.propTypes = {
   theme: PropTypes.any,
-  t: PropTypes.any,
+  datingGet: PropTypes.any,
+  user: PropTypes.any
 }
 
 export default withTranslation()(withTheme(Dating))
