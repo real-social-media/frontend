@@ -120,23 +120,35 @@ index c443d20..e52ad1e 100755
 +
 +        } else if (result) {
 +
++            // extract source image metadata
++            CGDataProviderRef dataProvider = CGImageGetDataProvider(result.CGImage);
++            CGImageSourceRef src = CGImageSourceCreateWithData(dataProvider.data, NULL);
++            CFDictionaryRef metadata = CGImageSourceCopyProperties(src, NULL)
++
++            // set compression quality to lossless
++            CFMutableDictionaryRef options = CFDictionaryCreateMutableCopy(NULL, 0, metadata);
++            CFDictionaryAddValue(options, @kCGImageDestinationLossyCompressionQuality, @1);
++
 +            NSData *imageData = nil;
 +            NSMutableData *destinationData = [NSMutableData new];
 +            CGImageDestinationRef destination = CGImageDestinationCreateWithData((__bridge CFMutableDataRef)destinationData, (__bridge CFStringRef)AVFileTypeHEIC, 1, NULL);
-+            NSDictionary *options = @{(__bridge NSString *)kCGImageDestinationLossyCompressionQuality: @1};
 +            
 +            // iOS devices seem to corrupt image data when concurrently creating HEIC images.
 +            // Locking to ensure HEIC creation doesn't occur concurrently.
 +            pthread_mutex_t *lock = tj_HEICEncodingLock();
 +            pthread_mutex_lock(lock);
 +            
-+            CGImageDestinationAddImage(destination, result.CGImage, (__bridge CFDictionaryRef)options);
++            CGImageDestinationAddImage(destination, result.CGImage, options);
 +            CGImageDestinationFinalize(destination);
 +            imageData = destinationData;
 +
 +            [imageData writeToFile:imageDestination atomically:YES];
 +            resolve(imageDestination);
 +            CFRelease(destination);
++            CFRelease(dataProvider);
++            CFRelease(src);
++            CFRelease(metadata);
++            CFRelease(options);
  
          } else {
              NSMutableDictionary* details = [NSMutableDictionary dictionary];
