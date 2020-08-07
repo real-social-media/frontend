@@ -1,61 +1,3 @@
-diff --git a/node_modules/react-native-fs/.DS_Store b/node_modules/react-native-fs/.DS_Store
-new file mode 100644
-index 0000000..e69de29
-diff --git a/node_modules/react-native-fs/RNFS.xcodeproj/project.xcworkspace/contents.xcworkspacedata b/node_modules/react-native-fs/RNFS.xcodeproj/project.xcworkspace/contents.xcworkspacedata
-new file mode 100644
-index 0000000..919434a
---- /dev/null
-+++ b/node_modules/react-native-fs/RNFS.xcodeproj/project.xcworkspace/contents.xcworkspacedata
-@@ -0,0 +1,7 @@
-+<?xml version="1.0" encoding="UTF-8"?>
-+<Workspace
-+   version = "1.0">
-+   <FileRef
-+      location = "self:">
-+   </FileRef>
-+</Workspace>
-diff --git a/node_modules/react-native-fs/RNFS.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist b/node_modules/react-native-fs/RNFS.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
-new file mode 100644
-index 0000000..18d9810
---- /dev/null
-+++ b/node_modules/react-native-fs/RNFS.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
-@@ -0,0 +1,8 @@
-+<?xml version="1.0" encoding="UTF-8"?>
-+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-+<plist version="1.0">
-+<dict>
-+	<key>IDEDidComputeMac32BitWarning</key>
-+	<true/>
-+</dict>
-+</plist>
-diff --git a/node_modules/react-native-fs/RNFS.xcodeproj/project.xcworkspace/xcuserdata/azimgd.xcuserdatad/UserInterfaceState.xcuserstate b/node_modules/react-native-fs/RNFS.xcodeproj/project.xcworkspace/xcuserdata/azimgd.xcuserdatad/UserInterfaceState.xcuserstate
-new file mode 100644
-index 0000000..e69de29
-diff --git a/node_modules/react-native-fs/RNFS.xcodeproj/xcuserdata/azimgd.xcuserdatad/xcschemes/xcschememanagement.plist b/node_modules/react-native-fs/RNFS.xcodeproj/xcuserdata/azimgd.xcuserdatad/xcschemes/xcschememanagement.plist
-new file mode 100644
-index 0000000..3166687
---- /dev/null
-+++ b/node_modules/react-native-fs/RNFS.xcodeproj/xcuserdata/azimgd.xcuserdatad/xcschemes/xcschememanagement.plist
-@@ -0,0 +1,19 @@
-+<?xml version="1.0" encoding="UTF-8"?>
-+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-+<plist version="1.0">
-+<dict>
-+	<key>SchemeUserState</key>
-+	<dict>
-+		<key>RNFS-tvOS.xcscheme_^#shared#^_</key>
-+		<dict>
-+			<key>orderHint</key>
-+			<integer>1</integer>
-+		</dict>
-+		<key>RNFS.xcscheme_^#shared#^_</key>
-+		<dict>
-+			<key>orderHint</key>
-+			<integer>0</integer>
-+		</dict>
-+	</dict>
-+</dict>
-+</plist>
 diff --git a/node_modules/react-native-fs/RNFSManager.h b/node_modules/react-native-fs/RNFSManager.h
 index 8ef10e4..907069d 100644
 --- a/node_modules/react-native-fs/RNFSManager.h
@@ -68,7 +10,7 @@ index 8ef10e4..907069d 100644
 +
  @end
 diff --git a/node_modules/react-native-fs/RNFSManager.m b/node_modules/react-native-fs/RNFSManager.m
-index c443d20..e52ad1e 100755
+index c443d20..bad331e 100755
 --- a/node_modules/react-native-fs/RNFSManager.m
 +++ b/node_modules/react-native-fs/RNFSManager.m
 @@ -23,6 +23,7 @@
@@ -105,13 +47,13 @@ index c443d20..e52ad1e 100755
                    width: (NSInteger) width
                    height: (NSInteger) height
                    scale: (CGFloat) scale
-@@ -826,11 +837,31 @@ + (BOOL)requiresMainQueueSetup
+@@ -826,11 +837,39 @@ + (BOOL)requiresMainQueueSetup
                                                contentMode:contentMode
                                                    options:imageOptions
                                              resultHandler:^(UIImage *result, NSDictionary<NSString *, id> *info) {
 -        if (result) {
 +        if (result && [imageDestination rangeOfString:@".HEIC"].location == NSNotFound) {
-             
+ 
              NSData *imageData = UIImageJPEGRepresentation(result, compression );
 -            [imageData writeToFile:destination atomically:YES];
 -            resolve(destination);
@@ -120,16 +62,24 @@ index c443d20..e52ad1e 100755
 +
 +        } else if (result) {
 +
++            // extract source metadata https://stackoverflow.com/a/12478773
++            CGImageSourceRef source = CGImageSourceCreateWithData((CFDataRef)UIImageJPEGRepresentation(result, 1), NULL);
++            NSDictionary* metadata = (NSDictionary *)CFBridgingRelease(CGImageSourceCopyPropertiesAtIndex(source, 0, NULL));
++            CFRelease(source);
++
++            // set compression qualtity to best
++            NSMutableDictionary *options = [metadata mutableCopy];
++            [options setObject:@1 forKey:(__bridge NSString *)kCGImageDestinationLossyCompressionQuality];
++
 +            NSData *imageData = nil;
 +            NSMutableData *destinationData = [NSMutableData new];
 +            CGImageDestinationRef destination = CGImageDestinationCreateWithData((__bridge CFMutableDataRef)destinationData, (__bridge CFStringRef)AVFileTypeHEIC, 1, NULL);
-+            NSDictionary *options = @{(__bridge NSString *)kCGImageDestinationLossyCompressionQuality: @1};
-+            
++
 +            // iOS devices seem to corrupt image data when concurrently creating HEIC images.
 +            // Locking to ensure HEIC creation doesn't occur concurrently.
 +            pthread_mutex_t *lock = tj_HEICEncodingLock();
 +            pthread_mutex_lock(lock);
-+            
++
 +            CGImageDestinationAddImage(destination, result.CGImage, (__bridge CFDictionaryRef)options);
 +            CGImageDestinationFinalize(destination);
 +            imageData = destinationData;
