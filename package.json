@@ -8,7 +8,9 @@
     "dev": "ENVFILE=.env.development react-native run-ios --simulator='iPhone 11' --scheme REAL.development -- --reset-cache",
     "test": "jest",
     "lint": "eslint .",
-    "translations-scan": "i18next-scanner --config i18next-scanner.config.engine.js src/**/*.js"
+    "translations-scan": "i18next-scanner --config i18next-scanner.config.engine.js src/**/*.js",
+    "tests:unit": "jest",
+    "tests:e2e": "detox test"
   },
   "dependencies": {
     "@aws-amplify/analytics": "^3.2.6",
@@ -117,7 +119,7 @@
     "babel-plugin-module-resolver": "^4.0.0",
     "babel-plugin-optional-require": "^0.3.1",
     "babel-plugin-transform-builtin-extend": "^1.1.2",
-    "detox": "^17.3.4",
+    "detox": "^17.3.6",
     "eslint": "^7.6.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-detox": "^1.0.0",
@@ -125,7 +127,8 @@
     "eslint-plugin-react": "^7.20.5",
     "eslint-plugin-react-native": "^3.8.1",
     "husky": "^4.2.5",
-    "jest": "^26.2.2",
+    "jest": "^26.4.0",
+    "jest-circus": "^26.4.0",
     "lint-staged": "^10.2.11",
     "mailslurp-client": "^8.7.8",
     "metro-react-native-babel-preset": "^0.61.0",
@@ -138,18 +141,5 @@
     "modulePaths": [
       "src/"
     ]
-  },
-  "detox": {
-    "configurations": {
-      "ios.sim.debug": {
-        "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/REAL.app",
-        "build": "xcodebuild -workspace ios/REAL.xcworkspace  -scheme REAL.development -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
-        "type": "ios.simulator",
-        "device": {
-          "type": "iPhone 11"
-        }
-      }
-    },
-    "test-runner": "jest"
   }
 }
