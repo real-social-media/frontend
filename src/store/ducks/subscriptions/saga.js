@@ -1,33 +1,103 @@
 import { graphqlOperation } from '@aws-amplify/api'
-import { call, put, take, takeEvery, getContext } from 'redux-saga/effects'
+import { call, put, take, takeEvery, takeLatest, getContext, select } from 'redux-saga/effects'
 import { eventChannel } from 'redux-saga'
 import path from 'ramda/src/path'
+import pathOr from 'ramda/src/pathOr'
+import tryCatch from 'ramda/src/tryCatch'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as usersActions from 'store/ducks/users/actions'
 import * as postsQueries from 'store/ducks/posts/queries'
 import * as usersQueries from 'store/ducks/users/queries'
 import * as chatQueries from 'store/ducks/chat/queries'
 import * as chatActions from 'store/ducks/chat/actions'
+import * as subscriptionsActions from 'store/ducks/subscriptions/actions'
 import * as constants from 'store/ducks/subscriptions/constants'
 import * as queryService from 'services/Query'
 import * as Logger from 'services/Logger'
 
 /**
+ * Subscription state handler, used for preventing multiple subscriptions on the same topic
+ */
+function* subscriptionStateHandler({ identifier }) {
+  const isRunning = yield select(state => (
+    pathOr([], ['subscriptions', 'subscriptionsMain', 'data', 'pending'], state).find(item => item === identifier) ||
+    pathOr([], ['subscriptions', 'subscriptionsMain', 'data', 'connect'], state).find(item => item === identifier)
+  ))
+
+  /**
+   * graphql error handler, possible errors are:
+   * - connection closed
+   * - connection timeout
+   * - handshake error
+   */
+  function* errorHandler(error) {
+    yield put(subscriptionsActions.subscriptionsMainFailure({ data: identifier }))
+    Logger.withScope(scope => {
+      scope.setExtra('payload', tryCatch(JSON.stringify, () => null)(path(['error'])(error)))
+      Logger.captureMessage('SUBSCRIPTIONS_EMITTER_ERROR')
+    })
+  }
+
+  /**
+   * graphql connection started
+   */
+  function* pendingHandler() {
+    yield put(subscriptionsActions.subscriptionsMainPending({ data: identifier }))
+  }
+
+  /**
+   * graphql connection connected
+   */
+  function* connectHandler() {
+    yield put(subscriptionsActions.subscriptionsMainConnect({ data: identifier }))
+  }
+
+  /**
+   * event emitter unsubscribe handler
+   */
+  function* disconnectHandler() {
+    yield put(subscriptionsActions.subscriptionsMainDisconnect({ data: identifier }))
+  }
+
+  return {
+    isRunning,
+    errorHandler,
+    pendingHandler,
+    connectHandler,
+    disconnectHandler,
+  }
+}
+
+/**
  * Apollo subscription channel messagee emitter, used for graphql subscriptions
  */
 function subscriptionEmitter({ subscription }) {
+  /**
+   * triggered on redux-saga channel close event
+   */
+
   return eventChannel(emitter => {
+    setTimeout(() => {
+      emitter({ eventType: 'pending', eventData: {} })
+    }, 0)
+
     const api = subscription.subscribe({
-      next: emitter,
-      error: ({ error }) => {
-        Logger.withScope(scope => {
-          scope.setExtra('payload', JSON.stringify(error))
-          Logger.captureMessage('SUBSCRIPTION_EMITTER_ERROR')
-        })
-      },
+      next: (args) => emitter({ eventType: 'next', eventData: args }),
+      error: (args) => emitter({ eventType: 'error', eventData: args }),
     })
 
-    return () => api.unsubscribe()
+    setTimeout(() => {
+      if (api._state === 'ready') {
+        emitter({ eventType: 'connect', eventData: api })
+      } else if (api._state === 'closed') {
+        emitter({ eventType: 'disconnect', eventData: api })
+      }
+    }, 0)
+
+    return () => {
+      api.unsubscribe()
+      emitter({ eventType: 'disconnect', eventData: api })
+    }
   })
 }
 
@@ -45,7 +115,8 @@ function intervalEmitter({ frequency }) {
 }
 
 /**
- * 
+ * main application state pre-loader
+ * to be triggered when app just opened or switched background/foreground state
  */
 function* appSubscription(req) {
   const userId = path(['payload'])(req)
@@ -65,15 +136,41 @@ function* cardSubscription(req) {
   const AwsAPI = yield getContext('AwsAPI')
   const userId = path(['payload'])(req)
 
+  /**
+   * check if subscription is already running
+   */
+  const subscriptionState = yield call(subscriptionStateHandler, { identifier: 'onCardNotification' })
+
+  if (subscriptionState.isRunning) {
+    return
+  }
+
   const subscription = AwsAPI.graphql(
     graphqlOperation(usersQueries.onCardNotification, { userId }),
   )
 
   const channel = yield call(subscriptionEmitter, {
     subscription,
+    subscriptionState,
   })
 
-  yield takeEvery(channel, function *() {
+  yield takeEvery(channel, function *({ eventType, eventData }) {
+    if (eventType === 'connect') {
+      return yield call(subscriptionState.connectHandler, eventData)
+    }
+
+    else if (eventType === 'pending') {
+      return yield call(subscriptionState.pendingHandler, eventData)
+    }
+
+    else if (eventType === 'error') {
+      return yield call(subscriptionState.errorHandler, eventData)
+    }
+
+    else if (eventType === 'disconnect') {
+      return yield call(subscriptionState.disconnectHandler, eventData)
+    }
+
     yield put(usersActions.usersGetCardsRequest({}))
     yield put(postsActions.postsGetUnreadCommentsRequest({ limit: 20 }))
     yield put(usersActions.usersGetProfileSelfRequest({ userId }))
@@ -83,7 +180,7 @@ function* cardSubscription(req) {
   /**
    * Close channel subscription on application toggle
    */
-  yield take(constants.SUBSCRIPTION_POLL_STOP)
+  yield take(constants.SUBSCRIPTIONS_MAIN_IDLE)
   channel.close()
 }
 
@@ -94,15 +191,41 @@ function* chatMessageSubscription(req) {
   const AwsAPI = yield getContext('AwsAPI')
   const userId = path(['payload'])(req)
 
+  /**
+   * check if subscription is already running
+   */
+  const subscriptionState = yield call(subscriptionStateHandler, { identifier: 'onChatMessageNotification' })
+
+  if (subscriptionState.isRunning) {
+    return
+  }
+
   const subscription = AwsAPI.graphql(
     graphqlOperation(chatQueries.onChatMessageNotification, { userId }),
   )
 
   const channel = yield call(subscriptionEmitter, {
     subscription,
+    subscriptionState,
   })
 
-  yield takeEvery(channel, function *(eventData) {
+  yield takeEvery(channel, function *({ eventType, eventData }) {
+    if (eventType === 'connect') {
+      return yield call(subscriptionState.connectHandler, eventData)
+    }
+
+    if (eventType === 'pending') {
+      return yield call(subscriptionState.pendingHandler, eventData)
+    }
+
+    else if (eventType === 'error') {
+      return yield call(subscriptionState.errorHandler, eventData)
+    }
+
+    else if (eventType === 'disconnect') {
+      return yield call(subscriptionState.disconnectHandler, eventData)
+    }
+
     const data = path(['value', 'data', 'onChatMessageNotification'])(eventData)
     const chatId = path(['message', 'chat', 'chatId'])(data)
 
@@ -114,7 +237,7 @@ function* chatMessageSubscription(req) {
   /**
    * Close channel subscription on application toggle
    */
-  yield take(constants.SUBSCRIPTION_POLL_STOP)
+  yield take(constants.SUBSCRIPTIONS_MAIN_IDLE)
   channel.close()
 }
 
@@ -125,15 +248,41 @@ function* subscriptionNotificationStart(req) {
   const AwsAPI = yield getContext('AwsAPI')
   const userId = path(['payload'])(req)
 
+  /**
+   * check if subscription is already running
+   */
+  const subscriptionState = yield call(subscriptionStateHandler, { identifier: 'onNotification' })
+
+  if (subscriptionState.isRunning) {
+    return
+  }
+
   const subscription = AwsAPI.graphql(
     graphqlOperation(usersQueries.onNotification, { userId }),
   )
 
   const channel = yield call(subscriptionEmitter, {
     subscription,
+    subscriptionState,
   })
 
-  yield takeEvery(channel, function *(eventData) {
+  yield takeEvery(channel, function *({ eventType, eventData }) {
+    if (eventType === 'connect') {
+      return yield call(subscriptionState.connectHandler, eventData)
+    }
+
+    if (eventType === 'pending') {
+      return yield call(subscriptionState.pendingHandler, eventData)
+    }
+
+    else if (eventType === 'error') {
+      return yield call(subscriptionState.errorHandler, eventData)
+    }
+
+    else if (eventType === 'disconnect') {
+      return yield call(subscriptionState.disconnectHandler, eventData)
+    }
+
     const postId = path(['value', 'data', 'onNotification', 'postId'])(eventData)
     const userId = path(['value', 'data', 'onNotification', 'userId'])(eventData)
     const type = path(['value', 'data', 'onNotification', 'type'])(eventData)
@@ -184,7 +333,7 @@ function* subscriptionNotificationStart(req) {
   /**
    * Close channel subscription on application toggle
    */
-  yield take(constants.SUBSCRIPTION_POLL_STOP)
+  yield take(constants.SUBSCRIPTIONS_MAIN_IDLE)
   channel.close()
 }
 
@@ -203,14 +352,14 @@ function* subscriptionPollStart() {
   /**
    * Close channel subscription on application toggle
    */
-  yield take(constants.SUBSCRIPTION_POLL_STOP)
+  yield take(constants.SUBSCRIPTIONS_POLL_IDLE)
   channel.close()
 }
 
 export default () => [
-  takeEvery(constants.SUBSCRIPTION_MAIN_START, subscriptionNotificationStart),
-  takeEvery(constants.SUBSCRIPTION_MAIN_START, chatMessageSubscription),
-  takeEvery(constants.SUBSCRIPTION_MAIN_START, cardSubscription),
-  takeEvery(constants.SUBSCRIPTION_MAIN_START, appSubscription),
-  takeEvery(constants.SUBSCRIPTION_POLL_START, subscriptionPollStart),
+  takeLatest(constants.SUBSCRIPTIONS_MAIN_REQUEST, subscriptionNotificationStart),
+  takeLatest(constants.SUBSCRIPTIONS_MAIN_REQUEST, chatMessageSubscription),
+  takeLatest(constants.SUBSCRIPTIONS_MAIN_REQUEST, cardSubscription),
+  takeLatest(constants.SUBSCRIPTIONS_MAIN_REQUEST, appSubscription),
+  takeLatest(constants.SUBSCRIPTIONS_POLL_REQUEST, subscriptionPollStart),
 ]

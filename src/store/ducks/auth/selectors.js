@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect'
 import pathOr from 'ramda/src/pathOr'
 import path from 'ramda/src/path'
+import is from 'ramda/src/is'
 import * as normalizer from 'normalizer/schemas'
 
 const entities = () => path(['entities'])
@@ -18,7 +19,7 @@ export const authUserSelector = createSelector(
 export const authUserIdSelector = createSelector(
   [authUser()],
   (authUser) => {
-    return authUser
+    return is(String, authUser) && authUser
   },
 )
 

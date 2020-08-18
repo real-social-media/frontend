@@ -253,8 +253,8 @@ function* handleSignupConfirmRequest(payload) {
    * is postsCreate subscription listener. Which won't let user proceed to main screen
    * if photo is uploaded and verified but postsCreateSuccess was not triggered
    */
-  yield put(subscriptionsActions.subscriptionMainStart(next.data))
-  yield put(subscriptionsActions.subscriptionPollStart(next.data))
+  yield put(subscriptionsActions.subscriptionsMainRequest(next.data))
+  yield put(subscriptionsActions.subscriptionsPollRequest(next.data))
 
   yield queryService.apiRequest(queries.setUserAcceptedEULAVersion, { version: '15-11-2019' })
 }
@@ -404,8 +404,8 @@ function* handleSignupCognitoRequest(payload) {
    * is postsCreate subscription listener. Which won't let user proceed to main screen
    * if photo is uploaded and verified but postsCreateSuccess was not triggered
    */
-  yield put(subscriptionsActions.subscriptionMainStart(next.data))
-  yield put(subscriptionsActions.subscriptionPollStart(next.data))
+  yield put(subscriptionsActions.subscriptionsMainRequest(next.data))
+  yield put(subscriptionsActions.subscriptionsPollRequest(next.data))
   yield queryService.apiRequest(queries.setUserAcceptedEULAVersion, { version: '15-11-2019' })
 }
 

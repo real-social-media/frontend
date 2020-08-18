@@ -18,7 +18,6 @@ import * as queries from 'store/ducks/auth/queries'
 import * as constants from 'store/ducks/auth/constants'
 import * as errors from 'store/ducks/auth/errors'
 import * as entitiesActions from 'store/ducks/entities/actions'
-import * as subscriptionsActions from 'store/ducks/subscriptions/actions'
 import * as normalizer from 'normalizer/schemas'
 import Config from 'react-native-config'
 import * as queryService from 'services/Query'
@@ -44,7 +43,7 @@ function* handleAuthCheckValidation(self) {
    * But some users might not reach that step due to missing profile photo
    */
   Logger.setUser({
-    id: path(['data', 'self', 'id'])(self),
+    id: path(['data', 'self', 'userId'])(self),
     username: path(['data', 'self', 'username'])(self),
     email: path(['data', 'self', 'email'])(self),
   })
@@ -99,8 +98,6 @@ function* authCheckRequest(req) {
     const nextRoute = authValidation ? 'AuthPhoto' : 'Root'
     const next = yield authCheckRequestData(req, data)
     yield put(actions.authCheckSuccess({ data: next.data, payload: next.payload, meta: credentials, nextRoute }))
-    yield put(subscriptionsActions.subscriptionMainStart(next.data))
-    yield put(subscriptionsActions.subscriptionPollStart(next.data))
   } catch (error) {
     if (pathOr('', ['message'])(error).includes('Network request failed')) {
       yield put(actions.authCheckFailure({

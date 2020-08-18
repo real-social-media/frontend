@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import * as themeActions from 'store/ducks/theme/actions'
 import * as authActions from 'store/ducks/auth/actions'
 import * as translationActions from 'store/ducks/translation/actions'
+import * as subscriptionsActions from 'store/ducks/subscriptions/actions'
 import * as authSelector from 'store/ducks/auth/selectors'
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
@@ -48,6 +49,14 @@ export const AuthProvider = ({
     dispatch(authActions.authCheckRequest({ type: 'FIRST_MOUNT' }))
   }, [])
 
+
+  useEffect(() => {
+    if (userId) {
+      dispatch(subscriptionsActions.subscriptionsMainRequest(userId))
+      dispatch(subscriptionsActions.subscriptionsPollRequest(userId))
+    }
+  }, [userId])
+
   /**
    * Application version check handler, which forces users to update
    * the app if new build is available
@@ -56,6 +65,17 @@ export const AuthProvider = ({
     onForeground: () => {
       dispatch(authActions.authCheckRequest({ type: 'STATE_CHANGE' }))
       Updates.versionCheck()
+
+      if (userId) {
+        dispatch(subscriptionsActions.subscriptionsMainRequest(userId))
+        dispatch(subscriptionsActions.subscriptionsPollRequest(userId))
+      }
+    },
+    onBackground: () => {
+      if (userId) {
+        dispatch(subscriptionsActions.subscriptionsMainIdle(userId))
+        dispatch(subscriptionsActions.subscriptionsPollIdle(userId))
+      }
     },
   })
 

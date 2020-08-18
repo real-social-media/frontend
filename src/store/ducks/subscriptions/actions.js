@@ -1,10 +1,18 @@
 import { createAction } from 'redux-actions'
 import * as constants from 'store/ducks/subscriptions/constants'
 
-export const subscriptionMainStart = createAction(constants.SUBSCRIPTION_MAIN_START)
-export const subscriptionMainStop = createAction(constants.SUBSCRIPTION_MAIN_STOP)
-export const subscriptionMainError = createAction(constants.SUBSCRIPTION_MAIN_ERROR)
+export const subscriptionsMainRequest = createAction(constants.SUBSCRIPTIONS_MAIN_REQUEST)
+export const subscriptionsMainSuccess = createAction(constants.SUBSCRIPTIONS_MAIN_SUCCESS)
+export const subscriptionsMainFailure = createAction(constants.SUBSCRIPTIONS_MAIN_FAILURE)
+export const subscriptionsMainIdle = createAction(constants.SUBSCRIPTIONS_MAIN_IDLE)
+export const subscriptionsMainPending = createAction(constants.SUBSCRIPTIONS_MAIN_PENDING)
+export const subscriptionsMainConnect = createAction(constants.SUBSCRIPTIONS_MAIN_CONNECT)
+export const subscriptionsMainDisconnect = createAction(constants.SUBSCRIPTIONS_MAIN_DISCONNECT)
 
-export const subscriptionPollStart = createAction(constants.SUBSCRIPTION_POLL_START)
-export const subscriptionPollStop = createAction(constants.SUBSCRIPTION_POLL_STOP)
-export const subscriptionPollError = createAction(constants.SUBSCRIPTION_POLL_ERROR)
+export const subscriptionsPollRequest = createAction(constants.SUBSCRIPTIONS_POLL_REQUEST)
+export const subscriptionsPollSuccess = createAction(constants.SUBSCRIPTIONS_POLL_SUCCESS)
+export const subscriptionsPollFailure = createAction(constants.SUBSCRIPTIONS_POLL_FAILURE)
+export const subscriptionsPollIdle = createAction(constants.SUBSCRIPTIONS_POLL_IDLE)
+export const subscriptionsPollPending = createAction(constants.SUBSCRIPTIONS_POLL_PENDING)
+export const subscriptionsPollConnect = createAction(constants.SUBSCRIPTIONS_POLL_CONNECT)
+export const subscriptionsPollDisconnect = createAction(constants.SUBSCRIPTIONS_POLL_DISCONNECT)
