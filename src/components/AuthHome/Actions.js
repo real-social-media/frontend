@@ -26,7 +26,7 @@ const Actions = ({
   return (
     <View style={styling.root}>
       <View style={styling.item}>
-        <DefaultButton testID="components/AuthHome/Actions/signin" icon={PhoneIcon} label={t('Use Phone or Email')} onPress={navigationActions.navigateAuthUsername(navigation)} style={styling.phone} labelStyle={styling.labelStyle} />
+        <DefaultButton testID="components/AuthHome/Actions/signup" icon={PhoneIcon} label={t('Use Phone or Email')} onPress={navigationActions.navigateAuthUsername(navigation)} style={styling.phone} labelStyle={styling.labelStyle} />
       </View>
       <View style={styling.item}>
         <DefaultButton testID="components/AuthHome/Actions/apple" icon={AppleIcon} label={t('Sign in with Apple')} onPress={authAppleRequest} loading={authApple.status === 'loading'} style={styling.apple} labelStyle={styling.labelStyle} />

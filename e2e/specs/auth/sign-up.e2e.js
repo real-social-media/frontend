@@ -50,7 +50,7 @@ describe('Feature: Sign up', () => {
     describe('Rule: Username validation', () => {
       it('Given: Unauthorized user on signup username step screen', async () => {
         await device.reloadReactNative()
-        await element(by.id('components/AuthHome/Actions/signin')).tap()
+        await element(by.id('components/AuthHome/Actions/signup')).tap()
         await expect(element(by.id('components/AuthUsername'))).toBeVisible()
       })
 
@@ -235,7 +235,7 @@ describe('Feature: Sign up', () => {
     })
 
     it('Then click Use Phone or Email button', async () => {
-      await element(by.id('components/AuthHome/Actions/signin')).tap()
+      await element(by.id('components/AuthHome/Actions/signup')).tap()
     })
 
     it('When username step screen opened', async () => {
