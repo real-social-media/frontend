@@ -15,7 +15,7 @@ const formSchema = Yup.object().shape({
   username: Yup.string()
     .min(3)
     .max(50)
-    .email('please, enter valid email')
+    .email()
     .trim()
     .required(),
   password: Yup.string()

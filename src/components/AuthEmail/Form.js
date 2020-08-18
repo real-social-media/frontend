@@ -15,7 +15,7 @@ const formSchema = Yup.object().shape({
   email: Yup.string()
     .min(3)
     .max(50)
-    .email('please, enter valid email')
+    .email()
     .matches(/^\S*$/, 'no whitespace')
     .trim()
     .required(),
