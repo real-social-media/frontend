@@ -60,6 +60,7 @@ const TabNavigator = ({ navigation, route }) => {
   const ProfileTabIconComponent = ({ color }) => <UserIcon fill={color} />
   const profileTabScreenPropsCard = {
     options: {
+      tabBarTestID: 'navigation/TabNavigator/ProfileTab',
       tabBarIcon: ProfileTabIconComponent,
       tabBarLabel: 'Profile',
     },

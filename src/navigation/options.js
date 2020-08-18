@@ -13,10 +13,11 @@ import CameraIcon from 'assets/svg/header/Camera'
 import DirectIcon from 'assets/svg/header/Direct'
 import BackIcon from 'assets/svg/header/Back'
 
-export const pageHeaderLeft = ({ onPress }) => {
+export const pageHeaderLeft = ({ onPress, testID = null }) => {
+  console.log(testID)
   if (!onPress) { return null }
   return (
-    <TouchableOpacity style={styles.button} onPress={onPress}>
+    <TouchableOpacity testID={testID} style={styles.button} onPress={onPress}>
       <BackIcon fill="#fff" />
     </TouchableOpacity>
   )

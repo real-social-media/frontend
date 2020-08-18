@@ -72,6 +72,7 @@ const Profile = ({
 
   return (
     <ScrollView
+      testID="components/Profile"
       ref={profileRef}
       style={styling.root}
       onScroll={scroll.handleScrollChange}

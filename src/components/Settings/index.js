@@ -72,7 +72,7 @@ const Settings = ({
   // }
 
   return (
-    <ScrollView style={styling.root}>
+    <ScrollView testID="components/Settings" style={styling.root}>
       <TouchableOpacity onPress={() => navigation.navigate('ProfilePhotoGrid')}>
         <Avatar
           size="large"
@@ -119,6 +119,7 @@ const Settings = ({
         onPress: () => navigation.navigate('Privacy'),
         icon: <PrivacyIcon fill={theme.colors.text} />,
       }, {
+        testID: 'components/Settings/Actions/Signout',
         label: t('Signout'),
         onPress: () => authSignoutRequest(),
         icon: <SignoutIcon fill={theme.colors.text} />,
@@ -126,6 +127,7 @@ const Settings = ({
         {(settings) => (
           <RowsItemComponent hasBorders>
             <UserRowComponent
+              testID={settings.testID}
               onPress={path(['onPress'])(settings)}
               avatar={
                 <SettingsAvatar icon={path(['icon'])(settings)} />

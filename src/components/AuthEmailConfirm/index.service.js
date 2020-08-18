@@ -2,7 +2,6 @@ import { useEffect, useCallback } from 'react'
 import { Keyboard } from 'react-native'
 import * as authActions from 'store/ducks/auth/actions'
 import * as signupActions from 'store/ducks/signup/actions'
-import * as navigationActions from 'navigation/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import path from 'ramda/src/path'
@@ -25,14 +24,15 @@ const AuthEmailConfirmComponentService = ({ children }) => {
    */
   const handleGoBack = useCallback(() => {
     dispatch(signupActions.signupConfirmIdle({}))
-    navigationActions.navigateAuthPassword(navigation)()
+    navigation.goBack()
   }, [])
 
   useEffect(() => {
-    const tabNavigator = navigation.dangerouslyGetParent()
-    if (!tabNavigator) return
-    tabNavigator.setOptions({
-      headerLeft: (props) => pageHeaderLeft({ ...props, onPress: handleGoBack }),
+    navigation.setOptions({
+      headerLeft: () => pageHeaderLeft({ 
+        testID: 'components/AuthEmailConfirm/HeaderLeft', 
+        onPress: handleGoBack, 
+      }),
     })
   }, [])
 

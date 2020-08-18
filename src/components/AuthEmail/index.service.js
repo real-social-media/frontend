@@ -32,9 +32,13 @@ const AuthEmailComponentService = ({ children }) => {
 
   useEffect(() => {
     const tabNavigator = navigation.dangerouslyGetParent()
+    
     if (!tabNavigator) return
     tabNavigator.setOptions({
-      headerLeft: (props) => pageHeaderLeft({ ...props, onPress: handleGoBack }),
+      headerLeft: () => pageHeaderLeft({ 
+        testID: 'components/AuthEmail/HeaderLeft', 
+        onPress: handleGoBack, 
+      }),
     })
   }, [])
 

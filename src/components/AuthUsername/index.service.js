@@ -31,7 +31,10 @@ const AuthUsernameComponentService = ({ children }) => {
 
   useEffect(() => {
     navigation.setOptions({
-      headerLeft: (props) => pageHeaderLeft({ ...props, onPress: handleGoBack }),
+      headerLeft: () => pageHeaderLeft({ 
+        testID: 'components/AuthUsername/HeaderLeft', 
+        onPress: handleGoBack, 
+      }),
     })
   }, [])
 

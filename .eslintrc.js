@@ -42,5 +42,11 @@ module.exports = {
     'react/no-unescaped-entities': 0,
     'react/display-name': 0,
     'jest/no-jasmine-globals': 0,
+    'jest/expect-expect': [
+      'error',
+      {
+        assertFunctionNames: ['expect', 'element'],
+      },
+    ],
   },
 }

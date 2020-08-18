@@ -14,8 +14,8 @@ import { withTranslation } from 'react-i18next'
 
 const formSchema = Yup.object().shape({
   confirmationCode: Yup.string()
-    .min(6)
-    .max(6)
+    .length(6)
+    .matches(/^[0-9]*$/, 'must only contain numbers')
     .matches(/^\S*$/, 'no whitespace')
     .trim()
     .required(),
@@ -36,7 +36,7 @@ const EmailConfirmForm = ({
 
       {loading ?
         <View style={styling.input}>
-          <DefaultButton testID="components/AuthEmailConfirm/Form/submit" label={t('Next')} onPress={handleSubmit} loading={loading} disabled={loading} />
+          <DefaultButton label={t('Next')} onPress={handleSubmit} loading={loading} disabled={loading} />
         </View>
       : null}
     </View>

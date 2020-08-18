@@ -22,7 +22,10 @@ const AuthPasswordComponentService = ({ children }) => {
 
   useEffect(() => {
     navigation.setOptions({
-      headerLeft: (props) => pageHeaderLeft({ ...props, onPress: handleGoBack }),
+      headerLeft: () => pageHeaderLeft({ 
+        testID: 'components/AuthPassword/HeaderLeft', 
+        onPress: handleGoBack, 
+      }),
     })
   }, [])
 

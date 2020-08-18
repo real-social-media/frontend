@@ -23,7 +23,7 @@ const AuthPhoto = ({
 
   useEffect(() => {
     navigation.setOptions({
-      headerRight: () => <HeaderRight onPress={skipPhotoUpload} title="Skip" style={styling.headerRight} />,
+      headerRight: () => <HeaderRight testID="components/AuthPhoto/HeaderRight/SkipBtn" onPress={skipPhotoUpload} title="Skip" style={styling.headerRight} />,
     })
   }, [])
 

@@ -12,11 +12,12 @@ const BottomAction = ({
   theme,
   children,
   onPress,
+  testID,
 }) => {
   const styling = styles(theme)
 
   return (
-    <TouchableOpacity style={styling.root} onPress={onPress}>
+    <TouchableOpacity testID={testID} style={styling.root} onPress={onPress}>
       <Subheading style={styling.action}>{children}</Subheading>
     </TouchableOpacity>
   )
@@ -40,6 +41,11 @@ BottomAction.propTypes = {
   theme: PropTypes.any,
   children: PropTypes.any,
   onPress: PropTypes.any,
+  testID: PropTypes.string,
+}
+
+BottomAction.defaultProps = {
+  testID: null,
 }
 
 export default withTheme(BottomAction)

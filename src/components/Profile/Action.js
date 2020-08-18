@@ -34,7 +34,7 @@ const ProfileAction = ({
     <View style={styling.root}>
       {self ?
         <View style={styling.item}>
-          <DefaultButton label={t('Settings')} onPress={navigationActions.navigateSettings(navigation)} mode="outlined" size="compact" />
+          <DefaultButton testID="components/Profile/Action/Settings" label={t('Settings')} onPress={navigationActions.navigateSettings(navigation)} mode="outlined" size="compact" />
         </View>
       : null}
 

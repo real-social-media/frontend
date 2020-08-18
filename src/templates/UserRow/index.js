@@ -7,6 +7,7 @@ import {
 } from 'react-native'
 
 const UserRowTemplate = ({
+  testID,
   avatar,
   content,
   action,
@@ -15,7 +16,7 @@ const UserRowTemplate = ({
   const styling = styles
   
   return (
-    <TouchableOpacity style={styling.root} onPress={onPress} disabled={!onPress}>
+    <TouchableOpacity testID={testID} style={styling.root} onPress={onPress} disabled={!onPress}>
       <View style={styling.component}>
         <View style={styling.avatar}>{avatar}</View>
         <View style={styling.content}>{content}</View>
@@ -42,6 +43,7 @@ const styles = StyleSheet.create({
 })
 
 UserRowTemplate.defaultProps = {
+  testID: null,
 }
 
 UserRowTemplate.propTypes = {
@@ -49,6 +51,7 @@ UserRowTemplate.propTypes = {
   content: PropTypes.any,
   action: PropTypes.any,
   onPress: PropTypes.any,
+  testID: PropTypes.string,
 }
 
 export default UserRowTemplate

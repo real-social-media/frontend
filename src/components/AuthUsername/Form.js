@@ -28,8 +28,8 @@ const remoteUsernameValidation = (value) =>
 const formSchema = Yup.object().shape({
   username: Yup.string()
     .min(3)
-    .max(50)
-    .matches(/^[a-zA-Z0-9_.]{3,30}$/, 'username must only contain letters & numbers')
+    .max(30)
+    .matches(/^[a-zA-Z0-9_.]*$/, 'username must only contain letters & numbers')
     .trim()
     .required()
     .test('usernameReserve', 'username is reserved', remoteUsernameValidation),

@@ -43,7 +43,7 @@ const AuthHome = ({
         <AuthTermsTemplate />
       </View>
 
-      <AuthActionTemplate onPress={navigationActions.navigateSignin(navigation)}>
+      <AuthActionTemplate testID="components/AuthHome/BottomAction" onPress={navigationActions.navigateSignin(navigation)}>
         {t('Already Have an Account ? Log In')}
       </AuthActionTemplate>
     </View>

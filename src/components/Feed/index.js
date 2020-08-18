@@ -82,7 +82,7 @@ const Feed = ({
   ), [path(['data'])(postsFeedGet)])
 
   return (
-    <View style={styling.root}>
+    <View testID="components/Feed" style={styling.root}>
       <FlatList
         ref={feedRef}
         keyExtractor={item => item.postId}
