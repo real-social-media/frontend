@@ -1,8 +1,12 @@
 import {credentials} from './data.mock'
 
-export async function signIn() {
+export async function openSignInForm() {
   await element(by.id('components/AuthHome/BottomAction')).tap()
   await element(by.id('navigation/AuthNavigator/Signin/email')).tap()
+}
+
+export async function signIn() {
+  await openSignInForm()
   await element(by.id('components/AuthSignin/Form/username')).typeText(credentials.username)
   await element(by.id('components/AuthSignin/Form/password')).typeText(credentials.password)
   await element(by.id('components/AuthSignin/Form/submit')).tap()

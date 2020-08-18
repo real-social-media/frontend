@@ -1,11 +1,7 @@
 /* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "element", "shouldStayOnStep"] }] */
 import * as emailHelpers from '../../helpers/email'
-
-const valid = {
-  username: `detox${Date.now()}`,
-  password: '12345678',
-  email: 'valid@email.com',
-}
+import {generateString} from '../../helpers/utils'
+import {valid} from './data.mock'
 
 async function getFields() {
   return {
@@ -22,10 +18,6 @@ async function fillField(name, value) {
 
   await field.clearText()
   await field.typeText(value)
-}
-
-function generateString({length}) {
-  return new Array(length).fill('a').join('')
 }
 
 async function shouldStayOnStep(step) {
