@@ -11,6 +11,7 @@ import HeaderRight from 'navigation/HeaderRight'
 
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
+import testIDs from './test-ids'
 
 const AuthPhoto = ({
   t,
@@ -23,12 +24,12 @@ const AuthPhoto = ({
 
   useEffect(() => {
     navigation.setOptions({
-      headerRight: () => <HeaderRight testID="components/AuthPhoto/HeaderRight/SkipBtn" onPress={skipPhotoUpload} title="Skip" style={styling.headerRight} />,
+      headerRight: () => <HeaderRight testID={testIDs.header.skipBtn} onPress={skipPhotoUpload} title="Skip" style={styling.headerRight} />,
     })
   }, [])
 
   return (
-    <View testID="components/AuthPhoto" style={styling.root}>
+    <View testID={testIDs.root} style={styling.root}>
       <View style={styling.component}>
         <AuthHeaderTemplate
           title={t('Add an Unmodified Profile Picture')}

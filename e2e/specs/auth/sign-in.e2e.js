@@ -1,18 +1,25 @@
-/* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "element", "shouldStayOnSignInScreenAfterSubmit"] }] */
+/* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "element", "toBeVisible", "tap", "shouldStayOnSignInScreenAfterSubmit"] }] */
 import {credentials, valid} from './data.mock'
 import * as actions from './actions'
-import * as utils from '../../helpers/utils'
+import {generateString, tap, toBeVisible, typeText} from '../../helpers/utils'
+import {
+  AuthPhotoScreen,
+  AuthHomeScreen,
+  AuthSigninEmail,
+  AuthSigninPhoneScreen,
+  Navigation,
+} from './../../helpers/screens'
 
 async function getFields() {
   return {
-    email: element(by.id('components/AuthSignin/Form/username')),
-    password: element(by.id('components/AuthSignin/Form/password')),
+    email: element(by.id(AuthSigninEmail.form.username)),
+    password: element(by.id(AuthSigninEmail.form.password)),
   }
 }
 
 async function shouldStayOnSignInScreenAfterSubmit() {
-  await element(by.id('components/AuthSignin/Form/submit')).tap()
-  await expect(element(by.id('components/AuthSigninEmail'))).toBeVisible()
+  await tap(AuthSigninEmail.form.submitBtn)
+  await toBeVisible(AuthSigninEmail.root)
 }
 
 describe('Feature: Sign in', () => {
@@ -23,7 +30,7 @@ describe('Feature: Sign in', () => {
   describe('As a user I want to not be able to sign in with incorrect credentials', () => {
     it('Given: Unauthorized user on signin screen', async () => {
       await actions.openSignInForm()
-      await expect(element(by.id('components/AuthSigninEmail'))).toBeVisible()
+      await toBeVisible(AuthSigninEmail.root)
     })
 
     describe('Rule: Email validation', () => {
@@ -45,12 +52,12 @@ describe('Feature: Sign in', () => {
       })
 
       it('Example: must be at least 3 characters', async () => {
-        await email.typeText(utils.generateString({length: 2}))
+        await email.typeText(generateString({length: 2}))
         await shouldStayOnSignInScreenAfterSubmit()
       })
 
       it('Example: must be at most 50 characters', async () => {
-        await email.typeText(utils.generateString({length: 51}))
+        await email.typeText(generateString({length: 51}))
         await shouldStayOnSignInScreenAfterSubmit()
       })
 
@@ -87,12 +94,12 @@ describe('Feature: Sign in', () => {
       })
 
       it('Example: must be at least 8 characters', async () => {
-        await password.typeText(utils.generateString({length: 7}))
+        await password.typeText(generateString({length: 7}))
         await shouldStayOnSignInScreenAfterSubmit()
       })
 
       it('Example: must be at most 50 characters', async () => {
-        await password.typeText(utils.generateString({length: 51}))
+        await password.typeText(generateString({length: 51}))
         await shouldStayOnSignInScreenAfterSubmit()
       })
     })
@@ -101,33 +108,33 @@ describe('Feature: Sign in', () => {
   describe('As a user I want to sign in with right credentials', () => {
     it('Given: Unauthorized user on auth home screen', async () => {
       await device.reloadReactNative()
-      await expect(element(by.id('components/AuthHome'))).toBeVisible()
+      await toBeVisible(AuthHomeScreen.root)
     })
 
     it('Then tap by the Sign In button', async () => {
-      await element(by.id('components/AuthHome/BottomAction')).tap()
+      await tap(AuthHomeScreen.footer.signInBtn)
     })
 
     it('When sign in by phone screen open', async () => {
-      await expect(element(by.id('components/AuthSigninPhone'))).toBeVisible()
+      await toBeVisible(AuthSigninPhoneScreen.root)
     })
 
     it('Then tap by email tab', async () => {
-      await element(by.id('navigation/AuthNavigator/Signin/email')).tap()
+      await tap(Navigation.authNavigator.signIn.email)
     })
 
     it('When sign in by email screen open', async () => {
-      await expect(element(by.id('components/AuthSigninEmail'))).toBeVisible()
+      await toBeVisible(AuthSigninEmail.root)
     })
 
     it('Then submit sign in form with right credentials', async () => {
-      await element(by.id('components/AuthSignin/Form/username')).typeText(credentials.username)
-      await element(by.id('components/AuthSignin/Form/password')).typeText(credentials.password)
-      await element(by.id('components/AuthSignin/Form/submit')).tap()
+      await typeText(AuthSigninEmail.form.username, credentials.email)
+      await typeText(AuthSigninEmail.form.password, credentials.password)
+      await tap(AuthSigninEmail.form.submitBtn)
     })
 
     it('Then authorized user on upload profile pictire screen', async () => {
-      await expect(element(by.id('components/AuthPhoto'))).toBeVisible()
+      await toBeVisible(AuthPhotoScreen.root)
     })
   })
 })

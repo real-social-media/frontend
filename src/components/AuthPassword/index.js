@@ -8,6 +8,7 @@ import FormComponent from 'components/AuthPassword/Form'
 import AuthHeaderTemplate from 'templates/Auth/Header'
 
 import { withTranslation } from 'react-i18next'
+import testIDs from './test-ids'
 
 const AuthPassword = ({
   t,
@@ -20,7 +21,7 @@ const AuthPassword = ({
   const styling = styles
 
   return (
-    <View testID="components/AuthPassword" style={styling.root}>
+    <View testID={testIDs.root} style={styling.root}>
       <View style={styling.component}>
         <AuthHeaderTemplate
           title={t('Secure Your Account')}

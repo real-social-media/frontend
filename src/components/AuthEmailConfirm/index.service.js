@@ -7,6 +7,7 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import path from 'ramda/src/path'
 import { logEvent } from 'services/Analytics'
 import { pageHeaderLeft } from 'navigation/options'
+import testIDs from './test-ids'
 
 const AuthEmailConfirmComponentService = ({ children }) => {
   const dispatch = useDispatch()
@@ -30,7 +31,7 @@ const AuthEmailConfirmComponentService = ({ children }) => {
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => pageHeaderLeft({ 
-        testID: 'components/AuthEmailConfirm/HeaderLeft', 
+        testID: testIDs.header.backBtn, 
         onPress: handleGoBack, 
       }),
     })

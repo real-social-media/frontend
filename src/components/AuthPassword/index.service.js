@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
 import { logEvent } from 'services/Analytics'
 import { pageHeaderLeft } from 'navigation/options'
+import testIDs from './test-ids'
 
 const AuthPasswordComponentService = ({ children }) => {
   const dispatch = useDispatch()
@@ -23,7 +24,7 @@ const AuthPasswordComponentService = ({ children }) => {
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => pageHeaderLeft({ 
-        testID: 'components/AuthPassword/HeaderLeft', 
+        testID: testIDs.header.backBtn, 
         onPress: handleGoBack, 
       }),
     })

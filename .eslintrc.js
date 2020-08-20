@@ -45,7 +45,7 @@ module.exports = {
     'jest/expect-expect': [
       'error',
       {
-        assertFunctionNames: ['expect', 'element'],
+        assertFunctionNames: ['expect', 'element', 'toBeVisible', 'tap'],
       },
     ],
   },

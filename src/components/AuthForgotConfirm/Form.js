@@ -10,6 +10,7 @@ import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
 
 import { withTranslation } from 'react-i18next'
+import testIDs from './test-ids'
 
 const formSchema = Yup.object().shape({
   username: Yup.string()
@@ -40,16 +41,16 @@ const ForgotConfirmForm = ({
   return (
     <View style={styling.root}>
       <View style={styling.input}>
-        <Field testID="components/AuthForgotConfirm/Form/username" name="username" component={TextField} placeholder={t('Phone or Email')} keyboardType="default" textContentType="username" autoCompleteType="username" />
+        <Field testID={testIDs.form.username} name="username" component={TextField} placeholder={t('Phone or Email')} keyboardType="default" textContentType="username" autoCompleteType="username" />
       </View>
       <View style={styling.input}>
-        <Field testID="components/AuthForgotConfirm/Form/confirmationCode" name="confirmationCode" component={TextField} placeholder={t('Confirmation Code')} keyboardType="number-pad" textContentType="oneTimeCode" autoCompleteType="off" autoFocus />
+        <Field testID={testIDs.form.confirmationCode} name="confirmationCode" component={TextField} placeholder={t('Confirmation Code')} keyboardType="number-pad" textContentType="oneTimeCode" autoCompleteType="off" autoFocus />
       </View>
       <View style={styling.input}>
-        <Field testID="components/AuthForgotConfirm/Form/password" name="password" component={TextField} placeholder={t('New Password')} secureTextEntry keyboardType="default" textContentType="password" autoCompleteType="password" />
+        <Field testID={testIDs.form.password} name="password" component={TextField} placeholder={t('New Password')} secureTextEntry keyboardType="default" textContentType="password" autoCompleteType="password" />
       </View>
       <View style={styling.input}>
-        <DefaultButton testID="components/AuthForgotConfirm/Form/submit" label={t('Next')} onPress={handleSubmit} loading={loading} disabled={loading} />
+        <DefaultButton testID={testIDs.form.submitBtn} label={t('Next')} onPress={handleSubmit} loading={loading} disabled={loading} />
       </View>
     </View>
   )

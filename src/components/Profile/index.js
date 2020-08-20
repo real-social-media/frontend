@@ -23,6 +23,7 @@ import * as UserService from 'services/User'
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
+import testIDs from './test-ids'
 
 const Profile = ({
   t,
@@ -72,7 +73,7 @@ const Profile = ({
 
   return (
     <ScrollView
-      testID="components/Profile"
+      testID={testIDs.root}
       ref={profileRef}
       style={styling.root}
       onScroll={scroll.handleScrollChange}

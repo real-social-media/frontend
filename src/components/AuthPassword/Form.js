@@ -10,6 +10,7 @@ import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
 
 import { withTranslation } from 'react-i18next'
+import testIDs from './test-ids'
 
 const formSchema = Yup.object().shape({
   password: Yup.string()
@@ -39,10 +40,10 @@ const PasswordForm = ({
   return (
     <View style={styling.root}>
       <View style={styling.input}>
-        <Field testID="components/AuthPassword/Form/password" name="password" component={TextField} placeholder={t('Password')} secureTextEntry keyboardType="default" textContentType="password" autoCompleteType="password" autoFocus />
+        <Field testID={testIDs.form.password} name="password" component={TextField} placeholder={t('Password')} secureTextEntry keyboardType="default" textContentType="password" autoCompleteType="password" autoFocus />
       </View>
       <View style={styling.input}>
-        <DefaultButton testID="components/AuthPassword/Form/submit" label={t('Next')} onPress={handleSubmit} loading={loading} disabled={submitDisabled} />
+        <DefaultButton testID={testIDs.form.submitBtn} label={t('Next')} onPress={handleSubmit} loading={loading} disabled={submitDisabled} />
       </View>
     </View>
   )

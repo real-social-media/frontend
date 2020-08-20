@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "translations-scan": "i18next-scanner --config i18next-scanner.config.engine.js src/**/*.js",
     "tests:unit": "jest",
-    "tests:e2e": "detox test"
+    "tests:e2e": "detox test --loglevel error"
   },
   "dependencies": {
     "@aws-amplify/analytics": "^3.2.6",

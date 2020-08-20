@@ -24,11 +24,12 @@ import AuthForgotPhoneScreen from 'screens/AuthForgotPhoneScreen'
 import AuthForgotEmailScreen from 'screens/AuthForgotEmailScreen'
 import AuthForgotConfirmScreen from 'screens/AuthForgotConfirmScreen'
 import AuthCognitoScreen from 'screens/AuthCognitoScreen'
+import testIDs from './test-ids'
 
-const SignupNavigator = () => {
+const SignupNavigator = (props) => {
   const Tab = createMaterialTopTabNavigator()
   const { theme } = useContext(ThemesContext)
-  const tabNavigatorAuthProps = navigationOptions.tabNavigatorAuthProps({ theme })
+  const tabNavigatorAuthProps = navigationOptions.tabNavigatorAuthProps({ theme, props })
   return (
     <Tab.Navigator {...tabNavigatorAuthProps}>
       <Tab.Screen
@@ -36,7 +37,7 @@ const SignupNavigator = () => {
         component={AuthPhoneScreen}
         options={{
           tabBarLabel: 'Phone',
-          tabBarTestID: 'navigation/AuthNavigator/Signup/phone',
+          tabBarTestID: testIDs.authNavigator.signUp.phone,
         }}
       />
       <Tab.Screen
@@ -44,17 +45,17 @@ const SignupNavigator = () => {
         component={AuthEmailScreen}
         options={{
           tabBarLabel: 'Email',
-          tabBarTestID: 'navigation/AuthNavigator/Signup/email',
+          tabBarTestID: testIDs.authNavigator.signUp.email,
         }}
       />
     </Tab.Navigator>
   )
 }
 
-const SigninNavigator = () => {
+const SigninNavigator = (props) => {
   const Tab = createMaterialTopTabNavigator()
   const { theme } = useContext(ThemesContext)
-  const tabNavigatorAuthProps = navigationOptions.tabNavigatorAuthProps({ theme })
+  const tabNavigatorAuthProps = navigationOptions.tabNavigatorAuthProps({ theme, props })
   return (
     <Tab.Navigator {...tabNavigatorAuthProps}>
       <Tab.Screen
@@ -62,7 +63,7 @@ const SigninNavigator = () => {
         component={AuthSigninPhoneScreen}
         options={{
           tabBarLabel: 'Phone',
-          tabBarTestID: 'navigation/AuthNavigator/Signin/phone',
+          tabBarTestID: testIDs.authNavigator.signIn.phone,
         }}
       />
       <Tab.Screen
@@ -70,17 +71,18 @@ const SigninNavigator = () => {
         component={AuthSigninEmailScreen}
         options={{
           tabBarLabel: 'Email',
-          tabBarTestID: 'navigation/AuthNavigator/Signin/email',
+          tabBarTestID: testIDs.authNavigator.signIn.email,
         }}
       />
     </Tab.Navigator>
   )
 }
 
-const ForgotNavigator = () => {
+const ForgotNavigator = (props) => {
   const Tab = createMaterialTopTabNavigator()
   const { theme } = useContext(ThemesContext)
-  const tabNavigatorAuthProps = navigationOptions.tabNavigatorAuthProps({ theme })
+  const tabNavigatorAuthProps = navigationOptions.tabNavigatorAuthProps({ theme, props })
+
   return (
     <Tab.Navigator {...tabNavigatorAuthProps}>
       <Tab.Screen

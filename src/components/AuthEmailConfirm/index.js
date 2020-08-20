@@ -9,6 +9,7 @@ import AuthHeaderTemplate from 'templates/Auth/Header'
 import AuthErrorTemplate from 'templates/Auth/Error'
 
 import { withTranslation } from 'react-i18next'
+import testIDs from './test-ids'
 
 const AuthEmailConfirm = ({
   t,
@@ -23,7 +24,7 @@ const AuthEmailConfirm = ({
   const styling = styles
 
   return (
-    <View testID="components/AuthEmailConfirm" style={styling.root}>
+    <View testID={testIDs.root} style={styling.root}>
       {formErrorMessage ?
         <AuthErrorTemplate
           text={formErrorMessage}

@@ -18,6 +18,7 @@ import SearchIcon from 'assets/svg/footer/Search'
 import CreateIcon from 'assets/svg/footer/Create'
 import HeartIcon from 'assets/svg/footer/Heart'
 import UserIcon from 'assets/svg/footer/User'
+import testIDs from './test-ids'
 
 const TabNavigator = ({ navigation, route }) => {
   const { theme, themes } = useContext(ThemesContext)
@@ -60,7 +61,7 @@ const TabNavigator = ({ navigation, route }) => {
   const ProfileTabIconComponent = ({ color }) => <UserIcon fill={color} />
   const profileTabScreenPropsCard = {
     options: {
-      tabBarTestID: 'navigation/TabNavigator/ProfileTab',
+      tabBarTestID: testIDs.tabNavigator.profile,
       tabBarIcon: ProfileTabIconComponent,
       tabBarLabel: 'Profile',
     },

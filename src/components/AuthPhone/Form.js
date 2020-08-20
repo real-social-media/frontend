@@ -9,6 +9,7 @@ import DefaultButton from 'components/Formik/Button/DefaultButton'
 import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
 import { withTranslation } from 'react-i18next'
+import testIDs from './test-ids'
 
 const formSchema = Yup.object().shape({
   phone: Yup.string()
@@ -29,10 +30,10 @@ const PhoneForm = ({
   return (
     <View style={styling.root}>
       <View style={styling.input}>
-        <Field testID="components/AuthPhone/Form/phone" name="phone" component={PhoneField} placeholder={t('Phone Number')} keyboardType="phone-pad" textContentType="telephoneNumber" autoCompleteType="tel" autoFocus />
+        <Field testID={testIDs.form.phone} name="phone" component={PhoneField} placeholder={t('Phone Number')} keyboardType="phone-pad" textContentType="telephoneNumber" autoCompleteType="tel" autoFocus />
       </View>
       <View style={styling.input}>
-        <DefaultButton testID="components/AuthPhone/Form/submit" label={t('Next')} onPress={handleSubmit} loading={loading} disabled={loading} />
+        <DefaultButton testID={testIDs.form.submitBtn} label={t('Next')} onPress={handleSubmit} loading={loading} disabled={loading} />
       </View>
     </View>
   )

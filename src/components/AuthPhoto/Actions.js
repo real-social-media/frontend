@@ -7,6 +7,7 @@ import {
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 
 import { withTranslation } from 'react-i18next'
+import testIDs from './test-ids'
 
 const Actions = ({
   t,
@@ -19,13 +20,13 @@ const Actions = ({
   return (
     <View style={styling.root}>
       <View style={styling.item}>
-        <DefaultButton testID="components/AuthPhoto/Actions/photo" label={t('Take Photo')} onPress={handleCameraSnap} loading={false} />
+        <DefaultButton testID={testIDs.actions.photoBtn} label={t('Take Photo')} onPress={handleCameraSnap} loading={false} />
       </View>
       <View style={styling.item}>
-        <DefaultButton testID="components/AuthPhoto/Actions/library" label={t('Choose from Library')} onPress={handleLibrarySnap} loading={false} />
+        <DefaultButton testID={testIDs.actions.libraryBtn} label={t('Choose from Library')} onPress={handleLibrarySnap} loading={false} />
       </View>
       <View style={styling.item}>
-        <DefaultButton testID="components/AuthPhoto/Actions/skip" label={t('Skip Photo Upload')} onPress={skipPhotoUpload} loading={false} />
+        <DefaultButton testID={testIDs.actions.skipBtn} label={t('Skip Photo Upload')} onPress={skipPhotoUpload} loading={false} />
       </View>
     </View>
   )

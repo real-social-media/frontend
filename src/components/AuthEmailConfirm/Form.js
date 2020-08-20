@@ -11,6 +11,7 @@ import * as Yup from 'yup'
 import path from 'ramda/src/path'
 
 import { withTranslation } from 'react-i18next'
+import testIDs from './test-ids'
 
 const formSchema = Yup.object().shape({
   confirmationCode: Yup.string()
@@ -31,7 +32,7 @@ const EmailConfirmForm = ({
   return (
     <View style={styling.root}>
       <View style={styling.input}>
-        <Field testID="components/AuthEmailConfirm/Form/confirmationCode" name="confirmationCode" component={TextField} placeholder={t('Confirmation Code')} keyboardType="number-pad" textContentType="oneTimeCode" autoCompleteType="off" autoFocus maxLength={6} />
+        <Field testID={testIDs.form.confirmationCode} name="confirmationCode" component={TextField} placeholder={t('Confirmation Code')} keyboardType="number-pad" textContentType="oneTimeCode" autoCompleteType="off" autoFocus maxLength={6} />
       </View>
 
       {loading ?

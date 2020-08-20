@@ -12,6 +12,7 @@ import * as navigationActions from 'navigation/actions'
 
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
+import testIDs from './test-ids'
 
 const AuthPhone = ({
   t,
@@ -27,7 +28,7 @@ const AuthPhone = ({
   const navigation = useNavigation()
 
   return (
-    <View testID="components/AuthPhone" style={styling.root}>
+    <View testID={testIDs.root} style={styling.root}>
       {formErrorMessage ?
         <AuthErrorTemplate
           text={formErrorMessage}

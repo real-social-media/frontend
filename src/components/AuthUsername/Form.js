@@ -9,6 +9,7 @@ import DefaultButton from 'components/Formik/Button/DefaultButton'
 import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
 import Config from 'react-native-config'
+import testIDs from './test-ids'
 
 import { withTranslation } from 'react-i18next'
 
@@ -54,10 +55,10 @@ const UsernameForm = ({
   return (
     <View style={styling.root}>
       <View style={styling.input}>
-        <Field testID="components/AuthUsername/Form/username" name="username" component={TextField} placeholder={t('Username')} keyboardType="default" textContentType="username" autoCompleteType="username" autoFocus />
+        <Field testID={testIDs.form.username} name="username" component={TextField} placeholder={t('Username')} keyboardType="default" textContentType="username" autoCompleteType="username" autoFocus />
       </View>
       <View style={styling.input}>
-        <DefaultButton testID="components/AuthUsername/Form/submit" label={t('Next')} onPress={handleSubmit} loading={loading} disabled={submitDisabled} />
+        <DefaultButton testID={testIDs.form.submitBtn} label={t('Next')} onPress={handleSubmit} loading={loading} disabled={submitDisabled} />
       </View>
     </View>
   )

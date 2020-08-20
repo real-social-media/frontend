@@ -11,6 +11,7 @@ import * as navigationActions from 'navigation/actions'
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
+import testIDs from './test-ids'
 
 const ProfileAction = ({
   t,
@@ -34,7 +35,7 @@ const ProfileAction = ({
     <View style={styling.root}>
       {self ?
         <View style={styling.item}>
-          <DefaultButton testID="components/Profile/Action/Settings" label={t('Settings')} onPress={navigationActions.navigateSettings(navigation)} mode="outlined" size="compact" />
+          <DefaultButton testID={testIDs.actions.settingsBtn} label={t('Settings')} onPress={navigationActions.navigateSettings(navigation)} mode="outlined" size="compact" />
         </View>
       : null}
 

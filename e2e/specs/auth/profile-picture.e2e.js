@@ -1,4 +1,7 @@
 import * as actions from './actions'
+import {credentials} from './data.mock'
+import {tap, toBeVisible} from '../../helpers/utils'
+import {AuthPhotoScreen, FeedScreen} from './../../helpers/screens'
 
 describe('Feature: Upload Profile Picture', () => {
   beforeAll(async () => {
@@ -8,33 +11,33 @@ describe('Feature: Upload Profile Picture', () => {
   describe('As a new user I want skip upload profile picture', () => {
     describe('Rule: Skip by header button tap', () => {
       it('Given: New user on upload profile picture screen', async () => {
-        await actions.signIn()
-        await expect(element(by.id('components/AuthPhoto'))).toBeVisible()
+        await actions.signIn(credentials)
+        await toBeVisible(AuthPhotoScreen.root)
       })
 
       it('Then click to the skip button', async () => {
-        await expect(element(by.id('components/AuthPhoto/HeaderRight/SkipBtn'))).toBeVisible()
-        await element(by.id('components/AuthPhoto/HeaderRight/SkipBtn')).tap()
+        await toBeVisible(AuthPhotoScreen.header.skipBtn)
+        await tap(AuthPhotoScreen.header.skipBtn)
       })
 
       it('Then feed screen opened', async () => {
-        await expect(element(by.id('components/Feed'))).toBeVisible()
+        await toBeVisible(FeedScreen.root)
       })
     })
 
     describe('Rule: Skip by actions button tap', () => {
       it('Given: New user on upload profile picture screen', async () => {
         await device.reloadReactNative()
-        await expect(element(by.id('components/AuthPhoto'))).toBeVisible()
+        await toBeVisible(AuthPhotoScreen.root)
       })
 
       it('Then click to the skip button', async () => {
-        await expect(element(by.id('components/AuthPhoto/Actions/skip'))).toBeVisible()
-        await element(by.id('components/AuthPhoto/Actions/skip')).tap()
+        await toBeVisible(AuthPhotoScreen.actions.skipBtn)
+        await tap(AuthPhotoScreen.actions.skipBtn)
       })
 
       it('Then feed screen opened', async () => {
-        await expect(element(by.id('components/Feed'))).toBeVisible()
+        await toBeVisible(FeedScreen.root)
       })
     })
   })

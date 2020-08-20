@@ -12,6 +12,7 @@ import * as navigationActions from 'navigation/actions'
 
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
+import testIDs from './test-ids'
 
 const AuthHome = ({
   t,
@@ -24,7 +25,7 @@ const AuthHome = ({
   const navigation = useNavigation()
 
   return (
-    <View testID="components/AuthHome" style={styling.root}>
+    <View testID={testIDs.root} style={styling.root}>
       <View style={styling.component}>
         <AuthHeaderTemplate
           title={t('Sign up for REAL')}
@@ -43,7 +44,7 @@ const AuthHome = ({
         <AuthTermsTemplate />
       </View>
 
-      <AuthActionTemplate testID="components/AuthHome/BottomAction" onPress={navigationActions.navigateSignin(navigation)}>
+      <AuthActionTemplate testID={testIDs.footer.signInBtn} onPress={navigationActions.navigateSignin(navigation)}>
         {t('Already Have an Account ? Log In')}
       </AuthActionTemplate>
     </View>

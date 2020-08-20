@@ -9,9 +9,9 @@ import AuthActionTemplate from 'templates/Auth/Action'
 import AuthHeaderTemplate from 'templates/Auth/Header'
 import AuthErrorTemplate from 'templates/Auth/Error'
 import * as navigationActions from 'navigation/actions'
-
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
+import testIDs from './test-ids'
 
 const AuthSigninEmail = ({
   t,
@@ -27,7 +27,7 @@ const AuthSigninEmail = ({
   const navigation = useNavigation()
 
   return (
-    <View testID="components/AuthSigninEmail" style={styling.root}>
+    <View testID={testIDs.root} style={styling.root}>
       {formErrorMessage ?
         <AuthErrorTemplate
           text={formErrorMessage}
@@ -52,7 +52,7 @@ const AuthSigninEmail = ({
         </View>
       </View>
 
-      <AuthActionTemplate onPress={navigationActions.navigateForgot(navigation)}>
+      <AuthActionTemplate testID={testIDs.resetPasswordBtn} onPress={navigationActions.navigateAuthForgotEmail(navigation)}>
         {t('Reset your Password')}
       </AuthActionTemplate>
     </View>

@@ -1,19 +1,72 @@
-import {credentials} from './data.mock'
+import * as emailHelpers from '../../helpers/email'
+import {generatePassword, generateUsername, typeText, tap, toBeVisible} from './../../helpers/utils'
+import {
+  AuthPhotoScreen,
+  AuthHomeScreen,
+  FeedScreen,
+  Navigation,
+  ProfileScreen,
+  SettingsScreen,
+  AuthUsernameScreen,
+  AuthSigninEmail,
+  AuthEmailConfirmScreen,
+  AuthEmailScreen,
+  AuthPasswordScreen,
+} from './../../helpers/screens'
 
 export async function openSignInForm() {
-  await element(by.id('components/AuthHome/BottomAction')).tap()
-  await element(by.id('navigation/AuthNavigator/Signin/email')).tap()
+  await toBeVisible(AuthHomeScreen.root)
+  await tap(AuthHomeScreen.footer.signInBtn)
+  await tap(Navigation.authNavigator.signIn.email)
 }
 
-export async function signIn() {
+export async function submitSignInForm(credentials) {
+  await typeText(AuthSigninEmail.form.username, credentials.email)
+  await typeText(AuthSigninEmail.form.password, credentials.password)
+  await tap(AuthSigninEmail.form.submitBtn)
+}
+
+export async function signIn(credentials) {
   await openSignInForm()
-  await element(by.id('components/AuthSignin/Form/username')).typeText(credentials.username)
-  await element(by.id('components/AuthSignin/Form/password')).typeText(credentials.password)
-  await element(by.id('components/AuthSignin/Form/submit')).tap()
+  await submitSignInForm(credentials)
+}
+
+export async function signUp() {
+  const username = generateUsername()
+  const password = generatePassword()
+  const inbox = await emailHelpers.createInbox()
+  const email = inbox.emailAddress
+
+  await tap(AuthHomeScreen.actions.signInBtn)
+  await typeText(AuthUsernameScreen.form.username, username)
+  await tap(AuthUsernameScreen.form.submit)
+
+  await typeText(AuthPasswordScreen.form.password, password)
+  await tap(AuthPasswordScreen.form.submitBtn)
+
+  await tap(Navigation.authNavigator.signIp.email)
+  await typeText(AuthEmailScreen.form.email, email)
+  await tap(AuthEmailScreen.form.submitBtn)
+
+  const confirmationCode = await emailHelpers.extractCodeFromLatestEmail(inbox.id)
+  await typeText(AuthEmailConfirmScreen.form.confirmationCode, confirmationCode)
+
+  return {username, password, inbox, email}
+}
+
+export async function signOut() {
+  await toBeVisible(Navigation.tabNavigation.profile)
+  await tap(Navigation.tabNavigation.profile)
+  await toBeVisible(ProfileScreen.root)
+
+  await tap(ProfileScreen.actions.settingsBtn)
+  await toBeVisible(SettingsScreen.root)
+
+  await tap(SettingsScreen.actions.signOutBtn)
 }
 
 export async function skipUploadProfilePicture() {
-  await expect(element(by.id('components/AuthPhoto/HeaderRight/SkipBtn'))).toBeVisible()
-  await element(by.id('components/AuthPhoto/HeaderRight/SkipBtn')).tap()
-  await expect(element(by.id('components/Feed'))).toBeVisible()
+  await toBeVisible(AuthPhotoScreen.root)
+  await tap(AuthPhotoScreen.header.skipBtn)
+  await toBeVisible(FeedScreen.root)
 }

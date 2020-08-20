@@ -1,14 +1,24 @@
-/* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "element", "shouldStayOnStep"] }] */
+/* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "toBeVisible", "typeText", "element", "tap", "shouldStayOnStep"] }] */
 import * as emailHelpers from '../../helpers/email'
-import {generateString} from '../../helpers/utils'
+import {generateString, tap, toBeVisible, toBeNotVisible, typeText} from '../../helpers/utils'
 import {valid} from './data.mock'
+import {
+  AuthPhotoScreen,
+  AuthHomeScreen,
+  AuthUsernameScreen,
+  AuthEmailConfirmScreen,
+  AuthEmailScreen,
+  AuthPhoneScreen,
+  AuthPasswordScreen,
+  Navigation,
+} from './../../helpers/screens'
 
 async function getFields() {
   return {
-    username: element(by.id('components/AuthUsername/Form/username')),
-    password: element(by.id('components/AuthPassword/Form/password')),
-    email: element(by.id('components/AuthEmail/Form/email')),
-    code: element(by.id('components/AuthEmailConfirm/Form/confirmationCode')),
+    username: element(by.id(AuthUsernameScreen.form.username)),
+    password: element(by.id(AuthPasswordScreen.form.password)),
+    email: element(by.id(AuthEmailScreen.form.email)),
+    code: element(by.id(AuthEmailConfirmScreen.form.confirmationCode)),
   }
 }
 
@@ -22,19 +32,19 @@ async function fillField(name, value) {
 
 async function shouldStayOnStep(step) {
   if (step === 'username') {
-    await element(by.id('components/AuthUsername/Form/submit')).tap()
-    await expect(element(by.id('components/AuthUsername'))).toBeVisible()
-    await expect(element(by.id('components/AuthPassword'))).toBeNotVisible()
+    await tap(AuthUsernameScreen.form.submitBtn)
+    await toBeVisible(AuthUsernameScreen.root)
+    await toBeNotVisible(AuthPasswordScreen.root)
   } else if (step === 'password') {
-    await element(by.id('components/AuthPassword/Form/submit')).tap()
-    await expect(element(by.id('components/AuthPassword'))).toBeVisible()
-    await expect(element(by.id('components/AuthPhone'))).toBeNotVisible()
+    await tap(AuthPasswordScreen.form.submitBtn)
+    await toBeVisible(AuthPasswordScreen.root)
+    await toBeNotVisible(AuthPhoneScreen.root)
   } else if (step === 'email') {
-    await element(by.id('components/AuthEmail/Form/submit')).tap()
-    await expect(element(by.id('components/AuthEmail'))).toBeVisible()
-    await expect(element(by.id('components/AuthEmailConfirm'))).toBeNotVisible()
+    await tap(AuthEmailScreen.form.submitBtn)
+    await toBeVisible(AuthEmailScreen.root)
+    await toBeNotVisible(AuthEmailConfirmScreen.root)
   } else if (step === 'code') {
-    await expect(element(by.id('components/AuthEmailConfirm'))).toBeVisible()
+    await toBeVisible(AuthEmailConfirmScreen.root)
   }
 }
 
@@ -43,15 +53,20 @@ describe('Feature: Sign up', () => {
 
   beforeAll(async () => {
     inbox = await emailHelpers.createInbox()
+
     await device.launchApp({permissions: {notifications: 'YES'}, newInstance: true})
+  })
+
+  afterAll(async () => {
+    await emailHelpers.deleteInbox(inbox.id)
   })
 
   describe('As a guest I want to not be able to sign up with incorrect credentials', () => {
     describe('Rule: Username validation', () => {
       it('Given: Unauthorized user on signup username step screen', async () => {
-        await device.reloadReactNative()
-        await element(by.id('components/AuthHome/Actions/signup')).tap()
-        await expect(element(by.id('components/AuthUsername'))).toBeVisible()
+        await toBeVisible(AuthHomeScreen.root)
+        await tap(AuthHomeScreen.actions.signUpBtn)
+        await toBeVisible(AuthUsernameScreen.root)
       })
 
       it('Example: username is a required field', async () => {
@@ -97,8 +112,8 @@ describe('Feature: Sign up', () => {
     describe('Rule: Password validation', () => {
       it('Given: Unauthorized user on signup password step screen', async () => {
         await fillField('username', valid.username)
-        await element(by.id('components/AuthUsername/Form/submit')).tap()
-        await expect(element(by.id('components/AuthPassword'))).toBeVisible()
+        await tap(AuthUsernameScreen.form.submitBtn)
+        await toBeVisible(AuthPasswordScreen.root)
       })
 
       it('Example: password is a required field', async () => {
@@ -124,9 +139,9 @@ describe('Feature: Sign up', () => {
     describe('Rule: Email validation', () => {
       it('Given: Unauthorized user on signup email step screen', async () => {
         await fillField('password', valid.password)
-        await element(by.id('components/AuthPassword/Form/submit')).tap()
-        await element(by.id('navigation/AuthNavigator/Signup/email')).tap()
-        await expect(element(by.id('components/AuthEmail'))).toBeVisible()
+        await tap(AuthPasswordScreen.form.submitBtn)
+        await tap(Navigation.authNavigator.signUp.email)
+        await toBeVisible(AuthEmailScreen.root)
       })
 
       it('Example: email is a required field', async () => {
@@ -161,8 +176,8 @@ describe('Feature: Sign up', () => {
     describe('Rule: Confirmation code validation', () => {
       it('Given: Unauthorized user on Confirmation code screen', async () => {
         await fillField('email', valid.email)
-        await element(by.id('components/AuthEmail/Form/submit')).tap()
-        await expect(element(by.id('components/AuthEmailConfirm'))).toBeVisible()
+        await tap(AuthEmailScreen.form.submitBtn)
+        await toBeVisible(AuthEmailConfirmScreen.root)
       })
 
       it('Example: code is a required field', async () => {
@@ -183,104 +198,103 @@ describe('Feature: Sign up', () => {
 
   describe('As a guest I want to navigate back through sign up for update credentials', () => {
     it('Given: Unauthorized user on the last sign up flow step', async () => {
-      await expect(element(by.id('components/AuthEmailConfirm'))).toBeVisible()
+      await toBeVisible(AuthEmailConfirmScreen.root)
     })
 
     it('When user click header left button #1', async () => {
-      await expect(element(by.id('components/AuthEmailConfirm/HeaderLeft'))).toBeVisible()
-      await element(by.id('components/AuthEmailConfirm/HeaderLeft')).tap()
+      await toBeVisible(AuthEmailConfirmScreen.header.backBtn)
+      await tap(AuthEmailConfirmScreen.header.backBtn)
     })
 
     it('Then open email screen with saved value', async () => {
-      await expect(element(by.id('components/AuthEmail'))).toBeVisible()
+      await toBeVisible(AuthEmailScreen.root)
 
       const {email} = await getFields()
       await expect(email).toHaveValue(valid.email)
     })
 
     it('When user click header left button #2', async () => {
-      await element(by.id('components/AuthEmail/HeaderLeft')).tap()
+      await tap(AuthEmailScreen.header.backBtn)
     })
 
     it('Then open password screen with saved value', async () => {
-      await expect(element(by.id('components/AuthPassword'))).toBeVisible()
+      await toBeVisible(AuthPasswordScreen.root)
 
       const {password} = await getFields()
       await expect(password).toHaveValue('••••••••')
     })
 
     it('When user click header left button again #3', async () => {
-      await element(by.id('components/AuthPassword/HeaderLeft')).tap()
+      await tap(AuthPasswordScreen.header.backBtn)
     })
 
     it('Then open username screen with saved value', async () => {
-      await expect(element(by.id('components/AuthUsername'))).toBeVisible()
+      await toBeVisible(AuthUsernameScreen.root)
 
       const {username} = await getFields()
       await expect(username).toHaveValue(valid.username)
     })
 
     it('When user click header left button again #4', async () => {
-      await element(by.id('components/AuthUsername/HeaderLeft')).tap()
+      await tap(AuthUsernameScreen.header.backBtn)
     })
 
     it('Then open sign up home screen', async () => {
-      await expect(element(by.id('components/AuthHome'))).toBeVisible()
+      await toBeVisible(AuthHomeScreen.root)
     })
   })
 
   describe('As a guest I want to successfully sign up with email', () => {
     it('Given: Unauthorized user on auth home screen', async () => {
-      await expect(element(by.id('components/AuthHome'))).toBeVisible()
+      await toBeVisible(AuthHomeScreen.root)
     })
 
     it('Then click Use Phone or Email button', async () => {
-      await element(by.id('components/AuthHome/Actions/signup')).tap()
+      await tap(AuthHomeScreen.actions.signUpBtn)
     })
 
     it('When username step screen opened', async () => {
-      await expect(element(by.id('components/AuthUsername'))).toBeVisible()
+      await toBeVisible(AuthUsernameScreen.root)
     })
 
     it('Then type valid username and click next', async () => {
-      await element(by.id('components/AuthUsername/Form/username')).typeText(valid.username)
-      await element(by.id('components/AuthUsername/Form/submit')).tap()
+      await typeText(AuthUsernameScreen.form.username, valid.username)
+      await tap(AuthUsernameScreen.form.submitBtn)
     })
 
     it('Then type valid password and click next', async () => {
-      await element(by.id('components/AuthPassword/Form/password')).typeText(valid.password)
-      await element(by.id('components/AuthPassword/Form/submit')).tap()
+      await typeText(AuthPasswordScreen.form.password, valid.password)
+      await tap(AuthPasswordScreen.form.submitBtn)
     })
 
     it('When sign up by phone screen opened', async () => {
-      await expect(element(by.id('components/AuthPhone'))).toBeVisible()
+      await toBeVisible(AuthPhoneScreen.root)
     })
 
     it('Then click the email tab', async () => {
-      await element(by.id('navigation/AuthNavigator/Signup/email')).tap()
+      await tap(Navigation.authNavigator.signUp.email)
     })
 
     it('When sign up by email screen opened', async () => {
-      await expect(element(by.id('components/AuthEmail'))).toBeVisible()
+      await toBeVisible(AuthEmailScreen.root)
     })
 
     it('Then type valid email and click next', async () => {
-      await element(by.id('components/AuthEmail/Form/email')).typeText(inbox.emailAddress)
-      await element(by.id('components/AuthEmail/Form/submit')).tap()
+      await typeText(AuthEmailScreen.form.email, inbox.emailAddress)
+      await tap(AuthEmailScreen.form.submitBtn)
     })
 
     it('When confirm email screen opened', async () => {
-      await expect(element(by.id('components/AuthEmailConfirm'))).toBeVisible()
+      await toBeVisible(AuthEmailConfirmScreen.root)
     })
 
     it('Then type received confirmation code', async () => {
-      const lastEmail = await emailHelpers.getLatestEmail(inbox)
-      const confirmationCode = emailHelpers.extractConfirmationCode(lastEmail)
-      await element(by.id('components/AuthEmailConfirm/Form/confirmationCode')).typeText(confirmationCode)
+      const confirmationCode = await emailHelpers.extractCodeFromLatestEmail(inbox.id)
+      await typeText(AuthEmailConfirmScreen.form.confirmationCode, confirmationCode)
     })
 
     it('Then user see upload profile picture screen', async () => {
-      await expect(element(by.id('components/AuthPhoto'))).toBeVisible()
+      await toBeVisible(AuthPhotoScreen.root)
     })
   })
 })
