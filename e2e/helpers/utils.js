@@ -15,7 +15,7 @@ export async function toBeVisible(selector) {
 }
 
 export async function toBeNotVisible(selector) {
-  await expect(element(by.id(selector))).toBeNotVisible()
+  await expect(element(by.id(selector))).not.toBeVisible()
 }
 
 export async function tap(selector) {

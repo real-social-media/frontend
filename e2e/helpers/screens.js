@@ -11,6 +11,8 @@ import FeedScreen from 'components/Feed/test-ids'
 import Navigation from 'navigation/test-ids'
 import AuthPhoneScreen from 'components/AuthPhone/test-ids'
 import AuthPasswordScreen from 'components/AuthPassword/test-ids'
+import AuthForgotEmailScreen from 'components/AuthForgotEmail/test-ids'
+import AuthForgotConfirmScreen from 'components/AuthForgotConfirm/test-ids'
 
 export {
   SettingsScreen,
@@ -26,4 +28,6 @@ export {
   Navigation,
   AuthPhoneScreen,
   AuthPasswordScreen,
+  AuthForgotEmailScreen,
+  AuthForgotConfirmScreen,
 }

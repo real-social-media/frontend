@@ -37,14 +37,14 @@ export async function signUp() {
   const inbox = await emailHelpers.createInbox()
   const email = inbox.emailAddress
 
-  await tap(AuthHomeScreen.actions.signInBtn)
+  await tap(AuthHomeScreen.actions.signUpBtn)
   await typeText(AuthUsernameScreen.form.username, username)
-  await tap(AuthUsernameScreen.form.submit)
+  await tap(AuthUsernameScreen.form.submitBtn)
 
   await typeText(AuthPasswordScreen.form.password, password)
   await tap(AuthPasswordScreen.form.submitBtn)
 
-  await tap(Navigation.authNavigator.signIp.email)
+  await tap(Navigation.authNavigator.signUp.email)
   await typeText(AuthEmailScreen.form.email, email)
   await tap(AuthEmailScreen.form.submitBtn)
 

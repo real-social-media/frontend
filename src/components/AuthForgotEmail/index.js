@@ -12,6 +12,7 @@ import * as navigationActions from 'navigation/actions'
 
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
+import testIDs from './test-ids'
 
 const AuthForgotEmail = ({
   t,
@@ -27,7 +28,7 @@ const AuthForgotEmail = ({
   const navigation = useNavigation()
 
   return (
-    <View testID="components/AuthForgotEmail" style={styling.root}>
+    <View testID={testIDs.root} style={styling.root}>
       {formErrorMessage ?
         <AuthErrorTemplate
           text={formErrorMessage}

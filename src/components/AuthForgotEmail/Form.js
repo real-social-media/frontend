@@ -10,6 +10,7 @@ import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
 
 import { withTranslation } from 'react-i18next'
+import testIDs from './test-ids'
 
 const formSchema = Yup.object().shape({
   username: Yup.string()
@@ -38,10 +39,10 @@ const ForgotForm = ({
   return (
     <View style={styling.root}>
       <View style={styling.input}>
-        <Field testID="components/AuthForgot/Form/username" name="username" component={TextField} placeholder={t('Email or Phone number')} keyboardType="default" textContentType="username" autoCompleteType="username" />
+        <Field testID={testIDs.form.username} name="username" component={TextField} placeholder={t('Email or Phone number')} keyboardType="default" textContentType="username" autoCompleteType="username" />
       </View>
       <View style={styling.input}>
-        <DefaultButton testID="components/AuthForgot/Form/submit" label={t('Next')} onPress={handleSubmit} loading={loading} disabled={submitDisabled} />
+        <DefaultButton testID={testIDs.form.submitBtn} label={t('Next')} onPress={handleSubmit} loading={loading} disabled={submitDisabled} />
       </View>
     </View>
   )
