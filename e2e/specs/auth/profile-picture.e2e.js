@@ -1,6 +1,6 @@
 import * as actions from './actions'
 import {credentials} from './data.mock'
-import {tap, toBeVisible} from '../../helpers/utils'
+import {tap, toBeVisible, waitForElement} from '../../helpers/utils'
 import {AuthPhotoScreen, FeedScreen} from './../../helpers/screens'
 
 describe('Feature: Upload Profile Picture', () => {
@@ -12,7 +12,7 @@ describe('Feature: Upload Profile Picture', () => {
     describe('Rule: Skip by header button tap', () => {
       it('Given: New user on upload profile picture screen', async () => {
         await actions.signIn(credentials)
-        await toBeVisible(AuthPhotoScreen.root)
+        await waitForElement(AuthPhotoScreen.root)
       })
 
       it('Then click to the skip button', async () => {
@@ -28,7 +28,7 @@ describe('Feature: Upload Profile Picture', () => {
     describe('Rule: Skip by actions button tap', () => {
       it('Given: New user on upload profile picture screen', async () => {
         await device.reloadReactNative()
-        await toBeVisible(AuthPhotoScreen.root)
+        await waitForElement(AuthPhotoScreen.root)
       })
 
       it('Then click to the skip button', async () => {

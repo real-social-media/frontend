@@ -1,12 +1,7 @@
 import * as actions from './actions'
-import {generatePassword, toBeVisible, tap, typeText, toHaveValue} from '../../helpers/utils'
+import {generatePassword, toBeVisible, tap, typeText, toHaveValue, waitForElement} from '../../helpers/utils'
 import * as emailHelpers from '../../helpers/email'
-import {
-  AuthSigninEmail,
-  AuthForgotConfirmScreen,
-  AuthForgotEmailScreen,
-  AuthPhotoScreen,
-} from './../../helpers/screens'
+import {AuthSigninEmail, AuthForgotConfirmScreen, AuthForgotEmailScreen, AuthPhotoScreen} from './../../helpers/screens'
 
 describe('Feature: Password Recovery', () => {
   let user
@@ -31,7 +26,7 @@ describe('Feature: Password Recovery', () => {
     })
 
     it('Then tap by reset your password button', async () => {
-      await waitFor(element(by.id(AuthSigninEmail.resetPasswordBtn))).toBeVisible().withTimeout(2000)
+      await waitForElement(AuthSigninEmail.resetPasswordBtn)
       await tap(AuthSigninEmail.resetPasswordBtn)
     })
 
@@ -65,7 +60,7 @@ describe('Feature: Password Recovery', () => {
 
     it('Then user successfully sign in with new credentials', async () => {
       await actions.submitSignInForm({email: user.email, password: newPassword})
-      await toBeVisible(AuthPhotoScreen.root)
+      await waitForElement(AuthPhotoScreen.root)
     })
   })
 })

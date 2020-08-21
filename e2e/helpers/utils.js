@@ -33,3 +33,7 @@ export async function toHaveValue(selector, value) {
 export async function tapBackspaceKey(selector) {
   await element(by.id(selector)).tapBackspaceKey()
 }
+
+export async function waitForElement(selector, timeout = 2000) {
+  await waitFor(element(by.id(selector))).toBeVisible().withTimeout(timeout)
+}

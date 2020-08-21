@@ -1,7 +1,7 @@
-/* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "element", "toBeVisible", "tap", "shouldStayOnSignInScreenAfterSubmit"] }] */
+/* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "element", "toBeVisible", "tap", "shouldStayOnSignInScreenAfterSubmit", "waitForElement"] }] */
 import {credentials, valid} from './data.mock'
 import * as actions from './actions'
-import {generateString, tap, toBeVisible, typeText} from '../../helpers/utils'
+import {generateString, tap, toBeVisible, waitForElement, typeText} from '../../helpers/utils'
 import {
   AuthPhotoScreen,
   AuthHomeScreen,
@@ -134,7 +134,7 @@ describe('Feature: Sign in', () => {
     })
 
     it('Then authorized user on upload profile pictire screen', async () => {
-      await toBeVisible(AuthPhotoScreen.root)
+      await waitForElement(AuthPhotoScreen.root) 
     })
   })
 })

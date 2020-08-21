@@ -1,6 +1,6 @@
-/* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "toBeVisible", "typeText", "element", "tap", "shouldStayOnStep"] }] */
+/* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "toBeVisible", "typeText", "element", "tap", "shouldStayOnStep", "waitForElement"] }] */
 import * as emailHelpers from '../../helpers/email'
-import {generateString, tap, toBeVisible, toBeNotVisible, typeText} from '../../helpers/utils'
+import {generateString, tap, toBeVisible, toBeNotVisible, typeText, waitForElement} from '../../helpers/utils'
 import {valid} from './data.mock'
 import {
   AuthPhotoScreen,
@@ -294,7 +294,7 @@ describe('Feature: Sign up', () => {
     })
 
     it('Then user see upload profile picture screen', async () => {
-      await toBeVisible(AuthPhotoScreen.root)
+      await waitForElement(AuthPhotoScreen.root)
     })
   })
 })
