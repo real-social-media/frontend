@@ -1,7 +1,13 @@
 import * as actions from './actions'
 import {generatePassword, toBeVisible, tap, typeText, toHaveValue, waitForElement} from '../../helpers/utils'
 import * as emailHelpers from '../../helpers/email'
-import {AuthSigninEmail, AuthForgotConfirmScreen, AuthForgotEmailScreen, AuthPhotoScreen} from './../../helpers/screens'
+import {
+  AuthSigninEmail,
+  AuthForgotConfirmScreen,
+  AuthForgotEmailScreen,
+  AuthPhotoScreen,
+  AuthEmailConfirmScreen,
+} from './../../helpers/screens'
 
 describe('Feature: Password Recovery', () => {
   let user
@@ -10,8 +16,6 @@ describe('Feature: Password Recovery', () => {
     await device.launchApp({permissions: {notifications: 'YES'}, newInstance: true})
     user = await actions.signUp()
     await emailHelpers.emptyInbox(user.inbox.id)
-
-    await device.launchApp({permissions: {notifications: 'YES'}, delete: true, newInstance: true})
   })
 
   afterAll(async () => {
@@ -22,6 +26,7 @@ describe('Feature: Password Recovery', () => {
     const newPassword = generatePassword()
 
     it('Given: Unauthorized user on signin screen', async () => {
+      await device.launchApp({permissions: {notifications: 'YES'}, delete: true, newInstance: true})
       await actions.openSignInForm()
       await toBeVisible(AuthSigninEmail.root)
     })
@@ -61,6 +66,17 @@ describe('Feature: Password Recovery', () => {
     it('Then user successfully sign in with new credentials', async () => {
       await actions.submitSignInForm({email: user.email, password: newPassword})
       await waitForElement(AuthPhotoScreen.root)
+    })
+  })
+
+  describe('As a user I want to be able to open recovery password screen by tap on a link from an email', () => {
+    it('Given: Unauthorized user open an app tap by link from an email', async () => {
+      const confirmationCode = '971805'
+      const url = `https://real.app/confirm/email/us-east-1:92b7abce-860c-4fd9-aeb8-0f3a023a27ba/${confirmationCode}`
+      await device.launchApp({url, permissions: {notifications: 'YES'}, newInstance: true})
+
+      await toBeVisible(AuthEmailConfirmScreen.root)
+      await toHaveValue(AuthEmailConfirmScreen.form.confirmationCode, confirmationCode)
     })
   })
 })
