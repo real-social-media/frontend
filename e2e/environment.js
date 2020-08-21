@@ -1,8 +1,6 @@
-const {
-  DetoxCircusEnvironment,
-  SpecReporter,
-  WorkerAssignReporter,
-} = require('detox/runners/jest-circus')
+require('dotenv').config({path: '.env.development'})
+
+const {DetoxCircusEnvironment, SpecReporter, WorkerAssignReporter} = require('detox/runners/jest-circus')
 
 class CustomDetoxEnvironment extends DetoxCircusEnvironment {
   constructor(config) {

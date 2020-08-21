@@ -120,6 +120,7 @@
     "babel-plugin-optional-require": "^0.3.1",
     "babel-plugin-transform-builtin-extend": "^1.1.2",
     "detox": "^17.3.6",
+    "dotenv": "^8.2.0",
     "eslint": "^7.6.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-detox": "^1.0.0",

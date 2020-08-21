@@ -1,6 +1,6 @@
 import {MailSlurp} from 'mailslurp-client'
 
-const mailslurp = new MailSlurp({apiKey: '17377c7676c161d6ceb75319230e333c81f086392e2b8e521fabcc7548cc295b'})
+const mailslurp = new MailSlurp({apiKey: process.env.MAIL_SLURP_API_KEY})
 
 export const createInbox = async () => {
   return await mailslurp.createInbox()
