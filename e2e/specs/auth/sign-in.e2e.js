@@ -134,7 +134,7 @@ describe('Feature: Sign in', () => {
     })
 
     it('Then authorized user on upload profile pictire screen', async () => {
-      await waitForElement(AuthPhotoScreen.root) 
+      await waitForElement(AuthPhotoScreen.root, 6000) 
     })
   })
 })

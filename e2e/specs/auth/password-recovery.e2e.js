@@ -9,6 +9,7 @@ describe('Feature: Password Recovery', () => {
   beforeAll(async () => {
     await device.launchApp({permissions: {notifications: 'YES'}, newInstance: true})
     user = await actions.signUp()
+    await emailHelpers.emptyInbox(user.inbox.id)
 
     await device.launchApp({permissions: {notifications: 'YES'}, delete: true, newInstance: true})
   })
@@ -45,7 +46,6 @@ describe('Feature: Password Recovery', () => {
     })
 
     it('Then submit confirm form with confirmation code and new password', async () => {
-      await emailHelpers.emptyInbox(user.inbox.id)
       const confirmationCode = await emailHelpers.extractCodeFromLatestEmail(user.inbox.id)
 
       await typeText(AuthForgotConfirmScreen.form.confirmationCode, confirmationCode)
