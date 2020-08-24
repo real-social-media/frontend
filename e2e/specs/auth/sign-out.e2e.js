@@ -1,5 +1,5 @@
 import * as actions from './actions'
-import {credentials} from './data.mock'
+import {credentials} from '../../helpers/users'
 import {tap, toBeVisible} from '../../helpers/utils'
 import {SettingsScreen, ProfileScreen, AuthHomeScreen, Navigation} from './../../helpers/screens'
 

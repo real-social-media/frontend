@@ -1,5 +1,5 @@
 import * as actions from './actions'
-import {credentials} from './data.mock'
+import {credentials} from '../../helpers/users'
 import {tap, toBeVisible, waitForElement} from '../../helpers/utils'
 import {AuthPhotoScreen, FeedScreen} from './../../helpers/screens'
 
