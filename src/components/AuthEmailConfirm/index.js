@@ -1,14 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  View,
-  StyleSheet,
-} from 'react-native'
+import has from 'ramda/src/has'
+import {View, StyleSheet} from 'react-native'
 import FormComponent from 'components/AuthEmailConfirm/Form'
 import AuthHeaderTemplate from 'templates/Auth/Header'
 import AuthErrorTemplate from 'templates/Auth/Error'
 
-import { withTranslation } from 'react-i18next'
+import {withTranslation} from 'react-i18next'
 import testIDs from './test-ids'
 
 const AuthEmailConfirm = ({
@@ -25,17 +23,16 @@ const AuthEmailConfirm = ({
 
   return (
     <View testID={testIDs.root} style={styling.root}>
-      {formErrorMessage ?
-        <AuthErrorTemplate
-          text={formErrorMessage}
-          onClose={handleErrorClose}
-        />
-      : null}
+      {formErrorMessage ? <AuthErrorTemplate text={formErrorMessage} onClose={handleErrorClose} /> : null}
 
       <View style={styling.component}>
         <AuthHeaderTemplate
           title={t('Enter 6-digit code')}
-          subtitle={t('Sent to {{cognitoUsername}}', formInitialValues)}
+          subtitle={
+            has('cognitoUsername', formInitialValues)
+              ? t('Sent to {{cognitoUsername}}', formInitialValues)
+              : t('You’ve been sent a password reset token')
+          }
         />
 
         <View style={styling.content}>
