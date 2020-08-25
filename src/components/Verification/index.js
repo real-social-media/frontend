@@ -20,7 +20,7 @@ import { withTheme } from 'react-native-paper'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
-const PostType = ({
+const Verification = ({
   t,
   theme,
   handleBackAction,
@@ -202,7 +202,7 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-PostType.propTypes = {
+Verification.propTypes = {
   theme: PropTypes.any,
   t: PropTypes.any,
   handleBackAction: PropTypes.any,
@@ -210,4 +210,4 @@ PostType.propTypes = {
   handleHomeAction: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(PostType))
+export default withTranslation()(withTheme(Verification))
