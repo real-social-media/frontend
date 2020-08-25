@@ -48,5 +48,6 @@ module.exports = {
         assertFunctionNames: ['expect', 'element', 'toBeVisible', 'tap', 'waitForElement'],
       },
     ],
+    'object-curly-spacing': ['error', 'always'],
   },
 }

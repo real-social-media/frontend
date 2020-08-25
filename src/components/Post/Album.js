@@ -38,7 +38,7 @@ const PostAlbum = ({
     <TouchableWithoutFeedback onPress={navigationActions.navigateAlbum(navigation, { album: post.album })}>
       <View style={styling.root}>
         <LinearGradient
-          start={{x: 0, y: 0}} end={{x: 1, y: 0}}
+          start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
           colors={[gradientFrom, gradientTo]}
           style={styling.gradient}
         />

@@ -4,7 +4,7 @@ import * as authSelector from 'store/ducks/auth/selectors'
 import * as albumsSelector from 'store/ducks/albums/selectors'
 import * as albumsActions from 'store/ducks/albums/actions'
 import * as navigationActions from 'navigation/actions'
-import { useNavigation, useRoute} from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import useUpload from 'services/providers/Upload'
 import path from 'ramda/src/path'
 
