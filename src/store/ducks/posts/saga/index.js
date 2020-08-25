@@ -565,33 +565,6 @@ function* postsDislikeRequest(req) {
 /**
  *
  */
-function* handlePostsReportPostViewsRequest(payload) {
-  const data = payload.postIds.reduce((acc, item) => {
-    acc[item] = { commentsUnviewedCount: 0 }
-    return acc
-  }, {})
-
-  yield put(entitiesActions.entitiesPostsMerge({ data }))
-}
-
-function* postsReportPostViewsRequest(req) {
-  const errorWrapper = yield getContext('errorWrapper')
-
-  try {
-    const data = yield queryService.apiRequest(queries.reportPostViews, req.payload)
-    const selector = path(['data', 'reportPostViews'])
-    const meta = {}
-
-    yield handlePostsReportPostViewsRequest(req.payload)
-    yield put(actions.postsReportPostViewsSuccess({ data: selector(data), payload: req.payload, meta }))
-  } catch (error) {
-    yield put(actions.postsReportPostViewsFailure({ message: errorWrapper(error), payload: req.payload }))
-  }
-}
-
-/**
- *
- */
 function* handlePostsGetTrendingPostsRequest(payload, extraData = []) {
   const api = yield queryService.apiRequest(queries.trendingPosts, { ...payload, viewedStatus: 'NOT_VIEWED' })
   const dataSelector = path(['data', 'trendingPosts', 'items'])
@@ -800,7 +773,6 @@ export default () => [
 
   takeLatest(constants.POSTS_ONYMOUSLY_LIKE_REQUEST, postsOnymouslyLikeRequest),
   takeLatest(constants.POSTS_DISLIKE_REQUEST, postsDislikeRequest),
-  takeLatest(constants.POSTS_REPORT_POST_VIEWS_REQUEST, postsReportPostViewsRequest),
 
   takeLatest(constants.POSTS_GET_TRENDING_POSTS_REQUEST, postsGetTrendingPostsRequest),
   takeLatest(constants.POSTS_GET_TRENDING_POSTS_MORE_REQUEST, postsGetTrendingPostsMoreRequest),

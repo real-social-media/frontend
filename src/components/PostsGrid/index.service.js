@@ -5,7 +5,7 @@ import { useRoute } from '@react-navigation/native'
 import * as authSelector from 'store/ducks/auth/selectors'
 import * as postsSelector from 'store/ducks/posts/selectors'
 
-const PostsGridService = ({ children, postsGetRequestOnMount }) => {
+const PostsGridService = ({ children }) => {
   const dispatch = useDispatch()
   const route = useRoute()
 
@@ -19,8 +19,6 @@ const PostsGridService = ({ children, postsGetRequestOnMount }) => {
     dispatch(postsActions.postsGetMoreRequest({ userId, nextToken }))
 
   useEffect(() => {
-    if (!postsGetRequestOnMount) return
-
     dispatch(postsActions.postsGetRequest({ userId }))
   }, [userId])
 

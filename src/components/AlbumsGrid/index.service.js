@@ -5,7 +5,7 @@ import { useRoute } from '@react-navigation/native'
 import * as authSelector from 'store/ducks/auth/selectors'
 import * as albumsSelector from 'store/ducks/albums/selectors'
 
-const AlbumsGridService = ({ children, albumsGetRequestOnMount }) => {
+const AlbumsGridService = ({ children }) => {
   const dispatch = useDispatch()
   const route = useRoute()
 
@@ -19,8 +19,6 @@ const AlbumsGridService = ({ children, albumsGetRequestOnMount }) => {
     dispatch(albumsActions.albumsGetMoreRequest({ userId, nextToken }))
 
   useEffect(() => {
-    if (!albumsGetRequestOnMount) return
-
     dispatch(albumsActions.albumsGetRequest({ userId }))
   }, [userId])
 

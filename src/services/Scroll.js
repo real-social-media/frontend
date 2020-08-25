@@ -28,7 +28,7 @@ const getRefreshingCondition = resource => (
 /**
  *
  */
-const getLoadingMoreCondition = resource => (
+const getLoadingMoreCondition = resource => !!(
   path(['status'])(resource) === 'loading' &&
   path(['payload', 'nextToken'])(resource)
 )

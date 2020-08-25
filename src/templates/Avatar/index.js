@@ -99,8 +99,8 @@ const styles = theme => StyleSheet.create({
     height: 90,
   },
   sizeLarge: {
-    width: 120,
-    height: 120,
+    width: 100,
+    height: 100,
   },
   photoActive: {
     borderWidth: 2,

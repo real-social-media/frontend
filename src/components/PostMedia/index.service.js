@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react'
-import { InteractionManager } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as postsSelector from 'store/ducks/posts/selectors'
@@ -32,12 +31,6 @@ const PostMediaService = ({ children }) => {
   }, [postId])
 
   useEffect(() => {
-    InteractionManager.runAfterInteractions(() => {
-      dispatch(postsActions.postsReportPostViewsRequest({ postIds: [postId] }))
-    })
-  }, [])
-
-  useEffect(() => {
     if (postsDelete.status === 'loading') {
       navigationActions.navigateBack(navigation)()
     }
@@ -48,9 +41,6 @@ const PostMediaService = ({ children }) => {
     postsDelete.status,
     postsArchive.status,
   ])
-
-  const onViewableItemsChanged = () => {
-  }
 
   const handleScrollPrev = (index) => () => {
     try {
@@ -88,16 +78,6 @@ const PostMediaService = ({ children }) => {
    */
   const textPostRefs = useRef([])
 
-  /**
-   * FlatList feed config ref, used for reporting scroll events
-   */
-  const onViewableItemsChangedRef = useRef(onViewableItemsChanged)
-  const viewabilityConfigRef = useRef({
-    minimumViewTime: 1000,
-    viewAreaCoveragePercentThreshold: 90,
-    waitForInteraction: false,
-  })
-
   return children({
     postsSingleGet,
     postsGetTrendingPosts,
@@ -105,11 +85,8 @@ const PostMediaService = ({ children }) => {
     feedRef,
     handleScrollPrev,
     handleScrollNext,
-    
     actionSheetRefs,
     textPostRefs,
-    onViewableItemsChangedRef,
-    viewabilityConfigRef,
   })
 }
 

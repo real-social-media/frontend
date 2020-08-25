@@ -52,8 +52,8 @@ export const AuthProvider = ({
 
   useEffect(() => {
     if (userId) {
-      dispatch(subscriptionsActions.subscriptionsMainRequest(userId))
-      dispatch(subscriptionsActions.subscriptionsPollRequest(userId))
+      dispatch(subscriptionsActions.subscriptionsMainRequest())
+      dispatch(subscriptionsActions.subscriptionsPollRequest())
     }
   }, [userId])
 
@@ -67,14 +67,14 @@ export const AuthProvider = ({
       Updates.versionCheck()
 
       if (userId) {
-        dispatch(subscriptionsActions.subscriptionsMainRequest(userId))
-        dispatch(subscriptionsActions.subscriptionsPollRequest(userId))
+        dispatch(subscriptionsActions.subscriptionsMainRequest())
+        dispatch(subscriptionsActions.subscriptionsPollRequest())
       }
     },
     onBackground: () => {
       if (userId) {
-        dispatch(subscriptionsActions.subscriptionsMainIdle(userId))
-        dispatch(subscriptionsActions.subscriptionsPollIdle(userId))
+        dispatch(subscriptionsActions.subscriptionsMainIdle())
+        dispatch(subscriptionsActions.subscriptionsPollIdle())
       }
     },
   })

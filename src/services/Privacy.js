@@ -10,7 +10,8 @@ import is from 'ramda/src/is'
 export const postLikeVisibility = (post, user) => (
   post.likesDisabled === false &&
   !path(['postedBy', 'likesDisabled'])(post) &&
-  !path(['likesDisabled'])(user)
+  !path(['likesDisabled'])(user) &&
+  path(['postedBy', 'userId'])(post) !== path(['userId'])(user)
 )
 
 /**

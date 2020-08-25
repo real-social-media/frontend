@@ -1,5 +1,5 @@
 diff --git a/node_modules/react-native-image-crop-picker/ios/src/ImageCropPicker.m b/node_modules/react-native-image-crop-picker/ios/src/ImageCropPicker.m
-index 25ead1a..f554267 100644
+index 25ead1a..6485e53 100644
 --- a/node_modules/react-native-image-crop-picker/ios/src/ImageCropPicker.m
 +++ b/node_modules/react-native-image-crop-picker/ios/src/ImageCropPicker.m
 @@ -453,6 +453,7 @@ - (void) handleVideo:(AVAsset*)asset withFileName:(NSString*)fileName withLocalI
@@ -41,14 +41,17 @@ index 25ead1a..f554267 100644
 @@ -576,8 +580,6 @@ - (void)qb_imagePickerController:
                               @autoreleasepool {
                                   UIImage *imgT = [UIImage imageWithData:imageData];
- 
+                                  
 -                                 Boolean forceJpg = [[self.options valueForKey:@"forceJpg"] boolValue];
 -
                                   NSNumber *compressQuality = [self.options valueForKey:@"compressImageQuality"];
                                   Boolean isLossless = (compressQuality == nil || [compressQuality floatValue] >= 0.8);
  
-@@ -591,7 +593,7 @@ - (void)qb_imagePickerController:
+@@ -589,9 +591,10 @@ - (void)qb_imagePickerController:
+ 
+                                  NSString *mimeType = [self determineMimeTypeFromImageData:imageData];
                                   Boolean isKnownMimeType = [mimeType length] > 0;
++                                 NSLog(@"CroppingFile mimeType %@", mimeType);
  
                                   ImageResult *imageResult = [[ImageResult alloc] init];
 -                                 if (isLossless && useOriginalWidth && useOriginalHeight && isKnownMimeType && !forceJpg) {
@@ -56,7 +59,7 @@ index 25ead1a..f554267 100644
                                       // Use original, unmodified image
                                       imageResult.data = imageData;
                                       imageResult.width = @(imgT.size.width);
-@@ -603,9 +605,11 @@ - (void)qb_imagePickerController:
+@@ -603,9 +606,11 @@ - (void)qb_imagePickerController:
                                   }
  
                                   NSString *filePath = @"";
@@ -68,7 +71,7 @@ index 25ead1a..f554267 100644
  
                                       if (filePath == nil) {
                                           [indicatorView stopAnimating];
-@@ -636,6 +640,7 @@ - (void)qb_imagePickerController:
+@@ -636,6 +641,7 @@ - (void)qb_imagePickerController:
                                                                               withRect:CGRectNull
                                                                       withCreationDate:phAsset.creationDate
                                                                   withModificationDate:phAsset.modificationDate
@@ -76,7 +79,7 @@ index 25ead1a..f554267 100644
                                                          ]];
                               }
                               processed++;
-@@ -738,6 +743,7 @@ - (void) processSingleImagePick:(UIImage*)image withExif:(NSDictionary*) exif wi
+@@ -738,6 +744,7 @@ - (void) processSingleImagePick:(UIImage*)image withExif:(NSDictionary*) exif wi
      } else {
          ImageResult *imageResult = [self.compression compressImage:[image fixOrientation]  withOptions:self.options];
          NSString *filePath = [self persistFile:imageResult.data];
@@ -84,7 +87,7 @@ index 25ead1a..f554267 100644
          if (filePath == nil) {
              [viewController dismissViewControllerAnimated:YES completion:[self waitAnimationEnd:^{
                  self.reject(ERROR_CANNOT_SAVE_IMAGE_KEY, ERROR_CANNOT_SAVE_IMAGE_MSG, nil);
-@@ -762,6 +768,7 @@ - (void) processSingleImagePick:(UIImage*)image withExif:(NSDictionary*) exif wi
+@@ -762,6 +769,7 @@ - (void) processSingleImagePick:(UIImage*)image withExif:(NSDictionary*) exif wi
                                                 withRect:CGRectNull
                                         withCreationDate:creationDate
                                     withModificationDate:modificationDate
@@ -92,7 +95,7 @@ index 25ead1a..f554267 100644
                            ]);
          }]];
      }
-@@ -801,6 +808,7 @@ - (void)imageCropViewController:(UIViewController *)controller
+@@ -801,6 +809,7 @@ - (void)imageCropViewController:(UIViewController *)controller
      ImageResult *imageResult = [self.compression compressImage:resizedImage withOptions:self.options];
  
      NSString *filePath = [self persistFile:imageResult.data];
@@ -100,7 +103,7 @@ index 25ead1a..f554267 100644
      if (filePath == nil) {
          [self dismissCropper:controller selectionDone:YES completion:[self waitAnimationEnd:^{
              self.reject(ERROR_CANNOT_SAVE_IMAGE_KEY, ERROR_CANNOT_SAVE_IMAGE_MSG, nil);
-@@ -828,6 +836,7 @@ - (void)imageCropViewController:(UIViewController *)controller
+@@ -828,6 +837,7 @@ - (void)imageCropViewController:(UIViewController *)controller
                                             withRect:cropRect
                                     withCreationDate:self.croppingFile[@"creationDate"]
                                 withModificationDate:self.croppingFile[@"modificationDate"]
@@ -108,13 +111,15 @@ index 25ead1a..f554267 100644
                        ]);
      }]];
  }
-@@ -836,9 +845,12 @@ - (void)imageCropViewController:(UIViewController *)controller
+@@ -836,9 +846,14 @@ - (void)imageCropViewController:(UIViewController *)controller
  // we are saving image and saving it to the tmp location where we are allowed to access image later
  - (NSString*) persistFile:(NSData*)data {
      // create temp file
 +    NSString *mimeType = [self determineMimeTypeFromImageData:data];
 +    NSString *extension = ([mimeType isEqualToString:@"image/heic"]) ? @".heic" : @".jpg";
 +
++    NSLog(@"CroppingFile mimeType 2 %@", mimeType);
++    
      NSString *tmpDirFullPath = [self getTmpDirectory];
      NSString *filePath = [tmpDirFullPath stringByAppendingString:[[NSUUID UUID] UUIDString]];
 -    filePath = [filePath stringByAppendingString:@".jpg"];
@@ -122,7 +127,7 @@ index 25ead1a..f554267 100644
  
      // save cropped file
      BOOL status = [data writeToFile:filePath atomically:YES];
-@@ -860,31 +872,31 @@ + (NSDictionary *)cgRectToDictionary:(CGRect)rect {
+@@ -860,31 +875,31 @@ + (NSDictionary *)cgRectToDictionary:(CGRect)rect {
  
  #pragma mark - TOCCropViewController Implementation
  - (void)cropImage:(UIImage *)image {
@@ -147,7 +152,7 @@ index 25ead1a..f554267 100644
 +            if (widthRatio > 0 && heightRatio > 0){
 +                CGSize aspectRatio = CGSizeMake(widthRatio, heightRatio);
 +                cropVC.customAspectRatio = aspectRatio;
-                 
+             
 +            }
 +            cropVC.aspectRatioLockEnabled = ![[self.options objectForKey:@"freeStyleCropEnabled"] boolValue];
 +            cropVC.resetAspectRatioEnabled = !cropVC.aspectRatioLockEnabled;
@@ -160,15 +165,15 @@ index 25ead1a..f554267 100644
 -    cropVC.delegate = self;
 +        cropVC.title = [[self options] objectForKey:@"cropperToolbarTitle"];
 +        cropVC.delegate = self;
-         
+     
 -    cropVC.doneButtonTitle = [self.options objectForKey:@"cropperChooseText"];
 -    cropVC.cancelButtonTitle = [self.options objectForKey:@"cropperCancelText"];
 +        cropVC.doneButtonTitle = [self.options objectForKey:@"cropperChooseText"];
 +        cropVC.cancelButtonTitle = [self.options objectForKey:@"cropperCancelText"];
-         
+     
 -    cropVC.modalPresentationStyle = UIModalPresentationFullScreen;
 +        cropVC.modalPresentationStyle = UIModalPresentationFullScreen;
-             
+         
 -    dispatch_async(dispatch_get_main_queue(), ^{
          [[self getRootVC] presentViewController:cropVC animated:FALSE completion:nil];
      });

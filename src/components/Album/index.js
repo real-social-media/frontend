@@ -2,18 +2,19 @@ import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
-  ScrollView,
-  RefreshControl,
   View,
+  FlatList,
+  RefreshControl,
 } from 'react-native'
 import Layout from 'constants/Layout'
-import PostsGridComponent from 'components/PostsGrid'
+import PostsGridThumbnailComponent from 'components/PostsGrid/Thumbnail'
 import ModalProfileComponent from 'templates/ModalProfile'
 import path from 'ramda/src/path'
 import * as navigationActions from 'navigation/actions'
 import ActionSheet from 'react-native-actionsheet'
 import { useHeader } from 'components/Album/header'
 import ScrollService from 'services/Scroll'
+import useViewable from 'services/providers/Viewable'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -28,7 +29,6 @@ const Album = ({
   albumsPostsGetRequest,
   albumsPostsGetMoreRequest,
   albumsDeleteRequest,
-  themeFetch,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
@@ -48,11 +48,34 @@ const Album = ({
     extra: { albumId: path(['data', 'albumId'])(albumsSingleGet) },
   })
 
+  const {
+    onViewableItemsChangedRef,
+    viewabilityConfigRef,
+  } = useViewable()
+
   return (
     <View style={styling.root}>
-      <ScrollView
-        onScroll={scroll.handleScrollChange}
-        scrollEventThrottle={400}
+      <FlatList 
+        data={albumsPostsGet.data}
+        numColumns={3}
+        keyExtractor={item => item.postId}
+        renderItem={({ item: post, index: priorityIndex }) => (
+          <PostsGridThumbnailComponent
+            post={post}
+            priorityIndex={priorityIndex}
+            thread="albums"
+          />
+        )}
+        ListHeaderComponent={(
+          <View style={styling.content}>
+            <ModalProfileComponent
+              thumbnailSource={{ uri: path(['ownedBy', 'photo', 'url64p'])(albumsSingleGet.data) }}
+              imageSource={{ uri: path(['ownedBy', 'photo', 'url480p'])(albumsSingleGet.data) }}
+              title={path(['ownedBy', 'username'])(albumsSingleGet.data)}
+              subtitle={path(['ownedBy', 'fullName'])(albumsSingleGet.data)}
+            />
+          </View>
+        )}
         refreshControl={(
           <RefreshControl
             tintColor={theme.colors.border}
@@ -60,40 +83,24 @@ const Album = ({
             refreshing={scroll.refreshing}
           />
         )}
-      >
-        <View style={styling.content}>
-          <ModalProfileComponent
-            thumbnailSource={{ uri: path(['ownedBy', 'photo', 'url64p'])(albumsSingleGet.data) }}
-            imageSource={{ uri: path(['ownedBy', 'photo', 'url480p'])(albumsSingleGet.data) }}
-            title={path(['ownedBy', 'username'])(albumsSingleGet.data)}
-            subtitle={path(['ownedBy', 'fullName'])(albumsSingleGet.data)}
-          />
-        </View>
+        onViewableItemsChanged={onViewableItemsChangedRef.current}
+        viewabilityConfig={viewabilityConfigRef.current}
+      />
 
-        <View>
-          <PostsGridComponent
-            postsGet={albumsPostsGet}
-            themeFetch={themeFetch}
-            themeCode={path(['ownedBy', 'themeCode'])(albumsSingleGet.data)}
-            thread="albums"
-          />
-        </View>
-        
-        <ActionSheet
-          ref={actionSheetRef}
-          options={[t('Edit'), t('Remove'), t('Cancel')]}
-          cancelButtonIndex={2}
-          destructiveButtonIndex={1}
-          onPress={(index) => {
-            if (index === 0) {
-              navigationActions.navigateAlbumEdit(navigation, { album: albumsSingleGet.data })()
-            }
-            if (index === 1) {
-              albumsDeleteRequest({ albumId: albumsSingleGet.data.albumId })
-            }
-          }}
-        />
-      </ScrollView>
+      <ActionSheet
+        ref={actionSheetRef}
+        options={[t('Edit'), t('Remove'), t('Cancel')]}
+        cancelButtonIndex={2}
+        destructiveButtonIndex={1}
+        onPress={(index) => {
+          if (index === 0) {
+            navigationActions.navigateAlbumEdit(navigation, { album: albumsSingleGet.data })()
+          }
+          if (index === 1) {
+            albumsDeleteRequest({ albumId: albumsSingleGet.data.albumId })
+          }
+        }}
+      />
     </View>
   )
 }
@@ -142,7 +149,6 @@ Album.propTypes = {
   albumsPostsGetRequest: PropTypes.any,
   albumsPostsGetMoreRequest: PropTypes.any,
   albumsDeleteRequest: PropTypes.any,
-  themeFetch: PropTypes.any,
 }
 
 export default withTranslation()(

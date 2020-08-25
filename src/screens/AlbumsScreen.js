@@ -8,7 +8,7 @@ class AlbumsScreen extends React.Component {
     return (
       <AlbumsServiceComponent>
         {((shareProps) => (
-          <AlbumsGridServiceComponent albumsGetRequestOnMount={true}>
+          <AlbumsGridServiceComponent>
             {(albumsProps) => (
               <AlbumsComponent
                 {...shareProps}

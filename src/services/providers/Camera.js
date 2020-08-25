@@ -143,12 +143,12 @@ const useCamera = ({
   /**
    * Handle gallery photo selection
    */
-  const handleLibrarySnap = async (multiple = false) => {
+  const handleLibrarySnap = async () => {
     /**
      * Image crop picker might eventually throw an error when user cancelled image selection
      */
     try {
-      const selectedMedia = await CropPicker.openPicker(pickerOptions(multiple))
+      const selectedMedia = await CropPicker.openPicker(pickerOptions(true))
       const payloadSeries = await mapCropperResponse(selectedMedia, async (selectedPhoto, callback) => {
         const tempPhoto = formatPickerResponse(selectedPhoto)
         const snappedPhoto = ({ ...selectedPhoto, ...tempPhoto })

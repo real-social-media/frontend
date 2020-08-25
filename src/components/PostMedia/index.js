@@ -7,6 +7,7 @@ import {
 } from 'react-native'
 import PostComponent from 'components/Post'
 import NativeError from 'templates/NativeError'
+import useViewable from 'services/providers/Viewable'
 
 import { withTheme } from 'react-native-paper'
 import { withTranslation } from 'react-i18next'
@@ -32,12 +33,15 @@ const PostMedia = ({
   feedRef,
   actionSheetRefs,
   textPostRefs,
-  onViewableItemsChangedRef,
-  viewabilityConfigRef,
 }) => {
   const styling = styles(theme)
 
   const data = postsSingleGet.data ? [postsSingleGet.data] : []
+
+  const {
+    onViewableItemsChangedRef,
+    viewabilityConfigRef,
+  } = useViewable()
 
   return (
     <View style={styling.root}>
@@ -119,8 +123,6 @@ PostMedia.propTypes = {
   handleScrollPrev: PropTypes.any,
   actionSheetRefs: PropTypes.any,
   textPostRefs: PropTypes.any,
-  onViewableItemsChangedRef: PropTypes.any,
-  viewabilityConfigRef: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(PostMedia))

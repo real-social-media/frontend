@@ -26,9 +26,9 @@ export const amplifyConfig = async () => {
     aws_appsync_authenticationType: Config.AWS_APPSYNC_AUTHENTICATION_TYPE,
     aws_appsync_apiKey: 'null',
     graphql_headers: async () => ({
-      'x-real-version': await DeviceInfo.getReadableVersion(),
+      'x-real-version': DeviceInfo.getReadableVersion(),
       'x-real-device': DeviceInfo.getDeviceId(),
-      'x-real-system': DeviceInfo.getSystemName(),
+      'x-real-system': DeviceInfo.getSystemName() + ' ' + DeviceInfo.getSystemVersion(),
     }),
   })
 }

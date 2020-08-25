@@ -3,14 +3,16 @@ import Layout from 'constants/Layout'
 const BASE_SHIFT = 40
 
 export const getScreenAspectRatio = (aspect, baseWidth) => {
-  const ratio = (() => {
-    if (aspect === '4:3') return 4 / 3
-    if (aspect === '1:1') return 1
-  })()
+  if (aspect === '4:3') {
+    return ({
+      x: baseWidth,
+      y: Math.floor(baseWidth / 3) * 4,
+    })
+  }
 
   return {
-    x: Math.floor(baseWidth / ratio),
-    y: Math.floor(baseWidth),
+    x: baseWidth,
+    y: baseWidth,
   }
 }
 

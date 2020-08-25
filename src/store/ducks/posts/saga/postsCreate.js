@@ -8,6 +8,7 @@ import replace from 'ramda/src/replace'
 import * as actions from 'store/ducks/posts/actions'
 import * as queries from 'store/ducks/posts/queries'
 import * as constants from 'store/ducks/posts/constants'
+import * as subscriptionsActions from 'store/ducks/subscriptions/actions'
 import dayjs from 'dayjs'
 import { v4 as uuid } from 'uuid'
 import RNFS from 'react-native-fs' 
@@ -208,6 +209,9 @@ function* handleImagePost(req) {
  * 
  */
 function* postsCreateRequest(req) {
+  yield put(subscriptionsActions.subscriptionsMainRequest())
+  yield put(subscriptionsActions.subscriptionsPollRequest())
+
   if (req.payload.postType === 'TEXT_ONLY') {
     return yield handleTextOnlyPost(req)
   }

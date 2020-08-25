@@ -332,15 +332,3 @@ export const comments = `
   }
   ${commentFragment}
 `
-
-export const onPostNotification = `
-  subscription onPostNotification ($userId: ID!) {
-    onPostNotification (userId: $userId) {
-      userId
-      type
-      post {
-        postId
-      }
-    }
-  }
-`

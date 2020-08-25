@@ -3,15 +3,16 @@ import PropTypes from 'prop-types'
 import {
   StyleSheet,
   View,
+  FlatList,
   TouchableOpacity,
-  ScrollView,
   RefreshControl,
   ActivityIndicator,
 } from 'react-native'
 import CountsComponent from 'components/Profile/Counts'
 import AboutComponent from 'components/Profile/About'
 import ActionComponent from 'components/Profile/Action'
-import ProfileTabViewComponent from 'components/Profile/ProfileTabView'
+import AlbumsComponent from 'components/Profile/Albums'
+import PostsGridThumbnailComponent from 'components/PostsGrid/Thumbnail'
 import Avatar from 'templates/Avatar'
 import NativeError from 'templates/NativeError'
 import path from 'ramda/src/path'
@@ -19,6 +20,7 @@ import pathOr from 'ramda/src/pathOr'
 import * as navigationActions from 'navigation/actions'
 import ScrollService from 'services/Scroll'
 import * as UserService from 'services/User'
+import useViewable from 'services/providers/Viewable'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -37,6 +39,7 @@ const Profile = ({
   postsGetRequest,
   postsGetMoreRequest,
   
+  albumsGet,
   albumsGetRequest,
 
   usersBlockRequest,
@@ -71,30 +74,13 @@ const Profile = ({
     extra: { userId: path(['data', 'userId'])(usersGetProfile) },
   })
 
-  return (
-    <ScrollView
-      testID={testIDs.root}
-      ref={profileRef}
-      style={styling.root}
-      onScroll={scroll.handleScrollChange}
-      scrollEventThrottle={400}
-      refreshControl={(
-        <RefreshControl
-          tintColor={theme.colors.border}
-          onRefresh={scroll.handleRefresh}
-          refreshing={scroll.refreshing}
-        />
-      )}
-    >
-      <NativeError
-        handleCancelPress={() => {}}
-        titleText={t('User Blocked')}
-        messageText={t('The user has been blocked and will no longer have access to yours posts.')}
-        actionText={t('Done')}
-        status={path(['status'])(usersBlock)}
-        triggerOn="success"
-      />
+  const {
+    onViewableItemsChangedRef,
+    viewabilityConfigRef,
+  } = useViewable()
 
+  const ProfileHeader = () => (
+    <React.Fragment>
       <View style={styling.component}>
         <TouchableOpacity style={styling.image} onPress={handleUserStoryPress}>
           <Avatar
@@ -132,14 +118,60 @@ const Profile = ({
         />
       </View>
 
-      <ProfileTabViewComponent />
+      <View style={styling.action}>
+        <AlbumsComponent
+          albumsGet={albumsGet}
+        />
+      </View>
+    </React.Fragment>
+  )
 
-      {scroll.loadingmore ?
-        <View style={styling.activity}>
-          <ActivityIndicator color={theme.colors.border} />
-        </View>
-      : null}
-    </ScrollView>
+  return (
+    <React.Fragment>
+      <NativeError
+        handleCancelPress={() => {}}
+        titleText={t('User Blocked')}
+        messageText={t('The user has been blocked and will no longer have access to yours posts.')}
+        actionText={t('Done')}
+        status={path(['status'])(usersBlock)}
+        triggerOn="success"
+      />
+
+      <FlatList
+        ref={profileRef}
+        data={postsGet.data}
+        numColumns={3}
+        keyExtractor={item => item.postId}
+        renderItem={({ item: post, index: priorityIndex }) => (
+          <PostsGridThumbnailComponent
+            post={post}
+            priorityIndex={priorityIndex}
+            thread="posts/profile"
+          />
+        )}
+        refreshControl={(
+          <RefreshControl
+            tintColor={theme.colors.border}
+            onRefresh={scroll.handleRefresh}
+            refreshing={scroll.refreshing}
+          />
+        )}
+        ListHeaderComponent={() => (
+          <ProfileHeader />
+        )}
+        ListFooterComponent={(
+          <ActivityIndicator
+            animating={scroll.loadingmore}
+            color={theme.colors.border}
+          />
+        )}
+        ListFooterComponentStyle={styling.activity}
+        onEndReached={scroll.handleLoadMore}
+        onEndReachedThreshold={0.5}
+        onViewableItemsChanged={onViewableItemsChangedRef.current}
+        viewabilityConfig={viewabilityConfigRef.current}
+      />
+    </React.Fragment>
   )
 }
 

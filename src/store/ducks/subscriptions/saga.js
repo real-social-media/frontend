@@ -1,5 +1,5 @@
 import { graphqlOperation } from '@aws-amplify/api'
-import { call, put, take, takeEvery, takeLatest, getContext, select } from 'redux-saga/effects'
+import { call, put, take, takeEvery, getContext, select } from 'redux-saga/effects'
 import { eventChannel } from 'redux-saga'
 import path from 'ramda/src/path'
 import pathOr from 'ramda/src/pathOr'
@@ -10,6 +10,7 @@ import * as postsQueries from 'store/ducks/posts/queries'
 import * as usersQueries from 'store/ducks/users/queries'
 import * as chatQueries from 'store/ducks/chat/queries'
 import * as chatActions from 'store/ducks/chat/actions'
+import * as authSelector from 'store/ducks/auth/selectors'
 import * as subscriptionsActions from 'store/ducks/subscriptions/actions'
 import * as constants from 'store/ducks/subscriptions/constants'
 import * as queryService from 'services/Query'
@@ -119,7 +120,7 @@ function intervalEmitter({ frequency }) {
  * to be triggered when app just opened or switched background/foreground state
  */
 function* appSubscription(req) {
-  const userId = path(['payload'])(req)
+  const userId = yield select(authSelector.authUserIdSelector) || path(['payload'])(req)
 
   yield put(usersActions.usersGetCardsRequest({}))
   yield put(postsActions.postsFeedGetRequest({ limit: 20 }))
@@ -134,7 +135,7 @@ function* appSubscription(req) {
  */
 function* cardSubscription(req) {
   const AwsAPI = yield getContext('AwsAPI')
-  const userId = path(['payload'])(req)
+  const userId = yield select(authSelector.authUserIdSelector) || path(['payload'])(req)
 
   /**
    * check if subscription is already running
@@ -189,7 +190,7 @@ function* cardSubscription(req) {
  */
 function* chatMessageSubscription(req) {
   const AwsAPI = yield getContext('AwsAPI')
-  const userId = path(['payload'])(req)
+  const userId = yield select(authSelector.authUserIdSelector) || path(['payload'])(req)
 
   /**
    * check if subscription is already running
@@ -246,7 +247,7 @@ function* chatMessageSubscription(req) {
  */
 function* subscriptionNotificationStart(req) {
   const AwsAPI = yield getContext('AwsAPI')
-  const userId = path(['payload'])(req)
+  const userId = yield select(authSelector.authUserIdSelector) || path(['payload'])(req)
 
   /**
    * check if subscription is already running
@@ -297,7 +298,7 @@ function* subscriptionNotificationStart(req) {
     /**
      * Fires when a post is added to User.feed
      */
-    if (type === 'USER_FEED_POST_ADDED') {
+    if (type === 'USER_FEED_CHANGED') {
       yield put(postsActions.postsFeedGetRequest({ limit: 20 }))
     }
 
@@ -357,9 +358,9 @@ function* subscriptionPollStart() {
 }
 
 export default () => [
-  takeLatest(constants.SUBSCRIPTIONS_MAIN_REQUEST, subscriptionNotificationStart),
-  takeLatest(constants.SUBSCRIPTIONS_MAIN_REQUEST, chatMessageSubscription),
-  takeLatest(constants.SUBSCRIPTIONS_MAIN_REQUEST, cardSubscription),
-  takeLatest(constants.SUBSCRIPTIONS_MAIN_REQUEST, appSubscription),
-  takeLatest(constants.SUBSCRIPTIONS_POLL_REQUEST, subscriptionPollStart),
+  takeEvery(constants.SUBSCRIPTIONS_MAIN_REQUEST, subscriptionNotificationStart),
+  takeEvery(constants.SUBSCRIPTIONS_MAIN_REQUEST, chatMessageSubscription),
+  takeEvery(constants.SUBSCRIPTIONS_MAIN_REQUEST, cardSubscription),
+  takeEvery(constants.SUBSCRIPTIONS_MAIN_REQUEST, appSubscription),
+  takeEvery(constants.SUBSCRIPTIONS_POLL_REQUEST, subscriptionPollStart),
 ]

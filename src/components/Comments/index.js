@@ -13,6 +13,7 @@ import path from 'ramda/src/path'
 import pathOr from 'ramda/src/pathOr'
 import SwipableTemplate from 'templates/Swipable'
 import useRefs from 'services/providers/Refs'
+import tryCatch from 'ramda/src/tryCatch'
 
 import PreviewServiceComponent from 'components/Preview/index.service'
 import PreviewPostComponent from 'components/Preview/Post'
@@ -87,6 +88,11 @@ const Comments = ({
             : null}
           </React.Fragment>
         )}
+        onScrollToIndexFailed={({ index }) => {
+          setTimeout(() => {
+            tryCatch(() => commentsRef.current.scrollToIndex({ index, animated: true }), () => null)()
+          }, 500)
+        }}
         renderItem={({ item: comment }) => {
           const tappable = (
             path(['postedBy', 'userId'])(postsSingleGet.data) === user.userId ||
