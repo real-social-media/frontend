@@ -113,6 +113,8 @@
     "@babel/core": "^7.11.1",
     "@babel/runtime": "^7.11.2",
     "@react-native-community/eslint-config": "^2.0.0",
+    "@testing-library/jest-native": "^3.3.0",
+    "@testing-library/react-native": "^7.0.2",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.2.2",
     "babel-plugin-inline-dotenv": "^1.6.0",
@@ -137,10 +139,5 @@
     "prettier": "^2.0.5",
     "react-native-dotenv": "^2.2.0",
     "react-test-renderer": "^16.13.1"
-  },
-  "jest": {
-    "modulePaths": [
-      "src/"
-    ]
   }
 }
