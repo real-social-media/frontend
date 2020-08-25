@@ -1,7 +1,7 @@
 /* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "toBeVisible", "typeText", "element", "tap", "shouldStayOnStep", "waitForElement"] }] */
 import * as emailHelpers from '../../helpers/email'
-import {generateString, tap, toBeVisible, toBeNotVisible, typeText, waitForElement} from '../../helpers/utils'
-import {valid} from './data.mock'
+import { generateString, tap, toBeVisible, toBeNotVisible, typeText, waitForElement } from '../../helpers/utils'
+import { valid } from './data.mock'
 import {
   AuthPhotoScreen,
   AuthHomeScreen,
@@ -54,7 +54,7 @@ describe('Feature: Sign up', () => {
   beforeAll(async () => {
     inbox = await emailHelpers.createInbox()
 
-    await device.launchApp({permissions: {notifications: 'YES'}, newInstance: true})
+    await device.launchApp({ permissions: { notifications: 'YES' }, newInstance: true })
   })
 
   afterAll(async () => {
@@ -79,17 +79,17 @@ describe('Feature: Sign up', () => {
       })
 
       it('Example: must be at least 3 characters', async () => {
-        await fillField('username', generateString({length: 2}))
+        await fillField('username', generateString({ length: 2 }))
         await shouldStayOnStep('username')
       })
 
       it('Example: must be at most 30 characters', async () => {
-        await fillField('username', generateString({length: 31}))
+        await fillField('username', generateString({ length: 31 }))
         await shouldStayOnStep('username')
       })
 
       it('Example: must only contain letters and numbers', async () => {
-        const {username} = await getFields()
+        const { username } = await getFields()
 
         await username.clearText()
         await username.typeText(valid.username)
@@ -121,12 +121,12 @@ describe('Feature: Sign up', () => {
       })
 
       it('Example: must be at least 8 characters', async () => {
-        await fillField('password', generateString({length: 7}))
+        await fillField('password', generateString({ length: 7 }))
         await shouldStayOnStep('password')
       })
 
       it('Example: must be at most 50 characters', async () => {
-        await fillField('password', generateString({length: 51}))
+        await fillField('password', generateString({ length: 51 }))
         await shouldStayOnStep('password')
       })
 
@@ -149,12 +149,12 @@ describe('Feature: Sign up', () => {
       })
 
       it('Example: must be at least 3 characters', async () => {
-        await fillField('email', generateString({length: 2}))
+        await fillField('email', generateString({ length: 2 }))
         await shouldStayOnStep('email')
       })
 
       it('Example: must be at most 50 characters', async () => {
-        await fillField('email', generateString({length: 51}))
+        await fillField('email', generateString({ length: 51 }))
         await shouldStayOnStep('email')
       })
 
@@ -209,7 +209,7 @@ describe('Feature: Sign up', () => {
     it('Then open email screen with saved value', async () => {
       await toBeVisible(AuthEmailScreen.root)
 
-      const {email} = await getFields()
+      const { email } = await getFields()
       await expect(email).toHaveValue(valid.email)
     })
 
@@ -220,7 +220,7 @@ describe('Feature: Sign up', () => {
     it('Then open password screen with saved value', async () => {
       await toBeVisible(AuthPasswordScreen.root)
 
-      const {password} = await getFields()
+      const { password } = await getFields()
       await expect(password).toHaveValue('••••••••')
     })
 
@@ -231,7 +231,7 @@ describe('Feature: Sign up', () => {
     it('Then open username screen with saved value', async () => {
       await toBeVisible(AuthUsernameScreen.root)
 
-      const {username} = await getFields()
+      const { username } = await getFields()
       await expect(username).toHaveValue(valid.username)
     })
 

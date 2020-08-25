@@ -1,11 +1,11 @@
 import * as actions from './actions'
-import {credentials} from '../../helpers/users'
-import {tap, toBeVisible, waitForElement} from '../../helpers/utils'
-import {AuthPhotoScreen, FeedScreen} from './../../helpers/screens'
+import { credentials } from '../../helpers/users'
+import { tap, toBeVisible, waitForElement } from '../../helpers/utils'
+import { AuthPhotoScreen, FeedScreen } from './../../helpers/screens'
 
 describe('Feature: Upload Profile Picture', () => {
   beforeAll(async () => {
-    await device.launchApp({permissions: {notifications: 'YES'}, newInstance: true})
+    await device.launchApp({ permissions: { notifications: 'YES' }, newInstance: true })
   })
 
   describe('As a new user I want skip upload profile picture', () => {

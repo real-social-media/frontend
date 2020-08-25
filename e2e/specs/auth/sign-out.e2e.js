@@ -1,11 +1,11 @@
 import * as actions from './actions'
-import {credentials} from '../../helpers/users'
-import {tap, toBeVisible} from '../../helpers/utils'
-import {SettingsScreen, ProfileScreen, AuthHomeScreen, Navigation} from './../../helpers/screens'
+import { credentials } from '../../helpers/users'
+import { tap, toBeVisible } from '../../helpers/utils'
+import { SettingsScreen, ProfileScreen, AuthHomeScreen, Navigation } from './../../helpers/screens'
 
 describe('Feature: Logout', () => {
   beforeAll(async () => {
-    await device.launchApp({permissions: {notifications: 'YES'}, newInstance: true})
+    await device.launchApp({ permissions: { notifications: 'YES' }, newInstance: true })
     await actions.signIn(credentials)
     await actions.skipUploadProfilePicture()
   })

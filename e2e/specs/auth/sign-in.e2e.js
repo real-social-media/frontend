@@ -1,8 +1,8 @@
 /* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "element", "toBeVisible", "tap", "shouldStayOnSignInScreenAfterSubmit", "waitForElement"] }] */
-import {valid} from './data.mock'
-import {credentials} from '../../helpers/users'
+import { valid } from './data.mock'
+import { credentials } from '../../helpers/users'
 import * as actions from './actions'
-import {generateString, tap, toBeVisible, waitForElement, typeText} from '../../helpers/utils'
+import { generateString, tap, toBeVisible, waitForElement, typeText } from '../../helpers/utils'
 import {
   AuthPhotoScreen,
   AuthHomeScreen,
@@ -25,7 +25,7 @@ async function shouldStayOnSignInScreenAfterSubmit() {
 
 describe('Feature: Sign in', () => {
   beforeAll(async () => {
-    await device.launchApp({permissions: {notifications: 'YES'}, newInstance: true})
+    await device.launchApp({ permissions: { notifications: 'YES' }, newInstance: true })
   })
 
   describe('As a user I want to not be able to sign in with incorrect credentials', () => {
@@ -53,12 +53,12 @@ describe('Feature: Sign in', () => {
       })
 
       it('Example: must be at least 3 characters', async () => {
-        await email.typeText(generateString({length: 2}))
+        await email.typeText(generateString({ length: 2 }))
         await shouldStayOnSignInScreenAfterSubmit()
       })
 
       it('Example: must be at most 50 characters', async () => {
-        await email.typeText(generateString({length: 51}))
+        await email.typeText(generateString({ length: 51 }))
         await shouldStayOnSignInScreenAfterSubmit()
       })
 
@@ -95,12 +95,12 @@ describe('Feature: Sign in', () => {
       })
 
       it('Example: must be at least 8 characters', async () => {
-        await password.typeText(generateString({length: 7}))
+        await password.typeText(generateString({ length: 7 }))
         await shouldStayOnSignInScreenAfterSubmit()
       })
 
       it('Example: must be at most 50 characters', async () => {
-        await password.typeText(generateString({length: 51}))
+        await password.typeText(generateString({ length: 51 }))
         await shouldStayOnSignInScreenAfterSubmit()
       })
     })

@@ -6,7 +6,7 @@ export function generatePassword() {
   return `${Date.now()}`.slice(0, 8)
 }
 
-export function generateString({length}) {
+export function generateString({ length }) {
   return new Array(length).fill('a').join('')
 }
 
