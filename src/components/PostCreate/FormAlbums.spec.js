@@ -1,5 +1,4 @@
 import React from 'react'
-import {reverse} from 'ramda'
 import {renderWithProviders} from 'utils/tests'
 import FormAlbums from './FormAlbums'
 import testIDs from './test-ids'
@@ -34,7 +33,7 @@ describe('FormAlbums', () => {
     expect(queryAllByTestId(testIDs.albums.item)).toHaveLength(0)
   })
 
-  it('should represent albums sorted by created date', () => {
+  it('should represent albums list', () => {
     const {getByTestId, queryAllByTestId} = setup({albumsGet: {data: albums}})
 
     const albumsEls = queryAllByTestId(testIDs.albums.item)
@@ -42,7 +41,7 @@ describe('FormAlbums', () => {
     expect(getByTestId(testIDs.albums.newAlbumBtn)).toBeTruthy()
     expect(albumsEls).toHaveLength(albums.length)
 
-    reverse(albums).forEach((item, index) => {
+    albums.forEach((item, index) => {
       expect(albumsEls[index]).toHaveTextContent(item.name)
     })
   })

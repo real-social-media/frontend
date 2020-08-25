@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import {View, StyleSheet, TouchableOpacity, ScrollView} from 'react-native'
 import {Text, Caption} from 'react-native-paper'
 import pathOr from 'ramda/src/pathOr'
-import sort from 'ramda/src/sort'
 import * as navigationActions from 'navigation/actions'
 
 import {withTheme} from 'react-native-paper'
@@ -12,12 +11,10 @@ import {withTranslation} from 'react-i18next'
 import testIDs from './test-ids'
 
 const getAlbums = pathOr([], ['data'])
-const sortByCreatedDate = sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
 
 const FormAlbums = ({t, theme, values, setFieldValue, albumsGet}) => {
   const styling = styles(theme)
   const navigation = useNavigation()
-  const albums = sortByCreatedDate(getAlbums(albumsGet))
 
   const handleAlbumPress = (albumId) => () => {
     setFieldValue('albumId', albumId)
@@ -34,7 +31,7 @@ const FormAlbums = ({t, theme, values, setFieldValue, albumsGet}) => {
           <Text>{t('New Album')}</Text>
         </TouchableOpacity>
 
-        {albums.map((album, key) => {
+        {getAlbums(albumsGet).map((album, key) => {
           const style =
             values.albumId === album.albumId
               ? [styling.album, styling.albumSelected]
