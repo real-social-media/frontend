@@ -1,5 +1,5 @@
 import * as emailHelpers from '../../helpers/email'
-import {generatePassword, generateUsername, typeText, tap, toBeVisible, waitForElement} from './../../helpers/utils'
+import { generatePassword, generateUsername, typeText, tap, toBeVisible, waitForElement } from './../../helpers/utils'
 import {
   AuthPhotoScreen,
   AuthHomeScreen,
@@ -51,7 +51,7 @@ export async function signUp() {
   const confirmationCode = await emailHelpers.extractCodeFromLatestEmail(inbox.id)
   await typeText(AuthEmailConfirmScreen.form.confirmationCode, confirmationCode)
 
-  return {username, password, inbox, email}
+  return { username, password, inbox, email }
 }
 
 export async function signOut() {

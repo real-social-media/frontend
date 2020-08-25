@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import has from 'ramda/src/has'
-import {View, StyleSheet} from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import FormComponent from 'components/AuthEmailConfirm/Form'
 import AuthHeaderTemplate from 'templates/Auth/Header'
 import AuthErrorTemplate from 'templates/Auth/Error'
 
-import {withTranslation} from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 import testIDs from './test-ids'
 
 const AuthEmailConfirm = ({

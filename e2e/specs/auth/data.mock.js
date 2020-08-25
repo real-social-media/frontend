@@ -1,4 +1,4 @@
-import {generateUsername} from './../../helpers/utils'
+import { generateUsername } from './../../helpers/utils'
 
 export const valid = {
   username: generateUsername(),

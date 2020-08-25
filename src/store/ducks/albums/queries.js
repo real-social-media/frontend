@@ -42,7 +42,7 @@ export const getAlbumPosts = `
 export const getAlbums = `
   query getAlbums($userId: ID!) {
     user(userId: $userId) {
-      albums {
+      albums(reverse: true) {
         items {
           ...gridAlbumFragment
         }
