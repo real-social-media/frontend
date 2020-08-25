@@ -1,18 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {View, StyleSheet, TouchableOpacity, ScrollView} from 'react-native'
-import {Text, Caption} from 'react-native-paper'
+import { View, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
+import { Text, Caption } from 'react-native-paper'
 import pathOr from 'ramda/src/pathOr'
 import * as navigationActions from 'navigation/actions'
 
-import {withTheme} from 'react-native-paper'
-import {useNavigation} from '@react-navigation/native'
-import {withTranslation} from 'react-i18next'
+import { withTheme } from 'react-native-paper'
+import { useNavigation } from '@react-navigation/native'
+import { withTranslation } from 'react-i18next'
 import testIDs from './test-ids'
 
 const getAlbums = pathOr([], ['data'])
 
-const FormAlbums = ({t, theme, values, setFieldValue, albumsGet}) => {
+const FormAlbums = ({ t, theme, values, setFieldValue, albumsGet }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
 
@@ -87,7 +87,7 @@ const styles = (theme) =>
 
 FormAlbums.propTypes = {
   theme: PropTypes.any,
-  values: PropTypes.shape({albumId: PropTypes.string}),
+  values: PropTypes.shape({ albumId: PropTypes.string }),
   setFieldValue: PropTypes.any,
   t: PropTypes.any,
   albumsGet: PropTypes.shape({

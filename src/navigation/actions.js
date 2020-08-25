@@ -177,7 +177,7 @@ export const navigateAuthSigninPhone = (navigation, params) => () =>
   navigation.navigate('AuthSigninPhone', params)
 
 export const navigateAuthSigninEmail = (navigation) => () =>
-  navigation.navigate('Signin', {initialRouteName: 'AuthSigninEmail'})
+  navigation.navigate('Signin', { initialRouteName: 'AuthSigninEmail' })
 
 export const navigateSignup = (navigation, params) => () =>
   navigation.navigate('Signup', params)
@@ -216,7 +216,7 @@ export const navigateForgot = (navigation, params) => () =>
   navigation.navigate('Forgot', params)
 
 export const navigateAuthForgotEmail = (navigation) => () =>
-  navigation.navigate('Forgot', {initialRouteName: 'AuthForgotEmail'})
+  navigation.navigate('Forgot', { initialRouteName: 'AuthForgotEmail' })
 
 export const navigateAuthForgotPhone = (navigation, params) => () =>
   navigation.navigate('AuthForgotPhone', params)

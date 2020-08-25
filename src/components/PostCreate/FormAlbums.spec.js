@@ -1,9 +1,9 @@
 import React from 'react'
-import {renderWithProviders} from 'utils/tests'
+import { renderWithProviders } from 'utils/tests'
 import FormAlbums from './FormAlbums'
 import testIDs from './test-ids'
 
-jest.mock('@react-navigation/native', () => ({useNavigation: jest.fn()}))
+jest.mock('@react-navigation/native', () => ({ useNavigation: jest.fn() }))
 
 const albums = [
   {
@@ -27,14 +27,14 @@ const setup = (props) => renderWithProviders(<FormAlbums setFieldValue={jest.fn(
 
 describe('FormAlbums', () => {
   it('should represents only New Album button when albums list empty', () => {
-    const {getByTestId, queryAllByTestId} = setup()
+    const { getByTestId, queryAllByTestId } = setup()
 
     expect(getByTestId(testIDs.albums.newAlbumBtn)).toBeTruthy()
     expect(queryAllByTestId(testIDs.albums.item)).toHaveLength(0)
   })
 
   it('should represent albums list', () => {
-    const {getByTestId, queryAllByTestId} = setup({albumsGet: {data: albums}})
+    const { getByTestId, queryAllByTestId } = setup({ albumsGet: { data: albums } })
 
     const albumsEls = queryAllByTestId(testIDs.albums.item)
 
