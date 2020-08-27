@@ -18,8 +18,4 @@ AllTheProviders.propTypes = {
   children: PropTypes.element.isRequired,
 }
 
-const renderWithProviders = (ui, options) => render(ui, { wrapper: AllTheProviders, ...options })
-
-// re-export everything
-export * from '@testing-library/react-native'
-export { renderWithProviders }
+export const renderWithProviders = (ui, options) => render(ui, { wrapper: AllTheProviders, ...options })

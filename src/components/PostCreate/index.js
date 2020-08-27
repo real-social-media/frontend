@@ -21,6 +21,7 @@ const PostCreateComponent = ({
   handlePostPress,
   albumsGet,
   type,
+  handleOpenVerification,
 }) => {
   const styling = styles(theme)
 
@@ -57,6 +58,7 @@ const PostCreateComponent = ({
               formAlbums={FormAlbums}
               albumsGet={albumsGet}
               postType={type}
+              handleOpenVerification={handleOpenVerification}
             />
           </View>
         ) : null}
@@ -75,6 +77,7 @@ PostCreateComponent.propTypes = {
   handlePostPress: PropTypes.any,
   albumsGet: PropTypes.any,
   type: PropTypes.any,
+  handleOpenVerification: PropTypes.func,
 }
 
 const styles = theme => StyleSheet.create({

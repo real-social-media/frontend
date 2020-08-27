@@ -1,19 +1,32 @@
-import { useNavigation } from '@react-navigation/native'
+import { useEffect } from 'react'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { useDispatch } from 'react-redux'
+import path from 'ramda/src/path'
 import * as navigationActions from 'navigation/actions'
 import * as usersActions from 'store/ducks/users/actions'
 import * as authActions from 'store/ducks/auth/actions'
-import {
-  savePhotoValidation,
-} from 'services/Auth'
+import { savePhotoValidation } from 'services/Auth'
 
 const VerificationService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
+  const route = useRoute()
+
+  const actionType = path(['params', 'actionType'], route)
+  const handleNext = path(['params', 'handleNext'], route)
+  const showHeader = path(['params', 'showHeader'], route)
+
+  useEffect(() => {
+    if (showHeader) {
+      navigation.setOptions({ headerShown: true })
+    }
+  }, [showHeader])
+
+  const handleClose = navigationActions.navigateBack(navigation)
 
   const handleBackAction = () => {
     dispatch(usersActions.usersEditProfileIdle({}))
-    navigationActions.navigateBack(navigation)()
+    handleClose()
   }
 
   const handleHideAction = () => {
@@ -22,15 +35,18 @@ const VerificationService = ({ children }) => {
     dispatch(authActions.authCheckIdle({ nextRoute: 'Root' }))
   }
 
-  const handleHomeAction = () => {
-    dispatch(usersActions.usersEditProfileIdle({}))
-    navigationActions.navigateBack(navigation)()
+  const handleContinueAction = () => {
+    handleClose()
+    handleNext()
   }
 
   return children({
     handleBackAction,
     handleHideAction,
-    handleHomeAction,
+    handleContinueAction,
+    handleClose,
+    navigation,
+    actionType,
   })
 }
 

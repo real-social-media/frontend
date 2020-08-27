@@ -38,6 +38,7 @@ const PostCreateForm = ({
   formAlbums: FormAlbums,
   albumsGet,
   cameraCaptureLength,
+  handleOpenVerification,
 }) => {
   const styling = styles(theme)
 
@@ -152,6 +153,12 @@ const PostCreateForm = ({
           <Caption>{cameraCaptureLength - 1} more post left to be uploaded</Caption>
         </View>
       : null}
+
+      {handleOpenVerification ? 
+        <View style={styling.input}>
+          <DefaultButton label={t('How to make my post verified?')} onPress={handleOpenVerification} mode="outlined" disabled={loading} />
+        </View>
+      :null }
     </View>
   )
 }
@@ -188,6 +195,7 @@ PostCreateForm.propTypes = {
   formAlbums: PropTypes.any,
   albumsGet: PropTypes.any,
   cameraCaptureLength: PropTypes.any,
+  handleOpenVerification: PropTypes.func,
 }
 
 const FormWrapper = ({
@@ -230,6 +238,7 @@ FormWrapper.propTypes = {
   cameraCapture: PropTypes.any,
   user: PropTypes.any,
   postType: PropTypes.any,
+  handleOpenVerification: PropTypes.func,
 }
 
 export default withTranslation()(withTheme(FormWrapper))

@@ -7,6 +7,7 @@ import * as navigationActions from 'navigation/actions'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import useUpload from 'services/providers/Upload'
 import path from 'ramda/src/path'
+import { VERIFICATION_TYPE } from 'components/Verification'
 
 const PostCreateService = ({
   children,
@@ -47,6 +48,11 @@ const PostCreateService = ({
 
   const postsCreateRequest = handlePostUpload
 
+  const handleOpenVerification = navigationActions.navigateVerification(navigation, {
+    actionType: VERIFICATION_TYPE.BACK,
+    showHeader: true,
+  })
+
   return children({
     type,
     albumsGet,
@@ -55,6 +61,7 @@ const PostCreateService = ({
     postsCreateRequest,
     cameraCapture: path(['data', 0])(cameraCapture),
     cameraCaptureLength,
+    handleOpenVerification,
   })
 }
 

@@ -1,7 +1,7 @@
 import React from 'react'
-import { renderWithProviders } from 'utils/tests'
-import FormAlbums from './FormAlbums'
-import testIDs from './test-ids'
+import { renderWithProviders } from 'tests/utils'
+import FormAlbums from 'components/PostCreate/FormAlbums'
+import testIDs from 'components/PostCreate/test-ids'
 
 jest.mock('@react-navigation/native', () => ({ useNavigation: jest.fn() }))
 
