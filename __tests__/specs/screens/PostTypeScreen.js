@@ -17,7 +17,6 @@ jest.mock('@react-navigation/native', () => ({
   useNavigation: jest.fn(),
 }))
 
-jest.mock('services/Logger', () => ({}))
 jest.mock('services/providers/Camera')
 
 const setup = () => renderWithProviders(<PostTypeScreen />)
