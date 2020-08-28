@@ -1,5 +1,7 @@
 import path from 'ramda/src/path'
 import is from 'ramda/src/is'
+import pathOr from 'ramda/src/pathOr'
+import propEq from 'ramda/src/propEq'
 
 /**
  * Visibility of like button, like button will be visible if:
@@ -31,12 +33,16 @@ export const postCommentVisibility = (post, user) => (
  * - Current authenticated user has shares enabled in settings
  * - Current authenticated user is tagged in post by author
  */
-export const postShareVisibility = (post, user) => (
-  post.sharingDisabled === false &&
-  !path(['sharingDisabled'])(user) &&
-  (path(['textTaggedUsers'])(post) || [])
-    .find(textTag => textTag.tag === `@${path(['username'])(user)}`)
-)
+const isSharingEnabled = propEq('sharingDisabled', false)
+const isUserTagged = (post, user) => {
+  const taggedUsers = pathOr([], ['textTaggedUsers'], post)
+  const username = `@${path(['username'])(user)}`
+
+  return taggedUsers.find(propEq('tag', username))
+}
+
+export const postShareVisibility = (post, user) =>
+  (isSharingEnabled(post) && isSharingEnabled(post.postedBy)) || isUserTagged(post, user)
 
 /**
  * Visibility of seen by text, text will be visible if:
