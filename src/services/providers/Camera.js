@@ -1,10 +1,22 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
+import { Keyboard } from 'react-native'
 import { useSelector } from 'react-redux'
 import useToggle from 'react-use/lib/useToggle'
 import CropPicker from 'react-native-image-crop-picker'
 import { getScreenAspectRatio } from 'services/Dimensions'
 import mapSeries from 'async/mapSeries'
 import * as Logger from 'services/Logger'
+
+/**
+ * We use it for prevent open keyboard after crop
+ * https://github.com/ivpusic/react-native-image-crop-picker/issues/1273
+ */
+const autoKeyboardClose = () => {
+  const closeKeyboard = () => Keyboard.dismiss()
+  const keyboardWillShow = Keyboard.addListener('keyboardWillShow', closeKeyboard)
+
+  return () => keyboardWillShow.remove()
+}
 
 /**
  * Asset format definition is required for createPost graphql query
@@ -19,7 +31,7 @@ const generateAssetFormat = (extension) => {
 /**
  * Formatting react-native-image-crop-picker libs response
  * to match react-native-camera libs response
- * 
+ *
  * note that selectedPhoto.fileSource is coming from manual code
  * which only works by applying a patch from patches/react-native-image-crop-picker
  */
@@ -44,12 +56,12 @@ export const formatCropCoordinates = (cropRect) => ({
 })
 
 export const useCameraState = () => {
-  const postsCreate = useSelector(state => state.posts.postsCreate)
+  const postsCreate = useSelector((state) => state.posts.postsCreate)
   const [flashMode, handleFlashToggle] = useToggle(false)
   const [flipMode, handleFlipToggle] = useToggle(false)
   const [photoSize, setPhotoSize] = useState('4:3')
 
-  return ({
+  return {
     postsCreate,
     flashMode,
     handleFlashToggle,
@@ -57,12 +69,12 @@ export const useCameraState = () => {
     handleFlipToggle,
     photoSize,
     setPhotoSize,
-  })
+  }
 }
 
-const useCamera = ({
-  handleProcessedPhoto = () => {},
-}) => {
+const useCamera = ({ handleProcessedPhoto = () => {} }) => {
+  useEffect(autoKeyboardClose, [])
+
   const cameraState = useCameraState()
   const cameraRef = useRef(null)
 
@@ -115,7 +127,7 @@ const useCamera = ({
   })
 
   /**
-   * Handle camera photo capture 
+   * Handle camera photo capture
    */
   const handleCameraSnap = async () => {
     /**
@@ -135,9 +147,9 @@ const useCamera = ({
   }
 
   const mapCropperResponse = async (selected, processor) => {
-    const responses = Array.isArray(selected) ? selected : [selected] 
+    const responses = Array.isArray(selected) ? selected : [selected]
     const mapped = await mapSeries(responses, processor)
-    return mapped.filter(item => item)
+    return mapped.filter((item) => item)
   }
 
   /**
@@ -151,7 +163,7 @@ const useCamera = ({
       const selectedMedia = await CropPicker.openPicker(pickerOptions(true))
       const payloadSeries = await mapCropperResponse(selectedMedia, async (selectedPhoto, callback) => {
         const tempPhoto = formatPickerResponse(selectedPhoto)
-        const snappedPhoto = ({ ...selectedPhoto, ...tempPhoto })
+        const snappedPhoto = { ...selectedPhoto, ...tempPhoto }
         const croppedPhoto = await CropPicker.openCropper(cropperOptions(cameraState, selectedPhoto))
         const payload = requestPayload('gallery')(cameraState, snappedPhoto, croppedPhoto)
         callback(null, payload)
@@ -163,12 +175,12 @@ const useCamera = ({
     }
   }
 
-  return ({
+  return {
     handleCameraSnap,
     handleLibrarySnap,
     cameraRef,
     ...cameraState,
-  })
+  }
 }
 
 export default useCamera
