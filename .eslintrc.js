@@ -1,5 +1,6 @@
 module.exports = {
   parser: 'babel-eslint',
+  reportUnusedDisableDirectives: true,
   env: {
     'jest/globals': true,
     'detox/detox': true,

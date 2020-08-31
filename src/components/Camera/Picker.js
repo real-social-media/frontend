@@ -1,10 +1,7 @@
+/* eslint-disable react/prop-types */
 import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
-import {
-  View,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native'
+import { View, TouchableOpacity, StyleSheet } from 'react-native'
 import Carousel from 'react-native-snap-carousel'
 import Layout from 'constants/Layout'
 import { Text } from 'react-native-paper'
@@ -13,38 +10,29 @@ import PortraitIcon from 'assets/svg/camera/Portrait'
 
 import { withTranslation } from 'react-i18next'
 
-const PickerItem = (ref) => ({
-  item,
-  index,
-}) => {
-  const styling = styles
+const PickerItem = (ref) =>
+  ({ item, index }) => {
+    const styling = styles
 
-  const onPress = () => {
-    item.handleChange()
-    ref.current.snapToItem(index, true)    
+    const onPress = () => {
+      item.handleChange()
+      ref.current.snapToItem(index, true)
+    }
+
+    return (
+      <TouchableOpacity onPress={onPress} style={styling.sliderItemWrapper}>
+        <View style={styling.sliderItem}>
+          <View style={styling.sliderItemIcon}>
+            {item.title === 'Rectangle' ? <PortraitIcon /> : null}
+            {item.title === 'Square' ? <SquareIcon /> : null}
+          </View>
+          <Text style={styling.sliderItemText}>{item.title}</Text>
+        </View>
+      </TouchableOpacity>
+    )
   }
 
-  return (
-    <TouchableOpacity onPress={onPress} style={styling.sliderItemWrapper}>
-      <View style={styling.sliderItem}>
-        <View style={styling.sliderItemIcon}>
-          {item.title === 'Rectangle' ?
-            <PortraitIcon />
-          : null}
-          {item.title === 'Square' ?
-            <SquareIcon />
-          : null}
-        </View>
-        <Text style={styling.sliderItemText}>{item.title}</Text>
-      </View>
-    </TouchableOpacity>
-  )
-}
-
-const Picker = ({
-  t,
-  setPhotoSize,
-}) => {
+const Picker = ({ t, setPhotoSize }) => {
   const styling = styles
   const pickerRef = useRef(null)
 

@@ -1,10 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-} from 'react-native'
+import { StyleSheet, View, TouchableOpacity } from 'react-native'
 import path from 'ramda/src/path'
 import Carousel from 'react-native-snap-carousel'
 import Layout from 'constants/Layout'
@@ -36,98 +32,94 @@ const StoryCarousel = ({
   postsShareRequest,
   postsOnymouslyLikeRequest,
   postsDislikeRequest,
-}) => ({
-  item: user,
-}) => {
-  const styling = styles(theme)
+}) =>
+  // eslint-disable-next-line react/prop-types
+  ({ item: user }) => {
+    const styling = styles(theme)
 
-  const post = pathOr(0, ['stories', 'items', currentStory], user)
+    const post = pathOr(0, ['stories', 'items', currentStory], user)
 
-  const handlePostShare = () => {
-    if (post.postType === 'TEXT_ONLY') {
-      textPostRef.capture()
+    const handlePostShare = () => {
+      if (post.postType === 'TEXT_ONLY') {
+        textPostRef.capture()
+      }
+
+      if (post.postType === 'IMAGE') {
+        navigationActions.navigatePostShare(navigation, { postId: post.postId, userId: post.postedBy.userId })()
+      }
     }
 
-    if (post.postType === 'IMAGE') {
-      navigationActions.navigatePostShare(navigation, { postId: post.postId, userId: post.postedBy.userId })()
+    const onCapture = (renderUri) => {
+      navigationActions.navigatePostShare(navigation, {
+        postId: post.postId,
+        userId: post.postedBy.userId,
+        renderUri,
+      })()
     }
-  }
 
-  const onCapture = (renderUri) => {
-    navigationActions.navigatePostShare(navigation, { postId: post.postId, userId: post.postedBy.userId, renderUri })()
-  }
+    if (!post) {
+      return null
+    }
 
-  if (!post) {
-    return null
-  }
+    const textPostRef = getTextPostRef(post)
+    const viewshotRef = (element) => (textPostRefs.current[post.postId] = element)
 
-  const textPostRef = getTextPostRef(post)
-  const viewshotRef = element => textPostRefs.current[post.postId] = element
+    return (
+      <View style={styling.sliderItem}>
+        <View style={styling.backdrop} />
+        <BlurView style={styling.blur} />
 
-  return (
-    <View style={styling.sliderItem}>
-      <View style={styling.backdrop} />
-      <BlurView style={styling.blur} />
-
-      <CameraTemplate
-        steps={(
-          <StepsTemplate steps={user.stories.items.length} currentStep={currentStory} />
-        )}
-        header={(
-          <CameraHeaderTemplate
-            content={(
-              <HeaderComponent post={post} usersGetProfile={{ data: user }} />
-            )}
-            handleClosePress={onCloseStory}
-          />
-        )}
-        content={(
-          <React.Fragment>
-            {post.postType === 'IMAGE' ?
-              <CacheComponent
-                thread="story"
-                images={[
-                  [path(['image', 'url480p'])(post), true],
-                  [path(['image', 'url4k'])(post), true],
-                ]}
-                fallback={path(['image', 'url4k'])(post)}
-                priorityIndex={1}
-                resizeMode="contain"
-              />
-            : null}
-
-            {post.postType === 'TEXT_ONLY' ?
-              <ViewShot ref={viewshotRef} onCapture={onCapture}>
-                <TextOnlyComponent
-                  text={post.text}
+        <CameraTemplate
+          steps={<StepsTemplate steps={user.stories.items.length} currentStep={currentStory} />}
+          header={
+            <CameraHeaderTemplate
+              content={<HeaderComponent post={post} usersGetProfile={{ data: user }} />}
+              handleClosePress={onCloseStory}
+            />
+          }
+          content={
+            <React.Fragment>
+              {post.postType === 'IMAGE' ? (
+                <CacheComponent
+                  thread="story"
+                  images={[
+                    [path(['image', 'url480p'])(post), true],
+                    [path(['image', 'url4k'])(post), true],
+                  ]}
+                  fallback={path(['image', 'url4k'])(post)}
+                  priorityIndex={1}
+                  resizeMode="contain"
                 />
-              </ViewShot>
-            : null}
-          </React.Fragment>
-        )}
-        footer={(
-          <FooterComponent post={post} />
-        )}
-        selector={(
-          <ActionComponent
-            user={user}
-            post={post}
-            postsShareRequest={postsShareRequest}
-            postsOnymouslyLikeRequest={postsOnymouslyLikeRequest}
-            postsDislikeRequest={postsDislikeRequest}
-            handlePostShare={handlePostShare}
-          />
-        )}
-        wrapper={(
-          <React.Fragment>
-            <TouchableOpacity style={styling.wrapperLeft} onPress={onPrevStory} />
-            <TouchableOpacity style={styling.wrapperRight} onPress={onNextStory} />
-          </React.Fragment>
-        )}
-      />
-    </View>
-  )
-}
+              ) : null}
+
+              {post.postType === 'TEXT_ONLY' ? (
+                <ViewShot ref={viewshotRef} onCapture={onCapture}>
+                  <TextOnlyComponent text={post.text} />
+                </ViewShot>
+              ) : null}
+            </React.Fragment>
+          }
+          footer={<FooterComponent post={post} />}
+          selector={
+            <ActionComponent
+              user={user}
+              post={post}
+              postsShareRequest={postsShareRequest}
+              postsOnymouslyLikeRequest={postsOnymouslyLikeRequest}
+              postsDislikeRequest={postsDislikeRequest}
+              handlePostShare={handlePostShare}
+            />
+          }
+          wrapper={
+            <React.Fragment>
+              <TouchableOpacity style={styling.wrapperLeft} onPress={onPrevStory} />
+              <TouchableOpacity style={styling.wrapperRight} onPress={onNextStory} />
+            </React.Fragment>
+          }
+        />
+      </View>
+    )
+  }
 
 const Story = ({
   theme,
@@ -149,14 +141,14 @@ const Story = ({
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
-  
+
   return (
     <View style={styling.root} key={currentStory}>
       <View style={styling.backdrop} />
       <BlurView style={styling.blur} />
 
       <Carousel
-        firstItem={stories.findIndex(user => user.userId === userId)}
+        firstItem={stories.findIndex((user) => user.userId === userId)}
         ref={storyRef}
         data={stories}
         renderItem={StoryCarousel({
@@ -188,72 +180,73 @@ const Story = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
-  root: {
-    flex: 1,
-  },
-  photo: {
-    flex: 1,
-    width: '100%',
-    height: '100%',
-    justifyContent: 'center',
-  },
-  wrapperLeft: {
-    position: 'absolute',
-    top: 120,
-    left: 0,
-    bottom: 120,
-    zIndex: 1,
-    width: '30%',
-  },
-  wrapperRight: {
-    position: 'absolute',
-    top: 120,
-    right: 0,
-    bottom: 120,
-    zIndex: 1,
-    width: '70%',
-  },
-  footer: {
-    height: 60,
-  },
-  sliderItem: {
-    width: '100%',
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  backdrop: {
-    ...StyleSheet.absoluteFill,
-    width: '100%',
-    height: '100%',
-    backgroundColor: theme.colors.backgroundPrimary,
-    opacity: 0.6,
-  },
-  blur: {
-    ...StyleSheet.absoluteFill,
-    width: '100%',
-    height: '100%',
-  },
-  steps: {
-    ...StyleSheet.absoluteFill,
-    zIndex: 1,
-    height: 50,
-    paddingTop: 20,
-  },
-  header: {
-    ...StyleSheet.absoluteFill,
-    top: 50,
-    zIndex: 1,
-    height: 30,
-    paddingHorizontal: 10,
-  },
-  slideStyle: {
-    margin: 0,
-    padding: 0,
-  },
-})
+const styles = (theme) =>
+  StyleSheet.create({
+    root: {
+      flex: 1,
+    },
+    photo: {
+      flex: 1,
+      width: '100%',
+      height: '100%',
+      justifyContent: 'center',
+    },
+    wrapperLeft: {
+      position: 'absolute',
+      top: 120,
+      left: 0,
+      bottom: 120,
+      zIndex: 1,
+      width: '30%',
+    },
+    wrapperRight: {
+      position: 'absolute',
+      top: 120,
+      right: 0,
+      bottom: 120,
+      zIndex: 1,
+      width: '70%',
+    },
+    footer: {
+      height: 60,
+    },
+    sliderItem: {
+      width: '100%',
+      height: '100%',
+      justifyContent: 'center',
+      alignItems: 'center',
+      flexDirection: 'row',
+    },
+    backdrop: {
+      ...StyleSheet.absoluteFill,
+      width: '100%',
+      height: '100%',
+      backgroundColor: theme.colors.backgroundPrimary,
+      opacity: 0.6,
+    },
+    blur: {
+      ...StyleSheet.absoluteFill,
+      width: '100%',
+      height: '100%',
+    },
+    steps: {
+      ...StyleSheet.absoluteFill,
+      zIndex: 1,
+      height: 50,
+      paddingTop: 20,
+    },
+    header: {
+      ...StyleSheet.absoluteFill,
+      top: 50,
+      zIndex: 1,
+      height: 30,
+      paddingHorizontal: 10,
+    },
+    slideStyle: {
+      margin: 0,
+      padding: 0,
+    },
+  })
 
 Story.propTypes = {
   theme: PropTypes.any,
