@@ -6,10 +6,11 @@
     "postinstall": "patch-package",
     "start": "react-native start",
     "dev": "ENVFILE=.env.development react-native run-ios --simulator='iPhone 11' --scheme REAL.development -- --reset-cache",
-    "lint": "eslint",
+    "lint": "eslint .",
     "translations-scan": "i18next-scanner --config i18next-scanner.config.engine.js src/**/*.js",
     "tests:unit": "jest",
-    "tests:e2e": "detox test"
+    "tests:e2e": "detox test",
+    "validate": "npm run lint && npm run tests:unit"
   },
   "dependencies": {
     "@aws-amplify/analytics": "^3.2.7",

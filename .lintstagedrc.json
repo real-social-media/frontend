@@ -1,6 +1,6 @@
 {
   "*.+(js|jsx)": [
-    "yarn lint --fix",
+    "eslint --fix",
     "yarn tests:unit --findRelatedTests"
   ]
 }
