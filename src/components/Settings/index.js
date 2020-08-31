@@ -16,13 +16,10 @@ import SettingsAvatar from 'templates/SettingsAvatar'
 import EditIcon from 'assets/svg/settings/Edit'
 import PhotoIcon from 'assets/svg/settings/Photo'
 import NextIcon from 'assets/svg/settings/Next'
-// import LanguageIcon from 'assets/svg/settings/Language'
 import ThemeIcon from 'assets/svg/settings/Theme'
 import ArchiveIcon from 'assets/svg/settings/Archive'
 import SignoutIcon from 'assets/svg/settings/Signout'
 import PrivacyIcon from 'assets/svg/settings/Privacy'
-// import DiamondIcon from 'assets/svg/settings/Diamond'
-// import CashIcon from 'assets/svg/settings/Cash'
 import Avatar from 'templates/Avatar'
 import path from 'ramda/src/path'
 import * as navigationActions from 'navigation/actions'
@@ -55,22 +52,6 @@ const Settings = ({
       { cancelable: true },
     )
   }
-
-  // {
-  //   label: t('Join Diamond'),
-  //   onPress: () => navigation.navigate('Membership'),
-  //   icon: <DiamondIcon fill={theme.colors.text} />,
-  // }
-  // {
-  //   label: t('Change Language'),
-  //   onPress: () => navigation.navigate('Translation'),
-  //   icon: <LanguageIcon fill={theme.colors.text} />,
-  // }
-  // {
-  //   label: t('Diamond Payout'),
-  //   onPress: () => navigation.navigate('Payout'),
-  //   icon: <CashIcon fill={theme.colors.text} />,
-  // }
 
   return (
     <ScrollView testID={testIDs.root} style={styling.root}>
