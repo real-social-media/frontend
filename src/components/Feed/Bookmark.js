@@ -1,11 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  View,
-} from 'react-native'
+import { StyleSheet, ScrollView, TouchableOpacity, View } from 'react-native'
 import { Subheading } from 'react-native-paper'
 import Avatar from 'templates/Avatar'
 import path from 'ramda/src/path'
@@ -15,11 +10,7 @@ import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
-const Bookmark = ({
-  t,
-  theme,
-  postsGetTrendingPosts,
-}) => {
+const Bookmark = ({ t, theme, postsGetTrendingPosts }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
 
@@ -30,13 +21,15 @@ const Bookmark = ({
       </View>
 
       <ScrollView style={styling.posts} horizontal>
-        {(path(['data'])(postsGetTrendingPosts) || []).filter(item => item.postType !== 'TEXT_ONLY').map((post, key) => (
-          <Avatar
-            key={key}
-            thumbnailSource={{ uri: path(['image', 'url64p'])(post) }}
-            imageSource={{ uri: path(['image', 'url64p'])(post) }}
-          />
-        ))}
+        {(path(['data'])(postsGetTrendingPosts) || [])
+          .filter((item) => item.postType !== 'TEXT_ONLY')
+          .map((post, key) => (
+            <Avatar
+              key={key}
+              thumbnailSource={{ uri: path(['image', 'url64p'])(post) }}
+              imageSource={{ uri: path(['image', 'url64p'])(post) }}
+            />
+          ))}
       </ScrollView>
 
       <View style={styling.text}>
@@ -46,20 +39,21 @@ const Bookmark = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
-  root: {
-    paddingHorizontal: theme.spacing.base,
-    backgroundColor: theme.colors.backgroundSecondary,
-    alignItems: 'center',
-    height: 140,
-  },
-  text: {
-    marginVertical: theme.spacing.base,
-  },
-  posts: {
-    flexDirection: 'row',
-  },
-})
+const styles = (theme) =>
+  StyleSheet.create({
+    root: {
+      paddingHorizontal: theme.spacing.base,
+      backgroundColor: theme.colors.backgroundSecondary,
+      alignItems: 'center',
+      height: 140,
+    },
+    text: {
+      marginVertical: theme.spacing.base,
+    },
+    posts: {
+      flexDirection: 'row',
+    },
+  })
 
 Bookmark.propTypes = {
   t: PropTypes.any,

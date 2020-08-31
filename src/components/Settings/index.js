@@ -1,12 +1,6 @@
 import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
-import {
-  Alert,
-  StyleSheet,
-  View,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native'
+import { Alert, StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native'
 import { Text, Caption } from 'react-native-paper'
 import ActionSheet from 'react-native-actionsheet'
 import RowsComponent from 'templates/Rows'
@@ -33,13 +27,7 @@ import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 import testIDs from './test-ids'
 
-const Settings = ({
-  t,
-  theme,
-  authSignoutRequest,
-  handleLibrarySnap,
-  user,
-}) => {
+const Settings = ({ t, theme, authSignoutRequest, handleLibrarySnap, user }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
   const actionSheetRef = useRef(null)
@@ -48,10 +36,12 @@ const Settings = ({
     Alert.alert(
       'Profile Photo Upload',
       'Your photo will be uploaded as post',
-      [{
-        text: 'Take a Photo',
-        onPress: navigationActions.navigateCamera(navigation, { nextRoute: 'ProfilePhotoUpload' }),
-      }],
+      [
+        {
+          text: 'Take a Photo',
+          onPress: navigationActions.navigateCamera(navigation, { nextRoute: 'ProfilePhotoUpload' }),
+        },
+      ],
       { cancelable: true },
     )
   }
@@ -99,77 +89,81 @@ const Settings = ({
         }}
       />
 
-      <RowsComponent items={[{
-        label: t('Edit Profile'),
-        onPress: () => navigation.navigate('ProfileEdit'),
-        icon: <EditIcon fill={theme.colors.text} />,
-      }, {
-        label: t('Change Profile Photo'),
-        onPress: () => actionSheetRef.current && actionSheetRef.current.show(),
-        icon: <PhotoIcon fill={theme.colors.text} />,
-      }, {
-        label: t('Choose Theme'),
-        onPress: () => navigation.navigate('Theme'),
-        icon: <ThemeIcon fill={theme.colors.text} />,
-      }, {
-        label: t('Archived Photos'),
-        onPress: () => navigation.navigate('Archived'),
-        icon: <ArchiveIcon fill={theme.colors.text} />,
-      }, {
-        label: t('Mental Health & Privacy Settings'),
-        onPress: () => navigation.navigate('Privacy'),
-        icon: <PrivacyIcon fill={theme.colors.text} />,
-      }, {
-        testID: testIDs.actions.signOutBtn,
-        label: t('Signout'),
-        onPress: () => authSignoutRequest(),
-        icon: <SignoutIcon fill={theme.colors.text} />,
-      }]}>
+      <RowsComponent
+        items={[
+          {
+            label: t('Edit Profile'),
+            onPress: () => navigation.navigate('ProfileEdit'),
+            icon: <EditIcon fill={theme.colors.text} />,
+          },
+          {
+            label: t('Change Profile Photo'),
+            onPress: () => actionSheetRef.current && actionSheetRef.current.show(),
+            icon: <PhotoIcon fill={theme.colors.text} />,
+          },
+          {
+            label: t('Choose Theme'),
+            onPress: () => navigation.navigate('Theme'),
+            icon: <ThemeIcon fill={theme.colors.text} />,
+          },
+          {
+            label: t('Archived Photos'),
+            onPress: () => navigation.navigate('Archived'),
+            icon: <ArchiveIcon fill={theme.colors.text} />,
+          },
+          {
+            label: t('Mental Health & Privacy Settings'),
+            onPress: () => navigation.navigate('Privacy'),
+            icon: <PrivacyIcon fill={theme.colors.text} />,
+          },
+          {
+            testID: testIDs.actions.signOutBtn,
+            label: t('Signout'),
+            onPress: () => authSignoutRequest(),
+            icon: <SignoutIcon fill={theme.colors.text} />,
+          },
+        ]}
+      >
         {(settings) => (
           <RowsItemComponent hasBorders>
             <UserRowComponent
               testID={settings.testID}
               onPress={path(['onPress'])(settings)}
-              avatar={
-                <SettingsAvatar icon={path(['icon'])(settings)} />
-              }
+              avatar={<SettingsAvatar icon={path(['icon'])(settings)} />}
               content={
                 <View>
                   <Text style={styling.username}>{path(['label'])(settings)}</Text>
                 </View>
               }
-              action={
-                <SettingsAvatar icon={<NextIcon fill={theme.colors.text} />} />
-              }
+              action={<SettingsAvatar icon={<NextIcon fill={theme.colors.text} />} />}
             />
           </RowsItemComponent>
         )}
       </RowsComponent>
 
-      <Caption style={styling.helper}>
-        v{DeviceInfo.getReadableVersion()}
-      </Caption>
+      <Caption style={styling.helper}>v{DeviceInfo.getReadableVersion()}</Caption>
     </ScrollView>
   )
 }
 
-const styles = theme => StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: theme.colors.backgroundPrimary,
-    padding: theme.spacing.base,
-  },
-  form: {
-    padding: theme.spacing.base,
-  },
-  details: {
-    alignItems: 'center',
-  },
-  helper: {
-    paddingVertical: 8,
-    paddingBottom: 32,
-  },
-})
+const styles = (theme) =>
+  StyleSheet.create({
+    root: {
+      flex: 1,
+      backgroundColor: theme.colors.backgroundPrimary,
+      padding: theme.spacing.base,
+    },
+    form: {
+      padding: theme.spacing.base,
+    },
+    details: {
+      alignItems: 'center',
+    },
+    helper: {
+      paddingVertical: 8,
+      paddingBottom: 32,
+    },
+  })
 
 Settings.propTypes = {
   t: PropTypes.any,

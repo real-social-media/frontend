@@ -1,10 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native'
+import { StyleSheet, ScrollView, TouchableOpacity } from 'react-native'
 import path from 'ramda/src/path'
 import { Text } from 'react-native-paper'
 import RowsComponent from 'templates/Rows'
@@ -19,26 +15,20 @@ import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
-const Contacts = ({
-  t,
-  theme,
-  chatUsers,
-  usersBlockRequest,
-  usersUnblockRequest,
-}) => {
+const Contacts = ({ t, theme, chatUsers, usersBlockRequest, usersUnblockRequest }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
 
   return (
-    <ScrollView
-      style={styling.root}
-    >
+    <ScrollView style={styling.root}>
       <RowsComponent items={chatUsers}>
         {(chat) => (
           <RowsItemComponent>
             <UserRowComponent
               avatar={
-                <TouchableOpacity onPress={navigationActions.navigateProfile(navigation, { userId: path(['userId'])(chat) })}>
+                <TouchableOpacity
+                  onPress={navigationActions.navigateProfile(navigation, { userId: path(['userId'])(chat) })}
+                >
                   <Avatar
                     active={UserService.hasActiveStories(chat)}
                     thumbnailSource={{ uri: path(['photo', 'url64p'])(chat) }}
@@ -48,15 +38,32 @@ const Contacts = ({
                 </TouchableOpacity>
               }
               content={
-                <TouchableOpacity onPress={navigationActions.navigateProfile(navigation, { userId: path(['userId'])(chat) })} style={styling.user}>
+                <TouchableOpacity
+                  onPress={navigationActions.navigateProfile(navigation, { userId: path(['userId'])(chat) })}
+                  style={styling.user}
+                >
                   <Text style={styling.username}>{path(['username'])(chat)}</Text>
                 </TouchableOpacity>
               }
-              action={(
-                path(['blockedStatus'])(chat) === 'BLOCKING' ?
-                  <DefaultButton label={t('Unblock')} onPress={() => usersUnblockRequest({ userId: path(['userId'])(chat) })} loading={false} mode="outlined" size="compact" /> :
-                  <DefaultButton label={t('Block')} onPress={() => usersBlockRequest({ userId: path(['userId'])(chat) })} loading={false} mode="outlined" size="compact" />
-              )}
+              action={
+                path(['blockedStatus'])(chat) === 'BLOCKING' ? (
+                  <DefaultButton
+                    label={t('Unblock')}
+                    onPress={() => usersUnblockRequest({ userId: path(['userId'])(chat) })}
+                    loading={false}
+                    mode="outlined"
+                    size="compact"
+                  />
+                ) : (
+                  <DefaultButton
+                    label={t('Block')}
+                    onPress={() => usersBlockRequest({ userId: path(['userId'])(chat) })}
+                    loading={false}
+                    mode="outlined"
+                    size="compact"
+                  />
+                )
+              }
             />
           </RowsItemComponent>
         )}
@@ -65,17 +72,17 @@ const Contacts = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
-  root: {
-    flex: 1,
-    padding: theme.spacing.base,
-  },
-  user: {
-    paddingHorizontal: 8,
-  },
-  username: {
-  },
-})
+const styles = (theme) =>
+  StyleSheet.create({
+    root: {
+      flex: 1,
+      padding: theme.spacing.base,
+    },
+    user: {
+      paddingHorizontal: 8,
+    },
+    username: {},
+  })
 
 Contacts.propTypes = {
   theme: PropTypes.any,

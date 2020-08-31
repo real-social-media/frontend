@@ -8,21 +8,16 @@ class PostEditScreen extends React.Component {
   render() {
     return (
       <PostsPreviewServiceComponent>
-        {((previewProps) => (
+        {(previewProps) => (
           <PostEditServiceComponent>
             {(props) => (
               <React.Fragment>
-                <PostsPreviewComponent
-                  {...previewProps}
-                />
-                <PostEditComponent
-                  {...props}
-                  {...previewProps}
-                />
+                <PostsPreviewComponent {...previewProps} />
+                <PostEditComponent {...props} {...previewProps} />
               </React.Fragment>
             )}
           </PostEditServiceComponent>
-        ))}
+        )}
       </PostsPreviewServiceComponent>
     )
   }

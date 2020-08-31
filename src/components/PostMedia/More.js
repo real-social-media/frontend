@@ -1,19 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  View,
-} from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 
 import { withTranslation } from 'react-i18next'
 
-const MoreComponent = ({
-  t,
-  onPress,
-}) => {
+const MoreComponent = ({ t, onPress }) => {
   const styling = styles
-  
+
   return (
     <View style={styling.root}>
       <View style={styling.helper}>
@@ -37,8 +31,7 @@ const styles = StyleSheet.create({
   },
 })
 
-MoreComponent.defaultProps = {
-}
+MoreComponent.defaultProps = {}
 
 MoreComponent.propTypes = {
   t: PropTypes.any,

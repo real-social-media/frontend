@@ -1,16 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  View,
-} from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
-const ListTemplate = ({
-  children,
-  items,
-}) => {
+const ListTemplate = ({ children, items }) => {
   const styling = styles
-  
+
   return (
     <View style={styling.root}>
       {items.map((item, key) => (
@@ -23,8 +17,7 @@ const ListTemplate = ({
 }
 
 const styles = StyleSheet.create({
-  root: {
-  },
+  root: {},
 })
 
 ListTemplate.defaultProps = {

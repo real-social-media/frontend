@@ -6,13 +6,7 @@ import ScreenWrapper from 'templates/Auth/ScreenWrapper'
 class AuthUsernameScreen extends React.Component {
   render() {
     return (
-      <AuthUsernameServiceComponent>
-        {(props) => (
-          <AuthUsernameComponent
-            {...props}
-          />
-        )}
-      </AuthUsernameServiceComponent>
+      <AuthUsernameServiceComponent>{(props) => <AuthUsernameComponent {...props} />}</AuthUsernameServiceComponent>
     )
   }
 }

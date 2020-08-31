@@ -6,11 +6,7 @@ import { Text } from 'react-native-paper'
 import CacheComponent from 'components/Cache'
 import uniq from 'ramda/src/uniq'
 
-const ChatCard = ({ 
-  borderColor, 
-  backgroundColor, 
-  handleCardPress,
-}) =>
+const ChatCard = ({ borderColor, backgroundColor, handleCardPress }) =>
   // eslint-disable-next-line react/prop-types
   ({ item: post }) => {
     const customStyle = {

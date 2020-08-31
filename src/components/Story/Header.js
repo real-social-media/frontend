@@ -1,10 +1,6 @@
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-} from 'react-native'
+import { StyleSheet, View, TouchableOpacity } from 'react-native'
 import { Text, Caption } from 'react-native-paper'
 import path from 'ramda/src/path'
 import Avatar from 'templates/Avatar'
@@ -18,10 +14,7 @@ import * as PrivacyService from 'services/Privacy'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
-const Header = ({
-  t,
-  post,
-}) => {
+const Header = ({ t, post }) => {
   const styling = styles
   const navigation = useNavigation()
 
@@ -51,31 +44,49 @@ const Header = ({
           <Text style={styling.headerUsername}>{path(['postedBy', 'username'])(post)}</Text>
         </TouchableOpacity>
 
-        {repostVisiblity ?
-          <TouchableOpacity style={styling.verification} onPress={navigationActions.navigateProfile(navigation, { userId: post.originalPost.postedBy.userId })}>
-            <Caption style={styling.headerStatus}>{t('Reposted from {{ username }}', { username: repostedUsername })}</Caption>
+        {repostVisiblity ? (
+          <TouchableOpacity
+            style={styling.verification}
+            onPress={navigationActions.navigateProfile(navigation, { userId: post.originalPost.postedBy.userId })}
+          >
+            <Caption style={styling.headerStatus}>
+              {t('Reposted from {{ username }}', { username: repostedUsername })}
+            </Caption>
           </TouchableOpacity>
-        : null}
+        ) : null}
 
-        {expiryVisiblity ?
+        {expiryVisiblity ? (
           <View style={styling.verification}>
-            <Caption style={styling.headerStatus}>{t('Expires {{expiry}}', { expiry: dayjs(post.expiresAt).from(dayjs()) })}</Caption>
+            <Caption style={styling.headerStatus}>
+              {t('Expires {{expiry}}', { expiry: dayjs(post.expiresAt).from(dayjs()) })}
+            </Caption>
           </View>
-        : null}
+        ) : null}
 
-        {verificationVisibility ?
-          <TouchableOpacity onPress={navigationActions.navigateVerification(navigation, { actionType: 'BACK', post })} style={styling.verification}>
-            <Caption style={styling.verificationStatus}>{t('Failed Verification')} - {t('Learn More')}</Caption>
+        {verificationVisibility ? (
+          <TouchableOpacity
+            onPress={navigationActions.navigateVerification(navigation, { actionType: 'BACK', post })}
+            style={styling.verification}
+          >
+            <Caption style={styling.verificationStatus}>
+              {t('Failed Verification')} - {t('Learn More')}
+            </Caption>
             <VerificationIcon fill="#DC3644" />
           </TouchableOpacity>
-        : null}
+        ) : null}
       </View>
 
-      {path(['commentsUnviewedCount'])(post) ?
-        <TouchableOpacity style={styling.headerAction} onPress={navigationActions.navigateComments(navigation, { postId: post.postId, userId: post.postedBy.userId })}>
+      {path(['commentsUnviewedCount'])(post) ? (
+        <TouchableOpacity
+          style={styling.headerAction}
+          onPress={navigationActions.navigateComments(navigation, {
+            postId: post.postId,
+            userId: post.postedBy.userId,
+          })}
+        >
           <BellIcon fill="red" />
         </TouchableOpacity>
-      : null}
+      ) : null}
     </View>
   )
 }
@@ -96,8 +107,7 @@ const styles = StyleSheet.create({
     height: 38,
     width: 38,
   },
-  headerUsername: {
-  },
+  headerUsername: {},
   headerStatus: {
     color: '#676767',
     marginRight: 4,

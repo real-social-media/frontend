@@ -12,12 +12,12 @@ const SearchService = ({ children }) => {
   const dispatch = useDispatch()
   const user = useSelector(authSelector.authUserSelector)
   const usersSearch = useSelector(usersSelector.usersSearchSelector())
-  const usersFollow = useSelector(state => state.users.usersFollow)
-  const usersUnfollow = useSelector(state => state.users.usersUnfollow)
+  const usersFollow = useSelector((state) => state.users.usersFollow)
+  const usersUnfollow = useSelector((state) => state.users.usersUnfollow)
   const usersGetTrendingUsers = useSelector(usersSelector.usersGetTrendingUsersSelector())
   const postsGetTrendingPosts = useSelector(postsSelector.postsGetTrendingPostsSelector())
-  const themeFetch = useSelector(state => state.theme.themeFetch)
-  const usersAcceptFollowerUser = useSelector(state => state.users.usersAcceptFollowerUser)
+  const themeFetch = useSelector((state) => state.theme.themeFetch)
+  const usersAcceptFollowerUser = useSelector((state) => state.users.usersAcceptFollowerUser)
 
   /**
    * FlatList feed ref, used for scroll to top on tab bar press
@@ -31,20 +31,16 @@ const SearchService = ({ children }) => {
     dispatch(usersActions.usersSearchRequest({ searchToken: toLower(searchToken || '') }))
   }
 
-  const usersFollowRequest = ({ userId }) =>
-    dispatch(usersActions.usersFollowRequest({ userId }))
-  
-  const usersUnfollowRequest = ({ userId }) =>
-    dispatch(usersActions.usersUnfollowRequest({ userId }))
-  
+  const usersFollowRequest = ({ userId }) => dispatch(usersActions.usersFollowRequest({ userId }))
+
+  const usersUnfollowRequest = ({ userId }) => dispatch(usersActions.usersUnfollowRequest({ userId }))
+
   const usersAcceptFollowerUserRequest = ({ userId }) =>
     dispatch(usersActions.usersAcceptFollowerUserRequest({ userId }))
 
-  const postsGetTrendingPostsRequest = () =>
-    dispatch(postsActions.postsGetTrendingPostsRequest({ limit: 100 }))
-  
-  const postsGetTrendingPostsMoreRequest = (payload) =>
-    dispatch(postsActions.postsGetTrendingPostsMoreRequest(payload))
+  const postsGetTrendingPostsRequest = () => dispatch(postsActions.postsGetTrendingPostsRequest({ limit: 100 }))
+
+  const postsGetTrendingPostsMoreRequest = (payload) => dispatch(postsActions.postsGetTrendingPostsMoreRequest(payload))
 
   useEffect(() => {
     dispatch(usersActions.usersGetTrendingUsersRequest({ limit: 30 }))
@@ -54,7 +50,7 @@ const SearchService = ({ children }) => {
   /**
    * Following two states are tracking values of Search/Form -> searchToken input field
    * we are dynamically rendering components on Search/index based on values below
-   * 
+   *
    * formFocus is a state of focus/blur events: [searchToken input]
    * formChange is a state of value.length: [searchToken input]
    */

@@ -1,10 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-} from 'react-native'
+import { View, StyleSheet, ScrollView } from 'react-native'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 import { Text } from 'react-native-paper'
 import FeatureComponent from 'templates/Feature'
@@ -12,12 +8,9 @@ import FeatureComponent from 'templates/Feature'
 import { withTheme } from 'react-native-paper'
 import { withTranslation } from 'react-i18next'
 
-const Membership = ({
-  t,
-  theme,
-}) => {
+const Membership = ({ t, theme }) => {
   const styling = styles(theme)
-  
+
   return (
     <ScrollView style={styling.root}>
       <View>
@@ -52,26 +45,27 @@ const Membership = ({
     </ScrollView>
   )
 }
-  
-const styles = theme => StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: theme.colors.backgroundPrimary,
-  },
-  title: {
-    backgroundColor: theme.colors.backgroundSecondary,
-    padding: theme.spacing.base,
-  },
-  titlePrimary: {
-    backgroundColor: theme.colors.primary,
-  },
-  features: {
-    marginVertical: 6,
-  },
-  action: {
-    padding: theme.spacing.base,
-  },
-})
+
+const styles = (theme) =>
+  StyleSheet.create({
+    root: {
+      flex: 1,
+      backgroundColor: theme.colors.backgroundPrimary,
+    },
+    title: {
+      backgroundColor: theme.colors.backgroundSecondary,
+      padding: theme.spacing.base,
+    },
+    titlePrimary: {
+      backgroundColor: theme.colors.primary,
+    },
+    features: {
+      marginVertical: 6,
+    },
+    action: {
+      padding: theme.spacing.base,
+    },
+  })
 
 Membership.propTypes = {
   theme: PropTypes.any,

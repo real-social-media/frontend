@@ -1,9 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  View,
-  StyleSheet,
-} from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import FormComponent from 'components/AuthForgotConfirm/Form'
 import AuthActionTemplate from 'templates/Auth/Action'
 import AuthHeaderTemplate from 'templates/Auth/Header'
@@ -29,18 +26,10 @@ const AuthForgotConfirm = ({
 
   return (
     <View testID={testIDs.root} style={styling.root}>
-      {formErrorMessage ?
-        <AuthErrorTemplate
-          text={formErrorMessage}
-          onClose={handleErrorClose}
-        />
-      : null}
+      {formErrorMessage ? <AuthErrorTemplate text={formErrorMessage} onClose={handleErrorClose} /> : null}
 
       <View style={styling.component}>
-        <AuthHeaderTemplate
-          title={t('Enter 6-digit code')}
-          subtitle={t('Sent to you')}
-        />
+        <AuthHeaderTemplate title={t('Enter 6-digit code')} subtitle={t('Sent to you')} />
 
         <View style={styling.content}>
           <FormComponent

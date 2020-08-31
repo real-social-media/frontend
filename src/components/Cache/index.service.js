@@ -32,8 +32,8 @@ const CacheService = ({
   const progress = useSelector(cacheSelector.progressSelector(signature.partial))
   const failed = useSelector(cacheSelector.failedSelector(signature.partial))
   const previousCached = usePreviousDistinct(cached)
-  const uri = useMemo(() => failed ? fallback : (cached || previousCached), [cached, failed])
-  const filename = useMemo(() => helpers.getFilename(uri), [uri]) 
+  const uri = useMemo(() => (failed ? fallback : cached || previousCached), [cached, failed])
+  const filename = useMemo(() => helpers.getFilename(uri), [uri])
 
   /**
    * Initialize image fetch
@@ -54,7 +54,7 @@ const CacheService = ({
   useEffect(() => {
     const availableImages = images.length
     const moreToDownload = availableImages - 1 > counter
-    const firstCondition = (moreToDownload && cached && !progress)
+    const firstCondition = moreToDownload && cached && !progress
     if (!firstCondition) {
       return
     }

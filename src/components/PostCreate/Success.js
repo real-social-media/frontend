@@ -1,20 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  View,
-  StyleSheet,
-} from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import { Subheading } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
 import { withTranslation } from 'react-i18next'
 
-const Success = ({
-  t,
-  theme,
-}) => {
+const Success = ({ t, theme }) => {
   const styling = styles(theme)
-  
+
   return (
     <View style={styling.root}>
       <Subheading>{t('All posts have been submitted')}</Subheading>
@@ -23,14 +17,14 @@ const Success = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
-  root: {
-    padding: theme.spacing.base,
-    alignItems: 'center',
-  },
-  text: {
-  },
-})
+const styles = (theme) =>
+  StyleSheet.create({
+    root: {
+      padding: theme.spacing.base,
+      alignItems: 'center',
+    },
+    text: {},
+  })
 
 Success.propTypes = {
   t: PropTypes.any,

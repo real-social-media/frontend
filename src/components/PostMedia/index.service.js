@@ -13,8 +13,8 @@ const PostMediaService = ({ children }) => {
   const postId = route.params.postId
   const postUserId = route.params.userId
   const postsSingleGet = useSelector(postsSelector.postsSingleGetSelector(postId))
-  const postsDelete = useSelector(state => state.posts.postsDelete)
-  const postsArchive = useSelector(state => state.posts.postsArchive)
+  const postsDelete = useSelector((state) => state.posts.postsDelete)
+  const postsArchive = useSelector((state) => state.posts.postsArchive)
   const postsGetTrendingPosts = useSelector(postsSelector.postsGetTrendingPostsSelector())
 
   useEffect(() => {
@@ -37,10 +37,7 @@ const PostMediaService = ({ children }) => {
     if (postsArchive.status === 'loading') {
       navigationActions.navigateBack(navigation)()
     }
-  }, [
-    postsDelete.status,
-    postsArchive.status,
-  ])
+  }, [postsDelete.status, postsArchive.status])
 
   const handleScrollPrev = (index) => () => {
     try {

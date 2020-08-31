@@ -11,7 +11,7 @@ const AuthPasswordComponentService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
 
-  const signupPassword = useSelector(state => state.signup.signupPassword)
+  const signupPassword = useSelector((state) => state.signup.signupPassword)
 
   /**
    * Navigation state reset on back button press
@@ -23,10 +23,11 @@ const AuthPasswordComponentService = ({ children }) => {
 
   useEffect(() => {
     navigation.setOptions({
-      headerLeft: () => pageHeaderLeft({ 
-        testID: testIDs.header.backBtn, 
-        onPress: handleGoBack, 
-      }),
+      headerLeft: () =>
+        pageHeaderLeft({
+          testID: testIDs.header.backBtn,
+          onPress: handleGoBack,
+        }),
     })
   }, [])
 
@@ -39,16 +40,11 @@ const AuthPasswordComponentService = ({ children }) => {
    * Redirect to verification confirmation once signup was successful
    */
   useEffect(() => {
-    if (
-      signupPassword.status !== 'success'
-    ) return
+    if (signupPassword.status !== 'success') return
 
     logEvent('SIGNUP_PASSWORD_SUCCESS')
     navigationActions.navigateSignup(navigation)()
-  }, [
-    signupPassword.status,
-    signupPassword.payload.password,
-  ])
+  }, [signupPassword.status, signupPassword.payload.password])
 
   const formSubmitLoading = signupPassword.status === 'loading'
   const formSubmitDisabled = signupPassword.status === 'loading'

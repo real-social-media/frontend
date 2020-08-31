@@ -31,7 +31,7 @@ const TabNavigator = ({ navigation, route }) => {
       tabBarLabel: 'Home',
     },
   }
-  
+
   const SearchTabIconComponent = ({ color }) => <SearchIcon fill={color} />
   const searchTabScreenPropsCard = {
     options: {
@@ -41,7 +41,9 @@ const TabNavigator = ({ navigation, route }) => {
   }
 
   const CameraTabIconComponent = ({ color }) => <CreateIcon fill={color} />
-  const CameraTabButtonComponent = (props) => <TouchableOpacity {...props} onPress={navigationActions.navigatePostType(navigation, { actionType: 'HOME' })} />
+  const CameraTabButtonComponent = (props) => (
+    <TouchableOpacity {...props} onPress={navigationActions.navigatePostType(navigation, { actionType: 'HOME' })} />
+  )
   const cameraTabScreenPropsCard = {
     options: {
       tabBarIcon: CameraTabIconComponent,
@@ -73,31 +75,11 @@ const TabNavigator = ({ navigation, route }) => {
 
   return (
     <Tab.Navigator {...tabNavigatorProps}>
-      <Tab.Screen
-        name="Feed"
-        component={FeedNavigator}
-        {...feedTabScreenPropsCard}
-      />
-      <Tab.Screen
-        name="Search"
-        component={SearchNavigator}
-        {...searchTabScreenPropsCard}
-      />
-      <Tab.Screen
-        name="PostType"
-        component={PostType}
-        {...cameraTabScreenPropsCard}
-      />
-      <Tab.Screen
-        name="Chat"
-        component={ChatNavigator}
-        {...datingTabScreenPropsCard}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={ProfileNavigator}
-        {...profileTabScreenPropsCard}
-      />
+      <Tab.Screen name="Feed" component={FeedNavigator} {...feedTabScreenPropsCard} />
+      <Tab.Screen name="Search" component={SearchNavigator} {...searchTabScreenPropsCard} />
+      <Tab.Screen name="PostType" component={PostType} {...cameraTabScreenPropsCard} />
+      <Tab.Screen name="Chat" component={ChatNavigator} {...datingTabScreenPropsCard} />
+      <Tab.Screen name="Profile" component={ProfileNavigator} {...profileTabScreenPropsCard} />
     </Tab.Navigator>
   )
 }

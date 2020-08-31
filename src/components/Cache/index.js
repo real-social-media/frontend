@@ -1,41 +1,22 @@
 import React, { memo } from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  Image,
-  View,
-} from 'react-native'
+import { StyleSheet, Image, View } from 'react-native'
 import { Text } from 'react-native-paper'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
 import CacheServiceComponent from 'components/Cache/index.service'
 import equals from 'ramda/src/equals'
 
-const CacheComponent = ({
-  uri,
-  resizeMode,
-  style,
-  handleError,
-  progress,
-  hideProgress,
-  hideLabel,
-  filename,
-}) => {
+const CacheComponent = ({ uri, resizeMode, style, handleError, progress, hideProgress, hideLabel, filename }) => {
   return (
     <View style={styles.root}>
       <View style={[styles.image, style]}>
-        {!hideProgress && !progress && !uri ?
+        {!hideProgress && !progress && !uri ? (
           <View style={styles.progress}>
-            <AnimatedCircularProgress
-              size={40}
-              width={2}
-              fill={0}
-              tintColor="#21ce99"
-              backgroundColor="#ffffff"
-            />
+            <AnimatedCircularProgress size={40} width={2} fill={0} tintColor="#21ce99" backgroundColor="#ffffff" />
           </View>
-        : null}
+        ) : null}
 
-        {!hideProgress && progress ?
+        {!hideProgress && progress ? (
           <View style={styles.progress}>
             <AnimatedCircularProgress
               size={40}
@@ -45,21 +26,15 @@ const CacheComponent = ({
               backgroundColor="#ffffff"
             />
           </View>
-        : null}
+        ) : null}
 
-        <Image
-          key={uri}
-          source={{ uri }}
-          resizeMode={resizeMode}
-          style={[styles.image, style]}
-          onError={handleError}
-        />
+        <Image key={uri} source={{ uri }} resizeMode={resizeMode} style={[styles.image, style]} onError={handleError} />
 
-        {!hideLabel && filename ?
+        {!hideLabel && filename ? (
           <View style={styles.label}>
             <Text style={styles.text}>{filename}</Text>
           </View>
-        : null}
+        ) : null}
       </View>
     </View>
   )
@@ -117,10 +92,9 @@ const styles = StyleSheet.create({
 })
 
 export const CacheContext = React.createContext(null)
-export default memo((props) =>
-  <CacheServiceComponent {...props}>
-    {(cacheProps) => (
-      <CacheComponent {...cacheProps} />
-    )}
-  </CacheServiceComponent>
-, equals)
+export default memo(
+  (props) => (
+    <CacheServiceComponent {...props}>{(cacheProps) => <CacheComponent {...cacheProps} />}</CacheServiceComponent>
+  ),
+  equals,
+)

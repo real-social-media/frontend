@@ -1,11 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  View,
-  FlatList,
-  RefreshControl,
-} from 'react-native'
+import { StyleSheet, View, FlatList, RefreshControl } from 'react-native'
 import FormComponent from 'components/Comments/Form'
 import { ifIphoneX } from 'react-native-iphone-x-helper'
 import CommentComponent from 'components/Comments/Comment'
@@ -56,16 +51,13 @@ const Comments = ({
         ref={commentsRef}
         style={styling.comments}
         refreshControl={
-          <RefreshControl
-            tintColor={theme.colors.border}
-            refreshing={postsCommentsGet.status === 'loading'}
-          />
+          <RefreshControl tintColor={theme.colors.border} refreshing={postsCommentsGet.status === 'loading'} />
         }
-        keyExtractor={item => item.commentId}
+        keyExtractor={(item) => item.commentId}
         data={pathOr([], ['data'])(postsCommentsGet).reverse()}
         onViewableItemsChanged={onViewableItemsChangedRef.current}
         viewabilityConfig={viewabilityConfigRef.current}
-        ListHeaderComponent={(
+        ListHeaderComponent={
           <React.Fragment>
             <PreviewServiceComponent>
               {({ postPreviewProps, postUserProps }) => (
@@ -76,28 +68,27 @@ const Comments = ({
               )}
             </PreviewServiceComponent>
 
-            {pseudoCommentVisibility ?
+            {pseudoCommentVisibility ? (
               <SwipableTemplate>
                 <View style={styling.comment} key="desc">
-                  <CommentComponent
-                    comment={pseudoComment}
-                    handleUserReply={handleUserReply}
-                  />
+                  <CommentComponent comment={pseudoComment} handleUserReply={handleUserReply} />
                 </View>
               </SwipableTemplate>
-            : null}
+            ) : null}
           </React.Fragment>
-        )}
+        }
         onScrollToIndexFailed={({ index }) => {
           setTimeout(() => {
-            tryCatch(() => commentsRef.current.scrollToIndex({ index, animated: true }), () => null)()
+            tryCatch(
+              () => commentsRef.current.scrollToIndex({ index, animated: true }),
+              () => null,
+            )()
           }, 500)
         }}
         renderItem={({ item: comment }) => {
-          const tappable = (
+          const tappable =
             path(['postedBy', 'userId'])(postsSingleGet.data) === user.userId ||
             path(['commentedBy', 'userId'])(comment) === user.userId
-          )
           const handleDeletePress = () => {
             commentsDeleteRequest({ commentId: comment.commentId })
             commentRefs.getRef(comment).close()
@@ -106,17 +97,16 @@ const Comments = ({
             commentsFlagRequest({ commentId: comment.commentId })
             commentRefs.getRef(comment).close()
           }
-          const rowProps = tappable ? ({
-            handleReportPress,
-            handleDeletePress,
-          }) : ({
-            handleReportPress,
-          })
+          const rowProps = tappable
+            ? {
+                handleReportPress,
+                handleDeletePress,
+              }
+            : {
+                handleReportPress,
+              }
           return (
-            <SwipableTemplate
-              rowRef={commentRefs.createRef(comment)}
-              rowProps={rowProps}
-            >
+            <SwipableTemplate rowRef={commentRefs.createRef(comment)} rowProps={rowProps}>
               <View style={styling.comment}>
                 <CommentComponent
                   comment={comment}
@@ -126,8 +116,8 @@ const Comments = ({
                 />
               </View>
             </SwipableTemplate>
-          )}
-        }
+          )
+        }}
       />
       <View style={{ marginBottom }}>
         <FormComponent
@@ -143,29 +133,33 @@ const Comments = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: theme.colors.backgroundPrimary,
-  },
-  comments: {
-    flex: 1,
-  },
-  comment: {
-    paddingHorizontal: theme.spacing.base,
-    marginBottom: theme.spacing.base,
-  },
-  form: {
-    ...ifIphoneX({
-      paddingBottom: 40,
-    }, {
-      paddingBottom: 0,
-    }),
-  },
-  content: {
-    padding: theme.spacing.base,
-  },
-})
+const styles = (theme) =>
+  StyleSheet.create({
+    root: {
+      flex: 1,
+      backgroundColor: theme.colors.backgroundPrimary,
+    },
+    comments: {
+      flex: 1,
+    },
+    comment: {
+      paddingHorizontal: theme.spacing.base,
+      marginBottom: theme.spacing.base,
+    },
+    form: {
+      ...ifIphoneX(
+        {
+          paddingBottom: 40,
+        },
+        {
+          paddingBottom: 0,
+        },
+      ),
+    },
+    content: {
+      padding: theme.spacing.base,
+    },
+  })
 
 Comments.propTypes = {
   theme: PropTypes.any,

@@ -12,13 +12,7 @@ class ProfileSelfScreen extends React.Component {
           <PostsGridServiceComponent>
             {(postsProps) => (
               <AlbumsGridServiceComponent>
-                {(albumsProps) => (
-                  <ProfileComponent
-                    {...postsProps}
-                    {...albumsProps}
-                    {...profileProps}
-                  />
-                )}
+                {(albumsProps) => <ProfileComponent {...postsProps} {...albumsProps} {...profileProps} />}
               </AlbumsGridServiceComponent>
             )}
           </PostsGridServiceComponent>

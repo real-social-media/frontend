@@ -1,9 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  View,
-} from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import GridComponent from 'templates/Grid'
 import GridItemComponent from 'templates/GridItem'
 import CacheComponent from 'components/Cache'
@@ -14,10 +11,7 @@ import { Text } from 'react-native-paper'
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 
-const AlbumsGrid = ({
-  theme,
-  albumsGet,
-}) => {
+const AlbumsGrid = ({ theme, albumsGet }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
 
@@ -38,7 +32,9 @@ const AlbumsGrid = ({
             />
 
             <View style={styling.title}>
-              <Text numberOfLines={1} style={styling.text}>{album.name}</Text>
+              <Text numberOfLines={1} style={styling.text}>
+                {album.name}
+              </Text>
             </View>
           </GridItemComponent>
         )}
@@ -46,21 +42,22 @@ const AlbumsGrid = ({
     </View>
   )
 }
-const styles = theme => StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: theme.colors.backgroundPrimary,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
-  title: {
-    position: 'absolute',
-    padding: 4,
-    bottom: 0,
-    right: 0,
-    backgroundColor: theme.colors.backgroundPrimary,
-  },
-})
+const styles = (theme) =>
+  StyleSheet.create({
+    root: {
+      flex: 1,
+      backgroundColor: theme.colors.backgroundPrimary,
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+    },
+    title: {
+      position: 'absolute',
+      padding: 4,
+      bottom: 0,
+      right: 0,
+      backgroundColor: theme.colors.backgroundPrimary,
+    },
+  })
 
 AlbumsGrid.defaultProps = {
   albumsGet: {},

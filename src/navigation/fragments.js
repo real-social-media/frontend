@@ -14,10 +14,7 @@ import AlbumEditScreen from 'screens/AlbumEditScreen'
 import PostEditScreen from 'screens/PostEditScreen'
 import PostCreateScreen from 'screens/PostCreateScreen'
 
-export const media = ({
-  Stack,
-  stackScreenPageProps,
-}) => {
+export const media = ({ Stack, stackScreenPageProps }) => {
   return (
     <>
       <Stack.Screen
@@ -56,11 +53,7 @@ export const media = ({
         {...stackScreenPageProps({ options: { title: 'Likes' } })}
       />
 
-      <Stack.Screen
-        name="Album"
-        component={AlbumScreen}
-        {...stackScreenPageProps({ options: { title: 'Album' } })}
-      />
+      <Stack.Screen name="Album" component={AlbumScreen} {...stackScreenPageProps({ options: { title: 'Album' } })} />
 
       <Stack.Screen
         name="PostShare"

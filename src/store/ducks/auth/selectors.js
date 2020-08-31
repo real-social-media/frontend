@@ -16,27 +16,17 @@ export const authUserSelector = createSelector(
   },
 )
 
-export const authUserIdSelector = createSelector(
-  [authUser()],
-  (authUser) => {
-    return is(String, authUser) && authUser
-  },
-)
+export const authUserIdSelector = createSelector([authUser()], (authUser) => {
+  return is(String, authUser) && authUser
+})
 
-export const languageCodeSelector = 
-  state => pathOr('', ['auth', 'user', 'languageCode'], state)
+export const languageCodeSelector = (state) => pathOr('', ['auth', 'user', 'languageCode'], state)
 
-export const themeCodeSelector = 
-  state => pathOr('black.green', ['auth', 'user', 'themeCode'], state)
+export const themeCodeSelector = (state) => pathOr('black.green', ['auth', 'user', 'themeCode'], state)
 
-export const themeFetchSelector =
-  state => pathOr([], ['theme', 'themeFetch', 'data'], state)
+export const themeFetchSelector = (state) => pathOr([], ['theme', 'themeFetch', 'data'], state)
 
-export const themeSelector = createSelector(
-  authUserSelector,
-  themeFetchSelector,
-  (authUser, themeFetch) => {
-    const activeTheme = (authUser.themeCode || 'black.green')
-    return (themeFetch.find(theme => theme.key === activeTheme) || {}).theme
-  },
-)
+export const themeSelector = createSelector(authUserSelector, themeFetchSelector, (authUser, themeFetch) => {
+  const activeTheme = authUser.themeCode || 'black.green'
+  return (themeFetch.find((theme) => theme.key === activeTheme) || {}).theme
+})

@@ -1,21 +1,13 @@
 import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
-import {
-  View,
-  StyleSheet,
-} from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import Card from 'components/FeedCards/Card'
 import Layout from 'constants/Layout'
 import Carousel from 'react-native-snap-carousel'
 
 import { withTheme } from 'react-native-paper'
 
-const FeedCards = ({
-  theme,
-  filteredCardsData,
-  handleCardPress,
-  usersDeleteCardRequest,
-}) => {
+const FeedCards = ({ theme, filteredCardsData, handleCardPress, usersDeleteCardRequest }) => {
   const styling = styles(theme)
   const cardsRef = useRef(null)
 
@@ -53,15 +45,16 @@ FeedCards.propTypes = {
   usersDeleteCardRequest: PropTypes.any,
 }
 
-const styles = theme => StyleSheet.create({
-  root: {
-    height: 100,
-    backgroundColor: theme.colors.secondary,
-  },
-  slideStyle: {
-    margin: 0,
-    padding: 0,
-  },
-})
+const styles = (theme) =>
+  StyleSheet.create({
+    root: {
+      height: 100,
+      backgroundColor: theme.colors.secondary,
+    },
+    slideStyle: {
+      margin: 0,
+      padding: 0,
+    },
+  })
 
 export default withTheme(FeedCards)

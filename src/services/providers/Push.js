@@ -13,29 +13,29 @@ import { useNavigation } from '@react-navigation/native'
 export const usePushNotification = () => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
-  
+
   const user = useSelector(authSelector.authUserSelector)
 
   const handleNotificationEvent = (notification) => {
     if (!notification || !notification.getData()) return
-    
+
     /**
      * ios deeplinking payload structure, might change on other provider/client
      */
     const action = path(['data', 'pinpoint', 'deeplink'])(notification.getData())
-      
+
     /**
      * Navigate to related screen if action is recognized and supported
      */
     if (action) {
       LinkingService.deeplinkNavigation(navigation, navigationActions, Linking)(action)
-    } 
+    }
 
     /**
      * Log unrecognized or unsupported actions
      */
     if (!action) {
-      Logger.withScope(scope => {
+      Logger.withScope((scope) => {
         scope.setExtra('payload', JSON.stringify(notification.getData()))
         Logger.captureMessage('PUSH_NOTIFICATION_LISTENER_ERROR')
       })
@@ -65,7 +65,7 @@ export const usePushNotification = () => {
    * Register user's new apns token which allows enables push notification on this device
    */
   const handleRegistrationEvent = (token) => {
-    Logger.withScope(scope => {
+    Logger.withScope((scope) => {
       scope.setExtra('apns', token)
       Logger.captureMessage('PUSH_NOTIFICATION_REGISTER')
     })
@@ -73,7 +73,7 @@ export const usePushNotification = () => {
   }
 
   const handleRegistrationError = (payload) => {
-    Logger.withScope(scope => {
+    Logger.withScope((scope) => {
       scope.setExtra('payload', JSON.stringify(payload))
       Logger.captureMessage('PUSH_NOTIFICATION_REGISTER_ERROR')
     })
@@ -101,5 +101,5 @@ export const usePushNotification = () => {
     }
   }, [user.userId])
 
-  return ({})
+  return {}
 }

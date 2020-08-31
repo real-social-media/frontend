@@ -5,13 +5,7 @@ import PostLikesServiceComponent from 'components/PostLikes/index.service'
 class PostLikesScreen extends React.Component {
   render() {
     return (
-      <PostLikesServiceComponent>
-        {((shareProps) => (
-          <PostLikesComponent
-            {...shareProps}
-          />
-        ))}
-      </PostLikesServiceComponent>
+      <PostLikesServiceComponent>{(shareProps) => <PostLikesComponent {...shareProps} />}</PostLikesServiceComponent>
     )
   }
 }

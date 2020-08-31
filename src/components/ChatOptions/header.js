@@ -6,19 +6,21 @@ import * as navigationActions from 'navigation/actions'
 
 import { useNavigation } from '@react-navigation/native'
 
-export const useHeader = ({
-  user,
-  chatGetChat,
-}) => {
+export const useHeader = ({ user, chatGetChat }) => {
   const navigation = useNavigation()
   const chatId = path(['data', 'chatId'])(chatGetChat)
 
   /**
    *
    */
-  const headerRight = useCallback(() =>
-    <HeaderRight onPress={navigationActions.navigateChatOptions(navigation, { chatId })}><InfoIcon fill="#ffffff" /></HeaderRight>
-  , [chatId])
+  const headerRight = useCallback(
+    () => (
+      <HeaderRight onPress={navigationActions.navigateChatOptions(navigation, { chatId })}>
+        <InfoIcon fill="#ffffff" />
+      </HeaderRight>
+    ),
+    [chatId],
+  )
 
   /**
    *
@@ -29,8 +31,8 @@ export const useHeader = ({
     }
 
     const title = path(['data', 'users', 'items'])(chatGetChat)
-      .filter(chat => chat.username !== user.username)
-      .map(chat => chat.username)
+      .filter((chat) => chat.username !== user.username)
+      .map((chat) => chat.username)
       .join(', ')
 
     navigation.setOptions({
@@ -39,4 +41,3 @@ export const useHeader = ({
     })
   }, [path(['data', 'users', 'items'])(chatGetChat)])
 }
-

@@ -1,10 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native'
+import { StyleSheet, ScrollView, TouchableOpacity } from 'react-native'
 import path from 'ramda/src/path'
 import Avatar from 'templates/Avatar'
 import { Caption } from 'react-native-paper'
@@ -14,30 +10,19 @@ import * as UserService from 'services/User'
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 
-const Stories = ({
-  theme,
-  user,
-  usersGetFollowedUsersWithStories,
-}) => {
+const Stories = ({ theme, user, usersGetFollowedUsersWithStories }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
 
-  const handleUserStoryPress = (user) => navigationActions.navigateStory(navigation, {
-    user,
-    usersGetFollowedUsersWithStories,
-  })
+  const handleUserStoryPress = (user) =>
+    navigationActions.navigateStory(navigation, {
+      user,
+      usersGetFollowedUsersWithStories,
+    })
 
   return (
-    <ScrollView
-      style={styling.root}
-      horizontal
-      showsHorizontalScrollIndicator={false}
-    >
-      <TouchableOpacity
-        key={user.userId}
-        onPress={navigationActions.navigateCamera(navigation)}
-        style={styling.story}
-      >
+    <ScrollView style={styling.root} horizontal showsHorizontalScrollIndicator={false}>
+      <TouchableOpacity key={user.userId} onPress={navigationActions.navigateCamera(navigation)} style={styling.story}>
         <Avatar
           active={UserService.hasActiveStories(user)}
           size="medium"
@@ -49,11 +34,7 @@ const Stories = ({
       </TouchableOpacity>
 
       {(usersGetFollowedUsersWithStories.data || []).map((user, key) => (
-        <TouchableOpacity
-          key={key}
-          onPress={handleUserStoryPress(user)}
-          style={styling.story}
-        >
+        <TouchableOpacity key={key} onPress={handleUserStoryPress(user)} style={styling.story}>
           <Avatar
             active={UserService.hasActiveStories(user)}
             size="medium"
@@ -68,21 +49,22 @@ const Stories = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
-  root: {
-    height: 115,
-    padding: theme.spacing.base,
-    backgroundColor: theme.colors.backgroundPrimary,
-  },
-  story: {
-    alignItems: 'center',
-    marginRight: 10,
-  },
-  username: {
-    marginTop: 6,
-    color: theme.colors.text,
-  },
-})
+const styles = (theme) =>
+  StyleSheet.create({
+    root: {
+      height: 115,
+      padding: theme.spacing.base,
+      backgroundColor: theme.colors.backgroundPrimary,
+    },
+    story: {
+      alignItems: 'center',
+      marginRight: 10,
+    },
+    username: {
+      marginTop: 6,
+      color: theme.colors.text,
+    },
+  })
 
 Stories.propTypes = {
   theme: PropTypes.any,

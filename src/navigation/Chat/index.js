@@ -13,11 +13,7 @@ const ChatNavigator = ({ theme }) => {
 
   return (
     <Stack.Navigator {...stackNavigatorDefaultProps}>
-      <Stack.Screen
-        name="Chat"
-        component={ChatScreen}
-        {...stackScreenDefaultProps}
-      />
+      <Stack.Screen name="Chat" component={ChatScreen} {...stackScreenDefaultProps} />
     </Stack.Navigator>
   )
 }

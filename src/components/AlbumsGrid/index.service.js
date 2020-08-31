@@ -12,11 +12,9 @@ const AlbumsGridService = ({ children }) => {
   const { userId } = route.params || useSelector(authSelector.authUserSelector)
   const albumsGet = useSelector(albumsSelector.albumsGetSelector(userId))
 
-  const albumsGetRequest = ({ nextToken }) =>
-    dispatch(albumsActions.albumsGetRequest({ userId, nextToken }))
+  const albumsGetRequest = ({ nextToken }) => dispatch(albumsActions.albumsGetRequest({ userId, nextToken }))
 
-  const albumsGetMoreRequest = ({ nextToken }) =>
-    dispatch(albumsActions.albumsGetMoreRequest({ userId, nextToken }))
+  const albumsGetMoreRequest = ({ nextToken }) => dispatch(albumsActions.albumsGetMoreRequest({ userId, nextToken }))
 
   useEffect(() => {
     dispatch(albumsActions.albumsGetRequest({ userId }))

@@ -9,15 +9,20 @@ const initialState = {
 /**
  *
  */
-const uiNotificationRequest = (state, action) => update(state, {
-  notifications: { $push: [action.payload.data] },
-})
+const uiNotificationRequest = (state, action) =>
+  update(state, {
+    notifications: { $push: [action.payload.data] },
+  })
 
-const uiNotificationIdle = (state) => update(state, {
-  notifications: { $set: [] },
-})
+const uiNotificationIdle = (state) =>
+  update(state, {
+    notifications: { $set: [] },
+  })
 
-export default handleActions({
-  [constants.UI_NOTIFICATION_REQUEST]: uiNotificationRequest,
-  [constants.UI_NOTIFICATION_IDLE]: uiNotificationIdle,
-}, initialState)
+export default handleActions(
+  {
+    [constants.UI_NOTIFICATION_REQUEST]: uiNotificationRequest,
+    [constants.UI_NOTIFICATION_IDLE]: uiNotificationIdle,
+  },
+  initialState,
+)

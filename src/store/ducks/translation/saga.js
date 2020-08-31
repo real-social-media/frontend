@@ -11,7 +11,7 @@ function* handleTranslationFetchRequest() {
 }
 
 /**
- * 
+ *
  */
 function* translationFetchRequest() {
   try {
@@ -22,6 +22,4 @@ function* translationFetchRequest() {
   }
 }
 
-export default () => [
-  takeLatest(constants.TRANSLATION_FETCH_REQUEST, translationFetchRequest),
-]
+export default () => [takeLatest(constants.TRANSLATION_FETCH_REQUEST, translationFetchRequest)]

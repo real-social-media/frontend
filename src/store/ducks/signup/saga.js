@@ -30,7 +30,7 @@ function* gatewayUsernameStatus(payload) {
   if (response.status !== 'AVAILABLE') {
     throw new Error('USER_EXISTS')
   }
- 
+
   return response
 }
 
@@ -39,10 +39,12 @@ function* signupUsernameRequest(req) {
     yield gatewayUsernameStatus(req.payload)
     yield put(actions.signupUsernameSuccess({ payload: req.payload }))
   } catch (error) {
-    yield put(actions.signupUsernameFailure({
-      message: errors.getMessagePayload(constants.SIGNUP_USERNAME_FAILURE, 'USER_EXISTS', error.message),
-      payload: req.payload,
-    }))
+    yield put(
+      actions.signupUsernameFailure({
+        message: errors.getMessagePayload(constants.SIGNUP_USERNAME_FAILURE, 'USER_EXISTS', error.message),
+        payload: req.payload,
+      }),
+    )
   }
 }
 
@@ -88,10 +90,12 @@ function* linkUserIdentities(payload) {
     IdentityId: payload.cognitoUserId,
     IdentityPoolId: Config.AWS_COGNITO_IDENTITY_POOL_ID,
     Logins: {
-      [`cognito-idp.${Config.AWS_COGNITO_REGION}.amazonaws.com/${Config.AWS_COGNITO_USER_POOL_ID}`]: authenticateUser.getIdToken().getJwtToken(),
+      [`cognito-idp.${Config.AWS_COGNITO_REGION}.amazonaws.com/${Config.AWS_COGNITO_USER_POOL_ID}`]: authenticateUser
+        .getIdToken()
+        .getJwtToken(),
     },
   })
-  
+
   yield promisify(AWS.config.credentials.refresh.bind(AWS.config.credentials))()
   yield cognitoUser.signOut()
 }
@@ -100,7 +104,7 @@ function* linkUserIdentities(payload) {
  * Signup works in a following way:
  * - creates new entry [credentials] using AWS.CognitoIdentity (in Identity Pool)
  * - creates new entry [user] using AwsAuth.signUp (in User Pool) with username === identityId
- * 
+ *
  * Allows same username in both identiyId and userId. identityId generated at authSignupRequest
  * will later be passed to signupConfirmRequest to confirm this user. Loosing identiyId between transition
  * will fail signup process!
@@ -146,37 +150,53 @@ function* handleSignupCreateRequest(payload) {
 function* signupCreateRequest(req) {
   try {
     const data = yield handleSignupCreateRequest(req.payload)
-    yield put(actions.signupCreateSuccess({
-      message: errors.getMessagePayload(constants.SIGNUP_CREATE_SUCCESS, 'GENERIC'),
-      payload: req.payload,
-      data,
-    }))
+    yield put(
+      actions.signupCreateSuccess({
+        message: errors.getMessagePayload(constants.SIGNUP_CREATE_SUCCESS, 'GENERIC'),
+        payload: req.payload,
+        data,
+      }),
+    )
   } catch (error) {
     if (error.message === 'USER_CONFIRMATION_DELIVERY') {
-      yield put(actions.signupCreateFailure({
-        message: errors.getMessagePayload(constants.SIGNUP_CREATE_FAILURE, 'USER_CONFIRMATION_DELIVERY', error.message),
-        payload: req.payload,
-      }))
+      yield put(
+        actions.signupCreateFailure({
+          message: errors.getMessagePayload(
+            constants.SIGNUP_CREATE_FAILURE,
+            'USER_CONFIRMATION_DELIVERY',
+            error.message,
+          ),
+          payload: req.payload,
+        }),
+      )
     } else if (error.code === 'UsernameExistsException') {
-      yield put(actions.signupCreateFailure({
-        message: errors.getMessagePayload(constants.SIGNUP_CREATE_FAILURE, 'USER_EXISTS', error.message),
-        payload: req.payload,
-      }))
+      yield put(
+        actions.signupCreateFailure({
+          message: errors.getMessagePayload(constants.SIGNUP_CREATE_FAILURE, 'USER_EXISTS', error.message),
+          payload: req.payload,
+        }),
+      )
     } else if (error.code === 'InvalidPasswordException') {
-      yield put(actions.signupCreateFailure({
-        message: errors.getMessagePayload(constants.SIGNUP_CREATE_FAILURE, 'INVALID_PASSWORD', error.message),
-        payload: req.payload,
-      }))
+      yield put(
+        actions.signupCreateFailure({
+          message: errors.getMessagePayload(constants.SIGNUP_CREATE_FAILURE, 'INVALID_PASSWORD', error.message),
+          payload: req.payload,
+        }),
+      )
     } else if (error.code === 'InvalidParameterException') {
-      yield put(actions.signupCreateFailure({
-        message: errors.getMessagePayload(constants.SIGNUP_CREATE_FAILURE, 'INVALID_PARAMETER', error.message),
-        payload: req.payload,
-      }))
+      yield put(
+        actions.signupCreateFailure({
+          message: errors.getMessagePayload(constants.SIGNUP_CREATE_FAILURE, 'INVALID_PARAMETER', error.message),
+          payload: req.payload,
+        }),
+      )
     } else {
-      yield put(actions.signupCreateFailure({
-        message: errors.getMessagePayload(constants.SIGNUP_CREATE_FAILURE, 'GENERIC', error.message),
-        payload: req.payload,
-      }))
+      yield put(
+        actions.signupCreateFailure({
+          message: errors.getMessagePayload(constants.SIGNUP_CREATE_FAILURE, 'GENERIC', error.message),
+          payload: req.payload,
+        }),
+      )
     }
   }
 }
@@ -265,32 +285,42 @@ function* handleSignupConfirmRequest(payload) {
 function* signupConfirmRequest(req) {
   try {
     const data = yield handleSignupConfirmRequest(req.payload)
-    yield put(actions.signupConfirmSuccess({
-      message: errors.getMessagePayload(constants.SIGNUP_CONFIRM_SUCCESS, 'GENERIC'),
-      payload: req.payload,
-      data,
-    }))
+    yield put(
+      actions.signupConfirmSuccess({
+        message: errors.getMessagePayload(constants.SIGNUP_CONFIRM_SUCCESS, 'GENERIC'),
+        payload: req.payload,
+        data,
+      }),
+    )
   } catch (error) {
     if (error.code === 'AliasExistsException') {
-      yield put(actions.signupConfirmFailure({
-        message: errors.getMessagePayload(constants.SIGNUP_CONFIRM_FAILURE, 'ALIAS_EXISTS', error.message),
-        payload: req.payload,
-      }))
+      yield put(
+        actions.signupConfirmFailure({
+          message: errors.getMessagePayload(constants.SIGNUP_CONFIRM_FAILURE, 'ALIAS_EXISTS', error.message),
+          payload: req.payload,
+        }),
+      )
     } else if (error.code === 'ExpiredCodeException') {
-      yield put(actions.signupConfirmFailure({
-        message: errors.getMessagePayload(constants.SIGNUP_CONFIRM_FAILURE, 'CODE_EXPIRED', error.message),
-        payload: req.payload,
-      }))
+      yield put(
+        actions.signupConfirmFailure({
+          message: errors.getMessagePayload(constants.SIGNUP_CONFIRM_FAILURE, 'CODE_EXPIRED', error.message),
+          payload: req.payload,
+        }),
+      )
     } else if (error.code === 'CodeMismatchException') {
-      yield put(actions.signupConfirmFailure({
-        message: errors.getMessagePayload(constants.SIGNUP_CONFIRM_FAILURE, 'CODE_MISMATCH', error.message),
-        payload: req.payload,
-      }))
+      yield put(
+        actions.signupConfirmFailure({
+          message: errors.getMessagePayload(constants.SIGNUP_CONFIRM_FAILURE, 'CODE_MISMATCH', error.message),
+          payload: req.payload,
+        }),
+      )
     } else {
-      yield put(actions.signupConfirmFailure({
-        message: errors.getMessagePayload(constants.SIGNUP_CONFIRM_FAILURE, 'GENERIC', error.message),
-        payload: req.payload,
-      }))
+      yield put(
+        actions.signupConfirmFailure({
+          message: errors.getMessagePayload(constants.SIGNUP_CONFIRM_FAILURE, 'GENERIC', error.message),
+          payload: req.payload,
+        }),
+      )
     }
   }
 }
@@ -345,48 +375,46 @@ function* handleSignupCognitoRequest(payload) {
         fullName: session.name,
         appleIdToken: session.token,
       })
-      const user = ({
+      const user = {
         id: path(['data', 'createAppleUser', 'userId'])(data),
         username: path(['data', 'createAppleUser', 'username'])(data),
         email: path(['data', 'createAppleUser', 'email'])(data),
-      })
+      }
       const next = yield handleSignupCognitoRequestData({ payload }, data, session.authProvider)
       return { next, user }
-    }
+    } else if (session.authProvider === 'GOOGLE') {
 
     /**
      * Create new user GOOGLE user
      */
-    else if (session.authProvider === 'GOOGLE') {
       const data = yield queryService.apiRequest(queries.createGoogleUser, {
         username: payload.username,
         fullName: session.name,
         googleIdToken: session.token,
       })
-      const user = ({
+      const user = {
         id: path(['data', 'createGoogleUser', 'userId'])(data),
         username: path(['data', 'createGoogleUser', 'username'])(data),
         email: path(['data', 'createGoogleUser', 'email'])(data),
-      })
+      }
       const next = yield handleSignupCognitoRequestData({ payload }, data, session.authProvider)
       return { next, user }
-    }
+    } else {
 
     /**
      * Create new user EMAIL user
      * this is a duplicate block of handleSignupConfirmRequest function above
      * user will reach this step if signup flow was interrupted after cognito account was confirmed
      */
-    else {
       const data = yield queryService.apiRequest(queries.createCognitoOnlyUser, {
         username: payload.username,
         fullName: payload.username,
       })
-      const user = ({
+      const user = {
         id: path(['data', 'createCognitoOnlyUser', 'userId'])(data),
         username: path(['data', 'createCognitoOnlyUser', 'username'])(data),
         email: path(['data', 'createCognitoOnlyUser', 'email'])(data),
-      })
+      }
       const next = yield handleSignupCognitoRequestData({ payload }, data, 'COGNITO')
       return { next, user }
     }
@@ -397,7 +425,6 @@ function* handleSignupCognitoRequest(payload) {
    * But user won't reach that part until profile photo is puloaded
    */
   Logger.setUser(user)
-
 
   /**
    * Api subscriptions initialization, most important one we need at this stage
@@ -412,16 +439,20 @@ function* handleSignupCognitoRequest(payload) {
 function* signupCognitoRequest(req) {
   try {
     const data = yield handleSignupCognitoRequest(req.payload)
-    yield put(actions.signupCognitoSuccess({
-      message: errors.getMessagePayload(constants.SIGNUP_COGNITO_SUCCESS, 'GENERIC'),
-      payload: req.payload,
-      data,
-    }))
+    yield put(
+      actions.signupCognitoSuccess({
+        message: errors.getMessagePayload(constants.SIGNUP_COGNITO_SUCCESS, 'GENERIC'),
+        payload: req.payload,
+        data,
+      }),
+    )
   } catch (error) {
-    yield put(actions.signupCognitoFailure({
-      message: errors.getMessagePayload(constants.SIGNUP_COGNITO_FAILURE, 'GENERIC', error.message),
-      payload: req.payload,
-    }))
+    yield put(
+      actions.signupCognitoFailure({
+        message: errors.getMessagePayload(constants.SIGNUP_COGNITO_FAILURE, 'GENERIC', error.message),
+        payload: req.payload,
+      }),
+    )
   }
 }
 

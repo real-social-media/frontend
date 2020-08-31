@@ -1,10 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-} from 'react-native'
+import { View, StyleSheet, ScrollView } from 'react-native'
 import PostCreateForm from 'components/PostCreate/Form'
 import FormLifetime from 'components/PostCreate/FormLifetime'
 import FormAlbums from 'components/PostCreate/FormAlbums'
@@ -80,14 +76,15 @@ PostCreateComponent.propTypes = {
   handleOpenVerification: PropTypes.func,
 }
 
-const styles = theme => StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: theme.colors.backgroundPrimary,
-  },
-  form: {
-    padding: theme.spacing.base,
-  },
-})
+const styles = (theme) =>
+  StyleSheet.create({
+    root: {
+      flex: 1,
+      backgroundColor: theme.colors.backgroundPrimary,
+    },
+    form: {
+      padding: theme.spacing.base,
+    },
+  })
 
 export default withTheme(PostCreateComponent)

@@ -17,11 +17,7 @@ const SearchNavigator = () => {
 
   return (
     <Stack.Navigator {...stackNavigatorDefaultProps}>
-      <Stack.Screen
-        name="Search"
-        component={SearchScreen}
-        {...stackScreenDefaultProps}
-      />
+      <Stack.Screen name="Search" component={SearchScreen} {...stackScreenDefaultProps} />
 
       {navigationFragments.media({
         Stack,

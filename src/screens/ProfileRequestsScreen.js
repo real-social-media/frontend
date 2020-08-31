@@ -6,11 +6,7 @@ class ProfileRequests extends React.Component {
   render() {
     return (
       <ProfileRequestsServiceComponent>
-        {(props) => (
-          <ProfileRequestsComponent
-            {...props}
-          />
-        )}
+        {(props) => <ProfileRequestsComponent {...props} />}
       </ProfileRequestsServiceComponent>
     )
   }

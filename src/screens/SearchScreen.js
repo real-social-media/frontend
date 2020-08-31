@@ -4,15 +4,7 @@ import SearchServiceComponent from 'components/Search/index.service'
 
 class SearchScreen extends React.Component {
   render() {
-    return (
-      <SearchServiceComponent>
-        {(searchProps) => (
-          <SearchComponent
-            {...searchProps}
-          />
-        )}
-      </SearchServiceComponent>
-    )
+    return <SearchServiceComponent>{(searchProps) => <SearchComponent {...searchProps} />}</SearchServiceComponent>
   }
 }
 

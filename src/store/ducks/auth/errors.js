@@ -2,7 +2,7 @@ import * as constants from 'store/ducks/auth/constants'
 
 const messageCodes = {
   /**
-   * 
+   *
    */
   [constants.AUTH_CHECK_SUCCESS]: {
     GENERIC: {
@@ -30,7 +30,7 @@ const messageCodes = {
   },
 
   /**
-   * 
+   *
    */
   [constants.AUTH_SIGNIN_SUCCESS]: {
     GENERIC: {
@@ -105,7 +105,7 @@ const messageCodes = {
   },
 
   /**
-   * 
+   *
    */
   [constants.AUTH_FORGOT_SUCCESS]: {
     GENERIC: {
@@ -125,7 +125,7 @@ const messageCodes = {
   },
 
   /**
-   * 
+   *
    */
   [constants.AUTH_FORGOT_CONFIRM_SUCCESS]: {
     GENERIC: {
@@ -147,12 +147,11 @@ const messageCodes = {
       text: 'Invalid verification code provided',
     },
   },
-
 }
 
 export const getMessagePayload = (key, status = 'GENERIC', nativeError = '') => {
-  return ({
+  return {
     ...messageCodes[key][status],
     nativeError,
-  })
+  }
 }

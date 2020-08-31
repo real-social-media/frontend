@@ -6,18 +6,16 @@ import * as Logger from 'services/Logger'
 import { usePushNotification } from 'services/providers/Push'
 
 /**
- * 
+ *
  */
-export const AppProvider = ({
-  children,
-}) => {
+export const AppProvider = ({ children }) => {
   const dispatch = useDispatch()
-  
+
   const user = useSelector(authSelector.authUserSelector)
-  const postsDelete = useSelector(state => state.posts.postsDelete)
-  const postsArchive = useSelector(state => state.posts.postsArchive)
-  const postsRestoreArchived = useSelector(state => state.posts.postsRestoreArchived)
-  const postsFlag = useSelector(state => state.posts.postsFlag)
+  const postsDelete = useSelector((state) => state.posts.postsDelete)
+  const postsArchive = useSelector((state) => state.posts.postsArchive)
+  const postsRestoreArchived = useSelector((state) => state.posts.postsRestoreArchived)
+  const postsFlag = useSelector((state) => state.posts.postsFlag)
 
   /**
    * Sentry specific logger to map partial user data to error log
@@ -59,12 +57,7 @@ export const AppProvider = ({
     if (postsFlag.status === 'success') {
       dispatch(postsActions.postsFlagIdle({}))
     }
-  }, [
-    postsDelete.status,
-    postsArchive.status,
-    postsRestoreArchived.status,
-    postsFlag.status,
-  ])
+  }, [postsDelete.status, postsArchive.status, postsRestoreArchived.status, postsFlag.status])
 
   return children({
     user,

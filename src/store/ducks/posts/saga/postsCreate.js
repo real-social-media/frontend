@@ -11,25 +11,17 @@ import * as constants from 'store/ducks/posts/constants'
 import * as subscriptionsActions from 'store/ducks/subscriptions/actions'
 import dayjs from 'dayjs'
 import { v4 as uuid } from 'uuid'
-import RNFS from 'react-native-fs' 
+import RNFS from 'react-native-fs'
 import * as Logger from 'services/Logger'
 import filePath from 'path'
 
 function initPostsCreateUploadChannel({ image, uploadUrl, payload }) {
   const getName = (image) => {
-    return compose(
-      replace('.heic', ''),
-      replace('.jpg', ''),
-      toLower,
-      filePath.basename,
-    )(image)
+    return compose(replace('.heic', ''), replace('.jpg', ''), toLower, filePath.basename)(image)
   }
 
   const getFilename = (image) => {
-    return compose(
-      toLower,
-      filePath.basename,
-    )(image)
+    return compose(toLower, filePath.basename)(image)
   }
 
   const getFilepath = (image) => {
@@ -43,12 +35,14 @@ function initPostsCreateUploadChannel({ image, uploadUrl, payload }) {
     return 'image/jpeg'
   }
 
-  const files = [{
-    name: getName(image),
-    filename: getFilename(image),
-    filepath: getFilepath(image),
-    filetype: getFiletype(image),
-  }]
+  const files = [
+    {
+      name: getName(image),
+      filename: getFilename(image),
+      filepath: getFilepath(image),
+      filetype: getFiletype(image),
+    },
+  ]
 
   const handleRequest = (emitter) => (response) => {
     const jobId = response.jobId
@@ -57,7 +51,7 @@ function initPostsCreateUploadChannel({ image, uploadUrl, payload }) {
 
   const handleProgress = (emitter) => (response) => {
     const jobId = response.jobId
-    const progress = parseInt(response.totalBytesSent / response.totalBytesExpectedToSend * 100, 10)
+    const progress = parseInt((response.totalBytesSent / response.totalBytesExpectedToSend) * 100, 10)
 
     if (progress % 10 === 0) {
       const nextProgress = progress === 100 ? 99 : progress
@@ -93,10 +87,7 @@ function initPostsCreateUploadChannel({ image, uploadUrl, payload }) {
    *
    */
   return eventChannel((emitter) => {
-    const uploader = initUpload(emitter)(
-      handleRequest(emitter),
-      handleProgress(emitter),
-    )
+    const uploader = initUpload(emitter)(handleRequest(emitter), handleProgress(emitter))
 
     const next = (response) => {
       if (response.statusCode === 200) {
@@ -110,9 +101,7 @@ function initPostsCreateUploadChannel({ image, uploadUrl, payload }) {
       handleFailure(emitter)(error)
     }
 
-    uploader.promise
-      .then(next)
-      .catch(fail)
+    uploader.promise.then(next).catch(fail)
 
     return () => {
       RNFS.stopUpload(uploader.jobId)
@@ -153,11 +142,13 @@ function* handleTextOnlyPost(req) {
   try {
     yield AwsAPI.graphql(graphqlOperation(queries.addTextOnlyPost, req.payload))
   } catch (error) {
-    yield put(actions.postsCreateFailure({
-      message: errorWrapper(error),
-      payload: req.payload,
-      meta: { attempt: 0, progress: 0 },
-    }))
+    yield put(
+      actions.postsCreateFailure({
+        message: errorWrapper(error),
+        payload: req.payload,
+        meta: { attempt: 0, progress: 0 },
+      }),
+    )
   }
 }
 
@@ -176,7 +167,7 @@ function* handleImagePost(req) {
       payload: req.payload,
     })
 
-    yield takeEvery(channel, function *(upload) {
+    yield takeEvery(channel, function* (upload) {
       const meta = (nextProgress) => ({
         attempt: upload.attempt || req.payload.attempt,
         progress: nextProgress || parseInt(upload.progress, 10),
@@ -197,16 +188,18 @@ function* handleImagePost(req) {
       }
     })
   } catch (error) {
-    yield put(actions.postsCreateFailure({
-      message: errorWrapper(error),
-      payload: req.payload,
-      meta: { attempt: 0, progress: 0 },
-    }))
+    yield put(
+      actions.postsCreateFailure({
+        message: errorWrapper(error),
+        payload: req.payload,
+        meta: { attempt: 0, progress: 0 },
+      }),
+    )
   }
 }
 
 /**
- * 
+ *
  */
 function* postsCreateRequest(req) {
   yield put(subscriptionsActions.subscriptionsMainRequest())
@@ -222,7 +215,7 @@ function* postsCreateRequest(req) {
 }
 
 /**
- * 
+ *
  */
 function* postsCreateIdle(req) {
   const jobId = path(['payload', 'meta', 'jobId'])(req)
@@ -233,41 +226,42 @@ function* postsCreateIdle(req) {
 }
 
 /**
- * 
+ *
  */
 function* postsCreateSchedulerRequest() {
   try {
-    const data = yield select(state => state.posts.postsCreateQueue)
-    
-    const failedPosts = Object.values(data)
-      .filter(post => path(['status'])(post) === 'failure')
+    const data = yield select((state) => state.posts.postsCreateQueue)
+
+    const failedPosts = Object.values(data).filter((post) => path(['status'])(post) === 'failure')
 
     const loadingPosts = Object.values(data)
-      .filter(post => path(['status'])(post) === 'loading')
-      .filter(post => dayjs(dayjs()).diff(path(['payload', 'createdAt'])(post), 'minute') > 5)
+      .filter((post) => path(['status'])(post) === 'loading')
+      .filter((post) => dayjs(dayjs()).diff(path(['payload', 'createdAt'])(post), 'minute') > 5)
 
-    const idlePosts = Object.values(data)
-      .filter(post => path(['status'])(post) === 'idle')
+    const idlePosts = Object.values(data).filter((post) => path(['status'])(post) === 'idle')
 
-    const successPosts = Object.values(data)
-      .filter(post => path(['status'])(post) === 'success')
+    const successPosts = Object.values(data).filter((post) => path(['status'])(post) === 'success')
 
     function* removePost(post) {
-      yield put(actions.postsCreateIdle({
-        payload: path(['payload'])(post),
-      }))
+      yield put(
+        actions.postsCreateIdle({
+          payload: path(['payload'])(post),
+        }),
+      )
       return post
     }
 
     function* createPost(post) {
       const postId = uuid()
       const mediaId = uuid()
-      yield put(actions.postsCreateRequest({
-        ...path(['payload'])(post),
-        createdAt: dayjs().toJSON(),
-        postId,
-        mediaId,
-      }))
+      yield put(
+        actions.postsCreateRequest({
+          ...path(['payload'])(post),
+          createdAt: dayjs().toJSON(),
+          postId,
+          mediaId,
+        }),
+      )
       return post
     }
 
@@ -279,28 +273,18 @@ function* postsCreateSchedulerRequest() {
     /**
      * Cleanup
      */
-    yield all(
-      successPosts.map((post) => call(removePost, post)),
-    )
+    yield all(successPosts.map((post) => call(removePost, post)))
 
-    yield all(
-      idlePosts.map((post) => call(removePost, post)),
-    )
+    yield all(idlePosts.map((post) => call(removePost, post)))
 
     /**
      * Retry
      */
-    yield all(
-      loadingPosts
-      .map((post) => call(recreatePost, post)),
-    )
+    yield all(loadingPosts.map((post) => call(recreatePost, post)))
 
-    yield all(
-      failedPosts
-      .map((post) => call(recreatePost, post)),
-    )
+    yield all(failedPosts.map((post) => call(recreatePost, post)))
   } catch (error) {
-    Logger.withScope(scope => {
+    Logger.withScope((scope) => {
       scope.setExtra('message', error.message)
       Logger.captureMessage('POSTS_CREATE_SCHEDULER_REQUEST')
     })

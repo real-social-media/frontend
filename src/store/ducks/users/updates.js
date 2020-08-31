@@ -14,13 +14,13 @@ const getFilteredState = map(set(lensProp('status'), 'idle'))
  */
 extend('$usersResourceCacheSetSuccess', ({ payload, resourceKey, initialState }, original) => {
   const filtered = getFilteredState(original)
-  const nextState = (path([resourceKey])(filtered)) ?
-    filtered :
-    update(filtered, { [resourceKey]: { $set: initialState } })
+  const nextState = path([resourceKey])(filtered)
+    ? filtered
+    : update(filtered, { [resourceKey]: { $set: initialState } })
 
   return update(nextState, {
     [resourceKey]: {
-      data: { $set: pathOr([], ['data'])(payload).map(user => user.userId) },
+      data: { $set: pathOr([], ['data'])(payload).map((user) => user.userId) },
       status: { $set: 'success' },
       error: { $set: {} },
       payload: { $set: payload.payload || {} },
@@ -33,7 +33,7 @@ extend('$usersResourceCacheSetSuccess', ({ payload, resourceKey, initialState },
  *
  */
 extend('$usersResourceSetSuccess', ({ payload }, original) => {
-  return update(original, { $set: pathOr([], ['data'])(payload).map(user => user.userId) })
+  return update(original, { $set: pathOr([], ['data'])(payload).map((user) => user.userId) })
 })
 
 /**
@@ -42,7 +42,7 @@ extend('$usersResourceSetSuccess', ({ payload }, original) => {
  */
 extend('$usersResourcePoolHash', ({ payload }, original) => {
   return update(original, {
-    $set: pathOr([], ['data'])(payload).map(user => user.userId),
+    $set: pathOr([], ['data'])(payload).map((user) => user.userId),
   })
 })
 

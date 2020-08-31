@@ -33,7 +33,9 @@ const ChatNavigator = ({ navigation }) => {
       <Stack.Screen
         name="Chat"
         component={ChatScreen}
-        {...stackScreenPageProps({ options: { title: 'Chat', headerLeft: navigationOptions.chatHeaderLeft({ navigation, theme }) } })}
+        {...stackScreenPageProps({
+          options: { title: 'Chat', headerLeft: navigationOptions.chatHeaderLeft({ navigation, theme }) },
+        })}
       />
       <Stack.Screen
         name="ChatDirect"
@@ -79,32 +81,16 @@ const RootNavigator = () => {
 
   return (
     <AppProvider>
-      {(({ user }) =>
+      {({ user }) => (
         <UIContextComponent.Provider value={{ user }}>
           <Stack.Navigator {...stackNavigatorDefaultProps}>
-            <Stack.Screen
-              name="Home"
-              component={TabNavigator}
-              {...stackScreenBlankProps}
-            />
+            <Stack.Screen name="Home" component={TabNavigator} {...stackScreenBlankProps} />
 
-            <Stack.Screen
-              name="PostType"
-              component={PostTypeScreen}
-              {...stackScreenModalProps}
-            />
+            <Stack.Screen name="PostType" component={PostTypeScreen} {...stackScreenModalProps} />
 
-            <Stack.Screen
-              name="Verification"
-              component={VerificationScreen}
-              {...stackScreenModalProps}
-            />
+            <Stack.Screen name="Verification" component={VerificationScreen} {...stackScreenModalProps} />
 
-            <Stack.Screen
-              name="Story"
-              component={StoryScreen}
-              {...stackScreenModalProps}
-            />
+            <Stack.Screen name="Story" component={StoryScreen} {...stackScreenModalProps} />
 
             <Stack.Screen
               name="Comments"
@@ -129,18 +115,9 @@ const AppNavigator = withTheme(() => {
   const tabNavigatorDefaultProps = navigationOptions.tabNavigatorDefaultProps()
   return (
     <Tab.Navigator {...tabNavigatorDefaultProps}>
-      <Tab.Screen
-        name="Camera"
-        component={CameraScreen}
-      />
-      <Tab.Screen
-        name="Root"
-        component={RootNavigator}
-      />
-      <Tab.Screen
-        name="Chat"
-        component={ChatNavigator}
-      />
+      <Tab.Screen name="Camera" component={CameraScreen} />
+      <Tab.Screen name="Root" component={RootNavigator} />
+      <Tab.Screen name="Chat" component={ChatNavigator} />
     </Tab.Navigator>
   )
 })

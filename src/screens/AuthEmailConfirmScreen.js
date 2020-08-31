@@ -7,11 +7,7 @@ class AuthEmailConfirmScreen extends React.Component {
   render() {
     return (
       <AuthEmailConfirmServiceComponent>
-        {(props) => (
-          <AuthEmailConfirmComponent
-            {...props}
-          />
-        )}
+        {(props) => <AuthEmailConfirmComponent {...props} />}
       </AuthEmailConfirmServiceComponent>
     )
   }

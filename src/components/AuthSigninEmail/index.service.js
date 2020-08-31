@@ -8,14 +8,16 @@ import pathOr from 'ramda/src/pathOr'
 const AuthSigninComponentService = ({ children }) => {
   const dispatch = useDispatch()
 
-  const authSignin = useSelector(state => state.auth.authSignin)
+  const authSignin = useSelector((state) => state.auth.authSignin)
 
   const handleFormSubmit = (payload) => {
-    dispatch(authActions.authSigninRequest({
-      usernameType: 'email',
-      username: toLower(payload.username),
-      password: payload.password,
-    }))
+    dispatch(
+      authActions.authSigninRequest({
+        usernameType: 'email',
+        username: toLower(payload.username),
+        password: payload.password,
+      }),
+    )
   }
 
   const formSubmitLoading = authSignin.status === 'loading'

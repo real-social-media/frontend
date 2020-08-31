@@ -6,11 +6,7 @@ class ProfileFollowed extends React.Component {
   render() {
     return (
       <ProfileFollowedServiceComponent>
-        {(props) => (
-          <ProfileFollowedComponent
-            {...props}
-          />
-        )}
+        {(props) => <ProfileFollowedComponent {...props} />}
       </ProfileFollowedServiceComponent>
     )
   }

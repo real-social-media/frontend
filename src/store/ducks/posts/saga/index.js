@@ -569,7 +569,7 @@ function* handlePostsGetTrendingPostsRequest(payload, extraData = []) {
   const api = yield queryService.apiRequest(queries.trendingPosts, { ...payload, viewedStatus: 'NOT_VIEWED' })
   const dataSelector = path(['data', 'trendingPosts', 'items'])
   const metaSelector = compose(omit(['items']), path(['data', 'trendingPosts']))
-  
+
   const data = [...extraData, ...dataSelector(api)]
   const meta = metaSelector(api)
 
@@ -764,7 +764,7 @@ export default () => [
   takeLatest(constants.POSTS_GET_ARCHIVED_REQUEST, postsGetArchivedRequest),
   takeLatest(constants.POSTS_EDIT_REQUEST, postsEditRequest),
   takeLatest(constants.POSTS_DELETE_REQUEST, postsDeleteRequest),
-  
+
   takeLatest(constants.POSTS_ARCHIVE_REQUEST, postsArchiveRequest),
   takeLatest(constants.POSTS_RESTORE_ARCHIVED_REQUEST, postsRestoreArchivedRequest),
 
@@ -776,7 +776,7 @@ export default () => [
 
   takeLatest(constants.POSTS_GET_TRENDING_POSTS_REQUEST, postsGetTrendingPostsRequest),
   takeLatest(constants.POSTS_GET_TRENDING_POSTS_MORE_REQUEST, postsGetTrendingPostsMoreRequest),
-  
+
   takeLatest(constants.POSTS_COMMENTS_GET_REQUEST, postsCommentsGetRequest),
   takeLatest(constants.COMMENTS_ADD_REQUEST, commentsAddRequest),
   takeLatest(constants.COMMENTS_DELETE_REQUEST, commentsDeleteRequest),

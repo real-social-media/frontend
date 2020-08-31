@@ -2,7 +2,7 @@ import { createAction } from 'redux-actions'
 import * as constants from 'store/ducks/cache/constants'
 
 /**
- * 
+ *
  */
 export const cacheFetchRequest = createAction(constants.CACHE_FETCH_REQUEST)
 export const cacheFetchSuccess = createAction(constants.CACHE_FETCH_SUCCESS)

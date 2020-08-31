@@ -19,16 +19,16 @@ const CommentsService = ({ children }) => {
   const postUserId = route.params.userId
   const actionId = route.params.actionId
   const user = useSelector(authSelector.authUserSelector)
-  const commentsAdd = useSelector(state => state.posts.commentsAdd)
-  const commentsDelete = useSelector(state => state.posts.commentsDelete)
-  const commentsFlag = useSelector(state => state.posts.commentsFlag)
+  const commentsAdd = useSelector((state) => state.posts.commentsAdd)
+  const commentsDelete = useSelector((state) => state.posts.commentsDelete)
+  const commentsFlag = useSelector((state) => state.posts.commentsFlag)
   const postsCommentsGet = useSelector(postsSelector.postsCommentsGetSelector(postId))
   const postsSingleGet = useSelector(postsSelector.postsSingleGetSelector(postId))
 
   const commentsRef = useRef()
 
   useEffect(() => {
-    const commentIndex = postsCommentsGet.data.findIndex(item => item.commentId === actionId)
+    const commentIndex = postsCommentsGet.data.findIndex((item) => item.commentId === actionId)
     if (postsCommentsGet.status === 'success' && commentIndex !== -1) {
       commentsRef.current.scrollToIndex({ animated: false, index: commentIndex })
     }
@@ -60,21 +60,21 @@ const CommentsService = ({ children }) => {
 
   const commentsAddRequest = ({ text }) => {
     const commentId = uuid()
-    dispatch(postsActions.commentsAddRequest({
-      commentId,
-      postId,
-      text,
-    }))
+    dispatch(
+      postsActions.commentsAddRequest({
+        commentId,
+        postId,
+        text,
+      }),
+    )
   }
 
-  const commentsDeleteRequest = (payload) =>
-    dispatch(postsActions.commentsDeleteRequest(payload))
+  const commentsDeleteRequest = (payload) => dispatch(postsActions.commentsDeleteRequest(payload))
 
-  const commentsFlagRequest = (payload) =>
-    dispatch(postsActions.commentsFlagRequest(payload))
+  const commentsFlagRequest = (payload) => dispatch(postsActions.commentsFlagRequest(payload))
 
   /**
-   * Keyboard movement calculator 
+   * Keyboard movement calculator
    */
   const [offset, setOffset] = useState(0)
 
@@ -97,9 +97,8 @@ const CommentsService = ({ children }) => {
   }, [])
 
   const marginBottom = offset + ifIphoneX(40, 0)
-  
-  const onViewableItemsChanged = () => {
-  }
+
+  const onViewableItemsChanged = () => {}
 
   /**
    * FlatList feed config ref, used for reporting scroll events

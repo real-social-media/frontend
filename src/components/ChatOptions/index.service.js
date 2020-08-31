@@ -16,14 +16,12 @@ const ChatOptionsService = ({ children }) => {
 
   const user = useSelector(authSelector.authUserSelector)
   const chatGetChat = useSelector(chatSelector.chatGetChatSelector(chatId))
-  const usersBlock = useSelector(state => state.users.usersBlock)
-  const usersUnblock = useSelector(state => state.users.usersUnblock)
+  const usersBlock = useSelector((state) => state.users.usersBlock)
+  const usersUnblock = useSelector((state) => state.users.usersUnblock)
 
-  const usersBlockRequest = ({ userId }) =>
-    dispatch(usersActions.usersBlockRequest({ userId }))
+  const usersBlockRequest = ({ userId }) => dispatch(usersActions.usersBlockRequest({ userId }))
 
-  const usersUnblockRequest = ({ userId }) =>
-    dispatch(usersActions.usersUnblockRequest({ userId }))
+  const usersUnblockRequest = ({ userId }) => dispatch(usersActions.usersUnblockRequest({ userId }))
 
   useEffect(() => {
     if (usersBlock.status === 'success') {
@@ -35,13 +33,9 @@ const ChatOptionsService = ({ children }) => {
       dispatch(usersActions.usersUnblockIdle({}))
       navigationActions.navigateChat(navigation)()
     }
-  }, [
-    usersBlock.status,
-    usersUnblock.status,
-  ])
+  }, [usersBlock.status, usersUnblock.status])
 
-  const chatUsers = path(['data', 'users', 'items'])(chatGetChat)
-    .filter(chat => chat.username !== user.username)
+  const chatUsers = path(['data', 'users', 'items'])(chatGetChat).filter((chat) => chat.username !== user.username)
 
   return children({
     user,

@@ -1,19 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  View,
-} from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import { withTheme } from 'react-native-paper'
 
-const ThemeAvatarTemplate = ({
-  theme,
-  size,
-  colors,
-}) => {
+const ThemeAvatarTemplate = ({ theme, size, colors }) => {
   const styling = styles(theme)
-  
 
   const componentStyle = [
     size === 'small' ? styling.sizeSmall : null,
@@ -35,46 +27,47 @@ const ThemeAvatarTemplate = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
-  root: {
-    position: 'relative',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  sizeSmall: {
-    width: 32,
-    height: 32,
-  },
-  sizeDefault: {
-    width: 44,
-    height: 44,
-  },
-  sizeMedium: {
-    width: 68,
-    height: 68,
-  },
-  sizeLarge: {
-    width: 120,
-    height: 120,
-  },
-  photoActive: {
-    borderWidth: 2,
-    borderColor: theme.colors.button,
-    borderRadius: 2,
-    padding: 2,
-  },
-  photoWrapper: {
-    borderWidth: 2,
-    borderColor: 'transparent',
-    borderRadius: 2,
-    padding: 2,
-    flex: 1,
-    flexDirection: 'row',
-  },
-  photo: {
-    flex: 1,
-  },
-})
+const styles = (theme) =>
+  StyleSheet.create({
+    root: {
+      position: 'relative',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    sizeSmall: {
+      width: 32,
+      height: 32,
+    },
+    sizeDefault: {
+      width: 44,
+      height: 44,
+    },
+    sizeMedium: {
+      width: 68,
+      height: 68,
+    },
+    sizeLarge: {
+      width: 120,
+      height: 120,
+    },
+    photoActive: {
+      borderWidth: 2,
+      borderColor: theme.colors.button,
+      borderRadius: 2,
+      padding: 2,
+    },
+    photoWrapper: {
+      borderWidth: 2,
+      borderColor: 'transparent',
+      borderRadius: 2,
+      padding: 2,
+      flex: 1,
+      flexDirection: 'row',
+    },
+    photo: {
+      flex: 1,
+    },
+  })
 
 ThemeAvatarTemplate.defaultProps = {
   children: () => {},

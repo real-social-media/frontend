@@ -2,7 +2,7 @@ import * as constants from 'store/ducks/signup/constants'
 
 const messageCodes = {
   /**
-   * 
+   *
    */
   [constants.SIGNUP_CREATE_SUCCESS]: {
     GENERIC: {
@@ -34,7 +34,7 @@ const messageCodes = {
   },
 
   /**
-   * 
+   *
    */
   [constants.SIGNUP_CONFIRM_SUCCESS]: {
     GENERIC: {
@@ -62,7 +62,7 @@ const messageCodes = {
   },
 
   /**
-   * 
+   *
    */
   [constants.SIGNUP_USERNAME_SUCCESS]: {
     GENERIC: {
@@ -82,7 +82,7 @@ const messageCodes = {
   },
 
   /**
-   * 
+   *
    */
   [constants.SIGNUP_COGNITO_SUCCESS]: {
     GENERIC: {
@@ -99,8 +99,8 @@ const messageCodes = {
 }
 
 export const getMessagePayload = (key, status = 'GENERIC', nativeError = '') => {
-  return ({
+  return {
     ...messageCodes[key][status],
     nativeError,
-  })
+  }
 }

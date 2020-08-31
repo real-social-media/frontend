@@ -1,9 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  ScrollView,
-} from 'react-native'
+import { StyleSheet, ScrollView } from 'react-native'
 import path from 'ramda/src/path'
 import GridComponent from 'templates/Grid'
 import GridItemComponent from 'templates/GridItem'
@@ -12,9 +9,7 @@ import * as navigationActions from 'navigation/actions'
 
 import { useNavigation } from '@react-navigation/native'
 
-const Archived = ({
-  postsGetArchived,
-}) => {
+const Archived = ({ postsGetArchived }) => {
   const styling = styles
   const navigation = useNavigation()
 
@@ -23,7 +18,10 @@ const Archived = ({
       <GridComponent items={path(['data'])(postsGetArchived)}>
         {(post, priorityIndex) => (
           <GridItemComponent
-            onPress={navigationActions.navigatePostMedia(navigation, { postId: post.postId, userId: post.postedBy.userId })}
+            onPress={navigationActions.navigatePostMedia(navigation, {
+              postId: post.postId,
+              userId: post.postedBy.userId,
+            })}
             active={false}
             activeIcon={null}
             inactiveIcon={null}

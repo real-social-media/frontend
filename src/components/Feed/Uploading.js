@@ -1,10 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-} from 'react-native'
+import { StyleSheet, View, TouchableOpacity } from 'react-native'
 import { Text, Caption } from 'react-native-paper'
 import Avatar from 'templates/Avatar'
 import path from 'ramda/src/path'
@@ -17,14 +13,7 @@ import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
-const Uploading = ({
-  t,
-  theme,
-  user,
-  post,
-  postsCreateRequest,
-  postsCreateIdle,
-}) => {
+const Uploading = ({ t, theme, user, post, postsCreateRequest, postsCreateIdle }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
 
@@ -52,12 +41,17 @@ const Uploading = ({
         imageSource={{ uri: path(['payload', 'preview', '0'])(post) }}
       />
 
-      {post.status === 'loading' ?
+      {post.status === 'loading' ? (
         <View style={styling.status}>
-          <TouchableOpacity style={styling.content} onPress={navigationActions.navigateVerification(navigation, { actionType: 'BACK', post: pseudoPost })}>
+          <TouchableOpacity
+            style={styling.content}
+            onPress={navigationActions.navigateVerification(navigation, { actionType: 'BACK', post: pseudoPost })}
+          >
             <Text style={styling.title}>Uploading {post.meta.progress || 0}%</Text>
             <View style={styling.caption}>
-              <Caption style={styling.subtitle}>{t('Pending Verification')} - {t('Learn More')}</Caption>
+              <Caption style={styling.subtitle}>
+                {t('Pending Verification')} - {t('Learn More')}
+              </Caption>
               <VerificationIcon fill="#676767" />
             </View>
           </TouchableOpacity>
@@ -65,9 +59,9 @@ const Uploading = ({
             <CloseIcon fill="#ffffff" />
           </TouchableOpacity>
         </View>
-      : null}
+      ) : null}
 
-      {post.status === 'failure' ?
+      {post.status === 'failure' ? (
         <View style={styling.status}>
           <TouchableOpacity style={styling.content} onPress={() => postsCreateRequest(post.payload)}>
             <Text style={styling.title}>{t('Failed to create your post')}</Text>
@@ -77,9 +71,9 @@ const Uploading = ({
             <CloseIcon fill="#ffffff" />
           </TouchableOpacity>
         </View>
-      : null}
-      
-      {post.status === 'success' ?
+      ) : null}
+
+      {post.status === 'success' ? (
         <View style={styling.status}>
           <TouchableOpacity style={styling.content} onPress={() => postsCreateIdle(post)}>
             <Text style={styling.title}>Done</Text>
@@ -89,45 +83,45 @@ const Uploading = ({
             <TickIcon fill="#ffffff" />
           </TouchableOpacity>
         </View>
-      : null}
+      ) : null}
     </View>
   )
 }
 
-const styles = theme => StyleSheet.create({
-  root: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: theme.spacing.base,
-    backgroundColor: theme.colors.backgroundPrimary,
-  },
-  status: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flex: 1,
-  },
-  content: {
-    paddingHorizontal: 8,
-    justifyContent: 'center',
-    flex: 1,
-  },
-  icon: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 38,
-    width: 38,
-  },
-  title: {
-  },
-  subtitle: {
-    color: '#676767',
-    marginRight: 4,
-  },
-  caption: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-})
+const styles = (theme) =>
+  StyleSheet.create({
+    root: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      padding: theme.spacing.base,
+      backgroundColor: theme.colors.backgroundPrimary,
+    },
+    status: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      flex: 1,
+    },
+    content: {
+      paddingHorizontal: 8,
+      justifyContent: 'center',
+      flex: 1,
+    },
+    icon: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: 38,
+      width: 38,
+    },
+    title: {},
+    subtitle: {
+      color: '#676767',
+      marginRight: 4,
+    },
+    caption: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+  })
 
 Uploading.propTypes = {
   theme: PropTypes.any,

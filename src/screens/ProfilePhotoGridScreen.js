@@ -6,9 +6,7 @@ class ProfilePhotoGridScreen extends React.Component {
   render() {
     return (
       <ProfilePhotoGridServiceComponent>
-        {(props) => (
-          <ProfilePhotoGridComponent {...props} />
-        )}
+        {(props) => <ProfilePhotoGridComponent {...props} />}
       </ProfilePhotoGridServiceComponent>
     )
   }

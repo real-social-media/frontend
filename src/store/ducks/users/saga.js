@@ -225,7 +225,9 @@ function* usersGetFollowedUsersWithStoriesRequest(req) {
   try {
     const data = yield queryService.apiRequest(queries.getFollowedUsersWithStories, req.payload)
     const next = yield usersGetFollowedUsersWithStoriesRequestData(req, data)
-    yield put(actions.usersGetFollowedUsersWithStoriesSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
+    yield put(
+      actions.usersGetFollowedUsersWithStoriesSuccess({ data: next.data, payload: next.payload, meta: next.meta }),
+    )
   } catch (error) {
     yield put(actions.usersGetFollowedUsersWithStoriesFailure({ payload: req.payload, message: errorWrapper(error) }))
   }
@@ -407,15 +409,19 @@ function* usersEditProfileRequest(req) {
   } catch (error) {
     const errorMessage = path(['errors', '0', 'message'])(error)
     if (errorMessage && errorMessage.includes('is not verified')) {
-      yield put(actions.usersEditProfileFailure({
-        message: errors.getMessagePayload(constants.USERS_EDIT_PROFILE_FAILURE, 'VERIFICATION_FAILED'),
-        payload: req.payload,
-      }))
+      yield put(
+        actions.usersEditProfileFailure({
+          message: errors.getMessagePayload(constants.USERS_EDIT_PROFILE_FAILURE, 'VERIFICATION_FAILED'),
+          payload: req.payload,
+        }),
+      )
     } else {
-      yield put(actions.usersEditProfileFailure({
-        message: errors.getMessagePayload(constants.USERS_EDIT_PROFILE_FAILURE, 'GENERIC', error.message),
-        payload: req.payload,
-      }))
+      yield put(
+        actions.usersEditProfileFailure({
+          message: errors.getMessagePayload(constants.USERS_EDIT_PROFILE_FAILURE, 'GENERIC', error.message),
+          payload: req.payload,
+        }),
+      )
     }
   }
 }

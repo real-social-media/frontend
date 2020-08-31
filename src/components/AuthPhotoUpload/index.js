@@ -1,9 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  View,
-  StyleSheet,
-} from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import ActionsComponent from 'components/AuthPhotoUpload/Actions'
 import ProgressComponent from 'components/AuthPhotoUpload/Progress'
 import AuthHeaderTemplate from 'templates/Auth/Header'
@@ -12,22 +9,12 @@ import AuthErrorTemplate from 'templates/Auth/Error'
 
 import { withTranslation } from 'react-i18next'
 
-const AuthPhotoUpload = ({
-  t,
-  formErrorMessage,
-  handleErrorClose,
-  activeUpload,
-}) => {
+const AuthPhotoUpload = ({ t, formErrorMessage, handleErrorClose, activeUpload }) => {
   const styling = styles
 
   return (
     <View testID="components/AuthPhotoUpload" style={styling.root}>
-      {formErrorMessage ?
-        <AuthErrorTemplate
-          text={formErrorMessage}
-          onClose={handleErrorClose}
-        />
-      : null}
+      {formErrorMessage ? <AuthErrorTemplate text={formErrorMessage} onClose={handleErrorClose} /> : null}
 
       <View style={styling.component}>
         <AuthHeaderTemplate
@@ -36,19 +23,11 @@ const AuthPhotoUpload = ({
         />
 
         <View style={styling.content}>
-          <AuthPhotoTemplate
-            activeUpload={activeUpload}
-          />
+          <AuthPhotoTemplate activeUpload={activeUpload} />
 
-          {!formErrorMessage ?
-            <ProgressComponent
-              activeUpload={activeUpload}
-            />
-          : null}
+          {!formErrorMessage ? <ProgressComponent activeUpload={activeUpload} /> : null}
 
-          {formErrorMessage ?
-            <ActionsComponent />
-          : null}
+          {formErrorMessage ? <ActionsComponent /> : null}
         </View>
       </View>
     </View>

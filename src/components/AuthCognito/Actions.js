@@ -1,23 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  View,
-} from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 
 import { withTranslation } from 'react-i18next'
 
-const Actions = ({
-  t,
-  authSignoutRequest,
-}) => {
+const Actions = ({ t, authSignoutRequest }) => {
   const styling = styles
-  
+
   return (
     <View style={styling.root}>
       <View style={styling.item}>
-        <DefaultButton testID="components/AuthCognito/Actions/retry" label={t('Try Again')} onPress={authSignoutRequest} loading={false} mode="outline" />
+        <DefaultButton
+          testID="components/AuthCognito/Actions/retry"
+          label={t('Try Again')}
+          onPress={authSignoutRequest}
+          loading={false}
+          mode="outline"
+        />
       </View>
     </View>
   )
@@ -29,8 +29,7 @@ Actions.propTypes = {
 }
 
 const styles = StyleSheet.create({
-  root: {
-  },
+  root: {},
   item: {
     marginBottom: 12,
   },

@@ -1,11 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  View,
-  ScrollView,
-  RefreshControl,
-} from 'react-native'
+import { StyleSheet, View, ScrollView, RefreshControl } from 'react-native'
 import ResultComponent from 'components/Search/Result'
 import { Caption } from 'react-native-paper'
 
@@ -31,14 +26,10 @@ const PostLikes = ({
 
   return (
     <View style={styling.root}>
-      <View style={styling.info}>
-      </View>
+      <View style={styling.info}></View>
       <ScrollView
         refreshControl={
-          <RefreshControl
-            tintColor={theme.colors.border}
-            refreshing={postsLikesGet.status === 'loading'}
-          />
+          <RefreshControl tintColor={theme.colors.border} refreshing={postsLikesGet.status === 'loading'} />
         }
       >
         <PreviewServiceComponent>
@@ -68,18 +59,19 @@ const PostLikes = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
-  root: {
-    flex: 1,
-  },
-  info: {
-    paddingHorizontal: theme.spacing.base,
-    alignItems: 'center',
-  },
-  content: {
-    padding: theme.spacing.base,
-  },
-})
+const styles = (theme) =>
+  StyleSheet.create({
+    root: {
+      flex: 1,
+    },
+    info: {
+      paddingHorizontal: theme.spacing.base,
+      alignItems: 'center',
+    },
+    content: {
+      padding: theme.spacing.base,
+    },
+  })
 
 PostLikes.propTypes = {
   theme: PropTypes.any,

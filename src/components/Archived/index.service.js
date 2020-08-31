@@ -9,8 +9,7 @@ const ProfileArchivedService = ({ children }) => {
   const postsGetArchived = useSelector(postsSelector.postsGetArchivedSelector())
   const user = useSelector(authSelector.authUserSelector)
 
-  const postsGetArchivedRequest = () =>
-    dispatch(postsActions.postsGetArchivedRequest({ userId: user.userId }))
+  const postsGetArchivedRequest = () => dispatch(postsActions.postsGetArchivedRequest({ userId: user.userId }))
 
   useEffect(() => {
     postsGetArchivedRequest()

@@ -1,29 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  View,
-} from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { Text, Caption } from 'react-native-paper'
 import Avatar from 'templates/Avatar'
 
 import { withTheme } from 'react-native-paper'
 
-const Profile = ({
-  theme,
-  thumbnailSource,
-  imageSource,
-  title,
-  subtitle,
-}) => {
+const Profile = ({ theme, thumbnailSource, imageSource, title, subtitle }) => {
   const styling = styles(theme)
-  
+
   return (
     <View style={styling.profile}>
-      <Avatar
-        thumbnailSource={thumbnailSource}
-        imageSource={imageSource}
-      />
+      <Avatar thumbnailSource={thumbnailSource} imageSource={imageSource} />
 
       <View style={styling.profileText}>
         <Text>{title}</Text>
@@ -33,15 +21,16 @@ const Profile = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
-  profile: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  profileText: {
-    paddingHorizontal: theme.spacing.base,
-  },
-})
+const styles = (theme) =>
+  StyleSheet.create({
+    profile: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    profileText: {
+      paddingHorizontal: theme.spacing.base,
+    },
+  })
 
 Profile.propTypes = {
   theme: PropTypes.any,

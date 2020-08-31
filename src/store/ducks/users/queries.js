@@ -1,7 +1,4 @@
-import {
-  cardFragment,
-  postFragment,
-} from 'store/fragments'
+import { cardFragment, postFragment } from 'store/fragments'
 
 import * as usersSingle from 'store/ducks/users/queries/single'
 import * as usersList from 'store/ducks/users/queries/list'

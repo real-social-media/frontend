@@ -15,7 +15,9 @@ function* handlePostsShareRequest(payload) {
       return url
     }
 
-    const getSize = new Promise((resolve, reject) => Image.getSize(url, (width, height) => resolve({ width, height }), reject))
+    const getSize = new Promise((resolve, reject) =>
+      Image.getSize(url, (width, height) => resolve({ width, height }), reject),
+    )
     const size = yield getSize
 
     const fontSizeFirstLine = size.height / 30
@@ -29,7 +31,7 @@ function* handlePostsShareRequest(payload) {
       fontSize: fontSizeFirstLine,
       X: 30,
       Y: size.height - fontSizeFirstLine * 2,
-      scale: 1, 
+      scale: 1,
       quality: 100,
     })
 
@@ -41,13 +43,13 @@ function* handlePostsShareRequest(payload) {
       fontSize: fontSizeSecondLine,
       X: 35,
       Y: size.height - fontSizeFirstLine * 2 + fontSizeFirstLine,
-      scale: 1, 
+      scale: 1,
       quality: 100,
     })
 
     return secondLine
   }
-  
+
   function* handleInstagramPostShare({ url, title }) {
     const base64 = yield RNFetchBlob.fs.readFile(url, 'base64')
     const nextUrl = `data:image/jpg;base64,${base64}`
@@ -60,7 +62,7 @@ function* handlePostsShareRequest(payload) {
 
     yield Share.shareSingle(shareOptions)
   }
-  
+
   function* handleInstagramStoryShare({ url, title }) {
     const base64 = yield RNFetchBlob.fs.readFile(url, 'base64')
     const nextUrl = `data:image/jpg;base64,${base64}`
@@ -73,7 +75,7 @@ function* handlePostsShareRequest(payload) {
 
     yield Share.shareSingle(shareOptions)
   }
-  
+
   function* handleFacebookShare({ url, title }) {
     const shareOptions = {
       url,
@@ -96,11 +98,15 @@ function* handlePostsShareRequest(payload) {
   }
 
   function* handleRepost({ url }) {
-    return yield put(cameraActions.cameraCaptureRequest([{
-      uri: url,
-      takenInReal: false,
-      originalFormat: url.split('.').pop(),
-    }]))
+    return yield put(
+      cameraActions.cameraCaptureRequest([
+        {
+          uri: url,
+          takenInReal: false,
+          originalFormat: url.split('.').pop(),
+        },
+      ]),
+    )
   }
 
   function* handleCameraRollSave(photoUri) {
@@ -120,7 +126,7 @@ function* handlePostsShareRequest(payload) {
     const fetchConfig = { fileCache: true, appendExt: 'iga' }
     const response = yield RNFetchBlob.config(fetchConfig).fetch('GET', payload.photoUrl)
     const status = response.info().status
-    if(status !== 200) {
+    if (status !== 200) {
       throw new Error('error occured')
     }
     return response.path()
@@ -170,6 +176,4 @@ function* postsShareRequest(req) {
   }
 }
 
-export default () => [
-  takeLatest(constants.POSTS_SHARE_REQUEST, postsShareRequest),
-]
+export default () => [takeLatest(constants.POSTS_SHARE_REQUEST, postsShareRequest)]

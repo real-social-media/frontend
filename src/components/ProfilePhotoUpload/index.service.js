@@ -10,9 +10,9 @@ const ProfilePhotoUploadComponentService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
 
-  const postsCreateQueue = useSelector(state => state.posts.postsCreateQueue)
-  const usersEditProfile = useSelector(state => state.users.usersEditProfile)
-  
+  const postsCreateQueue = useSelector((state) => state.posts.postsCreateQueue)
+  const usersEditProfile = useSelector((state) => state.users.usersEditProfile)
+
   const handleProfilePhotoChangeSuccess = () => {
     navigationActions.navigateProfileSelf(navigation)()
   }

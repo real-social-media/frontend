@@ -12,9 +12,9 @@ const getFilteredState = map(set(lensProp('status'), 'idle'))
  */
 extend('$postsResourceCacheSetSuccess', ({ payload, resourceKey, initialState }, original) => {
   const filtered = getFilteredState(original)
-  const nextState = (path([resourceKey])(filtered)) ?
-    filtered :
-    update(filtered, { [resourceKey]: { $set: initialState } })
+  const nextState = path([resourceKey])(filtered)
+    ? filtered
+    : update(filtered, { [resourceKey]: { $set: initialState } })
 
   return update(nextState, {
     [resourceKey]: {
@@ -32,9 +32,9 @@ extend('$postsResourceCacheSetSuccess', ({ payload, resourceKey, initialState },
  */
 extend('$postsResourceCachePushSuccess', ({ payload, resourceKey, initialState }, original) => {
   const filtered = getFilteredState(original)
-  const nextState = (path([resourceKey])(filtered)) ?
-    filtered :
-    update(filtered, { [resourceKey]: { $set: initialState } })
+  const nextState = path([resourceKey])(filtered)
+    ? filtered
+    : update(filtered, { [resourceKey]: { $set: initialState } })
 
   return update(nextState, {
     [resourceKey]: {
@@ -88,4 +88,3 @@ extend('$postsResourcePoolSet', ({ payload }, original) => {
     },
   })
 })
-

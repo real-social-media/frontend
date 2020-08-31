@@ -1,9 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  View,
-} from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import ProfileEditForm from 'components/ProfileEdit/Form'
 import ProfileDeleteComponent from 'components/ProfileEdit/ProfileDelete'
 import PrivacyForm from 'components/Privacy/Form'
@@ -27,7 +24,7 @@ const ProfileEdit = ({
   usersDeleteRequest,
 }) => {
   const styling = styles(theme)
-  
+
   return (
     <View style={styling.root}>
       <KeyboardAwareScrollView>
@@ -36,7 +33,7 @@ const ProfileEdit = ({
             user={user}
             usersEditProfile={usersEditProfile}
             usersEditProfileRequest={usersEditProfileRequest}
-            PrivacyComponent={(
+            PrivacyComponent={
               <PrivacyForm
                 user={user}
                 togglePrivacyStatus={togglePrivacyStatus}
@@ -47,34 +44,32 @@ const ProfileEdit = ({
                 toggleSharingDisabled={toggleSharingDisabled}
                 toggleVerificationHidden={toggleVerificationHidden}
               />
-            )}
+            }
           />
         </View>
 
         <View style={styling.danger}>
-          <ProfileDeleteComponent
-            usersDelete={usersDelete}
-            usersDeleteRequest={usersDeleteRequest}
-          />
+          <ProfileDeleteComponent usersDelete={usersDelete} usersDeleteRequest={usersDeleteRequest} />
         </View>
       </KeyboardAwareScrollView>
     </View>
   )
 }
 
-const styles = theme => StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: theme.colors.backgroundPrimary,
-  },
-  form: {
-    padding: theme.spacing.base,
-  },
-  danger: {
-    padding: theme.spacing.base,
-    backgroundColor: theme.colors.backgroundSecondary,
-  },
-})
+const styles = (theme) =>
+  StyleSheet.create({
+    root: {
+      flex: 1,
+      backgroundColor: theme.colors.backgroundPrimary,
+    },
+    form: {
+      padding: theme.spacing.base,
+    },
+    danger: {
+      padding: theme.spacing.base,
+      backgroundColor: theme.colors.backgroundSecondary,
+    },
+  })
 
 ProfileEdit.propTypes = {
   theme: PropTypes.any,
@@ -93,4 +88,3 @@ ProfileEdit.propTypes = {
 }
 
 export default withTheme(ProfileEdit)
-

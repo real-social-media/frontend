@@ -10,12 +10,11 @@ import pathOr from 'ramda/src/pathOr'
 const AuthCognitoComponentService = ({ children }) => {
   const dispatch = useDispatch()
 
-  const signupUsername = useSelector(state => state.signup.signupUsername)
-  const signupCognito = useSelector(state => state.signup.signupCognito)
-  const authSignout = useSelector(state => state.auth.authSignout)
+  const signupUsername = useSelector((state) => state.signup.signupUsername)
+  const signupCognito = useSelector((state) => state.signup.signupCognito)
+  const authSignout = useSelector((state) => state.auth.authSignout)
 
-  const authSignoutRequest = () => 
-    dispatch(authActions.authSignoutRequest({}))
+  const authSignoutRequest = () => dispatch(authActions.authSignoutRequest({}))
 
   const handleFormSubmit = (payload) => {
     dispatch(signupActions.signupUsernameRequest(payload))
@@ -26,40 +25,29 @@ const AuthCognitoComponentService = ({ children }) => {
       dispatch(authActions.authCheckIdle({}))
       dispatch(authActions.authSignoutIdle({}))
     }
-  }, [
-    authSignout.status,
-  ])
+  }, [authSignout.status])
 
   /**
    * Create cognito user
    */
   useEffect(() => {
-    if (
-      signupUsername.status !== 'success'
-    ) return
+    if (signupUsername.status !== 'success') return
 
     const nextPayload = {
       username: signupUsername.payload.username,
     }
 
     dispatch(signupActions.signupCognitoRequest(nextPayload))
-  }, [
-    signupUsername.status,
-    signupUsername.payload.username,
-  ])
+  }, [signupUsername.status, signupUsername.payload.username])
 
   /**
    * Redirect to password selection once username is available
    */
   useEffect(() => {
-    if (
-      signupCognito.status !== 'success'
-    ) return
+    if (signupCognito.status !== 'success') return
 
     dispatch(authActions.authCheckRequest({ type: 'FIRST_MOUNT' }))
-  }, [
-    signupCognito.status,
-  ])
+  }, [signupCognito.status])
 
   const formSubmitLoading = signupUsername.status === 'loading'
   const formSubmitDisabled = signupUsername.status === 'loading'

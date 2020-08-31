@@ -4,15 +4,7 @@ import ChatServiceComponent from 'components/Chat/index.service'
 
 class ChatScreen extends React.Component {
   render() {
-    return (
-      <ChatServiceComponent>
-        {(props) => (
-          <ChatComponent
-            {...props}
-          />
-        )}
-      </ChatServiceComponent>
-    )
+    return <ChatServiceComponent>{(props) => <ChatComponent {...props} />}</ChatServiceComponent>
   }
 }
 

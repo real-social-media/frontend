@@ -10,15 +10,14 @@ const SettingsService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
 
-  const authSignout = useSelector(state => state.auth.authSignout)
+  const authSignout = useSelector((state) => state.auth.authSignout)
   const user = useSelector(authSelector.authUserSelector)
 
-  const authSignoutRequest = () => 
-    dispatch(authActions.authSignoutRequest())
+  const authSignoutRequest = () => dispatch(authActions.authSignoutRequest())
 
   const handleProcessedPhoto = (payload) => {
-    dispatch(cameraActions.cameraCaptureRequest(payload)) 
-    navigationActions.navigateProfilePhotoUpload(navigation, ({ type: 'IMAGE', photos: [payload[0].preview] }))()
+    dispatch(cameraActions.cameraCaptureRequest(payload))
+    navigationActions.navigateProfilePhotoUpload(navigation, { type: 'IMAGE', photos: [payload[0].preview] })()
   }
 
   const camera = useCamera({

@@ -1,12 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  Modal,
-  ActivityIndicator,
-  View,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native'
+import { Modal, ActivityIndicator, View, TouchableOpacity, StyleSheet } from 'react-native'
 import ImageViewer from 'react-native-image-zoom-viewer'
 import CloseIcon from 'assets/svg/camera/Close'
 import SwipeIcon from 'assets/svg/camera/Swipe'
@@ -15,10 +9,7 @@ import * as Animatable from 'react-native-animatable'
 
 import { Caption } from 'react-native-paper'
 
-const PostsPreview = ({
-  selectedPost,
-  handlePostClose,
-}) => {
+const PostsPreview = ({ selectedPost, handlePostClose }) => {
   const styling = styles
 
   return (
@@ -36,18 +27,14 @@ const PostsPreview = ({
         renderHeader={() => (
           <View style={styling.header}>
             <TouchableOpacity onPress={handlePostClose}>
-              <CloseIcon
-                fill="#ffffff"
-              />
+              <CloseIcon fill="#ffffff" />
             </TouchableOpacity>
           </View>
         )}
         renderFooter={() => (
           <Animatable.View animation="bounce" easing="ease-out" iterationCount={2}>
             <TouchableOpacity onPress={handlePostClose} style={styling.footer}>
-              <SwipeIcon
-                fill="#ffffff"
-              />
+              <SwipeIcon fill="#ffffff" />
 
               <Caption style={styling.helper}>Swipe to close</Caption>
             </TouchableOpacity>
@@ -71,11 +58,14 @@ const styles = StyleSheet.create({
     zIndex: 11,
     left: 0,
     right: 0,
-    ...ifIphoneX({
-      top: 40,
-    }, {
-      top: 0,
-    }),
+    ...ifIphoneX(
+      {
+        top: 40,
+      },
+      {
+        top: 0,
+      },
+    ),
   },
   footer: {
     position: 'absolute',
@@ -84,11 +74,14 @@ const styles = StyleSheet.create({
     zIndex: 11,
     left: 0,
     right: 0,
-    ...ifIphoneX({
-      bottom: 40,
-    }, {
-      bottom: 0,
-    }),
+    ...ifIphoneX(
+      {
+        bottom: 40,
+      },
+      {
+        bottom: 0,
+      },
+    ),
     width: 180,
   },
   helper: {

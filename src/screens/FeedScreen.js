@@ -4,15 +4,7 @@ import FeedServiceComponent from 'components/Feed/index.service'
 
 class FeedScreen extends React.Component {
   render() {
-    return (
-      <FeedServiceComponent>
-        {(postsProps) => (
-          <FeedComponent
-            {...postsProps}
-          />
-        )}
-      </FeedServiceComponent>
-    )
+    return <FeedServiceComponent>{(postsProps) => <FeedComponent {...postsProps} />}</FeedServiceComponent>
   }
 }
 

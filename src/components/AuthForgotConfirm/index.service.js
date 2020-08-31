@@ -14,15 +14,17 @@ const AuthForgotConfirmComponentService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
 
-  const authForgot = useSelector(state => state.auth.authForgot)
-  const authForgotConfirm = useSelector(state => state.auth.authForgotConfirm)
+  const authForgot = useSelector((state) => state.auth.authForgot)
+  const authForgotConfirm = useSelector((state) => state.auth.authForgotConfirm)
 
   const handleFormSubmit = (payload) => {
-    dispatch(authActions.authForgotConfirmRequest({
-      username: payload.username,
-      code: payload.confirmationCode,
-      password: payload.password,
-    }))
+    dispatch(
+      authActions.authForgotConfirmRequest({
+        username: payload.username,
+        code: payload.confirmationCode,
+        password: payload.password,
+      }),
+    )
   }
 
   /**
@@ -45,15 +47,11 @@ const AuthForgotConfirmComponentService = ({ children }) => {
    * Redirect to verification confirmation once reset was successful
    */
   useEffect(() => {
-    if (
-      authForgotConfirm.status !== 'success'
-    ) return
+    if (authForgotConfirm.status !== 'success') return
 
     navigationActions.navigateAuthSigninEmail(navigation)()
     dispatch(authActions.authForgotConfirmIdle({}))
-  }, [
-    authForgotConfirm.status === 'success',
-  ])
+  }, [authForgotConfirm.status === 'success'])
 
   const formSubmitLoading = authForgotConfirm.status === 'loading'
   const formSubmitDisabled = authForgotConfirm.status === 'loading'

@@ -14,17 +14,15 @@ const ChatService = ({ children }) => {
   const usersSearch = useSelector(usersSelector.usersSearchSelector())
   const chatGetChats = useSelector(chatSelector.chatGetChatsSelector())
   const usersGetPendingFollowers = useSelector(usersSelector.usersGetPendingFollowersSelector())
-  const usersAcceptFollowerUser = useSelector(state => state.users.usersAcceptFollowerUser)
+  const usersAcceptFollowerUser = useSelector((state) => state.users.usersAcceptFollowerUser)
 
   useEffect(() => {
     dispatch(chatActions.chatGetChatsRequest())
   }, [])
 
-  const chatGetChatsRequest = () =>
-    dispatch(chatActions.chatGetChatsRequest())
+  const chatGetChatsRequest = () => dispatch(chatActions.chatGetChatsRequest())
 
-  const usersGetPendingFollowersRequest = (payload) => 
-    dispatch(usersActions.usersGetPendingFollowersRequest(payload))
+  const usersGetPendingFollowersRequest = (payload) => dispatch(usersActions.usersGetPendingFollowersRequest(payload))
 
   useEffect(() => {
     usersGetPendingFollowersRequest({ userId: user.userId })
@@ -35,7 +33,7 @@ const ChatService = ({ children }) => {
    */
   const feedRef = useRef(null)
   useScrollToTop(feedRef)
-  
+
   const usersSearchRequest = ({ searchToken }) => {
     dispatch(usersActions.usersFollowIdle({}))
     dispatch(usersActions.usersUnfollowIdle({}))
@@ -45,7 +43,7 @@ const ChatService = ({ children }) => {
   /**
    * Following two states are tracking values of Search/Form -> searchToken input field
    * we are dynamically rendering components on Search/index based on values below
-   * 
+   *
    * formFocus is a state of focus/blur events: [searchToken input]
    * formChange is a state of value.length: [searchToken input]
    */

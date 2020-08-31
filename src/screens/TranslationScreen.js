@@ -4,15 +4,7 @@ import TranslationServiceComponent from 'components/Translation/index.service'
 
 class TranslationScreen extends React.Component {
   render() {
-    return (
-      <TranslationServiceComponent>
-        {(props) => (
-          <TranslationComponent
-            {...props}
-          />
-        )}
-      </TranslationServiceComponent>
-    )
+    return <TranslationServiceComponent>{(props) => <TranslationComponent {...props} />}</TranslationServiceComponent>
   }
 }
 

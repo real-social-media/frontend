@@ -1,10 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  View,
-  ScrollView,
-} from 'react-native'
+import { StyleSheet, View, ScrollView } from 'react-native'
 import PrivacyForm from 'components/Privacy/Form'
 import Disclaimer from 'components/Privacy/Disclaimer'
 
@@ -22,7 +18,7 @@ const Privacy = ({
   toggleVerificationHidden,
 }) => {
   const styling = styles(theme)
-  
+
   return (
     <ScrollView>
       <View style={styling.root}>
@@ -42,16 +38,17 @@ const Privacy = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: theme.colors.backgroundPrimary,
-    padding: theme.spacing.base,
-  },
-  form: {
-    padding: theme.spacing.base,
-  },
-})
+const styles = (theme) =>
+  StyleSheet.create({
+    root: {
+      flex: 1,
+      backgroundColor: theme.colors.backgroundPrimary,
+      padding: theme.spacing.base,
+    },
+    form: {
+      padding: theme.spacing.base,
+    },
+  })
 
 Privacy.propTypes = {
   theme: PropTypes.any,

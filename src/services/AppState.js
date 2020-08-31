@@ -16,7 +16,7 @@ export default function useAppState(settings) {
       isValidFunction(onChange) && onChange(nextAppState)
     }
     AppState.addEventListener('change', handleAppStateChange)
-    
+
     return () => AppState.removeEventListener('change', handleAppStateChange)
   }, [onChange, onForeground, onBackground, appState])
 

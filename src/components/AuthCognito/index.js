@@ -1,9 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  View,
-  StyleSheet,
-} from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import FormComponent from 'components/AuthCognito/Form'
 import ActionsComponent from 'components/AuthCognito/Actions'
 import AuthHeaderTemplate from 'templates/Auth/Header'
@@ -26,18 +23,10 @@ const AuthCognito = ({
 
   return (
     <View testID="components/AuthCognito" style={styling.root}>
-      {formErrorMessage ?
-        <AuthErrorTemplate
-          text={formErrorMessage}
-          onClose={handleErrorClose}
-        />
-      : null}
+      {formErrorMessage ? <AuthErrorTemplate text={formErrorMessage} onClose={handleErrorClose} /> : null}
 
       <View style={styling.component}>
-        <AuthHeaderTemplate
-          title={t('Grab Your Username!')}
-          subtitle={t('You can always change it later')}
-        />
+        <AuthHeaderTemplate title={t('Grab Your Username!')} subtitle={t('You can always change it later')} />
 
         <View style={styling.content}>
           <FormComponent
@@ -48,9 +37,7 @@ const AuthCognito = ({
             formInitialValues={formInitialValues}
           />
 
-          <ActionsComponent
-            authSignoutRequest={authSignoutRequest}
-          />
+          <ActionsComponent authSignoutRequest={authSignoutRequest} />
         </View>
       </View>
     </View>

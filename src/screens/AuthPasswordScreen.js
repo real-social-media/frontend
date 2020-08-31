@@ -6,13 +6,7 @@ import ScreenWrapper from 'templates/Auth/ScreenWrapper'
 class AuthPasswordScreen extends React.Component {
   render() {
     return (
-      <AuthPasswordServiceComponent>
-        {(props) => (
-          <AuthPasswordComponent
-            {...props}
-          />
-        )}
-      </AuthPasswordServiceComponent>
+      <AuthPasswordServiceComponent>{(props) => <AuthPasswordComponent {...props} />}</AuthPasswordServiceComponent>
     )
   }
 }

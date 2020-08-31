@@ -17,12 +17,8 @@ const AppNavigator = () => {
 
   return (
     <Stack.Navigator {...stackNavigatorCardProps}>
-      <Stack.Screen
-        name="Feed"
-        component={FeedScreen}
-        {...stackScreenDefaultProps}
-      />
-      
+      <Stack.Screen name="Feed" component={FeedScreen} {...stackScreenDefaultProps} />
+
       {navigationFragments.media({
         Stack,
         stackScreenPageProps,

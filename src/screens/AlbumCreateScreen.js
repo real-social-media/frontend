@@ -6,11 +6,7 @@ class AlbumCreateScreen extends React.Component {
   render() {
     return (
       <AlbumCreateServiceComponent>
-        {((shareProps) => (
-          <AlbumCreateComponent
-            {...shareProps}
-          />
-        ))}
+        {(shareProps) => <AlbumCreateComponent {...shareProps} />}
       </AlbumCreateServiceComponent>
     )
   }

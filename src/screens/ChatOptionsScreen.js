@@ -4,15 +4,7 @@ import ChatOptionsServiceComponent from 'components/ChatOptions/index.service'
 
 class ChatOptionsScreen extends React.Component {
   render() {
-    return (
-      <ChatOptionsServiceComponent>
-        {(props) => (
-          <ChatOptionsComponent
-            {...props}
-          />
-        )}
-      </ChatOptionsServiceComponent>
-    )
+    return <ChatOptionsServiceComponent>{(props) => <ChatOptionsComponent {...props} />}</ChatOptionsServiceComponent>
   }
 }
 

@@ -3,11 +3,7 @@ import qs from 'query-string'
 import dayjs from 'dayjs'
 import path from 'ramda/src/path'
 
-function useS3ExpiryState({
-  onExpiry,
-  urlToBeValidated,
-  condition,
-}) {
+function useS3ExpiryState({ onExpiry, urlToBeValidated, condition }) {
   const hasValidExpiryDate = (s3Url) => {
     const parsed = qs.parse(s3Url)
     const expires = path(['Expires'])(parsed)

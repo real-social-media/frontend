@@ -5,13 +5,7 @@ import AlbumEditComponent from 'components/AlbumEdit'
 class AlbumEditScreen extends React.Component {
   render() {
     return (
-      <AlbumEditServiceComponent>
-        {((shareProps) => (
-          <AlbumEditComponent
-            {...shareProps}
-          />
-        ))}
-      </AlbumEditServiceComponent>
+      <AlbumEditServiceComponent>{(shareProps) => <AlbumEditComponent {...shareProps} />}</AlbumEditServiceComponent>
     )
   }
 }

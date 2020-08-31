@@ -1,10 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  View,
-  StyleSheet,
-  Animated,
-} from 'react-native'
+import { View, StyleSheet, Animated } from 'react-native'
 import { getDimensionsFromPostSize } from 'services/Dimensions'
 import CacheComponent from 'components/Cache'
 import ContextComponent from 'components/Feed/Context'
@@ -19,13 +15,16 @@ export class PinchZoom extends React.Component {
 
     return (
       <View style={[StyleSheet.absoluteFill, styling.root]}>
-        <Animated.View style={[
-          getDimensionsFromPostSize({
-            width: this.props.draggedImage.image.width,
-            height: this.props.draggedImage.image.height,
-          }), {
-            transform: this.props.draggedImage.transform,
-          }]}
+        <Animated.View
+          style={[
+            getDimensionsFromPostSize({
+              width: this.props.draggedImage.image.width,
+              height: this.props.draggedImage.image.height,
+            }),
+            {
+              transform: this.props.draggedImage.transform,
+            },
+          ]}
         >
           <CacheComponent
             thread="zoom"
@@ -45,8 +44,7 @@ export class PinchZoom extends React.Component {
   }
 }
 
-PinchZoom.defaultProps = {
-}
+PinchZoom.defaultProps = {}
 
 PinchZoom.propTypes = {
   draggedImage: PropTypes.any,
@@ -62,10 +60,5 @@ const styles = StyleSheet.create({
 })
 
 export default (props) => (
-  <ContextComponent.Consumer>
-    {(contextProps) => (
-      <PinchZoom {...contextProps} {...props} />
-    )}
-  </ContextComponent.Consumer>
+  <ContextComponent.Consumer>{(contextProps) => <PinchZoom {...contextProps} {...props} />}</ContextComponent.Consumer>
 )
-

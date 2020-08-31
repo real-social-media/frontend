@@ -6,11 +6,7 @@ class AuthSigninPhoneScreen extends React.Component {
   render() {
     return (
       <AuthSigninPhoneServiceComponent>
-        {(props) => (
-          <AuthSigninPhoneComponent
-            {...props}
-          />
-        )}
+        {(props) => <AuthSigninPhoneComponent {...props} />}
       </AuthSigninPhoneServiceComponent>
     )
   }

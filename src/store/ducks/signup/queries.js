@@ -1,6 +1,4 @@
-import {
-  userFragment,
-} from 'store/fragments'
+import { userFragment } from 'store/fragments'
 
 export const createCognitoOnlyUser = `
   mutation createCognitoOnlyUser($username: String!, $fullName: String) {

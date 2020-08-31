@@ -1,9 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  View,
-} from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 import * as navigationActions from 'navigation/actions'
 import PhoneIcon from 'assets/svg/auth/Phone'
@@ -14,26 +11,43 @@ import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 import testIDs from './test-ids'
 
-const Actions = ({
-  t,
-  authGoogle,
-  authGoogleRequest,
-  authApple,
-  authAppleRequest,
-}) => {
+const Actions = ({ t, authGoogle, authGoogleRequest, authApple, authAppleRequest }) => {
   const styling = styles
   const navigation = useNavigation()
-  
+
   return (
     <View style={styling.root}>
       <View style={styling.item}>
-        <DefaultButton testID={testIDs.actions.signUpBtn} icon={PhoneIcon} label={t('Use Phone or Email')} onPress={navigationActions.navigateAuthUsername(navigation)} style={styling.phone} labelStyle={styling.labelStyle} />
+        <DefaultButton
+          testID={testIDs.actions.signUpBtn}
+          icon={PhoneIcon}
+          label={t('Use Phone or Email')}
+          onPress={navigationActions.navigateAuthUsername(navigation)}
+          style={styling.phone}
+          labelStyle={styling.labelStyle}
+        />
       </View>
       <View style={styling.item}>
-        <DefaultButton testID={testIDs.actions.googleBtn} icon={GoogleIcon} label={t('Sign in with Google')} onPress={authGoogleRequest} loading={authGoogle.status === 'loading'} style={styling.google} labelStyle={styling.labelStyle} />
+        <DefaultButton
+          testID={testIDs.actions.googleBtn}
+          icon={GoogleIcon}
+          label={t('Sign in with Google')}
+          onPress={authGoogleRequest}
+          loading={authGoogle.status === 'loading'}
+          style={styling.google}
+          labelStyle={styling.labelStyle}
+        />
       </View>
       <View style={styling.item}>
-        <DefaultButton testID={testIDs.actions.appleBtn} icon={AppleIcon} label={t('Sign in with Apple')} onPress={authAppleRequest} loading={authApple.status === 'loading'} style={styling.apple} labelStyle={styling.labelStyle} />
+        <DefaultButton
+          testID={testIDs.actions.appleBtn}
+          icon={AppleIcon}
+          label={t('Sign in with Apple')}
+          onPress={authAppleRequest}
+          loading={authApple.status === 'loading'}
+          style={styling.apple}
+          labelStyle={styling.labelStyle}
+        />
       </View>
     </View>
   )
@@ -48,8 +62,7 @@ Actions.propTypes = {
 }
 
 const styles = StyleSheet.create({
-  root: {
-  },
+  root: {},
   item: {
     marginBottom: 12,
   },

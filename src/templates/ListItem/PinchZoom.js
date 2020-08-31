@@ -1,18 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  View,
-  Animated,
-} from 'react-native'
-import {
-  PinchGestureHandler,
-  PanGestureHandler,
-  State,
-} from 'react-native-gesture-handler'
+import { View, Animated } from 'react-native'
+import { PinchGestureHandler, PanGestureHandler, State } from 'react-native-gesture-handler'
 import ContextComponent from 'components/Feed/Context'
 
 export class PinchZoom extends React.Component {
-  
   baseScale = new Animated.Value(1)
   pinchScale = new Animated.Value(1)
   scale = Animated.multiply(this.baseScale, this.pinchScale)
@@ -26,17 +18,14 @@ export class PinchZoom extends React.Component {
   pinchRef = React.createRef()
   viewRef = React.createRef()
 
-  onPinchGestureEvent = Animated.event(
-    [{ nativeEvent: { scale: this.pinchScale } }],
-    { useNativeDriver: false },
-  )
+  onPinchGestureEvent = Animated.event([{ nativeEvent: { scale: this.pinchScale } }], { useNativeDriver: false })
 
   onPanGestureEvent = Animated.event(
     [{ nativeEvent: { translationX: this.translateX, translationY: this.translateY } }],
     { useNativeDriver: false },
   )
 
-  onPinchHandlerStateChange = event => {
+  onPinchHandlerStateChange = (event) => {
     const lastScale = this.lastScale * event.nativeEvent.scale
     if (event.nativeEvent.oldState === State.ACTIVE && lastScale > 1) {
       this.lastScale = lastScale
@@ -51,12 +40,15 @@ export class PinchZoom extends React.Component {
     }
 
     if (event.nativeEvent.state === State.ACTIVE) {
-      this.props.setDraggedImage({ image: this.props.image, transform: [
-        { perspective: 200 },
-        { scale: this.scale },
-        { translateX: this.translateX },
-        { translateY: this.translateY },
-      ] })
+      this.props.setDraggedImage({
+        image: this.props.image,
+        transform: [
+          { perspective: 200 },
+          { scale: this.scale },
+          { translateX: this.translateX },
+          { translateY: this.translateY },
+        ],
+      })
     }
 
     if (event.nativeEvent.state !== State.ACTIVE) {
@@ -64,7 +56,7 @@ export class PinchZoom extends React.Component {
     }
   }
 
-  onPanHandlerStateChange = event => {
+  onPanHandlerStateChange = (event) => {
     if (event.nativeEvent.oldState === State.ACTIVE) {
       this.lastOffset.y += event.nativeEvent.translationY
       this.lastOffset.x += event.nativeEvent.translationX
@@ -84,12 +76,15 @@ export class PinchZoom extends React.Component {
     }
 
     if (event.nativeEvent.state === State.ACTIVE) {
-      this.props.setDraggedImage({ image: this.props.image, transform: [
-        { perspective: 200 },
-        { scale: this.scale },
-        { translateX: this.translateX },
-        { translateY: this.translateY },
-      ] })
+      this.props.setDraggedImage({
+        image: this.props.image,
+        transform: [
+          { perspective: 200 },
+          { scale: this.scale },
+          { translateX: this.translateX },
+          { translateY: this.translateY },
+        ],
+      })
     }
 
     if (event.nativeEvent.state !== State.ACTIVE) {
@@ -98,7 +93,7 @@ export class PinchZoom extends React.Component {
   }
 
   onLayout = () => {
-    this.viewRef.current.measureInWindow((_, y) => this.offsetY = y)
+    this.viewRef.current.measureInWindow((_, y) => (this.offsetY = y))
   }
 
   render() {
@@ -129,8 +124,7 @@ export class PinchZoom extends React.Component {
   }
 }
 
-PinchZoom.defaultProps = {
-}
+PinchZoom.defaultProps = {}
 
 PinchZoom.propTypes = {
   setDraggedImage: PropTypes.any,
@@ -142,9 +136,7 @@ PinchZoom.propTypes = {
 export default (props) => (
   <ContextComponent.Consumer>
     {(contextProps) => {
-      return (
-        <PinchZoom {...contextProps} {...props} />
-      )
+      return <PinchZoom {...contextProps} {...props} />
     }}
   </ContextComponent.Consumer>
 )

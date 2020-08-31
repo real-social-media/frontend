@@ -8,81 +8,62 @@ import FlashOffIcon from 'assets/svg/camera/FlashOff'
 
 import { withTheme } from 'react-native-paper'
 
-const Shutter = ({
-  theme,
-  flashMode,
-  handleFlipToggle,
-  handleLibrarySnap,
-  handleCameraSnap,
-  handleFlashToggle,
-}) => {
+const Shutter = ({ theme, flashMode, handleFlipToggle, handleLibrarySnap, handleCameraSnap, handleFlashToggle }) => {
   const styling = styles(theme)
-  
+
   return (
     <View style={styling.root}>
       <View style={styling.action}>
         <TouchableOpacity style={styling.item} onPress={() => handleLibrarySnap(true)}>
-          <UploadIcon
-            fill="#ffffff"
-          />
+          <UploadIcon fill="#ffffff" />
         </TouchableOpacity>
         <View style={styling.item} />
 
-        <TouchableOpacity style={styling.capture} onPress={handleCameraSnap}>
-        </TouchableOpacity>
+        <TouchableOpacity style={styling.capture} onPress={handleCameraSnap}></TouchableOpacity>
 
         <TouchableOpacity style={styling.item} onPress={handleFlipToggle}>
-          <FlipIcon
-            fill="#ffffff"
-          />
+          <FlipIcon fill="#ffffff" />
         </TouchableOpacity>
 
         <TouchableOpacity style={styling.item} onPress={handleFlashToggle}>
-          {flashMode ?
-            <FlashOnIcon
-              fill="#ffffff"
-            />
-          : null}
+          {flashMode ? <FlashOnIcon fill="#ffffff" /> : null}
 
-          {!flashMode ?
-            <FlashOffIcon
-              fill="#ffffff"
-            />
-          : null}
+          {!flashMode ? <FlashOffIcon fill="#ffffff" /> : null}
         </TouchableOpacity>
       </View>
     </View>
   )
 }
 
-const styles = theme => StyleSheet.create({
-  root: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  action: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
-  },
-  item: {
-    flex: 1,
-    height: 48,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  capture: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    borderWidth: 10,
-    borderColor: theme.colors.border,
-    backgroundColor: theme.colors.input,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-})
+const styles = (theme) =>
+  StyleSheet.create({
+    root: {
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    action: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      width: '100%',
+    },
+    item: {
+      flex: 1,
+      height: 48,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    capture: {
+      width: 80,
+      height: 80,
+      borderRadius: 40,
+      borderWidth: 10,
+      borderColor: theme.colors.border,
+      backgroundColor: theme.colors.input,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+  })
 
 Shutter.propTypes = {
   theme: PropTypes.any,

@@ -3,7 +3,7 @@ import * as actions from 'store/ducks/camera/actions'
 import * as constants from 'store/ducks/camera/constants'
 
 function* handleCameraCaptureRequest(payload) {
-  const response = yield payload.map(photo => ({
+  const response = yield payload.map((photo) => ({
     uri: photo.uri,
     takenInReal: photo.takenInReal,
     preview: photo.preview,
@@ -24,6 +24,4 @@ function* cameraCaptureRequest(req) {
   }
 }
 
-export default () => [
-  takeLatest(constants.CAMERA_CAPTURE_REQUEST, cameraCaptureRequest),
-]
+export default () => [takeLatest(constants.CAMERA_CAPTURE_REQUEST, cameraCaptureRequest)]

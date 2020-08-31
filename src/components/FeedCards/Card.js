@@ -6,12 +6,7 @@ import { Text } from 'react-native-paper'
 import Avatar from 'templates/Avatar'
 import path from 'ramda/src/path'
 
-const FeedCard = ({ 
-  borderColor, 
-  backgroundColor, 
-  handleCardPress, 
-  usersDeleteCardRequest, 
-}) =>
+const FeedCard = ({ borderColor, backgroundColor, handleCardPress, usersDeleteCardRequest }) =>
   // eslint-disable-next-line react/prop-types
   ({ item: card }) => {
     const customStyle = {

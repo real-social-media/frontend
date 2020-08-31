@@ -6,11 +6,7 @@ class AuthSigninEmailScreen extends React.Component {
   render() {
     return (
       <AuthSigninEmailServiceComponent>
-        {(props) => (
-          <AuthSigninEmailComponent
-            {...props}
-          />
-        )}
+        {(props) => <AuthSigninEmailComponent {...props} />}
       </AuthSigninEmailServiceComponent>
     )
   }

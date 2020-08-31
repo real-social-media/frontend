@@ -10,20 +10,13 @@ class CameraScreen extends React.Component {
       <PermissionsServiceComponent>
         {(permissionsProps) => (
           <>
-            {!permissionsProps.cameraEnabled || !permissionsProps.libraryEnabled ?
-              <PermissionsComponent
-                {...permissionsProps}
-              />
-            :
+            {!permissionsProps.cameraEnabled || !permissionsProps.libraryEnabled ? (
+              <PermissionsComponent {...permissionsProps} />
+            ) : (
               <CameraServiceComponent>
-                {(cameraProps) => (
-                  <CameraComponent
-                    {...cameraProps}
-                    {...permissionsProps}
-                  />
-                )}
+                {(cameraProps) => <CameraComponent {...cameraProps} {...permissionsProps} />}
               </CameraServiceComponent>
-            }
+            )}
           </>
         )}
       </PermissionsServiceComponent>

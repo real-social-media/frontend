@@ -1,6 +1,5 @@
 const PayoutService = ({ children }) => {
-  return children({
-  })
+  return children({})
 }
 
 export default PayoutService

@@ -46,38 +46,30 @@ dayjs.extend(relativeTime)
 if (Text.defaultProps == null) {
   Text.defaultProps = Text.defaultProps || {}
   Text.defaultProps.allowFontScaling = false
-  
+
   TextInput.defaultProps = TextInput.defaultProps || {}
   TextInput.defaultProps.allowFontScaling = false
 }
 
-const Routes = ({
-  authenticated,
-  appErrorMessage,
-  handleErrorClose,
-}) => {
+const Routes = ({ authenticated, appErrorMessage, handleErrorClose }) => {
   const { theme, themes } = useContext(ThemesContext)
 
   return (
     <NavigationContainer theme={theme} linking={linking}>
-      {!authenticated ?
+      {!authenticated ? (
         <PaperProvider theme={themes[0].theme}>
-          {appErrorMessage ?
-            <ErrorTemplate text={appErrorMessage} onClose={handleErrorClose} />
-          : null}
+          {appErrorMessage ? <ErrorTemplate text={appErrorMessage} onClose={handleErrorClose} /> : null}
           <AuthNavigator />
         </PaperProvider>
-      : null}
+      ) : null}
 
-      {authenticated ?
+      {authenticated ? (
         <PaperProvider theme={theme}>
-          {appErrorMessage ?
-            <ErrorTemplate text={appErrorMessage} onClose={handleErrorClose} />
-          : null}
+          {appErrorMessage ? <ErrorTemplate text={appErrorMessage} onClose={handleErrorClose} /> : null}
 
           <AppNavigator themes={themes} />
         </PaperProvider>
-      : null}
+      ) : null}
     </NavigationContainer>
   )
 }
@@ -95,13 +87,7 @@ const App = () => {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <AuthProvider>
-          {({
-            theme,
-            themes,
-            authenticated,
-            appErrorMessage,
-            handleErrorClose,
-          }) => (
+          {({ theme, themes, authenticated, appErrorMessage, handleErrorClose }) => (
             <ThemesContext.Provider value={{ theme, themes }}>
               <FeedContextComponent.Provider value={{ draggedImage, setDraggedImage }}>
                 <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />

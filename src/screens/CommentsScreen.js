@@ -4,15 +4,7 @@ import CommentsServiceComponent from 'components/Comments/index.service'
 
 class Comments extends React.Component {
   render() {
-    return (
-      <CommentsServiceComponent>
-        {(props) => (
-          <CommentsComponent
-            {...props}
-          />
-        )}
-      </CommentsServiceComponent>
-    )
+    return <CommentsServiceComponent>{(props) => <CommentsComponent {...props} />}</CommentsServiceComponent>
   }
 }
 

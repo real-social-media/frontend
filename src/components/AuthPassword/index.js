@@ -1,9 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  View,
-  StyleSheet,
-} from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import FormComponent from 'components/AuthPassword/Form'
 import AuthHeaderTemplate from 'templates/Auth/Header'
 
@@ -23,10 +20,7 @@ const AuthPassword = ({
   return (
     <View testID={testIDs.root} style={styling.root}>
       <View style={styling.component}>
-        <AuthHeaderTemplate
-          title={t('Secure Your Account')}
-          subtitle={t('Password must be at least 8 characters')}
-        />
+        <AuthHeaderTemplate title={t('Secure Your Account')} subtitle={t('Password must be at least 8 characters')} />
 
         <View style={styling.content}>
           <FormComponent

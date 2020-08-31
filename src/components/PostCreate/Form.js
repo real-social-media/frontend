@@ -1,10 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  View,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native'
+import { View, StyleSheet, TouchableOpacity } from 'react-native'
 import TextCaption from 'components/Formik/TextCaption'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 import { Formik, Field } from 'formik'
@@ -57,7 +53,7 @@ const PostCreateForm = ({
     <View style={styling.root}>
       <View style={styling.input}>
         <View style={styling.header}>
-          {values.postType === 'IMAGE' ?
+          {values.postType === 'IMAGE' ? (
             <TouchableOpacity onPress={() => handlePostPress({ image })}>
               <Avatar
                 key={values.preview[0]}
@@ -66,7 +62,7 @@ const PostCreateForm = ({
                 imageSource={{ uri: values.preview[0] }}
               />
             </TouchableOpacity>
-          : null}
+          ) : null}
 
           <View style={styling.text}>
             <Field name="text" component={TextCaption} placeholder={t('Write a caption')} multiline={true} />
@@ -80,22 +76,11 @@ const PostCreateForm = ({
         helper="Change post expiry, set expiry to 1 day to post story"
         active
       >
-        <FormLifetime
-          values={values}
-          setFieldValue={setFieldValue}
-        />
+        <FormLifetime values={values} setFieldValue={setFieldValue} />
       </CollapsableComponent>
 
-      <CollapsableComponent
-        style={styling.input}
-        title="Albums"
-        helper="Add this post to an album"
-      >
-        <FormAlbums
-          values={values}
-          setFieldValue={setFieldValue}
-          albumsGet={albumsGet}
-        />
+      <CollapsableComponent style={styling.input} title="Albums" helper="Add this post to an album">
+        <FormAlbums values={values} setFieldValue={setFieldValue} albumsGet={albumsGet} />
       </CollapsableComponent>
 
       <CollapsableComponent
@@ -103,25 +88,31 @@ const PostCreateForm = ({
         title="Privacy"
         helper="Allow others to comment, like, and share your post"
       >
-        <RowsComponent items={[{
-          label: t('Comments'),
-          caption: t('Followers can comment on posts'),
-          onPress: () => setFieldValue('commentsDisabled', !values.commentsDisabled),
-          type: 'action',
-          enabled: !values.commentsDisabled,
-        }, {
-          label: t('Likes'),
-          caption: t('Followers can like your post'),
-          onPress: () => setFieldValue('likesDisabled', !values.likesDisabled),
-          type: 'action',
-          enabled: !values.likesDisabled,
-        }, {
-          label: t('Sharing'),
-          caption: t('Followers can share posts'),
-          onPress: () => setFieldValue('sharingDisabled', !values.sharingDisabled),
-          type: 'action',
-          enabled: !values.sharingDisabled,
-        }]}>
+        <RowsComponent
+          items={[
+            {
+              label: t('Comments'),
+              caption: t('Followers can comment on posts'),
+              onPress: () => setFieldValue('commentsDisabled', !values.commentsDisabled),
+              type: 'action',
+              enabled: !values.commentsDisabled,
+            },
+            {
+              label: t('Likes'),
+              caption: t('Followers can like your post'),
+              onPress: () => setFieldValue('likesDisabled', !values.likesDisabled),
+              type: 'action',
+              enabled: !values.likesDisabled,
+            },
+            {
+              label: t('Sharing'),
+              caption: t('Followers can share posts'),
+              onPress: () => setFieldValue('sharingDisabled', !values.sharingDisabled),
+              type: 'action',
+              enabled: !values.sharingDisabled,
+            },
+          ]}
+        >
           {(settings) => (
             <RowsItemComponent hasBorders>
               <UserRowComponent
@@ -132,12 +123,7 @@ const PostCreateForm = ({
                     <Caption>{path(['caption'])(settings)}</Caption>
                   </View>
                 }
-                action={
-                  <Switch
-                    value={path(['enabled'])(settings)}
-                    onValueChange={settings.onPress}
-                  />
-                }
+                action={<Switch value={path(['enabled'])(settings)} onValueChange={settings.onPress} />}
               />
             </RowsItemComponent>
           )}
@@ -148,40 +134,45 @@ const PostCreateForm = ({
         <DefaultButton label={t('Create Post')} onPress={handleSubmit} loading={loading} disabled={loading} />
       </View>
 
-      {cameraCaptureLength > 1 ?
+      {cameraCaptureLength > 1 ? (
         <View style={styling.helper}>
           <Caption>{cameraCaptureLength - 1} more post left to be uploaded</Caption>
         </View>
-      : null}
+      ) : null}
 
-      {handleOpenVerification ? 
+      {handleOpenVerification ? (
         <View style={styling.input}>
-          <DefaultButton label={t('How to make my post verified?')} onPress={handleOpenVerification} mode="outlined" disabled={loading} />
+          <DefaultButton
+            label={t('How to make my post verified?')}
+            onPress={handleOpenVerification}
+            mode="outlined"
+            disabled={loading}
+          />
         </View>
-      :null }
+      ) : null}
     </View>
   )
 }
 
-const styles = theme => StyleSheet.create({
-  root: {
-  },
-  header: {
-    flexDirection: 'row',
-  },
-  text: {
-    flex: 1,
-  },
-  input: {
-    marginBottom: theme.spacing.base,
-  },
-  title: {
-    marginBottom: theme.spacing.base,
-  },
-  helper: {
-    alignItems: 'center',
-  },
-})
+const styles = (theme) =>
+  StyleSheet.create({
+    root: {},
+    header: {
+      flexDirection: 'row',
+    },
+    text: {
+      flex: 1,
+    },
+    input: {
+      marginBottom: theme.spacing.base,
+    },
+    title: {
+      marginBottom: theme.spacing.base,
+    },
+    helper: {
+      alignItems: 'center',
+    },
+  })
 
 PostCreateForm.propTypes = {
   t: PropTypes.any,
@@ -198,11 +189,7 @@ PostCreateForm.propTypes = {
   handleOpenVerification: PropTypes.func,
 }
 
-const FormWrapper = ({
-  postsCreateRequest,
-  cameraCapture,
-  ...props
-}) => (
+const FormWrapper = ({ postsCreateRequest, cameraCapture, ...props }) => (
   <Formik
     initialValues={{
       lifetime: null,
@@ -224,12 +211,7 @@ const FormWrapper = ({
     onSubmit={postsCreateRequest}
     enableReinitialize
   >
-    {(formikProps) => (
-      <PostCreateForm
-        {...formikProps}
-        {...props}
-      />
-    )}
+    {(formikProps) => <PostCreateForm {...formikProps} {...props} />}
   </Formik>
 )
 

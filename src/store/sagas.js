@@ -23,33 +23,32 @@ const captureErrors = (payload) => {
   const message = path(['payload', 'message'])(payload)
   const type = path(['type'])(payload)
 
-  Logger.withScope(scope => {
+  Logger.withScope((scope) => {
     scope.setExtra('message', message)
     Logger.captureMessage(type)
   })
 }
 
 export default function* rootSaga(persistor) {
-  yield all([]
-    .concat(auth(persistor))
-    .concat(signup())
-    .concat(camera())
-    .concat(theme())
-    .concat(albums())
-    .concat(chat())
-    .concat(users())
-    .concat(layout())
-    .concat(translation())
-    .concat(cache())
-    .concat(subscriptions())
+  yield all(
+    []
+      .concat(auth(persistor))
+      .concat(signup())
+      .concat(camera())
+      .concat(theme())
+      .concat(albums())
+      .concat(chat())
+      .concat(users())
+      .concat(layout())
+      .concat(translation())
+      .concat(cache())
+      .concat(subscriptions())
 
-    .concat(posts())
-    .concat(postsCreate())
-    .concat(postsShare())
-    .concat(postsReportPostViews())
+      .concat(posts())
+      .concat(postsCreate())
+      .concat(postsShare())
+      .concat(postsReportPostViews())
 
-    .concat([
-      takeEvery(action => /FAILURE$/.test(action.type), captureErrors),
-    ]),
+      .concat([takeEvery((action) => /FAILURE$/.test(action.type), captureErrors)]),
   )
 }

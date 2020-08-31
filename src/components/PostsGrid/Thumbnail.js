@@ -1,9 +1,6 @@
 import React, { useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  View,
-} from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import GridItemComponent from 'templates/GridItem'
 import CacheComponent from 'components/Cache'
 import TextOnlyComponent from 'templates/TextOnly/Thumbnail'
@@ -13,22 +10,21 @@ import BellIcon from 'assets/svg/action/Bell'
 
 import { useNavigation } from '@react-navigation/native'
 
-const PostsGridThumbnail = ({
-  post,
-  priorityIndex,
-  thread,
-}) => {
+const PostsGridThumbnail = ({ post, priorityIndex, thread }) => {
   const styling = styles
   const navigation = useNavigation()
 
   /**
    * Icon to be rendered over thumbnail when post has activity e.g. new comment
    */
-  const activeIcon = useMemo(() => (
-    <View style={styling.icon}>
-      <BellIcon fill="red" />
-    </View>
-  ), [])
+  const activeIcon = useMemo(
+    () => (
+      <View style={styling.icon}>
+        <BellIcon fill="red" />
+      </View>
+    ),
+    [],
+  )
 
   /**
    * Condition to cheeck when activeIcon is rendered e.g. new comment
@@ -67,13 +63,8 @@ const PostsGridThumbnail = ({
 
   return (
     <View style={styling.root}>
-      <GridItemComponent
-        onPress={handleOnPress}
-        active={isActive}
-        activeIcon={activeIcon}
-        inactiveIcon={null}
-      >
-        {post.postType === 'IMAGE' ?
+      <GridItemComponent onPress={handleOnPress} active={isActive} activeIcon={activeIcon} inactiveIcon={null}>
+        {post.postType === 'IMAGE' ? (
           <CacheComponent
             thread={thread}
             images={images}
@@ -82,13 +73,9 @@ const PostsGridThumbnail = ({
             hideProgress={hideProgress}
             resizeMode="cover"
           />
-        : null}
+        ) : null}
 
-        {post.postType === 'TEXT_ONLY' ?
-          <TextOnlyComponent
-            text={post.text}
-          />
-        : null}
+        {post.postType === 'TEXT_ONLY' ? <TextOnlyComponent text={post.text} /> : null}
       </GridItemComponent>
     </View>
   )

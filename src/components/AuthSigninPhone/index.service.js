@@ -9,15 +9,17 @@ import pathOr from 'ramda/src/pathOr'
 const AuthSigninComponentService = ({ children }) => {
   const dispatch = useDispatch()
 
-  const authSignin = useSelector(state => state.auth.authSignin)
+  const authSignin = useSelector((state) => state.auth.authSignin)
 
   const handleFormSubmit = (payload) => {
-    dispatch(authActions.authSigninRequest({
-      usernameType: 'phone',
-      countryCode: payload.countryCode,
-      username: `${payload.countryCode}${payload.username}`,
-      password: payload.password,
-    }))
+    dispatch(
+      authActions.authSigninRequest({
+        usernameType: 'phone',
+        countryCode: payload.countryCode,
+        username: `${payload.countryCode}${payload.username}`,
+        password: payload.password,
+      }),
+    )
   }
 
   const formSubmitLoading = authSignin.status === 'loading'
@@ -26,7 +28,11 @@ const AuthSigninComponentService = ({ children }) => {
 
   const formInitialValues = {
     countryCode: '+1',
-    username: replace(pathOr('', ['payload', 'countryCode'])(authSignin), '', pathOr('', ['payload', 'username'])(authSignin)),
+    username: replace(
+      pathOr('', ['payload', 'countryCode'])(authSignin),
+      '',
+      pathOr('', ['payload', 'username'])(authSignin),
+    ),
     password: pathOr('', ['payload', 'password'])(authSignin),
   }
 

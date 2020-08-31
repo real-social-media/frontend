@@ -31,7 +31,6 @@ const postsPersistConfig = {
     // 'postsGetCache',
     // 'postsGetTrendingPosts',
     // 'postsPool',
-    
     // 'postsCreateQueue',
     // 'postsRecreateQueue',
   ],

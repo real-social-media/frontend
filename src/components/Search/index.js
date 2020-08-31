@@ -1,13 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  View,
-  StyleSheet,
-  FlatList,
-  ScrollView,
-  RefreshControl,
-  ActivityIndicator,
-} from 'react-native'
+import { View, StyleSheet, FlatList, ScrollView, RefreshControl, ActivityIndicator } from 'react-native'
 import HeaderComponent from 'components/Search/Header'
 import FormComponent from 'components/Search/Form'
 import ResultComponent from 'components/Search/Result'
@@ -51,10 +44,7 @@ const SearchComponent = ({
     extra: { limit: path(['payload', 'limit'])(postsGetTrendingPosts) },
   })
 
-  const {
-    onViewableItemsChangedRef,
-    viewabilityConfigRef,
-  } = useViewable()
+  const { onViewableItemsChangedRef, viewabilityConfigRef } = useViewable()
 
   return (
     <View style={styling.root}>
@@ -67,52 +57,42 @@ const SearchComponent = ({
         />
       </HeaderComponent>
 
-      {!formFocus && (path(['status'])(postsGetTrendingPosts) === 'loading' && !path(['data', 'length'])(postsGetTrendingPosts)) ?
+      {!formFocus &&
+      path(['status'])(postsGetTrendingPosts) === 'loading' &&
+      !path(['data', 'length'])(postsGetTrendingPosts) ? (
         <PostsLoadingComponent />
-      : null}
+      ) : null}
 
-      {!formFocus ?
+      {!formFocus ? (
         <FlatList
           data={postsGetTrendingPosts.data}
           numColumns={3}
-          keyExtractor={item => item.postId}
+          keyExtractor={(item) => item.postId}
           renderItem={({ item: post, index: priorityIndex }) => (
-            <PostsGridThumbnailComponent
-              post={post}
-              priorityIndex={priorityIndex}
-              thread="posts/trending"
-            />
+            <PostsGridThumbnailComponent post={post} priorityIndex={priorityIndex} thread="posts/trending" />
           )}
-          refreshControl={(
+          refreshControl={
             <RefreshControl
               tintColor={theme.colors.border}
               onRefresh={scroll.handleRefresh}
               refreshing={scroll.refreshing}
             />
-          )}
-          ListFooterComponent={(
-            <ActivityIndicator
-              animating={scroll.loadingmore}
-              color={theme.colors.border}
-            />
-          )}
+          }
+          ListFooterComponent={<ActivityIndicator animating={scroll.loadingmore} color={theme.colors.border} />}
           ListFooterComponentStyle={styling.activity}
           onEndReached={scroll.handleLoadMore}
           onEndReachedThreshold={0.5}
           onViewableItemsChanged={onViewableItemsChangedRef.current}
           viewabilityConfig={viewabilityConfigRef.current}
         />
-      : null}
+      ) : null}
 
-      {formFocus && formChange ?
+      {formFocus && formChange ? (
         <ScrollView
           keyboardShouldPersistTaps="never"
           ref={feedRef}
           refreshControl={
-            <RefreshControl
-              tintColor={theme.colors.border}
-              refreshing={usersSearch.status === 'loading'}
-            />
+            <RefreshControl tintColor={theme.colors.border} refreshing={usersSearch.status === 'loading'} />
           }
         >
           <Subheading style={styling.subheading}>{t('Search Result')}</Subheading>
@@ -126,17 +106,14 @@ const SearchComponent = ({
             usersAcceptFollowerUserRequest={usersAcceptFollowerUserRequest}
           />
         </ScrollView>
-      : null}
+      ) : null}
 
-      {formFocus && !formChange ?
+      {formFocus && !formChange ? (
         <ScrollView
           keyboardShouldPersistTaps="never"
           ref={feedRef}
           refreshControl={
-            <RefreshControl
-              tintColor={theme.colors.border}
-              refreshing={usersGetTrendingUsers.status === 'loading'}
-            />
+            <RefreshControl tintColor={theme.colors.border} refreshing={usersGetTrendingUsers.status === 'loading'} />
           }
         >
           <Subheading style={styling.subheading}>{t('Trending Users')}</Subheading>
@@ -150,24 +127,25 @@ const SearchComponent = ({
             usersAcceptFollowerUserRequest={usersAcceptFollowerUserRequest}
           />
         </ScrollView>
-      : null}
+      ) : null}
     </View>
   )
 }
 
-const styles = theme => StyleSheet.create({
-  root: {
-    backgroundColor: theme.colors.backgroundPrimary,
-    flex: 1,
-  },
-  subheading: {
-    paddingTop: 6,
-    paddingHorizontal: 12,
-  },
-  activity: {
-    padding: theme.spacing.base * 2,
-  },
-})
+const styles = (theme) =>
+  StyleSheet.create({
+    root: {
+      backgroundColor: theme.colors.backgroundPrimary,
+      flex: 1,
+    },
+    subheading: {
+      paddingTop: 6,
+      paddingHorizontal: 12,
+    },
+    activity: {
+      padding: theme.spacing.base * 2,
+    },
+  })
 
 SearchComponent.propTypes = {
   theme: PropTypes.any,

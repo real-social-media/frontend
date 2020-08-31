@@ -8,48 +8,42 @@ import ReportIcon from 'assets/svg/comment/Report'
 import path from 'ramda/src/path'
 
 const RenderRightActions = (rowProps) => (progress, dragX) => {
-  const interpolateProps = (
-    rowProps.handleReportPress &&
-    rowProps.handleDeletePress
-  ) ? ({
-    inputRange: [-120, 0],
-    outputRange: [0, 120],
-    extrapolate: 'clamp',
-  }) : ({
-    inputRange: [-60, 0],
-    outputRange: [0, 60],
-    extrapolate: 'clamp',
-  })
+  const interpolateProps =
+    rowProps.handleReportPress && rowProps.handleDeletePress
+      ? {
+          inputRange: [-120, 0],
+          outputRange: [0, 120],
+          extrapolate: 'clamp',
+        }
+      : {
+          inputRange: [-60, 0],
+          outputRange: [0, 60],
+          extrapolate: 'clamp',
+        }
 
   const trans = dragX.interpolate(interpolateProps)
 
   return (
     <View>
-      <Animated.View style={[
-        [{ transform: [{ translateX: trans }] }],
-        [styles.swipeable],
-      ]}>
-        {rowProps.handleReportPress ?
+      <Animated.View style={[[{ transform: [{ translateX: trans }] }], [styles.swipeable]]}>
+        {rowProps.handleReportPress ? (
           <RectButton style={[styles.button, styles.report]} onPress={rowProps.handleReportPress}>
             <ReportIcon fill="#ffffff" />
           </RectButton>
-        : null}
+        ) : null}
 
-        {rowProps.handleDeletePress ?
+        {rowProps.handleDeletePress ? (
           <RectButton style={[styles.button, styles.delete]} onPress={rowProps.handleDeletePress}>
             <DeleteIcon fill="#ffffff" />
           </RectButton>
-        : null}
+        ) : null}
       </Animated.View>
     </View>
   )
 }
 
 const AppleStyleSwipeableRow = ({ rowProps, rowRef, children }) => {
-  if (
-    !path(['handleReportPress'], rowProps) &&
-    !path(['handleDeletePress'], rowProps)
-  ) {
+  if (!path(['handleReportPress'], rowProps) && !path(['handleDeletePress'], rowProps)) {
     return children
   }
 

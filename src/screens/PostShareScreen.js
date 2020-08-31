@@ -6,13 +6,7 @@ class PostShareScreen extends React.Component {
   render() {
     return (
       <>
-        <PostShareServiceComponent>
-          {((shareProps) => (
-            <PostShareComponent
-              {...shareProps}
-            />
-          ))}
-        </PostShareServiceComponent>
+        <PostShareServiceComponent>{(shareProps) => <PostShareComponent {...shareProps} />}</PostShareServiceComponent>
       </>
     )
   }

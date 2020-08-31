@@ -1,9 +1,6 @@
 import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
-import {
-  View,
-  StyleSheet,
-} from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import PhoneInput from 'react-native-phone-input'
 import TextField from 'components/Formik/TextField'
 import FlagComponent from 'components/Formik/PhoneField/Flag'
@@ -12,7 +9,7 @@ const PhoneField = (props) => {
   const styling = styles
 
   const inputRef = useRef(null)
-  
+
   /**
    * Manually updating country when new country code selected
    */
@@ -23,9 +20,7 @@ const PhoneField = (props) => {
 
   return (
     <View style={styling.root}>
-      {inputRef.current ?
-        <FlagComponent inputRef={inputRef} />
-      : null}
+      {inputRef.current ? <FlagComponent inputRef={inputRef} /> : null}
 
       <PhoneInput
         ref={inputRef}

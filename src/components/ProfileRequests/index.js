@@ -1,11 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  View,
-  ScrollView,
-  RefreshControl,
-} from 'react-native'
+import { StyleSheet, View, ScrollView, RefreshControl } from 'react-native'
 import ResultComponent from 'components/Search/Result'
 
 import { withTheme } from 'react-native-paper'
@@ -21,17 +16,10 @@ const ProfileRequests = ({
   usersAcceptFollowerUserRequest,
 }) => {
   const styling = styles
-  
+
   return (
     <View style={styling.root}>
-      <ScrollView
-        refreshControl={
-          <RefreshControl
-            tintColor={theme.colors.border}
-            refreshing={false}
-          />
-        }
-      >
+      <ScrollView refreshControl={<RefreshControl tintColor={theme.colors.border} refreshing={false} />}>
         <ResultComponent
           usersSearch={usersGetPendingFollowers}
           usersFollow={usersFollow}

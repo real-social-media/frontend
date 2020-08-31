@@ -48,58 +48,59 @@ const PostType = ({ t, theme, handleLibrarySnap, handlePhotoTab, handleTextPostT
   )
 }
 
-const styles = theme => StyleSheet.create({
-  root: {
-    flex: 1,
-    justifyContent: 'flex-end',
-  },
-  backdrop: {
-    ...StyleSheet.absoluteFill,
-  },
-  gradient: {
-    ...StyleSheet.absoluteFill,
-  },
-  component: {
-    height: 180,
-    borderRadius: 24,
-    backgroundColor: theme.colors.backgroundSecondary,
-  },
-  types: {
-    zIndex: 2,
-    maxWidth: 300,
-    flexDirection: 'row',
-    alignSelf: 'center',
-    paddingTop: theme.spacing.base * 2,
-    paddingBottom: theme.spacing.base,
-  },
-  type: {
-    paddingHorizontal: theme.spacing.base,
-  },
-  close: {
-    zIndex: 2,
-    alignSelf: 'center',
-    paddingHorizontal: theme.spacing.base * 2,
-  },
-  icon: {
-    width: 70,
-    height: 70,
-    borderRadius: 35,
-    backgroundColor: theme.colors.text,
-    justifyContent: 'center',
-    alignItems: 'center',
-    overflow: 'hidden',
-  },
-  text: {
-    color: theme.colors.text,
-    fontWeight: '500',
-    alignSelf: 'center',
-    fontSize: 14,
-  },
-  closeText: {
-    color: theme.colors.text,
-    fontSize: 14,
-  },
-})
+const styles = (theme) =>
+  StyleSheet.create({
+    root: {
+      flex: 1,
+      justifyContent: 'flex-end',
+    },
+    backdrop: {
+      ...StyleSheet.absoluteFill,
+    },
+    gradient: {
+      ...StyleSheet.absoluteFill,
+    },
+    component: {
+      height: 180,
+      borderRadius: 24,
+      backgroundColor: theme.colors.backgroundSecondary,
+    },
+    types: {
+      zIndex: 2,
+      maxWidth: 300,
+      flexDirection: 'row',
+      alignSelf: 'center',
+      paddingTop: theme.spacing.base * 2,
+      paddingBottom: theme.spacing.base,
+    },
+    type: {
+      paddingHorizontal: theme.spacing.base,
+    },
+    close: {
+      zIndex: 2,
+      alignSelf: 'center',
+      paddingHorizontal: theme.spacing.base * 2,
+    },
+    icon: {
+      width: 70,
+      height: 70,
+      borderRadius: 35,
+      backgroundColor: theme.colors.text,
+      justifyContent: 'center',
+      alignItems: 'center',
+      overflow: 'hidden',
+    },
+    text: {
+      color: theme.colors.text,
+      fontWeight: '500',
+      alignSelf: 'center',
+      fontSize: 14,
+    },
+    closeText: {
+      color: theme.colors.text,
+      fontSize: 14,
+    },
+  })
 
 PostType.propTypes = {
   theme: PropTypes.any,

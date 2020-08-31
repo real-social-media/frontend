@@ -1,10 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  View,
-  ScrollView,
-} from 'react-native'
+import { StyleSheet, View, ScrollView } from 'react-native'
 import { Text } from 'react-native-paper'
 import RowsComponent from 'templates/Rows'
 import RowsItemComponent from 'templates/RowsItem'
@@ -14,14 +10,9 @@ import path from 'ramda/src/path'
 
 import { withTheme } from 'react-native-paper'
 
-const Translation = ({
-  theme,
-  user,
-  usersEditProfileRequest,
-  translationFetch,
-}) => {
+const Translation = ({ theme, user, usersEditProfileRequest, translationFetch }) => {
   const styling = styles(theme)
-  
+
   return (
     <ScrollView>
       <View style={styling.root}>
@@ -51,16 +42,17 @@ const Translation = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: theme.colors.backgroundPrimary,
-    padding: theme.spacing.base,
-  },
-  form: {
-    padding: theme.spacing.base,
-  },
-})
+const styles = (theme) =>
+  StyleSheet.create({
+    root: {
+      flex: 1,
+      backgroundColor: theme.colors.backgroundPrimary,
+      padding: theme.spacing.base,
+    },
+    form: {
+      padding: theme.spacing.base,
+    },
+  })
 
 Translation.propTypes = {
   theme: PropTypes.any,

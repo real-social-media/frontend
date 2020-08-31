@@ -2,7 +2,7 @@ import RNFS from 'react-native-fs'
 import priorityQueue from 'async/priorityQueue'
 
 /**
- * 
+ *
  */
 export const checkLocalImage = async (path) => {
   return await RNFS.exists(path)
@@ -13,15 +13,12 @@ export const stopRemoteImage = async (jobId) => {
 }
 
 /**
- * 
+ *
  */
-export const fetchRemoteImage = async ({
-  signature,
-  progressCallback,
-  requestCallback,
-  failureCallback,
-  successCallback,
-}, callback) => {
+export const fetchRemoteImage = async (
+  { signature, progressCallback, requestCallback, failureCallback, successCallback },
+  callback,
+) => {
   await RNFS.mkdir(signature.pathFolder)
 
   const { promise, jobId } = RNFS.downloadFile({
@@ -33,8 +30,7 @@ export const fetchRemoteImage = async ({
     readTimeout: 30000,
     backgroundTimeout: 30000,
     progressDivider: 20,
-    resumable: () =>
-      RNFS.isResumable(jobId).then(() => RNFS.resumeDownload(jobId)),
+    resumable: () => RNFS.isResumable(jobId).then(() => RNFS.resumeDownload(jobId)),
     begin: requestCallback,
     progress: progressCallback,
   })
@@ -77,7 +73,7 @@ export const queueInstances = {
 }
 
 /**
- * 
+ *
  */
 export const removeLocalFolder = async (pathFolder) => {
   try {
@@ -100,8 +96,7 @@ export const priorotizedRemoteImageFetch = ({
   const hasDuplicates = (() => {
     try {
       const allTasks = queueInstance._tasks.toArray()
-      return allTasks
-        .find(task => task.signature.path === signature.path)
+      return allTasks.find((task) => task.signature.path === signature.path)
     } catch (error) {
       return false
     }
@@ -111,11 +106,14 @@ export const priorotizedRemoteImageFetch = ({
     return
   }
 
-  queueInstance.push({
-    signature,
-    progressCallback,
-    requestCallback,
-    failureCallback,
-    successCallback,
-  }, priority)
+  queueInstance.push(
+    {
+      signature,
+      progressCallback,
+      requestCallback,
+      failureCallback,
+      successCallback,
+    },
+    priority,
+  )
 }

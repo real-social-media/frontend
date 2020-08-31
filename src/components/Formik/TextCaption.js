@@ -1,10 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  View,
-  TextInput,
-} from 'react-native'
+import { StyleSheet, View, TextInput } from 'react-native'
 import { Text } from 'react-native-paper'
 import { ErrorMessage } from 'formik'
 
@@ -12,10 +8,7 @@ import { withTheme } from 'react-native-paper'
 
 const TextCaption = ({
   theme,
-  field: {
-    value,
-    name,
-  },
+  field: { value, name },
   form,
   placeholder,
   multiline = true,
@@ -24,7 +17,6 @@ const TextCaption = ({
   disabled,
 }) => {
   const styling = styles(theme)
-  
 
   /**
    * Prevent too much multiline characters
@@ -60,28 +52,29 @@ const TextCaption = ({
         // blurOnSubmit={true}
         scrollEnabled={true}
       />
-      <ErrorMessage name={name} render={msg => <Text style={styling.error}>{msg}</Text>} />
+      <ErrorMessage name={name} render={(msg) => <Text style={styling.error}>{msg}</Text>} />
     </View>
   )
 }
 
-const styles = theme => StyleSheet.create({
-  root: {
-    padding: 6,
-    height: 90,
-  },
-  input: {
-    padding: 0,
-    margin: 0,
-    fontSize: 14,
-    color: theme.colors.text,
-    textAlignVertical: 'top',
-  },
-  error: {
-    textAlign: 'right',
-    fontSize: 11,
-  },
-})
+const styles = (theme) =>
+  StyleSheet.create({
+    root: {
+      padding: 6,
+      height: 90,
+    },
+    input: {
+      padding: 0,
+      margin: 0,
+      fontSize: 14,
+      color: theme.colors.text,
+      textAlignVertical: 'top',
+    },
+    error: {
+      textAlign: 'right',
+      fontSize: 11,
+    },
+  })
 
 TextCaption.propTypes = {
   theme: PropTypes.any,

@@ -2,7 +2,7 @@ import React from 'react'
 import { View, StyleSheet } from 'react-native'
 
 const Wrapper = (Component) => {
-	const Children = () => (
+  const Children = () => (
     <React.Fragment>
       <View style={styles.offset} />
       <Component />

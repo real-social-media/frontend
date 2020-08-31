@@ -1,7 +1,5 @@
 const AlbumService = ({ children }) => {
-
-  return children({
-  })
+  return children({})
 }
 
 export default AlbumService

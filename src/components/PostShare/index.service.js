@@ -16,16 +16,15 @@ const ShareService = ({ children }) => {
   const postUserId = path(['params', 'userId'])(route)
   const user = useSelector(authSelector.authUserSelector)
   const postsSingleGet = useSelector(postsSelector.postsSingleGetSelector(postId))
-  const postsShare = useSelector(state => state.posts.postsShare)
-  const cameraCapture = useSelector(state => state.camera.cameraCapture)
+  const postsShare = useSelector((state) => state.posts.postsShare)
+  const cameraCapture = useSelector((state) => state.camera.cameraCapture)
 
   const [watermark, handleWatermark] = useToggle(true)
-  
+
   const postsSingleGetRequest = ({ postId }) =>
     dispatch(postsActions.postsSingleGetRequest({ postId, userId: postUserId }))
 
-  const postsShareRequest = (payload) =>
-    dispatch(postsActions.postsShareRequest(payload))
+  const postsShareRequest = (payload) => dispatch(postsActions.postsShareRequest(payload))
 
   useEffect(() => {
     dispatch(postsActions.postsSingleGetRequest({ postId, userId: postUserId }))
@@ -40,10 +39,7 @@ const ShareService = ({ children }) => {
       dispatch(postsActions.postsShareIdle({}))
       navigationActions.navigateBack(navigation)()
     }
-  }, [
-    postsShare.status,
-    cameraCapture.status,
-  ])
+  }, [postsShare.status, cameraCapture.status])
 
   return children({
     user,

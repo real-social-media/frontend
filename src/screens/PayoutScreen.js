@@ -3,9 +3,7 @@ import PayoutComponent from 'components/Payout'
 
 class PayoutScreen extends React.Component {
   render() {
-    return (
-      <PayoutComponent />
-    )
+    return <PayoutComponent />
   }
 }
 

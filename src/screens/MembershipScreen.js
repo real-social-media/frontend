@@ -3,9 +3,7 @@ import MembershipComponent from 'components/Membership'
 
 class MembershipScreen extends React.Component {
   render() {
-    return (
-      <MembershipComponent />
-    )
+    return <MembershipComponent />
   }
 }
 

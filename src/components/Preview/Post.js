@@ -1,9 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  View,
-} from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import Layout from 'constants/Layout'
 import LinearGradient from 'react-native-linear-gradient'
 import CacheComponent from 'components/Cache'
@@ -11,17 +8,7 @@ import TextOnlyComponent from 'templates/TextOnly'
 
 import { withTheme } from 'react-native-paper'
 
-const PostPreview = ({
-  theme,
-  text: {
-    text,
-  },
-  image: {
-    thumbnailSource,
-    imageSource,
-  },
-  renderUri,
-}) => {
+const PostPreview = ({ theme, text: { text }, image: { thumbnailSource, imageSource }, renderUri }) => {
   const styling = styles
 
   return (
@@ -31,13 +18,9 @@ const PostPreview = ({
         style={styling.gradient}
       />
 
-      {text ?
-        <TextOnlyComponent
-          text={text}
-        />
-      : null}
+      {text ? <TextOnlyComponent text={text} /> : null}
 
-      {!text && !renderUri ?
+      {!text && !renderUri ? (
         <CacheComponent
           images={[
             [thumbnailSource.uri, true],
@@ -47,18 +30,11 @@ const PostPreview = ({
           priorityIndex={1}
           resizeMode="cover"
         />
-      : null}
+      ) : null}
 
-      {!text && renderUri ?
-        <CacheComponent
-          images={[
-            [renderUri, true],
-          ]}
-          fallback={renderUri}
-          priorityIndex={1}
-          resizeMode="cover"
-        />
-      : null}
+      {!text && renderUri ? (
+        <CacheComponent images={[[renderUri, true]]} fallback={renderUri} priorityIndex={1} resizeMode="cover" />
+      ) : null}
     </View>
   )
 }

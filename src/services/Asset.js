@@ -7,7 +7,6 @@ const generateAssetSource = (assetSource) => {
   return `ph://${assetSource}`
 }
 
-
 const generateAssetFormat = (extension) => {
   if (extension && extension.includes('HEIC')) {
     return 'HEIC'
@@ -18,11 +17,11 @@ const generateAssetFormat = (extension) => {
 const generateAssetDestination = (assetSource, assetFilename) => {
   const filename = Math.random().toString(36).substring(7)
   const extension = assetFilename.split('?')[0].split('#')[0].split('.').pop()
-  return ({
+  return {
     filename,
     extension,
     path: `${RNFS.TemporaryDirectoryPath}${filename}.${extension}`,
-  })
+  }
 }
 
 export const getAssetFileAbsolutePath = async (assetSource, assetFilename) => {
@@ -30,7 +29,7 @@ export const getAssetFileAbsolutePath = async (assetSource, assetFilename) => {
   const asset = generateAssetDestination(assetSource, assetFilename)
   const format = generateAssetFormat(asset.extension)
   const path = await RNFS.copyAssetsFileIOS(source, asset.path, 0, 0)
-  
+
   return {
     path,
     format,

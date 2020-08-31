@@ -4,15 +4,7 @@ import ChatDirectServiceComponent from 'components/ChatDirect/index.service'
 
 class ChatDirectScreen extends React.Component {
   render() {
-    return (
-      <ChatDirectServiceComponent>
-        {(props) => (
-          <ChatDirectComponent
-            {...props}
-          />
-        )}
-      </ChatDirectServiceComponent>
-    )
+    return <ChatDirectServiceComponent>{(props) => <ChatDirectComponent {...props} />}</ChatDirectServiceComponent>
   }
 }
 

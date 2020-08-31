@@ -12,21 +12,18 @@ const PostsLikesService = ({ children }) => {
   const userId = route.params.userId
   const postsLikesGet = useSelector(postsSelector.postsLikesGetSelector(postId))
   const postsSingleGet = useSelector(postsSelector.postsSingleGetSelector(postId))
-  const usersFollow = useSelector(state => state.users.usersFollow)
-  const usersUnfollow = useSelector(state => state.users.usersUnfollow)
-  const usersAcceptFollowerUser = useSelector(state => state.users.usersAcceptFollowerUser)
+  const usersFollow = useSelector((state) => state.users.usersFollow)
+  const usersUnfollow = useSelector((state) => state.users.usersUnfollow)
+  const usersAcceptFollowerUser = useSelector((state) => state.users.usersAcceptFollowerUser)
 
-  const usersFollowRequest = ({ userId }) =>
-    dispatch(usersActions.usersFollowRequest({ userId }))
-  
-  const usersUnfollowRequest = ({ userId }) =>
-    dispatch(usersActions.usersUnfollowRequest({ userId }))
-  
+  const usersFollowRequest = ({ userId }) => dispatch(usersActions.usersFollowRequest({ userId }))
+
+  const usersUnfollowRequest = ({ userId }) => dispatch(usersActions.usersUnfollowRequest({ userId }))
+
   const usersAcceptFollowerUserRequest = ({ userId }) =>
     dispatch(usersActions.usersAcceptFollowerUserRequest({ userId }))
 
-  const postsLikesGetRequest = (payload) => 
-    dispatch(postsActions.postsLikesGetRequest(payload))
+  const postsLikesGetRequest = (payload) => dispatch(postsActions.postsLikesGetRequest(payload))
 
   useEffect(() => {
     dispatch(postsActions.postsSingleGetRequest({ postId, userId }))

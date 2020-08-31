@@ -4,15 +4,7 @@ import AlbumComponent from 'components/Album'
 
 class AlbumScreen extends React.Component {
   render() {
-    return (
-      <AlbumServiceComponent>
-        {((shareProps) => (
-          <AlbumComponent
-            {...shareProps}
-          />
-        ))}
-      </AlbumServiceComponent>
-    )
+    return <AlbumServiceComponent>{(shareProps) => <AlbumComponent {...shareProps} />}</AlbumServiceComponent>
   }
 }
 

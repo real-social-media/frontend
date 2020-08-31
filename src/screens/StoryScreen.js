@@ -4,15 +4,7 @@ import StoryComponent from 'components/Story'
 
 class StoryScreen extends React.Component {
   render() {
-    return (
-      <StoryServiceComponent>
-        {((storyProps) => (
-          <StoryComponent
-            {...storyProps}
-          />
-        ))}
-      </StoryServiceComponent>
-    )
+    return <StoryServiceComponent>{(storyProps) => <StoryComponent {...storyProps} />}</StoryServiceComponent>
   }
 }
 

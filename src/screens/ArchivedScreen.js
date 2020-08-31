@@ -4,13 +4,7 @@ import ArchivedServiceComponent from 'components/Archived/index.service'
 
 class ArchivedScreen extends React.Component {
   render() {
-    return (
-      <ArchivedServiceComponent>
-        {(props) => (
-          <ArchivedComponent {...props} />
-        )}
-      </ArchivedServiceComponent>
-    )
+    return <ArchivedServiceComponent>{(props) => <ArchivedComponent {...props} />}</ArchivedServiceComponent>
   }
 }
 

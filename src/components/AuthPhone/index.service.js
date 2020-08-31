@@ -15,11 +15,11 @@ const AuthPhoneComponentService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
 
-  const signupUsername = useSelector(state => state.signup.signupUsername)
-  const signupPhone = useSelector(state => state.signup.signupPhone)
-  const signupPassword = useSelector(state => state.signup.signupPassword)
-  const signupCreate = useSelector(state => state.signup.signupCreate)
-  const signupCognitoIdentity = useSelector(state => state.signup.signupCognitoIdentity)
+  const signupUsername = useSelector((state) => state.signup.signupUsername)
+  const signupPhone = useSelector((state) => state.signup.signupPhone)
+  const signupPassword = useSelector((state) => state.signup.signupPassword)
+  const signupCreate = useSelector((state) => state.signup.signupCreate)
+  const signupCognitoIdentity = useSelector((state) => state.signup.signupCognitoIdentity)
 
   /**
    * Navigation state reset on back button press
@@ -58,18 +58,14 @@ const AuthPhoneComponentService = ({ children }) => {
 
   /**
    * Create new user once phone and password is received from previous steps
-   * 
+   *
    * Previous steps include:
    * - signupUsername -> AuthUsernameScreen
    * - signupPhone -> AuthPhoneScreen
    * - signupPassword -> AuthPasswordScreen
    */
   useEffect(() => {
-    if (
-      !signupUsername.payload.username ||
-      !signupPhone.payload.phone ||
-      !signupPassword.payload.password
-    ) return
+    if (!signupUsername.payload.username || !signupPhone.payload.phone || !signupPassword.payload.password) return
 
     if (
       signupUsername.payload.username === signupCognitoIdentity.username &&
@@ -93,16 +89,11 @@ const AuthPhoneComponentService = ({ children }) => {
    * Redirect to verification confirmation once signup was successful
    */
   useEffect(() => {
-    if (
-      signupCreate.status !== 'success' ||
-      signupCreate.data.cognitoDelivery !== 'SMS'
-    ) return
+    if (signupCreate.status !== 'success' || signupCreate.data.cognitoDelivery !== 'SMS') return
 
     logEvent('SIGNUP_CREATE_SUCCESS')
     navigationActions.navigateAuthPhoneConfirm(navigation)()
-  }, [
-    signupCreate.status,
-  ])
+  }, [signupCreate.status])
 
   const formSubmitLoading = signupCreate.status === 'loading'
   const formSubmitDisabled = signupCreate.status === 'loading'

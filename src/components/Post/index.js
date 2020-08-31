@@ -1,10 +1,6 @@
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import path from 'ramda/src/path'
 import ActionComponent from 'components/Post/Action'
 import AlbumComponent from 'components/Post/Album'
@@ -66,7 +62,10 @@ const PostComponent = ({
     }
   }
 
-  const selfFailedPostVisibility = useMemo(() => PrivacyService.selfPostVerificationVisibility(post, user), [post, user])
+  const selfFailedPostVisibility = useMemo(() => PrivacyService.selfPostVerificationVisibility(post, user), [
+    post,
+    user,
+  ])
 
   return (
     <View style={styling.root}>
@@ -87,22 +86,17 @@ const PostComponent = ({
         actionSheetRef={actionSheetRef}
       />
 
-      {post.postType === 'TEXT_ONLY' ?
+      {post.postType === 'TEXT_ONLY' ? (
         <ViewShot ref={createTextPostRef} onCapture={onCapture}>
-          <TextOnlyComponent
-            text={post.text}
-          >
+          <TextOnlyComponent text={post.text}>
             <TouchableOpacity style={styling.prev} onPress={handleScrollPrev} />
             <TouchableOpacity style={styling.next} onPress={handleScrollNext} />
           </TextOnlyComponent>
         </ViewShot>
-      : null}
+      ) : null}
 
-      {post.postType === 'IMAGE' ?
-        <ListItemComponent
-          post={post}
-          feedRef={feedRef}
-        >
+      {post.postType === 'IMAGE' ? (
+        <ListItemComponent post={post} feedRef={feedRef}>
           <CacheComponent
             thread="post"
             images={[
@@ -115,17 +109,13 @@ const PostComponent = ({
             resizeMode="contain"
             hideLabel={false}
           />
-          {selfFailedPostVisibility ?
-            <VerificationComponent />
-          : null}
+          {selfFailedPostVisibility ? <VerificationComponent /> : null}
           <TouchableOpacity style={styling.prev} onPress={handleScrollPrev} />
           <TouchableOpacity style={styling.next} onPress={handleScrollNext} />
         </ListItemComponent>
-      : null}
+      ) : null}
 
-      {albumLength > 1 ?
-        <AlbumComponent post={post} />
-      : null}
+      {albumLength > 1 ? <AlbumComponent post={post} /> : null}
 
       <ActionComponent
         user={user}
@@ -136,42 +126,36 @@ const PostComponent = ({
         handlePostShare={handlePostShare}
       />
 
-      <ReactionsPreviewTemplate
-        post={post}
-        user={user}
-      />
+      <ReactionsPreviewTemplate post={post} user={user} />
 
-      {post.postType === 'IMAGE' ?
-        <DescriptionComponent
-          post={post}
-        />
-      : null}
+      {post.postType === 'IMAGE' ? <DescriptionComponent post={post} /> : null}
 
       <CommentComponent post={post} />
     </View>
   )
 }
-const styles = theme => StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: theme.colors.backgroundPrimary,
-    paddingBottom: theme.spacing.base,
-  },
-  prev: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: '50%',
-    bottom: 0,
-  },
-  next: {
-    position: 'absolute',
-    top: 0,
-    left: '50%',
-    right: 0,
-    bottom: 0,
-  },
-})
+const styles = (theme) =>
+  StyleSheet.create({
+    root: {
+      flex: 1,
+      backgroundColor: theme.colors.backgroundPrimary,
+      paddingBottom: theme.spacing.base,
+    },
+    prev: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: '50%',
+      bottom: 0,
+    },
+    next: {
+      position: 'absolute',
+      top: 0,
+      left: '50%',
+      right: 0,
+      bottom: 0,
+    },
+  })
 
 PostComponent.defaultProps = {
   postsGet: {},

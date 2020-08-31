@@ -11,15 +11,13 @@ const FeedService = ({ children }) => {
   const dispatch = useDispatch()
   const user = useSelector(authSelector.authUserSelector)
   const postsFeedGet = useSelector(postsSelector.postsFeedGetSelector())
-  const postsCreate = useSelector(state => state.posts.postsCreate)
-  const postsCreateQueue = useSelector(state => state.posts.postsCreateQueue)
+  const postsCreate = useSelector((state) => state.posts.postsCreate)
+  const postsCreateQueue = useSelector((state) => state.posts.postsCreateQueue)
   const postsGetTrendingPosts = useSelector(postsSelector.postsGetTrendingPostsSelector())
-  
-  const postsFeedGetRequest = (payload) =>
-    dispatch(postsActions.postsFeedGetRequest(payload))
 
-  const postsFeedGetMoreRequest = (payload) =>
-    dispatch(postsActions.postsFeedGetMoreRequest(payload))
+  const postsFeedGetRequest = (payload) => dispatch(postsActions.postsFeedGetRequest(payload))
+
+  const postsFeedGetMoreRequest = (payload) => dispatch(postsActions.postsFeedGetMoreRequest(payload))
 
   const { handlePostUpload } = useUpload({
     handlePostUploadStarted: () => {},
@@ -27,8 +25,7 @@ const FeedService = ({ children }) => {
 
   const postsCreateRequest = handlePostUpload
 
-  const postsCreateIdle = (payload) =>
-    dispatch(postsActions.postsCreateIdle(payload))
+  const postsCreateIdle = (payload) => dispatch(postsActions.postsCreateIdle(payload))
 
   const handleScrollPrev = (index) => () => {
     try {
@@ -55,8 +52,7 @@ const FeedService = ({ children }) => {
   /**
    * You are all caught up separator position
    */
-  const bookmarkSeparatorIndex = pathOr([], ['data'])(postsFeedGet)
-    .findIndex(post => post.viewedStatus === 'VIEWED')
+  const bookmarkSeparatorIndex = pathOr([], ['data'])(postsFeedGet).findIndex((post) => post.viewedStatus === 'VIEWED')
 
   /**
    * FlatList feed ref, used for scroll to top on tab bar press
@@ -74,21 +70,21 @@ const FeedService = ({ children }) => {
    */
   const textPostRefs = useRef({})
 
-  const createActionSheetRef = post => element => {
+  const createActionSheetRef = (post) => (element) => {
     if (!actionSheetRefs.current[post.postId]) {
       actionSheetRefs.current[post.postId] = element
     }
   }
 
-  const getActionSheetRef = post => actionSheetRefs.current[post.postId]
-  
-  const createTextPostRef = post => element => {
+  const getActionSheetRef = (post) => actionSheetRefs.current[post.postId]
+
+  const createTextPostRef = (post) => (element) => {
     if (!textPostRefs.current[post.postId]) {
       textPostRefs.current[post.postId] = element
     }
   }
 
-  const getTextPostRef = post => textPostRefs.current[post.postId]
+  const getTextPostRef = (post) => textPostRefs.current[post.postId]
 
   return children({
     user,

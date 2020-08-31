@@ -4,21 +4,14 @@ import HeaderRight from 'navigation/HeaderRight'
 
 import { useNavigation } from '@react-navigation/native'
 
-export const useHeader = ({
-  user,
-  album,
-  onPress,
-  title,
-}) => {
+export const useHeader = ({ user, album, onPress, title }) => {
   const navigation = useNavigation()
 
   /**
    *
    */
-  const headerRight = useCallback(() =>
-    <HeaderRight onPress={onPress} title={title} />
-  , [])
-  
+  const headerRight = useCallback(() => <HeaderRight onPress={onPress} title={title} />, [])
+
   /**
    *
    */
@@ -43,4 +36,3 @@ export const useHeader = ({
     }
   }, [path(['ownedBy', 'userId'])(album)])
 }
-

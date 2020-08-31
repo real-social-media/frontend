@@ -5,15 +5,7 @@ import ScreenWrapper from 'templates/Auth/ScreenWrapper'
 
 class AuthHomeScreen extends React.Component {
   render() {
-    return (
-      <AuthHomeServiceComponent>
-        {(props) => (
-          <AuthHomeComponent
-            {...props}
-          />
-        )}
-      </AuthHomeServiceComponent>
-    )
+    return <AuthHomeServiceComponent>{(props) => <AuthHomeComponent {...props} />}</AuthHomeServiceComponent>
   }
 }
 

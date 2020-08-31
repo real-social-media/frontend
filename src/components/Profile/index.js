@@ -1,13 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  View,
-  FlatList,
-  TouchableOpacity,
-  RefreshControl,
-  ActivityIndicator,
-} from 'react-native'
+import { StyleSheet, View, FlatList, TouchableOpacity, RefreshControl, ActivityIndicator } from 'react-native'
 import CountsComponent from 'components/Profile/Counts'
 import AboutComponent from 'components/Profile/About'
 import ActionComponent from 'components/Profile/Action'
@@ -37,7 +30,7 @@ const Profile = ({
   postsGet,
   postsGetRequest,
   postsGetMoreRequest,
-  
+
   albumsGet,
   albumsGetRequest,
 
@@ -73,10 +66,7 @@ const Profile = ({
     extra: { userId: path(['data', 'userId'])(usersGetProfile) },
   })
 
-  const {
-    onViewableItemsChangedRef,
-    viewabilityConfigRef,
-  } = useViewable()
+  const { onViewableItemsChangedRef, viewabilityConfigRef } = useViewable()
 
   const ProfileHeader = () => (
     <React.Fragment>
@@ -91,16 +81,12 @@ const Profile = ({
           />
         </TouchableOpacity>
         <View style={styling.counts}>
-          <CountsComponent
-            usersGetProfile={usersGetProfile}
-          />
+          <CountsComponent usersGetProfile={usersGetProfile} />
         </View>
       </View>
 
       <View style={styling.about}>
-        <AboutComponent
-          usersGetProfile={usersGetProfile}
-        />
+        <AboutComponent usersGetProfile={usersGetProfile} />
       </View>
 
       <View style={styling.action}>
@@ -118,9 +104,7 @@ const Profile = ({
       </View>
 
       <View style={styling.action}>
-        <AlbumsComponent
-          albumsGet={albumsGet}
-        />
+        <AlbumsComponent albumsGet={albumsGet} />
       </View>
     </React.Fragment>
   )
@@ -140,30 +124,19 @@ const Profile = ({
         ref={profileRef}
         data={postsGet.data}
         numColumns={3}
-        keyExtractor={item => item.postId}
+        keyExtractor={(item) => item.postId}
         renderItem={({ item: post, index: priorityIndex }) => (
-          <PostsGridThumbnailComponent
-            post={post}
-            priorityIndex={priorityIndex}
-            thread="posts/profile"
-          />
+          <PostsGridThumbnailComponent post={post} priorityIndex={priorityIndex} thread="posts/profile" />
         )}
-        refreshControl={(
+        refreshControl={
           <RefreshControl
             tintColor={theme.colors.border}
             onRefresh={scroll.handleRefresh}
             refreshing={scroll.refreshing}
           />
-        )}
-        ListHeaderComponent={() => (
-          <ProfileHeader />
-        )}
-        ListFooterComponent={(
-          <ActivityIndicator
-            animating={scroll.loadingmore}
-            color={theme.colors.border}
-          />
-        )}
+        }
+        ListHeaderComponent={() => <ProfileHeader />}
+        ListFooterComponent={<ActivityIndicator animating={scroll.loadingmore} color={theme.colors.border} />}
         ListFooterComponentStyle={styling.activity}
         onEndReached={scroll.handleLoadMore}
         onEndReachedThreshold={0.5}
@@ -174,31 +147,32 @@ const Profile = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: theme.colors.backgroundPrimary,
-  },
-  component: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 12,
-  },
-  image: {
-    paddingRight: theme.spacing.base,
-  },
-  counts: {
-    flex: 1,
-  },
-  about: {
-    paddingHorizontal: theme.spacing.base,
-    marginBottom: theme.spacing.base,
-  },
-  activity: {
-    padding: theme.spacing.base * 2,
-  },
-})
+const styles = (theme) =>
+  StyleSheet.create({
+    root: {
+      flex: 1,
+      backgroundColor: theme.colors.backgroundPrimary,
+    },
+    component: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: 12,
+    },
+    image: {
+      paddingRight: theme.spacing.base,
+    },
+    counts: {
+      flex: 1,
+    },
+    about: {
+      paddingHorizontal: theme.spacing.base,
+      marginBottom: theme.spacing.base,
+    },
+    activity: {
+      padding: theme.spacing.base * 2,
+    },
+  })
 
 Profile.propTypes = {
   theme: PropTypes.any,

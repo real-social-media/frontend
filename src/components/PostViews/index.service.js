@@ -12,24 +12,20 @@ const PostViewsService = ({ children }) => {
   const userId = route.params.userId
   const postsViewsGet = useSelector(postsSelector.postsViewsGetSelector(postId))
   const postsSingleGet = useSelector(postsSelector.postsSingleGetSelector(postId))
-  const usersFollow = useSelector(state => state.users.usersFollow)
-  const usersUnfollow = useSelector(state => state.users.usersUnfollow)
-  const usersAcceptFollowerUser = useSelector(state => state.users.usersAcceptFollowerUser)
+  const usersFollow = useSelector((state) => state.users.usersFollow)
+  const usersUnfollow = useSelector((state) => state.users.usersUnfollow)
+  const usersAcceptFollowerUser = useSelector((state) => state.users.usersAcceptFollowerUser)
 
-  const usersFollowRequest = ({ userId }) =>
-    dispatch(usersActions.usersFollowRequest({ userId }))
-  
-  const usersUnfollowRequest = ({ userId }) =>
-    dispatch(usersActions.usersUnfollowRequest({ userId }))
-  
+  const usersFollowRequest = ({ userId }) => dispatch(usersActions.usersFollowRequest({ userId }))
+
+  const usersUnfollowRequest = ({ userId }) => dispatch(usersActions.usersUnfollowRequest({ userId }))
+
   const usersAcceptFollowerUserRequest = ({ userId }) =>
     dispatch(usersActions.usersAcceptFollowerUserRequest({ userId }))
 
-  const postsViewsGetRequest = (payload) => 
-    dispatch(postsActions.postsViewsGetRequest(payload))
-  
-  const postsViewsGetMoreRequest = (payload) => 
-    dispatch(postsActions.postsViewsGetMoreRequest(payload))
+  const postsViewsGetRequest = (payload) => dispatch(postsActions.postsViewsGetRequest(payload))
+
+  const postsViewsGetMoreRequest = (payload) => dispatch(postsActions.postsViewsGetMoreRequest(payload))
 
   useEffect(() => {
     dispatch(postsActions.postsSingleGetRequest({ postId, userId }))

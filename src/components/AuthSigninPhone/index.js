@@ -1,9 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  View,
-  StyleSheet,
-} from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import FormComponent from 'components/AuthSigninPhone/Form'
 import AuthActionTemplate from 'templates/Auth/Action'
 import AuthHeaderTemplate from 'templates/Auth/Header'
@@ -29,18 +26,10 @@ const AuthSigninPhone = ({
 
   return (
     <View testID={testIDs.root} style={styling.root}>
-      {formErrorMessage ?
-        <AuthErrorTemplate
-          text={formErrorMessage}
-          onClose={handleErrorClose}
-        />
-      : null}
+      {formErrorMessage ? <AuthErrorTemplate text={formErrorMessage} onClose={handleErrorClose} /> : null}
 
       <View style={styling.component}>
-        <AuthHeaderTemplate
-          title={t('Welcome Back!')}
-          subtitle={t('Please login to continue')}
-        />
+        <AuthHeaderTemplate title={t('Welcome Back!')} subtitle={t('Please login to continue')} />
 
         <View style={styling.content}>
           <FormComponent

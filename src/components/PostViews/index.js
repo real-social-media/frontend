@@ -1,12 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  View,
-  ScrollView,
-  RefreshControl,
-  ActivityIndicator,
-} from 'react-native'
+import { StyleSheet, View, ScrollView, RefreshControl, ActivityIndicator } from 'react-native'
 import ResultComponent from 'components/Search/Result'
 import ScrollService from 'services/Scroll'
 import { Caption } from 'react-native-paper'
@@ -41,16 +35,11 @@ const PostViews = ({
     loadMore: postsViewsGetMoreRequest,
     extra: { postId: path(['data', 'postId'])(postsSingleGet) },
   })
-  
+
   return (
     <View style={styling.root}>
       <ScrollView
-        refreshControl={
-          <RefreshControl
-            tintColor={theme.colors.border}
-            refreshing={scroll.refreshing}
-          />
-        }
+        refreshControl={<RefreshControl tintColor={theme.colors.border} refreshing={scroll.refreshing} />}
         onScroll={scroll.handleScrollChange}
         scrollEventThrottle={400}
       >
@@ -77,31 +66,32 @@ const PostViews = ({
           <Caption>{t('Only you can see who viewed your post')}</Caption>
         </View>
 
-        {scroll.loadingmore ?
+        {scroll.loadingmore ? (
           <View style={styling.activity}>
             <ActivityIndicator color={theme.colors.border} />
           </View>
-        : null}
+        ) : null}
       </ScrollView>
     </View>
   )
 }
 
-const styles = theme => StyleSheet.create({
-  root: {
-    flex: 1,
-  },
-  info: {
-    paddingHorizontal: theme.spacing.base,
-    alignItems: 'center',
-  },
-  activity: {
-    padding: theme.spacing.base * 2,
-  },
-  content: {
-    padding: theme.spacing.base,
-  },
-})
+const styles = (theme) =>
+  StyleSheet.create({
+    root: {
+      flex: 1,
+    },
+    info: {
+      paddingHorizontal: theme.spacing.base,
+      alignItems: 'center',
+    },
+    activity: {
+      padding: theme.spacing.base * 2,
+    },
+    content: {
+      padding: theme.spacing.base,
+    },
+  })
 
 PostViews.propTypes = {
   theme: PropTypes.any,

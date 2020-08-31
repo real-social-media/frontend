@@ -1,9 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  View,
-} from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { TextInput, Text } from 'react-native-paper'
 import { ErrorMessage } from 'formik'
 
@@ -11,10 +8,7 @@ import { withTheme } from 'react-native-paper'
 
 const TextField = ({
   theme,
-  field: {
-    value,
-    name,
-  },
+  field: { value, name },
   form,
   placeholder,
   multiline = false,
@@ -30,7 +24,7 @@ const TextField = ({
   testID,
 }) => {
   const styling = styles
-  
+
   const onFocus = () => {
     form.setFieldTouched(name, true)
   }
@@ -70,9 +64,7 @@ const TextField = ({
         testID={testID}
       />
 
-      {!hideError ?
-        <ErrorMessage name={name} render={msg => <Text style={styling.error}>{msg}</Text>} />
-      : null}
+      {!hideError ? <ErrorMessage name={name} render={(msg) => <Text style={styling.error}>{msg}</Text>} /> : null}
     </View>
   )
 }
