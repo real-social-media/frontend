@@ -6,8 +6,7 @@
     "postinstall": "patch-package",
     "start": "react-native start",
     "dev": "ENVFILE=.env.development react-native run-ios --simulator='iPhone 11' --scheme REAL.development -- --reset-cache",
-    "test": "jest",
-    "lint": "eslint .",
+    "lint": "eslint",
     "translations-scan": "i18next-scanner --config i18next-scanner.config.engine.js src/**/*.js",
     "tests:unit": "jest",
     "tests:e2e": "detox test"
