@@ -162,3 +162,11 @@ export const usersSetApnsTokenIdle = createAction(constants.USERS_SET_APNS_TOKEN
 export const usersSetApnsTokenRequest = createAction(constants.USERS_SET_APNS_TOKEN_REQUEST)
 export const usersSetApnsTokenSuccess = createAction(constants.USERS_SET_APNS_TOKEN_SUCCESS)
 export const usersSetApnsTokenFailure = createAction(constants.USERS_SET_APNS_TOKEN_FAILURE)
+
+/**
+ * 
+ */
+export const usersDeleteAvatarIdle = createAction(constants.USERS_DELETE_AVATAR_IDLE)
+export const usersDeleteAvatarRequest = createAction(constants.USERS_DELETE_AVATAR_REQUEST)
+export const usersDeleteAvatarSuccess = createAction(constants.USERS_DELETE_AVATAR_SUCCESS)
+export const usersDeleteAvatarFailure = createAction(constants.USERS_DELETE_AVATAR_FAILURE)

@@ -117,6 +117,10 @@ export const initialState = {
     error: {},
     payload: {},
   },
+  usersDeleteAvatar: {
+    status: 'idle',
+    error: {},
+  },
 
   usersGetFollowerUsersCache: {},
   usersGetFollowedUsersCache: {},
@@ -729,6 +733,35 @@ const usersDeleteCardIdle = (state) => update(state, {
 /**
  *
  */
+const usersDeleteAvatarRequest = (state) => update(state, {
+  usersDeleteAvatar: {
+    status: { $set: 'loading' },
+  },
+})
+
+const usersDeleteAvatarSuccess = (state) => update(state, {
+  usersDeleteAvatar: {
+    status: { $set: 'success' },
+  },
+})
+
+const usersDeleteAvatarFailure = (state, action) => update(state, {
+  usersDeleteAvatar: {
+    status: { $set: 'failure' },
+    error: { $set: action.payload.message },
+  },
+})
+
+const usersDeleteAvatarIdle = (state) => update(state, {
+  usersDeleteAvatar: {
+    error: { $set: initialState.usersDeleteAvatar.error },
+    status: { $set: 'idle' },
+  },
+})
+
+/**
+ *
+ */
 const usersSetApnsTokenRequest = (state, action) => update(state, {
   usersSetApnsToken: {
     status: { $set: 'loading' },
@@ -854,6 +887,11 @@ export default handleActions({
   [constants.USERS_SET_APNS_TOKEN_SUCCESS]: usersSetApnsTokenSuccess,
   [constants.USERS_SET_APNS_TOKEN_FAILURE]: usersSetApnsTokenFailure,
   [constants.USERS_SET_APNS_TOKEN_IDLE]: usersSetApnsTokenIdle,
+
+  [constants.USERS_DELETE_AVATAR_REQUEST]: usersDeleteAvatarRequest,
+  [constants.USERS_DELETE_AVATAR_SUCCESS]: usersDeleteAvatarSuccess,
+  [constants.USERS_DELETE_AVATAR_FAILURE]: usersDeleteAvatarFailure,
+  [constants.USERS_DELETE_AVATAR_IDLE]: usersDeleteAvatarIdle,
 
   /**
    * Clear on logout

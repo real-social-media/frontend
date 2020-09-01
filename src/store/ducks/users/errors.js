@@ -20,6 +20,12 @@ const messageCodes = {
       text: 'Verification failed. Please add an unmodified profile picture. Our AI detects photoshop and filters',
     },
   },
+  [constants.USERS_DELETE_AVATAR_FAILURE]: {
+    GENERIC: {
+      code: 'GENERIC',
+      text: 'Profile photo delete failed. Please try again',
+    },
+  },
 }
 
 export const getMessagePayload = (key, status = 'GENERIC', nativeError = '') => {
