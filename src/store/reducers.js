@@ -23,7 +23,8 @@ import 'store/ducks/users/updates'
 import 'store/ducks/chat/updates'
 
 const postsPersistConfig = {
-  key: '/v2/posts',
+  version: 2,
+  key: 'posts',
   storage: AsyncStorage,
   whitelist: [
     // 'postsFeedGet',
@@ -38,7 +39,8 @@ const postsPersistConfig = {
 }
 
 const usersPersistConfig = {
-  key: '/v2/users',
+  version: 2,
+  key: 'users',
   storage: AsyncStorage,
   whitelist: [
     // 'usersPool',
@@ -46,7 +48,8 @@ const usersPersistConfig = {
 }
 
 const authPersistConfig = {
-  key: '/v2/auth',
+  version: 2,
+  key: 'auth',
   storage: AsyncStorage,
   whitelist: [
     // 'user',
@@ -54,7 +57,8 @@ const authPersistConfig = {
 }
 
 const signupPersistConfig = {
-  key: '/v2/signup',
+  version: 2,
+  key: 'signup',
   storage: AsyncStorage,
   whitelist: [
     // 'signupCognitoIdentity',
@@ -62,7 +66,8 @@ const signupPersistConfig = {
 }
 
 const chatPersistConfig = {
-  key: '/v2/chat',
+  version: 2,
+  key: 'chat',
   storage: AsyncStorage,
   whitelist: [
     // 'chatGetChats',
