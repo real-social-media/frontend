@@ -2,9 +2,9 @@ import { handleActions } from 'redux-actions'
 import update from 'immutability-helper'
 import * as constants from 'store/ducks/entities/constants'
 
-const now = Date.now()
+export const now = Date.now()
 
-const initialState = {
+export const initialState = {
   albums: {
     updatedAt: now,
   },
