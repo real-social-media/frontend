@@ -44,51 +44,15 @@ const entitiesPersistConfig = {
   ],
 }
 
-const usersPersistConfig = {
-  version: 2,
-  key: 'users',
-  storage: AsyncStorage,
-  whitelist: [
-    // 'usersPool',
-  ],
-}
-
-const authPersistConfig = {
-  version: 2,
-  key: 'auth',
-  storage: AsyncStorage,
-  whitelist: [
-    // 'user',
-  ],
-}
-
-const signupPersistConfig = {
-  version: 2,
-  key: 'signup',
-  storage: AsyncStorage,
-  whitelist: [
-    // 'signupCognitoIdentity',
-  ],
-}
-
-const chatPersistConfig = {
-  version: 2,
-  key: 'chat',
-  storage: AsyncStorage,
-  whitelist: [
-    // 'chatGetChats',
-  ],
-}
-
 export default combineReducers({
-  auth: persistReducer(authPersistConfig, auth),
-  signup: persistReducer(signupPersistConfig, signup),
+  auth,
+  signup,
   theme,
   camera,
   albums,
-  chat: persistReducer(chatPersistConfig, chat),
+  chat,
   posts: persistReducer(postsPersistConfig, posts),
-  users: persistReducer(usersPersistConfig, users),
+  users,
   layout,
   translation,
   ui,
