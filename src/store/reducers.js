@@ -2,6 +2,7 @@ import { combineReducers } from 'redux'
 import { persistReducer } from 'redux-persist'
 
 import AsyncStorage from '@react-native-community/async-storage'
+import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 
 import auth from 'store/ducks/auth/reducer'
 import signup from 'store/ducks/signup/reducer'
@@ -28,6 +29,18 @@ const postsPersistConfig = {
   storage: AsyncStorage,
   whitelist: [
     'postsFeedGet',
+  ],
+}
+
+const entitiesPersistConfig = {
+  version: 2,
+  key: 'entities',
+  storage: AsyncStorage,
+  stateReconciler: autoMergeLevel2,
+  whitelist: [
+    'posts',
+    'images',
+    'comments',
   ],
 }
 
@@ -80,6 +93,6 @@ export default combineReducers({
   translation,
   ui,
   cache,
-  entities,
+  entities: persistReducer(entitiesPersistConfig, entities),
   subscriptions,
 })

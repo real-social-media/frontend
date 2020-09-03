@@ -2,6 +2,32 @@ import { handleActions } from 'redux-actions'
 import update from 'immutability-helper'
 import * as constants from 'store/ducks/entities/constants'
 
+const now = Date.now()
+
+const initialState = {
+  albums: {
+    updatedAt: now,
+  },
+  posts: {
+    updatedAt: now,
+  },
+  comments: {
+    updatedAt: now,
+  },
+  users: {
+    updatedAt: now,
+  },
+  images: {
+    updatedAt: now,
+  },
+  chats: {
+    updatedAt: now,
+  },
+  messages: {
+    updatedAt: now,
+  },
+}
+
 const innerMerge = (state, action) => {
   const entries = Object.entries(action.payload.data)
 
@@ -11,64 +37,20 @@ const innerMerge = (state, action) => {
   }, state)
 }
 
-const initialState = {
-  albums: {
-  },
-  posts: {
-  },
-  comments: {
-  },
-  users: {
-  },
-  images: {
-  },
-  chats: {
-  },
-  messages: {
-  },
-}
-
-const entitiesUsersMerge = (state, action) => update(state, {
-  users: {
-    $merge: innerMerge(state.users, action),
+const createMergeReducer = (key) => (state, action) => update(state, {
+  [key]: {
+    $merge: innerMerge(state[key], action),
+    updatedAt: { $set: Date.now() },
   },
 })
 
-const entitiesAlbumsMerge = (state, action) => update(state, {
-  albums: {
-    $merge: innerMerge(state.albums, action),
-  },
-})
-
-const entitiesPostsMerge = (state, action) => update(state, {
-  posts: {
-    $merge: innerMerge(state.posts, action),
-  },
-})
-
-const entitiesCommentsMerge = (state, action) => update(state, {
-  comments: {
-    $merge: innerMerge(state.comments, action),
-  },
-})
-
-const entitiesImagesMerge = (state, action) => update(state, {
-  images: {
-    $merge: innerMerge(state.images, action),
-  },
-})
-
-const entitiesChatsMerge = (state, action) => update(state, {
-  chats: {
-    $merge: innerMerge(state.chats, action),
-  },
-})
-
-const entitiesMessagesMerge = (state, action) => update(state, {
-  messages: {
-    $merge: innerMerge(state.messages, action),
-  },
-})
+const entitiesAlbumsMerge = createMergeReducer('albums')
+const entitiesPostsMerge = createMergeReducer('posts')
+const entitiesCommentsMerge = createMergeReducer('comments')
+const entitiesUsersMerge = createMergeReducer('users')
+const entitiesImagesMerge = createMergeReducer('images')
+const entitiesChatsMerge = createMergeReducer('chats')
+const entitiesMessagesMerge = createMergeReducer('messages')
 
 export default handleActions({
   [constants.ENTITIES_ALBUMS_MERGE]: entitiesAlbumsMerge,
