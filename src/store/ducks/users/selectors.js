@@ -131,4 +131,4 @@ export const usersImagePostsGetSelector = () => createDeepEqualSelector(
   },
 )
 
-export const usersDeleteAvatarError = path(['users', 'usersDeleteAvatar', 'error', 'text'])
+export const usersDeleteAvatar = path(['users', 'usersDeleteAvatar'])

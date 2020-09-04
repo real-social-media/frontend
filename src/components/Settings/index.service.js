@@ -7,12 +7,13 @@ import * as usersActions from 'store/ducks/users/actions'
 import * as cameraActions from 'store/ducks/camera/actions'
 import * as navigationActions from 'navigation/actions'
 import useCamera from 'services/providers/Camera'
+import path from 'ramda/src/path'
 
 const SettingsService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
 
-  const errorMessage = useSelector(usersSelector.usersDeleteAvatarError)
+  const usersDeleteAvatar = useSelector(usersSelector.usersDeleteAvatar)
   const authSignout = useSelector((state) => state.auth.authSignout)
   const user = useSelector(authSelector.authUserSelector)
 
@@ -27,8 +28,8 @@ const SettingsService = ({ children }) => {
     handleProcessedPhoto,
   })
 
-  const deleteProfilePhoto = () => dispatch(usersActions.usersDeleteAvatarRequest())
-
+  const usersDeleteAvatarRequest = () => dispatch(usersActions.usersDeleteAvatarRequest())
+  const settingsErrorMessage = path(['error', 'text'])(usersDeleteAvatar)
   const handleErrorClose = () => dispatch(usersActions.usersDeleteAvatarIdle({}))
 
   return children({
@@ -37,9 +38,9 @@ const SettingsService = ({ children }) => {
     navigation,
     authSignoutRequest,
     handleLibrarySnap: camera.handleLibrarySnap,
-    deleteProfilePhoto,
+    usersDeleteAvatarRequest,
     handleErrorClose,
-    errorMessage,
+    settingsErrorMessage,
   })
 }
 

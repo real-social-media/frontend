@@ -32,9 +32,9 @@ const Settings = ({
   authSignoutRequest,
   handleLibrarySnap,
   navigation,
-  deleteProfilePhoto,
+  usersDeleteAvatarRequest,
   handleErrorClose,
-  errorMessage,
+  settingsErrorMessage,
   user,
 }) => {
   const styling = styles(theme)
@@ -52,7 +52,7 @@ const Settings = ({
     confirm({
       title: t('Delete Profile Photo'),
       desc: t('Are you sure you want to delete the profile photo?'),
-      onConfirm: deleteProfilePhoto,
+      onConfirm: usersDeleteAvatarRequest,
     })
   }
 
@@ -150,7 +150,7 @@ const Settings = ({
 
         <Caption style={styling.helper}>v{DeviceInfo.getReadableVersion()}</Caption>
       </ScrollView>
-      {errorMessage ? <AuthErrorTemplate text={errorMessage} onClose={handleErrorClose} /> : null}
+      {settingsErrorMessage ? <AuthErrorTemplate text={settingsErrorMessage} onClose={handleErrorClose} /> : null}
     </>
   )
 }
@@ -181,13 +181,13 @@ Settings.propTypes = {
   handleLibrarySnap: PropTypes.any,
   navigation: PropTypes.any,
   user: PropTypes.any,
-  deleteProfilePhoto: PropTypes.func,
+  usersDeleteAvatarRequest: PropTypes.func,
   handleErrorClose: PropTypes.func,
-  errorMessage: PropTypes.string,
+  settingsErrorMessage: PropTypes.string,
 }
 
 Settings.defaultProps = {
-  errorMessage: null,
+  settingsErrorMessage: null,
 }
 
 export default withTranslation()(withTheme(Settings))
