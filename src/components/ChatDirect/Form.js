@@ -1,6 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, View, Keyboard } from 'react-native'
+import {
+  StyleSheet,
+  View,
+  Keyboard,
+} from 'react-native'
 import TextGrowing from 'components/Formik/TextGrowing'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 import { Formik, Field } from 'formik'
@@ -13,7 +17,12 @@ const formSchema = Yup.object().shape({
   text: Yup.string().min(1).required(),
 })
 
-const ChatDirectForm = ({ t, theme, handleSubmit, loading }) => {
+const ChatDirectForm = ({
+  t,
+  theme,
+  handleSubmit,
+  loading,
+}) => {
   const styling = styles(theme)
 
   return (
@@ -28,27 +37,26 @@ const ChatDirectForm = ({ t, theme, handleSubmit, loading }) => {
   )
 }
 
-const styles = (theme) =>
-  StyleSheet.create({
-    root: {
-      flexDirection: 'row',
-      minHeight: 64,
-      padding: 12,
-    },
-    input: {
-      flex: 1,
-    },
-    button: {
-      width: 90,
-      marginLeft: theme.spacing.base,
-      justifyContent: 'flex-end',
-    },
-    icon: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      paddingLeft: 12,
-    },
-  })
+const styles = theme => StyleSheet.create({
+  root: {
+    flexDirection: 'row',
+    minHeight: 64,
+    padding: 12,
+  },
+  input: {
+    flex: 1,
+  },
+  button: {
+    width: 90,
+    marginLeft: theme.spacing.base,
+    justifyContent: 'flex-end',
+  },
+  icon: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingLeft: 12,
+  },
+})
 
 ChatDirectForm.propTypes = {
   theme: PropTypes.any,
@@ -59,20 +67,28 @@ ChatDirectForm.propTypes = {
   t: PropTypes.any,
 }
 
-export default withTranslation()(
-  withTheme(({ chatAddMessage, chatAddMessageRequest, ...props }) => (
-    <Formik
-      initialValues={{
-        text: '',
-      }}
-      validationSchema={formSchema}
-      onSubmit={(values, { resetForm }) => {
-        chatAddMessageRequest(values)
-        resetForm()
-        Keyboard.dismiss()
-      }}
-    >
-      {(formikProps) => <ChatDirectForm {...formikProps} {...props} loading={chatAddMessage.status === 'loading'} />}
-    </Formik>
-  )),
-)
+export default withTranslation()(withTheme(({
+  chatAddMessage,
+  chatAddMessageRequest,
+  ...props
+}) => (
+  <Formik
+    initialValues={{
+      text: '',
+    }}
+    validationSchema={formSchema}
+    onSubmit={(values, { resetForm }) => {
+      chatAddMessageRequest(values)
+      resetForm()
+      Keyboard.dismiss()
+    }}
+  >
+    {(formikProps) => (
+      <ChatDirectForm
+        {...formikProps}
+        {...props}
+        loading={chatAddMessage.status === 'loading'}
+      />
+    )}
+  </Formik>
+)))

@@ -37,6 +37,7 @@ export const singleAlbumFragment = `
   }
 `
 
+
 export const singleAlbumPostFragment = `
   fragment postImageFragment on Image {
     url

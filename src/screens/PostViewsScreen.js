@@ -4,7 +4,15 @@ import PostViewsServiceComponent from 'components/PostViews/index.service'
 
 class PostViews extends React.Component {
   render() {
-    return <PostViewsServiceComponent>{(props) => <PostViewsComponent {...props} />}</PostViewsServiceComponent>
+    return (
+      <PostViewsServiceComponent>
+        {(props) => (
+          <PostViewsComponent
+            {...props}
+          />
+        )}
+      </PostViewsServiceComponent>
+    )
   }
 }
 

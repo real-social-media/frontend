@@ -6,56 +6,42 @@ import { useSelector, useDispatch } from 'react-redux'
 const PrivacyService = ({ children }) => {
   const dispatch = useDispatch()
   const user = useSelector(authSelector.authUserSelector)
-  const usersEditProfile = useSelector((state) => state.users.usersEditProfile)
+  const usersEditProfile = useSelector(state => state.users.usersEditProfile)
 
   const togglePrivacyStatus = () =>
-    dispatch(
-      usersActions.usersEditProfileRequest({
-        privacyStatus: user.privacyStatus === 'PRIVATE' ? 'PUBLIC' : 'PRIVATE',
-      }),
-    )
+    dispatch(usersActions.usersEditProfileRequest({
+      privacyStatus: user.privacyStatus === 'PRIVATE' ? 'PUBLIC' : 'PRIVATE',
+    }))
 
   const toggleFollowCountsHidden = () =>
-    dispatch(
-      usersActions.usersEditProfileRequest({
-        followCountsHidden: !user.followCountsHidden,
-      }),
-    )
+    dispatch(usersActions.usersEditProfileRequest({
+      followCountsHidden: !user.followCountsHidden,
+    }))
 
   const toggleViewCountsHidden = () =>
-    dispatch(
-      usersActions.usersEditProfileRequest({
-        viewCountsHidden: !user.viewCountsHidden,
-      }),
-    )
+    dispatch(usersActions.usersEditProfileRequest({
+      viewCountsHidden: !user.viewCountsHidden,
+    }))
 
   const toggleLikesDisabled = () =>
-    dispatch(
-      usersActions.usersEditProfileRequest({
-        likesDisabled: !user.likesDisabled,
-      }),
-    )
+    dispatch(usersActions.usersEditProfileRequest({
+      likesDisabled: !user.likesDisabled,
+    }))
 
   const toggleCommentsDisabled = () =>
-    dispatch(
-      usersActions.usersEditProfileRequest({
-        commentsDisabled: !user.commentsDisabled,
-      }),
-    )
+    dispatch(usersActions.usersEditProfileRequest({
+      commentsDisabled: !user.commentsDisabled,
+    }))
 
   const toggleSharingDisabled = () =>
-    dispatch(
-      usersActions.usersEditProfileRequest({
-        sharingDisabled: !user.sharingDisabled,
-      }),
-    )
+    dispatch(usersActions.usersEditProfileRequest({
+      sharingDisabled: !user.sharingDisabled,
+    }))
 
   const toggleVerificationHidden = () =>
-    dispatch(
-      usersActions.usersEditProfileRequest({
-        verificationHidden: !user.verificationHidden,
-      }),
-    )
+    dispatch(usersActions.usersEditProfileRequest({
+      verificationHidden: !user.verificationHidden,
+    }))
 
   useEffect(() => {
     if (usersEditProfile.status === 'success') {

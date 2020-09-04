@@ -1,6 +1,9 @@
 import React, { useState, useRef } from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, View } from 'react-native'
+import {
+  StyleSheet,
+  View,
+} from 'react-native'
 import { GiftedChat, MessageText, Bubble } from 'react-native-gifted-chat'
 import pathOr from 'ramda/src/pathOr'
 import FormComponent from 'components/ChatDirect/Form'
@@ -31,19 +34,17 @@ const ChatDirect = ({
   const actionSheetRef = useRef(null)
   const [selectedMessage, setSelectedMessage] = useState(null)
 
-  const messagesAdapter = pathOr(
-    [],
-    ['data', 'messages', 'items'],
-  )(chatGetChat).map((message) => ({
-    _id: message.messageId,
-    text: message.text,
-    createdAt: message.createdAt,
-    user: {
-      _id: pathOr(null, ['author', 'userId'])(message),
-      name: pathOr(null, ['author', 'username'])(message),
-      avatar: pathOr(null, ['author', 'photo', 'url64p'])(message),
-    },
-  }))
+  const messagesAdapter = pathOr([], ['data', 'messages', 'items'])(chatGetChat)
+    .map(message => ({
+      _id: message.messageId,
+      text: message.text,
+      createdAt: message.createdAt,
+      user: {
+        _id: pathOr(null, ['author', 'userId'])(message),
+        name: pathOr(null, ['author', 'username'])(message),
+        avatar: pathOr(null, ['author', 'photo', 'url64p'])(message),
+      },
+    }))
 
   const userAdapter = {
     _id: user.userId,
@@ -58,12 +59,15 @@ const ChatDirect = ({
     <View style={styling.root}>
       <GiftedChat
         messages={messagesAdapter}
-        onSend={(message) => chatAddMessageRequest({ text: message[0].text })}
+        onSend={message => chatAddMessageRequest({ text: message[0].text })}
         renderBubble={(bubbleProps) => (
           <Bubble
             {...bubbleProps}
             renderMessageText={(messageProps) => (
-              <MessageText {...messageProps} customTextStyle={styling.customTextStyle} />
+              <MessageText
+                {...messageProps}
+                customTextStyle={styling.customTextStyle}
+              />
             )}
             wrapperStyle={{ left: styling.receivedMessage, right: styling.sentMessage }}
           />
@@ -78,21 +82,27 @@ const ChatDirect = ({
           actionSheetRef.current && actionSheetRef.current.show()
         }}
       />
-
-      {chatId ? (
+      
+      {chatId ?
         <View style={{ marginBottom }}>
-          <FormComponent chatAddMessage={chatAddMessage} chatAddMessageRequest={chatAddMessageRequest} />
+          <FormComponent
+            chatAddMessage={chatAddMessage}
+            chatAddMessageRequest={chatAddMessageRequest}
+          />
         </View>
-      ) : null}
+      : null}
 
-      {!chatId ? (
+      {!chatId ?
         // eslint-disable-next-line react-native/no-inline-styles
         <View style={{ marginBottom, paddingHorizontal: 12 }}>
-          <FormComponent chatAddMessage={chatCreateDirect} chatAddMessageRequest={chatCreateDirectRequest} />
+          <FormComponent
+            chatAddMessage={chatCreateDirect}
+            chatAddMessageRequest={chatCreateDirectRequest}
+          />
         </View>
-      ) : null}
+      : null}
 
-      {selectedMessage && selectedMessage.user._id === user.userId ? (
+      {selectedMessage && (selectedMessage.user._id === user.userId) ?
         <ActionSheet
           ref={actionSheetRef}
           options={[t('Delete Message'), t('Cancel')]}
@@ -103,9 +113,9 @@ const ChatDirect = ({
             }
           }}
         />
-      ) : null}
+      : null}
 
-      {selectedMessage && selectedMessage.user._id !== user.userId ? (
+      {selectedMessage && (selectedMessage.user._id !== user.userId) ?
         <ActionSheet
           ref={actionSheetRef}
           options={[t('Delete Message'), t('Report Message'), t('Cancel')]}
@@ -119,25 +129,26 @@ const ChatDirect = ({
             }
           }}
         />
-      ) : null}
+      : null}
+
     </View>
   )
 }
-
-const styles = (theme) =>
-  StyleSheet.create({
-    root: {
-      flex: 1,
-      backgroundColor: theme.colors.backgroundPrimary,
-    },
-    receivedMessage: {
-      backgroundColor: '#2f3542',
-    },
-    sentMessage: {},
-    customTextStyle: {
-      color: '#ffffff',
-    },
-  })
+  
+const styles = theme => StyleSheet.create({
+  root: {
+    flex: 1,
+    backgroundColor: theme.colors.backgroundPrimary,
+  },
+  receivedMessage: {
+    backgroundColor: '#2f3542',
+  },
+  sentMessage: {
+  },
+  customTextStyle: {
+    color: '#ffffff',
+  },
+})
 
 ChatDirect.propTypes = {
   t: PropTypes.any,

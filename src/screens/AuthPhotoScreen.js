@@ -5,7 +5,15 @@ import ScreenWrapper from 'templates/Auth/ScreenWrapper'
 
 class AuthPhotoScreen extends React.Component {
   render() {
-    return <AuthPhotoServiceComponent>{(props) => <AuthPhotoComponent {...props} />}</AuthPhotoServiceComponent>
+    return (
+      <AuthPhotoServiceComponent>
+        {(props) => (
+          <AuthPhotoComponent
+            {...props}
+          />
+        )}
+      </AuthPhotoServiceComponent>
+    )
   }
 }
 

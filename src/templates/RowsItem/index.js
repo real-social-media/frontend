@@ -1,15 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, View } from 'react-native'
+import {
+  StyleSheet,
+  View,
+} from 'react-native'
 
-const RowsItemTemplate = ({ children, hasBorders }) => {
+const RowsItemTemplate = ({
+  children,
+  hasBorders,
+}) => {
   const styling = styles
-
+  
   const rootStyle = hasBorders ? styling.rootBorder : styling.rootDefault
 
   return (
     <View style={rootStyle}>
-      <View style={styling.component}>{children}</View>
+      <View style={styling.component}>
+        {children}
+      </View>
     </View>
   )
 }
@@ -33,7 +41,8 @@ const styles = StyleSheet.create({
   },
 })
 
-RowsItemTemplate.defaultProps = {}
+RowsItemTemplate.defaultProps = {
+}
 
 RowsItemTemplate.propTypes = {
   children: PropTypes.any,

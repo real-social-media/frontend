@@ -1,6 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, View } from 'react-native'
+import {
+  StyleSheet,
+  View,
+} from 'react-native'
 import TextField from 'components/Formik/TextField'
 import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
@@ -12,7 +15,10 @@ const formSchema = Yup.object().shape({
   name: Yup.string().min(1).max(50).required(),
 })
 
-const AlbumEditForm = ({ t, handleSubmit }) => {
+const AlbumEditForm = ({
+  t,
+  handleSubmit,
+}) => {
   const styling = styles
 
   useHeader({
@@ -30,7 +36,8 @@ const AlbumEditForm = ({ t, handleSubmit }) => {
 }
 
 const styles = StyleSheet.create({
-  root: {},
+  root: {
+  },
   input: {
     marginBottom: 12,
   },
@@ -42,7 +49,11 @@ AlbumEditForm.propTypes = {
   loading: PropTypes.any,
 }
 
-export default withTranslation()(({ album, albumsEditRequest, ...props }) => (
+export default withTranslation()(({
+  album,
+  albumsEditRequest,
+  ...props
+}) => (
   <Formik
     initialValues={{
       albumId: album.albumId,
@@ -52,6 +63,12 @@ export default withTranslation()(({ album, albumsEditRequest, ...props }) => (
     validationSchema={formSchema}
     onSubmit={albumsEditRequest}
   >
-    {(formikProps) => <AlbumEditForm {...formikProps} {...props} loading={false} />}
+    {(formikProps) => (
+      <AlbumEditForm
+        {...formikProps}
+        {...props}
+        loading={false}
+      />
+    )}
   </Formik>
 ))

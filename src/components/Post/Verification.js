@@ -1,6 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, TouchableOpacity } from 'react-native'
+import {
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native'
 import { BlurView } from '@react-native-community/blur'
 import { Text } from 'react-native-paper'
 import * as navigationActions from 'navigation/actions'
@@ -8,10 +11,12 @@ import * as navigationActions from 'navigation/actions'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
-const Verification = ({ t }) => {
+const Verification = ({
+  t,
+}) => {
   const styling = styles
   const navigation = useNavigation()
-
+  
   return (
     <BlurView style={styling.root}>
       <TouchableOpacity onPress={navigationActions.navigateVerification(navigation, { actionType: 'BACK' })}>

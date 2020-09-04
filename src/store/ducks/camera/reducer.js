@@ -13,43 +13,36 @@ const initialState = {
 /**
  *
  */
-const cameraCaptureRequest = (state, action) =>
-  update(state, {
-    cameraCapture: {
-      payload: { $set: action.payload },
-      status: { $set: 'loading' },
-    },
-  })
-
-const cameraCaptureSuccess = (state, action) =>
-  update(state, {
-    cameraCapture: {
-      data: { $set: action.payload.data },
-      status: { $set: 'success' },
-    },
-  })
-
-const cameraCaptureFailure = (state) =>
-  update(state, {
-    cameraCapture: {
-      status: { $set: 'failure' },
-    },
-  })
-
-const cameraCaptureIdle = (state, action) =>
-  update(state, {
-    cameraCapture: {
-      data: { $set: state.cameraCapture.data.filter((item) => item.uri !== action.payload.payload.uri) },
-      status: { $set: 'idle' },
-    },
-  })
-
-export default handleActions(
-  {
-    [constants.CAMERA_CAPTURE_REQUEST]: cameraCaptureRequest,
-    [constants.CAMERA_CAPTURE_SUCCESS]: cameraCaptureSuccess,
-    [constants.CAMERA_CAPTURE_FAILURE]: cameraCaptureFailure,
-    [constants.CAMERA_CAPTURE_IDLE]: cameraCaptureIdle,
+const cameraCaptureRequest = (state, action) => update(state, {
+  cameraCapture: {
+    payload: { $set: action.payload },
+    status: { $set: 'loading' },
   },
-  initialState,
-)
+})
+
+const cameraCaptureSuccess = (state, action) => update(state, {
+  cameraCapture: {
+    data: { $set: action.payload.data },
+    status: { $set: 'success' },
+  },
+})
+
+const cameraCaptureFailure = (state) => update(state, {
+  cameraCapture: {
+    status: { $set: 'failure' },
+  },
+})
+
+const cameraCaptureIdle = (state, action) => update(state, {
+  cameraCapture: {
+    data: { $set: state.cameraCapture.data.filter(item => item.uri !== action.payload.payload.uri) },
+    status: { $set: 'idle' },
+  },
+})
+
+export default handleActions({
+  [constants.CAMERA_CAPTURE_REQUEST]: cameraCaptureRequest,
+  [constants.CAMERA_CAPTURE_SUCCESS]: cameraCaptureSuccess,
+  [constants.CAMERA_CAPTURE_FAILURE]: cameraCaptureFailure,
+  [constants.CAMERA_CAPTURE_IDLE]: cameraCaptureIdle,
+}, initialState)

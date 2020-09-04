@@ -1,6 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, TouchableOpacity, View } from 'react-native'
+import {
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import Layout from 'constants/Layout'
 
 const GridItemTemplate = ({
@@ -15,15 +19,19 @@ const GridItemTemplate = ({
   inactiveIcon,
 }) => {
   const styling = styles
-
+  
   return (
     <TouchableOpacity style={styling.root} onPress={onPress}>
       <View style={styling.component}>
         {children}
 
-        {active && activeIcon ? <View style={styling.wrapper}>{activeIcon}</View> : null}
+        {active && activeIcon ?
+          <View style={styling.wrapper}>{activeIcon}</View>
+        : null}
 
-        {!active && inactiveIcon ? <View style={styling.wrapper}>{inactiveIcon}</View> : null}
+        {!active && inactiveIcon ?
+          <View style={styling.wrapper}>{inactiveIcon}</View>
+        : null}
       </View>
     </TouchableOpacity>
   )

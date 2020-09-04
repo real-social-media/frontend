@@ -18,7 +18,7 @@ GoogleSignin.configure({
 const checkTokenExpiry = async (idToken) => {
   const data = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${idToken}`)
   const response = await data.json()
-
+  
   if (!response || response.error) {
     throw new TokenExpiredError('Token expired')
   }
@@ -39,22 +39,22 @@ export const signin = async () => {
     }
   } catch (error) {
     if (error.code === 'TOKEN_EXPIRED') {
-      Logger.withScope((scope) => {
+      Logger.withScope(scope => {
         scope.setExtra('code', 'TOKEN_EXPIRED')
         Logger.captureMessage('GOOGLE_SIGNIN')
       })
     } else if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-      Logger.withScope((scope) => {
+      Logger.withScope(scope => {
         scope.setExtra('code', 'SIGN_IN_CANCELLED')
         Logger.captureMessage('GOOGLE_SIGNIN')
       })
     } else if (error.code === statusCodes.IN_PROGRESS) {
-      Logger.withScope((scope) => {
+      Logger.withScope(scope => {
         scope.setExtra('code', 'IN_PROGRESS')
         Logger.captureMessage('GOOGLE_SIGNIN')
       })
     } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-      Logger.withScope((scope) => {
+      Logger.withScope(scope => {
         scope.setExtra('code', 'PLAY_SERVICES_NOT_AVAILABLE')
         Logger.captureMessage('GOOGLE_SIGNIN')
       })
@@ -79,12 +79,12 @@ export const refresh = async () => {
     }
   } catch (error) {
     if (error.code === 'TOKEN_EXPIRED') {
-      Logger.withScope((scope) => {
+      Logger.withScope(scope => {
         scope.setExtra('code', 'TOKEN_EXPIRED')
         Logger.captureMessage('GOOGLE_REFRESH')
       })
     } else if (error.code === statusCodes.SIGN_IN_REQUIRED) {
-      Logger.withScope((scope) => {
+      Logger.withScope(scope => {
         scope.setExtra('code', 'SIGN_IN_REQUIRED')
         Logger.captureMessage('GOOGLE_REFRESH')
       })

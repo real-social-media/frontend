@@ -9,16 +9,19 @@ const ProfileFollowedService = ({ children }) => {
   const route = useRoute()
   const userId = route.params.userId
   const usersGetFollowedUsers = useSelector(usersSelector.usersGetFollowedUsersSelector(userId))
-  const usersFollow = useSelector((state) => state.users.usersFollow)
-  const usersUnfollow = useSelector((state) => state.users.usersUnfollow)
-  const usersAcceptFollowerUser = useSelector((state) => state.users.usersAcceptFollowerUser)
+  const usersFollow = useSelector(state => state.users.usersFollow)
+  const usersUnfollow = useSelector(state => state.users.usersUnfollow)
+  const usersAcceptFollowerUser = useSelector(state => state.users.usersAcceptFollowerUser)
 
-  const usersGetFollowedUsersRequest = () => dispatch(usersActions.usersGetFollowedUsersRequest({ userId }))
+  const usersGetFollowedUsersRequest = () => 
+    dispatch(usersActions.usersGetFollowedUsersRequest({ userId }))
 
-  const usersFollowRequest = ({ userId }) => dispatch(usersActions.usersFollowRequest({ userId }))
-
-  const usersUnfollowRequest = ({ userId }) => dispatch(usersActions.usersUnfollowRequest({ userId }))
-
+  const usersFollowRequest = ({ userId }) =>
+    dispatch(usersActions.usersFollowRequest({ userId }))
+  
+  const usersUnfollowRequest = ({ userId }) =>
+    dispatch(usersActions.usersUnfollowRequest({ userId }))
+  
   const usersAcceptFollowerUserRequest = ({ userId }) =>
     dispatch(usersActions.usersAcceptFollowerUserRequest({ userId }))
 

@@ -10,26 +10,27 @@ import PortraitIcon from 'assets/svg/camera/Portrait'
 
 import { withTranslation } from 'react-i18next'
 
-const PickerItem = (ref) => ({ item, index }) => {
-  const styling = styles
+const PickerItem = (ref) =>
+  ({ item, index }) => {
+    const styling = styles
 
-  const onPress = () => {
-    item.handleChange()
-    ref.current.snapToItem(index, true)
-  }
+    const onPress = () => {
+      item.handleChange()
+      ref.current.snapToItem(index, true)
+    }
 
-  return (
-    <TouchableOpacity onPress={onPress} style={styling.sliderItemWrapper}>
-      <View style={styling.sliderItem}>
-        <View style={styling.sliderItemIcon}>
-          {item.title === 'Rectangle' ? <PortraitIcon /> : null}
-          {item.title === 'Square' ? <SquareIcon /> : null}
+    return (
+      <TouchableOpacity onPress={onPress} style={styling.sliderItemWrapper}>
+        <View style={styling.sliderItem}>
+          <View style={styling.sliderItemIcon}>
+            {item.title === 'Rectangle' ? <PortraitIcon /> : null}
+            {item.title === 'Square' ? <SquareIcon /> : null}
+          </View>
+          <Text style={styling.sliderItemText}>{item.title}</Text>
         </View>
-        <Text style={styling.sliderItemText}>{item.title}</Text>
-      </View>
-    </TouchableOpacity>
-  )
-}
+      </TouchableOpacity>
+    )
+  }
 
 const Picker = ({ t, setPhotoSize }) => {
   const styling = styles

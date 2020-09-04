@@ -19,15 +19,17 @@ const ChatDirectService = ({ children }) => {
 
   const user = useSelector(authSelector.authUserSelector)
   const usersGetTrendingUsers = useSelector(usersSelector.usersGetTrendingUsersSelector())
-  const chatCreateDirect = useSelector((state) => state.chat.chatCreateDirect)
-  const chatAddMessage = useSelector((state) => state.chat.chatAddMessage)
-  const chatFlagMessage = useSelector((state) => state.chat.chatFlagMessage)
-  const chatDeleteMessage = useSelector((state) => state.chat.chatDeleteMessage)
+  const chatCreateDirect = useSelector(state => state.chat.chatCreateDirect)
+  const chatAddMessage = useSelector(state => state.chat.chatAddMessage)
+  const chatFlagMessage = useSelector(state => state.chat.chatFlagMessage)
+  const chatDeleteMessage = useSelector(state => state.chat.chatDeleteMessage)
   const chatGetChat = useSelector(chatSelector.chatGetChatSelector(chatId))
 
-  const chatDeleteMessageRequest = (payload) => dispatch(chatActions.chatDeleteMessageRequest(payload))
+  const chatDeleteMessageRequest = (payload) =>
+    dispatch(chatActions.chatDeleteMessageRequest(payload))
 
-  const chatFlagMessageRequest = (payload) => dispatch(chatActions.chatFlagMessageRequest(payload))
+  const chatFlagMessageRequest = (payload) =>
+    dispatch(chatActions.chatFlagMessageRequest(payload))
 
   useEffect(() => {
     dispatch(chatActions.chatGetChatRequest({ chatId }))
@@ -55,7 +57,7 @@ const ChatDirectService = ({ children }) => {
       return
     }
 
-    dispatch(chatActions.chatReportViewRequest({ chatIds: [chatId] }))
+    dispatch(chatActions.chatReportViewRequest({ chatIds: [chatId] }))    
   }, [chatGetChat.status])
 
   useEffect(() => {
@@ -77,29 +79,25 @@ const ChatDirectService = ({ children }) => {
   const chatCreateDirectRequest = ({ text }) => {
     const chatId = uuid()
     const messageId = uuid()
-    dispatch(
-      chatActions.chatCreateDirectRequest({
-        chatId,
-        userId,
-        messageId,
-        messageText: text,
-      }),
-    )
+    dispatch(chatActions.chatCreateDirectRequest({
+      chatId,
+      userId,
+      messageId,
+      messageText: text,
+    }))
   }
 
   const chatAddMessageRequest = (payload) => {
     const messageId = uuid()
-    dispatch(
-      chatActions.chatAddMessageRequest({
-        chatId,
-        messageId,
-        text: payload.text,
-      }),
-    )
+    dispatch(chatActions.chatAddMessageRequest({
+      chatId,
+      messageId,
+      text: payload.text,
+    }))
   }
 
   /**
-   * Keyboard movement calculator
+   * Keyboard movement calculator 
    */
   const [offset, setOffset] = useState(0)
 

@@ -1,6 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, View } from 'react-native'
+import {
+  StyleSheet,
+  View,
+} from 'react-native'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 import path from 'ramda/src/path'
 import * as navigationActions from 'navigation/actions'
@@ -30,22 +33,16 @@ const ProfileAction = ({
 
   return (
     <View style={styling.root}>
-      {self ? (
+      {self ?
         <View style={styling.item}>
-          <DefaultButton
-            testID={testIDs.actions.settingsBtn}
-            label={t('Settings')}
-            onPress={navigationActions.navigateSettings(navigation)}
-            mode="outlined"
-            size="compact"
-          />
+          <DefaultButton testID={testIDs.actions.settingsBtn} label={t('Settings')} onPress={navigationActions.navigateSettings(navigation)} mode="outlined" size="compact" />
         </View>
-      ) : null}
+      : null}
 
-      {!self ? (
+      {!self ?
         <React.Fragment>
           <View style={styling.item}>
-            {!path(['data', 'followedStatus'])(usersGetProfile) ? (
+            {!path(['data', 'followedStatus'])(usersGetProfile) ?
               <DefaultButton
                 label=""
                 onPress={() => {}}
@@ -54,8 +51,8 @@ const ProfileAction = ({
                 mode="outlined"
                 size="compact"
               />
-            ) : null}
-            {path(['data', 'followedStatus'])(usersGetProfile) === 'NOT_FOLLOWING' ? (
+            : null}
+            {path(['data', 'followedStatus'])(usersGetProfile) === 'NOT_FOLLOWING' ?
               <DefaultButton
                 label={t('Follow User')}
                 onPress={() => usersFollowRequest({ userId: path(['data', 'userId'])(usersGetProfile) })}
@@ -67,8 +64,8 @@ const ProfileAction = ({
                 mode="outlined"
                 size="compact"
               />
-            ) : null}
-            {path(['data', 'followedStatus'])(usersGetProfile) === 'FOLLOWING' ? (
+            : null}
+            {path(['data', 'followedStatus'])(usersGetProfile) === 'FOLLOWING' ?
               <DefaultButton
                 label={t('Unfollow User')}
                 onPress={() => usersUnfollowRequest({ userId: path(['data', 'userId'])(usersGetProfile) })}
@@ -76,8 +73,8 @@ const ProfileAction = ({
                 mode="outlined"
                 size="compact"
               />
-            ) : null}
-            {path(['data', 'followedStatus'])(usersGetProfile) === 'REQUESTED' ? (
+            : null}
+            {path(['data', 'followedStatus'])(usersGetProfile) === 'REQUESTED' ?
               <DefaultButton
                 label={t('Cancel Request')}
                 onPress={() => usersUnfollowRequest({ userId: path(['data', 'userId'])(usersGetProfile) })}
@@ -85,11 +82,11 @@ const ProfileAction = ({
                 mode="outlined"
                 size="compact"
               />
-            ) : null}
+            : null}
           </View>
 
           <View style={styling.item}>
-            {path(['data', 'blockedStatus'])(usersGetProfile) === 'NOT_BLOCKING' ? (
+            {path(['data', 'blockedStatus'])(usersGetProfile) === 'NOT_BLOCKING' ?
               <DefaultButton
                 label={t('Block User')}
                 onPress={() => usersBlockRequest({ userId: path(['data', 'userId'])(usersGetProfile) })}
@@ -97,7 +94,7 @@ const ProfileAction = ({
                 mode="outlined"
                 size="compact"
               />
-            ) : (
+            :
               <DefaultButton
                 label={t('Unblock User')}
                 onPress={() => usersUnblockRequest({ userId: path(['data', 'userId'])(usersGetProfile) })}
@@ -105,31 +102,33 @@ const ProfileAction = ({
                 mode="outlined"
                 size="compact"
               />
-            )}
+            }
           </View>
         </React.Fragment>
-      ) : null}
+      : null}
     </View>
   )
 }
+  
 
-const styles = (theme) =>
-  StyleSheet.create({
-    root: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'center',
-      marginHorizontal: -6,
-      paddingHorizontal: theme.spacing.base,
-      marginBottom: theme.spacing.base,
-    },
-    item: {
-      flex: 1,
-      marginHorizontal: 6,
-    },
-    itemTitle: {},
-    itemText: {},
-  })
+const styles = theme => StyleSheet.create({
+  root: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: -6,
+    paddingHorizontal: theme.spacing.base,
+    marginBottom: theme.spacing.base,
+  },
+  item: {
+    flex: 1,
+    marginHorizontal: 6,
+  },
+  itemTitle: {
+  },
+  itemText: {
+  },
+})
 
 ProfileAction.propTypes = {
   theme: PropTypes.any,

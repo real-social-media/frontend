@@ -7,7 +7,11 @@ class AuthPhotoUploadScreen extends React.Component {
   render() {
     return (
       <AuthPhotoUploadServiceComponent>
-        {(props) => <AuthPhotoUploadComponent {...props} />}
+        {(props) => (
+          <AuthPhotoUploadComponent
+            {...props}
+          />
+        )}
       </AuthPhotoUploadServiceComponent>
     )
   }

@@ -3,7 +3,9 @@ import NotificationsComponent from 'components/Notifications'
 
 class NotificationsScreen extends React.Component {
   render() {
-    return <NotificationsComponent />
+    return (
+      <NotificationsComponent />
+    )
   }
 }
 

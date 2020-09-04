@@ -1,6 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { View, StyleSheet } from 'react-native'
+import {
+  View,
+  StyleSheet,
+} from 'react-native'
 import Modal from 'react-native-modal'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 import { Provider as PaperProvider } from 'react-native-paper'
@@ -10,11 +13,18 @@ import * as themeSelector from 'store/ducks/theme/selectors'
 import { withTheme, Paragraph } from 'react-native-paper'
 import { withTranslation } from 'react-i18next'
 
-const ThemeModal = ({ t, theme, isVisible, children, onApplyClick, onDiscardClick }) => {
+const ThemeModal = ({
+  t,
+  theme,
+  isVisible,
+  children,
+  onApplyClick,
+  onDiscardClick,
+}) => {
   const activeTheme = useSelector(themeSelector.userThemeSelector('black.green'))
 
   const styling = styles(theme)
-
+  
   return (
     <Modal isVisible={isVisible}>
       <View style={styling.root}>
@@ -44,40 +54,39 @@ const ThemeModal = ({ t, theme, isVisible, children, onApplyClick, onDiscardClic
   )
 }
 
-const styles = (theme) =>
-  StyleSheet.create({
-    root: {
-      backgroundColor: '#2f3542',
-      marginVertical: 40,
-      flex: 1,
-      borderRadius: 4,
-      overflow: 'hidden',
-    },
-    header: {
-      height: 120,
-    },
-    text: {
-      padding: 12,
-    },
-    screen: {
-      flex: 1,
-    },
-    screenPlaceholder: {
-      position: 'absolute',
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
-      zIndex: 1,
-    },
-    action: {
-      flexDirection: 'row',
-    },
-    actionItem: {
-      flex: 1,
-      padding: theme.spacing.base,
-    },
-  })
+const styles = theme => StyleSheet.create({
+  root: {
+    backgroundColor: '#2f3542',
+    marginVertical: 40,
+    flex: 1,
+    borderRadius: 4,
+    overflow: 'hidden',
+  },
+  header: {
+    height: 120,
+  },
+  text: {
+    padding: 12,
+  },
+  screen: {
+    flex: 1,
+  },
+  screenPlaceholder: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    zIndex: 1,
+  },
+  action: {
+    flexDirection: 'row',
+  },
+  actionItem: {
+    flex: 1,
+    padding: theme.spacing.base,
+  },
+})
 
 ThemeModal.propTypes = {
   theme: PropTypes.any,

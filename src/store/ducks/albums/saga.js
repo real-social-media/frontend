@@ -10,7 +10,7 @@ import * as queryService from 'services/Query'
 import * as normalizer from 'normalizer/schemas'
 
 /**
- *
+ * 
  */
 function* albumsGetRequestData(req, api) {
   const dataSelector = path(['data', 'user', 'albums', 'items'])
@@ -45,7 +45,7 @@ function* albumsGetRequest(req) {
 }
 
 /**
- *
+ * 
  */
 function* albumsSingleGetRequestData(req, api) {
   const dataSelector = path(['data', 'album'])
@@ -79,7 +79,7 @@ function* albumsSingleGetRequest(req) {
 }
 
 /**
- *
+ * 
  */
 function* albumsPostsGetRequestData(req, api) {
   const dataSelector = path(['data', 'album', 'posts', 'items'])
@@ -124,7 +124,7 @@ function* albumsPostsGetMoreRequest(req) {
 }
 
 /**
- *
+ * 
  */
 function* albumsCreateRequestData(req, api) {
   const dataSelector = path(['data', 'addAlbum'])
@@ -158,7 +158,7 @@ function* albumsCreateRequest(req) {
 }
 
 /**
- *
+ * 
  */
 function* albumsEditRequestData(req, api) {
   const dataSelector = path(['data', 'editAlbum'])
@@ -181,7 +181,7 @@ function* albumsEditRequestData(req, api) {
   }
 }
 
-function* albumsEditRequest(req) {
+function* albumsEditRequest(req) {  
   try {
     const data = yield queryService.apiRequest(queries.editAlbum, req.payload)
     const next = yield albumsEditRequestData(req, data)
@@ -192,7 +192,7 @@ function* albumsEditRequest(req) {
 }
 
 /**
- *
+ * 
  */
 function* albumsDeleteRequestData(req, api) {
   const dataSelector = path(['data', 'deleteAlbum'])
@@ -215,7 +215,7 @@ function* albumsDeleteRequestData(req, api) {
   }
 }
 
-function* albumsDeleteRequest(req) {
+function* albumsDeleteRequest(req) {  
   try {
     const data = yield queryService.apiRequest(queries.deleteAlbum, req.payload)
     const next = yield albumsDeleteRequestData(req, data)

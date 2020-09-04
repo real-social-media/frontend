@@ -1,5 +1,9 @@
 import React from 'react'
-import { StyleSheet, View, ActivityIndicator } from 'react-native'
+import {
+  StyleSheet,
+  View,
+  ActivityIndicator,
+} from 'react-native'
 
 const Loading = () => (
   <View style={styles.root}>

@@ -35,7 +35,5 @@ export async function tapBackspaceKey(selector) {
 }
 
 export async function waitForElement(selector, timeout = 2000) {
-  await waitFor(element(by.id(selector)))
-    .toBeVisible()
-    .withTimeout(timeout)
+  await waitFor(element(by.id(selector))).toBeVisible().withTimeout(timeout)
 }

@@ -4,7 +4,15 @@ import PostTypeServiceComponent from 'components/PostType/index.service'
 
 class PostTypeScreen extends React.Component {
   render() {
-    return <PostTypeServiceComponent>{(shareProps) => <PostTypeComponent {...shareProps} />}</PostTypeServiceComponent>
+    return (
+      <PostTypeServiceComponent>
+        {((shareProps) => (
+          <PostTypeComponent
+            {...shareProps}
+          />
+        ))}
+      </PostTypeServiceComponent>
+    )
   }
 }
 

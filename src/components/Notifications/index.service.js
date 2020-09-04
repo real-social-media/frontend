@@ -1,5 +1,6 @@
 const NotificationsService = ({ children }) => {
-  return children({})
+  return children({
+  })
 }
 
 export default NotificationsService

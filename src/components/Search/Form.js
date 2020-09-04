@@ -1,6 +1,11 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, View, TouchableOpacity, Keyboard } from 'react-native'
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Keyboard,
+} from 'react-native'
 import TextField from 'components/Formik/TextField'
 import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
@@ -15,8 +20,17 @@ const formSchema = Yup.object().shape({
   searchToken: Yup.string().min(1).max(50).required(),
 })
 
-const SearchForm = ({ t, handleSubmit, handleFormFocus, handleFormChange, getFieldMeta, handleReset, values }) => {
+const SearchForm = ({
+  t,
+  handleSubmit,
+  handleFormFocus,
+  handleFormChange,
+  getFieldMeta,
+  handleReset,
+  values,
+}) => {
   const styling = styles
+  
 
   const formFocus = getFieldMeta('searchToken').touched
   const formChange = path(['searchToken', 'length'])(values)
@@ -37,30 +51,20 @@ const SearchForm = ({ t, handleSubmit, handleFormFocus, handleFormChange, getFie
   useEffect(() => {
     handleFormChange(formChange)
   }, [formChange])
-  useDebounce(
-    () => {
-      if (formChange) handleSubmit()
-    },
-    500,
-    [formChange],
-  )
+  useDebounce(() => {
+    if (formChange) handleSubmit()
+  }, 500, [formChange])
 
   return (
     <View style={styling.root}>
       <View style={styling.input}>
-        <Field
-          name="searchToken"
-          component={TextField}
-          placeholder={t('Search for username')}
-          onSubmitEditing={handleSubmit}
-          hideError
-        />
+        <Field name="searchToken" component={TextField} placeholder={t('Search for username')} onSubmitEditing={handleSubmit} hideError />
       </View>
-      {formFocus ? (
+      {formFocus ?
         <TouchableOpacity style={styling.icon} onPress={close}>
           <CloseIcon fill="#fafafa" />
         </TouchableOpacity>
-      ) : null}
+      : null}
     </View>
   )
 }
@@ -99,7 +103,11 @@ SearchForm.propTypes = {
   values: PropTypes.any,
 }
 
-export default withTranslation()(({ usersSearch, usersSearchRequest, ...props }) => (
+export default withTranslation()(({
+  usersSearch,
+  usersSearchRequest,
+  ...props
+}) => (
   <Formik
     initialValues={{
       searchToken: '',
@@ -107,6 +115,12 @@ export default withTranslation()(({ usersSearch, usersSearchRequest, ...props })
     validationSchema={formSchema}
     onSubmit={usersSearchRequest}
   >
-    {(formikProps) => <SearchForm {...formikProps} {...props} loading={usersSearch.status === 'loading'} />}
+    {(formikProps) => (
+      <SearchForm
+        {...formikProps}
+        {...props}
+        loading={usersSearch.status === 'loading'}
+      />
+    )}
   </Formik>
 ))

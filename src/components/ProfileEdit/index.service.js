@@ -7,28 +7,35 @@ import * as authActions from 'store/ducks/auth/actions'
 const ProfileEditService = ({ children }) => {
   const dispatch = useDispatch()
   const user = useSelector(authSelector.authUserSelector)
-  const usersEditProfile = useSelector((state) => state.users.usersEditProfile)
-  const usersDelete = useSelector((state) => state.users.usersDelete)
-  const authSignout = useSelector((state) => state.auth.authSignout)
+  const usersEditProfile = useSelector(state => state.users.usersEditProfile)
+  const usersDelete = useSelector(state => state.users.usersDelete)
+  const authSignout = useSelector(state => state.auth.authSignout)
+  
+  const usersEditProfileRequest = (payload) =>
+    dispatch(usersActions.usersEditProfileRequest(payload))
+  
+  const usersDeleteRequest = (payload) =>
+    dispatch(usersActions.usersDeleteRequest(payload))
 
-  const usersEditProfileRequest = (payload) => dispatch(usersActions.usersEditProfileRequest(payload))
-
-  const usersDeleteRequest = (payload) => dispatch(usersActions.usersDeleteRequest(payload))
-
-  const authSignoutRequest = () => dispatch(authActions.authSignoutRequest({}))
+  const authSignoutRequest = () => 
+    dispatch(authActions.authSignoutRequest({}))
 
   useEffect(() => {
     if (usersDelete.status === 'success') {
       dispatch(authActions.authSignoutRequest({}))
     }
-  }, [usersDelete.status])
+  }, [
+    usersDelete.status,
+  ])
 
   useEffect(() => {
     if (authSignout.status === 'success') {
       dispatch(authActions.authCheckIdle({}))
       dispatch(authActions.authSignoutIdle({}))
     }
-  }, [authSignout.status])
+  }, [
+    authSignout.status,
+  ])
 
   useEffect(() => {
     if (usersEditProfile.status === 'success') {

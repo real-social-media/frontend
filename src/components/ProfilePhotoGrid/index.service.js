@@ -11,9 +11,10 @@ const ProfilePhotoGridService = ({ children }) => {
   const navigation = useNavigation()
   const user = useSelector(authSelector.authUserSelector)
   const usersImagePostsGet = useSelector(usersSelector.usersImagePostsGetSelector())
-  const usersEditProfile = useSelector((state) => state.users.usersEditProfile)
-
-  const usersImagePostsGetRequest = (payload) => dispatch(usersActions.usersImagePostsGetRequest(payload))
+  const usersEditProfile = useSelector(state => state.users.usersEditProfile)
+  
+  const usersImagePostsGetRequest = (payload) =>
+    dispatch(usersActions.usersImagePostsGetRequest(payload))
 
   const usersEditProfileRequest = () =>
     dispatch(usersActions.usersEditProfileRequest({ photoPostId: selectedPost.postId }))

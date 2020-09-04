@@ -11,11 +11,11 @@ const AuthPhoneConfirmComponentService = ({ children }) => {
   const dispatch = useDispatch()
   const route = useRoute()
 
-  const signupUsername = useSelector((state) => state.signup.signupUsername)
-  const signupPhone = useSelector((state) => state.signup.signupPhone)
-  const signupPassword = useSelector((state) => state.signup.signupPassword)
-  const signupConfirm = useSelector((state) => state.signup.signupConfirm)
-  const signupCognitoIdentity = useSelector((state) => state.signup.signupCognitoIdentity)
+  const signupUsername = useSelector(state => state.signup.signupUsername)
+  const signupPhone = useSelector(state => state.signup.signupPhone)
+  const signupPassword = useSelector(state => state.signup.signupPassword)
+  const signupConfirm = useSelector(state => state.signup.signupConfirm)
+  const signupCognitoIdentity = useSelector(state => state.signup.signupCognitoIdentity)
 
   const handleFormSubmit = (payload) => {
     logEvent('SIGNUP_CONFIRM_REQUEST')
@@ -31,21 +31,31 @@ const AuthPhoneConfirmComponentService = ({ children }) => {
 
   /**
    * Create new user once phone and password is received from previous steps
-   *
+   * 
    * Previous steps include:
    * - signupUsername -> AuthUsernameScreen
    * - signupPhone -> AuthPhoneScreen
    * - signupPassword -> AuthPasswordScreen
    */
   useEffect(() => {
-    if (!signupUsername.payload.username || !signupPhone.payload.phone || !signupPassword.payload.password) return
-  }, [signupUsername.status, signupPhone.status, signupPassword.status])
+    if (
+      !signupUsername.payload.username ||
+      !signupPhone.payload.phone ||
+      !signupPassword.payload.password
+    ) return
+  }, [
+    signupUsername.status,
+    signupPhone.status,
+    signupPassword.status,
+  ])
 
   /**
    * Redirect to verification confirmation once signup was successful
    */
   useEffect(() => {
-    if (signupConfirm.status !== 'success') return
+    if (
+      signupConfirm.status !== 'success'
+    ) return
 
     logEvent('SIGNUP_CONFIRM_SUCCESS')
     dispatch(signupActions.signupCreateIdle({}))
@@ -55,7 +65,9 @@ const AuthPhoneConfirmComponentService = ({ children }) => {
 
     Keyboard.dismiss()
     dispatch(authActions.authCheckRequest({ type: 'FIRST_MOUNT' }))
-  }, [signupConfirm.status])
+  }, [
+    signupConfirm.status,
+  ])
 
   const formSubmitLoading = signupConfirm.status === 'loading'
   const formSubmitDisabled = signupConfirm.status === 'loading'

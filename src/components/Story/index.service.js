@@ -14,10 +14,8 @@ const StoryService = ({ children }) => {
   const route = useRoute()
 
   const userId = path(['user', 'userId'])(route.params)
-  const stories = pathOr(
-    [],
-    ['usersGetFollowedUsersWithStories', 'data'],
-  )(route.params).sort((prev) => (prev.viewedStatus === 'VIEWED' ? 1 : -1))
+  const stories = pathOr([], ['usersGetFollowedUsersWithStories', 'data'])(route.params)
+    .sort((prev) => (prev.viewedStatus === 'VIEWED') ? 1 : -1)
 
   const [currentStory, { inc: nextStory, dec: prevStory, reset: resetStory }] = useCounter(0)
 
@@ -26,17 +24,20 @@ const StoryService = ({ children }) => {
   }, [])
 
   const storyRef = useRef(null)
-  const currentUserStory = stories.find((user) => user.userId === userId)
+  const currentUserStory = stories.find(user => user.userId === userId)
   const countStories = pathOr(0, ['stories', 'items', 'length'], currentUserStory)
-  const userStoryIndex = stories.findIndex((user) => user.userId === userId)
+  const userStoryIndex = stories.findIndex(user => user.userId === userId)
   const nextUserStoryPool = pathOr([], [userStoryIndex + 1], stories)
   const prevUserStoryPool = pathOr([], [userStoryIndex - 1], stories)
 
-  const postsShareRequest = (payload) => dispatch(postsActions.postsShareRequest(payload))
+  const postsShareRequest = (payload) =>
+    dispatch(postsActions.postsShareRequest(payload))
 
-  const postsOnymouslyLikeRequest = (payload) => dispatch(postsActions.postsOnymouslyLikeRequest(payload))
+  const postsOnymouslyLikeRequest = (payload) =>
+    dispatch(postsActions.postsOnymouslyLikeRequest(payload))
 
-  const postsDislikeRequest = (payload) => dispatch(postsActions.postsDislikeRequest(payload))
+  const postsDislikeRequest = (payload) =>
+    dispatch(postsActions.postsDislikeRequest(payload))
 
   const onSnapItem = (index) => {
     navigation.setParams({
@@ -61,12 +62,12 @@ const StoryService = ({ children }) => {
       navigationActions.navigateBack(navigation)()
     }
   }
-
+    
   const onPrevStory = () => {
     if (currentStory > 0) {
       return prevStory()
     }
-
+    
     if (prevUserStoryPool.length) {
       navigation.setParams({
         user: prevUserStoryPool,
@@ -88,13 +89,14 @@ const StoryService = ({ children }) => {
    *
    */
   const textPostRefs = useRef({})
-  const createTextPostRef = (post) => (element) => {
+  const createTextPostRef = post => element => {
     if (!textPostRefs.current[post.postId]) {
       textPostRefs.current[post.postId] = element
     }
   }
 
-  const getTextPostRef = (post) => textPostRefs.current[post.postId]
+  const getTextPostRef = post => textPostRefs.current[post.postId]
+
 
   return children({
     storyRef,

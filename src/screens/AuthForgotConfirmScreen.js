@@ -7,7 +7,11 @@ class AuthForgotConfirmScreen extends React.Component {
   render() {
     return (
       <AuthForgotConfirmServiceComponent>
-        {(props) => <AuthForgotConfirmComponent {...props} />}
+        {(props) => (
+          <AuthForgotConfirmComponent
+            {...props}
+          />
+        )}
       </AuthForgotConfirmServiceComponent>
     )
   }

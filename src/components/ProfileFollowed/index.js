@@ -1,6 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, View, ScrollView, RefreshControl } from 'react-native'
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  RefreshControl,
+} from 'react-native'
 import ResultComponent from 'components/Search/Result'
 
 import { withTheme } from 'react-native-paper'
@@ -17,7 +22,7 @@ const ProfileFollowed = ({
   usersAcceptFollowerUserRequest,
 }) => {
   const styling = styles(theme)
-
+  
   return (
     <View style={styling.root}>
       <ScrollView
@@ -44,13 +49,12 @@ const ProfileFollowed = ({
   )
 }
 
-const styles = (theme) =>
-  StyleSheet.create({
-    root: {
-      flex: 1,
-      backgroundColor: theme.colors.backgroundPrimary,
-    },
-  })
+const styles = theme => StyleSheet.create({
+  root: {
+    flex: 1,
+    backgroundColor: theme.colors.backgroundPrimary,
+  },
+})
 
 ProfileFollowed.propTypes = {
   theme: PropTypes.any,

@@ -1,45 +1,47 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, View } from 'react-native'
+import {
+  StyleSheet,
+  View,
+} from 'react-native'
 import SubtitleTemplate from 'templates/Subtitle'
 import path from 'ramda/src/path'
 
 import { withTranslation } from 'react-i18next'
 
-const Actions = ({ t, activeUpload }) => {
+const Actions = ({
+  t,
+  activeUpload,
+}) => {
   const styling = styles
-
+  
   const progress = path(['meta', 'progress'])(activeUpload)
 
   return (
     <View style={styling.root}>
-      {progress ? (
+      {progress ?
         <View testID="components/AuthPhotoUpload/Progress/progress" style={styling.item}>
           <SubtitleTemplate
             disabled
-            actions={[
-              {
-                onPress: () => {},
-                title: t('Upload progress {{progress}}%', { progress }),
-              },
-            ]}
+            actions={[{
+              onPress: () => {},
+              title: t('Upload progress {{progress}}%', { progress }),
+            }]}
           />
         </View>
-      ) : null}
+      : null}
 
-      {!progress ? (
+      {!progress ?
         <View testID="components/AuthPhotoUpload/Progress/process" style={styling.item}>
           <SubtitleTemplate
             disabled
-            actions={[
-              {
-                onPress: () => {},
-                title: t('Processing'),
-              },
-            ]}
+            actions={[{
+              onPress: () => {},
+              title: t('Processing'),
+            }]}
           />
         </View>
-      ) : null}
+      : null}
     </View>
   )
 }
@@ -50,7 +52,8 @@ Actions.propTypes = {
 }
 
 const styles = StyleSheet.create({
-  root: {},
+  root: {
+  },
   item: {
     marginBottom: 12,
   },

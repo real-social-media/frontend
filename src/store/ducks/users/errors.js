@@ -2,7 +2,7 @@ import * as constants from 'store/ducks/users/constants'
 
 const messageCodes = {
   /**
-   *
+   * 
    */
   [constants.USERS_EDIT_PROFILE_SUCCESS]: {
     GENERIC: {
@@ -23,8 +23,8 @@ const messageCodes = {
 }
 
 export const getMessagePayload = (key, status = 'GENERIC', nativeError = '') => {
-  return {
+  return ({
     ...messageCodes[key][status],
     nativeError,
-  }
+  })
 }

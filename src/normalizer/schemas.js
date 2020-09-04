@@ -4,66 +4,67 @@ import { normalize, denormalize, schema } from 'normalizr'
  *
  */
 const userSchema = new schema.Entity(
-  'users',
-  {},
-  {
-    idAttribute: 'userId',
-  },
+	'users',
+	{},
+	{
+		idAttribute: 'userId',
+	},
 )
 
 /**
  *
  */
 const imageSchema = new schema.Entity(
-  'images',
-  {},
-  {
-    idAttribute: (value) => {
-      try {
-        return value.url.split('?')[0]
-      } catch (err) {
-        return value
-      }
-    },
-  },
+	'images',
+	{},
+	{
+		idAttribute: (value) => {
+			try { return value.url.split('?')[0] }
+			catch (err) { return value }
+		},
+	},
 )
 
 /**
  *
  */
-const postSchema = new schema.Entity('posts', {}, { idAttribute: 'postId' })
+const postSchema = new schema.Entity(
+	'posts',
+	{},
+	{ idAttribute: 'postId' },
+)
 
 /**
  *
  */
 const chatSchema = new schema.Entity(
-  'chats',
-  {},
-  {
-    idAttribute: 'chatId',
-  },
+	'chats',
+	{},
+	{
+		idAttribute: 'chatId',
+	},
 )
 
 /**
  *
  */
 const commentSchema = new schema.Entity(
-  'comments',
-  {},
-  {
-    idAttribute: 'commentId',
-  },
+	'comments',
+	{},
+	{
+		idAttribute: 'commentId',
+	},
 )
 
 /**
  *
  */
 const albumSchema = new schema.Entity(
-  'albums',
-  {},
-  {
-    idAttribute: 'albumId',
-  },
+	'albums',
+	{},
+	{
+		idAttribute: 'albumId',
+	},
 )
 
 // const [userSchema] = [userSchema]
@@ -77,160 +78,156 @@ const albumSchema = new schema.Entity(
  *
  */
 const messageSchema = new schema.Entity(
-  'messages',
-  {},
-  {
-    idAttribute: 'messageId',
-  },
+	'messages',
+	{},
+	{
+		idAttribute: 'messageId',
+	},
 )
 
 commentSchema.define({
-  commentedBy: userSchema,
-  textTaggedUsers: [
-    {
-      user: userSchema,
-    },
-  ],
+	commentedBy: userSchema,
+	textTaggedUsers: [{
+		user: userSchema,
+	}],
 })
 
 albumSchema.define({
-  art: imageSchema,
-  ownedBy: userSchema,
-  posts: {
-    items: [postSchema],
-  },
+	art: imageSchema,
+	ownedBy: userSchema,
+	posts: {
+		items: [postSchema],
+	},
 })
 
 messageSchema.define({
-  textTaggedUsers: [
-    {
-      user: userSchema,
-    },
-  ],
-  author: userSchema,
+	textTaggedUsers: [{
+		user: userSchema,
+	}],
+	author: userSchema,
 })
 
 chatSchema.define({
-  users: {
-    items: [userSchema],
-  },
-  messages: {
-    items: [messageSchema],
-  },
+	users: {
+		items: [userSchema],
+	},
+	messages: {
+		items: [messageSchema],
+	},
 })
 
 postSchema.define({
-  image: imageSchema,
-  album: albumSchema,
-  postedBy: userSchema,
-  textTaggedUsers: [
-    {
-      user: userSchema,
-    },
-  ],
-  comments: {
-    items: [commentSchema],
-  },
+	image: imageSchema,
+	album: albumSchema,
+	postedBy: userSchema,
+	textTaggedUsers: [{
+		user: userSchema,
+	}],
+	comments: {
+		items: [commentSchema],
+	},
 })
 
 userSchema.define({
-  photo: imageSchema,
-  stories: {
-    items: [postSchema],
-  },
+	photo: imageSchema,
+	stories: {
+		items: [postSchema],
+	},
 })
+
 
 /**
  *
  */
 export function normalizePostsGet(payload) {
-  return normalize(payload, [postSchema])
+	return normalize(payload, [postSchema])
 }
 
 export function denormalizePostsGet(payload, entities) {
-  return denormalize(payload, [postSchema], entities)
+	return denormalize(payload, [postSchema], entities)
 }
 
 export function normalizePostGet(payload) {
-  return normalize(payload, postSchema)
+	return normalize(payload, postSchema)
 }
 
 export function denormalizePostGet(payload, entities) {
-  return denormalize(payload, postSchema, entities)
+	return denormalize(payload, postSchema, entities)
 }
 
 /**
  *
  */
 export function normalizeCommentsGet(payload) {
-  return normalize(payload, [commentSchema])
+	return normalize(payload, [commentSchema])
 }
 
 export function denormalizeCommentsGet(payload, entities) {
-  return denormalize(payload, [commentSchema], entities)
+	return denormalize(payload, [commentSchema], entities)
 }
 
 export function normalizeCommentGet(payload) {
-  return normalize(payload, [commentSchema])
+	return normalize(payload, [commentSchema])
 }
 
 export function denormalizeCommentGet(payload, entities) {
-  return denormalize(payload, [commentSchema], entities)
+	return denormalize(payload, [commentSchema], entities)
 }
 
 /**
  *
  */
 export function normalizeUsersGet(payload) {
-  return normalize(payload, [userSchema])
+	return normalize(payload, [userSchema])
 }
 
 export function denormalizeUsersGet(payload, entities) {
-  return denormalize(payload, [userSchema], entities)
+	return denormalize(payload, [userSchema], entities)
 }
 
 export function normalizeUserGet(payload) {
-  return normalize(payload, userSchema)
+	return normalize(payload, userSchema)
 }
 
 export function denormalizeUserGet(payload, entities) {
-  return denormalize(payload, userSchema, entities)
+	return denormalize(payload, userSchema, entities)
 }
 
 /**
  *
  */
 export function normalizeAlbumsGet(payload) {
-  return normalize(payload, [albumSchema])
+	return normalize(payload, [albumSchema])
 }
 
 export function denormalizeAlbumsGet(payload, entities) {
-  return denormalize(payload, [albumSchema], entities)
+	return denormalize(payload, [albumSchema], entities)
 }
 
 export function normalizeAlbumGet(payload) {
-  return normalize(payload, albumSchema)
+	return normalize(payload, albumSchema)
 }
 
 export function denormalizeAlbumGet(payload, entities) {
-  return denormalize(payload, albumSchema, entities)
+	return denormalize(payload, albumSchema, entities)
 }
 
 /**
  *
  */
 export function normalizeChatsGet(payload) {
-  return normalize(payload, [chatSchema])
+	return normalize(payload, [chatSchema])
 }
 
 export function denormalizeChatsGet(payload, entities) {
-  return denormalize(payload, [chatSchema], entities)
+	return denormalize(payload, [chatSchema], entities)
 }
 
 export function normalizeChatGet(payload) {
-  return normalize(payload, chatSchema)
+	return normalize(payload, chatSchema)
 }
 
 export function denormalizeChatGet(payload, entities) {
-  return denormalize(payload, chatSchema, entities)
+	return denormalize(payload, chatSchema, entities)
 }
+

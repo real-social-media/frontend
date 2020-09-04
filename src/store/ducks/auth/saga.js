@@ -2,7 +2,11 @@ import * as AWS from 'aws-sdk/global'
 import { put, getContext, takeEvery, takeLatest } from 'redux-saga/effects'
 import path from 'ramda/src/path'
 import pathOr from 'ramda/src/pathOr'
-import { federatedGoogleSignin, federatedGoogleSignout, federatedAppleSignin } from 'services/AWS'
+import {
+  federatedGoogleSignin,
+  federatedGoogleSignout,
+  federatedAppleSignin,
+} from 'services/AWS'
 import {
   checkPhotoValidation,
   resetPhotoValidation,
@@ -57,7 +61,7 @@ function* handleAuthCheckValidation(self) {
    * only photos that passed backend verification could be set as profile photos
    */
   const photoUrl = path(['data', 'self', 'photo', 'url'])(self)
-  return !photoUrl || photoUrl.includes('placeholder-photos')
+  return (!photoUrl || photoUrl.includes('placeholder-photos'))
 }
 
 /**
@@ -96,33 +100,25 @@ function* authCheckRequest(req) {
     yield put(actions.authCheckSuccess({ data: next.data, payload: next.payload, meta: credentials, nextRoute }))
   } catch (error) {
     if (pathOr('', ['message'])(error).includes('Network request failed')) {
-      yield put(
-        actions.authCheckFailure({
-          message: errors.getMessagePayload(constants.AUTH_CHECK_FAILURE, 'NETWORK', error.message),
-          nextRoute: 'AuthHome',
-        }),
-      )
+      yield put(actions.authCheckFailure({
+        message: errors.getMessagePayload(constants.AUTH_CHECK_FAILURE, 'NETWORK', error.message),
+        nextRoute: 'AuthHome',
+      }))
     } else if (pathOr('', ['message'])(error) === 'PROFILE_PHOTO_MISSING') {
-      yield put(
-        actions.authCheckFailure({
-          message: errors.getMessagePayload(constants.AUTH_CHECK_FAILURE, 'PROFILE_PHOTO_MISSING', error.message),
-          nextRoute: 'AuthPhoto',
-        }),
-      )
+      yield put(actions.authCheckFailure({
+        message: errors.getMessagePayload(constants.AUTH_CHECK_FAILURE, 'PROFILE_PHOTO_MISSING', error.message),
+        nextRoute: 'AuthPhoto',
+      }))
     } else if (path(['errors', '0', 'path', '0'])(error) === 'self') {
-      yield put(
-        actions.authCheckFailure({
-          message: errors.getMessagePayload(constants.AUTH_CHECK_FAILURE, 'USER_JUST_CREATED', error.message),
-          nextRoute: 'AuthCognito',
-        }),
-      )
+      yield put(actions.authCheckFailure({
+        message: errors.getMessagePayload(constants.AUTH_CHECK_FAILURE, 'USER_JUST_CREATED', error.message),
+        nextRoute: 'AuthCognito',
+      }))
     } else {
-      yield put(
-        actions.authCheckFailure({
-          message: errors.getMessagePayload(constants.AUTH_CHECK_FAILURE, 'GENERIC', error.message),
-          nextRoute: 'AuthHome',
-        }),
-      )
+      yield put(actions.authCheckFailure({
+        message: errors.getMessagePayload(constants.AUTH_CHECK_FAILURE, 'GENERIC', error.message),
+        nextRoute: 'AuthHome',
+      }))
     }
   }
 }
@@ -141,35 +137,25 @@ function* authSigninRequest(req) {
     yield put(actions.authSigninSuccess({ data, nextRoute: 'Root' }))
   } catch (error) {
     if (error.code === 'UserNotConfirmedException') {
-      yield put(
-        actions.authSigninFailure({
-          message: errors.getMessagePayload(constants.AUTH_SIGNIN_FAILURE, 'USER_NOT_CONFIRMED'),
-        }),
-      )
+      yield put(actions.authSigninFailure({
+        message: errors.getMessagePayload(constants.AUTH_SIGNIN_FAILURE, 'USER_NOT_CONFIRMED'),
+      }))
     } else if (error.code === 'UserNotFoundException') {
-      yield put(
-        actions.authSigninFailure({
-          message: errors.getMessagePayload(constants.AUTH_SIGNIN_FAILURE, 'USER_NOT_FOUND'),
-        }),
-      )
+      yield put(actions.authSigninFailure({
+        message: errors.getMessagePayload(constants.AUTH_SIGNIN_FAILURE, 'USER_NOT_FOUND'),
+      }))
     } else if (error.code === 'NotAuthorizedException') {
-      yield put(
-        actions.authSigninFailure({
-          message: errors.getMessagePayload(constants.AUTH_SIGNIN_FAILURE, 'USER_NOT_AUTHORIZED'),
-        }),
-      )
+      yield put(actions.authSigninFailure({
+        message: errors.getMessagePayload(constants.AUTH_SIGNIN_FAILURE, 'USER_NOT_AUTHORIZED'),
+      }))
     } else if (error.code === 'InvalidParameterException') {
-      yield put(
-        actions.authSigninFailure({
-          message: errors.getMessagePayload(constants.AUTH_SIGNIN_FAILURE, 'INVALID_PARAMETER'),
-        }),
-      )
+      yield put(actions.authSigninFailure({
+        message: errors.getMessagePayload(constants.AUTH_SIGNIN_FAILURE, 'INVALID_PARAMETER'),
+      }))
     } else {
-      yield put(
-        actions.authSigninFailure({
-          message: errors.getMessagePayload(constants.AUTH_SIGNIN_FAILURE, 'GENERIC', error.message),
-        }),
-      )
+      yield put(actions.authSigninFailure({
+        message: errors.getMessagePayload(constants.AUTH_SIGNIN_FAILURE, 'GENERIC', error.message),
+      }))
     }
   }
 }
@@ -190,14 +176,10 @@ function* handleAuthGoogleRequest() {
     token: google.token,
   }
 
-  const GoogleCognitoIdentityCredentials = yield AwsAuth.federatedSignIn(
-    'google',
-    {
-      token: google.token,
-      expires_at: google.expires_at,
-    },
-    userPayload,
-  )
+  const GoogleCognitoIdentityCredentials = yield AwsAuth.federatedSignIn('google', {
+    token: google.token,
+    expires_at: google.expires_at,
+  }, userPayload)
 
   AWS.config.region = Config.AWS_COGNITO_REGION
   AWS.config.credentials = GoogleCognitoIdentityCredentials
@@ -211,25 +193,19 @@ function* handleAuthGoogleRequest() {
 function* authGoogleRequest(req) {
   try {
     const data = yield handleAuthGoogleRequest(req.payload)
-    yield put(
-      actions.authGoogleSuccess({
-        message: errors.getMessagePayload(constants.AUTH_GOOGLE_SUCCESS, 'GENERIC'),
-        data,
-      }),
-    )
+    yield put(actions.authGoogleSuccess({
+      message: errors.getMessagePayload(constants.AUTH_GOOGLE_SUCCESS, 'GENERIC'),
+      data,
+    }))
   } catch (error) {
     if (error.message && error.message.includes('The user canceled the sign in request')) {
-      yield put(
-        actions.authGoogleFailure({
-          message: errors.getMessagePayload(constants.AUTH_GOOGLE_FAILURE, 'CANCELED', error.message),
-        }),
-      )
+      yield put(actions.authGoogleFailure({
+        message: errors.getMessagePayload(constants.AUTH_GOOGLE_FAILURE, 'CANCELED', error.message),
+      }))
     } else {
-      yield put(
-        actions.authGoogleFailure({
-          message: errors.getMessagePayload(constants.AUTH_GOOGLE_FAILURE, 'GENERIC', error.message),
-        }),
-      )
+      yield put(actions.authGoogleFailure({
+        message: errors.getMessagePayload(constants.AUTH_GOOGLE_FAILURE, 'GENERIC', error.message),
+      }))
     }
   }
 }
@@ -247,7 +223,7 @@ function* mergeAppleCache(apple) {
     yield saveAppleSigninPersist(apple)
     return apple
   } else if (isCachedAppleUser && isSameCachedUser) {
-    return { ...apple, user: { ...apple.user, name: cachedAppleUser.user.name, email: cachedAppleUser.user.email } }
+    return ({ ...apple, user: ({ ...apple.user, name: cachedAppleUser.user.name, email: cachedAppleUser.user.email }) })
   } else {
     return apple
   }
@@ -267,14 +243,10 @@ function* handleAuthAppleRequest() {
     token: apple.token,
   }
 
-  const AppleCognitoIdentityCredentials = yield AwsAuth.federatedSignIn(
-    'appleid.apple.com',
-    {
-      token: apple.token,
-      expires_at: apple.expires_at,
-    },
-    userPayload,
-  )
+  const AppleCognitoIdentityCredentials = yield AwsAuth.federatedSignIn('appleid.apple.com', {
+    token: apple.token,
+    expires_at: apple.expires_at,
+  }, userPayload)
 
   AWS.config.region = Config.AWS_COGNITO_REGION
   AWS.config.credentials = AppleCognitoIdentityCredentials
@@ -288,25 +260,19 @@ function* handleAuthAppleRequest() {
 function* authAppleRequest(req) {
   try {
     const data = yield handleAuthAppleRequest(req.payload)
-    yield put(
-      actions.authAppleSuccess({
-        message: errors.getMessagePayload(constants.AUTH_APPLE_SUCCESS, 'GENERIC'),
-        data,
-      }),
-    )
+    yield put(actions.authAppleSuccess({
+      message: errors.getMessagePayload(constants.AUTH_APPLE_SUCCESS, 'GENERIC'),
+      data,
+    }))
   } catch (error) {
     if (error.message && error.message.includes('The user canceled the sign in request')) {
-      yield put(
-        actions.authAppleFailure({
-          message: errors.getMessagePayload(constants.AUTH_APPLE_FAILURE, 'CANCELED', error.message),
-        }),
-      )
+      yield put(actions.authAppleFailure({
+        message: errors.getMessagePayload(constants.AUTH_APPLE_FAILURE, 'CANCELED', error.message),
+      }))
     } else {
-      yield put(
-        actions.authAppleFailure({
-          message: errors.getMessagePayload(constants.AUTH_APPLE_FAILURE, 'GENERIC', error.message),
-        }),
-      )
+      yield put(actions.authAppleFailure({
+        message: errors.getMessagePayload(constants.AUTH_APPLE_FAILURE, 'GENERIC', error.message),
+      }))
     }
   }
 }
@@ -336,20 +302,17 @@ function* authSignoutRequest(persistor, req) {
     const data = yield handleAuthSignoutRequest(req.payload)
     yield persistor.purge()
 
-    yield put(
-      actions.authSignoutSuccess({
-        message: errors.getMessagePayload(constants.AUTH_SIGNOUT_SUCCESS, 'GENERIC'),
-        data,
-      }),
-    )
+    yield put(actions.authSignoutSuccess({
+      message: errors.getMessagePayload(constants.AUTH_SIGNOUT_SUCCESS, 'GENERIC'),
+      data,
+    }))
   } catch (error) {
-    yield put(
-      actions.authSignoutFailure({
-        message: errors.getMessagePayload(constants.AUTH_SIGNOUT_FAILURE, 'GENERIC', error.message),
-      }),
-    )
+    yield put(actions.authSignoutFailure({
+      message: errors.getMessagePayload(constants.AUTH_SIGNOUT_FAILURE, 'GENERIC', error.message),
+    }))
   }
 }
+
 
 /**
  *
@@ -365,25 +328,19 @@ function* handleAuthForgotRequest(payload) {
 function* authForgotRequest(req) {
   try {
     const data = yield handleAuthForgotRequest(req.payload)
-    yield put(
-      actions.authForgotSuccess({
-        message: errors.getMessagePayload(constants.AUTH_FORGOT_SUCCESS, 'GENERIC'),
-        data,
-      }),
-    )
+    yield put(actions.authForgotSuccess({
+      message: errors.getMessagePayload(constants.AUTH_FORGOT_SUCCESS, 'GENERIC'),
+      data,
+    }))
   } catch (error) {
     if (error.code === 'UserNotFoundException') {
-      yield put(
-        actions.authForgotFailure({
-          message: errors.getMessagePayload(constants.AUTH_FORGOT_FAILURE, 'USER_NOT_FOUND', error.message),
-        }),
-      )
+      yield put(actions.authForgotFailure({
+        message: errors.getMessagePayload(constants.AUTH_FORGOT_FAILURE, 'USER_NOT_FOUND', error.message),
+      }))
     } else {
-      yield put(
-        actions.authForgotFailure({
-          message: errors.getMessagePayload(constants.AUTH_FORGOT_FAILURE, 'GENERIC', error.message),
-        }),
-      )
+      yield put(actions.authForgotFailure({
+        message: errors.getMessagePayload(constants.AUTH_FORGOT_FAILURE, 'GENERIC', error.message),
+      }))
     }
   }
 }
@@ -402,31 +359,23 @@ function* handleAuthForgotConfirmRequest(payload) {
 function* authForgotConfirmRequest(req) {
   try {
     const data = yield handleAuthForgotConfirmRequest(req.payload)
-    yield put(
-      actions.authForgotConfirmSuccess({
-        message: errors.getMessagePayload(constants.AUTH_FORGOT_CONFIRM_SUCCESS, 'GENERIC'),
-        data,
-      }),
-    )
+    yield put(actions.authForgotConfirmSuccess({
+      message: errors.getMessagePayload(constants.AUTH_FORGOT_CONFIRM_SUCCESS, 'GENERIC'),
+      data,
+    }))
   } catch (error) {
     if (error.code === 'InvalidPasswordException') {
-      yield put(
-        actions.authForgotConfirmFailure({
-          message: errors.getMessagePayload(constants.AUTH_FORGOT_CONFIRM_FAILURE, 'INVALID_PASSWORD', error.message),
-        }),
-      )
+      yield put(actions.authForgotConfirmFailure({
+        message: errors.getMessagePayload(constants.AUTH_FORGOT_CONFIRM_FAILURE, 'INVALID_PASSWORD', error.message),
+      }))
     } else if (error.code === 'CodeMismatchException') {
-      yield put(
-        actions.authForgotConfirmFailure({
-          message: errors.getMessagePayload(constants.AUTH_FORGOT_CONFIRM_FAILURE, 'CODE_MISMATCH', error.message),
-        }),
-      )
+      yield put(actions.authForgotConfirmFailure({
+        message: errors.getMessagePayload(constants.AUTH_FORGOT_CONFIRM_FAILURE, 'CODE_MISMATCH', error.message),
+      }))
     } else {
-      yield put(
-        actions.authForgotConfirmFailure({
-          message: errors.getMessagePayload(constants.AUTH_FORGOT_CONFIRM_FAILURE, 'GENERIC', error.message),
-        }),
-      )
+      yield put(actions.authForgotConfirmFailure({
+        message: errors.getMessagePayload(constants.AUTH_FORGOT_CONFIRM_FAILURE, 'GENERIC', error.message),
+      }))
     }
   }
 }

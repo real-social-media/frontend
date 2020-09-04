@@ -78,7 +78,10 @@ const composeEnhancers = composeWithDevTools({
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
-const store = createStore(persistedReducer, composeEnhancers(applyMiddleware(sagaMiddleware)))
+const store = createStore(
+  persistedReducer,
+  composeEnhancers(applyMiddleware(sagaMiddleware)),
+)
 
 export const persistor = persistStore(store)
 

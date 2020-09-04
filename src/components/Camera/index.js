@@ -1,7 +1,11 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { View, StyleSheet, Animated } from 'react-native'
+import {
+  View,
+  StyleSheet,
+  Animated,
+} from 'react-native'
 import CameraTemplate from 'templates/Camera'
 import CameraHeaderTemplate from 'templates/Camera/Header'
 import ShutterComponent from 'components/Camera/Shutter'
@@ -37,7 +41,7 @@ const CameraComponent = ({
 }) => {
   const styling = styles
   const navigation = useNavigation()
-
+  
   /**
    * Size calc
    */
@@ -48,8 +52,12 @@ const CameraComponent = ({
   return (
     <View style={styling.root}>
       <CameraTemplate
-        header={<CameraHeaderTemplate handleClosePress={navigationActions.navigateHome(navigation)} />}
-        content={
+        header={(
+          <CameraHeaderTemplate
+            handleClosePress={navigationActions.navigateHome(navigation)}
+          />
+        )}
+        content={(
           <View style={styling.cameraWrapper}>
             <Animated.View style={[{ top: 0, height: topHeight }, styling.overflow]}>
               <BlurView style={styling.blur} />
@@ -59,16 +67,22 @@ const CameraComponent = ({
             </Animated.View>
 
             <RNCamera
-              key={flipMode ? RNCamera.Constants.Type.front : RNCamera.Constants.Type.back}
-              type={flipMode ? RNCamera.Constants.Type.front : RNCamera.Constants.Type.back}
-              flashMode={flashMode ? RNCamera.Constants.FlashMode.on : RNCamera.Constants.FlashMode.off}
+              key={(
+                flipMode ? RNCamera.Constants.Type.front : RNCamera.Constants.Type.back
+              )}
+              type={(
+                flipMode ? RNCamera.Constants.Type.front : RNCamera.Constants.Type.back
+              )}
+              flashMode={(
+                flashMode ? RNCamera.Constants.FlashMode.on : RNCamera.Constants.FlashMode.off
+              )}
               ref={cameraRef}
               captureAudio={false}
               style={styling.camera}
             />
           </View>
-        }
-        footer={
+        )}
+        footer={(
           <View style={styling.footer}>
             <ShutterComponent
               flashMode={flashMode}
@@ -81,8 +95,10 @@ const CameraComponent = ({
             />
             <PickerComponent setPhotoSize={setPhotoSize} />
           </View>
-        }
-        selector={null}
+        )}
+        selector={(
+          null
+        )}
       />
     </View>
   )

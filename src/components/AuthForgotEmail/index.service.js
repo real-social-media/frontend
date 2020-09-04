@@ -13,14 +13,12 @@ const AuthForgotComponentService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
 
-  const authForgot = useSelector((state) => state.auth.authForgot)
+  const authForgot = useSelector(state => state.auth.authForgot)
 
   const handleFormSubmit = (payload) => {
-    dispatch(
-      authActions.authForgotRequest({
-        username: toLower(payload.username),
-      }),
-    )
+    dispatch(authActions.authForgotRequest({
+      username: toLower(payload.username),
+    }))
   }
 
   /**
@@ -43,10 +41,14 @@ const AuthForgotComponentService = ({ children }) => {
    * Redirect to verification confirmation once reset was successful
    */
   useEffect(() => {
-    if (authForgot.status !== 'success') return
+    if (
+      authForgot.status !== 'success'
+    ) return
 
     navigationActions.navigateAuthForgotConfirm(navigation)()
-  }, [authForgot.status === 'success'])
+  }, [
+    authForgot.status === 'success',
+  ])
 
   const formSubmitLoading = authForgot.status === 'loading'
   const formSubmitDisabled = authForgot.status === 'loading'

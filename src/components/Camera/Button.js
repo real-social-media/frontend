@@ -7,8 +7,13 @@ import useBoolean from 'react-use/lib/useBoolean'
 
 import { withTheme } from 'react-native-paper'
 
-const Button = ({ theme, handleCameraRecordStart, handleCameraRecordStop }) => {
+const Button = ({
+  theme,
+  handleCameraRecordStart,
+  handleCameraRecordStop,
+}) => {
   const styling = styles(theme)
+  
 
   const [count, setCount] = React.useState(0)
   const [isRunning, toggleIsRunning] = useBoolean(false)
@@ -34,7 +39,7 @@ const Button = ({ theme, handleCameraRecordStart, handleCameraRecordStop }) => {
       <AnimatedCircularProgress
         size={90}
         width={6}
-        fill={Math.ceil((count / 15) * 100)}
+        fill={Math.ceil(count / 15 * 100)}
         tintColor={theme.colors.primary}
         backgroundColor={theme.colors.primaryIcon}
       />
@@ -42,18 +47,17 @@ const Button = ({ theme, handleCameraRecordStart, handleCameraRecordStop }) => {
   )
 }
 
-const styles = (theme) =>
-  StyleSheet.create({
-    capture: {
-      width: 100,
-      height: 100,
-      borderRadius: 50,
-      borderWidth: 20,
-      backgroundColor: theme.colors.primaryIcon,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-  })
+const styles = theme => StyleSheet.create({
+  capture: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    borderWidth: 20,
+    backgroundColor: theme.colors.primaryIcon,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+})
 
 Button.propTypes = {
   theme: PropTypes.any,

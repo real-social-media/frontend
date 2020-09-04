@@ -13,10 +13,10 @@ const ProfileService = ({ children }) => {
   const { userId } = route.params
 
   const usersGetProfile = useSelector(usersSelector.usersGetProfileSelector(userId))
-  const usersBlock = useSelector((state) => state.users.usersBlock)
-  const usersUnblock = useSelector((state) => state.users.usersUnblock)
-  const usersFollow = useSelector((state) => state.users.usersFollow)
-  const usersUnfollow = useSelector((state) => state.users.usersUnfollow)
+  const usersBlock = useSelector(state => state.users.usersBlock)
+  const usersUnblock = useSelector(state => state.users.usersUnblock)
+  const usersFollow = useSelector(state => state.users.usersFollow)
+  const usersUnfollow = useSelector(state => state.users.usersUnfollow)
 
   const profileRef = useRef(null)
 
@@ -26,15 +26,20 @@ const ProfileService = ({ children }) => {
     })
   }, [path(['data', 'username'])(usersGetProfile)])
 
-  const usersGetProfileRequest = ({ userId }) => dispatch(usersActions.usersGetProfileRequest({ userId }))
+  const usersGetProfileRequest = ({ userId }) => 
+    dispatch(usersActions.usersGetProfileRequest({ userId }))
 
-  const usersUnblockRequest = ({ userId }) => dispatch(usersActions.usersUnblockRequest({ userId }))
+  const usersUnblockRequest = ({ userId }) =>
+    dispatch(usersActions.usersUnblockRequest({ userId }))
 
-  const usersBlockRequest = ({ userId }) => dispatch(usersActions.usersBlockRequest({ userId }))
+  const usersBlockRequest = ({ userId }) =>
+    dispatch(usersActions.usersBlockRequest({ userId }))
 
-  const usersFollowRequest = ({ userId }) => dispatch(usersActions.usersFollowRequest({ userId }))
-
-  const usersUnfollowRequest = ({ userId }) => dispatch(usersActions.usersUnfollowRequest({ userId }))
+  const usersFollowRequest = ({ userId }) =>
+    dispatch(usersActions.usersFollowRequest({ userId }))
+  
+  const usersUnfollowRequest = ({ userId }) =>
+    dispatch(usersActions.usersUnfollowRequest({ userId }))
 
   useEffect(() => {
     if (usersBlock.status === 'success') {
@@ -44,7 +49,10 @@ const ProfileService = ({ children }) => {
     if (usersUnblock.status === 'success') {
       dispatch(usersActions.usersUnblockIdle({}))
     }
-  }, [usersBlock.status, usersUnblock.status])
+  }, [
+    usersBlock.status,
+    usersUnblock.status,
+  ])
 
   useEffect(() => {
     usersGetProfileRequest({ userId })

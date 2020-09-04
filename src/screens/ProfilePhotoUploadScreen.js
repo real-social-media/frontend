@@ -6,7 +6,9 @@ class ProfilePhotoUploadScreen extends React.Component {
   render() {
     return (
       <ProfilePhotoUploadServiceComponent>
-        {(props) => <ProfilePhotoUploadComponent {...props} />}
+        {(props) => (
+          <ProfilePhotoUploadComponent {...props} />
+        )}
       </ProfilePhotoUploadServiceComponent>
     )
   }

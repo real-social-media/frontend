@@ -9,7 +9,12 @@ class PostMediaScreen extends React.Component {
       <PostServiceComponent>
         {(postProps) => (
           <PostMediaServiceComponent>
-            {(postMediaProps) => <PostMediaComponent {...postMediaProps} {...postProps} />}
+            {(postMediaProps) => (
+              <PostMediaComponent
+                {...postMediaProps}
+                {...postProps}
+              />
+            )}
           </PostMediaServiceComponent>
         )}
       </PostServiceComponent>

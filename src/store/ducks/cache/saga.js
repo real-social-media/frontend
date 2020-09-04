@@ -6,54 +6,50 @@ import * as service from 'store/ducks/cache/service'
 import path from 'ramda/src/path'
 
 /**
- *
+ * 
  */
-const progressCallback = (signature, emitter) => (data) =>
-  emitter({
-    type: 'PROGRESS',
-    payload: {
-      signature,
-      jobId: path(['jobId'])(data),
-      progress: parseInt((data.bytesWritten / data.contentLength) * 100, 10),
-    },
-  })
+const progressCallback = (signature, emitter) => (data) => emitter({
+  type: 'PROGRESS',
+  payload: {
+    signature,
+    jobId: path(['jobId'])(data),
+    progress: parseInt(data.bytesWritten / data.contentLength * 100, 10),
+  },
+})
 
-const requestCallback = (signature, emitter) => (data) =>
-  emitter({
-    type: 'REQUEST',
-    payload: {
-      signature,
-      jobId: path(['jobId'])(data),
-      progress: 0,
-    },
-  })
+const requestCallback = (signature, emitter) => (data) => emitter({
+  type: 'REQUEST',
+  payload: {
+    signature,
+    jobId: path(['jobId'])(data),
+    progress: 0,
+  },
+})
 
-const successCallback = (signature, emitter) => (data) =>
-  emitter({
-    type: 'SUCCESS',
-    payload: {
-      signature,
-      jobId: path(['jobId'])(data),
-      progress: 100,
-    },
-  })
+const successCallback = (signature, emitter) => (data) => emitter({
+  type: 'SUCCESS',
+  payload: {
+    signature,
+    jobId: path(['jobId'])(data),
+    progress: 100,
+  },
+})
 
-const failureCallback = (signature, emitter) => (data) =>
-  emitter({
-    type: 'FAILURE',
-    payload: {
-      signature,
-      jobId: path(['jobId'])(data),
-      error: path(['error'])(data),
-      progress: 0,
-    },
-  })
+const failureCallback = (signature, emitter) => (data) => emitter({
+  type: 'FAILURE',
+  payload: {
+    signature,
+    jobId: path(['jobId'])(data),
+    error: path(['error'])(data),
+    progress: 0,
+  },
+})
 
 /**
- *
+ * 
  */
 function cacheFetchRequestChannel({ signature, priority, thread }) {
-  return eventChannel((emitter) => {
+  return eventChannel(emitter => {
     service.priorotizedRemoteImageFetch({
       signature,
       priority,
@@ -72,7 +68,7 @@ function cacheFetchRequestChannel({ signature, priority, thread }) {
 }
 
 /**
- *
+ * 
  */
 function* cacheFetchRequest(req) {
   if (!path(['payload', 'signature', 'path'])(req)) {
@@ -80,26 +76,24 @@ function* cacheFetchRequest(req) {
   }
 
   /**
-   *
+   * 
    */
   if (yield service.checkLocalImage(req.payload.signature.path)) {
-    yield put(
-      actions.cacheFetchSuccess({
-        signature: req.payload.signature,
-        jobId: undefined,
-        progress: 100,
-      }),
-    )
+    yield put(actions.cacheFetchSuccess({
+      signature: req.payload.signature,
+      jobId: undefined,
+      progress: 100,
+    }))
     return
   }
 
-  const nextProgress = yield select((state) => state.cache.progress[req.payload.signature.partial])
+  const nextProgress = yield select(state => state.cache.progress[req.payload.signature.partial])
   if (nextProgress) {
     return
   }
 
   /**
-   *
+   * 
    */
   const channel = yield call(cacheFetchRequestChannel, {
     signature: req.payload.signature,

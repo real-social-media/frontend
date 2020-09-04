@@ -11,7 +11,7 @@ function* handleThemeFetchRequest() {
 }
 
 /**
- *
+ * 
  */
 function* themeFetchRequest() {
   try {
@@ -23,7 +23,7 @@ function* themeFetchRequest() {
 }
 
 /**
- *
+ * 
  */
 function* themePreviewRequest(req) {
   try {

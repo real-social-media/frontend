@@ -8,7 +8,10 @@ export class MissingDeeplinkParamsError extends Error {
 }
 
 const options = { segmentValueCharset: ':a-zA-Z0-9_-' }
-const matchedPostAction = new urlPattern('*/user/(:userId)/post/(:postId)((/):action)(/)((/):actionId)(/)', options)
+const matchedPostAction = new urlPattern(
+  '*/user/(:userId)/post/(:postId)((/):action)(/)((/):actionId)(/)',
+  options,
+)
 
 export const deeplinkPath = (action) => {
   const params = matchedPostAction.match(action)
@@ -33,29 +36,33 @@ export const deeplinkNavigation = (navigation, navigationActions, Linking) => (a
      */
     if (params.action === 'chats') {
       return navigationActions.navigateChat(navigation)()
-    } else if (params && params.action === 'comments') {
+    }
 
     /**
      * Comments screen
      */
+    else if (params && params.action === 'comments') {
       return navigationActions.navigateNestedComments(navigation, params)()
-    } else if (params && params.action === 'views') {
+    }
 
     /**
      * Views screen
      */
+    else if (params && params.action === 'views') {
       return navigationActions.navigateNestedPostViews(navigation, params)()
-    } else if (params && params.action === 'likes') {
+    }
 
     /**
      * Likes screen
      */
+    else if (params && params.action === 'likes') {
       return navigationActions.navigateNestedPostLikes(navigation, params)()
-    } else if (params && !params.action) {
+    }
 
     /**
      * Post screen
      */
+    else if (params && !params.action) {
       return navigationActions.navigateNestedPost(navigation, params)()
     }
   } catch (error) {

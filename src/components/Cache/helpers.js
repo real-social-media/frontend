@@ -2,7 +2,7 @@ import RNFS from 'react-native-fs'
 import qs from 'query-string'
 
 /**
- *
+ * 
  */
 export const getPartial = (source) => {
   if (!source.includes('cloudfront.net')) {
@@ -12,14 +12,14 @@ export const getPartial = (source) => {
 }
 
 /**
- *
+ * 
  */
 export const getIsRemote = (source) => {
   return source.includes('http://') || source.includes('https://')
 }
 
 /**
- *
+ * 
  */
 export const generateSignature = (source) => {
   if (typeof source !== 'string' || !source.length) {
@@ -45,7 +45,7 @@ export const generateSignature = (source) => {
 }
 
 /**
- *
+ * 
  */
 export const getPriority = (filename = '', priority = 0) => {
   if (filename.includes('64p')) {
@@ -64,7 +64,7 @@ export const getPriority = (filename = '', priority = 0) => {
 }
 
 /**
- *
+ * 
  */
 export const getFilename = (source) => {
   if (!source) return ''

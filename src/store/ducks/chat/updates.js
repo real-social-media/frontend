@@ -13,12 +13,9 @@ const chatUserModifier = (chat) => {
 }
 
 const chatMessageUserModifier = (chat) => {
-  const mappedUsers = pathOr(
-    [],
-    ['messages', 'items'],
-  )(chat).map((message) => {
-    const mappedUser = pathOr(null, ['author', 'userId'])(message)
-    return assocPath(['author'], mappedUser)(message)
+  const mappedUsers = pathOr([], ['messages', 'items'])(chat).map((message) => {
+		const mappedUser = pathOr(null, ['author', 'userId'])(message)
+		return assocPath(['author'], mappedUser)(message)
   })
   return assocPath(['messages', 'items'], mappedUsers)(chat)
 }
@@ -32,14 +29,14 @@ extend('$chatResourceSetSuccess', ({ payload }, original) => {
 })
 
 extend('$chatResourceSetSuccess', ({ payload }, original) => {
-  return update(original, { $set: pathOr([], ['data'])(payload).map((chat) => chat.chatId) })
+  return update(original, { $set: pathOr([], ['data'])(payload).map(chat => chat.chatId) })
 })
 
 /**
  * Resource pool set
  */
 extend('$chatResourcePoolSet', ({ payload, initialState }, original) => {
-  const nextChat = update(initialState, {
+	const nextChat = update(initialState, {
     data: { $set: compose(chatMessageUserModifier, chatUserModifier)(payload.data) },
     status: { $set: 'success' },
   })
@@ -54,10 +51,7 @@ extend('$chatResourcePoolSet', ({ payload, initialState }, original) => {
  */
 extend('$chatResourcePoolMerge', ({ payload, initialState }, original) => {
   return update(original, {
-    $merge: pathOr(
-      [],
-      ['data'],
-    )(payload).reduce((acc, chat) => {
+    $merge: pathOr([], ['data'])(payload).reduce((acc, chat) => {
       acc[chat.chatId] = update(initialState, {
         data: { $set: compose(chatMessageUserModifier, chatUserModifier)(chat) },
         status: { $set: 'success' },
@@ -67,11 +61,12 @@ extend('$chatResourcePoolMerge', ({ payload, initialState }, original) => {
   })
 })
 
+
 /**
  *
  */
 extend('$chatResourcePushSuccess', ({ payload }, original) => {
-  return update(original, { $push: pathOr([], ['data'])(payload).map((chat) => chat.chatId) })
+  return update(original, { $push: pathOr([], ['data'])(payload).map(chat => chat.chatId) })
 })
 
 extend('$chatResourceRemoveSuccess', ({ payload }, original) => {

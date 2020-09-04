@@ -1,6 +1,11 @@
 import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, View, FlatList, RefreshControl } from 'react-native'
+import {
+  StyleSheet,
+  View,
+  FlatList,
+  RefreshControl,
+} from 'react-native'
 import Layout from 'constants/Layout'
 import PostsGridThumbnailComponent from 'components/PostsGrid/Thumbnail'
 import ModalProfileComponent from 'templates/ModalProfile'
@@ -43,18 +48,25 @@ const Album = ({
     extra: { albumId: path(['data', 'albumId'])(albumsSingleGet) },
   })
 
-  const { onViewableItemsChangedRef, viewabilityConfigRef } = useViewable()
+  const {
+    onViewableItemsChangedRef,
+    viewabilityConfigRef,
+  } = useViewable()
 
   return (
     <View style={styling.root}>
-      <FlatList
+      <FlatList 
         data={albumsPostsGet.data}
         numColumns={3}
-        keyExtractor={(item) => item.postId}
+        keyExtractor={item => item.postId}
         renderItem={({ item: post, index: priorityIndex }) => (
-          <PostsGridThumbnailComponent post={post} priorityIndex={priorityIndex} thread="albums" />
+          <PostsGridThumbnailComponent
+            post={post}
+            priorityIndex={priorityIndex}
+            thread="albums"
+          />
         )}
-        ListHeaderComponent={
+        ListHeaderComponent={(
           <View style={styling.content}>
             <ModalProfileComponent
               thumbnailSource={{ uri: path(['ownedBy', 'photo', 'url64p'])(albumsSingleGet.data) }}
@@ -63,14 +75,14 @@ const Album = ({
               subtitle={path(['ownedBy', 'fullName'])(albumsSingleGet.data)}
             />
           </View>
-        }
-        refreshControl={
+        )}
+        refreshControl={(
           <RefreshControl
             tintColor={theme.colors.border}
             onRefresh={scroll.handleRefresh}
             refreshing={scroll.refreshing}
           />
-        }
+        )}
         onViewableItemsChanged={onViewableItemsChangedRef.current}
         viewabilityConfig={viewabilityConfigRef.current}
       />
@@ -93,41 +105,40 @@ const Album = ({
   )
 }
 
-const styles = (theme) =>
-  StyleSheet.create({
-    root: {
-      flex: 1,
-      backgroundColor: theme.colors.backgroundPrimary,
-    },
-    header: {
-      zIndex: 2,
-    },
-    content: {
-      padding: theme.spacing.base,
-    },
-    headline: {
-      fontSize: 20,
-      fontWeight: '600',
-    },
-    bottomSpacing: {
-      marginBottom: theme.spacing.base,
-    },
+const styles = theme => StyleSheet.create({
+  root: {
+    flex: 1,
+    backgroundColor: theme.colors.backgroundPrimary,
+  },
+  header: {
+    zIndex: 2,
+  },
+  content: {
+    padding: theme.spacing.base,
+  },
+  headline: {
+    fontSize: 20,
+    fontWeight: '600',
+  },
+  bottomSpacing: {
+    marginBottom: theme.spacing.base,
+  },
 
-    albums: {
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-    },
-    albumWrapper: {
-      width: Layout.window.width / 2 - 12,
-      height: Layout.window.width / 2 - 12,
-      padding: 12,
-    },
-    album: {
-      width: '100%',
-      height: '100%',
-      borderRadius: 4,
-    },
-  })
+  albums: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  albumWrapper: {
+    width: Layout.window.width / 2 - 12,
+    height: Layout.window.width / 2 - 12,
+    padding: 12,
+  },
+  album: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 4,
+  },
+})
 
 Album.propTypes = {
   t: PropTypes.any,
@@ -140,4 +151,6 @@ Album.propTypes = {
   albumsDeleteRequest: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(Album))
+export default withTranslation()(
+  withTheme(Album),
+)

@@ -1,4 +1,8 @@
-import { userFragment, postFragment, commentFragment } from 'store/fragments'
+import {
+  userFragment,
+  postFragment,
+  commentFragment,
+} from 'store/fragments'
 
 import * as feed from 'store/ducks/posts/queries/feed'
 import * as grid from 'store/ducks/posts/queries/grid'

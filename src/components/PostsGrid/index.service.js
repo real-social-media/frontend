@@ -12,9 +12,11 @@ const PostsGridService = ({ children }) => {
   const { userId } = route.params || useSelector(authSelector.authUserSelector)
   const postsGet = useSelector(postsSelector.postsGetSelector(userId))
 
-  const postsGetRequest = ({ userId, nextToken }) => dispatch(postsActions.postsGetRequest({ userId, nextToken }))
+  const postsGetRequest = ({ userId, nextToken }) =>
+    dispatch(postsActions.postsGetRequest({ userId, nextToken }))
 
-  const postsGetMoreRequest = ({ nextToken }) => dispatch(postsActions.postsGetMoreRequest({ userId, nextToken }))
+  const postsGetMoreRequest = ({ nextToken }) =>
+    dispatch(postsActions.postsGetMoreRequest({ userId, nextToken }))
 
   useEffect(() => {
     dispatch(postsActions.postsGetRequest({ userId }))

@@ -1,12 +1,19 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, View, TextInput } from 'react-native'
+import {
+  StyleSheet,
+  View,
+  TextInput,
+} from 'react-native'
 
 import { withTheme } from 'react-native-paper'
 
 const TextGrowing = ({
   theme,
-  field: { value, name },
+  field: {
+    value,
+    name,
+  },
   form,
   placeholder,
   multiline = true,
@@ -16,7 +23,7 @@ const TextGrowing = ({
   inputRef,
 }) => {
   const styling = styles(theme)
-
+  
   const [height, setHeight] = useState(42)
 
   /**
@@ -53,32 +60,32 @@ const TextGrowing = ({
         // returnKeyType="done"
         // blurOnSubmit={true}
         scrollEnabled={true}
-        onContentSizeChange={(e) => setHeight(e.nativeEvent.contentSize.height + 12)}
+        onContentSizeChange={e => setHeight(e.nativeEvent.contentSize.height + 12)}
       />
       {/*<ErrorMessage name={name} render={msg => <Text style={styling.error}>{msg}</Text>} />*/}
     </View>
   )
 }
 
-const styles = (theme) =>
-  StyleSheet.create({
-    root: {},
-    input: {
-      minHeight: 42,
-      padding: 12,
-      lineHeight: 23,
-      fontSize: 14,
-      color: theme.colors.text,
-      textAlignVertical: 'top',
-      borderWidth: 1,
-      borderRadius: 2,
-      borderColor: theme.colors.border,
-    },
-    error: {
-      textAlign: 'right',
-      fontSize: 11,
-    },
-  })
+const styles = theme => StyleSheet.create({
+  root: {
+  },
+  input: {
+    minHeight: 42,
+    padding: 12,
+    lineHeight: 23,
+    fontSize: 14,
+    color: theme.colors.text,
+    textAlignVertical: 'top',
+    borderWidth: 1,
+    borderRadius: 2,
+    borderColor: theme.colors.border,
+  },
+  error: {
+    textAlign: 'right',
+    fontSize: 11,
+  },
+})
 
 TextGrowing.propTypes = {
   theme: PropTypes.any,

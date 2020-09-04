@@ -116,62 +116,52 @@ const AuthNavigator = ({ theme }) => {
 
   return (
     <Stack.Navigator {...stackNavigatorDefaultProps}>
-      <Stack.Screen name="AuthHome" component={AuthHomeScreen} {...stackScreenOnboardProps} />
+      <Stack.Screen
+        name="AuthHome"
+        component={AuthHomeScreen}
+        {...stackScreenOnboardProps}
+      />
 
       <Stack.Screen
         name="Signup"
         component={SignupNavigator}
-        {...stackScreenAuthProps({
-          options: { title: 'Signup', headerLeft: navigationOptions.pageHeaderLeft, gestureEnabled: true },
-        })}
+        {...stackScreenAuthProps({ options: { title: 'Signup', headerLeft: navigationOptions.pageHeaderLeft, gestureEnabled: true } })}
       />
 
       <Stack.Screen
         name="Signin"
         component={SigninNavigator}
-        {...stackScreenAuthProps({
-          options: { title: 'Log In', headerLeft: navigationOptions.pageHeaderLeft, gestureEnabled: true },
-        })}
+        {...stackScreenAuthProps({ options: { title: 'Log In', headerLeft: navigationOptions.pageHeaderLeft, gestureEnabled: true } })}
       />
 
       <Stack.Screen
         name="Forgot"
         component={ForgotNavigator}
-        {...stackScreenAuthProps({
-          options: { title: 'Forgot', headerLeft: navigationOptions.pageHeaderLeft, gestureEnabled: true },
-        })}
+        {...stackScreenAuthProps({ options: { title: 'Forgot', headerLeft: navigationOptions.pageHeaderLeft, gestureEnabled: true } })}
       />
 
       <Stack.Screen
         name="AuthUsername"
         component={AuthUsernameScreen}
-        {...stackScreenAuthProps({
-          options: { title: 'Signup', headerLeft: navigationOptions.pageHeaderLeft, gestureEnabled: true },
-        })}
+        {...stackScreenAuthProps({ options: { title: 'Signup', headerLeft: navigationOptions.pageHeaderLeft, gestureEnabled: true } })}
       />
 
       <Stack.Screen
         name="AuthPassword"
         component={AuthPasswordScreen}
-        {...stackScreenAuthProps({
-          options: { title: 'Signup', headerLeft: navigationOptions.pageHeaderLeft, gestureEnabled: true },
-        })}
+        {...stackScreenAuthProps({ options: { title: 'Signup', headerLeft: navigationOptions.pageHeaderLeft, gestureEnabled: true } })}
       />
 
       <Stack.Screen
         name="AuthEmailConfirm"
         component={AuthEmailConfirmScreen}
-        {...stackScreenAuthProps({
-          options: { title: 'Enter 6-digit code', headerLeft: navigationOptions.pageHeaderLeft, gestureEnabled: true },
-        })}
+        {...stackScreenAuthProps({ options: { title: 'Enter 6-digit code', headerLeft: navigationOptions.pageHeaderLeft, gestureEnabled: true } })}
       />
 
       <Stack.Screen
         name="AuthPhoneConfirm"
         component={AuthPhoneConfirmScreen}
-        {...stackScreenAuthProps({
-          options: { title: 'Enter 6-digit code', headerLeft: navigationOptions.pageHeaderLeft, gestureEnabled: true },
-        })}
+        {...stackScreenAuthProps({ options: { title: 'Enter 6-digit code', headerLeft: navigationOptions.pageHeaderLeft, gestureEnabled: true } })}
       />
 
       <Stack.Screen
@@ -186,16 +176,22 @@ const AuthNavigator = ({ theme }) => {
         {...stackScreenAuthProps({ options: { title: 'Welcome', headerLeft: null } })}
       />
 
-      <Stack.Screen name="Verification" component={VerificationScreen} {...stackScreenAuthModalProps} />
+      <Stack.Screen
+        name="Verification"
+        component={VerificationScreen}
+        {...stackScreenAuthModalProps}
+      />
 
-      <Stack.Screen name="AuthCamera" component={CameraScreen} {...stackScreenBlankProps} />
+      <Stack.Screen
+        name="AuthCamera"
+        component={CameraScreen}
+        {...stackScreenBlankProps}
+      />
 
       <Stack.Screen
         name="AuthForgotConfirm"
         component={AuthForgotConfirmScreen}
-        {...stackScreenAuthProps({
-          options: { title: 'Forgot Confirm', headerLeft: navigationOptions.pageHeaderLeft, gestureEnabled: true },
-        })}
+        {...stackScreenAuthProps({ options: { title: 'Forgot Confirm', headerLeft: navigationOptions.pageHeaderLeft, gestureEnabled: true } })}
       />
 
       <Stack.Screen

@@ -10,9 +10,10 @@ import * as Logger from 'services/Logger'
 const FeedCardsService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
-  const usersGetCards = useSelector((state) => state.users.usersGetCards)
+  const usersGetCards = useSelector(state => state.users.usersGetCards)
 
-  const usersDeleteCardRequest = (payload) => dispatch(usersActions.usersDeleteCardRequest(payload))
+  const usersDeleteCardRequest = (payload) =>
+    dispatch(usersActions.usersDeleteCardRequest(payload))
 
   const handleCardPress = ({ action, cardId }) => {
     dispatch(usersActions.usersGetCardsOptimistic({ cardId }))
@@ -24,7 +25,7 @@ const FeedCardsService = ({ children }) => {
     try {
       return LinkingService.deeplinkPath(card.action)
     } catch (error) {
-      Logger.withScope((scope) => {
+      Logger.withScope(scope => {
         scope.setExtra('action', card.action)
         scope.setExtra('code', error.code)
         scope.setExtra('message', error.message)
@@ -34,13 +35,15 @@ const FeedCardsService = ({ children }) => {
     }
   }
 
-  const filteredCardsData = useMemo(() => usersGetCards.data.filter(isCardSupported), [usersGetCards.data])
-
+  const filteredCardsData = useMemo(() =>
+    usersGetCards.data.filter(isCardSupported)
+  , [usersGetCards.data])
+ 
   return children({
-    usersGetCards,
+		usersGetCards,
     filteredCardsData,
-    handleCardPress,
-    usersDeleteCardRequest,
+		handleCardPress,
+		usersDeleteCardRequest,
   })
 }
 

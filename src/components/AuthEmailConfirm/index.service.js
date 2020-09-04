@@ -14,11 +14,11 @@ const AuthEmailConfirmComponentService = ({ children }) => {
   const navigation = useNavigation()
   const route = useRoute()
 
-  const signupUsername = useSelector((state) => state.signup.signupUsername)
-  const signupEmail = useSelector((state) => state.signup.signupEmail)
-  const signupPassword = useSelector((state) => state.signup.signupPassword)
-  const signupConfirm = useSelector((state) => state.signup.signupConfirm)
-  const signupCognitoIdentity = useSelector((state) => state.signup.signupCognitoIdentity)
+  const signupUsername = useSelector(state => state.signup.signupUsername)
+  const signupEmail = useSelector(state => state.signup.signupEmail)
+  const signupPassword = useSelector(state => state.signup.signupPassword)
+  const signupConfirm = useSelector(state => state.signup.signupConfirm)
+  const signupCognitoIdentity = useSelector(state => state.signup.signupCognitoIdentity)
 
   /**
    * Navigation state reset on back button press
@@ -30,11 +30,10 @@ const AuthEmailConfirmComponentService = ({ children }) => {
 
   useEffect(() => {
     navigation.setOptions({
-      headerLeft: () =>
-        pageHeaderLeft({
-          testID: testIDs.header.backBtn,
-          onPress: handleGoBack,
-        }),
+      headerLeft: () => pageHeaderLeft({ 
+        testID: testIDs.header.backBtn, 
+        onPress: handleGoBack, 
+      }),
     })
   }, [])
 
@@ -52,21 +51,31 @@ const AuthEmailConfirmComponentService = ({ children }) => {
 
   /**
    * Create new user once email and password is received from previous steps
-   *
+   * 
    * Previous steps include:
    * - signupUsername -> AuthUsernameScreen
    * - signupEmail -> AuthEmailScreen
    * - signupPassword -> AuthPasswordScreen
    */
   useEffect(() => {
-    if (!signupUsername.payload.username || !signupEmail.payload.email || !signupPassword.payload.password) return
-  }, [signupUsername.status, signupEmail.status, signupPassword.status])
+    if (
+      !signupUsername.payload.username ||
+      !signupEmail.payload.email ||
+      !signupPassword.payload.password
+    ) return
+  }, [
+    signupUsername.status,
+    signupEmail.status,
+    signupPassword.status,
+  ])
 
   /**
    * Redirect to verification confirmation once signup was successful
    */
   useEffect(() => {
-    if (signupConfirm.status !== 'success') return
+    if (
+      signupConfirm.status !== 'success'
+    ) return
 
     logEvent('SIGNUP_CONFIRM_SUCCESS')
     dispatch(signupActions.signupCreateIdle({}))
@@ -76,7 +85,9 @@ const AuthEmailConfirmComponentService = ({ children }) => {
 
     Keyboard.dismiss()
     dispatch(authActions.authCheckRequest({ type: 'FIRST_MOUNT' }))
-  }, [signupConfirm.status])
+  }, [
+    signupConfirm.status,
+  ])
 
   const formSubmitLoading = signupConfirm.status === 'loading'
   const formSubmitDisabled = signupConfirm.status === 'loading'

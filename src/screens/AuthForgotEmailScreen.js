@@ -6,7 +6,11 @@ class AuthForgotEmailScreen extends React.Component {
   render() {
     return (
       <AuthForgotEmailServiceComponent>
-        {(props) => <AuthForgotEmailComponent {...props} />}
+        {(props) => (
+          <AuthForgotEmailComponent
+            {...props}
+          />
+        )}
       </AuthForgotEmailServiceComponent>
     )
   }

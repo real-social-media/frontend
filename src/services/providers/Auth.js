@@ -13,33 +13,33 @@ import useAppState from 'services/AppState'
 import LoadingComponent from 'components/Loading'
 
 /**
- *
+ * 
  */
-export const AuthProvider = ({ children }) => {
+export const AuthProvider = ({
+  children,
+}) => {
   const dispatch = useDispatch()
   const userId = useSelector(authSelector.authUserIdSelector)
-  const themeFetch = useSelector((state) => state.theme.themeFetch)
-  const nextRoute = useSelector((state) => state.auth.authCheck.nextRoute)
-  const status = useSelector((state) => state.auth.authCheck.status)
-  const translationFetch = useSelector((state) => state.translation.translationFetch)
+  const themeFetch = useSelector(state => state.theme.themeFetch)
+  const nextRoute = useSelector(state => state.auth.authCheck.nextRoute)
+  const status = useSelector(state => state.auth.authCheck.status)
+  const translationFetch = useSelector(state => state.translation.translationFetch)
   const languageCode = useSelector(authSelector.languageCodeSelector)
   const theme = useSelector(authSelector.themeSelector)
-  const authGoogle = useSelector((state) => state.auth.authGoogle)
-  const authApple = useSelector((state) => state.auth.authApple)
+  const authGoogle = useSelector(state => state.auth.authGoogle)
+  const authApple = useSelector(state => state.auth.authApple)
 
-  const errorsPool = [
-    {
-      appErrorMessage: authGoogle.error.text,
-      handleErrorClose: () => dispatch(authActions.authGoogleIdle()),
-    },
-    {
-      appErrorMessage: authApple.error.text,
-      handleErrorClose: () => dispatch(authActions.authAppleIdle()),
-    },
-  ]
-  const { appErrorMessage, handleErrorClose } =
-    errorsPool.filter((error) => error.appErrorMessage && !error.appErrorMessage.length).pop() || {}
-
+  const errorsPool = [{
+    appErrorMessage: authGoogle.error.text,
+    handleErrorClose: () => dispatch(authActions.authGoogleIdle()),
+  }, {
+    appErrorMessage: authApple.error.text,
+    handleErrorClose: () => dispatch(authActions.authAppleIdle()),
+  }]
+  const { appErrorMessage, handleErrorClose } = errorsPool
+    .filter(error => error.appErrorMessage && !error.appErrorMessage.length)
+    .pop() || {}
+  
   /**
    * Constructor function to fetch: Translations, Themes and Auth data
    */
@@ -48,6 +48,7 @@ export const AuthProvider = ({ children }) => {
     dispatch(translationActions.translationFetchRequest())
     dispatch(authActions.authCheckRequest({ type: 'FIRST_MOUNT' }))
   }, [])
+
 
   useEffect(() => {
     if (userId) {
@@ -86,18 +87,34 @@ export const AuthProvider = ({ children }) => {
    * }
    */
   useEffect(() => {
-    i18n.use(initReactI18next).init({
+    i18n
+    .use(initReactI18next)
+    .init({
       resources: translationFetch.data,
       lng: languageCode || 'en',
       fallbackLng: 'en',
     })
-  }, [path(['data', 'length'])(translationFetch), languageCode])
+  }, [
+    path(['data', 'length'])(translationFetch),
+    languageCode,
+  ])
 
-  if (!path(['data', 'en'])(translationFetch) || !path(['data', 'length'])(themeFetch) || !nextRoute) {
+  if (
+    !path(['data', 'en'])(translationFetch) ||
+    !path(['data', 'length'])(themeFetch) ||
+    !nextRoute
+  ) {
     return <LoadingComponent />
   }
 
-  const authenticated = userId && (nextRoute === null || nextRoute === 'Root') && status !== 'failure'
+  const authenticated = (
+    userId && (
+      nextRoute === null ||
+      nextRoute === 'Root'
+    ) && (
+      status !== 'failure'
+    )
+  )
 
   return children({
     theme,

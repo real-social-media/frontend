@@ -7,11 +7,16 @@ class AlbumsScreen extends React.Component {
   render() {
     return (
       <AlbumsServiceComponent>
-        {(shareProps) => (
+        {((shareProps) => (
           <AlbumsGridServiceComponent>
-            {(albumsProps) => <AlbumsComponent {...shareProps} {...albumsProps} />}
+            {(albumsProps) => (
+              <AlbumsComponent
+                {...shareProps}
+                {...albumsProps}
+              />
+            )}
           </AlbumsGridServiceComponent>
-        )}
+        ))}
       </AlbumsServiceComponent>
     )
   }

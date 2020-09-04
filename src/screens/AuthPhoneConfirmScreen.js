@@ -7,7 +7,11 @@ class AuthPhoneConfirmScreen extends React.Component {
   render() {
     return (
       <AuthPhoneConfirmServiceComponent>
-        {(props) => <AuthPhoneConfirmComponent {...props} />}
+        {(props) => (
+          <AuthPhoneConfirmComponent
+            {...props}
+          />
+        )}
       </AuthPhoneConfirmServiceComponent>
     )
   }

@@ -1,6 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, ScrollView, TouchableOpacity, RefreshControl } from 'react-native'
+import {
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  RefreshControl,
+} from 'react-native'
 import path from 'ramda/src/path'
 import { Text } from 'react-native-paper'
 import RowsComponent from 'templates/Rows'
@@ -15,26 +20,31 @@ import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
-const Users = ({ t, theme, usersSearch, loading = false }) => {
+const Users = ({
+  t,
+  theme,
+  usersSearch,
+  loading = false,
+}) => {
   const styling = styles(theme)
   const navigation = useNavigation()
 
   return (
     <ScrollView
       style={styling.root}
-      refreshControl={<RefreshControl tintColor={theme.colors.border} refreshing={loading} />}
+      refreshControl={
+        <RefreshControl
+          tintColor={theme.colors.border}
+          refreshing={loading}
+        />
+      }
     >
       <RowsComponent items={path(['data'])(usersSearch)}>
         {(user) => (
           <RowsItemComponent>
             <UserRowComponent
               avatar={
-                <TouchableOpacity
-                  onPress={navigationActions.navigateChatDirect(navigation, {
-                    userId: user.userId,
-                    chatId: path(['user', 'directChat', 'chatId'])(user),
-                  })}
-                >
+                <TouchableOpacity onPress={navigationActions.navigateChatDirect(navigation, { userId: user.userId, chatId: path(['user', 'directChat', 'chatId'])(user) })}>
                   <Avatar
                     active={UserService.hasActiveStories(user)}
                     thumbnailSource={{ uri: path(['photo', 'url64p'])(user) }}
@@ -44,29 +54,14 @@ const Users = ({ t, theme, usersSearch, loading = false }) => {
                 </TouchableOpacity>
               }
               content={
-                <TouchableOpacity
-                  onPress={navigationActions.navigateChatDirect(navigation, {
-                    userId: user.userId,
-                    chatId: path(['user', 'directChat', 'chatId'])(user),
-                  })}
-                  style={styling.user}
-                >
+                <TouchableOpacity onPress={navigationActions.navigateChatDirect(navigation, { userId: user.userId, chatId: path(['user', 'directChat', 'chatId'])(user) })} style={styling.user}>
                   <Text style={styling.username}>{path(['username'])(user)}</Text>
                   <Text style={styling.fullname}>{path(['fullName'])(user)}</Text>
                 </TouchableOpacity>
               }
-              action={
-                <DefaultButton
-                  label={t('Chat')}
-                  onPress={navigationActions.navigateChatDirect(navigation, {
-                    userId: user.userId,
-                    chatId: path(['user', 'directChat', 'chatId'])(user),
-                  })}
-                  loading={false}
-                  mode="outlined"
-                  size="compact"
-                />
-              }
+              action={(
+                <DefaultButton label={t('Chat')} onPress={navigationActions.navigateChatDirect(navigation, { userId: user.userId, chatId: path(['user', 'directChat', 'chatId'])(user) })} loading={false} mode="outlined" size="compact" />
+              )}
             />
           </RowsItemComponent>
         )}
@@ -75,18 +70,19 @@ const Users = ({ t, theme, usersSearch, loading = false }) => {
   )
 }
 
-const styles = (theme) =>
-  StyleSheet.create({
-    root: {
-      flex: 1,
-      padding: theme.spacing.base,
-    },
-    user: {
-      paddingHorizontal: 8,
-    },
-    username: {},
-    fullname: {},
-  })
+const styles = theme => StyleSheet.create({
+  root: {
+    flex: 1,
+    padding: theme.spacing.base,
+  },
+  user: {
+    paddingHorizontal: 8,
+  },
+  username: {
+  },
+  fullname: {
+  },
+})
 
 Users.propTypes = {
   theme: PropTypes.any,

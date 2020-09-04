@@ -1,6 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { View, StyleSheet } from 'react-native'
+import {
+  View,
+  StyleSheet,
+} from 'react-native'
 import FormComponent from 'components/AuthEmail/Form'
 import AuthActionTemplate from 'templates/Auth/Action'
 import AuthHeaderTemplate from 'templates/Auth/Header'
@@ -26,10 +29,18 @@ const AuthEmail = ({
 
   return (
     <View testID={testIDs.root} style={styling.root}>
-      {formErrorMessage ? <AuthErrorTemplate text={formErrorMessage} onClose={handleErrorClose} /> : null}
+      {formErrorMessage ?
+        <AuthErrorTemplate
+          text={formErrorMessage}
+          onClose={handleErrorClose}
+        />
+      : null}
 
       <View style={styling.component}>
-        <AuthHeaderTemplate title={t('Signup with Email Address')} subtitle={t('We\'ll send a code to verify')} />
+        <AuthHeaderTemplate
+          title={t('Signup with Email Address')}
+          subtitle={t('We\'ll send a code to verify')}
+        />
 
         <View style={styling.content}>
           <FormComponent

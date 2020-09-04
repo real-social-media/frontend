@@ -1,12 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, View } from 'react-native'
+import {
+  StyleSheet,
+  View,
+} from 'react-native'
 import Layout from 'constants/Layout'
 import LinearGradient from 'react-native-linear-gradient'
 import path from 'ramda/src/path'
 import CacheComponent from 'components/Cache'
 
-const ModalPreview = ({ theme, post, renderUri }) => {
+const ModalPreview = ({
+  theme,
+  post,
+  renderUri,
+}) => {
   const styling = styles
   const thumbnailSource = { uri: path(['image', 'url64p'])(post) }
   const imageSource = { uri: path(['image', 'url1080p'])(post) }
@@ -18,7 +25,7 @@ const ModalPreview = ({ theme, post, renderUri }) => {
         style={styling.gradient}
       />
 
-      {!renderUri ? (
+      {!renderUri ?
         <CacheComponent
           images={[
             [thumbnailSource.uri, true],
@@ -28,11 +35,18 @@ const ModalPreview = ({ theme, post, renderUri }) => {
           priorityIndex={1}
           resizeMode="cover"
         />
-      ) : null}
+      : null}
 
-      {renderUri ? (
-        <CacheComponent images={[[renderUri, true]]} fallback={renderUri} priorityIndex={1} resizeMode="cover" />
-      ) : null}
+      {renderUri ?
+        <CacheComponent
+          images={[
+            [renderUri, true],
+          ]}
+          fallback={renderUri}
+          priorityIndex={1}
+          resizeMode="cover"
+        />
+      : null}
     </View>
   )
 }

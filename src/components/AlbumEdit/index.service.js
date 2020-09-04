@@ -9,9 +9,10 @@ const AlbumEditService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const user = useSelector(authSelector.authUserSelector)
-  const albumsEdit = useSelector((state) => state.albums.albumsEdit)
+  const albumsEdit = useSelector(state => state.albums.albumsEdit)
 
-  const albumsEditRequest = (payload) => dispatch(albumsActions.albumsEditRequest(payload))
+  const albumsEditRequest = (payload) =>
+    dispatch(albumsActions.albumsEditRequest(payload))
 
   useEffect(() => {
     if (albumsEdit.status === 'success') {

@@ -11,7 +11,7 @@ class ThemeScreen extends React.Component {
       <ThemeServiceComponent>
         {(props) => (
           <React.Fragment>
-            {props.themePreview.status === 'success' ? (
+            {props.themePreview.status === 'success' ?
               <ThemeModalComponent
                 isVisible={props.themePreview.status === 'success'}
                 onApplyClick={() => {
@@ -24,9 +24,11 @@ class ThemeScreen extends React.Component {
                   <FeedScreen />
                 </PaperProvider>
               </ThemeModalComponent>
-            ) : null}
+            : null}
 
-            <ThemeComponent {...props} />
+            <ThemeComponent
+              {...props}
+            />
           </React.Fragment>
         )}
       </ThemeServiceComponent>

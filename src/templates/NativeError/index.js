@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types'
-import { Alert } from 'react-native'
+import {
+  Alert,
+} from 'react-native'
 import usePrevious from 'react-use/lib/usePrevious'
 
 const NativeError = ({
@@ -33,13 +35,11 @@ const NativeError = ({
     Alert.alert(
       titleText,
       messageText,
-      [
-        {
-          text: actionText,
-          onPress: handleCancelPress,
-          style: 'cancel',
-        },
-      ],
+      [{
+        text: actionText,
+        onPress: handleCancelPress,
+        style: 'cancel',
+      }],
       { cancelable: false },
     )
   }

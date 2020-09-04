@@ -1,6 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, View, FlatList } from 'react-native'
+import {
+  StyleSheet,
+  View,
+  FlatList,
+} from 'react-native'
 import PostComponent from 'components/Post'
 import NativeError from 'templates/NativeError'
 import useViewable from 'services/providers/Viewable'
@@ -25,7 +29,7 @@ const PostMedia = ({
 
   handleScrollNext,
   handleScrollPrev,
-
+  
   feedRef,
   actionSheetRefs,
   textPostRefs,
@@ -34,7 +38,10 @@ const PostMedia = ({
 
   const data = postsSingleGet.data ? [postsSingleGet.data] : []
 
-  const { onViewableItemsChangedRef, viewabilityConfigRef } = useViewable()
+  const {
+    onViewableItemsChangedRef,
+    viewabilityConfigRef,
+  } = useViewable()
 
   return (
     <View style={styling.root}>
@@ -50,7 +57,7 @@ const PostMedia = ({
       <FlatList
         bounces={false}
         ref={feedRef}
-        keyExtractor={(item) => item.postId}
+        keyExtractor={item => item.postId}
         data={data}
         onViewableItemsChanged={onViewableItemsChangedRef.current}
         viewabilityConfig={viewabilityConfigRef.current}
@@ -67,11 +74,12 @@ const PostMedia = ({
             postsOnymouslyLikeRequest={postsOnymouslyLikeRequest}
             postsDislikeRequest={postsDislikeRequest}
             priorityIndex={index}
+
             handleScrollPrev={handleScrollPrev(index)}
             handleScrollNext={handleScrollNext(index)}
-            createActionSheetRef={(element) => (actionSheetRefs.current[post.postId] = element)}
+            createActionSheetRef={element => actionSheetRefs.current[post.postId] = element}
             actionSheetRef={actionSheetRefs.current[post.postId]}
-            createTextPostRef={(element) => (textPostRefs.current[post.postId] = element)}
+            createTextPostRef={element => textPostRefs.current[post.postId] = element}
             textPostRef={textPostRefs.current[post.postId]}
           />
         )}
@@ -79,16 +87,15 @@ const PostMedia = ({
     </View>
   )
 }
-const styles = (theme) =>
-  StyleSheet.create({
-    root: {
-      flex: 1,
-      backgroundColor: theme.colors.backgroundPrimary,
-    },
-    uploading: {
-      flexWrap: 'wrap',
-    },
-  })
+const styles = theme => StyleSheet.create({
+  root: {
+    flex: 1,
+    backgroundColor: theme.colors.backgroundPrimary,
+  },
+  uploading: {
+    flexWrap: 'wrap',
+  },
+})
 
 PostMedia.defaultProps = {
   postsGet: {},

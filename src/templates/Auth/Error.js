@@ -1,12 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { View, StyleSheet, TouchableOpacity } from 'react-native'
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native'
 import { Text } from 'react-native-paper'
 import CloseIcon from 'assets/svg/post/Close'
 
 import { withTheme } from 'react-native-paper'
 
-const Error = ({ theme, text, onClose }) => {
+const Error = ({
+  theme,
+  text,
+  onClose,
+}) => {
   const styling = styles(theme)
 
   return (
@@ -21,24 +29,23 @@ const Error = ({ theme, text, onClose }) => {
   )
 }
 
-const styles = (theme) =>
-  StyleSheet.create({
-    root: {
-      position: 'absolute',
-      width: '100%',
-      backgroundColor: 'red',
-      padding: theme.spacing.base,
-      flexDirection: 'row',
-      zIndex: 2,
-    },
-    content: {
-      flex: 1,
-    },
-    text: {
-      fontWeight: '500',
-      color: '#ffffff',
-    },
-  })
+const styles = theme => StyleSheet.create({
+  root: {
+    position: 'absolute',
+    width: '100%',
+    backgroundColor: 'red',
+    padding: theme.spacing.base,
+    flexDirection: 'row',
+    zIndex: 2,
+  },
+  content: {
+    flex: 1,
+  },
+  text: {
+    fontWeight: '500',
+    color: '#ffffff',
+  },
+})
 
 Error.propTypes = {
   theme: PropTypes.any,

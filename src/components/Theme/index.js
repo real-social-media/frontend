@@ -1,6 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, View, ScrollView } from 'react-native'
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+} from 'react-native'
 import { Text } from 'react-native-paper'
 import RowsComponent from 'templates/Rows'
 import RowsItemComponent from 'templates/RowsItem'
@@ -12,9 +16,16 @@ import ThemeAvatar from 'templates/ThemeAvatar'
 import { withTheme } from 'react-native-paper'
 import { withTranslation } from 'react-i18next'
 
-const Theme = ({ t, theme, user, themeFetch, themePreviewRequest, themePreviewIdle }) => {
+const Theme = ({
+  t,
+  theme,
+  user,
+  themeFetch,
+  themePreviewRequest,
+  themePreviewIdle,
+}) => {
   const styling = styles(theme)
-
+  
   return (
     <ScrollView style={styling.root}>
       <RowsComponent items={path(['data'])(themeFetch)}>
@@ -24,7 +35,10 @@ const Theme = ({ t, theme, user, themeFetch, themePreviewRequest, themePreviewId
               avatar={
                 <ThemeAvatar
                   size="default"
-                  colors={[theme.theme.colors.button, theme.theme.colors.backgroundPrimary]}
+                  colors={[
+                    theme.theme.colors.button,
+                    theme.theme.colors.backgroundPrimary,
+                  ]}
                 />
               }
               content={
@@ -55,17 +69,16 @@ const Theme = ({ t, theme, user, themeFetch, themePreviewRequest, themePreviewId
   )
 }
 
-const styles = (theme) =>
-  StyleSheet.create({
-    root: {
-      flex: 1,
-      backgroundColor: theme.colors.backgroundPrimary,
-      padding: theme.spacing.base,
-    },
-    form: {
-      padding: theme.spacing.base,
-    },
-  })
+const styles = theme => StyleSheet.create({
+  root: {
+    flex: 1,
+    backgroundColor: theme.colors.backgroundPrimary,
+    padding: theme.spacing.base,
+  },
+  form: {
+    padding: theme.spacing.base,
+  },
+})
 
 Theme.propTypes = {
   t: PropTypes.any,

@@ -1,13 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, View } from 'react-native'
+import {
+  StyleSheet,
+  View,
+} from 'react-native'
 
-const ThemeAvatarTemplate = ({ icon }) => {
+const ThemeAvatarTemplate = ({
+  icon,
+}) => {
   const styling = styles
-
+  
   return (
     <View style={styling.root}>
-      <View style={styling.component}>{icon}</View>
+      <View style={styling.component}>
+        {icon}
+      </View>
     </View>
   )
 }

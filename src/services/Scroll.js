@@ -2,33 +2,44 @@ import path from 'ramda/src/path'
 import Layout from 'constants/Layout'
 
 /**
- *
+ * 
  */
-const isCloseToBottom = (multiplier = 1.8) => ({ layoutMeasurement, contentOffset, contentSize }) =>
-  layoutMeasurement.height + contentOffset.y >= contentSize.height - Layout.window.height * multiplier
+const isCloseToBottom = (multiplier = 1.80) => ({ layoutMeasurement, contentOffset, contentSize }) =>
+  layoutMeasurement.height + contentOffset.y >= contentSize.height - (Layout.window.height * multiplier)
 
 /**
  *
  */
-const getLoadMoreCondition = (resource) =>
+const getLoadMoreCondition = resource => (
   path(['status'])(resource) !== 'loading' &&
   path(['data', 'length'])(resource) &&
   path(['meta', 'nextToken'])(resource) &&
   path(['meta', 'nextToken'])(resource) !== path(['payload', 'nextToken'])(resource)
+)
 
 /**
  *
  */
-const getRefreshingCondition = (resource) =>
-  path(['status'])(resource) === 'loading' && !path(['payload', 'nextToken'])(resource)
+const getRefreshingCondition = resource => (
+  path(['status'])(resource) === 'loading' &&
+  !path(['payload', 'nextToken'])(resource)
+)
 
 /**
  *
  */
-const getLoadingMoreCondition = (resource) =>
-  !!(path(['status'])(resource) === 'loading' && path(['payload', 'nextToken'])(resource))
+const getLoadingMoreCondition = resource => !!(
+  path(['status'])(resource) === 'loading' &&
+  path(['payload', 'nextToken'])(resource)
+)
 
-const ScrollHelper = ({ resource, loadInit, loadMore, extra = {}, multiplier = 3 }) => {
+const ScrollHelper = ({
+  resource,
+  loadInit,
+  loadMore,
+  extra = {},
+  multiplier = 3,
+}) => {
   /**
    *
    */
@@ -38,12 +49,14 @@ const ScrollHelper = ({ resource, loadInit, loadMore, extra = {}, multiplier = 3
   /**
    *
    */
-  const handleScrollChange = ({ nativeEvent }) => isCloseToBottom(multiplier)(nativeEvent) && handleLoadMore()
-
+  const handleScrollChange = ({ nativeEvent }) =>
+    isCloseToBottom(multiplier)(nativeEvent) && handleLoadMore()
+  
   /**
    *
    */
-  const handleRefresh = () => loadInit(extra)
+  const handleRefresh = () =>
+    loadInit(extra)
 
   /**
    *
@@ -63,5 +76,6 @@ const ScrollHelper = ({ resource, loadInit, loadMore, extra = {}, multiplier = 3
     loadingmore,
   }
 }
+
 
 export default ScrollHelper

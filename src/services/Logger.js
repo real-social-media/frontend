@@ -12,7 +12,7 @@ Sentry.init({
 })
 
 /**
- * Used for Error object
+ * Used for Error object 
  */
 export const captureException = (error) => {
   try {

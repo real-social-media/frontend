@@ -9,14 +9,16 @@ import useUpload from 'services/providers/Upload'
 import path from 'ramda/src/path'
 import { VERIFICATION_TYPE } from 'components/Verification'
 
-const PostCreateService = ({ children }) => {
+const PostCreateService = ({
+  children,
+}) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const route = useRoute()
 
   const user = useSelector(authSelector.authUserSelector)
-  const postsCreate = useSelector((state) => state.posts.postsCreate)
-  const cameraCapture = useSelector((state) => state.camera.cameraCapture)
+  const postsCreate = useSelector(state => state.posts.postsCreate)
+  const cameraCapture = useSelector(state => state.camera.cameraCapture)
   const albumsGet = useSelector(albumsSelector.albumsGetSelector(user.userId))
   const type = route.params.type
   const cameraCaptureLength = path(['data', 'length'])(cameraCapture)

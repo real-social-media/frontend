@@ -1,5 +1,8 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import {
+  StyleSheet,
+  View,
+} from 'react-native'
 import { ifIphoneX } from 'react-native-iphone-x-helper'
 import { Text } from 'react-native-paper'
 

@@ -1,10 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { View, StyleSheet, TouchableOpacity } from 'react-native'
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native'
 import { Text } from 'react-native-paper'
 import CloseIcon from 'assets/svg/post/Close'
 
-const Error = ({ text, onClose }) => {
+const Error = ({
+  text,
+  onClose,
+}) => {
   const styling = styles
 
   return (
@@ -28,6 +35,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     zIndex: 2,
     minHeight: 90,
+
   },
   content: {
     flex: 1,

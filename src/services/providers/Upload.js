@@ -73,10 +73,10 @@ export const useUploadState = ({
 }) => {
   const dispatch = useDispatch()
 
-  const postsCreate = useSelector((state) => state.posts.postsCreate)
-  const postsCreateQueue = useSelector((state) => state.posts.postsCreateQueue)
-  const cameraCapture = useSelector((state) => state.camera.cameraCapture)
-  const usersEditProfile = useSelector((state) => state.users.usersEditProfile)
+  const postsCreate = useSelector(state => state.posts.postsCreate)
+  const postsCreateQueue = useSelector(state => state.posts.postsCreateQueue)
+  const cameraCapture = useSelector(state => state.camera.cameraCapture)
+  const usersEditProfile = useSelector(state => state.users.usersEditProfile)
 
   const activePhoto = pathOr({}, ['data', 0])(cameraCapture)
   const activeUpload = last(Object.values(postsCreateQueue))
@@ -84,12 +84,12 @@ export const useUploadState = ({
 
   /**
    * Cancel all pending uploads
-   * This will cancel both network request and remove item from redux store
+   * This will cancel both network request and remove item from redux store 
    */
   const cancelActiveUploads = () =>
     (Object.values(postsCreateQueue) || [])
       .filter(path(['payload', 'postId']))
-      .forEach((post) => dispatch(postsActions.postsCreateIdle(post)))
+      .forEach(post => dispatch(postsActions.postsCreateIdle(post)))
 
   /**
    * Intended for profile photo upload
@@ -143,17 +143,20 @@ export const useUploadState = ({
     }
   }, [usersEditProfile.status])
 
-  return {
+  return ({
     cancelActiveUploads,
     postsCreate,
     postsCreateQueue,
     cameraCapture,
     activePhoto,
     activeUpload,
-  }
+  })
 }
 
-const useUpload = ({ handlePostUploadStarted = () => {}, handleProfilePhotoUploadStarted = () => {} }) => {
+const useUpload = ({
+  handlePostUploadStarted = () => {},
+  handleProfilePhotoUploadStarted = () => {},
+}) => {
   const dispatch = useDispatch()
 
   /**
@@ -186,10 +189,10 @@ const useUpload = ({ handlePostUploadStarted = () => {}, handleProfilePhotoUploa
     handleProfilePhotoUploadStarted(post)
   }
 
-  return {
+  return ({
     handlePostUpload,
     handleProfilePhotoUpload,
-  }
+  })
 }
 
 export default useUpload

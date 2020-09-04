@@ -5,7 +5,15 @@ import ScreenWrapper from 'templates/Auth/ScreenWrapper'
 
 class AuthCognitoScreen extends React.Component {
   render() {
-    return <AuthCognitoServiceComponent>{(props) => <AuthCognitoComponent {...props} />}</AuthCognitoServiceComponent>
+    return (
+      <AuthCognitoServiceComponent>
+        {(props) => (
+          <AuthCognitoComponent
+            {...props}
+          />
+        )}
+      </AuthCognitoServiceComponent>
+    )
   }
 }
 

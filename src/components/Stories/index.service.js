@@ -8,7 +8,8 @@ const StoriesService = ({ children }) => {
   const usersGetFollowedUsersWithStories = useSelector(usersSelector.usersGetFollowedUsersWithStoriesSelector())
   const user = useSelector(authSelector.authUserSelector)
 
-  const usersGetFollowedUsersWithStoriesRequest = () => dispatch(usersActions.usersGetFollowedUsersWithStoriesRequest())
+  const usersGetFollowedUsersWithStoriesRequest = () =>
+    dispatch(usersActions.usersGetFollowedUsersWithStoriesRequest())
 
   return children({
     user,

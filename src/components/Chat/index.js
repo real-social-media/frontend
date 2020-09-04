@@ -1,6 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, View, ScrollView, RefreshControl } from 'react-native'
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  RefreshControl,
+} from 'react-native'
 import ContactsComponent from 'components/Chat/Contacts'
 import UsersComponent from 'components/Chat/Users'
 import HeaderComponent from 'components/Search/Header'
@@ -31,7 +36,9 @@ const Chat = ({
 
   return (
     <View style={styling.root}>
-      <PendingRequestsComponent usersGetPendingFollowers={usersGetPendingFollowers} />
+      <PendingRequestsComponent
+        usersGetPendingFollowers={usersGetPendingFollowers}
+      />
 
       <HeaderComponent>
         <FormComponent
@@ -42,18 +49,23 @@ const Chat = ({
         />
       </HeaderComponent>
 
-      {formFocus && formChange ? (
+      {formFocus && formChange ?
         <ScrollView
           ref={feedRef}
           style={styling.list}
           refreshControl={
-            <RefreshControl tintColor={theme.colors.border} refreshing={usersSearch.status === 'loading'} />
+            <RefreshControl
+              tintColor={theme.colors.border}
+              refreshing={usersSearch.status === 'loading'}
+            />
           }
         >
           <Subheading style={styling.subheading}>{t('Search')}</Subheading>
-          <UsersComponent usersSearch={usersSearch} />
+          <UsersComponent
+            usersSearch={usersSearch}
+          />
         </ScrollView>
-      ) : (
+      :
         <ScrollView
           ref={feedRef}
           style={styling.list}
@@ -66,27 +78,29 @@ const Chat = ({
           }
         >
           <Subheading style={styling.subheading}>{t('Recent')}</Subheading>
-          <ContactsComponent user={user} chatGetChats={chatGetChats} />
+          <ContactsComponent
+            user={user}
+            chatGetChats={chatGetChats}
+          />
         </ScrollView>
-      )}
+      }
     </View>
   )
 }
-
-const styles = (theme) =>
-  StyleSheet.create({
-    root: {
-      flex: 1,
-      backgroundColor: theme.colors.backgroundPrimary,
-    },
-    list: {
-      flex: 1,
-    },
-    subheading: {
-      paddingTop: 6,
-      paddingHorizontal: 12,
-    },
-  })
+  
+const styles = theme => StyleSheet.create({
+  root: {
+    flex: 1,
+    backgroundColor: theme.colors.backgroundPrimary,
+  },
+  list: {
+    flex: 1,
+  },
+  subheading: {
+    paddingTop: 6,
+    paddingHorizontal: 12,
+  },
+})
 
 Chat.propTypes = {
   theme: PropTypes.any,

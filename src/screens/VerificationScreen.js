@@ -6,7 +6,11 @@ class VerificationScreen extends React.Component {
   render() {
     return (
       <VerificationServiceComponent>
-        {(shareProps) => <VerificationComponent {...shareProps} />}
+        {((shareProps) => (
+          <VerificationComponent
+            {...shareProps}
+          />
+        ))}
       </VerificationServiceComponent>
     )
   }

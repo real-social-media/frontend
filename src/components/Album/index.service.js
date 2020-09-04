@@ -12,16 +12,19 @@ const AlbumService = ({ children }) => {
   const route = useRoute()
   const albumId = route.params.album.albumId
   const user = useSelector(authSelector.authUserSelector)
-  const themeFetch = useSelector((state) => state.theme.themeFetch)
-  const albumsDelete = useSelector((state) => state.albums.albumsDelete)
+  const themeFetch = useSelector(state => state.theme.themeFetch)
+  const albumsDelete = useSelector(state => state.albums.albumsDelete)
   const albumsSingleGet = useSelector(albumsSelector.albumsSingleGetSelector(albumId))
   const albumsPostsGet = useSelector(albumsSelector.albumsPostsGetSelector(albumId))
 
-  const albumsPostsGetRequest = (payload) => dispatch(albumsActions.albumsPostsGetRequest(payload))
+  const albumsPostsGetRequest = (payload) =>
+    dispatch(albumsActions.albumsPostsGetRequest(payload))
 
-  const albumsPostsGetMoreRequest = (payload) => dispatch(albumsActions.albumsPostsGetMoreRequest(payload))
+  const albumsPostsGetMoreRequest = (payload) =>
+    dispatch(albumsActions.albumsPostsGetMoreRequest(payload))
 
-  const albumsDeleteRequest = (payload) => dispatch(albumsActions.albumsDeleteRequest(payload))
+  const albumsDeleteRequest = (payload) =>
+    dispatch(albumsActions.albumsDeleteRequest(payload))
 
   useEffect(() => {
     dispatch(albumsActions.albumsPostsGetRequest({ albumId }))

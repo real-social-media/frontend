@@ -4,7 +4,9 @@ import map from 'ramda/src/map'
 import set from 'ramda/src/set'
 import lensProp from 'ramda/src/lensProp'
 
-update.extend('$map', (value, nextObject) => nextObject.map((element) => update(element, value)))
+update.extend('$map', (value, nextObject) =>
+  nextObject.map((element) => update(element, value)),
+)
 
 const getFilteredState = map(set(lensProp('status'), 'idle'))
 
@@ -13,9 +15,9 @@ const getFilteredState = map(set(lensProp('status'), 'idle'))
  */
 extend('$resourceCacheSetRequest', ({ payload, resourceKey, initialState }, original) => {
   const filtered = getFilteredState(original)
-  const nextState = path([resourceKey])(filtered)
-    ? filtered
-    : update(filtered, { [resourceKey]: { $set: initialState } })
+  const nextState = (path([resourceKey])(filtered)) ?
+    filtered :
+    update(filtered, { [resourceKey]: { $set: initialState } })
 
   return update(nextState, {
     [resourceKey]: {
@@ -30,9 +32,9 @@ extend('$resourceCacheSetRequest', ({ payload, resourceKey, initialState }, orig
  */
 extend('$resourceCacheSetSuccess', ({ payload, resourceKey, initialState }, original) => {
   const filtered = getFilteredState(original)
-  const nextState = path([resourceKey])(filtered)
-    ? filtered
-    : update(filtered, { [resourceKey]: { $set: initialState } })
+  const nextState = (path([resourceKey])(filtered)) ?
+    filtered :
+    update(filtered, { [resourceKey]: { $set: initialState } })
 
   return update(nextState, {
     [resourceKey]: {
@@ -50,9 +52,9 @@ extend('$resourceCacheSetSuccess', ({ payload, resourceKey, initialState }, orig
  */
 extend('$resourceCacheSetFailure', ({ payload, resourceKey, initialState }, original) => {
   const filtered = getFilteredState(original)
-  const nextState = path([resourceKey])(filtered)
-    ? filtered
-    : update(filtered, { [resourceKey]: { $set: initialState } })
+  const nextState = (path([resourceKey])(filtered)) ?
+    filtered :
+    update(filtered, { [resourceKey]: { $set: initialState } })
 
   return update(nextState, {
     [resourceKey]: {
@@ -67,9 +69,9 @@ extend('$resourceCacheSetFailure', ({ payload, resourceKey, initialState }, orig
  */
 extend('$resourceCacheSetIdle', ({ payload, resourceKey, initialState }, original) => {
   const filtered = getFilteredState(original)
-  const nextState = path([resourceKey])(filtered)
-    ? filtered
-    : update(filtered, { [resourceKey]: { $set: initialState } })
+  const nextState = (path([resourceKey])(filtered)) ?
+    filtered :
+    update(filtered, { [resourceKey]: { $set: initialState } })
 
   return update(nextState, {
     [resourceKey]: {
@@ -94,9 +96,9 @@ extend('$resourceCacheSetRemove', ({ resourceKey }, original) =>
  */
 extend('$resourceCacheAlterRequest', ({ payload, resourceKey, initialState }, original) => {
   const filtered = getFilteredState(original)
-  const nextState = path([resourceKey])(filtered)
-    ? filtered
-    : update(filtered, { [resourceKey]: { $set: initialState } })
+  const nextState = (path([resourceKey])(filtered)) ?
+    filtered :
+    update(filtered, { [resourceKey]: { $set: initialState } })
 
   return update(nextState, {
     [resourceKey]: {
@@ -114,9 +116,9 @@ extend('$resourceCacheAlterRequest', ({ payload, resourceKey, initialState }, or
  */
 extend('$resourceCachePushRequest', ({ payload, resourceKey, initialState }, original) => {
   const filtered = getFilteredState(original)
-  const nextState = path([resourceKey])(filtered)
-    ? filtered
-    : update(filtered, { [resourceKey]: { $set: initialState } })
+  const nextState = (path([resourceKey])(filtered)) ?
+    filtered :
+    update(filtered, { [resourceKey]: { $set: initialState } })
 
   return update(nextState, {
     [resourceKey]: {
@@ -128,9 +130,9 @@ extend('$resourceCachePushRequest', ({ payload, resourceKey, initialState }, ori
 
 extend('$resourceCachePushSuccess', ({ payload, resourceKey, initialState }, original) => {
   const filtered = getFilteredState(original)
-  const nextState = path([resourceKey])(filtered)
-    ? filtered
-    : update(filtered, { [resourceKey]: { $set: initialState } })
+  const nextState = (path([resourceKey])(filtered)) ?
+    filtered :
+    update(filtered, { [resourceKey]: { $set: initialState } })
 
   return update(nextState, {
     [resourceKey]: {

@@ -20,13 +20,10 @@ import * as Logger from 'services/Logger'
  * Subscription state handler, used for preventing multiple subscriptions on the same topic
  */
 function* subscriptionStateHandler({ identifier }) {
-  const isRunning = yield select(
-    (state) =>
-      pathOr([], ['subscriptions', 'subscriptionsMain', 'data', 'pending'], state).find(
-        (item) => item === identifier,
-      ) ||
-      pathOr([], ['subscriptions', 'subscriptionsMain', 'data', 'connect'], state).find((item) => item === identifier),
-  )
+  const isRunning = yield select(state => (
+    pathOr([], ['subscriptions', 'subscriptionsMain', 'data', 'pending'], state).find(item => item === identifier) ||
+    pathOr([], ['subscriptions', 'subscriptionsMain', 'data', 'connect'], state).find(item => item === identifier)
+  ))
 
   /**
    * graphql error handler, possible errors are:
@@ -36,7 +33,7 @@ function* subscriptionStateHandler({ identifier }) {
    */
   function* errorHandler(error) {
     yield put(subscriptionsActions.subscriptionsMainFailure({ data: identifier }))
-    Logger.withScope((scope) => {
+    Logger.withScope(scope => {
       scope.setExtra('payload', tryCatch(JSON.stringify, () => null)(path(['error'])(error)))
       Logger.captureMessage('SUBSCRIPTIONS_EMITTER_ERROR')
     })
@@ -80,7 +77,7 @@ function subscriptionEmitter({ subscription }) {
    * triggered on redux-saga channel close event
    */
 
-  return eventChannel((emitter) => {
+  return eventChannel(emitter => {
     setTimeout(() => {
       emitter({ eventType: 'pending', eventData: {} })
     }, 0)
@@ -109,7 +106,7 @@ function subscriptionEmitter({ subscription }) {
  * Interval channel message emitter, used for grapql polling
  */
 function intervalEmitter({ frequency }) {
-  return eventChannel((emitter) => {
+  return eventChannel(emitter => {
     const interval = setInterval(() => {
       emitter({})
     }, frequency)
@@ -149,21 +146,29 @@ function* cardSubscription(req) {
     return
   }
 
-  const subscription = AwsAPI.graphql(graphqlOperation(usersQueries.onCardNotification, { userId }))
+  const subscription = AwsAPI.graphql(
+    graphqlOperation(usersQueries.onCardNotification, { userId }),
+  )
 
   const channel = yield call(subscriptionEmitter, {
     subscription,
     subscriptionState,
   })
 
-  yield takeEvery(channel, function* ({ eventType, eventData }) {
+  yield takeEvery(channel, function *({ eventType, eventData }) {
     if (eventType === 'connect') {
       return yield call(subscriptionState.connectHandler, eventData)
-    } else if (eventType === 'pending') {
+    }
+
+    else if (eventType === 'pending') {
       return yield call(subscriptionState.pendingHandler, eventData)
-    } else if (eventType === 'error') {
+    }
+
+    else if (eventType === 'error') {
       return yield call(subscriptionState.errorHandler, eventData)
-    } else if (eventType === 'disconnect') {
+    }
+
+    else if (eventType === 'disconnect') {
       return yield call(subscriptionState.disconnectHandler, eventData)
     }
 
@@ -196,23 +201,29 @@ function* chatMessageSubscription(req) {
     return
   }
 
-  const subscription = AwsAPI.graphql(graphqlOperation(chatQueries.onChatMessageNotification, { userId }))
+  const subscription = AwsAPI.graphql(
+    graphqlOperation(chatQueries.onChatMessageNotification, { userId }),
+  )
 
   const channel = yield call(subscriptionEmitter, {
     subscription,
     subscriptionState,
   })
 
-  yield takeEvery(channel, function* ({ eventType, eventData }) {
+  yield takeEvery(channel, function *({ eventType, eventData }) {
     if (eventType === 'connect') {
       return yield call(subscriptionState.connectHandler, eventData)
     }
 
     if (eventType === 'pending') {
       return yield call(subscriptionState.pendingHandler, eventData)
-    } else if (eventType === 'error') {
+    }
+
+    else if (eventType === 'error') {
       return yield call(subscriptionState.errorHandler, eventData)
-    } else if (eventType === 'disconnect') {
+    }
+
+    else if (eventType === 'disconnect') {
       return yield call(subscriptionState.disconnectHandler, eventData)
     }
 
@@ -247,23 +258,29 @@ function* subscriptionNotificationStart(req) {
     return
   }
 
-  const subscription = AwsAPI.graphql(graphqlOperation(usersQueries.onNotification, { userId }))
+  const subscription = AwsAPI.graphql(
+    graphqlOperation(usersQueries.onNotification, { userId }),
+  )
 
   const channel = yield call(subscriptionEmitter, {
     subscription,
     subscriptionState,
   })
 
-  yield takeEvery(channel, function* ({ eventType, eventData }) {
+  yield takeEvery(channel, function *({ eventType, eventData }) {
     if (eventType === 'connect') {
       return yield call(subscriptionState.connectHandler, eventData)
     }
 
     if (eventType === 'pending') {
       return yield call(subscriptionState.pendingHandler, eventData)
-    } else if (eventType === 'error') {
+    }
+
+    else if (eventType === 'error') {
       return yield call(subscriptionState.errorHandler, eventData)
-    } else if (eventType === 'disconnect') {
+    }
+
+    else if (eventType === 'disconnect') {
       return yield call(subscriptionState.disconnectHandler, eventData)
     }
 
@@ -326,10 +343,10 @@ function* subscriptionNotificationStart(req) {
  */
 function* subscriptionPollStart() {
   const channel = yield call(intervalEmitter, {
-    frequency: 30 * 60000,
+    frequency: (30 * 60000),
   })
 
-  yield takeEvery(channel, function* () {
+  yield takeEvery(channel, function *() {
     yield put(postsActions.postsGetTrendingPostsRequest({ limit: 100 }))
   })
 

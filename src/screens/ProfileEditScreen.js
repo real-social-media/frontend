@@ -9,7 +9,12 @@ class ProfileScreen extends React.Component {
       <ProfileEditServiceComponent>
         {(profileEditProps) => (
           <PrivacyServiceComponent>
-            {(privacyProps) => <ProfileEditComponent {...profileEditProps} {...privacyProps} />}
+            {(privacyProps) => (
+              <ProfileEditComponent
+                {...profileEditProps}
+                {...privacyProps}
+              />
+            )}
           </PrivacyServiceComponent>
         )}
       </ProfileEditServiceComponent>

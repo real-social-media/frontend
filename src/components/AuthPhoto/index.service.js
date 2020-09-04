@@ -13,13 +13,15 @@ const AuthPhotoComponentService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
 
-  const usersEditProfile = useSelector((state) => state.users.usersEditProfile)
-  const postsCreateQueue = useSelector((state) => state.posts.postsCreateQueue)
-
+  const usersEditProfile = useSelector(state => state.users.usersEditProfile)
+  const postsCreateQueue = useSelector(state => state.posts.postsCreateQueue)
+  
   const cancelActiveUploads = () =>
     (Object.values(postsCreateQueue) || [])
       .filter(path(['payload', 'postId']))
-      .forEach((post) => dispatch(postsActions.postsCreateIdle(post)))
+      .forEach(post =>
+        dispatch(postsActions.postsCreateIdle(post)),
+      )
 
   const skipPhotoUpload = () => {
     logEvent('POST_CREATE_SKIP')
@@ -33,7 +35,7 @@ const AuthPhotoComponentService = ({ children }) => {
   const handleProcessedPhoto = (payload) => {
     dispatch(usersActions.usersEditProfileIdle({}))
     dispatch(cameraActions.cameraCaptureRequest(payload))
-    navigationActions.navigateAuthPhotoUpload(navigation, { type: 'IMAGE', photos: [payload[0].preview] })()
+    navigationActions.navigateAuthPhotoUpload(navigation, ({ type: 'IMAGE', photos: [payload[0].preview] }))()
   }
 
   const camera = useCamera({

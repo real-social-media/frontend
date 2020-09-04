@@ -4,7 +4,15 @@ import AuthEmailServiceComponent from 'components/AuthEmail/index.service'
 
 class AuthEmailScreen extends React.Component {
   render() {
-    return <AuthEmailServiceComponent>{(props) => <AuthEmailComponent {...props} />}</AuthEmailServiceComponent>
+    return (
+      <AuthEmailServiceComponent>
+        {(props) => (
+          <AuthEmailComponent
+            {...props}
+          />
+        )}
+      </AuthEmailServiceComponent>
+    )
   }
 }
 

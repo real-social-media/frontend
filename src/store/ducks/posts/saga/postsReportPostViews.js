@@ -56,7 +56,7 @@ function* watchPostsReportPostViewsRequest() {
       return acc
     }, firstAction)
 
-    const split = splitEvery(50, list.payload.postIds).map((postIds) => ({
+    const split = splitEvery(50, list.payload.postIds).map(postIds => ({
       ...firstAction,
       payload: {
         postIds,
@@ -66,8 +66,10 @@ function* watchPostsReportPostViewsRequest() {
     /**
      * report views in parallel without blocking the thread
      */
-    yield all(split.map((payload) => fork(postsReportPostViewsRequest, payload)))
+    yield all(split.map(payload => fork(postsReportPostViewsRequest, payload)))
   }
 }
 
-export default () => [fork(watchPostsReportPostViewsRequest)]
+export default () => [
+  fork(watchPostsReportPostViewsRequest),
+]

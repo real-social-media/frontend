@@ -10,7 +10,8 @@ export const useViewable = () => {
    * Triggers when FlatList item is in view area and viewabilityConfig conditions are met
    */
   const onViewableItemsChanged = ({ viewableItems }) => {
-    const postIds = viewableItems.map((viewable) => path(['item', 'postId'])(viewable)).filter((item) => item)
+    const postIds = viewableItems.map(viewable => path(['item', 'postId'])(viewable))
+      .filter(item => item)
 
     if (!Array.isArray(postIds) || !postIds.length) {
       return
@@ -28,10 +29,10 @@ export const useViewable = () => {
     waitForInteraction: false,
   })
 
-  return {
+  return ({
     onViewableItemsChangedRef,
     viewabilityConfigRef,
-  }
+  })
 }
 
 export default useViewable

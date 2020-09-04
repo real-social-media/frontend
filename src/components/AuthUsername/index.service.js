@@ -15,7 +15,7 @@ const AuthUsernameComponentService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
 
-  const signupUsername = useSelector((state) => state.signup.signupUsername)
+  const signupUsername = useSelector(state => state.signup.signupUsername)
 
   const handleFormSubmit = (payload) => {
     logEvent('SIGNUP_USERNAME_REQUEST')
@@ -32,11 +32,10 @@ const AuthUsernameComponentService = ({ children }) => {
 
   useEffect(() => {
     navigation.setOptions({
-      headerLeft: () =>
-        pageHeaderLeft({
-          testID: testIDs.header.backBtn,
-          onPress: handleGoBack,
-        }),
+      headerLeft: () => pageHeaderLeft({ 
+        testID: testIDs.header.backBtn, 
+        onPress: handleGoBack, 
+      }),
     })
   }, [])
 
@@ -44,11 +43,16 @@ const AuthUsernameComponentService = ({ children }) => {
    * Redirect to password selection once username is available
    */
   useEffect(() => {
-    if (signupUsername.status !== 'success') return
+    if (
+      signupUsername.status !== 'success'
+    ) return
 
     logEvent('SIGNUP_USERNAME_SUCCESS')
     navigationActions.navigateAuthPassword(navigation)()
-  }, [signupUsername.status, signupUsername.payload.username])
+  }, [
+    signupUsername.status,
+    signupUsername.payload.username,
+  ])
 
   const formSubmitLoading = signupUsername.status === 'loading'
   const formSubmitDisabled = signupUsername.status === 'loading'

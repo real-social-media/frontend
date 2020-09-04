@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { View, StyleSheet } from 'react-native'
+import {
+  View,
+  StyleSheet,
+} from 'react-native'
 import ActionsComponent from 'components/AuthPhoto/Actions'
 import AuthHeaderTemplate from 'templates/Auth/Header'
 import AuthPhotoTemplate from 'templates/Auth/Photo'
@@ -10,20 +13,18 @@ import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 import testIDs from './test-ids'
 
-const AuthPhoto = ({ t, handleLibrarySnap, handleCameraSnap, skipPhotoUpload }) => {
+const AuthPhoto = ({
+  t,
+  handleLibrarySnap,
+  handleCameraSnap,
+  skipPhotoUpload,
+}) => {
   const styling = styles
   const navigation = useNavigation()
 
   useEffect(() => {
     navigation.setOptions({
-      headerRight: () => (
-        <HeaderRight
-          testID={testIDs.header.skipBtn}
-          onPress={skipPhotoUpload}
-          title="Skip"
-          style={styling.headerRight}
-        />
-      ),
+      headerRight: () => <HeaderRight testID={testIDs.header.skipBtn} onPress={skipPhotoUpload} title="Skip" style={styling.headerRight} />,
     })
   }, [])
 
