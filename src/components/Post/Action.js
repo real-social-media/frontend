@@ -17,6 +17,7 @@ import * as PrivacyService from 'services/Privacy'
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
+import testIDs from './test-ids'
 
 const Action = ({
   t,
@@ -68,7 +69,7 @@ const Action = ({
         : null}
 
         {shareButtonVisibility ?
-          <TouchableOpacity style={styling.actionLeftIcon} onPress={handlePostShare}>
+          <TouchableOpacity testID={testIDs.action.shareBtn} style={styling.actionLeftIcon} onPress={handlePostShare}>
             <DirectIcon fill={theme.colors.primaryIcon} />
           </TouchableOpacity>
         : null}
@@ -110,7 +111,13 @@ const styles = theme => StyleSheet.create({
 
 Action.propTypes = {
   theme: PropTypes.any,  
-  post: PropTypes.any,
+  post: PropTypes.shape({
+    postId: PropTypes.number,
+    postedBy: PropTypes.string,
+    postedAt: PropTypes.string,
+    viewedByCount: PropTypes.number,
+    likeStatus: PropTypes.oneOf(['ONYMOUSLY_LIKED', 'ANONYMOUSLY_LIKED', 'NOT_LIKED']),
+  }),
   postsOnymouslyLikeRequest: PropTypes.any,
   postsDislikeRequest: PropTypes.any,
   t: PropTypes.any,
