@@ -5,7 +5,6 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import useToggle from 'react-use/lib/useToggle'
 import path from 'ramda/src/path'
 import * as navigationActions from 'navigation/actions'
-import * as authSelector from 'store/ducks/auth/selectors'
 import * as postsSelector from 'store/ducks/posts/selectors'
 
 const ShareService = ({ children }) => {
@@ -14,7 +13,6 @@ const ShareService = ({ children }) => {
   const route = useRoute()
   const postId = path(['params', 'postId'])(route)
   const postUserId = path(['params', 'userId'])(route)
-  const user = useSelector(authSelector.authUserSelector)
   const postsSingleGet = useSelector(postsSelector.postsSingleGetSelector(postId))
   const postsShare = useSelector(state => state.posts.postsShare)
   const cameraCapture = useSelector(state => state.camera.cameraCapture)
@@ -46,13 +44,13 @@ const ShareService = ({ children }) => {
   ])
 
   return children({
-    user,
     postsSingleGet,
     postsSingleGetRequest,
     postsShare,
     postsShareRequest,
     watermark,
     handleWatermark,
+    route
   })
 }
 
