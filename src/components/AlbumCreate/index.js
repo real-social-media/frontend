@@ -1,55 +1,40 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  View,
-  StyleSheet,
-} from 'react-native'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { View, StyleSheet } from 'react-native'
 import AlbumCreateForm from 'components/AlbumCreate/Form'
-
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 
-const AlbumCreateComponent = ({
-  theme,
-  user,
-  albumsCreate,
-  albumsCreateRequest,
-}) => {
+const AlbumCreateComponent = ({ theme, albumsCreateRequest, isSubmitting }) => {
   const styling = styles(theme)
-  const navigation = useNavigation()
 
   return (
     <View style={styling.root}>
-      <KeyboardAwareScrollView>
-        <View style={styling.form}>
-          <AlbumCreateForm
-            navigation={navigation}
-            user={user}
-            albumsCreate={albumsCreate}
-            albumsCreateRequest={albumsCreateRequest}
-          />
-        </View>
-      </KeyboardAwareScrollView>
+      <View style={styling.form}>
+        <AlbumCreateForm albumsCreateRequest={albumsCreateRequest} isSubmitting={isSubmitting} />
+      </View>
     </View>
   )
 }
 
 AlbumCreateComponent.propTypes = {
   theme: PropTypes.any,
-  user: PropTypes.any,
-  albumsCreate: PropTypes.any,
-  albumsCreateRequest: PropTypes.any,
+  albumsCreateRequest: PropTypes.func,
+  isSubmitting: PropTypes.bool,
 }
 
-const styles = theme => StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: theme.colors.backgroundPrimary,
-  },
-  form: {
-    padding: theme.spacing.base,
-  },
-})
+AlbumCreateComponent.defaultProps = {
+  isSubmitting: false,
+}
+
+const styles = (theme) =>
+  StyleSheet.create({
+    root: {
+      flex: 1,
+      backgroundColor: theme.colors.backgroundPrimary,
+    },
+    form: {
+      padding: theme.spacing.base,
+    },
+  })
 
 export default withTheme(AlbumCreateComponent)

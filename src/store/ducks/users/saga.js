@@ -406,6 +406,7 @@ function* usersEditProfileRequest(req) {
     yield put(actions.usersEditProfileSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
     const errorMessage = path(['errors', '0', 'message'])(error)
+
     if (errorMessage && errorMessage.includes('is not verified')) {
       yield put(actions.usersEditProfileFailure({
         message: errors.getMessagePayload(constants.USERS_EDIT_PROFILE_FAILURE, 'VERIFICATION_FAILED'),
@@ -417,6 +418,23 @@ function* usersEditProfileRequest(req) {
         payload: req.payload,
       }))
     }
+  }
+}
+
+/**
+ *
+ */
+function* usersDeleteProfilePhoto() {
+  try {
+    const req = { payload: { photoPostId: '' } }
+    const data = yield queryService.apiRequest(queries.setUserDetails, req.payload)
+
+    yield usersEditProfileRequestData(req, data)
+    yield put(actions.usersDeleteAvatarSuccess())
+  } catch (error) {
+    yield put(actions.usersDeleteAvatarFailure({
+      message: errors.getMessagePayload(constants.USERS_DELETE_AVATAR_FAILURE, 'GENERIC', error.message),
+    }))
   }
 }
 
@@ -707,4 +725,5 @@ export default () => [
   takeLatest(constants.USERS_GET_CARDS_REQUEST, usersGetCardsRequest),
   takeLatest(constants.USERS_DELETE_CARD_REQUEST, usersDeleteCardRequest),
   takeLatest(constants.USERS_SET_APNS_TOKEN_REQUEST, usersSetApnsTokenRequest),
+  takeLatest(constants.USERS_DELETE_AVATAR_REQUEST, usersDeleteProfilePhoto),
 ]

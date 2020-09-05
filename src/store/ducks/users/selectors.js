@@ -130,3 +130,5 @@ export const usersImagePostsGetSelector = () => createDeepEqualSelector(
     return assocPath(['data'], denormalized)(usersImagePostsGet)
   },
 )
+
+export const usersDeleteAvatar = path(['users', 'usersDeleteAvatar'])

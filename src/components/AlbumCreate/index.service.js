@@ -10,15 +10,17 @@ const AlbumCreateService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const user = useSelector(authSelector.authUserSelector)
-  
-  const albumsCreate = useSelector(state => state.albums.albumsCreate)
+
+  const albumsCreate = useSelector((state) => state.albums.albumsCreate)
 
   const albumsCreateRequest = (payload) => {
     const albumId = uuid()
-    dispatch(albumsActions.albumsCreateRequest({
-      albumId,
-      ...payload,
-    }))
+    dispatch(
+      albumsActions.albumsCreateRequest({
+        albumId,
+        ...payload,
+      }),
+    )
   }
 
   useEffect(() => {
@@ -29,10 +31,11 @@ const AlbumCreateService = ({ children }) => {
     }
   }, [albumsCreate.status])
 
+  const isSubmitting = albumsCreate.status === 'loading'
+
   return children({
-    user,
-    albumsCreate,
     albumsCreateRequest,
+    isSubmitting,
   })
 }
 

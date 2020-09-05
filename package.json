@@ -6,11 +6,11 @@
     "postinstall": "patch-package",
     "start": "react-native start",
     "dev": "ENVFILE=.env.development react-native run-ios --simulator='iPhone 11' --scheme REAL.development -- --reset-cache",
-    "test": "jest",
     "lint": "eslint .",
     "translations-scan": "i18next-scanner --config i18next-scanner.config.engine.js src/**/*.js",
     "tests:unit": "jest",
-    "tests:e2e": "detox test"
+    "tests:e2e": "detox test",
+    "validate": "npm run lint && npm run tests:unit"
   },
   "dependencies": {
     "@aws-amplify/analytics": "^3.2.7",
@@ -114,6 +114,7 @@
     "@babel/runtime": "^7.11.2",
     "@react-native-community/eslint-config": "^2.0.0",
     "@testing-library/jest-native": "^3.3.0",
+    "@testing-library/react-hooks": "^3.4.1",
     "@testing-library/react-native": "^7.0.2",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.3.0",
