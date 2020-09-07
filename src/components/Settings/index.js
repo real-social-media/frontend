@@ -23,7 +23,7 @@ import DeviceInfo from 'react-native-device-info'
 
 import { withTheme } from 'react-native-paper'
 import { withTranslation } from 'react-i18next'
-import { isAvatarEmpty, confirm } from './helpers'
+import { isAvatarEmpty, confirm } from 'components/Settings/helpers'
 import testIDs from './test-ids'
 
 const Settings = ({
@@ -69,7 +69,6 @@ const Settings = ({
 
         <ActionSheet
           actionSheetRef={actionSheetRef}
-          showDestructive={!isAvatarEmpty(user)}
           options={[
             {
               name: t('Take a Photo'),
@@ -87,6 +86,7 @@ const Settings = ({
               name: t('Delete Profile Photo'),
               onPress: () => handleProfilePhotoDelete(),
               isDestructive: true,
+              isVisible: !isAvatarEmpty(user),
             },
             {
               name: t('Cancel'),
