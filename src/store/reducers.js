@@ -17,6 +17,7 @@ import ui from 'store/ducks/ui/reducer'
 import cache from 'store/ducks/cache/reducer'
 import entities from 'store/ducks/entities/reducer'
 import subscriptions from 'store/ducks/subscriptions/reducer'
+import { reducer as network } from 'react-native-offline'
 
 import 'store/ducks/posts/updates'
 import 'store/ducks/users/updates'
@@ -70,6 +71,7 @@ const chatPersistConfig = {
 }
 
 export default combineReducers({
+  network,
   auth: persistReducer(authPersistConfig, auth),
   signup: persistReducer(signupPersistConfig, signup),
   theme,

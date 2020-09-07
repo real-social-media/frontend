@@ -61,9 +61,18 @@ const AuthCognitoComponentService = ({ children }) => {
     signupCognito.status,
   ])
 
-  const formSubmitLoading = signupUsername.status === 'loading'
-  const formSubmitDisabled = signupUsername.status === 'loading'
-  const formErrorMessage = signupUsername.error.text
+  const formSubmitLoading = (
+    signupUsername.status === 'loading' ||
+    signupCognito.status === 'loading'
+  )
+  const formSubmitDisabled = (
+    signupUsername.status === 'loading' ||
+    signupCognito.status === 'loading'
+  )
+  const formErrorMessage = (
+    signupUsername.error.text ||
+    signupCognito.error.text
+  )
 
   const formInitialValues = {
     username: signupUsername.payload.username,

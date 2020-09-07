@@ -71,6 +71,7 @@ const styles = theme => StyleSheet.create({
     height: 90,
   },
   input: {
+    flex: 1,
     padding: 0,
     margin: 0,
     fontSize: 14,

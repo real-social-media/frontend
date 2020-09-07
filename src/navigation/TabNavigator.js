@@ -10,7 +10,6 @@ import * as navigationActions from 'navigation/actions'
 
 import FeedNavigator from 'navigation/Feed'
 import SearchNavigator from 'navigation/Search'
-import ChatNavigator from 'navigation/Chat'
 import ProfileNavigator from 'navigation/Profile'
 
 import HomeIcon from 'assets/svg/footer/Home'
@@ -51,10 +50,12 @@ const TabNavigator = ({ navigation, route }) => {
   }
 
   const ChatTabIconComponent = ({ color }) => <DirectIcon fill={color} />
+  const ChatTabButtonComponent = (props) => <TouchableOpacity {...props} onPress={navigationActions.navigateChat(navigation)} />
   const datingTabScreenPropsCard = {
     options: {
       tabBarIcon: ChatTabIconComponent,
       tabBarLabel: 'Chat',
+      tabBarButton: ChatTabButtonComponent,
     },
   }
 
@@ -70,6 +71,7 @@ const TabNavigator = ({ navigation, route }) => {
   const Tab = createBottomTabNavigator()
 
   const PostType = () => null
+  const ChatPlaceholder = () => null
 
   return (
     <Tab.Navigator {...tabNavigatorProps}>
@@ -89,8 +91,8 @@ const TabNavigator = ({ navigation, route }) => {
         {...cameraTabScreenPropsCard}
       />
       <Tab.Screen
-        name="Chat"
-        component={ChatNavigator}
+        name="ChatPlaceholder"
+        component={ChatPlaceholder}
         {...datingTabScreenPropsCard}
       />
       <Tab.Screen

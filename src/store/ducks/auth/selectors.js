@@ -37,7 +37,7 @@ export const themeSelector = createSelector(
   authUserSelector,
   themeFetchSelector,
   (authUser, themeFetch) => {
-    const activeTheme = (authUser.themeCode || 'black.green')
+    const activeTheme = pathOr('black.green', ['themeCode'])(authUser)
     return (themeFetch.find(theme => theme.key === activeTheme) || {}).theme
   },
 )

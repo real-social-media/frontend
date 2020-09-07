@@ -21,13 +21,13 @@ export const AuthProvider = ({
   const dispatch = useDispatch()
   const userId = useSelector(authSelector.authUserIdSelector)
   const themeFetch = useSelector(state => state.theme.themeFetch)
-  const nextRoute = useSelector(state => state.auth.authCheck.nextRoute)
-  const status = useSelector(state => state.auth.authCheck.status)
+  const authCheck = useSelector(state => state.auth.authCheck)
   const translationFetch = useSelector(state => state.translation.translationFetch)
   const languageCode = useSelector(authSelector.languageCodeSelector)
   const theme = useSelector(authSelector.themeSelector)
   const authGoogle = useSelector(state => state.auth.authGoogle)
   const authApple = useSelector(state => state.auth.authApple)
+  const networkIsConnected = useSelector(state => state.network.isConnected)
 
   const errorsPool = [{
     appErrorMessage: authGoogle.error.text,
@@ -102,17 +102,15 @@ export const AuthProvider = ({
   if (
     !path(['data', 'en'])(translationFetch) ||
     !path(['data', 'length'])(themeFetch) ||
-    !nextRoute
+    !authCheck.nextRoute
   ) {
     return <LoadingComponent />
   }
 
   const authenticated = (
     userId && (
-      nextRoute === null ||
-      nextRoute === 'Root'
-    ) && (
-      status !== 'failure'
+      authCheck.nextRoute === null ||
+      authCheck.nextRoute === 'Root'
     )
   )
 
@@ -122,5 +120,6 @@ export const AuthProvider = ({
     authenticated,
     appErrorMessage,
     handleErrorClose,
+    networkIsConnected,
   })
 }

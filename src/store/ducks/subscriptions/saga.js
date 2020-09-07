@@ -15,6 +15,7 @@ import * as subscriptionsActions from 'store/ducks/subscriptions/actions'
 import * as constants from 'store/ducks/subscriptions/constants'
 import * as queryService from 'services/Query'
 import * as Logger from 'services/Logger'
+import { checkInternetConnection } from 'react-native-offline'
 
 /**
  * Subscription state handler, used for preventing multiple subscriptions on the same topic
@@ -24,6 +25,8 @@ function* subscriptionStateHandler({ identifier }) {
     pathOr([], ['subscriptions', 'subscriptionsMain', 'data', 'pending'], state).find(item => item === identifier) ||
     pathOr([], ['subscriptions', 'subscriptionsMain', 'data', 'connect'], state).find(item => item === identifier)
   ))
+
+  const isOffline = !(yield call(checkInternetConnection))
 
   /**
    * graphql error handler, possible errors are:
@@ -61,6 +64,7 @@ function* subscriptionStateHandler({ identifier }) {
   }
 
   return {
+    isOffline,
     isRunning,
     errorHandler,
     pendingHandler,
@@ -142,8 +146,16 @@ function* cardSubscription(req) {
    */
   const subscriptionState = yield call(subscriptionStateHandler, { identifier: 'onCardNotification' })
 
+  if (!userId) {
+    return yield call(subscriptionState.errorHandler, { error: 'required userId param was not passed' })
+  }
+
   if (subscriptionState.isRunning) {
-    return
+    return yield call(subscriptionState.errorHandler, { error: 'onCardNotification subscription is already running' })
+  }
+
+  if (subscriptionState.isOffline) {
+    return yield call(subscriptionState.errorHandler, { error: 'no internet connection' })
   }
 
   const subscription = AwsAPI.graphql(
@@ -197,8 +209,16 @@ function* chatMessageSubscription(req) {
    */
   const subscriptionState = yield call(subscriptionStateHandler, { identifier: 'onChatMessageNotification' })
 
+  if (!userId) {
+    return yield call(subscriptionState.errorHandler, { error: 'required userId param was not passed' })
+  }
+
   if (subscriptionState.isRunning) {
-    return
+    return yield call(subscriptionState.errorHandler, { error: 'onChatMessageNotification subscription is already running' })
+  }
+
+  if (subscriptionState.isOffline) {
+    return yield call(subscriptionState.errorHandler, { error: 'no internet connection' })
   }
 
   const subscription = AwsAPI.graphql(
@@ -254,8 +274,16 @@ function* subscriptionNotificationStart(req) {
    */
   const subscriptionState = yield call(subscriptionStateHandler, { identifier: 'onNotification' })
 
+  if (!userId) {
+    return yield call(subscriptionState.errorHandler, { error: 'required userId param was not passed' })
+  }
+
   if (subscriptionState.isRunning) {
-    return
+    return yield call(subscriptionState.errorHandler, { error: 'onNotification subscription is already running' })
+  }
+
+  if (subscriptionState.isOffline) {
+    return yield call(subscriptionState.errorHandler, { error: 'no internet connection' })
   }
 
   const subscription = AwsAPI.graphql(

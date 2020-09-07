@@ -1,5 +1,6 @@
 import { createStore, applyMiddleware } from 'redux'
 import { persistStore, persistReducer } from 'redux-persist'
+import { createNetworkMiddleware } from 'react-native-offline'
 import createSagaMiddleware from 'redux-saga'
 import rootReducer from 'store/reducers'
 import rootSaga from 'store/sagas'
@@ -38,6 +39,10 @@ const errorWrapper = (error) => {
     return errorGraphql
   }
 }
+
+const networkMiddleware = createNetworkMiddleware({
+  queueReleaseThrottle: 200,
+})
 
 const sagaMiddleware = createSagaMiddleware({
   context: {
@@ -80,7 +85,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 const store = createStore(
   persistedReducer,
-  composeEnhancers(applyMiddleware(sagaMiddleware)),
+  composeEnhancers(applyMiddleware(networkMiddleware, sagaMiddleware)),
 )
 
 export const persistor = persistStore(store)

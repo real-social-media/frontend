@@ -1,127 +1,21 @@
 import * as AWS from 'aws-sdk/global'
 import { put, getContext, takeEvery, takeLatest } from 'redux-saga/effects'
 import path from 'ramda/src/path'
-import pathOr from 'ramda/src/pathOr'
 import {
   federatedGoogleSignin,
   federatedGoogleSignout,
   federatedAppleSignin,
 } from 'services/AWS'
 import {
-  checkPhotoValidation,
   resetPhotoValidation,
   saveAppleSigninPersist,
   getAppleSigninPersist,
+  resetAuthUserPersist,
 } from 'services/Auth'
 import * as actions from 'store/ducks/auth/actions'
-import * as queries from 'store/ducks/auth/queries'
 import * as constants from 'store/ducks/auth/constants'
 import * as errors from 'store/ducks/auth/errors'
-import * as entitiesActions from 'store/ducks/entities/actions'
-import * as normalizer from 'normalizer/schemas'
 import Config from 'react-native-config'
-import * as queryService from 'services/Query'
-import * as Logger from 'services/Logger'
-
-/**
- * AwsAuth.currentAuthenticatedUser method is used to check if a user is logged in.
- * It will throw an error if there is no user logged in.
- */
-function* handleAuthCheckRequest() {
-  const AwsAuth = yield getContext('AwsAuth')
-  const credentials = yield AwsAuth.currentCredentials()
-  yield AwsAuth.currentAuthenticatedUser({
-    bypassCache: false,
-  })
-
-  return credentials
-}
-
-function* handleAuthCheckValidation(self) {
-  /**
-   * Define user for sentry logger, authorized users will be re-defined at services/providers/App
-   * But some users might not reach that step due to missing profile photo
-   */
-  Logger.setUser({
-    id: path(['data', 'self', 'userId'])(self),
-    username: path(['data', 'self', 'username'])(self),
-    email: path(['data', 'self', 'email'])(self),
-  })
-
-  /**
-   * Checks if user dismissed photo validation against asyncstorage skip validation flag
-   * Failed photo verification info should never appear anymore once dismissed manually
-   */
-  if (yield checkPhotoValidation()) {
-    return false
-  }
-
-  /**
-   * Check if user has profile photo set
-   * only photos that passed backend verification could be set as profile photos
-   */
-  const photoUrl = path(['data', 'self', 'photo', 'url'])(self)
-  return (!photoUrl || photoUrl.includes('placeholder-photos'))
-}
-
-/**
- * Check if user is logged in, not authenticated users will be redirected to Auth page.
- * Authenticated users with empty `self graphql query` return will be redirected to Onboard page,
- * meaning that user authenticated in Cognito pool but didn't create an entry in database on backend.
- */
-function* authCheckRequestData(req, api) {
-  const dataSelector = path(['data', 'self'])
-
-  const data = dataSelector(api)
-  const meta = {}
-  const payload = req.payload
-
-  const normalized = normalizer.normalizeUserGet(data)
-  yield put(entitiesActions.entitiesAlbumsMerge({ data: normalized.entities.albums || {} }))
-  yield put(entitiesActions.entitiesPostsMerge({ data: normalized.entities.posts || {} }))
-  yield put(entitiesActions.entitiesUsersMerge({ data: normalized.entities.users || {} }))
-  yield put(entitiesActions.entitiesCommentsMerge({ data: normalized.entities.comments || {} }))
-  yield put(entitiesActions.entitiesImagesMerge({ data: normalized.entities.images || {} }))
-
-  return {
-    data: normalized.result,
-    meta,
-    payload,
-  }
-}
-
-function* authCheckRequest(req) {
-  try {
-    const credentials = yield handleAuthCheckRequest(req.payload)
-    const data = yield queryService.apiRequest(queries.self, req.payload)
-    const authValidation = yield handleAuthCheckValidation(data)
-    const nextRoute = authValidation ? 'AuthPhoto' : 'Root'
-    const next = yield authCheckRequestData(req, data)
-    yield put(actions.authCheckSuccess({ data: next.data, payload: next.payload, meta: credentials, nextRoute }))
-  } catch (error) {
-    if (pathOr('', ['message'])(error).includes('Network request failed')) {
-      yield put(actions.authCheckFailure({
-        message: errors.getMessagePayload(constants.AUTH_CHECK_FAILURE, 'NETWORK', error.message),
-        nextRoute: 'AuthHome',
-      }))
-    } else if (pathOr('', ['message'])(error) === 'PROFILE_PHOTO_MISSING') {
-      yield put(actions.authCheckFailure({
-        message: errors.getMessagePayload(constants.AUTH_CHECK_FAILURE, 'PROFILE_PHOTO_MISSING', error.message),
-        nextRoute: 'AuthPhoto',
-      }))
-    } else if (path(['errors', '0', 'path', '0'])(error) === 'self') {
-      yield put(actions.authCheckFailure({
-        message: errors.getMessagePayload(constants.AUTH_CHECK_FAILURE, 'USER_JUST_CREATED', error.message),
-        nextRoute: 'AuthCognito',
-      }))
-    } else {
-      yield put(actions.authCheckFailure({
-        message: errors.getMessagePayload(constants.AUTH_CHECK_FAILURE, 'GENERIC', error.message),
-        nextRoute: 'AuthHome',
-      }))
-    }
-  }
-}
 
 /**
  * Signin user. Currently supports email and password or phone number and password methods
@@ -282,7 +176,6 @@ function* authAppleRequest(req) {
  */
 function* handleAuthSignoutRequest() {
   const AwsAuth = yield getContext('AwsAuth')
-  const AwsCache = yield getContext('AwsCache')
   const AwsCredentials = yield getContext('AwsCredentials')
 
   try {
@@ -294,12 +187,12 @@ function* handleAuthSignoutRequest() {
 
   yield AwsAuth.signOut({ global: true })
   yield AwsCredentials.clear()
-  yield AwsCache.clear()
 }
 
 function* authSignoutRequest(persistor, req) {
   try {
     const data = yield handleAuthSignoutRequest(req.payload)
+    yield resetAuthUserPersist()
     yield persistor.purge()
 
     yield put(actions.authSignoutSuccess({
@@ -381,7 +274,6 @@ function* authForgotConfirmRequest(req) {
 }
 
 export default (persistor) => [
-  takeEvery(constants.AUTH_CHECK_REQUEST, authCheckRequest),
   takeEvery(constants.AUTH_SIGNIN_REQUEST, authSigninRequest),
   takeEvery(constants.AUTH_GOOGLE_REQUEST, authGoogleRequest),
   takeEvery(constants.AUTH_APPLE_REQUEST, authAppleRequest),

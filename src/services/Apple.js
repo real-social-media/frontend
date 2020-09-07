@@ -11,6 +11,11 @@ class AppleCredentialsError extends Error {
   }
 }
 
+/**
+ * Generate expiry time which is 50mins
+ */
+const generateTokenExpiry = () => Math.floor(Date.now() / 1000 + 60 * 1000 * 50)
+
 export const signin = async () => {
   const appleAuthRequestResponse = await appleAuth.performRequest({
     requestedOperation: AppleAuthRequestOperation.LOGIN,
@@ -28,7 +33,7 @@ export const signin = async () => {
 
   return {
     token: appleAuthRequestResponse.identityToken,
-    expires_at: Date.now(),
+    expires_at: generateTokenExpiry(),
     user: {
       id: appleAuthRequestResponse.user,
       email: appleAuthRequestResponse.email,
@@ -53,7 +58,7 @@ export const refresh = async () => {
 
   return {
     token: appleAuthRequestResponse.identityToken,
-    expires_at: Date.now(),
+    expires_at: generateTokenExpiry(),
     user: {
       id: appleAuthRequestResponse.user,
       email: appleAuthRequestResponse.email,

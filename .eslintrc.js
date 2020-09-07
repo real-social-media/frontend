@@ -46,7 +46,7 @@ module.exports = {
     'jest/expect-expect': [
       'error',
       {
-        assertFunctionNames: ['expect', 'element', 'toBeVisible', 'tap', 'waitForElement', 'getByText'],
+        assertFunctionNames: ['expect', 'element', 'toBeVisible', 'tap', 'waitForElement', 'getByText', 'expectSaga', 'testSaga'],
       },
     ],
     'object-curly-spacing': ['error', 'always'],
