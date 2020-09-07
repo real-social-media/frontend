@@ -34,6 +34,7 @@ export const postCommentVisibility = (post, user) => (
  * - Current authenticated user is tagged in post by author
  */
 const isSharingEnabled = propEq('sharingDisabled', false)
+const isPostArchived = propEq('postStatus', 'ARCHIVED')
 const isUserTagged = (post, user) => {
   const taggedUsers = pathOr([], ['textTaggedUsers'], post)
   const username = `@${path(['username'])(user)}`
@@ -42,7 +43,7 @@ const isUserTagged = (post, user) => {
 }
 
 export const postShareVisibility = (post, user) =>
-  (isSharingEnabled(post) && isSharingEnabled(post.postedBy)) || isUserTagged(post, user)
+  !isPostArchived(post) && ((isSharingEnabled(post) && isSharingEnabled(post.postedBy)) || isUserTagged(post, user))
 
 /**
  * Visibility of seen by text, text will be visible if:

@@ -40,6 +40,7 @@ const Header = ({
   const repostVisiblity = useMemo(() => PrivacyService.postRepostVisiblity(post), [post])
   const verificationVisibility = useMemo(() => PrivacyService.postVerificationVisibility(post), [post])
   const expiryVisiblity = useMemo(() => PrivacyService.postExpiryVisiblity(post), [post])
+  const shareButtonVisibility = useMemo(() => PrivacyService.postShareVisibility(post, user), [post, user])
 
   const isUserPostOwner = path(['userId'])(user) === path(['postedBy', 'userId'])(post)
 
@@ -136,7 +137,7 @@ const Header = ({
             {
               name: t('Share'),
               onPress: () => handlePostShare(),
-              isVisible: !archived,
+              isVisible: shareButtonVisibility,
             },
             {
               name: t('Report'),

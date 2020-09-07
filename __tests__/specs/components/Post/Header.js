@@ -1,6 +1,7 @@
 import React from 'react'
 import { renderWithProviders } from 'tests/utils'
 import RNActionSheet from 'react-native-actionsheet'
+import * as PrivacyService from 'services/Privacy'
 import HeaderComponent from 'components/Post/Header'
 import testIDs from 'components/Post/test-ids'
 
@@ -42,7 +43,7 @@ describe('Post Header component', () => {
 
     it('user is not an owner of a post', () => {
       const user = { userId: 2 }
-      const { getByTestId } = setup({ handlePostShare, postsFlagRequest, user })
+      const { getByTestId } = setup({ user })
 
       expect(getByTestId(testIDs.header.openDropDownMenu)).toBeTruthy()
 
@@ -61,7 +62,7 @@ describe('Post Header component', () => {
 
     it('user is an owner of a post', () => {
       const user = { userId: post.postedBy.userId }
-      const { getByTestId } = setup({ handlePostShare, postsFlagRequest, user })
+      const { getByTestId } = setup({ user })
 
       expect(getByTestId(testIDs.header.openDropDownMenu)).toBeTruthy()
 
@@ -94,7 +95,7 @@ describe('Post Header component', () => {
     it('user is an owner of a post and post archived', () => {
       const user = { userId: post.postedBy.userId }
       const archived = { ...post, postStatus: 'ARCHIVED' }
-      const { getByTestId } = setup({ handlePostShare, postsFlagRequest, user, post: archived })
+      const { getByTestId } = setup({ user, post: archived })
 
       expect(getByTestId(testIDs.header.openDropDownMenu)).toBeTruthy()
 
@@ -106,6 +107,30 @@ describe('Post Header component', () => {
 
       onPress(0)
       expect(postsRestoreArchivedRequest).toHaveBeenCalledWith({ postId: archived.postId })
+    })
+
+    describe('Sharing button', () => {
+      let postShareVisibility = jest.spyOn(PrivacyService, 'postShareVisibility')
+
+      afterAll(() => {
+        postShareVisibility.mockRestore()
+      })
+
+      it('hide sharing button', () => {
+        postShareVisibility.mockReturnValueOnce(false)
+        setup({ user: { userId: 2 } })
+
+        const { options } = RNActionSheet.mock.calls[0][0]
+        expect(options.findIndex((i) => i === 'Share')).toBe(-1)
+      })
+
+      it('show sharing button', () => {
+        postShareVisibility.mockReturnValueOnce(true)
+        setup({ user: { userId: 2 } })
+
+        const { options } = RNActionSheet.mock.calls[0][0]
+        expect(options.findIndex((i) => i === 'Share')).toBe(0)
+      })
     })
   })
 })
