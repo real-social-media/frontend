@@ -74,7 +74,7 @@ Accordion.propTypes = {
 }
 
 Accordion.defaultProps = {
-  items: []
+  items: [],
 }
 
 export default withTheme(Accordion)

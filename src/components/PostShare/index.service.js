@@ -50,7 +50,7 @@ const ShareService = ({ children }) => {
     postsShareRequest,
     watermark,
     handleWatermark,
-    route
+    route,
   })
 }
 

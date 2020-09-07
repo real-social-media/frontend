@@ -1,3 +1,3 @@
 export default {
-  item: 'templates/Accordion/item'
+  item: 'templates/Accordion/item',
 }

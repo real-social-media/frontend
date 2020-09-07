@@ -24,7 +24,7 @@ const PostShare = ({ t, theme, postsSingleGet, postsShare, postsShareRequest, wa
       type: 'cameraroll',
       title: 'Camera roll export',
       watermark,
-      post
+      post,
     })
 
   const handleRepost = () =>
@@ -33,7 +33,7 @@ const PostShare = ({ t, theme, postsSingleGet, postsShare, postsShareRequest, wa
       type: 'repost',
       title: 'Repost',
       watermark,
-      post
+      post,
     })
 
   const handleInstagramPost = () =>
@@ -42,7 +42,7 @@ const PostShare = ({ t, theme, postsSingleGet, postsShare, postsShareRequest, wa
       type: 'instagramPost',
       title: 'Instagram export',
       watermark,
-      post
+      post,
     })
 
   return (
@@ -86,7 +86,7 @@ const PostShare = ({ t, theme, postsSingleGet, postsShare, postsShareRequest, wa
           />
           <View style={styling.bottomSpacing} />
           <Caption style={styling.bottomSpacing}>
-            {t("Prove your post is verified by sharing a link to your REAL profile in it's description")}
+            {t('Prove your post is verified by sharing a link to your REAL profile in it\'s description')}
           </Caption>
           <View style={styling.bottomSpacing} />
         </View>
@@ -105,7 +105,7 @@ const PostShare = ({ t, theme, postsSingleGet, postsShare, postsShareRequest, wa
           />
           <View style={styling.bottomSpacing} />
           <Caption style={styling.bottomSpacing}>
-            {t("Prove your post is verified by sharing a link to your REAL profile in it's description")}
+            {t('Prove your post is verified by sharing a link to your REAL profile in it\'s description')}
           </Caption>
         </View>
       </ScrollView>

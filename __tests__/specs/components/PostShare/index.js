@@ -26,7 +26,7 @@ describe('PostShare component', () => {
     const { getByText } = setup()
 
     fireEvent.press(getByText('Repost on REAL'))
-    expect(postsShareRequest).toBeCalledWith({
+    expect(postsShareRequest).toHaveBeenCalledWith({
       photoUrl,
       type: 'repost',
       title: 'Repost',
@@ -39,7 +39,7 @@ describe('PostShare component', () => {
     const { getByText } = setup()
 
     fireEvent.press(getByText('Copy to Photos'))
-    expect(postsShareRequest).toBeCalledWith({
+    expect(postsShareRequest).toHaveBeenCalledWith({
       photoUrl,
       type: 'cameraroll',
       title: 'Camera roll export',
@@ -52,7 +52,7 @@ describe('PostShare component', () => {
     const { getByText } = setup()
 
     fireEvent.press(getByText('Share on Instagram'))
-    expect(postsShareRequest).toBeCalledWith({
+    expect(postsShareRequest).toHaveBeenCalledWith({
       photoUrl,
       type: 'instagramPost',
       title: 'Instagram export',

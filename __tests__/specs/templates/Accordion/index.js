@@ -44,7 +44,7 @@ describe('Accordion template', () => {
         const $button = await within(itemsEls[index]).getByA11yRole('button')
 
         fireEvent.press($button)
-        expect(item.onPress).toBeCalled()
+        expect(item.onPress).toHaveBeenCalled()
       }),
     )
   })
