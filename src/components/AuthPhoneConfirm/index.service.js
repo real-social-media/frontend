@@ -64,7 +64,7 @@ const AuthPhoneConfirmComponentService = ({ children }) => {
     dispatch(signupActions.signupPasswordIdle({}))
 
     Keyboard.dismiss()
-    dispatch(authActions.authCheckRequest({ type: 'FIRST_MOUNT' }))
+    dispatch(authActions.authCheckRequest())
   }, [
     signupConfirm.status,
   ])

@@ -82,9 +82,9 @@ const AuthEmailConfirmComponentService = ({ children }) => {
     dispatch(signupActions.signupConfirmIdle({}))
     dispatch(signupActions.signupUsernameIdle({}))
     dispatch(signupActions.signupPasswordIdle({}))
-
+ 
     Keyboard.dismiss()
-    dispatch(authActions.authCheckRequest({ type: 'FIRST_MOUNT' }))
+    dispatch(authActions.authCheckRequest())
   }, [
     signupConfirm.status,
   ])

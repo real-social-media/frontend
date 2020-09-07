@@ -6,7 +6,6 @@ import VerificationScreen from 'screens/VerificationScreen'
 import { VERIFICATION_TYPE } from 'components/Verification'
 import * as usersActions from 'store/ducks/users/actions'
 import * as authActions from 'store/ducks/auth/actions'
-import { savePhotoValidation } from 'services/Auth'
 
 jest.mock('react-redux', () => ({
   useDispatch: jest.fn(),
@@ -15,10 +14,6 @@ jest.mock('react-redux', () => ({
 jest.mock('@react-navigation/native', () => ({
   useNavigation: jest.fn(),
   useRoute: jest.fn(),
-}))
-
-jest.mock('services/Auth', () => ({
-  savePhotoValidation: jest.fn(),
 }))
 
 const setup = () => renderWithProviders(<VerificationScreen />)
@@ -114,8 +109,6 @@ describe('Verification screen', () => {
 
       expect(dispatch).toHaveBeenCalledWith(usersActions.usersEditProfileIdle({}))
       expect(dispatch).toHaveBeenCalledWith(authActions.authCheckIdle({ nextRoute: 'Root' }))
-
-      expect(savePhotoValidation).toHaveBeenCalled()
     })
   })
 

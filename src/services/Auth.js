@@ -3,27 +3,6 @@ import * as Logger from 'services/Logger'
 
 const AUTH_USER = '@real:auth:user'
 const AUTH_APPLE = '@real:auth:apple'
-const SETTINGS_PHOTO_VALIDATION = '@real:settings:photoValidation'
-
-/**
- *
- */
-export const resetPhotoValidation = async () => {
-	try {
-		await AsyncStorage.removeItem(SETTINGS_PHOTO_VALIDATION)
-	} catch (error) {
-		Logger.captureException(error)
-	}
-}
-
-export const savePhotoValidation = async () => {
-	await AsyncStorage.setItem(SETTINGS_PHOTO_VALIDATION, 'skip')
-}
-
-export const checkPhotoValidation = async () => {
-	const response = await AsyncStorage.getItem(SETTINGS_PHOTO_VALIDATION)
-	return response === 'skip'
-}
 
 /**
  *

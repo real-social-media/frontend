@@ -65,7 +65,7 @@ const AuthHomeComponentService = ({ children }) => {
   
   useEffect(() => {
     if (authSignin.status === 'success') {
-      dispatch(authActions.authCheckRequest({}))
+      dispatch(authActions.authCheckRequest())
       dispatch(authActions.authSigninIdle({}))
     }
 
