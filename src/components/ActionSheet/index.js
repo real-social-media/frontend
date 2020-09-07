@@ -4,15 +4,16 @@ import RNActionSheet from 'react-native-actionsheet'
 import propOr from 'ramda/src/propOr'
 
 const isVisible = propOr(true, 'isVisible')
-const undefinedByDefault = i => i === -1 ? undefined : i
+const undefinedByDefault = (i) => (i === -1 ? undefined : i)
 
-const ActionSheet = ({ actionSheetRef, ...props }) => {
+const ActionSheet = ({ actionSheetRef, testID, ...props }) => {
   const options = props.options.filter(isVisible)
   const destructiveButtonIndex = options.findIndex((i) => i.isDestructive)
   const cancelButtonIndex = options.findIndex((i) => i.isCancel)
 
   return (
     <RNActionSheet
+      testID={testID}
       ref={actionSheetRef}
       options={options.map((i) => i.name)}
       cancelButtonIndex={undefinedByDefault(cancelButtonIndex)}
@@ -23,6 +24,7 @@ const ActionSheet = ({ actionSheetRef, ...props }) => {
 }
 
 ActionSheet.propTypes = {
+  testID: PropTypes.string,
   actionSheetRef: PropTypes.any,
   options: PropTypes.arrayOf(
     PropTypes.shape({
@@ -36,6 +38,7 @@ ActionSheet.propTypes = {
 }
 
 ActionSheet.defaultProps = {
+  testID: undefined,
   options: [],
 }
 

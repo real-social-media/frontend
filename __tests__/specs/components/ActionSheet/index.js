@@ -26,6 +26,14 @@ describe('ActionSheet component', () => {
     RNActionSheet.mockClear()
   })
 
+  it('testID', () => {
+    const testID = 'testID'
+    setup({ testID })
+
+    expect(RNActionSheet).toHaveBeenCalled()
+    expect(RNActionSheet.mock.calls[0][0].testID).toBe(testID)
+  })
+
   it('default options', () => {
     setup()
 
