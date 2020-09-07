@@ -18,8 +18,8 @@ import * as UserService from 'services/User'
 import * as PrivacyService from 'services/Privacy'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
+import testIDs from './test-ids'
 
 const Header = ({
   t,
@@ -33,9 +33,9 @@ const Header = ({
   handlePostShare,
   createActionSheetRef,
   actionSheetRef,
+  navigation,
 }) => {
   const styling = styles(theme)
-  const navigation = useNavigation()
 
   const handleOptionsPress = () => actionSheetRef && actionSheetRef.show()
   const archived = path(['postStatus'])(post) === 'ARCHIVED'
@@ -101,7 +101,7 @@ const Header = ({
 
       {path(['userId'])(user) === path(['postedBy', 'userId'])(post) && archived ?
         <React.Fragment>
-          <TouchableOpacity style={styling.headerAction} onPress={handleOptionsPress}>
+          <TouchableOpacity testID={testIDs.header.openDropDownMenu} style={styling.headerAction} onPress={handleOptionsPress}>
             <MoreIcon fill={theme.colors.primaryIcon} />
           </TouchableOpacity>
 
@@ -120,7 +120,7 @@ const Header = ({
 
       {path(['userId'])(user) === path(['postedBy', 'userId'])(post) && !archived ?
         <React.Fragment>
-          <TouchableOpacity style={styling.headerAction} onPress={handleOptionsPress}>
+          <TouchableOpacity testID={testIDs.header.openDropDownMenu} style={styling.headerAction} onPress={handleOptionsPress}>
             <MoreIcon fill={theme.colors.primaryIcon} />
           </TouchableOpacity>
 
@@ -149,7 +149,7 @@ const Header = ({
 
       {path(['userId'])(user) !== path(['postedBy', 'userId'])(post) ?
         <React.Fragment>
-          <TouchableOpacity style={styling.headerAction} onPress={handleOptionsPress}>
+          <TouchableOpacity testID={testIDs.header.openDropDownMenu} style={styling.headerAction} onPress={handleOptionsPress}>
             <MoreIcon fill={theme.colors.primaryIcon} />
           </TouchableOpacity>
 
@@ -206,20 +206,20 @@ const styles = theme => StyleSheet.create({
 })
 
 Header.propTypes = {
+  t: PropTypes.any,
   theme: PropTypes.any,
-  
   user: PropTypes.any,
   post: PropTypes.any,
   handleEditPress: PropTypes.any,
-  postsArchiveRequest: PropTypes.any,
-  postsFlagRequest: PropTypes.any,
-  postsDeleteRequest: PropTypes.any,
-  t: PropTypes.any,
-  postsShareRequest: PropTypes.any,
-  postsRestoreArchivedRequest: PropTypes.any,
-  handlePostShare: PropTypes.any,
+  postsArchiveRequest: PropTypes.func,
+  postsFlagRequest: PropTypes.func,
+  postsDeleteRequest: PropTypes.func,
+  postsShareRequest: PropTypes.func,
+  postsRestoreArchivedRequest: PropTypes.func,
+  handlePostShare: PropTypes.func,
   createActionSheetRef: PropTypes.any,
   actionSheetRef: PropTypes.any,
+  navigation: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Header))
