@@ -32,18 +32,25 @@ export const postCommentVisibility = (post, user) => (
  * - Post owner has enabled shares
  * - Current authenticated user has shares enabled in settings
  * - Current authenticated user is tagged in post by author
+ * - Post owner has enabled shares on post level
  */
-const isSharingEnabled = propEq('sharingDisabled', false)
-const isPostArchived = propEq('postStatus', 'ARCHIVED')
 const isUserTagged = (post, user) => {
   const taggedUsers = pathOr([], ['textTaggedUsers'], post)
   const username = `@${path(['username'])(user)}`
 
-  return taggedUsers.find(propEq('tag', username))
+  return taggedUsers.findIndex(propEq('tag', username)) !== -1
 }
 
-export const postShareVisibility = (post, user) =>
-  !isPostArchived(post) && ((isSharingEnabled(post) && isSharingEnabled(post.postedBy)) || isUserTagged(post, user))
+const isUserPostOwner = (post, user) => path(['postedBy', 'userId'], post) === path(['userId'], user)
+
+export const postShareVisibility = (post, user) => {
+  if (isUserTagged(post, user)) return true
+  if (propEq('postStatus', 'ARCHIVED')(post)) return false
+  if (propEq('sharingDisabled', true)(post)) return false
+  if (!isUserPostOwner(post, user) && propEq('sharingDisabled', true)(user)) return false
+
+  return true
+}
 
 /**
  * Visibility of seen by text, text will be visible if:

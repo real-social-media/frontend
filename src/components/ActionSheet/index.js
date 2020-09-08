@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import RNActionSheet from 'react-native-actionsheet'
-import propOr from 'ramda/src/propOr'
+import has from 'ramda/src/has'
 
-const isVisible = propOr(true, 'isVisible')
+const hasVisible = has('isVisible')
+const isVisible = item => hasVisible(item) && item.isVisible || !hasVisible(item)
 const undefinedByDefault = (i) => (i === -1 ? undefined : i)
 
 const ActionSheet = ({ actionSheetRef, testID, ...props }) => {
