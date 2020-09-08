@@ -1,21 +1,11 @@
-import AsyncStorage from '@react-native-community/async-storage'
-import * as Logger from 'services/Logger'
+import Storage, { STORAGE_KEYS } from 'services/Storage'
 
-const STORAGE_TOKEN = '@real:uploads:verificationScreen'
 const SKIP_STATE = 'skip'
 
 export const skipNextTime = async () => {
-  try {
-    await AsyncStorage.setItem(STORAGE_TOKEN, SKIP_STATE)
-  } catch (error) {
-    Logger.captureException(error)
-  }
+  await Storage.setItem(STORAGE_KEYS.VERIFICATION_SCREEN, SKIP_STATE)
 }
 
 export const isSkipped = async () => {
-  try {
-    return (await AsyncStorage.getItem(STORAGE_TOKEN)) === SKIP_STATE
-  } catch (error) {
-    Logger.captureException(error)
-  }
+  return (await Storage.getItem(STORAGE_KEYS.VERIFICATION_SCREEN)) === SKIP_STATE
 }

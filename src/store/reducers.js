@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 import { persistReducer } from 'redux-persist'
 
-import AsyncStorage from '@react-native-community/async-storage'
+import { STORAGE_PROVIDER } from 'services/storage'
 
 import auth from 'store/ducks/auth/reducer'
 import signup from 'store/ducks/signup/reducer'
@@ -25,7 +25,7 @@ import 'store/ducks/chat/updates'
 
 const postsPersistConfig = {
   key: '/v2/posts',
-  storage: AsyncStorage,
+  storage: STORAGE_PROVIDER,
   whitelist: [
     // 'postsFeedGet',
     // 'postsGet',
@@ -40,7 +40,7 @@ const postsPersistConfig = {
 
 const usersPersistConfig = {
   key: '/v2/users',
-  storage: AsyncStorage,
+  storage: STORAGE_PROVIDER,
   whitelist: [
     // 'usersPool',
   ],
@@ -48,7 +48,7 @@ const usersPersistConfig = {
 
 const authPersistConfig = {
   key: '/v2/auth',
-  storage: AsyncStorage,
+  storage: STORAGE_PROVIDER,
   whitelist: [
     // 'user',
   ],
@@ -56,7 +56,7 @@ const authPersistConfig = {
 
 const signupPersistConfig = {
   key: '/v2/signup',
-  storage: AsyncStorage,
+  storage: STORAGE_PROVIDER,
   whitelist: [
     // 'signupCognitoIdentity',
   ],
@@ -64,7 +64,7 @@ const signupPersistConfig = {
 
 const chatPersistConfig = {
   key: '/v2/chat',
-  storage: AsyncStorage,
+  storage: STORAGE_PROVIDER,
   whitelist: [
     // 'chatGetChats',
   ],

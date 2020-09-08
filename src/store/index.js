@@ -9,7 +9,7 @@ import Auth from '@aws-amplify/auth'
 import Cache from '@aws-amplify/cache'
 import API from '@aws-amplify/api'
 import * as Logger from 'services/Logger'
-import AsyncStorage from '@react-native-community/async-storage'
+import { STORAGE_PROVIDER } from 'services/storage'
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly'
 import path from 'ramda/src/path'
@@ -17,7 +17,7 @@ import 'store/updates'
 
 const persistConfig = {
   key: '/v2/root',
-  storage: AsyncStorage,
+  storage: STORAGE_PROVIDER,
   whitelist: ['theme', 'translation'],
   stateReconciler: autoMergeLevel2,
 }
