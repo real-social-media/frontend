@@ -119,7 +119,8 @@ export const userFollowerVisibility = (user) => (
     path(['followCountsHidden'])(user) !== true ||
     path(['followedStatus'])(user) === 'SELF'
   ) && !(
-    path(['followedStatus'])(user) === 'NOT_FOLLOWING' &&
+    path(['followedStatus'])(user) !== 'FOLLOWING' &&
+    path(['followedStatus'])(user) !== 'SELF' &&
     path(['privacyStatus'])(user) === 'PRIVATE'
   )
 )

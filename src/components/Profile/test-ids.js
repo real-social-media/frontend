@@ -3,4 +3,7 @@ export default {
   actions: {
     settingsBtn: 'components/Profile/Action/Settings',
   },
+  counts: {
+    followers: 'components/Profile/Counts/followers',
+  },
 }
