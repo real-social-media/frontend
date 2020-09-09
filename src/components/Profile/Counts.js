@@ -12,6 +12,7 @@ import * as PrivacyService from 'services/Privacy'
 
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
+import testIDs from './test-ids'
 
 const ProfileCounts = ({
   t,
@@ -22,6 +23,7 @@ const ProfileCounts = ({
 
   const followersCount = path(['data', 'followersCount'])(usersGetProfile)
   const followedsCount = path(['data', 'followedsCount'])(usersGetProfile)
+  const postCount = path(['data', 'postCount'])(usersGetProfile)
 
   const followingVisibility = useMemo(() => PrivacyService.userFollowingVisibility(usersGetProfile.data), [usersGetProfile.data])
   const followerVisibility = useMemo(() => PrivacyService.userFollowerVisibility(usersGetProfile.data), [usersGetProfile.data])
@@ -29,22 +31,21 @@ const ProfileCounts = ({
   return (
     <View style={styling.root}>
       <View style={styling.item}>
-        <Headline style={styling.itemTitle}>{path(['data', 'postCount'])(usersGetProfile)}</Headline>
+        <Headline style={styling.itemTitle}>{postCount}</Headline>
         <Caption style={styling.itemText} numberOfLines={1}>{t('Posts')}</Caption>
       </View>
 
       {followerVisibility ?
-        <TouchableOpacity style={styling.item} onPress={navigationActions.navigateProfileFollower(navigation, { userId: usersGetProfile.data.userId })}>
+        <TouchableOpacity testID={testIDs.counts.followers} style={styling.item} onPress={navigationActions.navigateProfileFollower(navigation, { userId: usersGetProfile.data.userId })}>
           <Headline style={styling.itemTitle}>{followersCount}</Headline>
           <Caption style={styling.itemText} numberOfLines={1}>{t('Followers')}</Caption>
         </TouchableOpacity>
       :
-        <View style={styling.item}>
+        <View testID={testIDs.counts.followers} style={styling.item}>
           <Headline style={styling.itemTitle}>•</Headline>
           <Caption style={styling.itemText} numberOfLines={1}>{t('Followers')}</Caption>
         </View>
       }
-
       
       {followingVisibility ?
         <TouchableOpacity style={styling.item} onPress={navigationActions.navigateProfileFollowed(navigation, { userId: usersGetProfile.data.userId })}>
@@ -80,8 +81,15 @@ const styles = StyleSheet.create({
 })
 
 ProfileCounts.propTypes = {
-  usersGetProfile: PropTypes.any,
   t: PropTypes.any,
+  usersGetProfile: PropTypes.shape({
+    data: PropTypes.shape({
+      userId: PropTypes.string,
+      followersCount: PropTypes.number,
+      followedsCount: PropTypes.number,
+      postCount: PropTypes.number, 
+    }),
+  }),
 }
 
 export default withTranslation()(ProfileCounts)
