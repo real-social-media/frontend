@@ -10,7 +10,7 @@ import BellIcon from 'assets/svg/action/Bell'
 import dayjs from 'dayjs'
 import * as navigationActions from 'navigation/actions'
 import * as UserService from 'services/User'
-import * as PrivacyService from 'services/Privacy'
+import PrivacyService from 'services/Privacy'
 
 import { withTheme } from 'react-native-paper'
 import { withTranslation } from 'react-i18next'
@@ -35,13 +35,17 @@ const Header = ({
   const handleOptionsPress = () => actionSheetRef && actionSheetRef.show()
   const archived = path(['postStatus'])(post) === 'ARCHIVED'
   const repostedUsername = path(['originalPost', 'postedBy', 'username'])(post)
-
-  const repostVisiblity = useMemo(() => PrivacyService.postRepostVisiblity(post), [post])
-  const verificationVisibility = useMemo(() => PrivacyService.postVerificationVisibility(post), [post])
-  const expiryVisiblity = useMemo(() => PrivacyService.postExpiryVisiblity(post), [post])
-  const shareButtonVisibility = useMemo(() => PrivacyService.postShareVisibility(post, user), [post, user])
-
   const isUserPostOwner = path(['userId'])(user) === path(['postedBy', 'userId'])(post)
+
+  const [repostVisiblity, verificationVisibility, expiryVisiblity] = useMemo(
+    () => [
+      PrivacyService.postRepostVisiblity(post),
+      PrivacyService.postVerificationVisibility(post),
+      PrivacyService.postExpiryVisiblity(post),
+    ],
+    [post],
+  )
+  const shareButtonVisibility = useMemo(() => PrivacyService.postShareVisibility(post, user), [post, user])
 
   const onProfilePhotoPress = () => {
     const hasStories = path(['stories', 'items', 'length'])(post.postedBy)
@@ -73,6 +77,7 @@ const Header = ({
 
         {repostVisiblity ? (
           <TouchableOpacity
+            testID={testIDs.header.repostBtn}
             style={styling.verification}
             onPress={navigationActions.navigateProfile(navigation, { userId: post.originalPost.postedBy.userId })}
           >
@@ -83,7 +88,7 @@ const Header = ({
         ) : null}
 
         {expiryVisiblity ? (
-          <View style={styling.verification}>
+          <View testID={testIDs.header.expiry} style={styling.verification}>
             <Caption style={styling.headerStatus}>
               {t('Expires {{expiry}}', { expiry: dayjs(post.expiresAt).from(dayjs()) })}
             </Caption>
@@ -92,6 +97,7 @@ const Header = ({
 
         {verificationVisibility ? (
           <TouchableOpacity
+            testID={testIDs.header.verificationStatus}
             onPress={navigationActions.navigateVerification(navigation, { actionType: 'BACK', post })}
             style={styling.verification}
           >
@@ -168,37 +174,37 @@ const Header = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: theme.spacing.base,
-  },
-  headerText: {
-    paddingHorizontal: 8,
-    justifyContent: 'center',
-    flex: 1,
-  },
-  headerAction: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 38,
-    width: 38,
-  },
-  headerUsername: {
-  },
-  headerStatus: {
-    color: '#676767',
-    marginRight: 4,
-  },
-  verificationStatus: {
-    marginRight: 4,
-  },
-  verification: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-})
+const styles = (theme) =>
+  StyleSheet.create({
+    header: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      padding: theme.spacing.base,
+    },
+    headerText: {
+      paddingHorizontal: 8,
+      justifyContent: 'center',
+      flex: 1,
+    },
+    headerAction: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: 38,
+      width: 38,
+    },
+    headerUsername: {},
+    headerStatus: {
+      color: '#676767',
+      marginRight: 4,
+    },
+    verificationStatus: {
+      marginRight: 4,
+    },
+    verification: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+  })
 
 Header.propTypes = {
   t: PropTypes.any,

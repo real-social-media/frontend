@@ -1,5 +1,6 @@
 import path from 'ramda/src/path'
 import is from 'ramda/src/is'
+import isEmpty from 'ramda/src/isEmpty'
 import pathOr from 'ramda/src/pathOr'
 import propEq from 'ramda/src/propEq'
 
@@ -9,11 +10,10 @@ import propEq from 'ramda/src/propEq'
  * - Post owner has not enabled likesDisabled global setting
  * - Like hasn't been set before, which allows only 1 like per post
  */
-export const postLikeVisibility = (post, user) => (
-  post.likesDisabled === false &&
+const postLikeVisibility = (post, user) => (
+  !path(['likesDisabled'], post) &&
   !path(['postedBy', 'likesDisabled'])(post) &&
-  !path(['likesDisabled'])(user) &&
-  path(['postedBy', 'userId'])(post) !== path(['userId'])(user)
+  !path(['likesDisabled'])(user)
 )
 
 /**
@@ -21,8 +21,8 @@ export const postLikeVisibility = (post, user) => (
  * - Post owner has enabled comments
  * - Post owner has not enabled commentsDisabled global setting
  */
-export const postCommentVisibility = (post, user) => (
-  post.commentsDisabled === false &&
+const postCommentVisibility = (post, user) => (
+  !path(['commentsDisabled'], post) &&
   !path(['postedBy', 'commentsDisabled'])(post) &&
   !path(['commentsDisabled'])(user)
 )
@@ -41,16 +41,12 @@ const isUserTagged = (post, user) => {
   return taggedUsers.findIndex(propEq('tag', username)) !== -1
 }
 
-const isUserPostOwner = (post, user) => path(['postedBy', 'userId'], post) === path(['userId'], user)
-
-export const postShareVisibility = (post, user) => {
-  if (isUserTagged(post, user)) return true
-  if (propEq('postStatus', 'ARCHIVED')(post)) return false
-  if (propEq('sharingDisabled', true)(post)) return false
-  if (!isUserPostOwner(post, user) && propEq('sharingDisabled', true)(user)) return false
-
-  return true
-}
+const postShareVisibility = (post, user) => (
+  !propEq('postStatus', 'ARCHIVED')(post) &&
+  !path(['sharingDisabled'])(user) &&
+  !path(['postedBy', 'sharingDisabled'])(post) &&
+  !(propEq('sharingDisabled', true)(post) && !isUserTagged(post, user))
+)
 
 /**
  * Visibility of seen by text, text will be visible if:
@@ -58,26 +54,27 @@ export const postShareVisibility = (post, user) => {
  * - Post has not enabled viewCountsHidden setting
  * - Post owner has not enabled viewCountsHidden global setting
  */
-export const postSeenByVisility = (post, user) => (
-  path(['postedBy', 'userId'])(post) === path(['userId'])(user) &&
-  !post.viewCountsHidden &&
-  !path(['postedBy', 'viewCountsHidden'])(post) &&
+const postSeenByVisility = (post, user) => (
+  path(['postedBy', 'userId'], post) === path(['userId'], user) &&
+  !path(['viewCountsHidden'], post) &&
+  !path(['viewCountsHidden'], user) &&
+  !path(['postedBy', 'viewCountsHidden'], post) &&
   post.viewedByCount > 0
 )
 
 /**
  *
  */
-export const postRepostVisiblity = (post) => (
-  path(['originalPost', 'postedBy', 'username', 'length'])(post) &&
+const postRepostVisiblity = (post) => (
+  !isEmpty(path(['originalPost', 'postedBy', 'username'])(post)) &&
   path(['postedBy', 'username'])(post) !== path(['originalPost', 'postedBy', 'username'])(post)
 )
 
 /**
  *
  */
-export const postVerificationVisibility = (post) => (
-  !postRepostVisiblity(post) &&
+const postVerificationVisibility = (post) => (
+  !PrivacyService.postRepostVisiblity(post) &&
   path(['isVerified'])(post) === false &&
   path(['postType'])(post) !== 'TEXT_ONLY'
 )
@@ -85,49 +82,68 @@ export const postVerificationVisibility = (post) => (
 /**
  *
  */
-export const selfPostVerificationVisibility = (post, user) => (
+const selfPostVerificationVisibility = (post, user) => (
   user.userId === path(['postedBy', 'userId'])(post) &&
-  postVerificationVisibility(post)
+  PrivacyService.postVerificationVisibility(post)
 )
 
 /**
  *
  */
-export const postExpiryVisiblity = (post) => (
-  !postRepostVisiblity(post) &&
-  !postVerificationVisibility(post) &&
-  path(['expiresAt'])(post)
+const postExpiryVisiblity = (post) => (
+  !PrivacyService.postRepostVisiblity(post) &&
+  !PrivacyService.postVerificationVisibility(post) &&
+  !!path(['expiresAt'])(post)
 )
 
 /**
  *
  */
-export const postLikedVisibility = (post, user) => (
-  path(['onymouslyLikedBy', 'items', '0', 'username'])(post) &&
+const postLikedVisibility = (post, user) => (
+  !!path(['onymouslyLikedBy', 'items', '0', 'username'])(post) &&
   !path(['postedBy', 'likesDisabled'])(post) &&
-  !post.likesDisabled &&
+  !path([ 'likesDisabled'], post) &&
   path(['postedBy', 'userId'])(post) === user.userId
 )
 
-export const userFollowingVisibility = (user) => (
-  is(Number)(path(['followersCount'])(user)) &&
-  (
-    path(['followCountsHidden'])(user) !== true ||
-    path(['followedStatus'])(user) === 'SELF'
-  ) && !(
-    path(['followedStatus'])(user) === 'NOT_FOLLOWING' &&
-    path(['privacyStatus'])(user) === 'PRIVATE'
-  )
+/**
+ *
+ */
+const followVisibilityRules = user => (
+  path(['followCountsHidden'])(user) !== true ||
+  path(['followedStatus'])(user) === 'SELF'
+) && !(
+  path(['followedStatus'])(user) !== 'FOLLOWING' &&
+  path(['followedStatus'])(user) !== 'SELF' &&
+  path(['privacyStatus'])(user) === 'PRIVATE'
 )
 
-export const userFollowerVisibility = (user) => (
-  is(Number)(path(['followedsCount'])(user)) &&
-  (
-    path(['followCountsHidden'])(user) !== true ||
-    path(['followedStatus'])(user) === 'SELF'
-  ) && !(
-    path(['followedStatus'])(user) !== 'FOLLOWING' &&
-    path(['followedStatus'])(user) !== 'SELF' &&
-    path(['privacyStatus'])(user) === 'PRIVATE'
-  )
+const userFollowingVisibility = (user) => (
+  is(Number)(path(['followersCount'])(user)) &&
+  followVisibilityRules(user)
 )
+
+const userFollowerVisibility = (user) => (
+  is(Number)(path(['followedsCount'])(user)) &&
+  followVisibilityRules(user)
+)
+
+/**
+ * Mock/Spy exported functions within a single module in Jest
+ * https://medium.com/@DavideRama/mock-spy-exported-functions-within-a-single-module-in-jest-cdf2b61af642
+ */ 
+const PrivacyService = {
+  postLikeVisibility,
+  postCommentVisibility,
+  postShareVisibility,
+  postSeenByVisility,
+  postRepostVisiblity,
+  postVerificationVisibility,
+  selfPostVerificationVisibility,
+  postExpiryVisiblity,
+  postLikedVisibility,
+  userFollowingVisibility,
+  userFollowerVisibility,
+}
+
+export default PrivacyService

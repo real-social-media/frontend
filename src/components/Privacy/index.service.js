@@ -38,11 +38,6 @@ const PrivacyService = ({ children }) => {
       sharingDisabled: !user.sharingDisabled,
     }))
 
-  const toggleVerificationHidden = () =>
-    dispatch(usersActions.usersEditProfileRequest({
-      verificationHidden: !user.verificationHidden,
-    }))
-
   useEffect(() => {
     if (usersEditProfile.status === 'success') {
       dispatch(usersActions.usersEditProfileIdle({}))
@@ -57,7 +52,6 @@ const PrivacyService = ({ children }) => {
     toggleLikesDisabled,
     toggleCommentsDisabled,
     toggleSharingDisabled,
-    toggleVerificationHidden,
   })
 }
 
