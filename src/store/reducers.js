@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux'
 import { persistReducer } from 'redux-persist'
-
-import { STORAGE_PROVIDER } from 'services/storage'
+import { STORAGE_PROVIDER } from 'services/Storage'
 
 import auth from 'store/ducks/auth/reducer'
 import signup from 'store/ducks/signup/reducer'
