@@ -34,9 +34,7 @@ const PostsGridThumbnail = ({
   /**
    * Condition to cheeck when activeIcon is rendered e.g. new comment
    */
-  const isActive = useMemo(() => {
-    return path(['commentsUnviewedCount'])(post) > 0
-  }, [post.postId, post.commentsUnviewedCount])
+  const isActive = path(['commentsUnviewedCount'])(post) > 0
 
   /**
    * progress loader will be rendered except when condition below is true e.g. hide on trending
