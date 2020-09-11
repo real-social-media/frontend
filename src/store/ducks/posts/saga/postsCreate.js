@@ -1,5 +1,5 @@
 import { graphqlOperation } from '@aws-amplify/api'
-import { call, put, takeEvery, all, getContext, select } from 'redux-saga/effects'
+import { call, put, takeEvery, all, getContext, select, take, spawn, delay, race, retry } from 'redux-saga/effects'
 import { eventChannel, END } from 'redux-saga'
 import path from 'ramda/src/path'
 import compose from 'ramda/src/compose'
@@ -9,6 +9,8 @@ import * as actions from 'store/ducks/posts/actions'
 import * as queries from 'store/ducks/posts/queries'
 import * as constants from 'store/ducks/posts/constants'
 import * as subscriptionsActions from 'store/ducks/subscriptions/actions'
+import * as usersActions from 'store/ducks/users/actions'
+import * as queryService from 'services/Query'
 import dayjs from 'dayjs'
 import { v4 as uuid } from 'uuid'
 import RNFS from 'react-native-fs' 
@@ -164,6 +166,65 @@ function* handleTextOnlyPost(req) {
 /**
  *
  */
+function* handlePostsCreateSuccess(post) {
+  const userId = path(['postedBy', 'userId'], post)
+
+  yield put(actions.postsCreateSuccess({ data: {}, payload: post, meta: {} }))
+  yield put(actions.postsGetRequest({ userId }))
+  yield put(actions.postsFeedGetRequest({ limit: 20 }))
+  yield put(usersActions.usersImagePostsGetRequest({ userId }))
+}
+
+function* checkPostsCreateProcessing(processingPost) {
+  const TIMEOUT_DELAY = 5000
+
+  function* checkRequest() {    
+    const response = yield queryService.apiRequest(queries.getPost, processingPost)
+    const post = path(['data', 'post'], response)
+    const postStatus = path(['postStatus'], post)
+
+    if (['PENDING', 'PROCESSING'].includes(postStatus)) {
+      throw new Error('Post has not been processed')
+    }
+
+    if (['ERROR'].includes(postStatus)) {
+      throw new Error('Post processed with an error')
+    }
+
+    return post
+  }
+  
+  try {
+    const { idle } = yield race({
+      idle: take(constants.POSTS_CREATE_IDLE),
+      timeout: delay(TIMEOUT_DELAY),
+      completed: take(constants.POSTS_CREATE_COMPLETED),
+    })
+  
+    if (!idle) {
+      const { post } = yield race({
+        post: retry(3, TIMEOUT_DELAY, checkRequest),
+        idle: take(constants.POSTS_CREATE_IDLE),
+      })
+
+      if (post) {
+        yield call(handlePostsCreateSuccess, post)
+      }
+    } 
+  } catch(error) {
+    const errorWrapper = yield getContext('errorWrapper')
+
+    yield put(actions.postsCreateFailure({
+      message: errorWrapper(error), 
+      payload: processingPost, 
+      meta: {},
+    }))
+  }
+}
+
+/**
+ *
+ */
 function* handleImagePost(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
@@ -190,6 +251,7 @@ function* handleImagePost(req) {
 
       if (upload.status === 'success') {
         yield put(actions.postsCreateProgress({ data: {}, payload: req.payload, meta: meta(99) }))
+        yield spawn(checkPostsCreateProcessing, req.payload)
       }
 
       if (upload.status === 'failure') {
@@ -202,7 +264,7 @@ function* handleImagePost(req) {
       payload: req.payload,
       meta: { attempt: 0, progress: 0 },
     }))
-  }
+  } 
 }
 
 /**

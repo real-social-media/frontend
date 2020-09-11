@@ -119,6 +119,7 @@ export const postsCreateRequest = createAction(constants.POSTS_CREATE_REQUEST)
 export const postsCreateSuccess = createAction(constants.POSTS_CREATE_SUCCESS)
 export const postsCreateFailure = createAction(constants.POSTS_CREATE_FAILURE)
 export const postsCreateProgress = createAction(constants.POSTS_CREATE_PROGRESS)
+export const postsCreateCompleted = createAction(constants.POSTS_CREATE_COMPLETED)
 
 /**
  * 

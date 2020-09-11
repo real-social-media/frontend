@@ -6,14 +6,12 @@ import pathOr from 'ramda/src/pathOr'
 import tryCatch from 'ramda/src/tryCatch'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as usersActions from 'store/ducks/users/actions'
-import * as postsQueries from 'store/ducks/posts/queries'
 import * as usersQueries from 'store/ducks/users/queries'
 import * as chatQueries from 'store/ducks/chat/queries'
 import * as chatActions from 'store/ducks/chat/actions'
 import * as authSelector from 'store/ducks/auth/selectors'
 import * as subscriptionsActions from 'store/ducks/subscriptions/actions'
 import * as constants from 'store/ducks/subscriptions/constants'
-import * as queryService from 'services/Query'
 import * as Logger from 'services/Logger'
 import { checkInternetConnection } from 'react-native-offline'
 
@@ -312,7 +310,6 @@ function* subscriptionNotificationStart(req) {
       return yield call(subscriptionState.disconnectHandler, eventData)
     }
 
-    const postId = path(['value', 'data', 'onNotification', 'postId'])(eventData)
     const userId = path(['value', 'data', 'onNotification', 'userId'])(eventData)
     const type = path(['value', 'data', 'onNotification', 'type'])(eventData)
 
@@ -324,13 +321,6 @@ function* subscriptionNotificationStart(req) {
     }
 
     /**
-     * Fires when a post is added to User.feed
-     */
-    if (type === 'USER_FEED_CHANGED') {
-      yield put(postsActions.postsFeedGetRequest({ limit: 20 }))
-    }
-
-    /**
      * Fires when User.chatsWithUnviewedMessagesCount changes
      */
     if (type === 'USER_FOLLOWED_USERS_WITH_STORIES_CHANGED') {
@@ -338,24 +328,11 @@ function* subscriptionNotificationStart(req) {
     }
 
     /**
-     * Fires when one of the user's posts reaches COMPLETED state for the first time
+     * 1. Fires when one of the user's posts reaches COMPLETED state for the first time 
+     * 2. Fires when one of the user's posts reaches ERROR state
      */
-    if (type === 'POST_COMPLETED') {
-      const data = yield queryService.apiRequest(postsQueries.getPost, { postId })
-      const selector = path(['data', 'post'])
-
-      yield put(postsActions.postsCreateSuccess({ data: {}, payload: selector(data), meta: {} }))
-      yield put(postsActions.postsGetRequest({ userId }))
-      yield put(usersActions.usersImagePostsGetRequest({ userId }))
-    }
-
-    /**
-     * Fires when one of the user's posts reaches ERROR state
-     */
-    if (type === 'POST_ERROR') {
-      const data = yield queryService.apiRequest(postsQueries.getPost, { postId })
-      const selector = path(['data', 'post'])
-      yield put(postsActions.postsCreateFailure({ data: {}, payload: selector(data), meta: {} }))
+    if (type === 'POST_COMPLETED' || type === 'POST_ERROR') {
+      yield put(postsActions.postsCreateCompleted())
     }
   })
 
