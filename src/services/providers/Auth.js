@@ -49,13 +49,15 @@ export const AuthProvider = ({
     dispatch(authActions.authCheckRequest({ type: 'FIRST_MOUNT' }))
   }, [])
 
-
-  useEffect(() => {
+  const startApp = (userId) => {
     if (userId) {
       dispatch(subscriptionsActions.subscriptionsMainRequest())
       dispatch(subscriptionsActions.subscriptionsPollRequest())
+      dispatch(subscriptionsActions.subscriptionsPrefetchData())
     }
-  }, [userId])
+  }
+
+  useEffect(() => startApp(userId), [userId])
 
   /**
    * Application version check handler, which forces users to update
@@ -65,11 +67,7 @@ export const AuthProvider = ({
     onForeground: () => {
       dispatch(authActions.authCheckRequest({ type: 'STATE_CHANGE' }))
       Updates.versionCheck()
-
-      if (userId) {
-        dispatch(subscriptionsActions.subscriptionsMainRequest())
-        dispatch(subscriptionsActions.subscriptionsPollRequest())
-      }
+      startApp(userId)
     },
     onBackground: () => {
       if (userId) {

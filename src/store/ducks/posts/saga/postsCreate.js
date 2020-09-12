@@ -9,6 +9,7 @@ import * as actions from 'store/ducks/posts/actions'
 import * as queries from 'store/ducks/posts/queries'
 import * as constants from 'store/ducks/posts/constants'
 import * as subscriptionsActions from 'store/ducks/subscriptions/actions'
+import * as subscriptionsConstants from 'store/ducks/subscriptions/constants'
 import * as usersActions from 'store/ducks/users/actions'
 import * as queryService from 'services/Query'
 import dayjs from 'dayjs'
@@ -177,6 +178,7 @@ function* handlePostsCreateSuccess(post) {
 
 function* checkPostsCreateProcessing(processingPost) {
   const TIMEOUT_DELAY = 5000
+  const errorWrapper = yield getContext('errorWrapper')
 
   function* checkRequest() {    
     const response = yield queryService.apiRequest(queries.getPost, processingPost)
@@ -193,12 +195,15 @@ function* checkPostsCreateProcessing(processingPost) {
 
     return post
   }
-  
+ 
   try {
     const { idle } = yield race({
       idle: take(constants.POSTS_CREATE_IDLE),
+      finished: take([
+        subscriptionsConstants.SUBSCRIPTIONS_POST_COMPLETED,
+        subscriptionsConstants.SUBSCRIPTIONS_POST_ERROR,
+      ]),
       timeout: delay(TIMEOUT_DELAY),
-      completed: take(constants.POSTS_CREATE_COMPLETED),
     })
   
     if (!idle) {
@@ -212,8 +217,6 @@ function* checkPostsCreateProcessing(processingPost) {
       }
     } 
   } catch(error) {
-    const errorWrapper = yield getContext('errorWrapper')
-
     yield put(actions.postsCreateFailure({
       message: errorWrapper(error), 
       payload: processingPost, 

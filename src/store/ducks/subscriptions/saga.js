@@ -310,8 +310,9 @@ function* subscriptionNotificationStart(req) {
       return yield call(subscriptionState.disconnectHandler, eventData)
     }
 
-    const userId = path(['value', 'data', 'onNotification', 'userId'])(eventData)
-    const type = path(['value', 'data', 'onNotification', 'type'])(eventData)
+    const payload  = path(['value', 'data', 'onNotification'], eventData)
+    const userId = path(['userId'], payload)
+    const type = path(['type'], payload)
 
     /**
      * Fires when one of the user's followeds changes their first story
@@ -328,11 +329,24 @@ function* subscriptionNotificationStart(req) {
     }
 
     /**
-     * 1. Fires when one of the user's posts reaches COMPLETED state for the first time 
-     * 2. Fires when one of the user's posts reaches ERROR state
+     * Fires when a post is added to User.feed
      */
-    if (type === 'POST_COMPLETED' || type === 'POST_ERROR') {
-      yield put(postsActions.postsCreateCompleted())
+    if (type === 'USER_FEED_CHANGED') {
+      yield put(subscriptionsActions.subscriptionsUserFeedChanged(payload))
+    }
+
+    /**
+     * Fires when one of the user's posts reaches COMPLETED state for the first time 
+     */
+    if (type === 'POST_COMPLETED') {
+      yield put(subscriptionsActions.subscriptionsPostCompleted(payload))
+    }
+
+    /**
+     * Fires when one of the user's posts reaches ERROR state
+     */
+    if (type === 'POST_ERROR') {
+      yield put(subscriptionsActions.subscriptionsPostError(payload))
     }
   })
 
@@ -340,7 +354,7 @@ function* subscriptionNotificationStart(req) {
    * Close channel subscription on application toggle
    */
   yield take(constants.SUBSCRIPTIONS_MAIN_IDLE)
-  channel.close()
+  channel.close() 
 }
 
 /**
@@ -366,6 +380,6 @@ export default () => [
   takeEvery(constants.SUBSCRIPTIONS_MAIN_REQUEST, subscriptionNotificationStart),
   takeEvery(constants.SUBSCRIPTIONS_MAIN_REQUEST, chatMessageSubscription),
   takeEvery(constants.SUBSCRIPTIONS_MAIN_REQUEST, cardSubscription),
-  takeEvery(constants.SUBSCRIPTIONS_MAIN_REQUEST, appSubscription),
+  takeEvery(constants.SUBSCRIPTIONS_PREFETCH_DATA, appSubscription),
   takeEvery(constants.SUBSCRIPTIONS_POLL_REQUEST, subscriptionPollStart),
 ]
