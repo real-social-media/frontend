@@ -391,7 +391,7 @@ PODS:
     - React-Core
   - RNAppleAuthentication (1.1.2):
     - React
-  - RNAWSCognito (4.3.4):
+  - RNAWSCognito (4.4.0):
     - JKBigInteger2 (= 0.0.5)
     - React
   - RNCAsyncStorage (1.12.0):
@@ -745,7 +745,7 @@ SPEC CHECKSUMS:
   ReactCommon: ed4e11d27609d571e7eee8b65548efc191116eb3
   rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
   RNAppleAuthentication: 473b2c076f1a48a537610580a168c1fb6d0a90c6
-  RNAWSCognito: c84eb1020796f0f9ae1112671b0cc775a72080dc
+  RNAWSCognito: 1b60a33273f4ead618ee360b250286e720981216
   RNCAsyncStorage: 2a692bcb9b69b76a2f1a95f33db057129700af64
   RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
   RNCPushNotificationIOS: dc1c0c6aa18a128df123598149f42e848d26a4ac

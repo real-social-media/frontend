@@ -6,7 +6,6 @@ import rootReducer from 'store/reducers'
 import rootSaga from 'store/sagas'
 import { Credentials } from '@aws-amplify/core'
 import Auth from '@aws-amplify/auth'
-import Cache from '@aws-amplify/cache'
 import API from '@aws-amplify/api'
 import * as Logger from 'services/Logger'
 import { STORAGE_PROVIDER } from 'services/Storage'
@@ -48,7 +47,6 @@ const sagaMiddleware = createSagaMiddleware({
   context: {
     AwsAuth: Auth,
     AwsAPI: API,
-    AwsCache: Cache,
     AwsCredentials: Credentials,
     errorWrapper,
   },

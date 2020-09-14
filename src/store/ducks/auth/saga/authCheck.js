@@ -43,7 +43,7 @@ export function* getCognitoCredentials() {
   const AwsAuth = yield getContext('AwsAuth')
 
   try {
-    yield AwsAuth.currentAuthenticatedUser(),
+    yield AwsAuth.currentAuthenticatedUser()
     yield AwsAuth.currentCredentials()
     yield AwsAuth.currentUserPoolUser()
   } catch (error) {
