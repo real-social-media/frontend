@@ -1,5 +1,6 @@
 import * as authCheckSaga from 'store/ducks/auth/saga/authCheck'
 import * as actions from 'store/ducks/auth/actions'
+import * as Logger from 'services/Logger'
 import { testSaga } from 'redux-saga-test-plan'
 
 describe('authCheckRequest saga', () => {
@@ -13,40 +14,46 @@ describe('authCheckRequest saga', () => {
 	  	data: {
 	  		self: {
 	  			userId: 'us-east-1:e0e385ef-a285-4ad1-94d3-b49c86c24df7',
-	  			username: 'azim',
+          username: 'azim',
+          email: 'test@email.com',
 	  			photo: {
 	  				url: 'https://d1mx3y90ofnxy6.cloudfront.net/us-east-1:e0e385ef-a285-4ad1-94d3-b49c86c24df7/profile-photo/c1f4db60-902c-426f-8a04-a5053d6145b6/native.jpg',
 	  			},
 	  		},
 	  	},
 	  }
-	  const handleAuthCheckValidationResponse = true
+	  const nextRoute = 'Root'
 	  const authCheckRequestDataResponse = {
 	    data: 'us-east-1:e0e385ef-a285-4ad1-94d3-b49c86c24df7',
 	    meta: {},
-	    payload: { type: 'FIRST_MOUNT' },
 	  }
-	  const getAuthCheckNextRouteSuccessResponse = 'Root'
 	  const authCheckSuccessResponse = {
 	  	data: authCheckRequestDataResponse.data,
 	  	payload: authCheckRequestDataResponse.payload,
-	  	nextRoute: getAuthCheckNextRouteSuccessResponse,
-	  }
+      nextRoute,
+    }
 
 	  saga
-	    .next()
-	    .call(authCheckSaga.getCognitoCredentials)
-	    .next(getCognitoCredentialsResponse)
-	    .call(authCheckSaga.handleAuthCheckRequest, getCognitoCredentialsResponse)
-	    .next(handleAuthCheckRequestResponse)
-	    .call(authCheckSaga.handleAuthCheckValidation, handleAuthCheckRequestResponse)
-	    .next(handleAuthCheckValidationResponse)
-	    .call(authCheckSaga.authCheckRequestData, {}, handleAuthCheckRequestResponse)
-	    .next(authCheckRequestDataResponse)
-	    .call(authCheckSaga.getAuthCheckNextRouteSuccess, handleAuthCheckValidationResponse)
-	    .next(getAuthCheckNextRouteSuccessResponse)
+      .next()
+      .call(authCheckSaga.getCognitoCredentials)
+      
+      .next(getCognitoCredentialsResponse)
+      .call(authCheckSaga.handleAuthCheckRequest, getCognitoCredentialsResponse)
+      
+      .next(handleAuthCheckRequestResponse)
+      .call(authCheckSaga.authCheckRequestData, {}, handleAuthCheckRequestResponse)
+      
+      .next(authCheckRequestDataResponse)
       .put(actions.authCheckSuccess(authCheckSuccessResponse))
-	    .next(authCheckSuccessResponse)
+
+      .next(authCheckSuccessResponse)
+      .call(Logger.setUser, { 
+        id: handleAuthCheckRequestResponse.data.self.userId,
+        username: handleAuthCheckRequestResponse.data.self.username,
+        email: handleAuthCheckRequestResponse.data.self.email, 
+      })
+
+      .next()
 	    .isDone()
 	})
 

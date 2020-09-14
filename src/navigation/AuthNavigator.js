@@ -16,8 +16,6 @@ import AuthPasswordScreen from 'screens/AuthPasswordScreen'
 import AuthPhoneConfirmScreen from 'screens/AuthPhoneConfirmScreen'
 import AuthEmailScreen from 'screens/AuthEmailScreen'
 import AuthEmailConfirmScreen from 'screens/AuthEmailConfirmScreen'
-import AuthPhotoScreen from 'screens/AuthPhotoScreen'
-import AuthPhotoUploadScreen from 'screens/AuthPhotoUploadScreen'
 import VerificationScreen from 'screens/VerificationScreen'
 import CameraScreen from 'screens/CameraScreen'
 import AuthForgotPhoneScreen from 'screens/AuthForgotPhoneScreen'
@@ -162,18 +160,6 @@ const AuthNavigator = ({ theme }) => {
         name="AuthPhoneConfirm"
         component={AuthPhoneConfirmScreen}
         {...stackScreenAuthProps({ options: { title: 'Enter 6-digit code', headerLeft: navigationOptions.pageHeaderLeft, gestureEnabled: true } })}
-      />
-
-      <Stack.Screen
-        name="AuthPhotoUpload"
-        component={AuthPhotoUploadScreen}
-        {...stackScreenAuthProps({ options: { title: 'Welcome', headerLeft: null } })}
-      />
-
-      <Stack.Screen
-        name="AuthPhoto"
-        component={AuthPhotoScreen}
-        {...stackScreenAuthProps({ options: { title: 'Welcome', headerLeft: null } })}
       />
 
       <Stack.Screen

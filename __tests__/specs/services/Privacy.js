@@ -46,63 +46,6 @@ describe('Privacy service', () => {
     })
   })
 
-  describe('userFollowerVisibility', () => {
-    const user = {
-      followedsCount: 1,
-      followCountsHidden: false,
-      followedStatus: 'SELF',
-      privacyStatus: 'PUBLIC',
-    }
-
-    it('followedsCount should be a number', () => {
-      expect(Privacy.userFollowerVisibility({ ...user, followedsCount: 0 })).toBeTruthy()
-      expect(Privacy.userFollowerVisibility({ ...user, followedsCount: 1 })).toBeTruthy()
-
-      expect(Privacy.userFollowerVisibility({ ...user, followedsCount: null })).toBeFalsy()
-      expect(Privacy.userFollowerVisibility({ ...user, followedsCount: undefined })).toBeFalsy()
-      expect(Privacy.userFollowerVisibility({ ...user, followedsCount: '' })).toBeFalsy()
-    })
-
-    it('private account', () => {
-      const privateAccount = { ...user, privacyStatus: 'PRIVATE' }
-
-      expect(Privacy.userFollowerVisibility({ ...privateAccount, followedStatus: 'FOLLOWING' })).toBeTruthy()
-      expect(Privacy.userFollowerVisibility({ ...privateAccount, followedStatus: 'SELF' })).toBeTruthy()
-
-      expect(Privacy.userFollowerVisibility({ ...privateAccount, followedStatus: 'NOT_FOLLOWING' })).toBeFalsy()
-      expect(Privacy.userFollowerVisibility({ ...privateAccount, followedStatus: 'REQUESTED' })).toBeFalsy()
-      expect(Privacy.userFollowerVisibility({ ...privateAccount, followedStatus: 'DENIED' })).toBeFalsy()
-    })
-
-    it('public account', () => {
-      const publicAccount = { ...user, privacyStatus: 'PUBLIC' }
-
-      expect(Privacy.userFollowerVisibility({ ...publicAccount, followedStatus: 'NOT_FOLLOWING' })).toBeTruthy()
-      expect(Privacy.userFollowerVisibility({ ...publicAccount, followedStatus: 'FOLLOWING' })).toBeTruthy()
-      expect(Privacy.userFollowerVisibility({ ...publicAccount, followedStatus: 'SELF' })).toBeTruthy()
-      expect(Privacy.userFollowerVisibility({ ...publicAccount, followedStatus: 'REQUESTED' })).toBeTruthy()
-      expect(Privacy.userFollowerVisibility({ ...publicAccount, followedStatus: 'DENIED' })).toBeTruthy()
-    })
-
-    it('followCountsHidden settings', () => {
-      const hidden = { ...user, followCountsHidden: true }
-      const visible = { ...user, followCountsHidden: false }
-
-      expect(Privacy.userFollowerVisibility({ ...hidden, followedStatus: 'SELF' })).toBeTruthy()
-
-      expect(Privacy.userFollowerVisibility({ ...hidden, followedStatus: 'NOT_FOLLOWING' })).toBeFalsy()
-      expect(Privacy.userFollowerVisibility({ ...hidden, followedStatus: 'FOLLOWING' })).toBeFalsy()
-      expect(Privacy.userFollowerVisibility({ ...hidden, followedStatus: 'REQUESTED' })).toBeFalsy()
-      expect(Privacy.userFollowerVisibility({ ...hidden, followedStatus: 'DENIED' })).toBeFalsy()
-
-      expect(Privacy.userFollowerVisibility({ ...visible, followedStatus: 'NOT_FOLLOWING' })).toBeTruthy()
-      expect(Privacy.userFollowerVisibility({ ...visible, followedStatus: 'FOLLOWING' })).toBeTruthy()
-      expect(Privacy.userFollowerVisibility({ ...visible, followedStatus: 'SELF' })).toBeTruthy()
-      expect(Privacy.userFollowerVisibility({ ...visible, followedStatus: 'REQUESTED' })).toBeTruthy()
-      expect(Privacy.userFollowerVisibility({ ...visible, followedStatus: 'DENIED' })).toBeTruthy()
-    })
-  })
-
   describe('userFollowingVisibility', () => {
     const user = {
       followersCount: 1,
@@ -395,6 +338,63 @@ describe('Privacy service', () => {
     it('enabled when expiresAt exists', () => {
       expect(Privacy.postExpiryVisiblity(post)).toBe(true)
       expect(Privacy.postExpiryVisiblity({ expiresAt: undefined })).toBe(false)
+    })
+  })
+
+  describe('userFollowerVisibility', () => {
+    const user = {
+      followedsCount: 1,
+      followCountsHidden: false,
+      followedStatus: 'SELF',
+      privacyStatus: 'PUBLIC',
+    }
+
+    it('followedsCount should be a number', () => {
+      expect(Privacy.userFollowerVisibility({ ...user, followedsCount: 0 })).toBeTruthy()
+      expect(Privacy.userFollowerVisibility({ ...user, followedsCount: 1 })).toBeTruthy()
+
+      expect(Privacy.userFollowerVisibility({ ...user, followedsCount: null })).toBeFalsy()
+      expect(Privacy.userFollowerVisibility({ ...user, followedsCount: undefined })).toBeFalsy()
+      expect(Privacy.userFollowerVisibility({ ...user, followedsCount: '' })).toBeFalsy()
+    })
+
+    it('private account', () => {
+      const privateAccount = { ...user, privacyStatus: 'PRIVATE' }
+
+      expect(Privacy.userFollowerVisibility({ ...privateAccount, followedStatus: 'FOLLOWING' })).toBeTruthy()
+      expect(Privacy.userFollowerVisibility({ ...privateAccount, followedStatus: 'SELF' })).toBeTruthy()
+
+      expect(Privacy.userFollowerVisibility({ ...privateAccount, followedStatus: 'NOT_FOLLOWING' })).toBeFalsy()
+      expect(Privacy.userFollowerVisibility({ ...privateAccount, followedStatus: 'REQUESTED' })).toBeFalsy()
+      expect(Privacy.userFollowerVisibility({ ...privateAccount, followedStatus: 'DENIED' })).toBeFalsy()
+    })
+
+    it('public account', () => {
+      const publicAccount = { ...user, privacyStatus: 'PUBLIC' }
+
+      expect(Privacy.userFollowerVisibility({ ...publicAccount, followedStatus: 'NOT_FOLLOWING' })).toBeTruthy()
+      expect(Privacy.userFollowerVisibility({ ...publicAccount, followedStatus: 'FOLLOWING' })).toBeTruthy()
+      expect(Privacy.userFollowerVisibility({ ...publicAccount, followedStatus: 'SELF' })).toBeTruthy()
+      expect(Privacy.userFollowerVisibility({ ...publicAccount, followedStatus: 'REQUESTED' })).toBeTruthy()
+      expect(Privacy.userFollowerVisibility({ ...publicAccount, followedStatus: 'DENIED' })).toBeTruthy()
+    })
+
+    it('followCountsHidden settings', () => {
+      const hidden = { ...user, followCountsHidden: true }
+      const visible = { ...user, followCountsHidden: false }
+
+      expect(Privacy.userFollowerVisibility({ ...hidden, followedStatus: 'SELF' })).toBeTruthy()
+
+      expect(Privacy.userFollowerVisibility({ ...hidden, followedStatus: 'NOT_FOLLOWING' })).toBeFalsy()
+      expect(Privacy.userFollowerVisibility({ ...hidden, followedStatus: 'FOLLOWING' })).toBeFalsy()
+      expect(Privacy.userFollowerVisibility({ ...hidden, followedStatus: 'REQUESTED' })).toBeFalsy()
+      expect(Privacy.userFollowerVisibility({ ...hidden, followedStatus: 'DENIED' })).toBeFalsy()
+
+      expect(Privacy.userFollowerVisibility({ ...visible, followedStatus: 'NOT_FOLLOWING' })).toBeTruthy()
+      expect(Privacy.userFollowerVisibility({ ...visible, followedStatus: 'FOLLOWING' })).toBeTruthy()
+      expect(Privacy.userFollowerVisibility({ ...visible, followedStatus: 'SELF' })).toBeTruthy()
+      expect(Privacy.userFollowerVisibility({ ...visible, followedStatus: 'REQUESTED' })).toBeTruthy()
+      expect(Privacy.userFollowerVisibility({ ...visible, followedStatus: 'DENIED' })).toBeTruthy()
     })
   })
 })

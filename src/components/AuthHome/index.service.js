@@ -65,7 +65,7 @@ const AuthHomeComponentService = ({ children }) => {
   
   useEffect(() => {
     if (authSignin.status === 'success') {
-      dispatch(authActions.authCheckRequest({}))
+      dispatch(authActions.authCheckRequest())
       dispatch(authActions.authSigninIdle({}))
     }
 
@@ -80,7 +80,6 @@ const AuthHomeComponentService = ({ children }) => {
   useEffect(() => {
     const shouldRedirect = [
       'AuthHome',
-      'AuthPhoto',
       'AuthCognito',
       'AuthSignupConfirm',
     ].includes(authCheck.nextRoute)

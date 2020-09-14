@@ -1,10 +1,10 @@
 /* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "element", "toBeVisible", "tap", "shouldStayOnSignInScreenAfterSubmit", "waitForElement"] }] */
 import { valid } from './data.mock'
-import { credentials } from '../../helpers/users'
+import { credentials, permissions } from '../../helpers/users'
 import * as actions from './actions'
 import { generateString, tap, toBeVisible, waitForElement, typeText } from '../../helpers/utils'
 import {
-  AuthPhotoScreen,
+  FeedScreen,
   AuthHomeScreen,
   AuthSigninEmail,
   AuthSigninPhoneScreen,
@@ -25,7 +25,7 @@ async function shouldStayOnSignInScreenAfterSubmit() {
 
 describe('Feature: Sign in', () => {
   beforeAll(async () => {
-    await device.launchApp({ permissions: { notifications: 'YES' }, newInstance: true })
+    await device.launchApp({ permissions, newInstance: true })
   })
 
   describe('As a user I want to not be able to sign in with incorrect credentials', () => {
@@ -132,10 +132,7 @@ describe('Feature: Sign in', () => {
       await typeText(AuthSigninEmail.form.username, credentials.email)
       await typeText(AuthSigninEmail.form.password, credentials.password)
       await tap(AuthSigninEmail.form.submitBtn)
-    })
-
-    it('Then authorized user on upload profile pictire screen', async () => {
-      await waitForElement(AuthPhotoScreen.root, 6000)
+      await waitForElement(FeedScreen.root)
     })
   })
 })

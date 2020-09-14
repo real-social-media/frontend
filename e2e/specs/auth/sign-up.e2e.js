@@ -1,9 +1,10 @@
 /* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "toBeVisible", "typeText", "element", "tap", "shouldStayOnStep", "waitForElement"] }] */
 import * as emailHelpers from '../../helpers/email'
+import { permissions } from '../../helpers/users'
 import { generateString, tap, toBeVisible, toBeNotVisible, typeText, waitForElement } from '../../helpers/utils'
 import { valid } from './data.mock'
 import {
-  AuthPhotoScreen,
+  FeedScreen,
   AuthHomeScreen,
   AuthUsernameScreen,
   AuthEmailConfirmScreen,
@@ -54,7 +55,7 @@ describe('Feature: Sign up', () => {
   beforeAll(async () => {
     inbox = await emailHelpers.createInbox()
 
-    await device.launchApp({ permissions: { notifications: 'YES' }, newInstance: true })
+    await device.launchApp({ permissions, newInstance: true })
   })
 
   afterAll(async () => {
@@ -291,10 +292,11 @@ describe('Feature: Sign up', () => {
     it('Then type received confirmation code', async () => {
       const confirmationCode = await emailHelpers.extractCodeFromLatestEmail(inbox.id)
       await typeText(AuthEmailConfirmScreen.form.confirmationCode, confirmationCode)
+      
     })
 
-    it('Then user see upload profile picture screen', async () => {
-      await waitForElement(AuthPhotoScreen.root)
+    it('Then user see feed screen', async () => {
+      await waitForElement(FeedScreen.root)
     })
   })
 })
