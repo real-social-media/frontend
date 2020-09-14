@@ -25,7 +25,7 @@ const AuthCognito = ({
   const styling = styles
 
   return (
-    <View testID="components/AuthCognito" style={styling.root}>
+    <View style={styling.root}>
       {formErrorMessage ?
         <AuthErrorTemplate
           text={formErrorMessage}

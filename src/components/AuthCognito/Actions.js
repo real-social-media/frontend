@@ -17,7 +17,7 @@ const Actions = ({
   return (
     <View style={styling.root}>
       <View style={styling.item}>
-        <DefaultButton testID="components/AuthCognito/Actions/retry" label={t('Try Again')} onPress={authSignoutRequest} loading={false} mode="outline" />
+        <DefaultButton label={t('Try Again')} onPress={authSignoutRequest} loading={false} mode="outline" />
       </View>
     </View>
   )

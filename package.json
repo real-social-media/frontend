@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "translations-scan": "i18next-scanner --config i18next-scanner.config.engine.js src/**/*.js",
     "tests:unit": "jest",
-    "tests:e2e": "detox test",
+    "tests:e2e": "detox build && detox test",
     "validate": "npm run lint && npm run tests:unit"
   },
   "dependencies": {

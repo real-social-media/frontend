@@ -27,7 +27,7 @@ const AuthForgotPhone = ({
   const navigation = useNavigation()
 
   return (
-    <View testID="components/AuthForgotPhone" style={styling.root}>
+    <View style={styling.root}>
       {formErrorMessage ?
         <AuthErrorTemplate
           text={formErrorMessage}

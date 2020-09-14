@@ -80,7 +80,6 @@ const AuthHomeComponentService = ({ children }) => {
   useEffect(() => {
     const shouldRedirect = [
       'AuthHome',
-      'AuthPhoto',
       'AuthCognito',
       'AuthSignupConfirm',
     ].includes(authCheck.nextRoute)
