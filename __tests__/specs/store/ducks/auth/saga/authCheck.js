@@ -2,7 +2,6 @@ import * as authCheckSaga from 'store/ducks/auth/saga/authCheck'
 import * as actions from 'store/ducks/auth/actions'
 import * as Logger from 'services/Logger'
 import { testSaga } from 'redux-saga-test-plan'
-import dayjs from 'dayjs'
 
 describe('authCheckRequest saga', () => {
 	test('authenticates user successfully', () => {
@@ -45,9 +44,6 @@ describe('authCheckRequest saga', () => {
       .call(authCheckSaga.authCheckRequestData, {}, handleAuthCheckRequestResponse)
       
       .next(authCheckRequestDataResponse)
-      .call(authCheckSaga.getAuthCheckNextRoute, handleAuthCheckRequestResponse)
-      
-      .next(nextRoute)
       .put(actions.authCheckSuccess(authCheckSuccessResponse))
 
       .next(authCheckSuccessResponse)
@@ -149,21 +145,4 @@ describe('authCheckRequest saga', () => {
       .next(authCheckFailureResponse)
       .isDone()
   })
-
-  describe('Next route after success auth check', () => {
-    test('redirect a user right after sign up to profile photo upload', () => {
-      const newUser= { signedUpAt: new Date().toString() }
-      const response = { data: { self: newUser } }
-
-      expect(authCheckSaga.getAuthCheckNextRoute(response)).toBe('AuthPhoto')
-    })
-
-    test('redirect an old user to root screen', () => {
-      const user= { signedUpAt: dayjs().subtract(1, 'minute').toString() }
-      const response = { data: { self: user } }
-
-      expect(authCheckSaga.getAuthCheckNextRoute(response)).toBe('Root')
-    })
-  })
-  
 })

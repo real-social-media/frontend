@@ -1,6 +1,5 @@
 import { call, put, getContext, takeEvery } from 'redux-saga/effects'
 import path from 'ramda/src/path'
-import dayjs from 'dayjs'
 import {
   getAuthUserPersist,
   saveAuthUserPersist,
@@ -109,13 +108,6 @@ export function* handleAuthCheckRequest() {
   }
 }
 
-export function getAuthCheckNextRoute(data) {
-  const signedUpAt = path(['data', 'self', 'signedUpAt'], data)
-  const isNewUser = dayjs(signedUpAt).isAfter(dayjs().subtract(1, 'minute'))
-    
-  return isNewUser ? 'AuthPhoto' : 'Root'
-}
-
 /**
  * Check if user is logged in, not authenticated users will be redirected to Auth page.
  * Authenticated users with empty `self graphql query` return will be redirected to Onboard page,
@@ -130,9 +122,8 @@ export function* authCheckRequest(req) {
     const credentials = yield call(getCognitoCredentials)
     const data = yield call(handleAuthCheckRequest, credentials)
     const next = yield call(authCheckRequestData, req, data)
-    const nextRoute = yield call(getAuthCheckNextRoute, data)
 
-    yield put(actions.authCheckSuccess({ data: next.data, payload: next.payload, nextRoute }))
+    yield put(actions.authCheckSuccess({ data: next.data, payload: next.payload, nextRoute: 'Root' }))
 
     /**
      * Define user for sentry logger, authorized users will be re-defined at services/providers/App
