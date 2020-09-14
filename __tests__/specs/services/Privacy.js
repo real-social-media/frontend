@@ -33,5 +33,12 @@ describe('Privacy service', () => {
 
       expect(postShareVisibility(post, user)).toBeTruthy()
     })
+
+    it('Archived post', () => {
+      const postedBy = { sharingDisabled: false }
+      const post = { sharingDisabled: false, textTaggedUsers: [], postedBy, postStatus: 'ARCHIVED' }
+
+      expect(postShareVisibility(post, user)).toBeFalsy()
+    })
   })
 })

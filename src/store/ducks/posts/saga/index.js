@@ -1,4 +1,4 @@
-import { put, takeLatest, getContext } from 'redux-saga/effects'
+import { put, takeLatest, getContext, call } from 'redux-saga/effects'
 import path from 'ramda/src/path'
 import compose from 'ramda/src/compose'
 import omit from 'ramda/src/omit'
@@ -565,7 +565,7 @@ function* postsDislikeRequest(req) {
 /**
  *
  */
-function* handlePostsGetTrendingPostsRequest(payload, extraData = []) {
+export function* handlePostsGetTrendingPostsRequest(payload, extraData = []) {
   const api = yield queryService.apiRequest(queries.trendingPosts, { ...payload, viewedStatus: 'NOT_VIEWED' })
   const dataSelector = path(['data', 'trendingPosts', 'items'])
   const metaSelector = compose(omit(['items']), path(['data', 'trendingPosts']))
@@ -580,7 +580,7 @@ function* handlePostsGetTrendingPostsRequest(payload, extraData = []) {
   return assocPath(['data', 'trendingPosts', 'items'], data)(api)
 }
 
-function* postsGetTrendingPostsRequestData(req, api) {
+export function* postsGetTrendingPostsRequestData(req, api) {
   const dataSelector = path(['data', 'trendingPosts', 'items'])
   const metaSelector = compose(omit(['items']), path(['data', 'trendingPosts']))
 
@@ -602,12 +602,12 @@ function* postsGetTrendingPostsRequestData(req, api) {
   }
 }
 
-function* postsGetTrendingPostsRequest(req) {
+export function* postsGetTrendingPostsRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield handlePostsGetTrendingPostsRequest(req.payload)
-    const next = yield postsGetTrendingPostsRequestData(req, data)
+    const data = yield call(handlePostsGetTrendingPostsRequest, req.payload)
+    const next = yield call(postsGetTrendingPostsRequestData, req, data)
     yield put(actions.postsGetTrendingPostsSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
     yield put(actions.postsGetTrendingPostsFailure({ message: errorWrapper(error), payload: req.payload }))

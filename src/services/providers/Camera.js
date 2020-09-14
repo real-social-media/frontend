@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import { Keyboard } from 'react-native'
 import { useSelector } from 'react-redux'
 import useToggle from 'react-use/lib/useToggle'
@@ -12,16 +12,13 @@ import * as Logger from 'services/Logger'
  * https://github.com/ivpusic/react-native-image-crop-picker/issues/1273
  */
 const autoKeyboardClose = () => {
-  const closeKeyboard = () => Keyboard.dismiss()
-  const keyboardWillShow = Keyboard.addListener('keyboardWillShow', closeKeyboard)
-
-  return () => keyboardWillShow.remove()
+  Keyboard.dismiss()
 }
 
 /**
  * Asset format definition is required for createPost graphql query
  */
-const generateAssetFormat = (extension) => {
+export const generateAssetFormat = (extension) => {
   if (extension && extension.toUpperCase().includes('HEIC')) {
     return 'HEIC'
   }
@@ -73,8 +70,6 @@ export const useCameraState = () => {
 }
 
 const useCamera = ({ handleProcessedPhoto = () => {} }) => {
-  useEffect(autoKeyboardClose, [])
-
   const cameraState = useCameraState()
   const cameraRef = useRef(null)
 
@@ -141,6 +136,7 @@ const useCamera = ({ handleProcessedPhoto = () => {} }) => {
       const payload = await requestPayload('camera')(cameraState, snappedPhoto, croppedPhoto)
       handleProcessedPhoto([payload])
       cameraRef.current.resumePreview()
+      autoKeyboardClose()
     } catch (error) {
       Logger.captureException(error)
     }
@@ -166,6 +162,7 @@ const useCamera = ({ handleProcessedPhoto = () => {} }) => {
         const snappedPhoto = { ...selectedPhoto, ...tempPhoto }
         const croppedPhoto = await CropPicker.openCropper(cropperOptions(cameraState, selectedPhoto))
         const payload = requestPayload('gallery')(cameraState, snappedPhoto, croppedPhoto)
+        autoKeyboardClose()
         callback(null, payload)
       })
 

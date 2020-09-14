@@ -9,7 +9,6 @@ import { Text, Caption } from 'react-native-paper'
 import path from 'ramda/src/path'
 import Avatar from 'templates/Avatar'
 import BellIcon from 'assets/svg/action/Bell'
-import VerificationIcon from 'assets/svg/action/Verification'
 import dayjs from 'dayjs'
 import * as navigationActions from 'navigation/actions'
 import * as UserService from 'services/User'
@@ -65,8 +64,7 @@ const Header = ({
 
         {verificationVisibility ?
           <TouchableOpacity onPress={navigationActions.navigateVerification(navigation, { actionType: 'BACK', post })} style={styling.verification}>
-            <Caption style={styling.verificationStatus}>{t('Failed Verification')} - {t('Learn More')}</Caption>
-            <VerificationIcon fill="#DC3644" />
+            <Caption style={styling.verificationStatus}>{t('unverified')}</Caption>
           </TouchableOpacity>
         : null}
       </View>
@@ -103,7 +101,6 @@ const styles = StyleSheet.create({
     marginRight: 4,
   },
   verificationStatus: {
-    color: '#DC3644',
     marginRight: 4,
   },
   verification: {

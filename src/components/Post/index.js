@@ -85,6 +85,7 @@ const PostComponent = ({
         handlePostShare={handlePostShare}
         createActionSheetRef={createActionSheetRef}
         actionSheetRef={actionSheetRef}
+        navigation={navigation}
       />
 
       {post.postType === 'TEXT_ONLY' ?

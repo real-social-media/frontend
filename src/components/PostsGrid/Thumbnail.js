@@ -12,6 +12,7 @@ import * as navigationActions from 'navigation/actions'
 import BellIcon from 'assets/svg/action/Bell'
 
 import { useNavigation } from '@react-navigation/native'
+import testIDs from './test-ids'
 
 const PostsGridThumbnail = ({
   post,
@@ -25,7 +26,7 @@ const PostsGridThumbnail = ({
    * Icon to be rendered over thumbnail when post has activity e.g. new comment
    */
   const activeIcon = useMemo(() => (
-    <View style={styling.icon}>
+    <View testID={testIDs.thumbnail.activeIcon} style={styling.icon}>
       <BellIcon fill="red" />
     </View>
   ), [])
@@ -33,9 +34,7 @@ const PostsGridThumbnail = ({
   /**
    * Condition to cheeck when activeIcon is rendered e.g. new comment
    */
-  const isActive = useMemo(() => {
-    return path(['commentsUnviewedCount'])(post) > 0
-  }, [post.postId])
+  const isActive = path(['commentsUnviewedCount'])(post) > 0
 
   /**
    * progress loader will be rendered except when condition below is true e.g. hide on trending

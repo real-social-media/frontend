@@ -1,27 +1,19 @@
-import AsyncStorage from '@react-native-community/async-storage'
-import * as Logger from 'services/Logger'
-
-const AUTH_USER = '@real:auth:user'
-const AUTH_APPLE = '@real:auth:apple'
+import Storage, { STORAGE_KEYS } from 'services/Storage'
 
 /**
  *
  */
 export const resetAppleSigninPersist = async () => {
-	try {
-		await AsyncStorage.removeItem(AUTH_APPLE)
-	} catch (error) {
-		Logger.captureException(error)
-	}
+	await Storage.removeItem(STORAGE_KEYS.AUTH_APPLE)
 }
 
 export const saveAppleSigninPersist = async (payload) => {
-	await AsyncStorage.setItem(AUTH_APPLE, JSON.stringify(payload))
+	await Storage.setItem(STORAGE_KEYS.AUTH_APPLE, JSON.stringify(payload))
 }
 
 export const getAppleSigninPersist = async () => {
 	try {
-		const response = await AsyncStorage.getItem(AUTH_APPLE)
+		const response = await Storage.getItem(STORAGE_KEYS.AUTH_APPLE)
 		return JSON.parse(response)
 	} catch (error) {
 		return {}
@@ -32,20 +24,16 @@ export const getAppleSigninPersist = async () => {
  *
  */
 export const resetAuthUserPersist = async () => {
-	try {
-		await AsyncStorage.removeItem(AUTH_USER)
-	} catch (error) {
-		Logger.captureException(error)
-	}
+	await Storage.removeItem(STORAGE_KEYS.AUTH_USER)
 }
 
 export const saveAuthUserPersist = async (payload) => {
-	await AsyncStorage.setItem(AUTH_USER, JSON.stringify(payload))
+	await Storage.setItem(STORAGE_KEYS.AUTH_USER, JSON.stringify(payload))
 }
 
 export const getAuthUserPersist = async () => {
 	try {
-		const response = await AsyncStorage.getItem(AUTH_USER)
+		const response = await Storage.getItem(STORAGE_KEYS.AUTH_USER)
 		return JSON.parse(response)
 	} catch (error) {
 		return {}

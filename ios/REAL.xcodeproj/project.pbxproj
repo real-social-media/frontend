@@ -730,7 +730,7 @@
 				CODE_SIGN_ENTITLEMENTS = REAL/REAL.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 425;
+				CURRENT_PROJECT_VERSION = 429;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = YA5Y244F5C;
 				INFOPLIST_FILE = REAL/Info.plist;
@@ -821,6 +821,7 @@
 					"\"${PODS_ROOT}/CocoaLibEvent/lib\"",
 					"\"${PODS_ROOT}/OpenSSL-Universal/ios/lib\"",
 				);
+				MARKETING_VERSION = 1.6.8;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -846,7 +847,7 @@
 				CODE_SIGN_ENTITLEMENTS = REAL/REALRelease.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 425;
+				CURRENT_PROJECT_VERSION = 429;
 				DEVELOPMENT_TEAM = YA5Y244F5C;
 				INFOPLIST_FILE = REAL/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
@@ -935,6 +936,7 @@
 					"\"${PODS_ROOT}/CocoaLibEvent/lib\"",
 					"\"${PODS_ROOT}/OpenSSL-Universal/ios/lib\"",
 				);
+				MARKETING_VERSION = 1.6.8;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
