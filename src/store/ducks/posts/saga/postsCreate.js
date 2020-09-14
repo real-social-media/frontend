@@ -176,6 +176,9 @@ function* handlePostsCreateSuccess(post) {
   yield put(usersActions.usersImagePostsGetRequest({ userId }))
 }
 
+/**
+ *
+ */
 function* checkPostsCreateProcessing(processingPost) {
   const TIMEOUT_DELAY = 5000
   const errorWrapper = yield getContext('errorWrapper')
@@ -207,14 +210,8 @@ function* checkPostsCreateProcessing(processingPost) {
     })
   
     if (!idle) {
-      const { post } = yield race({
-        post: retry(3, TIMEOUT_DELAY, checkRequest),
-        idle: take(constants.POSTS_CREATE_IDLE),
-      })
-
-      if (post) {
-        yield call(handlePostsCreateSuccess, post)
-      }
+      const post = yield retry(3, TIMEOUT_DELAY, checkRequest)
+      yield call(handlePostsCreateSuccess, post)
     } 
   } catch(error) {
     yield put(actions.postsCreateFailure({
