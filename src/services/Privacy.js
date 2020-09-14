@@ -4,36 +4,6 @@ import isEmpty from 'ramda/src/isEmpty'
 import pathOr from 'ramda/src/pathOr'
 import propEq from 'ramda/src/propEq'
 
-/**
- * Visibility of like button, like button will be visible if:
- * - Post owner has enabled likes
- * - Post owner has not enabled likesDisabled global setting
- * - Like hasn't been set before, which allows only 1 like per post
- */
-const postLikeVisibility = (post, user) => (
-  !path(['likesDisabled'], post) &&
-  !path(['postedBy', 'likesDisabled'])(post) &&
-  !path(['likesDisabled'])(user)
-)
-
-/**
- * Visibility of comment button, comment button will be visible if:
- * - Post owner has enabled comments
- * - Post owner has not enabled commentsDisabled global setting
- */
-const postCommentVisibility = (post, user) => (
-  !path(['commentsDisabled'], post) &&
-  !path(['postedBy', 'commentsDisabled'])(post) &&
-  !path(['commentsDisabled'])(user)
-)
-
-/**
- * Visibility of share button, share button will be visible if:
- * - Post owner has enabled shares
- * - Current authenticated user has shares enabled in settings
- * - Current authenticated user is tagged in post by author
- * - Post owner has enabled shares on post level
- */
 const isUserTagged = (post, user) => {
   const taggedUsers = pathOr([], ['textTaggedUsers'], post)
   const username = `@${path(['username'])(user)}`
@@ -41,29 +11,60 @@ const isUserTagged = (post, user) => {
   return taggedUsers.findIndex(propEq('tag', username)) !== -1
 }
 
+/**
+ * Visibility of like button, like button will be visible if:
+ * - Post has comments setting enabled
+ * - Authenticated user has like setting enabled 
+ */
+const postLikeVisibility = (post, user) => (
+  !path(['likesDisabled'], post) &&
+  !path(['likesDisabled'])(user)
+)
+
+/**
+ * Visibility of comment button, comment button will be visible if:
+ * - Post has comments setting enabled
+ * - Authenticated user has comments setting enabled 
+ */
+const postCommentVisibility = (post, user) => (
+  !path(['commentsDisabled'], post) &&
+  !path(['commentsDisabled'], user)
+)
+
+/**
+ * Visibility of share button, share button will be visible if:
+ * - A post has not been archived
+ * 
+ * - Authenticated user has share setting enabled 
+ * 
+ * - Post has share setting enabled
+ * - Or Authenticated user has been tagged in post by author
+ */
 const postShareVisibility = (post, user) => (
   !propEq('postStatus', 'ARCHIVED')(post) &&
   !path(['sharingDisabled'])(user) &&
-  !path(['postedBy', 'sharingDisabled'])(post) &&
   !(propEq('sharingDisabled', true)(post) && !isUserTagged(post, user))
 )
 
 /**
  * Visibility of seen by text, text will be visible if:
- * - Current authenticated user owns the post
- * - Post has not enabled viewCountsHidden setting
- * - Post owner has not enabled viewCountsHidden global setting
+ * - Authenticated user owns the post
+ * 
+ * - Post has viewCountsHidden setting enabled
+ * - Or Authenticated user has viewCountsHidden setting enabled 
+ * 
+ * - viewedByCount greater than 0
  */
 const postSeenByVisility = (post, user) => (
   path(['postedBy', 'userId'], post) === path(['userId'], user) &&
   !path(['viewCountsHidden'], post) &&
   !path(['viewCountsHidden'], user) &&
-  !path(['postedBy', 'viewCountsHidden'], post) &&
   post.viewedByCount > 0
 )
 
 /**
- *
+ * Visibility of repost, button will be visible if:
+ * - Authenticated user is not owner of a post
  */
 const postRepostVisiblity = (post) => (
   !isEmpty(path(['originalPost', 'postedBy', 'username'])(post)) &&
@@ -71,7 +72,10 @@ const postRepostVisiblity = (post) => (
 )
 
 /**
- *
+ * Visibility of post verification, modal will be visible if:
+ * - Authenticated user is owner of a post
+ * - Post is not text only
+ * - Post has isVerified setting enabled 
  */
 const postVerificationVisibility = (post) => (
   !PrivacyService.postRepostVisiblity(post) &&
@@ -80,7 +84,10 @@ const postVerificationVisibility = (post) => (
 )
 
 /**
- *
+ * Visibility of post verification, modal will be visible if:
+ * - Authenticated user is owner of a post
+ * - Post is not text only
+ * - Post has isVerified setting enabled 
  */
 const selfPostVerificationVisibility = (post, user) => (
   user.userId === path(['postedBy', 'userId'])(post) &&
@@ -88,26 +95,38 @@ const selfPostVerificationVisibility = (post, user) => (
 )
 
 /**
- *
+ * Visibility of post expiry, expiry will be visible if:
+ * - Authenticated user is owner of a post
+ * - Post is not text only
+ * - Post has isVerified setting enabled 
+ * - Post has expiresAt date
  */
 const postExpiryVisiblity = (post) => (
-  !PrivacyService.postRepostVisiblity(post) &&
   !PrivacyService.postVerificationVisibility(post) &&
   !!path(['expiresAt'])(post)
 )
 
 /**
- *
+ * Visibility of post likes, likes will be visible if:
+ * - Post has likes setting enabled 
+ * - Authenticated user is owner of a post
  */
 const postLikedVisibility = (post, user) => (
   !!path(['onymouslyLikedBy', 'items', '0', 'username'])(post) &&
-  !path(['postedBy', 'likesDisabled'])(post) &&
-  !path([ 'likesDisabled'], post) &&
+  !path(['likesDisabled'], post) &&
   path(['postedBy', 'userId'])(post) === user.userId
 )
 
 /**
- *
+ * Visibility of followers/followed, they will be visible if:
+ * - Count of followers/followed is a number
+ * 
+ * - Authenticated user has followCounts setting enabled 
+ * - Or Authenticated user is owner of a post
+ * 
+ * - Authenticated user has public account setting enabled 
+ * - Or Authenticated user follow a post owner profile
+ * - Or Authenticated user is owner of a post
  */
 const followVisibilityRules = user => (
   path(['followCountsHidden'])(user) !== true ||

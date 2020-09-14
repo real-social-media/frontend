@@ -44,14 +44,6 @@ describe('Privacy service', () => {
         expect(Privacy.postShareVisibility(post, user)).toBe(false)
       })
     })
-
-    it('disabled in post owner mental health settings', () => {
-      falsyValues.forEach((sharingDisabled) => {
-        const post = { sharingDisabled, textTaggedUsers: [], postedBy: { sharingDisabled: true } }
-
-        expect(Privacy.postShareVisibility(post, { ...user, sharingDisabled: false })).toBe(false)
-      })
-    })
   })
 
   describe('userFollowerVisibility', () => {
@@ -192,14 +184,6 @@ describe('Privacy service', () => {
         expect(Privacy.postLikeVisibility(post, { ...user, likesDisabled: true })).toBe(false)
       })
     })
-
-    it('disabled in post owner mental health settings', () => {
-      falsyValues.forEach((likesDisabled) => {
-        const post = { likesDisabled, postedBy: { likesDisabled: true } }
-
-        expect(Privacy.postLikeVisibility(post, user)).toBe(false)
-      })
-    })
   })
 
   describe('postCommentVisibility', () => {
@@ -224,14 +208,6 @@ describe('Privacy service', () => {
         const post = { commentsDisabled }
 
         expect(Privacy.postCommentVisibility(post, { ...user, commentsDisabled: true })).toBe(false)
-      })
-    })
-
-    it('disabled in post owner mental health settings', () => {
-      falsyValues.forEach((commentsDisabled) => {
-        const post = { commentsDisabled, postedBy: { commentsDisabled: true } }
-
-        expect(Privacy.postCommentVisibility(post, user)).toBe(false)
       })
     })
   })
@@ -263,13 +239,6 @@ describe('Privacy service', () => {
 
         expect(Privacy.postSeenByVisility(post, user)).toBe(false)
       })
-    })
-
-    it('disabled in post owner mental health settings', () => {
-      const user = { userId }
-      const post = { postedBy: { userId, viewCountsHidden: true }, viewedByCount: 1 }
-
-      expect(Privacy.postSeenByVisility(post, user)).toBe(false)
     })
 
     it('disabled in user mental health settings', () => {
@@ -387,10 +356,6 @@ describe('Privacy service', () => {
       expect(Privacy.postLikedVisibility({ ...post, onymouslyLikedBy: { items: [] } }, user)).toBe(false)
     })
 
-    it('disabled in post owner mental health settings', () => {
-      expect(Privacy.postLikedVisibility({ ...post, postedBy: { ...user, likesDisabled: true } }, user)).toBe(false)
-    })
-
     it('disabled on post level', () => {
       expect(Privacy.postLikedVisibility({ ...post, likesDisabled: true }, user)).toBe(false)
     })
@@ -412,21 +377,12 @@ describe('Privacy service', () => {
     beforeAll(() => {
       jest.isolateModules(() => {
         Privacy = require('services/Privacy').default
-        jest.spyOn(Privacy, 'postRepostVisiblity').mockReturnValue(false)
         jest.spyOn(Privacy, 'postVerificationVisibility').mockReturnValue(false)
       })
     })
 
     afterAll(() => {
-      Privacy.postRepostVisiblity.mockRestore()
       Privacy.postVerificationVisibility.mockRestore()
-    })
-
-    it('enabled when postRepostVisiblity false', () => {
-      expect(Privacy.postExpiryVisiblity(post)).toBe(true)
-
-      Privacy.postRepostVisiblity.mockReturnValueOnce(true)
-      expect(Privacy.postExpiryVisiblity(post)).toBe(false)
     })
 
     it('enabled when postVerificationVisibility false', () => {
