@@ -329,13 +329,6 @@ function* subscriptionNotificationStart(req) {
     }
 
     /**
-     * Fires when a post is added to User.feed
-     */
-    if (type === 'USER_FEED_CHANGED') {
-      yield put(subscriptionsActions.subscriptionsUserFeedChanged(payload))
-    }
-
-    /**
      * Fires when one of the user's posts reaches COMPLETED state for the first time 
      */
     if (type === 'POST_COMPLETED') {
