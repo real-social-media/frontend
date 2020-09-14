@@ -51,7 +51,7 @@ describe('authCheckRequest saga', () => {
       .put(actions.authCheckSuccess(authCheckSuccessResponse))
 
       .next(authCheckSuccessResponse)
-      .call([Logger, 'setUser'], { 
+      .call(Logger.setUser, { 
         id: handleAuthCheckRequestResponse.data.self.userId,
         username: handleAuthCheckRequestResponse.data.self.username,
         email: handleAuthCheckRequestResponse.data.self.email, 

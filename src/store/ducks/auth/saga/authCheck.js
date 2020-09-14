@@ -138,7 +138,7 @@ export function* authCheckRequest(req) {
      * Define user for sentry logger, authorized users will be re-defined at services/providers/App
      * But some users might not reach that step due to missing profile photo
      */
-    yield call([Logger, 'setUser'], {
+    yield call(Logger.setUser, {
       id: path(['data', 'self', 'userId'])(data),
       username: path(['data', 'self', 'username'])(data),
       email: path(['data', 'self', 'email'])(data),
