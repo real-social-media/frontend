@@ -41,6 +41,19 @@ const linking = {
         Comments: 'user/:userId/post/:postId/comments',
       },
     },
+    Root: {
+      screens: {
+        Home: {
+          screens: {
+            Profile: {
+              screens: {
+                ProfilePhoto: 'user/:userId/settings/photo'
+              }
+            }
+          }
+        }
+      }
+    }
   },
 }
 

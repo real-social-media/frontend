@@ -37,7 +37,8 @@ describe('Settings component', () => {
     })
 
     it('Take a Photo', () => {
-      setup()
+      const handleCameraSnap = jest.fn()
+      setup({ handleCameraSnap })
 
       const { options } = ActionSheet.mock.calls[0][0]
       const { name, onPress } = options[0]
@@ -54,7 +55,7 @@ describe('Settings component', () => {
       })
 
       onConfirm()
-      expect(navigation.navigate).toHaveBeenCalledWith('Camera', { nextRoute: 'ProfilePhotoUpload' })
+      expect(handleCameraSnap).toHaveBeenCalled()
     })
 
     it('Choose From Gallery', () => {
@@ -67,7 +68,16 @@ describe('Settings component', () => {
       expect(name).toBe('Choose From Gallery')
 
       onPress()
-      expect(handleLibrarySnap).toHaveBeenCalledWith(false)
+      expect(confirm).toHaveBeenCalled()
+
+      const { onConfirm, ...props } = confirm.mock.calls[0][0]
+      expect(props).toEqual({
+        desc: 'Your photo will be uploaded as post',
+        title: 'Profile Photo Upload',
+      })
+
+      onConfirm()
+      expect(handleLibrarySnap).toHaveBeenCalled()
     })
 
     it('Choose From Existing', () => {

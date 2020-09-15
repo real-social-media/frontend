@@ -4,9 +4,7 @@ import * as authSelector from 'store/ducks/auth/selectors'
 import * as usersSelector from 'store/ducks/users/selectors'
 import * as authActions from 'store/ducks/auth/actions'
 import * as usersActions from 'store/ducks/users/actions'
-import * as cameraActions from 'store/ducks/camera/actions'
-import * as navigationActions from 'navigation/actions'
-import useCamera from 'services/providers/Camera'
+import useProfilePhotoService from 'services/providers/ProfilePhoto'
 import path from 'ramda/src/path'
 
 const SettingsService = ({ children }) => {
@@ -14,30 +12,23 @@ const SettingsService = ({ children }) => {
   const navigation = useNavigation()
 
   const usersDeleteAvatar = useSelector(usersSelector.usersDeleteAvatar)
+  const settingsErrorMessage = path(['error', 'text'])(usersDeleteAvatar)
   const authSignout = useSelector((state) => state.auth.authSignout)
   const user = useSelector(authSelector.authUserSelector)
 
   const authSignoutRequest = () => dispatch(authActions.authSignoutRequest())
-
-  const handleProcessedPhoto = (payload) => {
-    dispatch(cameraActions.cameraCaptureRequest(payload))
-    navigationActions.navigateProfilePhotoUpload(navigation, { type: 'IMAGE', photos: [payload[0].preview] })()
-  }
-
-  const camera = useCamera({
-    handleProcessedPhoto,
-  })
-
   const usersDeleteAvatarRequest = () => dispatch(usersActions.usersDeleteAvatarRequest())
-  const settingsErrorMessage = path(['error', 'text'])(usersDeleteAvatar)
   const handleErrorClose = () => dispatch(usersActions.usersDeleteAvatarIdle({}))
+
+  const { handleLibrarySnap, handleCameraSnap } = useProfilePhotoService()
 
   return children({
     user,
     authSignout,
     navigation,
     authSignoutRequest,
-    handleLibrarySnap: camera.handleLibrarySnap,
+    handleCameraSnap,
+    handleLibrarySnap,
     usersDeleteAvatarRequest,
     handleErrorClose,
     settingsErrorMessage,
