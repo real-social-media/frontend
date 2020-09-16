@@ -322,6 +322,17 @@ function* subscriptionNotificationStart(req) {
     }
 
     /**
+     * Fires when a post is added to User.feed
+     */
+    if (type === 'USER_FEED_CHANGED') {
+      const postsCreate = yield select(state => state.posts.postsCreate)
+
+      if (postsCreate.status !== 'loading') {
+        yield put(postsActions.postsFeedGetRequest({ limit: 20 }))
+      }
+    }
+
+    /**
      * Fires when User.chatsWithUnviewedMessagesCount changes
      */
     if (type === 'USER_FOLLOWED_USERS_WITH_STORIES_CHANGED') {
