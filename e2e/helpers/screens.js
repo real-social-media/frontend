@@ -2,7 +2,6 @@ import SettingsScreen from 'components/Settings/test-ids'
 import ProfileScreen from 'components/Profile/test-ids'
 import AuthHomeScreen from 'components/AuthHome/test-ids'
 import AuthSigninEmail from 'components/AuthSigninEmail/test-ids'
-import AuthPhotoScreen from 'components/AuthPhoto/test-ids'
 import AuthUsernameScreen from 'components/AuthUsername/test-ids'
 import AuthEmailConfirmScreen from 'components/AuthEmailConfirm/test-ids'
 import AuthEmailScreen from 'components/AuthEmail/test-ids'
@@ -19,7 +18,6 @@ export {
   ProfileScreen,
   AuthHomeScreen,
   AuthSigninEmail,
-  AuthPhotoScreen,
   AuthUsernameScreen,
   AuthEmailConfirmScreen,
   AuthEmailScreen,

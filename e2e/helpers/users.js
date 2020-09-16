@@ -5,3 +5,9 @@ export const credentials = {
   email: process.env.E2E_USER_EMAIL,
   password: process.env.E2E_USER_PASSWORD,
 }
+
+export const permissions = {
+  notifications: 'YES',
+  camera: 'YES',
+  photos: 'YES',
+}

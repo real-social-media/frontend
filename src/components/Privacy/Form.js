@@ -1,17 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  View,
-} from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import RowsComponent from 'templates/Rows'
 import RowsItemComponent from 'templates/RowsItem'
 import UserRowComponent from 'templates/UserRow'
 import path from 'ramda/src/path'
-import { Text, Switch, Caption } from 'react-native-paper'
-
-import { withTheme } from 'react-native-paper'
+import { Text, Switch, Caption, withTheme } from 'react-native-paper'
 import { withTranslation } from 'react-i18next'
+import testIDs from 'components/Privacy/test-ids'
 
 const Privacy = ({
   t,
@@ -25,50 +21,59 @@ const Privacy = ({
   toggleSharingDisabled,
 }) => {
   const styling = styles(theme)
-  
-  // {
-  //   label: t('Verification hidden'),
-  //   caption: t('Verification label is hidden'),
-  //   onPress: toggleVerificationHidden,
-  //   enabled: !user.verificationHidden,
-  // }
 
   return (
     <View style={styling.root}>
-      <RowsComponent items={[{
-        label: t('Private Account'),
-        caption: t('Approve followers'),
-        onPress: togglePrivacyStatus,
-        enabled: user.privacyStatus === 'PRIVATE',
-      }, {
-        label: t('Total Followers'),
-        caption: t('Followers can see your other followers'),
-        onPress: toggleFollowCountsHidden,
-        enabled: user.followCountsHidden,
-      }, {
-        label: t('Likes'),
-        caption: t('Followers can like your posts'),
-        onPress: toggleLikesDisabled,
-        enabled: !user.likesDisabled,
-      }, {
-        label: t('Comments'),
-        caption: t('Followers can comment on posts'),
-        onPress: toggleCommentsDisabled,
-        enabled: !user.commentsDisabled,
-      }, {
-        label: t('Share'),
-        caption: t('Followers can share posts'),
-        onPress: toggleSharingDisabled,
-        enabled: !user.sharingDisabled,
-      }, {
-        label: t('Views count'),
-        caption: t('Followers can view total post views'),
-        onPress: toggleViewCountsHidden,
-        enabled: !user.viewCountsHidden,
-      }]}>
+      <RowsComponent
+        items={[
+          {
+            testID: testIDs.form.privacyStatus,
+            label: t('Private Account'),
+            caption: t('Approve followers'),
+            onPress: togglePrivacyStatus,
+            enabled: user.privacyStatus === 'PRIVATE',
+          },
+          {
+            testID: testIDs.form.followCountsHidden,
+            label: t('Total Followers'),
+            caption: t('Followers can see your other followers'),
+            onPress: toggleFollowCountsHidden,
+            enabled: !user.followCountsHidden,
+          },
+          {
+            testID: testIDs.form.likesDisabled,
+            label: t('Likes'),
+            caption: t('Followers can like your posts'),
+            onPress: toggleLikesDisabled,
+            enabled: !user.likesDisabled,
+          },
+          {
+            testID: testIDs.form.commentsDisabled,
+            label: t('Comments'),
+            caption: t('Followers can comment on posts'),
+            onPress: toggleCommentsDisabled,
+            enabled: !user.commentsDisabled,
+          },
+          {
+            testID: testIDs.form.sharingDisabled,
+            label: t('Share'),
+            caption: t('Followers can share posts'),
+            onPress: toggleSharingDisabled,
+            enabled: !user.sharingDisabled,
+          },
+          {
+            testID: testIDs.form.viewCountsHidden,
+            label: t('Views count'),
+            caption: t('Followers can view total post views'),
+            onPress: toggleViewCountsHidden,
+            enabled: !user.viewCountsHidden,
+          },
+        ]}
+      >
         {(privacy) => (
           <RowsItemComponent hasBorders>
             <UserRowComponent
+              testID={privacy.testID}
               onPress={path(['onPress'])(privacy)}
               content={
                 <View>
@@ -76,12 +81,7 @@ const Privacy = ({
                   <Caption>{path(['caption'])(privacy)}</Caption>
                 </View>
               }
-              action={
-                <Switch
-                  value={path(['enabled'])(privacy)}
-                  onValueChange={privacy.onPress}
-                />
-              }
+              action={<Switch value={path(['enabled'])(privacy)} onValueChange={privacy.onPress} />}
             />
           </RowsItemComponent>
         )}
@@ -90,25 +90,31 @@ const Privacy = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
-  root: {
-  },
-  form: {
-    padding: theme.spacing.base,
-  },
-})
+const styles = (theme) =>
+  StyleSheet.create({
+    root: {},
+    form: {
+      padding: theme.spacing.base,
+    },
+  })
 
 Privacy.propTypes = {
-  theme: PropTypes.any,
-  user: PropTypes.any,
-  togglePrivacyStatus: PropTypes.any,
-  toggleFollowCountsHidden: PropTypes.any,
   t: PropTypes.any,
-  toggleViewCountsHidden: PropTypes.any,
-  toggleLikesDisabled: PropTypes.any,
-  toggleCommentsDisabled: PropTypes.any,
-  toggleSharingDisabled: PropTypes.any,
-  toggleVerificationHidden: PropTypes.any,
+  theme: PropTypes.any,
+  user: PropTypes.shape({
+    privacyStatus: PropTypes.oneOf(['PUBLIC', 'PRIVATE']),
+    followCountsHidden: PropTypes.bool,
+    likesDisabled: PropTypes.bool,
+    commentsDisabled: PropTypes.bool,
+    sharingDisabled: PropTypes.bool,
+    viewCountsHidden: PropTypes.bool,
+  }),
+  togglePrivacyStatus: PropTypes.func.isRequired,
+  toggleFollowCountsHidden: PropTypes.func.isRequired,
+  toggleViewCountsHidden: PropTypes.func.isRequired,
+  toggleLikesDisabled: PropTypes.func.isRequired,
+  toggleCommentsDisabled: PropTypes.func.isRequired,
+  toggleSharingDisabled: PropTypes.func.isRequired,
 }
 
 export default withTranslation()(withTheme(Privacy))

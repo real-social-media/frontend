@@ -86,4 +86,14 @@ describe('ActionSheet component', () => {
       options: [],
     })
   })
+
+  it('all options are hidden when isVisible falsy', () => {
+    setup({ options: optionsWithActions.map((item) => ({ ...item, isVisible: undefined })) })
+
+    expect(getProps(RNActionSheet)).toEqual({
+      cancelButtonIndex: undefined,
+      destructiveButtonIndex: undefined,
+      options: [],
+    })
+  })
 })

@@ -5,7 +5,6 @@ import path from 'ramda/src/path'
 import * as navigationActions from 'navigation/actions'
 import * as usersActions from 'store/ducks/users/actions'
 import * as authActions from 'store/ducks/auth/actions'
-import { savePhotoValidation } from 'services/Auth'
 
 const VerificationService = ({ children }) => {
   const dispatch = useDispatch()
@@ -30,7 +29,6 @@ const VerificationService = ({ children }) => {
   }
 
   const handleHideAction = () => {
-    savePhotoValidation()
     dispatch(usersActions.usersEditProfileIdle({}))
     dispatch(authActions.authCheckIdle({ nextRoute: 'Root' }))
   }

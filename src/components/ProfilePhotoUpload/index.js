@@ -6,13 +6,13 @@ import {
 } from 'react-native'
 import ActionsComponent from 'components/ProfilePhotoUpload/Actions'
 import ProgressComponent from 'components/ProfilePhotoUpload/Progress'
+import PhotoComponent from 'components/ProfilePhotoUpload/Photo'
 import AuthHeaderTemplate from 'templates/Auth/Header'
-import AuthPhotoTemplate from 'templates/Auth/Photo'
 import AuthErrorTemplate from 'templates/Auth/Error'
 
 import { withTranslation } from 'react-i18next'
 
-const AuthPhotoUpload = ({
+const ProfilePhotoUpload = ({
   t,
   formErrorMessage,
   handleErrorClose,
@@ -21,7 +21,7 @@ const AuthPhotoUpload = ({
   const styling = styles
 
   return (
-    <View testID="components/AuthPhotoUpload" style={styling.root}>
+    <View style={styling.root}>
       {formErrorMessage ?
         <AuthErrorTemplate
           text={formErrorMessage}
@@ -36,7 +36,7 @@ const AuthPhotoUpload = ({
         />
 
         <View style={styling.content}>
-          <AuthPhotoTemplate
+          <PhotoComponent
             activeUpload={activeUpload}
           />
 
@@ -69,11 +69,11 @@ const styles = StyleSheet.create({
   },
 })
 
-AuthPhotoUpload.propTypes = {
+ProfilePhotoUpload.propTypes = {
   t: PropTypes.any,
   formErrorMessage: PropTypes.any,
   handleErrorClose: PropTypes.any,
   activeUpload: PropTypes.any,
 }
 
-export default withTranslation()(AuthPhotoUpload)
+export default withTranslation()(ProfilePhotoUpload)

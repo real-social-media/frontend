@@ -1,16 +1,23 @@
 import React from 'react'
-import { renderWithProviders } from 'tests/utils'
+import { renderWithProviders, fireEvent } from 'tests/utils'
 import RNActionSheet from 'react-native-actionsheet'
-import * as PrivacyService from 'services/Privacy'
+import PrivacyService from 'services/Privacy'
 import HeaderComponent from 'components/Post/Header'
 import testIDs from 'components/Post/test-ids'
 
 jest.mock('templates/Avatar', () => () => null)
 jest.mock('react-native-actionsheet', () => jest.fn().mockReturnValue(null))
+jest.mock('services/Privacy', () => ({
+  postRepostVisiblity: jest.fn().mockReturnValue(true),
+  postVerificationVisibility: jest.fn().mockReturnValue(true),
+  postExpiryVisiblity: jest.fn().mockReturnValue(true),
+  postShareVisibility: jest.fn().mockReturnValue(true),
+}))
 
 const postId = 1
 const postedBy = { userId: 1 }
-const post = { postId, postedBy }
+const user = { userId: 2 }
+const post = { postId, postedBy, originalPost: { postedBy }, expiresAt: '2020-09-10T05:26:58.746Z' }
 const handlePostShare = jest.fn()
 const postsFlagRequest = jest.fn()
 const postsArchiveRequest = jest.fn()
@@ -19,6 +26,7 @@ const postsRestoreArchivedRequest = jest.fn()
 const navigation = { navigate: jest.fn() }
 const requiredProps = {
   post,
+  user,
   handlePostShare,
   postsFlagRequest,
   postsArchiveRequest,
@@ -93,6 +101,7 @@ describe('Post Header component', () => {
     })
 
     it('user is an owner of a post and post archived', () => {
+      PrivacyService.postShareVisibility.mockReturnValueOnce(false)
       const user = { userId: post.postedBy.userId }
       const archived = { ...post, postStatus: 'ARCHIVED' }
       const { getByTestId } = setup({ user, post: archived })
@@ -110,14 +119,14 @@ describe('Post Header component', () => {
     })
 
     describe('Sharing button', () => {
-      let postShareVisibility = jest.spyOn(PrivacyService, 'postShareVisibility')
+      it('visibility service with called with right params', () => {
+        setup()
 
-      afterAll(() => {
-        postShareVisibility.mockRestore()
+        expect(PrivacyService.postShareVisibility).toHaveBeenCalledWith(post, user)
       })
 
       it('hide sharing button', () => {
-        postShareVisibility.mockReturnValueOnce(false)
+        PrivacyService.postShareVisibility.mockReturnValueOnce(false)
         setup({ user: { userId: 2 } })
 
         const { options } = RNActionSheet.mock.calls[0][0]
@@ -125,12 +134,97 @@ describe('Post Header component', () => {
       })
 
       it('show sharing button', () => {
-        postShareVisibility.mockReturnValueOnce(true)
+        PrivacyService.postShareVisibility.mockReturnValueOnce(true)
         setup({ user: { userId: 2 } })
 
         const { options } = RNActionSheet.mock.calls[0][0]
         expect(options.findIndex((i) => i === 'Share')).toBe(0)
       })
+    })
+  })
+
+  describe('Repost button', () => {
+    it('visibility service with called with right params', () => {
+      setup()
+
+      expect(PrivacyService.postRepostVisiblity).toHaveBeenCalledWith(post)
+    })
+
+    it('visible', () => {
+      const { queryByTestId } = setup()
+
+      expect(queryByTestId(testIDs.header.repostBtn)).toBeTruthy()
+    })
+
+    it('hidden', () => {
+      PrivacyService.postRepostVisiblity.mockReturnValueOnce(false)
+      const { queryByTestId } = setup()
+
+      expect(queryByTestId(testIDs.header.repostBtn)).toBeFalsy()
+    })
+
+    it('callback on press', () => {
+      const navigation = { push: jest.fn() }
+      const { queryByTestId } = setup({ navigation })
+      const $repostBtn = queryByTestId(testIDs.header.repostBtn)
+
+      expect($repostBtn).toBeTruthy()
+
+      fireEvent.press($repostBtn)
+      expect(navigation.push).toHaveBeenCalledWith('Profile', { userId: post.postedBy.userId })
+    })
+  })
+
+  describe('Expiry', () => {
+    it('visibility service with called with right params', () => {
+      setup()
+
+      expect(PrivacyService.postExpiryVisiblity).toHaveBeenCalledWith(post)
+    })
+
+    it('visible', () => {
+      const { queryByTestId } = setup()
+
+      expect(queryByTestId(testIDs.header.expiry)).toBeTruthy()
+    })
+
+    it('hidden', () => {
+      PrivacyService.postExpiryVisiblity.mockReturnValueOnce(false)
+      const { queryByTestId } = setup()
+
+      expect(queryByTestId(testIDs.header.expiry)).toBeFalsy()
+    })
+  })
+
+  describe('Verification Status', () => {
+    it('visibility service with called with right params', () => {
+      setup()
+
+      expect(PrivacyService.postVerificationVisibility).toHaveBeenCalledWith(post)
+    })
+
+    it('visible', () => {
+      const { queryByTestId } = setup()
+
+      expect(queryByTestId(testIDs.header.verificationStatus)).toBeTruthy()
+    })
+
+    it('hidden', () => {
+      PrivacyService.postVerificationVisibility.mockReturnValueOnce(false)
+      const { queryByTestId } = setup()
+
+      expect(queryByTestId(testIDs.header.verificationStatus)).toBeFalsy()
+    })
+
+    it('callback on press', () => {
+      const navigation = { navigate: jest.fn() }
+      const { queryByTestId } = setup({ navigation })
+      const $verificationStatus = queryByTestId(testIDs.header.verificationStatus)
+
+      expect($verificationStatus).toBeTruthy()
+
+      fireEvent.press($verificationStatus)
+      expect(navigation.navigate).toHaveBeenCalledWith('Verification', { actionType: 'BACK', post })
     })
   })
 })

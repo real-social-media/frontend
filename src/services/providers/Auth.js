@@ -46,7 +46,7 @@ export const AuthProvider = ({
   useEffect(() => {
     dispatch(themeActions.themeFetchRequest())
     dispatch(translationActions.translationFetchRequest())
-    dispatch(authActions.authCheckRequest({ type: 'FIRST_MOUNT' }))
+    dispatch(authActions.authCheckRequest())
   }, [])
 
   const startApp = (userId) => {
@@ -65,7 +65,7 @@ export const AuthProvider = ({
    */
   useAppState({
     onForeground: () => {
-      dispatch(authActions.authCheckRequest({ type: 'STATE_CHANGE' }))
+      dispatch(authActions.authCheckRequest())
       Updates.versionCheck()
       startApp(userId)
     },

@@ -1,7 +1,6 @@
 import { call, put, getContext, takeEvery } from 'redux-saga/effects'
 import path from 'ramda/src/path'
 import {
-  checkPhotoValidation,
   getAuthUserPersist,
   saveAuthUserPersist,
 } from 'services/Auth'
@@ -13,7 +12,6 @@ import * as entitiesActions from 'store/ducks/entities/actions'
 import * as normalizer from 'normalizer/schemas'
 import * as queryService from 'services/Query'
 import * as Logger from 'services/Logger'
-import { isAvatarEmpty } from 'components/Settings/helpers' 
 
 export function getPrimaryGraphqlError(error) {
   const firstError = path(['errors', '0'])(error)
@@ -43,7 +41,7 @@ export function* getCognitoCredentials() {
   const AwsAuth = yield getContext('AwsAuth')
 
   try {
-    yield AwsAuth.currentAuthenticatedUser(),
+    yield AwsAuth.currentAuthenticatedUser()
     yield AwsAuth.currentCredentials()
     yield AwsAuth.currentUserPoolUser()
   } catch (error) {
@@ -62,32 +60,6 @@ export function* getCognitoCredentials() {
     throw error
   }
 
-}
-
-export function* handleAuthCheckValidation(self) {
-  /**
-   * Define user for sentry logger, authorized users will be re-defined at services/providers/App
-   * But some users might not reach that step due to missing profile photo
-   */
-  Logger.setUser({
-    id: path(['data', 'self', 'userId'])(self),
-    username: path(['data', 'self', 'username'])(self),
-    email: path(['data', 'self', 'email'])(self),
-  })
-
-  /**
-   * Checks if user dismissed photo validation against asyncstorage skip validation flag
-   * Failed photo verification info should never appear anymore once dismissed manually
-   */
-  if (yield checkPhotoValidation()) {
-    return false
-  }
-
-  /**
-   * Check if user has profile photo set
-   * only photos that passed backend verification could be set as profile photos
-   */
-  return isAvatarEmpty(path(['data', 'self'])(self))
 }
 
 export function* authCheckRequestData(req, api) {
@@ -136,10 +108,6 @@ export function* handleAuthCheckRequest() {
   }
 }
 
-export function getAuthCheckNextRouteSuccess(validation) {
-  return validation ? 'AuthPhoto' : 'Root'
-}
-
 /**
  * Check if user is logged in, not authenticated users will be redirected to Auth page.
  * Authenticated users with empty `self graphql query` return will be redirected to Onboard page,
@@ -148,17 +116,24 @@ export function getAuthCheckNextRouteSuccess(validation) {
  * Auth flow:
  * - Fetch aws credentials (incl. expired token refresh)
  * - Fetch user data with graphql api
- * - Check if user has profile photo
  */
 export function* authCheckRequest(req) {
   try {
     const credentials = yield call(getCognitoCredentials)
     const data = yield call(handleAuthCheckRequest, credentials)
-    const validation = yield call(handleAuthCheckValidation, data)
     const next = yield call(authCheckRequestData, req, data)
-    const nextRoute = yield call(getAuthCheckNextRouteSuccess, validation)
 
-    yield put(actions.authCheckSuccess({ data: next.data, payload: next.payload, nextRoute }))
+    yield put(actions.authCheckSuccess({ data: next.data, payload: next.payload, nextRoute: 'Root' }))
+
+    /**
+     * Define user for sentry logger, authorized users will be re-defined at services/providers/App
+     * But some users might not reach that step due to missing profile photo
+     */
+    yield call(Logger.setUser, {
+      id: path(['data', 'self', 'userId'])(data),
+      username: path(['data', 'self', 'username'])(data),
+      email: path(['data', 'self', 'email'])(data),
+    })
   } catch (error) {
     const primaryGraphqlError = yield call(getPrimaryGraphqlError, error)
     const primaryClientError = yield call(getPrimaryClientError, error)

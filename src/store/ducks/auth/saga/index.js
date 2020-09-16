@@ -7,7 +7,6 @@ import {
   federatedAppleSignin,
 } from 'services/AWS'
 import {
-  resetPhotoValidation,
   saveAppleSigninPersist,
   getAppleSigninPersist,
   resetAuthUserPersist,
@@ -176,17 +175,14 @@ function* authAppleRequest(req) {
  */
 function* handleAuthSignoutRequest() {
   const AwsAuth = yield getContext('AwsAuth')
-  const AwsCredentials = yield getContext('AwsCredentials')
 
   try {
-    yield resetPhotoValidation()
     yield federatedGoogleSignout()
   } catch (error) {
     // ignore
   }
 
   yield AwsAuth.signOut({ global: true })
-  yield AwsCredentials.clear()
 }
 
 function* authSignoutRequest(persistor, req) {

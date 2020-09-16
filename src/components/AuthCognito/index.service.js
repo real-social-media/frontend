@@ -56,7 +56,7 @@ const AuthCognitoComponentService = ({ children }) => {
       signupCognito.status !== 'success'
     ) return
 
-    dispatch(authActions.authCheckRequest({ type: 'FIRST_MOUNT' }))
+    dispatch(authActions.authCheckRequest())
   }, [
     signupCognito.status,
   ])

@@ -21,7 +21,7 @@ const AuthPhoneConfirm = ({
   const styling = styles
 
   return (
-    <View testID="components/AuthPhoneConfirm" style={styling.root}>
+    <View style={styling.root}>
       {formErrorMessage ? <AuthErrorTemplate text={formErrorMessage} onClose={handleErrorClose} /> : null}
 
       <View style={styling.component}>
