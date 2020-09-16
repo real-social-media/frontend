@@ -2,6 +2,7 @@ import { graphqlOperation } from '@aws-amplify/api'
 import { call, put, takeEvery, all, getContext, select, take, spawn, delay, race, retry } from 'redux-saga/effects'
 import { eventChannel, END } from 'redux-saga'
 import path from 'ramda/src/path'
+import pathEq from 'ramda/src/pathEq'
 import compose from 'ramda/src/compose'
 import toLower from 'ramda/src/toLower'
 import replace from 'ramda/src/replace'
@@ -176,15 +177,26 @@ function* handlePostsCreateSuccess(post) {
   yield put(actions.postsFeedGetRequest({ limit: 20 }))
 }
 
+function* handlePostsCreateFailure(error, post) {
+  const errorWrapper = yield getContext('errorWrapper')
+  const payload = {
+    message: errorWrapper(error),
+    payload: post,
+    meta: {},
+  }
+
+  yield put(actions.postsCreateFailure(payload))
+}
+
 /**
  *
  */
-function* checkPostsCreateProcessing(processingPost) {
+export function* checkPostsCreateProcessing(processingPost) {
   const TIMEOUT_DELAY = 5000
-  const errorWrapper = yield getContext('errorWrapper')
+  const matchPostId = pathEq(['payload', 'postId'], processingPost.postId)
 
-  function* checkRequest() {    
-    const response = yield queryService.apiRequest(queries.getPost, processingPost)
+  function* checkRequest() {
+    const response = yield call([queryService, 'apiRequest'], queries.getPost, processingPost)
     const post = path(['data', 'post'], response)
     const postStatus = path(['postStatus'], post)
 
@@ -192,33 +204,30 @@ function* checkPostsCreateProcessing(processingPost) {
       throw new Error('Post has not been processed')
     }
 
-    if (['ERROR'].includes(postStatus)) {
-      throw new Error('Post processed with an error')
+    if (['ERROR', 'ARCHIVED', 'DELETING'].includes(postStatus)) {
+      const error = new Error('Post shouldn`t have ERROR, ARCHIVED or DELETING status')
+      yield* handlePostsCreateFailure(error, post)
     }
 
-    return post
+    if (['COMPLETED'].includes(postStatus)) {
+      yield* handlePostsCreateSuccess(post)
+    }
   }
- 
+
   try {
-    const { idle } = yield race({
-      idle: take(constants.POSTS_CREATE_IDLE),
-      finished: take([
-        subscriptionsConstants.SUBSCRIPTIONS_POST_COMPLETED,
-        subscriptionsConstants.SUBSCRIPTIONS_POST_ERROR,
-      ]),
+    const { completed, error, timeout } = yield race({
+      completed: take(subscriptionsConstants.SUBSCRIPTIONS_POST_COMPLETED),
+      error: take(subscriptionsConstants.SUBSCRIPTIONS_POST_ERROR),
       timeout: delay(TIMEOUT_DELAY),
     })
-  
-    if (!idle) {
-      const post = yield retry(3, TIMEOUT_DELAY, checkRequest)
-      yield call(handlePostsCreateSuccess, post)
-    } 
-  } catch(error) {
-    yield put(actions.postsCreateFailure({
-      message: errorWrapper(error), 
-      payload: processingPost, 
-      meta: {},
-    }))
+
+    if (matchPostId(completed) || matchPostId(error) || timeout) {
+      yield retry(3, TIMEOUT_DELAY, checkRequest)
+    } else {
+      yield spawn(checkPostsCreateProcessing, processingPost)
+    }
+  } catch (error) {
+    yield* handlePostsCreateFailure(error, processingPost)
   }
 }
 
