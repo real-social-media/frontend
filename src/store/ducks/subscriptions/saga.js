@@ -373,6 +373,6 @@ export default () => [
   takeEvery(constants.SUBSCRIPTIONS_MAIN_REQUEST, subscriptionNotificationStart),
   takeEvery(constants.SUBSCRIPTIONS_MAIN_REQUEST, chatMessageSubscription),
   takeEvery(constants.SUBSCRIPTIONS_MAIN_REQUEST, cardSubscription),
-  takeEvery(constants.SUBSCRIPTIONS_PREFETCH_DATA, appSubscription),
+  takeEvery(constants.SUBSCRIPTIONS_PREFETCH_REQUEST, appSubscription),
   takeEvery(constants.SUBSCRIPTIONS_POLL_REQUEST, subscriptionPollStart),
 ]

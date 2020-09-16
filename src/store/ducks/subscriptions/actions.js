@@ -20,4 +20,4 @@ export const subscriptionsPollDisconnect = createAction(constants.SUBSCRIPTIONS_
 export const subscriptionsPostCompleted = createAction(constants.SUBSCRIPTIONS_POST_COMPLETED)
 export const subscriptionsPostError = createAction(constants.SUBSCRIPTIONS_POST_ERROR)
 
-export const subscriptionsPrefetchData = createAction(constants.SUBSCRIPTIONS_PREFETCH_DATA)
+export const subscriptionsPrefetchRequest = createAction(constants.SUBSCRIPTIONS_PREFETCH_REQUEST)

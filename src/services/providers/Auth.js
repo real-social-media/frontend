@@ -50,11 +50,11 @@ export const AuthProvider = ({
   }, [])
 
   const startApp = (userId) => {
-    if (userId) {
-      dispatch(subscriptionsActions.subscriptionsMainRequest())
-      dispatch(subscriptionsActions.subscriptionsPollRequest())
-      dispatch(subscriptionsActions.subscriptionsPrefetchData())
-    }
+    if(!userId) return
+
+    dispatch(subscriptionsActions.subscriptionsMainRequest())
+    dispatch(subscriptionsActions.subscriptionsPollRequest())
+    dispatch(subscriptionsActions.subscriptionsPrefetchRequest())
   }
 
   useEffect(() => startApp(userId), [userId])
