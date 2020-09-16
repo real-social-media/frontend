@@ -30,15 +30,8 @@ const linking = {
     AuthForgotConfirm: 'confirm/forgot/:userId/:confirmationCode',
     Chat: {
       screens: {
-        Chat: 'chat',
         ChatDirect: 'chat/:chatId',
-      },
-    },
-    Root: {
-      screens: {
-        Profile: 'user/:userId',
-        PostMedia: 'user/:userId/post/:postId',
-        Comments: 'user/:userId/post/:postId/comments',
+        Chat: 'chat',
       },
     },
     Root: {
@@ -47,13 +40,16 @@ const linking = {
           screens: {
             Profile: {
               screens: {
-                ProfilePhoto: 'user/:userId/settings/photo'
-              }
-            }
-          }
-        }
-      }
-    }
+                ProfilePhoto: 'user/:userId/settings/photo',
+              },
+            },
+          },
+        },
+        Comments: 'user/:userId/post/:postId/comments',
+        PostMedia: 'user/:userId/post/:postId',
+        Profile: 'user/:userId',
+      },
+    },
   },
 }
 

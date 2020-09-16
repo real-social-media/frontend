@@ -37,7 +37,7 @@ describe('Profile Photo screen', () => {
     const { getByText } = setup()
 
     fireEvent.press(getByText('Skip Photo Upload'))
-    expect(navigation.replace).toBeCalledWith('Settings')
+    expect(navigation.replace).toHaveBeenCalledWith('Settings')
   })
 
   it('Take a Photo', () => {
@@ -47,24 +47,22 @@ describe('Profile Photo screen', () => {
     expect(confirm).toHaveBeenCalled()
 
     confirm.mock.calls[0][0].onConfirm()
-    expect(navigation.navigate).toBeCalledWith('Camera', { nextRoute: 'ProfilePhotoUpload' })
+    expect(navigation.navigate).toHaveBeenCalledWith('Camera', { nextRoute: 'ProfilePhotoUpload' })
   })
 
   it('Choose From Gallery', () => {
     const payload = [{ preview: 'preview' }]
     const { getByText } = setup()
 
-    expect(useCamera).toBeCalled()
+    expect(useCamera).toHaveBeenCalled()
     useCamera.mock.calls[0][0].handleProcessedPhoto(payload)
-    expect(dispatch).toBeCalledWith(cameraActions.cameraCaptureRequest(payload))
-    expect(navigation.navigate).toBeCalledWith('ProfilePhotoUpload', { type: 'IMAGE', photos: [payload[0].preview] })
-
-    expect()
+    expect(dispatch).toHaveBeenCalledWith(cameraActions.cameraCaptureRequest(payload))
+    expect(navigation.navigate).toHaveBeenCalledWith('ProfilePhotoUpload', { type: 'IMAGE', photos: [payload[0].preview] })
 
     fireEvent.press(getByText('Choose From Gallery'))
     expect(confirm).toHaveBeenCalled()
 
     confirm.mock.calls[0][0].onConfirm()
-    expect(handleLibrarySnap).toBeCalledWith(false)
+    expect(handleLibrarySnap).toHaveBeenCalledWith(false)
   })
 })

@@ -34,14 +34,14 @@ describe('Profile Photo screen', () => {
     getByText('Add an Unmodified Profile Picture')
     getByText('Our AI detects photoshop & filters')
 
-    expect(PhotoComponent).toBeCalled()
+    expect(PhotoComponent).toHaveBeenCalled()
   })
 
   it('Skip Photo Upload', () => {
     const { getByText } = setup()
 
     fireEvent.press(getByText('Skip Photo Upload'))
-    expect(handleSkipUpload).toBeCalled()
+    expect(handleSkipUpload).toHaveBeenCalled()
   })
 
   it('Take a Photo', () => {

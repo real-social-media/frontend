@@ -11,17 +11,17 @@ const options = { segmentValueCharset: ':a-zA-Z0-9_-' }
 
 const patterns = {
   post: new UrlPattern('*/user/(:userId)/post/(:postId)((/):action)(/)((/):actionId)(/)', options),
-  profilePhoto: new UrlPattern('*/user/:userId/settings/photo(/)', options)
+  profilePhoto: new UrlPattern('*/user/:userId/settings/photo(/)', options),
 }
 
 export const deeplinkPath = (action) => {
   const [postMatch, profilePhotoMatch] = [
-    patterns.post.match(action),
-    patterns.profilePhoto.match(action)
+    patterns.post.match(action), 
+    patterns.profilePhoto.match(action),
   ]
 
   if (profilePhotoMatch !== null) {
-    return {action: 'profilePhoto', ...profilePhotoMatch}
+    return { action: 'profilePhoto', ...profilePhotoMatch }
   }
 
   if (action === 'https://real.app/chat/') {
