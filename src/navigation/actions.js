@@ -95,9 +95,17 @@ export const navigateProfileRequests = (navigation, params) => defaultThrottle((
   navigation.navigate('ProfileRequests', params),
 )
 
-export const navigateProfilePhoto = (navigation, params) => defaultThrottle(() =>
-  navigation.navigate('ProfilePhoto', params),
-)
+export const navigateProfilePhoto = (navigation, params) => () =>
+  navigation.navigate('Root', {
+    screen: 'Home',
+    params: {
+      screen: 'Profile',
+      params: {
+        screen: 'ProfilePhoto',
+        ...params,
+      },
+    },
+  })
 
 export const navigateProfilePhotoUpload = (navigation, params) => defaultThrottle(() =>
   navigation.navigate('ProfilePhotoUpload', params),
