@@ -34,7 +34,6 @@ const Header = ({
 
   const handleOptionsPress = () => actionSheetRef && actionSheetRef.show()
   const archived = path(['postStatus'])(post) === 'ARCHIVED'
-  const repostedUsername = path(['originalPost', 'postedBy', 'username'])(post)
   const isUserPostOwner = path(['userId'])(user) === path(['postedBy', 'userId'])(post)
 
   const [repostVisiblity, verificationVisibility, expiryVisiblity] = useMemo(
@@ -71,7 +70,7 @@ const Header = ({
       </TouchableOpacity>
 
       <View style={styling.headerText}>
-        <TouchableOpacity onPress={navigationActions.navigateProfile(navigation, { userId: post.postedBy.userId })}>
+        <TouchableOpacity onPress={navigationActions.navigateProfile(navigation, { userId: path(['postedBy', 'userId'], post) })}>
           <Text style={styling.headerUsername}>{path(['postedBy', 'username'])(post)}</Text>
         </TouchableOpacity>
 
@@ -79,10 +78,10 @@ const Header = ({
           <TouchableOpacity
             testID={testIDs.header.repostBtn}
             style={styling.verification}
-            onPress={navigationActions.navigateProfile(navigation, { userId: post.originalPost.postedBy.userId })}
+            onPress={navigationActions.navigateProfile(navigation, { userId: path(['originalPost', 'postedBy', 'userId'], post) })}
           >
             <Caption style={styling.headerStatus}>
-              {t('Reposted from {{ username }}', { username: repostedUsername })}
+              {t('Reposted from {{ username }}', { username: path(['originalPost', 'postedBy', 'username'], post) })}
             </Caption>
           </TouchableOpacity>
         ) : null}

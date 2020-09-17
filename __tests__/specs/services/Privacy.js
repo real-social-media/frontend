@@ -201,7 +201,7 @@ describe('Privacy service', () => {
     })
 
     it('disabled when username empty', () => {
-      const post = { originalPost: { postedBy: { username: '' } }, postedBy: { username: 'username' } }
+      const post = { postedBy: { username: 'alex11' } }
 
       expect(Privacy.postRepostVisiblity(post)).toBe(false)
     })
