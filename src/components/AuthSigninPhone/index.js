@@ -19,8 +19,6 @@ const AuthSigninPhone = ({
   formErrorMessage,
   handleFormSubmit,
   handleErrorClose,
-  formSubmitLoading,
-  formSubmitDisabled,
 }) => {
   const styling = styles
   const navigation = useNavigation()
@@ -41,11 +39,7 @@ const AuthSigninPhone = ({
         />
 
         <View style={styling.content}>
-          <FormComponent
-            handleFormSubmit={handleFormSubmit}
-            formSubmitLoading={formSubmitLoading}
-            formSubmitDisabled={formSubmitDisabled}
-          />
+          <FormComponent handleFormSubmit={handleFormSubmit} />
         </View>
       </View>
 
@@ -74,8 +68,6 @@ AuthSigninPhone.propTypes = {
   formErrorMessage: PropTypes.any,
   handleFormSubmit: PropTypes.any,
   handleErrorClose: PropTypes.any,
-  formSubmitLoading: PropTypes.any,
-  formSubmitDisabled: PropTypes.any,
 }
 
 export default withTranslation()(AuthSigninPhone)

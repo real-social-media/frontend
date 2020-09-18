@@ -62,3 +62,4 @@ export const authForgotConfirmFailure = createAction(constants.AUTH_FORGOT_CONFI
  * 
  */
 export const authSigninEmailFormSubmit = createAction(constants.AUTH_SIGNIN_EMAIL_FORM_SUBMIT)
+export const authSigninPhoneFormSubmit = createAction(constants.AUTH_SIGNIN_PHONE_FORM_SUBMIT)

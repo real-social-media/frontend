@@ -5,6 +5,7 @@ import trim from 'ramda/src/trim'
 import compose from 'ramda/src/compose'
 import toLower from 'ramda/src/toLower'
 import pathOr from 'ramda/src/pathOr'
+import replace from 'ramda/src/replace'
 import {
   federatedGoogleSignin,
   federatedGoogleSignout,
@@ -307,6 +308,46 @@ function* authSigninEmailFormSubmit(req) {
   }
 }
 
+/**
+ *
+ */
+function* authSigninPhoneFormSubmit(req) {
+  const { values, resolve, reject, formApi } = req.payload
+
+  try {
+    const nextValues = {
+      countryCode: compose(replace(/[^+0-9]/g, ''), trim, toLower, pathOr('', ['countryCode']))(values),
+      username: compose(trim, toLower, pathOr('', ['username']))(values),
+      password: values.password,
+    }
+
+    formApi.setValues(nextValues)
+
+    yield put(actions.authSigninRequest({
+      usernameType: 'phone',
+      countryCode: nextValues.countryCode,
+      username: `${nextValues.countryCode}${nextValues.username}`,
+      password: nextValues.password,
+    }))
+
+    const { success, authSigninFailure, authCheckFailure } = yield race({
+      success: take(constants.AUTH_CHECK_SUCCESS),
+      authSigninFailure: take(constants.AUTH_SIGNIN_FAILURE),
+      authCheckFailure: take(constants.AUTH_CHECK_FAILURE),
+    })
+
+    if (success) {
+      yield call(resolve)
+    } else if(authSigninFailure) {
+      throw new Error(authSigninFailure.payload.message)
+    } else if (authCheckFailure) {
+      throw new Error(authCheckFailure.payload.message.text)
+    }
+  } catch (error) {
+    yield call(reject, error)
+  }
+}
+
 export default (persistor) => [
   takeEvery(constants.AUTH_SIGNIN_REQUEST, authSigninRequest),
   takeEvery(constants.AUTH_GOOGLE_REQUEST, authGoogleRequest),
@@ -316,4 +357,5 @@ export default (persistor) => [
   takeLatest(constants.AUTH_FORGOT_CONFIRM_REQUEST, authForgotConfirmRequest),
 
   takeEvery(constants.AUTH_SIGNIN_EMAIL_FORM_SUBMIT, authSigninEmailFormSubmit),
+  takeEvery(constants.AUTH_SIGNIN_PHONE_FORM_SUBMIT, authSigninPhoneFormSubmit),
 ]
