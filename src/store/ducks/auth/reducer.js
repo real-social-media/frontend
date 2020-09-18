@@ -24,7 +24,6 @@ const initialState = {
     status: 'idle',
     error: {},
     message: {},
-    payload: {},
   },
   authGoogle: {
     data: [],
@@ -116,10 +115,9 @@ const authCheckReset = (state) => update(state, {
 /**
  *
  */
-const authSigninRequest = (state, action) => update(state, {
+const authSigninRequest = (state) => update(state, {
   authSignin: {
     status: { $set: 'loading' },
-    payload: { $set: action.payload },
   },
 })
 

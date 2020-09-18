@@ -11,12 +11,20 @@ const AuthSigninComponentService = ({ children }) => {
 
   const authSignin = useSelector(state => state.auth.authSignin)
 
-  const handleFormSubmit = (payload) => {
+  const handleFormSubmit = (values, formApi) => {
+    const nextValues = {
+      countryCode: compose(replace(/[^+0-9]/g, ''), trim, toLower, pathOr('', ['countryCode']))(values),
+      username: compose(trim, toLower, pathOr('', ['username']))(values),
+      password: values.password,
+    }
+
+    formApi.setValues(nextValues)
+
     dispatch(authActions.authSigninRequest({
       usernameType: 'phone',
-      countryCode: payload.countryCode,
-      username: `${payload.countryCode}${payload.username}`,
-      password: payload.password,
+      countryCode: nextValues.countryCode,
+      username: `${nextValues.countryCode}${nextValues.username}`,
+      password: nextValues.password,
     }))
   }
 
@@ -24,28 +32,15 @@ const AuthSigninComponentService = ({ children }) => {
   const formSubmitDisabled = authSignin.status === 'loading'
   const formErrorMessage = authSignin.error.text
 
-  const formInitialValues = {
-    countryCode: '+1',
-    username: replace(pathOr('', ['payload', 'countryCode'])(authSignin), '', pathOr('', ['payload', 'username'])(authSignin)),
-    password: pathOr('', ['payload', 'password'])(authSignin),
-  }
-
-  const handleFormTransform = (values) => ({
-    countryCode: compose(replace(/[^+0-9]/g, ''), trim, toLower, pathOr('', ['countryCode']))(values),
-    username: compose(trim, toLower, pathOr('', ['username']))(values),
-    password: values.password,
-  })
 
   const handleErrorClose = () => dispatch(authActions.authSigninIdle({}))
 
   return children({
     formErrorMessage,
     handleFormSubmit,
-    handleFormTransform,
     handleErrorClose,
     formSubmitLoading,
     formSubmitDisabled,
-    formInitialValues,
   })
 }
 

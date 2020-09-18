@@ -18,6 +18,7 @@ const formSchema = Yup.object().shape({
     .max(50)
     .email()
     .trim()
+    .lowercase()
     .required(),
   password: Yup.string()
     .min(8)
@@ -76,17 +77,15 @@ SigninForm.propTypes = {
 
 export default withTranslation()(({
   handleFormSubmit,
-  handleFormTransform,
   formSubmitLoading,
   formSubmitDisabled,
-  formInitialValues,
   ...props
 }) => (
   <Formik
-    initialValues={formInitialValues}
     validationSchema={formSchema}
     onSubmit={handleFormSubmit}
     enableReinitialize
+    initialValues={{ username: '', password: '' }}
   >
     {(formikProps) => (
       <SigninForm
@@ -94,11 +93,6 @@ export default withTranslation()(({
         {...props}
         loading={formSubmitLoading}
         disabled={formSubmitDisabled}
-        handleSubmit={() => {
-          const nextValues = handleFormTransform(formikProps.values)
-          formikProps.setValues(nextValues)
-          handleFormSubmit(nextValues)
-        }}
       />
     )}
   </Formik>
