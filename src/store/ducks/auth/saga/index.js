@@ -1,5 +1,5 @@
 import * as AWS from 'aws-sdk/global'
-import { put, getContext, takeEvery, takeLatest, race, take, call } from 'redux-saga/effects'
+import { put, getContext, takeEvery, takeLatest, race, take, call, fork } from 'redux-saga/effects'
 import path from 'ramda/src/path'
 import trim from 'ramda/src/trim'
 import compose from 'ramda/src/compose'
@@ -24,15 +24,12 @@ import Config from 'react-native-config'
 /**
  * Signin user. Currently supports email and password or phone number and password methods
  */
-function* handleAuthSigninRequest(payload) {
+function* authSigninRequest(values) {
   const AwsAuth = yield getContext('AwsAuth')
-  return yield AwsAuth.signIn(payload.username, payload.password)
-}
 
-function* authSigninRequest(req) {
-  try {
-    yield handleAuthSigninRequest(req.payload)
-    yield put(actions.authSigninSuccess())
+  try {  
+    yield AwsAuth.signIn(values.username, values.password)
+    yield put(actions.authCheckRequest())
   } catch (error) {
     if (error.code === 'UserNotConfirmedException') {
       yield put(actions.authSigninFailure({
@@ -288,7 +285,7 @@ function* authSigninEmailFormSubmit(req) {
 
     formApi.setValues(nextValues)
 
-    yield put(actions.authSigninRequest({ usernameType: 'email', ...nextValues }))
+    yield fork(authSigninRequest, { usernameType: 'email', ...nextValues })
 
     const { success, failure } = yield race({
       success: take(constants.AUTH_CHECK_SUCCESS),
@@ -323,12 +320,12 @@ function* authSigninPhoneFormSubmit(req) {
 
     formApi.setValues(nextValues)
 
-    yield put(actions.authSigninRequest({
+    yield fork(authSigninRequest, { 
       usernameType: 'phone',
       countryCode: nextValues.countryCode,
       username: `${nextValues.countryCode}${nextValues.username}`,
       password: nextValues.password,
-    }))
+    })
 
     const { success, failure } = yield race({
       success: take(constants.AUTH_CHECK_SUCCESS),
@@ -349,7 +346,6 @@ function* authSigninPhoneFormSubmit(req) {
 }
 
 export default (persistor) => [
-  takeEvery(constants.AUTH_SIGNIN_REQUEST, authSigninRequest),
   takeEvery(constants.AUTH_GOOGLE_REQUEST, authGoogleRequest),
   takeEvery(constants.AUTH_APPLE_REQUEST, authAppleRequest),
   takeEvery(constants.AUTH_SIGNOUT_REQUEST, authSignoutRequest, persistor),

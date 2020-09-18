@@ -9,7 +9,6 @@ const AuthHomeComponentService = ({ children }) => {
   const authCheck = useSelector(state => state.auth.authCheck)
   const authGoogle = useSelector(state => state.auth.authGoogle)
   const authApple = useSelector(state => state.auth.authApple)
-  const authSignin = useSelector(state => state.auth.authSignin)
 
   const authGoogleRequest = () => 
     dispatch(authActions.authGoogleRequest())
@@ -22,7 +21,6 @@ const AuthHomeComponentService = ({ children }) => {
       dispatch(authActions.authCheckIdle({}))
       dispatch(authActions.authCheckRequest(authGoogle.data))
       dispatch(authActions.authGoogleIdle({}))
-      dispatch(authActions.authSigninIdle({}))
     }
   }, [
     authGoogle.status,
@@ -33,19 +31,9 @@ const AuthHomeComponentService = ({ children }) => {
       dispatch(authActions.authCheckIdle({}))
       dispatch(authActions.authCheckRequest(authApple.data))
       dispatch(authActions.authAppleIdle({}))
-      dispatch(authActions.authSigninIdle({}))
     }
   }, [
     authApple.status,
-  ])
-  
-  useEffect(() => {
-    if (authSignin.status === 'success') {
-      dispatch(authActions.authCheckRequest())
-      dispatch(authActions.authSigninIdle({}))
-    }
-  }, [
-    authSignin.status,
   ])
 
   useEffect(() => {

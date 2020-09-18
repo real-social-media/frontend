@@ -20,11 +20,6 @@ const initialState = {
     payload: {},
     nextRoute: null,
   },
-  authSignin: {
-    status: 'idle',
-    error: {},
-    message: {},
-  },
   authGoogle: {
     data: [],
     status: 'idle',
@@ -110,37 +105,6 @@ const authCheckIdle = (state, action) => update(state, {
 
 const authCheckReset = (state) => update(state, {
   user: { $set: initialState.user },
-})
-
-/**
- *
- */
-const authSigninRequest = (state) => update(state, {
-  authSignin: {
-    status: { $set: 'loading' },
-  },
-})
-
-const authSigninSuccess = (state) => update(state, {
-  authSignin: {
-    status: { $set: 'success' },
-  },
-})
-
-const authSigninFailure = (state, action) => update(state, {
-  authSignin: {
-    message: { $set: action.payload.message },
-    error: { $set: action.payload.message },
-    status: { $set: 'failure' },
-  },
-})
-
-const authSigninIdle = (state) => update(state, {
-  authSignin: {
-    status: { $set: 'idle' },
-    error: { $set: initialState.authSignin.error },
-    message: { $set: initialState.authSignin.message },
-  },
 })
 
 /**
@@ -320,11 +284,6 @@ export default handleActions({
   [constants.AUTH_CHECK_FAILURE]: authCheckFailure,
   [constants.AUTH_CHECK_IDLE]: authCheckIdle,
   [constants.AUTH_CHECK_RESET]: authCheckReset,
-
-  [constants.AUTH_SIGNIN_REQUEST]: authSigninRequest,
-  [constants.AUTH_SIGNIN_SUCCESS]: authSigninSuccess,
-  [constants.AUTH_SIGNIN_FAILURE]: authSigninFailure,
-  [constants.AUTH_SIGNIN_IDLE]: authSigninIdle,
 
   [constants.AUTH_GOOGLE_REQUEST]: authGoogleRequest,
   [constants.AUTH_GOOGLE_SUCCESS]: authGoogleSuccess,
