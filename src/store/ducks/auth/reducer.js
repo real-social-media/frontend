@@ -2,6 +2,7 @@ import { handleActions } from 'redux-actions'
 import update from 'immutability-helper'
 import * as constants from 'store/ducks/auth/constants'
 import path from 'ramda/src/path'
+import pick from 'ramda/src/pick'
 
 const initialState = {
   /**
@@ -19,6 +20,9 @@ const initialState = {
     message: {},
     payload: {},
     nextRoute: null,
+  },
+  authSignin: {
+    values: {},
   },
   authGoogle: {
     data: [],
@@ -105,6 +109,21 @@ const authCheckIdle = (state, action) => update(state, {
 
 const authCheckReset = (state) => update(state, {
   user: { $set: initialState.user },
+})
+
+/**
+ *
+ */
+const authSigninRequest = (state, action) => update(state, {
+  authSignin: {
+    values: { $merge: pick(['countryCode', 'phone', 'email'], action.payload.values) },
+  },
+})
+
+const authSigninSuccess = (state) => update(state, {
+  authSignin: {
+    values: { $set: initialState.authSignin.values },
+  },
 })
 
 /**
@@ -284,6 +303,9 @@ export default handleActions({
   [constants.AUTH_CHECK_FAILURE]: authCheckFailure,
   [constants.AUTH_CHECK_IDLE]: authCheckIdle,
   [constants.AUTH_CHECK_RESET]: authCheckReset,
+
+  [constants.AUTH_SIGNIN_REQUEST]: authSigninRequest,
+  [constants.AUTH_SIGNIN_SUCCESS]: authSigninSuccess,
 
   [constants.AUTH_GOOGLE_REQUEST]: authGoogleRequest,
   [constants.AUTH_GOOGLE_SUCCESS]: authGoogleSuccess,

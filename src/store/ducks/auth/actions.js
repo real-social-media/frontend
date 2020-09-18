@@ -14,6 +14,7 @@ export const authCheckReset = createAction(constants.AUTH_CHECK_RESET)
  * 
  */
 export const authSigninRequest = createAction(constants.AUTH_SIGNIN_REQUEST)
+export const authSigninSuccess = createAction(constants.AUTH_SIGNIN_SUCCESS)
 export const authSigninFailure = createAction(constants.AUTH_SIGNIN_FAILURE)
 
 /**

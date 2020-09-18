@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import * as authActions from 'store/ducks/auth/actions'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import trim from 'ramda/src/trim'
 import compose from 'ramda/src/compose'
 import toLower from 'ramda/src/toLower'
@@ -9,6 +9,7 @@ import replace from 'ramda/src/replace'
 
 const AuthSigninComponentService = ({ children }) => {
   const dispatch = useDispatch()
+  const authSignin = useSelector(state => state.auth.authSignin)
   const [formErrorMessage, setFormErrorMessage] = useState()
   const handleErrorClose = () => setFormErrorMessage(undefined)
 
@@ -16,7 +17,7 @@ const AuthSigninComponentService = ({ children }) => {
     try {
       const nextValues = {
         countryCode: compose(replace(/[^+0-9]/g, ''), trim, toLower, pathOr('', ['countryCode']))(values),
-        username: compose(trim, toLower, pathOr('', ['username']))(values),
+        phone: compose(trim, toLower, pathOr('', ['phone']))(values),
         password: values.password,
       }
 
@@ -25,12 +26,7 @@ const AuthSigninComponentService = ({ children }) => {
       await new Promise((resolve, reject) => {
         dispatch(
           authActions.authSigninRequest({
-            values: {
-              usernameType: 'phone',
-              countryCode: nextValues.countryCode,
-              username: `${nextValues.countryCode}${nextValues.username}`,
-              password: nextValues.password,
-            },
+            values: { usernameType: 'phone', ...nextValues },
             resolve,
             reject,
           }),
@@ -41,10 +37,17 @@ const AuthSigninComponentService = ({ children }) => {
     }
   }
 
+  const formInitialValues = {
+    countryCode: pathOr('+1', ['values', 'countryCode'])(authSignin),
+    phone: pathOr('', ['values', 'phone'])(authSignin),
+    password: '',
+  }
+
   return children({
     formErrorMessage,
     handleFormSubmit,
     handleErrorClose,
+    formInitialValues,
   })
 }
 

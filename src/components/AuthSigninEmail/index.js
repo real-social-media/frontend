@@ -18,6 +18,7 @@ const AuthSigninEmail = ({
   formErrorMessage,
   handleFormSubmit,
   handleErrorClose,
+  formInitialValues,
 }) => {
   const styling = styles
   const navigation = useNavigation()
@@ -40,6 +41,7 @@ const AuthSigninEmail = ({
         <View style={styling.content}>
           <FormComponent
             handleFormSubmit={handleFormSubmit}
+            initialValues={formInitialValues}
           />
         </View>
       </View>
@@ -66,9 +68,13 @@ const styles = StyleSheet.create({
 
 AuthSigninEmail.propTypes = {
   t: PropTypes.any,
-  formErrorMessage: PropTypes.any,
-  handleFormSubmit: PropTypes.any,
-  handleErrorClose: PropTypes.any,
+  formErrorMessage: PropTypes.string,
+  handleFormSubmit: PropTypes.func,
+  handleErrorClose: PropTypes.func,
+  formInitialValues: PropTypes.shape({
+    email: PropTypes.string,
+    password: PropTypes.string,
+  }),
 }
 
 export default withTranslation()(AuthSigninEmail)

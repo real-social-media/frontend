@@ -19,6 +19,7 @@ const AuthSigninPhone = ({
   formErrorMessage,
   handleFormSubmit,
   handleErrorClose,
+  formInitialValues,
 }) => {
   const styling = styles
   const navigation = useNavigation()
@@ -39,7 +40,7 @@ const AuthSigninPhone = ({
         />
 
         <View style={styling.content}>
-          <FormComponent handleFormSubmit={handleFormSubmit} />
+          <FormComponent handleFormSubmit={handleFormSubmit} initialValues={formInitialValues} />
         </View>
       </View>
 
@@ -68,6 +69,11 @@ AuthSigninPhone.propTypes = {
   formErrorMessage: PropTypes.any,
   handleFormSubmit: PropTypes.any,
   handleErrorClose: PropTypes.any,
+  formInitialValues: PropTypes.shape({
+    countryCode: PropTypes.string,
+    phone: PropTypes.string,
+    password: PropTypes.string,
+  }),
 }
 
 export default withTranslation()(AuthSigninPhone)

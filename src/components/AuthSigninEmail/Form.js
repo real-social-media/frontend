@@ -13,7 +13,7 @@ import { withTranslation } from 'react-i18next'
 import testIDs from './test-ids'
 
 const formSchema = Yup.object().shape({
-  username: Yup.string()
+  email: Yup.string()
     .min(3)
     .max(50)
     .email()
@@ -35,7 +35,7 @@ const SigninForm = ({
   return (
     <View style={styles.root}>
       <View style={styles.input}>
-        <Field testID={testIDs.form.username} name="username" component={TextField} placeholder={t('Email')} keyboardType="default" textContentType="username" autoCompleteType="username" />
+        <Field testID={testIDs.form.username} name="email" component={TextField} placeholder={t('Email')} keyboardType="email-address" textContentType="emailAddress" autoCompleteType="email" />
       </View>
       <View style={styles.input}>
         <Field testID={testIDs.form.password} name="password" component={TextField} placeholder={t('Password')} secureTextEntry keyboardType="default" textContentType="password" autoCompleteType="password" />
@@ -66,13 +66,12 @@ SigninForm.defaultProps = {
 }
 
 export default withTranslation()(({
-  handleFormSubmit, t,
+  handleFormSubmit, initialValues, t,
 }) => (
   <Formik
-    initialValues={{ username: '', password: '' }}
+    initialValues={initialValues}
     validationSchema={formSchema}
     onSubmit={handleFormSubmit}
-    enableReinitialize
   >
     {(formikProps) => (
       <SigninForm {...formikProps} t={t} />

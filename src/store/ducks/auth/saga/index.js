@@ -53,7 +53,15 @@ function* authSigninRequest(req) {
   const { values, resolve, reject } = req.payload
 
   try {
-    yield fork(authSignin, values)
+    const credentials = values.usernameType === 'email' ? {
+      username: values.email,
+      password: values.password,
+    } : {
+      username: `${values.countryCode}${values.phone}`,
+      password: values.password,
+    }
+
+    yield fork(authSignin, credentials)
 
     const { success, failure } = yield race({
       success: take(constants.AUTH_CHECK_SUCCESS),
@@ -65,6 +73,7 @@ function* authSigninRequest(req) {
 
     if (success) {
       yield call(resolve)
+      yield put(actions.authSigninSuccess())
     } else if (failure) {
       throw new Error(failure.payload.message.text)
     }
