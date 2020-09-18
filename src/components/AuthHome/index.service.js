@@ -2,20 +2,8 @@ import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as authActions from 'store/ducks/auth/actions'
 import { useNavigation } from '@react-navigation/native'
-import toLower from 'ramda/src/toLower'
 
 const AuthHomeComponentService = ({ children }) => {
-  const guessUsernameType = (username) => {
-    const hasEmail = /\S+@\S+\.\S+/.test(username)
-    const hasPhone = /^[0-9 ()+-]+$/.test(username)
-
-    return (() => {
-      if (hasEmail) return 'email'
-      if (hasPhone) return 'phone'
-      return 'username'
-    })()
-  }
-
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const authCheck = useSelector(state => state.auth.authCheck)
@@ -28,18 +16,6 @@ const AuthHomeComponentService = ({ children }) => {
 
   const authAppleRequest = () => 
     dispatch(authActions.authAppleRequest())
-  
-  const authSigninRequest = (payload) => {
-    const usernameType = guessUsernameType(payload.username)
-    dispatch(authActions.authSigninRequest({
-      usernameType,
-      username: toLower(payload.username),
-      password: payload.password,
-    }))
-  }
-  
-  const authSigninIdle = () => 
-    dispatch(authActions.authSigninIdle({}))
 
   useEffect(() => {
     if (authGoogle.status === 'success') {
@@ -86,14 +62,10 @@ const AuthHomeComponentService = ({ children }) => {
   ])
 
   return children({
-    authCheck,
     authGoogle,
     authGoogleRequest,
     authApple,
     authAppleRequest,
-    authSignin,
-    authSigninRequest,
-    authSigninIdle,
   })
 }
 
