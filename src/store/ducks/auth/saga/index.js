@@ -290,18 +290,18 @@ function* authSigninEmailFormSubmit(req) {
 
     yield put(actions.authSigninRequest({ usernameType: 'email', ...nextValues }))
 
-    const { success, authSigninFailure, authCheckFailure } = yield race({
+    const { success, failure } = yield race({
       success: take(constants.AUTH_CHECK_SUCCESS),
-      authSigninFailure: take(constants.AUTH_SIGNIN_FAILURE),
-      authCheckFailure: take(constants.AUTH_CHECK_FAILURE),
+      failure: take([
+        constants.AUTH_SIGNIN_FAILURE,
+        constants.AUTH_CHECK_FAILURE,
+      ]),
     })
 
     if (success) {
       yield call(resolve)
-    } else if(authSigninFailure) {
-      throw new Error(authSigninFailure.payload.message)
-    } else if (authCheckFailure) {
-      throw new Error(authCheckFailure.payload.message.text)
+    } else if(failure) {
+      throw new Error(failure.payload.message.text)
     }
   } catch (error) {
     yield call(reject, error)
@@ -330,18 +330,18 @@ function* authSigninPhoneFormSubmit(req) {
       password: nextValues.password,
     }))
 
-    const { success, authSigninFailure, authCheckFailure } = yield race({
+    const { success, failure } = yield race({
       success: take(constants.AUTH_CHECK_SUCCESS),
-      authSigninFailure: take(constants.AUTH_SIGNIN_FAILURE),
-      authCheckFailure: take(constants.AUTH_CHECK_FAILURE),
+      failure: take([
+        constants.AUTH_SIGNIN_FAILURE,
+        constants.AUTH_CHECK_FAILURE,
+      ]),
     })
 
     if (success) {
       yield call(resolve)
-    } else if(authSigninFailure) {
-      throw new Error(authSigninFailure.payload.message)
-    } else if (authCheckFailure) {
-      throw new Error(authCheckFailure.payload.message.text)
+    } else if(failure) {
+      throw new Error(failure.payload.message.text)
     }
   } catch (error) {
     yield call(reject, error)
