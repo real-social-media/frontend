@@ -57,3 +57,8 @@ export const authForgotConfirmIdle = createAction(constants.AUTH_FORGOT_CONFIRM_
 export const authForgotConfirmRequest = createAction(constants.AUTH_FORGOT_CONFIRM_REQUEST)
 export const authForgotConfirmSuccess = createAction(constants.AUTH_FORGOT_CONFIRM_SUCCESS)
 export const authForgotConfirmFailure = createAction(constants.AUTH_FORGOT_CONFIRM_FAILURE)
+
+/**
+ * 
+ */
+export const authSigninEmailFormSubmit = createAction(constants.AUTH_SIGNIN_EMAIL_FORM_SUBMIT)

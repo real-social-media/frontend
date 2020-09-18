@@ -1,6 +1,10 @@
 import * as AWS from 'aws-sdk/global'
-import { put, getContext, takeEvery, takeLatest } from 'redux-saga/effects'
+import { put, getContext, takeEvery, takeLatest, race, take, call } from 'redux-saga/effects'
 import path from 'ramda/src/path'
+import trim from 'ramda/src/trim'
+import compose from 'ramda/src/compose'
+import toLower from 'ramda/src/toLower'
+import pathOr from 'ramda/src/pathOr'
 import {
   federatedGoogleSignin,
   federatedGoogleSignout,
@@ -269,6 +273,40 @@ function* authForgotConfirmRequest(req) {
   }
 }
 
+/**
+ *
+ */
+function* authSigninEmailFormSubmit(req) {
+  const { values, resolve, reject, formApi } = req.payload
+
+  try {
+    const nextValues = {
+      username: compose(trim, toLower, pathOr('', ['username']))(values),
+      password: values.password,
+    }
+
+    formApi.setValues(nextValues)
+
+    yield put(actions.authSigninRequest({ usernameType: 'email', ...nextValues }))
+
+    const { success, authSigninFailure, authCheckFailure } = yield race({
+      success: take(constants.AUTH_CHECK_SUCCESS),
+      authSigninFailure: take(constants.AUTH_SIGNIN_FAILURE),
+      authCheckFailure: take(constants.AUTH_CHECK_FAILURE),
+    })
+
+    if (success) {
+      yield call(resolve)
+    } else if(authSigninFailure) {
+      throw new Error(authSigninFailure.payload.message)
+    } else if (authCheckFailure) {
+      throw new Error(authCheckFailure.payload.message.text)
+    }
+  } catch (error) {
+    yield call(reject, error)
+  }
+}
+
 export default (persistor) => [
   takeEvery(constants.AUTH_SIGNIN_REQUEST, authSigninRequest),
   takeEvery(constants.AUTH_GOOGLE_REQUEST, authGoogleRequest),
@@ -276,4 +314,6 @@ export default (persistor) => [
   takeEvery(constants.AUTH_SIGNOUT_REQUEST, authSignoutRequest, persistor),
   takeLatest(constants.AUTH_FORGOT_REQUEST, authForgotRequest),
   takeLatest(constants.AUTH_FORGOT_CONFIRM_REQUEST, authForgotConfirmRequest),
+
+  takeEvery(constants.AUTH_SIGNIN_EMAIL_FORM_SUBMIT, authSigninEmailFormSubmit),
 ]

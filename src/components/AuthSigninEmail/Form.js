@@ -30,29 +30,18 @@ const formSchema = Yup.object().shape({
 const SigninForm = ({
   t,
   handleSubmit,
-  loading,
-  disabled,
-  isValid,
-  isValidating,
+  isSubmitting,
 }) => {
-  const styling = styles
-
-  const submitDisabled = (
-    disabled ||
-    !isValid ||
-    isValidating
-  )
-
   return (
-    <View style={styling.root}>
-      <View style={styling.input}>
+    <View style={styles.root}>
+      <View style={styles.input}>
         <Field testID={testIDs.form.username} name="username" component={TextField} placeholder={t('Email')} keyboardType="default" textContentType="username" autoCompleteType="username" />
       </View>
-      <View style={styling.input}>
+      <View style={styles.input}>
         <Field testID={testIDs.form.password} name="password" component={TextField} placeholder={t('Password')} secureTextEntry keyboardType="default" textContentType="password" autoCompleteType="password" />
       </View>
-      <View style={styling.input}>
-        <DefaultButton testID={testIDs.form.submitBtn} label={t('Next')} onPress={handleSubmit} loading={loading} disabled={submitDisabled} />
+      <View style={styles.input}>
+        <DefaultButton testID={testIDs.form.submitBtn} label={t('Next')} onPress={handleSubmit} loading={isSubmitting} disabled={isSubmitting} />
       </View>
     </View>
   )
@@ -69,31 +58,24 @@ const styles = StyleSheet.create({
 SigninForm.propTypes = {
   t: PropTypes.any,
   handleSubmit: PropTypes.any,
-  loading: PropTypes.any,
-  disabled: PropTypes.any,
-  isValid: PropTypes.any,
-  isValidating: PropTypes.any,
+  isSubmitting: PropTypes.bool,
+}
+
+SigninForm.defaultProps = {
+  isSubmitting: false,
 }
 
 export default withTranslation()(({
-  handleFormSubmit,
-  formSubmitLoading,
-  formSubmitDisabled,
-  ...props
+  handleFormSubmit, t,
 }) => (
   <Formik
+    initialValues={{ username: '', password: '' }}
     validationSchema={formSchema}
     onSubmit={handleFormSubmit}
     enableReinitialize
-    initialValues={{ username: '', password: '' }}
   >
     {(formikProps) => (
-      <SigninForm
-        {...formikProps}
-        {...props}
-        loading={formSubmitLoading}
-        disabled={formSubmitDisabled}
-      />
+      <SigninForm {...formikProps} t={t} />
     )}
   </Formik>
 ))

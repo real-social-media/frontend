@@ -18,8 +18,6 @@ const AuthSigninEmail = ({
   formErrorMessage,
   handleFormSubmit,
   handleErrorClose,
-  formSubmitLoading,
-  formSubmitDisabled,
 }) => {
   const styling = styles
   const navigation = useNavigation()
@@ -42,8 +40,6 @@ const AuthSigninEmail = ({
         <View style={styling.content}>
           <FormComponent
             handleFormSubmit={handleFormSubmit}
-            formSubmitLoading={formSubmitLoading}
-            formSubmitDisabled={formSubmitDisabled}
           />
         </View>
       </View>
@@ -73,8 +69,6 @@ AuthSigninEmail.propTypes = {
   formErrorMessage: PropTypes.any,
   handleFormSubmit: PropTypes.any,
   handleErrorClose: PropTypes.any,
-  formSubmitLoading: PropTypes.any,
-  formSubmitDisabled: PropTypes.any,
 }
 
 export default withTranslation()(AuthSigninEmail)
