@@ -21,12 +21,10 @@ const initialState = {
     nextRoute: null,
   },
   authSignin: {
-    data: [],
     status: 'idle',
     error: {},
     message: {},
     payload: {},
-    nextRoute: null,
   },
   authGoogle: {
     data: [],
@@ -125,12 +123,9 @@ const authSigninRequest = (state, action) => update(state, {
   },
 })
 
-const authSigninSuccess = (state, action) => update(state, {
+const authSigninSuccess = (state) => update(state, {
   authSignin: {
-    message: { $set: action.payload.message },
-    data: { $set: action.payload.data },
     status: { $set: 'success' },
-    nextRoute: { $set: action.payload.nextRoute },
   },
 })
 
@@ -139,13 +134,11 @@ const authSigninFailure = (state, action) => update(state, {
     message: { $set: action.payload.message },
     error: { $set: action.payload.message },
     status: { $set: 'failure' },
-    nextRoute: { $set: action.payload.nextRoute },
   },
 })
 
 const authSigninIdle = (state) => update(state, {
   authSignin: {
-    data: { $set: initialState.authSignin.data },
     status: { $set: 'idle' },
     error: { $set: initialState.authSignin.error },
     message: { $set: initialState.authSignin.message },

@@ -26,8 +26,8 @@ function* handleAuthSigninRequest(payload) {
 
 function* authSigninRequest(req) {
   try {
-    const data = yield handleAuthSigninRequest(req.payload)
-    yield put(actions.authSigninSuccess({ data, nextRoute: 'Root' }))
+    yield handleAuthSigninRequest(req.payload)
+    yield put(actions.authSigninSuccess())
   } catch (error) {
     if (error.code === 'UserNotConfirmedException') {
       yield put(actions.authSigninFailure({

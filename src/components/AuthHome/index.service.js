@@ -68,11 +68,6 @@ const AuthHomeComponentService = ({ children }) => {
       dispatch(authActions.authCheckRequest())
       dispatch(authActions.authSigninIdle({}))
     }
-
-    if (authSignin.status === 'failure' && authSignin.nextRoute) {
-      navigation.navigate(authSignin.nextRoute)
-      dispatch(authActions.authSigninIdle({}))
-    }
   }, [
     authSignin.status,
   ])
