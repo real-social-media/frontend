@@ -1,11 +1,6 @@
 import * as AWS from 'aws-sdk/global'
 import { put, getContext, takeEvery, takeLatest, race, take, call, fork } from 'redux-saga/effects'
 import path from 'ramda/src/path'
-import trim from 'ramda/src/trim'
-import compose from 'ramda/src/compose'
-import toLower from 'ramda/src/toLower'
-import pathOr from 'ramda/src/pathOr'
-import replace from 'ramda/src/replace'
 import {
   federatedGoogleSignin,
   federatedGoogleSignout,
@@ -24,10 +19,9 @@ import Config from 'react-native-config'
 /**
  * Signin user. Currently supports email and password or phone number and password methods
  */
-function* authSigninRequest(values) {
-  const AwsAuth = yield getContext('AwsAuth')
-
+function* authSignin(values) {
   try {  
+    const AwsAuth = yield getContext('AwsAuth')
     yield AwsAuth.signIn(values.username, values.password)
     yield put(actions.authCheckRequest())
   } catch (error) {
@@ -52,6 +46,30 @@ function* authSigninRequest(values) {
         message: errors.getMessagePayload(constants.AUTH_SIGNIN_FAILURE, 'GENERIC', error.message),
       }))
     }
+  }
+}
+
+function* authSigninRequest(req) {
+  const { values, resolve, reject } = req.payload
+
+  try {
+    yield fork(authSignin, values)
+
+    const { success, failure } = yield race({
+      success: take(constants.AUTH_CHECK_SUCCESS),
+      failure: take([
+        constants.AUTH_SIGNIN_FAILURE,
+        constants.AUTH_CHECK_FAILURE,
+      ]),
+    })
+
+    if (success) {
+      yield call(resolve)
+    } else if (failure) {
+      throw new Error(failure.payload.message.text)
+    }
+  } catch (error) {
+    yield call(reject, error)
   }
 }
 
@@ -271,80 +289,6 @@ function* authForgotConfirmRequest(req) {
   }
 }
 
-/**
- *
- */
-function* authSigninEmailFormSubmit(req) {
-  const { values, resolve, reject, formApi } = req.payload
-
-  try {
-    const nextValues = {
-      username: compose(trim, toLower, pathOr('', ['username']))(values),
-      password: values.password,
-    }
-
-    formApi.setValues(nextValues)
-
-    yield fork(authSigninRequest, { usernameType: 'email', ...nextValues })
-
-    const { success, failure } = yield race({
-      success: take(constants.AUTH_CHECK_SUCCESS),
-      failure: take([
-        constants.AUTH_SIGNIN_FAILURE,
-        constants.AUTH_CHECK_FAILURE,
-      ]),
-    })
-
-    if (success) {
-      yield call(resolve)
-    } else if(failure) {
-      throw new Error(failure.payload.message.text)
-    }
-  } catch (error) {
-    yield call(reject, error)
-  }
-}
-
-/**
- *
- */
-function* authSigninPhoneFormSubmit(req) {
-  const { values, resolve, reject, formApi } = req.payload
-
-  try {
-    const nextValues = {
-      countryCode: compose(replace(/[^+0-9]/g, ''), trim, toLower, pathOr('', ['countryCode']))(values),
-      username: compose(trim, toLower, pathOr('', ['username']))(values),
-      password: values.password,
-    }
-
-    formApi.setValues(nextValues)
-
-    yield fork(authSigninRequest, { 
-      usernameType: 'phone',
-      countryCode: nextValues.countryCode,
-      username: `${nextValues.countryCode}${nextValues.username}`,
-      password: nextValues.password,
-    })
-
-    const { success, failure } = yield race({
-      success: take(constants.AUTH_CHECK_SUCCESS),
-      failure: take([
-        constants.AUTH_SIGNIN_FAILURE,
-        constants.AUTH_CHECK_FAILURE,
-      ]),
-    })
-
-    if (success) {
-      yield call(resolve)
-    } else if(failure) {
-      throw new Error(failure.payload.message.text)
-    }
-  } catch (error) {
-    yield call(reject, error)
-  }
-}
-
 export default (persistor) => [
   takeEvery(constants.AUTH_GOOGLE_REQUEST, authGoogleRequest),
   takeEvery(constants.AUTH_APPLE_REQUEST, authAppleRequest),
@@ -352,6 +296,5 @@ export default (persistor) => [
   takeLatest(constants.AUTH_FORGOT_REQUEST, authForgotRequest),
   takeLatest(constants.AUTH_FORGOT_CONFIRM_REQUEST, authForgotConfirmRequest),
 
-  takeEvery(constants.AUTH_SIGNIN_EMAIL_FORM_SUBMIT, authSigninEmailFormSubmit),
-  takeEvery(constants.AUTH_SIGNIN_PHONE_FORM_SUBMIT, authSigninPhoneFormSubmit),
+  takeEvery(constants.AUTH_SIGNIN_REQUEST, authSigninRequest),
 ]
