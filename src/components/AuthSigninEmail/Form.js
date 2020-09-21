@@ -66,10 +66,10 @@ SigninForm.defaultProps = {
 }
 
 export default withTranslation()(({
-  handleFormSubmit, initialValues, t,
+  handleFormSubmit, formInitialValues, t,
 }) => (
   <Formik
-    initialValues={initialValues}
+    initialValues={formInitialValues}
     validationSchema={formSchema}
     onSubmit={handleFormSubmit}
   >

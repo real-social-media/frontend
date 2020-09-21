@@ -67,10 +67,10 @@ SigninPhoneForm.defaultProps = {
 export default withTranslation()(({
   t, 
   handleFormSubmit,
-  initialValues,
+  formInitialValues,
 }) => (
   <Formik
-    initialValues={initialValues}
+    initialValues={formInitialValues}
     validationSchema={formSchema}
     onSubmit={handleFormSubmit}
   >

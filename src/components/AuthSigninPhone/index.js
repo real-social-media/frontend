@@ -40,7 +40,7 @@ const AuthSigninPhone = ({
         />
 
         <View style={styling.content}>
-          <FormComponent handleFormSubmit={handleFormSubmit} initialValues={formInitialValues} />
+          <FormComponent handleFormSubmit={handleFormSubmit} formInitialValues={formInitialValues} />
         </View>
       </View>
 

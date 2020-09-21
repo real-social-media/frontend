@@ -41,7 +41,7 @@ const AuthSigninEmail = ({
         <View style={styling.content}>
           <FormComponent
             handleFormSubmit={handleFormSubmit}
-            initialValues={formInitialValues}
+            formInitialValues={formInitialValues}
           />
         </View>
       </View>
