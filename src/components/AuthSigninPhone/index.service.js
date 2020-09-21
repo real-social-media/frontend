@@ -10,25 +10,7 @@ const AuthSigninComponentService = ({ children }) => {
   const dispatch = useDispatch()
 
   const authSignin = useSelector(state => state.auth.authSignin)
-
-  const handleFormSubmit = (payload) => {
-    dispatch(authActions.authSigninRequest({
-      usernameType: 'phone',
-      countryCode: payload.countryCode,
-      username: `${payload.countryCode}${payload.username}`,
-      password: payload.password,
-    }))
-  }
-
-  const formSubmitLoading = authSignin.status === 'loading'
-  const formSubmitDisabled = authSignin.status === 'loading'
-  const formErrorMessage = authSignin.error.text
-
-  const formInitialValues = {
-    countryCode: '+1',
-    username: replace(pathOr('', ['payload', 'countryCode'])(authSignin), '', pathOr('', ['payload', 'username'])(authSignin)),
-    password: pathOr('', ['payload', 'password'])(authSignin),
-  }
+  const authCheck = useSelector(state => state.auth.authCheck)
 
   const handleFormTransform = (values) => ({
     countryCode: compose(replace(/[^+0-9]/g, ''), trim, toLower, pathOr('', ['countryCode']))(values),
@@ -36,15 +18,37 @@ const AuthSigninComponentService = ({ children }) => {
     password: values.password,
   })
 
-  const handleErrorClose = () => dispatch(authActions.authSigninIdle({}))
+  const handleFormSubmit = (values, formApi) => {
+    const nextValues = handleFormTransform(values)
+    formApi.setValues(nextValues)
+
+    dispatch(authActions.authSigninSubmit({
+      usernameType: 'phone',
+      countryCode: nextValues.countryCode,
+      username: `${nextValues.countryCode}${nextValues.username}`,
+      password: nextValues.password,
+    }))
+  }
+
+  const formSubmitting = authSignin.status === 'loading' || authCheck.status === 'loading'
+  const formErrorMessage = authSignin.error.text || authCheck.error.text
+
+  const formInitialValues = {
+    countryCode: '+1',
+    username: replace(pathOr('', ['payload', 'countryCode'])(authSignin), '', pathOr('', ['payload', 'username'])(authSignin)),
+    password: pathOr('', ['payload', 'password'])(authSignin),
+  }
+
+  const handleErrorClose = () => {
+    dispatch(authActions.authSigninIdle())
+    dispatch(authActions.authCheckIdle())
+  }
 
   return children({
     formErrorMessage,
     handleFormSubmit,
-    handleFormTransform,
     handleErrorClose,
-    formSubmitLoading,
-    formSubmitDisabled,
+    formSubmitting,
     formInitialValues,
   })
 }

@@ -1,5 +1,5 @@
 import * as AWS from 'aws-sdk/global'
-import { put, getContext, takeEvery, takeLatest } from 'redux-saga/effects'
+import { put, getContext, takeEvery, takeLatest, race, take } from 'redux-saga/effects'
 import path from 'ramda/src/path'
 import {
   federatedGoogleSignin,
@@ -51,6 +51,23 @@ function* authSigninRequest(req) {
       }))
     }
   }
+}
+
+/**
+ *
+ */
+function* authSigninSubmit(req) {
+  yield put(actions.authSigninRequest(req.payload))
+
+  const { success } = yield race({
+    success: take(constants.AUTH_SIGNIN_SUCCESS),
+    failure: take(constants.AUTH_SIGNIN_FAILURE),
+  })
+
+  if (success) {
+    yield put(actions.authCheckRequest())
+    yield put(actions.authSigninIdle())
+  } 
 }
 
 /**
@@ -271,6 +288,7 @@ function* authForgotConfirmRequest(req) {
 
 export default (persistor) => [
   takeEvery(constants.AUTH_SIGNIN_REQUEST, authSigninRequest),
+  takeEvery(constants.AUTH_SIGNIN_SUBMIT, authSigninSubmit),
   takeEvery(constants.AUTH_GOOGLE_REQUEST, authGoogleRequest),
   takeEvery(constants.AUTH_APPLE_REQUEST, authAppleRequest),
   takeEvery(constants.AUTH_SIGNOUT_REQUEST, authSignoutRequest, persistor),
