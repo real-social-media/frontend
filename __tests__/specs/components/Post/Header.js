@@ -15,9 +15,14 @@ jest.mock('services/Privacy', () => ({
 }))
 
 const postId = 1
-const postedBy = { userId: 1 }
+const postedBy = { userId: 1, username: 'username' }
 const user = { userId: 2 }
-const post = { postId, postedBy, originalPost: { postedBy }, expiresAt: '2020-09-10T05:26:58.746Z' }
+const post = {
+  postId,
+  postedBy,
+  originalPost: { postedBy: { userId: 2, username: 'username2' } },
+  expiresAt: '2020-09-10T05:26:58.746Z',
+}
 const handlePostShare = jest.fn()
 const postsFlagRequest = jest.fn()
 const postsArchiveRequest = jest.fn()
@@ -151,9 +156,10 @@ describe('Post Header component', () => {
     })
 
     it('visible', () => {
-      const { queryByTestId } = setup()
+      const { queryByTestId, getByText } = setup()
 
       expect(queryByTestId(testIDs.header.repostBtn)).toBeTruthy()
+      getByText(`Reposted from ${post.originalPost.postedBy.username}`)
     })
 
     it('hidden', () => {
@@ -171,7 +177,7 @@ describe('Post Header component', () => {
       expect($repostBtn).toBeTruthy()
 
       fireEvent.press($repostBtn)
-      expect(navigation.push).toHaveBeenCalledWith('Profile', { userId: post.postedBy.userId })
+      expect(navigation.push).toHaveBeenCalledWith('Profile', { userId: post.originalPost.postedBy.userId })
     })
   })
 

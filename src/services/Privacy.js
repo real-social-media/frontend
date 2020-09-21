@@ -1,6 +1,5 @@
 import path from 'ramda/src/path'
 import is from 'ramda/src/is'
-import isEmpty from 'ramda/src/isEmpty'
 import pathOr from 'ramda/src/pathOr'
 import propEq from 'ramda/src/propEq'
 
@@ -66,10 +65,9 @@ const postSeenByVisility = (post, user) => (
  * Visibility of repost, button will be visible if:
  * - Authenticated user is not owner of a post
  */
-const postRepostVisiblity = (post) => (
-  !isEmpty(path(['originalPost', 'postedBy', 'username'])(post)) &&
+const postRepostVisiblity = (post) =>
+  !!path(['originalPost', 'postedBy', 'username'], post) &&
   path(['postedBy', 'username'])(post) !== path(['originalPost', 'postedBy', 'username'])(post)
-)
 
 /**
  * Visibility of post verification, modal will be visible if:
