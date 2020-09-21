@@ -1,5 +1,5 @@
 import * as AWS from 'aws-sdk/global'
-import { put, getContext, takeEvery, takeLatest, race, take, call, fork } from 'redux-saga/effects'
+import { put, getContext, takeEvery, takeLatest, race, take, call } from 'redux-saga/effects'
 import path from 'ramda/src/path'
 import {
   federatedGoogleSignin,
@@ -11,6 +11,7 @@ import {
   getAppleSigninPersist,
   resetAuthUserPersist,
 } from 'services/Auth'
+import pick from 'ramda/src/pick'
 import * as actions from 'store/ducks/auth/actions'
 import * as constants from 'store/ducks/auth/constants'
 import * as errors from 'store/ducks/auth/errors'
@@ -20,63 +21,55 @@ import Config from 'react-native-config'
  * Signin user. Currently supports email and password or phone number and password methods
  */
 function* authSignin(values) {
-  try {  
-    const AwsAuth = yield getContext('AwsAuth')
-    yield AwsAuth.signIn(values.username, values.password)
-    yield put(actions.authCheckRequest())
-  } catch (error) {
-    if (error.code === 'UserNotConfirmedException') {
-      yield put(actions.authSigninFailure({
-        message: errors.getMessagePayload(constants.AUTH_SIGNIN_FAILURE, 'USER_NOT_CONFIRMED'),
-      }))
-    } else if (error.code === 'UserNotFoundException') {
-      yield put(actions.authSigninFailure({
-        message: errors.getMessagePayload(constants.AUTH_SIGNIN_FAILURE, 'USER_NOT_FOUND'),
-      }))
-    } else if (error.code === 'NotAuthorizedException') {
-      yield put(actions.authSigninFailure({
-        message: errors.getMessagePayload(constants.AUTH_SIGNIN_FAILURE, 'USER_NOT_AUTHORIZED'),
-      }))
-    } else if (error.code === 'InvalidParameterException') {
-      yield put(actions.authSigninFailure({
-        message: errors.getMessagePayload(constants.AUTH_SIGNIN_FAILURE, 'INVALID_PARAMETER'),
-      }))
-    } else {
-      yield put(actions.authSigninFailure({
-        message: errors.getMessagePayload(constants.AUTH_SIGNIN_FAILURE, 'GENERIC', error.message),
-      }))
-    }
-  }
-}
-
-function* authSigninRequest(req) {
-  const { values, resolve, reject } = req.payload
+  const AwsAuth = yield getContext('AwsAuth')
 
   try {
-    const credentials = values.usernameType === 'email' ? {
-      username: values.email,
-      password: values.password,
-    } : {
-      username: `${values.countryCode}${values.phone}`,
-      password: values.password,
+    yield put(actions.authSigninRequest(pick(['countryCode', 'phone', 'email'], values)))
+
+    if (values.usernameType === 'email') {
+      yield AwsAuth.signIn(values.email, values.password)
+    } else if(values.usernameType === 'phone') {
+      yield AwsAuth.signIn(`${values.countryCode}${values.phone}`, values.password)
+    } else {
+      throw new Error('Incorrect usernameType')
     }
 
-    yield fork(authSignin, credentials)
+    yield put(actions.authCheckRequest())
 
     const { success, failure } = yield race({
       success: take(constants.AUTH_CHECK_SUCCESS),
-      failure: take([
-        constants.AUTH_SIGNIN_FAILURE,
-        constants.AUTH_CHECK_FAILURE,
-      ]),
+      failure: take(constants.AUTH_CHECK_FAILURE),
     })
 
     if (success) {
-      yield call(resolve)
       yield put(actions.authSigninSuccess())
     } else if (failure) {
       throw new Error(failure.payload.message.text)
     }
+  } catch (error) {
+    const ERRORS = {
+      UserNotConfirmedException: 'USER_NOT_CONFIRMED',
+      UserNotFoundException: 'USER_NOT_FOUND',
+      NotAuthorizedException: 'USER_NOT_AUTHORIZED',
+      InvalidParameterException: 'INVALID_PARAMETER',
+    }
+    const messageCode = ERRORS[error.code] || 'GENERIC'
+    const message = errors.getMessagePayload(constants.AUTH_SIGNIN_FAILURE, messageCode)
+
+    yield put(actions.authSigninFailure({ message }))
+    throw new Error(message.text)
+  }
+}
+
+/**
+ * Handle sign in form submit
+ */
+function* authSigninFormSubmit(req) {
+  const { values, resolve, reject } = req.payload
+
+  try {
+    yield call(authSignin, values)
+    yield call(resolve)
   } catch (error) {
     yield call(reject, error)
   }
@@ -305,5 +298,5 @@ export default (persistor) => [
   takeLatest(constants.AUTH_FORGOT_REQUEST, authForgotRequest),
   takeLatest(constants.AUTH_FORGOT_CONFIRM_REQUEST, authForgotConfirmRequest),
 
-  takeEvery(constants.AUTH_SIGNIN_REQUEST, authSigninRequest),
+  takeEvery(constants.AUTH_SIGNIN_FORM_SUBMIT, authSigninFormSubmit),
 ]

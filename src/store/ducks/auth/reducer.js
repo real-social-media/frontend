@@ -2,7 +2,6 @@ import { handleActions } from 'redux-actions'
 import update from 'immutability-helper'
 import * as constants from 'store/ducks/auth/constants'
 import path from 'ramda/src/path'
-import pick from 'ramda/src/pick'
 
 const initialState = {
   /**
@@ -116,7 +115,7 @@ const authCheckReset = (state) => update(state, {
  */
 const authSigninRequest = (state, action) => update(state, {
   authSignin: {
-    values: { $merge: pick(['countryCode', 'phone', 'email'], action.payload.values) },
+    values: { $merge: action.payload },
   },
 })
 

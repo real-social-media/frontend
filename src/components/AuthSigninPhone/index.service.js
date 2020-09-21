@@ -7,6 +7,12 @@ import toLower from 'ramda/src/toLower'
 import pathOr from 'ramda/src/pathOr'
 import replace from 'ramda/src/replace'
 
+const parseValues = values => ({
+  countryCode: compose(replace(/[^+0-9]/g, ''), trim, toLower, pathOr('', ['countryCode']))(values),
+  phone: compose(trim, toLower, pathOr('', ['phone']))(values),
+  password: values.password,
+})
+
 const AuthSigninComponentService = ({ children }) => {
   const dispatch = useDispatch()
   const authSignin = useSelector(state => state.auth.authSignin)
@@ -15,22 +21,17 @@ const AuthSigninComponentService = ({ children }) => {
 
   const handleFormSubmit = async (values, formApi) => {
     try {
-      const nextValues = {
-        countryCode: compose(replace(/[^+0-9]/g, ''), trim, toLower, pathOr('', ['countryCode']))(values),
-        phone: compose(trim, toLower, pathOr('', ['phone']))(values),
-        password: values.password,
-      }
-
+      const nextValues = parseValues(values)
       formApi.setValues(nextValues)
 
       await new Promise((resolve, reject) => {
-        dispatch(
-          authActions.authSigninRequest({
-            values: { usernameType: 'phone', ...nextValues },
-            resolve,
-            reject,
-          }),
-        )
+        const payload = {
+          values: { usernameType: 'phone', ...nextValues },
+          resolve,
+          reject,
+        }
+
+        dispatch(authActions.authSigninFormSubmit(payload))
       })
     } catch (error) {
       setFormErrorMessage(error.message)

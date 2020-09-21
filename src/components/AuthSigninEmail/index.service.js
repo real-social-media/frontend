@@ -6,6 +6,11 @@ import compose from 'ramda/src/compose'
 import toLower from 'ramda/src/toLower'
 import pathOr from 'ramda/src/pathOr'
 
+const parseValues = values => ({
+  email: compose(trim, toLower)(values.email),
+  password: values.password,
+})
+
 const AuthSigninComponentService = ({ children }) => {
   const dispatch = useDispatch()
   const authSignin = useSelector(state => state.auth.authSignin)
@@ -14,21 +19,17 @@ const AuthSigninComponentService = ({ children }) => {
 
   const handleFormSubmit = async (values, formApi) => {
     try {
-      const nextValues = {
-        email: compose(trim, toLower, pathOr('', ['email']))(values),
-        password: values.password,
-      }
-
+      const nextValues = parseValues(values)
       formApi.setValues(nextValues)
 
       await new Promise((resolve, reject) => {
-        dispatch(
-          authActions.authSigninRequest({
-            values: { usernameType: 'email', ...nextValues },
-            resolve,
-            reject,
-          }),
-        )
+        const payload = {
+          values: { usernameType: 'email', ...nextValues },
+          resolve,
+          reject,
+        }
+
+        dispatch(authActions.authSigninFormSubmit(payload))
       })
     } catch (error) {
       setFormErrorMessage(error.message)
