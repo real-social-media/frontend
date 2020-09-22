@@ -101,6 +101,7 @@ describe('deeplinkNavigation redirect routes', () => {
     navigateNestedPostViews: jest.fn().mockName('mockedNavigateNestedPostViews'),
     navigateNestedPostLikes: jest.fn().mockName('mockedNavigateNestedPostLikes'),
     navigateNestedPost: jest.fn().mockName('mockedNavigateNestedPost'),
+    navigateProfilePhoto: jest.fn().mockName('mockedNavigateProfilePhoto'),
   }
   const Linking = {
     openURL: jest.fn().mockName('mockedOpenUrl'),
@@ -164,6 +165,16 @@ describe('deeplinkNavigation redirect routes', () => {
       userId: 'us-east-1:6b33c0d0-cc30-4083-92a1-043f7cd313ce',
       postId: '1bb30c92-ff1d-4d38-98b7-73942557dfbd',
       action: 'views',
+    })
+  })
+
+  test('profile photo', () => {
+    const rootUrl = 'https://real.app/user/us-east-1:6b33c0d0-cc30-4083-92a1-043f7cd313ce/settings/photo'
+    LinkingService.deeplinkNavigation(navigation, actions, Linking)(rootUrl)
+    expect(actions.navigateProfilePhoto).toHaveBeenLastCalledWith(navigation, {
+      _: 'https://real.app',
+      userId: 'us-east-1:6b33c0d0-cc30-4083-92a1-043f7cd313ce',
+      action: 'profilePhoto',
     })
   })
 

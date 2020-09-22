@@ -22,7 +22,6 @@ const ProfileEdit = ({
   toggleLikesDisabled,
   toggleCommentsDisabled,
   toggleSharingDisabled,
-  toggleVerificationHidden,
   usersDelete,
   usersDeleteRequest,
 }) => {
@@ -45,7 +44,6 @@ const ProfileEdit = ({
                 toggleLikesDisabled={toggleLikesDisabled}
                 toggleCommentsDisabled={toggleCommentsDisabled}
                 toggleSharingDisabled={toggleSharingDisabled}
-                toggleVerificationHidden={toggleVerificationHidden}
               />
             )}
           />
@@ -81,13 +79,12 @@ ProfileEdit.propTypes = {
   user: PropTypes.any,
   usersEditProfile: PropTypes.any,
   usersEditProfileRequest: PropTypes.any,
-  togglePrivacyStatus: PropTypes.any,
-  toggleFollowCountsHidden: PropTypes.any,
-  toggleViewCountsHidden: PropTypes.any,
-  toggleLikesDisabled: PropTypes.any,
-  toggleCommentsDisabled: PropTypes.any,
-  toggleSharingDisabled: PropTypes.any,
-  toggleVerificationHidden: PropTypes.any,
+  togglePrivacyStatus: PropTypes.func,
+  toggleFollowCountsHidden: PropTypes.func,
+  toggleViewCountsHidden: PropTypes.func,
+  toggleLikesDisabled: PropTypes.func,
+  toggleCommentsDisabled: PropTypes.func,
+  toggleSharingDisabled: PropTypes.func,
   usersDelete: PropTypes.any,
   usersDeleteRequest: PropTypes.any,
 }

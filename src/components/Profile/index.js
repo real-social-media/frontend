@@ -21,11 +21,11 @@ import * as navigationActions from 'navigation/actions'
 import ScrollService from 'services/Scroll'
 import * as UserService from 'services/User'
 import useViewable from 'services/providers/Viewable'
+import testIDs from 'components/Profile/test-ids'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
-import testIDs from './test-ids'
 
 const Profile = ({
   t,
@@ -142,6 +142,7 @@ const Profile = ({
         data={postsGet.data}
         numColumns={3}
         keyExtractor={item => item.postId}
+        testID={testIDs.root}
         renderItem={({ item: post, index: priorityIndex }) => (
           <PostsGridThumbnailComponent
             post={post}

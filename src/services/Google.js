@@ -10,20 +10,39 @@ class TokenExpiredError extends Error {
 }
 
 GoogleSignin.configure({
-  offlineAccess: false,
+  offlineAccess: true,
   iosClientId: Config.GOOGLE_SIGNIN_IOS_CLIENT_ID,
   webClientId: Config.GOOGLE_SIGNIN_ANDROID_CLIENT_ID,
 })
 
-const checkTokenExpiry = async (idToken) => {
-  const data = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${idToken}`)
-  const response = await data.json()
-  
-  if (!response || response.error) {
-    throw new TokenExpiredError('Token expired')
-  }
+/**
+ * Generate expiry time which is 10mins
+ */
+const generateTokenExpiry = () => Math.floor(Date.now() / 1000 + 60 * 1000 * 10)
 
-  return response
+/**
+ * Validate identity token returned from google-signin package
+ * Handle offline scenario by returing access token expiry time of 10mins
+ */
+const checkTokenExpiry = async (idToken) => {
+  try {
+    const data = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${idToken}`)
+    const response = await data.json()
+    
+    if (!response || response.error) {
+      throw new TokenExpiredError('Token expired')
+    }
+
+    return response
+  } catch (error) {
+    if (error && error.message && error.message.includes('Network request failed')) {
+      return {
+        exp: generateTokenExpiry(),
+      }
+    }
+
+    throw error
+  }
 }
 
 export const signin = async () => {

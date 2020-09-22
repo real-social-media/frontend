@@ -2,7 +2,7 @@
 app_identifier ENV["APP_IDENTIFIER"] || "app.real.mobile.development"
 
 # Your Apple email address
-apple_id ENV["APPLE_ID"] || "mcloughlin.investments@gmail.com"
+apple_id ENV["APPLE_ID"] || "me@azimgd.com"
 
 # App Store Connect Team ID
 itc_team_id ENV["ITC_TEAM_ID"] || "120375655"

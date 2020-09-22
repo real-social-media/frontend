@@ -1,13 +1,13 @@
 import * as actions from './actions'
-import { credentials } from '../../helpers/users'
-import { tap, toBeVisible } from '../../helpers/utils'
-import { SettingsScreen, ProfileScreen, AuthHomeScreen, Navigation } from './../../helpers/screens'
+import { credentials, permissions } from '../../helpers/users'
+import { tap, toBeVisible, waitForElement } from '../../helpers/utils'
+import { FeedScreen, SettingsScreen, ProfileScreen, AuthHomeScreen, Navigation } from './../../helpers/screens'
 
 describe('Feature: Logout', () => {
   beforeAll(async () => {
-    await device.launchApp({ permissions: { notifications: 'YES' }, newInstance: true })
+    await device.launchApp({ permissions, newInstance: true })
     await actions.signIn(credentials)
-    await actions.skipUploadProfilePicture()
+    await waitForElement(FeedScreen.root)
   })
 
   describe('As authorized user I want to be able to signout', () => {

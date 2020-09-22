@@ -16,17 +16,20 @@ describe('Verification Screen', () => {
   it('should represent verification rules', () => {
     const { getByText } = setup()
 
-    getByText('No Cropping')
-    getByText('The Photo must be uncropped')
+    getByText('No Cropping Outside REAL')
+    getByText('You can crop it inside the REAL app')
 
-    getByText('No Rotation')
-    getByText('The Photo must be unrotated')
+    getByText('No Rotation Outside REAL')
+    getByText('You can rotate it inside the REAL app')
 
     getByText('Origin Check')
     getByText('The Photo must have been taken on this phone')
 
     getByText('In-app Camera')
     getByText('Photos taken using the camera inside the REAL app will always pass verification')
+
+    getByText('Device must be an iPhone7 or newer')
+    getByText('Photo must have been taken using the iOS camera app')
 
     getByText(
       'Unverified posts can’t be trending/discovered, used as profile pictures, or used in dating. They can only be seen by your followers',

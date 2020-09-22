@@ -1,4 +1,4 @@
-import urlPattern from 'url-pattern'
+import UrlPattern from 'url-pattern'
 
 export class MissingDeeplinkParamsError extends Error {
   constructor(...args) {
@@ -8,23 +8,31 @@ export class MissingDeeplinkParamsError extends Error {
 }
 
 const options = { segmentValueCharset: ':a-zA-Z0-9_-' }
-const matchedPostAction = new urlPattern(
-  '*/user/(:userId)/post/(:postId)((/):action)(/)((/):actionId)(/)',
-  options,
-)
+
+const patterns = {
+  post: new UrlPattern('*/user/(:userId)/post/(:postId)((/):action)(/)((/):actionId)(/)', options),
+  profilePhoto: new UrlPattern('*/user/:userId/settings/photo(/)', options),
+}
 
 export const deeplinkPath = (action) => {
-  const params = matchedPostAction.match(action)
+  const [postMatch, profilePhotoMatch] = [
+    patterns.post.match(action), 
+    patterns.profilePhoto.match(action),
+  ]
+
+  if (profilePhotoMatch !== null) {
+    return { action: 'profilePhoto', ...profilePhotoMatch }
+  }
 
   if (action === 'https://real.app/chat/') {
     return { action: 'chats' }
   }
 
-  if (!params || !params.userId || !params.postId) {
+  if (!postMatch || !postMatch.userId || !postMatch.postId) {
     throw new MissingDeeplinkParamsError('Missing userId or postId parameters for post endpoint')
   }
 
-  return params
+  return postMatch
 }
 
 export const deeplinkNavigation = (navigation, navigationActions, Linking) => (action) => {
@@ -36,34 +44,36 @@ export const deeplinkNavigation = (navigation, navigationActions, Linking) => (a
      */
     if (params.action === 'chats') {
       return navigationActions.navigateChat(navigation)()
-    }
+    } else if (params && params.action === 'comments') {
 
     /**
      * Comments screen
      */
-    else if (params && params.action === 'comments') {
       return navigationActions.navigateNestedComments(navigation, params)()
-    }
+    } else if (params && params.action === 'views') {
 
     /**
      * Views screen
      */
-    else if (params && params.action === 'views') {
       return navigationActions.navigateNestedPostViews(navigation, params)()
-    }
+    } else if (params && params.action === 'likes') {
 
     /**
      * Likes screen
      */
-    else if (params && params.action === 'likes') {
       return navigationActions.navigateNestedPostLikes(navigation, params)()
-    }
+    } else if (params && !params.action) {
 
     /**
      * Post screen
      */
-    else if (params && !params.action) {
       return navigationActions.navigateNestedPost(navigation, params)()
+    } else if (params && params.action === 'profilePhoto') {
+
+      /**
+       * Profile Photo Upload
+       */
+      return navigationActions.navigateProfilePhoto(navigation, params)()
     }
   } catch (error) {
     if (error.code === 'MISSING_DEEP_LINK_PARAMS_ERROR') {

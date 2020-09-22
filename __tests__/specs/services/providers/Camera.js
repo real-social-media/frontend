@@ -1,34 +1,9 @@
-import * as RN from 'react-native'
-import { renderHook } from '@testing-library/react-hooks'
-import useCamera from 'services/providers/Camera'
-
-const handleProcessedPhoto = jest.fn()
-
-const setup = () => renderHook(() => useCamera({ handleProcessedPhoto }))
+import * as CameraService from 'services/providers/Camera'
 
 describe('Camera provider', () => {
-  it('automatically close keyboard after crop', () => {
-    const dismiss = jest.spyOn(RN.Keyboard, 'dismiss')
-    const addListener = jest.spyOn(RN.Keyboard, 'addListener')
-    const listener = { remove: jest.fn() }
-
-    addListener.mockReturnValueOnce(listener)
-
-    const { unmount } = setup()
-
-    expect(addListener).toHaveBeenCalled()
-
-    const calledWith = addListener.mock.calls[0]
-    const eventName = calledWith[0]
-    const closeKeyboard = calledWith[1]
-
-    expect(eventName).toBe('keyboardWillShow')
-    expect(closeKeyboard).toBeTruthy()
-
-    closeKeyboard()
-    expect(dismiss).toHaveBeenCalled()
-
-    unmount()
-    expect(listener.remove).toHaveBeenCalled()
+  it('generates correct asset', () => {
+    expect(CameraService.generateAssetFormat('.heic')).toEqual('HEIC')
+    expect(CameraService.generateAssetFormat('file.jpeg')).toEqual('JPEG')
+    expect(CameraService.generateAssetFormat('JPG')).toEqual('JPEG')
   })
 })

@@ -9,14 +9,8 @@ import * as cameraActions from 'store/ducks/camera/actions'
 import AsyncStorage from '@react-native-community/async-storage'
 import testIDs from 'components/PostType/test-ids'
 
-jest.mock('react-redux', () => ({
-  useDispatch: jest.fn(),
-}))
-
-jest.mock('@react-navigation/native', () => ({
-  useNavigation: jest.fn(),
-}))
-
+jest.mock('react-redux', () => ({ useDispatch: jest.fn() }))
+jest.mock('@react-navigation/native', () => ({ useNavigation: jest.fn() }))
 jest.mock('services/providers/Camera')
 
 const setup = () => renderWithProviders(<PostTypeScreen />)

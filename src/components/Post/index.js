@@ -19,7 +19,7 @@ import TextOnlyComponent from 'templates/TextOnly'
 import ReactionsPreviewTemplate from 'templates/ReactionsPreview'
 import ViewShot from 'react-native-view-shot'
 import * as navigationActions from 'navigation/actions'
-import * as PrivacyService from 'services/Privacy'
+import PrivacyService from 'services/Privacy'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -85,6 +85,7 @@ const PostComponent = ({
         handlePostShare={handlePostShare}
         createActionSheetRef={createActionSheetRef}
         actionSheetRef={actionSheetRef}
+        navigation={navigation}
       />
 
       {post.postType === 'TEXT_ONLY' ?

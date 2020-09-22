@@ -9,6 +9,7 @@ import {
 import { Text } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
+import testIDs from './test-ids'
 
 const Accordion = ({
   theme,
@@ -25,12 +26,12 @@ const Accordion = ({
           null
 
         return (
-          <View key={key} style={style}>
-            <TouchableOpacity style={styling.accordionItem} onPress={item.onPress}>
-              <Text style={styling.text}>{item.text}</Text>
+          <View testID={testIDs.item} key={key} style={style}>
+            <TouchableOpacity accessibilityRole="button" style={styling.accordionItem} onPress={item.onPress}>
+              <Text accessibilityRole="text" style={styling.text}>{item.text}</Text>
 
               {item.loading ?
-                <ActivityIndicator size={8} style={styling.icon} />
+                <ActivityIndicator accessibilityRole="progressbar" size={8} style={styling.icon} />
               : null}
             </TouchableOpacity>
           </View>
@@ -64,7 +65,16 @@ const styles = theme => StyleSheet.create({
 
 Accordion.propTypes = {
   theme: PropTypes.any,
-  items: PropTypes.any,
+  items: PropTypes.arrayOf(PropTypes.shape({
+    onPress: PropTypes.func.isRequired,
+    text: PropTypes.string.isRequired,
+    loading: PropTypes.bool,
+    disabled: PropTypes.bool,
+  })),
+}
+
+Accordion.defaultProps = {
+  items: [],
 }
 
 export default withTheme(Accordion)

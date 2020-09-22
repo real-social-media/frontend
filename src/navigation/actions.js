@@ -95,6 +95,18 @@ export const navigateProfileRequests = (navigation, params) => defaultThrottle((
   navigation.navigate('ProfileRequests', params),
 )
 
+export const navigateProfilePhoto = (navigation, params) => () =>
+  navigation.navigate('Root', {
+    screen: 'Home',
+    params: {
+      screen: 'Profile',
+      params: {
+        screen: 'ProfilePhoto',
+        ...params,
+      },
+    },
+  })
+
 export const navigateProfilePhotoUpload = (navigation, params) => defaultThrottle(() =>
   navigation.navigate('ProfilePhotoUpload', params),
 )
@@ -205,12 +217,6 @@ export const navigateAuthPassword = (navigation, params) => () =>
 
 export const navigateAuthEmailConfirm = (navigation, params) => () =>
   navigation.navigate('AuthEmailConfirm', params)
-
-export const navigateAuthPhoto = (navigation, params) => () =>
-  navigation.navigate('AuthPhoto', params)
-
-export const navigateAuthPhotoUpload = (navigation, params) => () =>
-  navigation.navigate('AuthPhotoUpload', params)
 
 export const navigateForgot = (navigation, params) => () =>
   navigation.navigate('Forgot', params)

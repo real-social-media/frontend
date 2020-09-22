@@ -20,7 +20,7 @@ const Verification = ({
   return (
     <BlurView style={styling.root}>
       <TouchableOpacity onPress={navigationActions.navigateVerification(navigation, { actionType: 'BACK' })}>
-        <Text style={styling.text}>{t('Failed Verification, tap to learn more.')}</Text>
+        <Text style={styling.text}>{t('Unverified, tap to learn more.')}</Text>
       </TouchableOpacity>
     </BlurView>
   )

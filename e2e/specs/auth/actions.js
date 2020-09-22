@@ -1,9 +1,7 @@
 import * as emailHelpers from '../../helpers/email'
-import { generatePassword, generateUsername, typeText, tap, toBeVisible, waitForElement } from './../../helpers/utils'
+import { generatePassword, generateUsername, typeText, tap, toBeVisible } from './../../helpers/utils'
 import {
-  AuthPhotoScreen,
   AuthHomeScreen,
-  FeedScreen,
   Navigation,
   ProfileScreen,
   SettingsScreen,
@@ -63,10 +61,4 @@ export async function signOut() {
   await toBeVisible(SettingsScreen.root)
 
   await tap(SettingsScreen.actions.signOutBtn)
-}
-
-export async function skipUploadProfilePicture() {
-  await waitForElement(AuthPhotoScreen.root)
-  await tap(AuthPhotoScreen.header.skipBtn)
-  await toBeVisible(FeedScreen.root)
 }

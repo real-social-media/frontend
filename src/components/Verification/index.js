@@ -7,6 +7,7 @@ import CameraIcon from 'assets/svg/verification/Camera'
 import CropIcon from 'assets/svg/verification/Crop'
 import RotateIcon from 'assets/svg/verification/Rotate'
 import ShareIcon from 'assets/svg/verification/Share'
+import PhoneIcon from 'assets/svg/verification/Phone'
 import color from 'color'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 
@@ -52,9 +53,9 @@ const Verification = ({
             <CropIcon fill={theme.colors.text} />
           </View>
           <View style={styling.subheadingContent}>
-            <Text style={styling.subheadingTitle}>{t('No Cropping')}</Text>
+            <Text style={styling.subheadingTitle}>{t('No Cropping Outside REAL')}</Text>
             <Text style={styling.subheadingSubtitle}>
-              {t('The Photo must be')} <Text style={styling.strong}>{t('uncropped')}</Text>
+              {t('You can crop it')} <Text style={styling.strong}>{t('inside the REAL app')}</Text>
             </Text>
           </View>
         </View>
@@ -64,9 +65,9 @@ const Verification = ({
             <RotateIcon fill={theme.colors.text} />
           </View>
           <View style={styling.subheadingContent}>
-            <Text style={styling.subheadingTitle}>{t('No Rotation')}</Text>
+            <Text style={styling.subheadingTitle}>{t('No Rotation Outside REAL')}</Text>
             <Text style={styling.subheadingSubtitle}>
-              {t('The Photo must be')} <Text style={styling.strong}>{t('unrotated')}</Text>
+              {t('You can rotate it')} <Text style={styling.strong}>{t('inside the REAL app')}</Text>
             </Text>
           </View>
         </View>
@@ -91,6 +92,18 @@ const Verification = ({
             <Text style={styling.subheadingTitle}>{t('In-app Camera')}</Text>
             <Text style={styling.subheadingSubtitle}>
               {t('Photos taken using the camera inside the REAL app will always pass verification')}
+            </Text>
+          </View>
+        </View>
+
+        <View style={styling.subheading}>
+          <View style={styling.subheadingIcon}>
+            <PhoneIcon fill={theme.colors.text} />
+          </View>
+          <View style={styling.subheadingContent}>
+            <Text style={styling.subheadingTitle}>{t('Device must be an iPhone7 or newer')}</Text>
+            <Text style={styling.subheadingSubtitle}>
+              {t('Photo must have been taken using the iOS camera app')}
             </Text>
           </View>
         </View>

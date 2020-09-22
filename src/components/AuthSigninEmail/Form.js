@@ -76,9 +76,7 @@ SigninForm.propTypes = {
 
 export default withTranslation()(({
   handleFormSubmit,
-  handleFormTransform,
-  formSubmitLoading,
-  formSubmitDisabled,
+  formSubmitting,
   formInitialValues,
   ...props
 }) => (
@@ -92,13 +90,8 @@ export default withTranslation()(({
       <SigninForm
         {...formikProps}
         {...props}
-        loading={formSubmitLoading}
-        disabled={formSubmitDisabled}
-        handleSubmit={() => {
-          const nextValues = handleFormTransform(formikProps.values)
-          formikProps.setValues(nextValues)
-          handleFormSubmit(nextValues)
-        }}
+        loading={formSubmitting}
+        disabled={formSubmitting}
       />
     )}
   </Formik>

@@ -19,7 +19,6 @@ const Privacy = ({
   toggleLikesDisabled,
   toggleCommentsDisabled,
   toggleSharingDisabled,
-  toggleVerificationHidden,
 }) => {
   const styling = styles(theme)
   
@@ -34,7 +33,6 @@ const Privacy = ({
           toggleLikesDisabled={toggleLikesDisabled}
           toggleCommentsDisabled={toggleCommentsDisabled}
           toggleSharingDisabled={toggleSharingDisabled}
-          toggleVerificationHidden={toggleVerificationHidden}
         />
         <Disclaimer />
       </View>
@@ -56,13 +54,12 @@ const styles = theme => StyleSheet.create({
 Privacy.propTypes = {
   theme: PropTypes.any,
   user: PropTypes.any,
-  togglePrivacyStatus: PropTypes.any,
-  toggleFollowCountsHidden: PropTypes.any,
-  toggleViewCountsHidden: PropTypes.any,
-  toggleLikesDisabled: PropTypes.any,
-  toggleCommentsDisabled: PropTypes.any,
-  toggleSharingDisabled: PropTypes.any,
-  toggleVerificationHidden: PropTypes.any,
+  togglePrivacyStatus: PropTypes.func,
+  toggleFollowCountsHidden: PropTypes.func,
+  toggleViewCountsHidden: PropTypes.func,
+  toggleLikesDisabled: PropTypes.func,
+  toggleCommentsDisabled: PropTypes.func,
+  toggleSharingDisabled: PropTypes.func,
 }
 
 export default withTheme(Privacy)

@@ -34,7 +34,7 @@ const Uploading = ({
       />
 
       {post.status === 'loading' ?
-        <View testID="components/AuthPhotoUpload/Uploading/loading" style={styling.status}>
+        <View style={styling.status}>
           <TouchableOpacity style={styling.content}>
             <Text style={styling.title}>Uploading {post.meta.progress || 0}%</Text>
             <View style={styling.caption}>
@@ -49,7 +49,7 @@ const Uploading = ({
       : null}
 
       {post.status === 'failure' ?
-        <View testID="components/AuthPhotoUpload/Uploading/failure" style={styling.status}>
+        <View style={styling.status}>
           <TouchableOpacity style={styling.content}>
             <Text style={styling.title}>{t('Failed to create your post')}</Text>
             <Caption style={styling.subtitle}>{t('Tap here to reupload')}</Caption>
@@ -61,7 +61,7 @@ const Uploading = ({
       : null}
       
       {post.status === 'success' ?
-        <View testID="components/AuthPhotoUpload/Uploading/success" style={styling.status}>
+        <View style={styling.status}>
           <TouchableOpacity style={styling.content}>
             <Text style={styling.title}>Done</Text>
             <Caption style={styling.subtitle}>{t('Successfully created')}</Caption>

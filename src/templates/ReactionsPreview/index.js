@@ -9,11 +9,12 @@ import path from 'ramda/src/path'
 import { Text } from 'react-native-paper'
 import Avatar from 'templates/Avatar'
 import * as navigationActions from 'navigation/actions'
-import * as PrivacyService from 'services/Privacy'
+import PrivacyService from 'services/Privacy'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
+import testIDs from 'templates/ReactionsPreview/test-ids'
 
 const ReactionsPreviewTemplate = ({
   t,
@@ -31,7 +32,7 @@ const ReactionsPreviewTemplate = ({
   }
 
   return (
-    <TouchableOpacity onPress={navigationActions.navigatePostLikes(navigation, { postId: post.postId, userId: post.postedBy.userId })}>
+    <TouchableOpacity testID={testIDs.root} onPress={navigationActions.navigatePostLikes(navigation, { postId: post.postId, userId: post.postedBy.userId })}>
       <View style={styling.root}>
         <View style={styling.row}>
           <View style={styling.profile}>

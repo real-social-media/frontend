@@ -156,7 +156,7 @@ const PostCreateForm = ({
 
       {handleOpenVerification ? 
         <View style={styling.input}>
-          <DefaultButton label={t('How to make my post verified?')} onPress={handleOpenVerification} mode="outlined" disabled={loading} />
+          <DefaultButton label={t('How to pass verification?')} onPress={handleOpenVerification} mode="outlined" disabled={loading} />
         </View>
       :null }
     </View>

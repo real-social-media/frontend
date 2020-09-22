@@ -16,3 +16,8 @@ export const subscriptionsPollIdle = createAction(constants.SUBSCRIPTIONS_POLL_I
 export const subscriptionsPollPending = createAction(constants.SUBSCRIPTIONS_POLL_PENDING)
 export const subscriptionsPollConnect = createAction(constants.SUBSCRIPTIONS_POLL_CONNECT)
 export const subscriptionsPollDisconnect = createAction(constants.SUBSCRIPTIONS_POLL_DISCONNECT)
+
+export const subscriptionsPostCompleted = createAction(constants.SUBSCRIPTIONS_POST_COMPLETED)
+export const subscriptionsPostError = createAction(constants.SUBSCRIPTIONS_POST_ERROR)
+
+export const subscriptionsPrefetchRequest = createAction(constants.SUBSCRIPTIONS_PREFETCH_REQUEST)

@@ -1,35 +1,39 @@
-import AsyncStorage from '@react-native-community/async-storage'
-
-/**
- *
- */
-export const resetPhotoValidation = async () => {
-	await AsyncStorage.removeItem('@real:settings:photoValidation')
-}
-
-export const savePhotoValidation = async () => {
-	await AsyncStorage.setItem('@real:settings:photoValidation', 'skip')
-}
-
-export const checkPhotoValidation = async () => {
-	const response = await AsyncStorage.getItem('@real:settings:photoValidation')
-	return response === 'skip'
-}
+import Storage, { STORAGE_KEYS } from 'services/Storage'
 
 /**
  *
  */
 export const resetAppleSigninPersist = async () => {
-	await AsyncStorage.removeItem('@real:auth:apple')
+	await Storage.removeItem(STORAGE_KEYS.AUTH_APPLE)
 }
 
 export const saveAppleSigninPersist = async (payload) => {
-	await AsyncStorage.setItem('@real:auth:apple', JSON.stringify(payload))
+	await Storage.setItem(STORAGE_KEYS.AUTH_APPLE, JSON.stringify(payload))
 }
 
 export const getAppleSigninPersist = async () => {
 	try {
-		const response = await AsyncStorage.getItem('@real:auth:apple')
+		const response = await Storage.getItem(STORAGE_KEYS.AUTH_APPLE)
+		return JSON.parse(response)
+	} catch (error) {
+		return {}
+	}
+}
+
+/**
+ *
+ */
+export const resetAuthUserPersist = async () => {
+	await Storage.removeItem(STORAGE_KEYS.AUTH_USER)
+}
+
+export const saveAuthUserPersist = async (payload) => {
+	await Storage.setItem(STORAGE_KEYS.AUTH_USER, JSON.stringify(payload))
+}
+
+export const getAuthUserPersist = async () => {
+	try {
+		const response = await Storage.getItem(STORAGE_KEYS.AUTH_USER)
 		return JSON.parse(response)
 	} catch (error) {
 		return {}

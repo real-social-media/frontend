@@ -122,6 +122,7 @@ const authSigninRequest = (state, action) => update(state, {
   authSignin: {
     status: { $set: 'loading' },
     payload: { $set: action.payload },
+    error: { $set: initialState.authSignin.error },
   },
 })
 

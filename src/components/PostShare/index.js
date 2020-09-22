@@ -1,66 +1,49 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  View,
-  ScrollView,
-} from 'react-native'
+import { StyleSheet, View, ScrollView } from 'react-native'
 import path from 'ramda/src/path'
 import { Headline, Caption } from 'react-native-paper'
 import AccordionComponent from 'templates/Accordion'
 import NativeError from 'templates/NativeError'
-import * as PrivacyService from 'services/Privacy'
 
 import PreviewServiceComponent from 'components/Preview/index.service'
 import PreviewPostComponent from 'components/Preview/Post'
 import PreviewUserComponent from 'components/Preview/User'
 
 import { withTheme } from 'react-native-paper'
-import { useRoute } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
-const PostShare = ({
-  t,
-  theme,
-  user,
-  postsSingleGet,
-  postsShare,
-  postsShareRequest,
-  watermark,
-}) => {
+const PostShare = ({ t, theme, postsSingleGet, postsShare, postsShareRequest, watermark, route }) => {
   const styling = styles(theme)
-  const route = useRoute()
+  const post = path(['data'])(postsSingleGet)
+  const photoUrl = route.params.renderUri || path(['image', 'url'])(post)
 
-  const repostButtonVisibility = useMemo(() => PrivacyService.postShareVisibility(postsSingleGet.data, user), [postsSingleGet.data, user])
+  const handleGallerySave = () =>
+    postsShareRequest({
+      photoUrl,
+      type: 'cameraroll',
+      title: 'Camera roll export',
+      watermark,
+      post,
+    })
 
-  const photoUrl = (
-    route.params.renderUri ||
-    path(['data', 'image', 'url'])(postsSingleGet)
-  )
+  const handleRepost = () =>
+    postsShareRequest({
+      photoUrl,
+      type: 'repost',
+      title: 'Repost',
+      watermark,
+      post,
+    })
 
-  const handleGallerySave = () => postsShareRequest({
-    photoUrl,
-    type: 'cameraroll',
-    title: 'Camera roll export',
-    watermark,
-    post: path(['data'])(postsSingleGet),
-  })
-
-  const handleRepost = () => postsShareRequest({
-    photoUrl,
-    type: 'repost',
-    title: 'Repost',
-    watermark,
-    post: path(['data'])(postsSingleGet),
-  })
-
-  const handleInstagramPost = () => postsShareRequest({
-    photoUrl,
-    type: 'instagramPost',
-    title: 'Instagram export',
-    watermark,
-    post: path(['data'])(postsSingleGet),
-  })
+  const handleInstagramPost = () =>
+    postsShareRequest({
+      photoUrl,
+      type: 'instagramPost',
+      title: 'Instagram export',
+      watermark,
+      post,
+    })
 
   return (
     <View style={styling.root}>
@@ -84,73 +67,87 @@ const PostShare = ({
           )}
         </PreviewServiceComponent>
 
-        {repostButtonVisibility ?
-          <View style={styling.content}>
-            <Headline style={styling.headline}>{t('Store as')}</Headline>
-            <View style={styling.bottomSpacing} />
-            <AccordionComponent
-              items={[
-                {
-                  text: t('Repost on REAL'),
-                  onPress: handleRepost,
-                  loading: postsShare.status === 'loading' && postsShare.payload.type === 'repost',
-                },
-                {
-                  text: t('Copy to Photos'),
-                  onPress: handleGallerySave,
-                  loading: postsShare.status === 'loading' && postsShare.payload.type === 'cameraroll',
-                },
-              ]}
-            />
-            <View style={styling.bottomSpacing} />
-            <Caption style={styling.bottomSpacing}>{t('Prove your post is verified by sharing a link to your REAL profile in it\'s description')}</Caption>
-            <View style={styling.bottomSpacing} />
-          </View>
-        : null}
+        <View style={styling.content}>
+          <Headline style={styling.headline}>{t('Store as')}</Headline>
+          <View style={styling.bottomSpacing} />
+          <AccordionComponent
+            items={[
+              {
+                text: t('Repost on REAL'),
+                onPress: handleRepost,
+                loading: postsShare.status === 'loading' && postsShare.payload.type === 'repost',
+              },
+              {
+                text: t('Copy to Photos'),
+                onPress: handleGallerySave,
+                loading: postsShare.status === 'loading' && postsShare.payload.type === 'cameraroll',
+              },
+            ]}
+          />
+          <View style={styling.bottomSpacing} />
+          <Caption style={styling.bottomSpacing}>
+            {t('Prove your post is verified by sharing a link to your REAL profile in it\'s description')}
+          </Caption>
+          <View style={styling.bottomSpacing} />
+        </View>
 
         <View style={styling.content}>
           <Headline style={styling.headline}>{t('Share as')}</Headline>
           <View style={styling.bottomSpacing} />
           <AccordionComponent
-            items={[{
-              text: t('Share on Instagram'),
-              onPress: handleInstagramPost,
-              loading: postsShare.status === 'loading' && postsShare.payload.type === 'instagramPost',
-            }]}
+            items={[
+              {
+                text: t('Share on Instagram'),
+                onPress: handleInstagramPost,
+                loading: postsShare.status === 'loading' && postsShare.payload.type === 'instagramPost',
+              },
+            ]}
           />
           <View style={styling.bottomSpacing} />
-          <Caption style={styling.bottomSpacing}>{t('Prove your post is verified by sharing a link to your REAL profile in it\'s description')}</Caption>
+          <Caption style={styling.bottomSpacing}>
+            {t('Prove your post is verified by sharing a link to your REAL profile in it\'s description')}
+          </Caption>
         </View>
       </ScrollView>
     </View>
   )
 }
 
-const styles = theme => StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: theme.colors.backgroundPrimary,
-  },
-  content: {
-    padding: theme.spacing.base,
-  },
-  headline: {
-    fontSize: 20,
-    fontWeight: '600',
-  },
-  bottomSpacing: {
-    marginBottom: theme.spacing.base,
-  },
-})
+const styles = (theme) =>
+  StyleSheet.create({
+    root: {
+      flex: 1,
+      backgroundColor: theme.colors.backgroundPrimary,
+    },
+    content: {
+      padding: theme.spacing.base,
+    },
+    headline: {
+      fontSize: 20,
+      fontWeight: '600',
+    },
+    bottomSpacing: {
+      marginBottom: theme.spacing.base,
+    },
+  })
 
 PostShare.propTypes = {
+  t: PropTypes.any,
   theme: PropTypes.any,
   postsSingleGet: PropTypes.any,
-  postsShare: PropTypes.any,
-  postsShareRequest: PropTypes.any,
-  t: PropTypes.any,
-  user: PropTypes.any,
+  postsShare: PropTypes.shape({
+    status: PropTypes.oneOf(['idle', 'success', 'failure', 'loading']),
+    payload: PropTypes.shape({
+      type: PropTypes.oneOf(['cameraroll', 'repost', 'instagramPost']),
+    }),
+  }),
+  postsShareRequest: PropTypes.func.isRequired,
   watermark: PropTypes.any,
+  route: PropTypes.shape({
+    params: PropTypes.shape({
+      renderUri: PropTypes.string,
+    }),
+  }),
 }
 
 export default withTranslation()(withTheme(PostShare))

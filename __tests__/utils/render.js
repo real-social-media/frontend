@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import { render } from '@testing-library/react-native'
 import { ThemesContext } from 'navigation/context'
 import { Provider as PaperProvider } from 'react-native-paper'
-import theme from './theme.mock'
-import './i18n.mock'
+import theme from 'tests/mocks/theme.mock'
 
 const AllTheProviders = ({ children }) => {
   return (

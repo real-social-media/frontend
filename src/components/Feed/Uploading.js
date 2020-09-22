@@ -16,6 +16,7 @@ import * as navigationActions from 'navigation/actions'
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
+import testIDs from 'components/Feed/test-ids'
 
 const Uploading = ({
   t,
@@ -61,9 +62,11 @@ const Uploading = ({
               <VerificationIcon fill="#676767" />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styling.icon} onPress={() => postsCreateIdle(post)}>
-            <CloseIcon fill="#ffffff" />
-          </TouchableOpacity>
+          {post.meta.progress !== 99 ? 
+            <TouchableOpacity testID={testIDs.uploading.cancelBtn} style={styling.icon} onPress={() => postsCreateIdle(post)}>
+              <CloseIcon fill="#ffffff" />
+            </TouchableOpacity> 
+          : null}
         </View>
       : null}
 
@@ -73,7 +76,7 @@ const Uploading = ({
             <Text style={styling.title}>{t('Failed to create your post')}</Text>
             <Caption style={styling.subtitle}>{t('Tap here to reupload')}</Caption>
           </TouchableOpacity>
-          <TouchableOpacity style={styling.icon} onPress={() => postsCreateIdle(post)}>
+          <TouchableOpacity testID={testIDs.uploading.cancelBtn} style={styling.icon} onPress={() => postsCreateIdle(post)}>
             <CloseIcon fill="#ffffff" />
           </TouchableOpacity>
         </View>
@@ -85,7 +88,7 @@ const Uploading = ({
             <Text style={styling.title}>Done</Text>
             <Caption style={styling.subtitle}>{t('Successfully created')}</Caption>
           </TouchableOpacity>
-          <TouchableOpacity style={styling.icon} onPress={() => postsCreateIdle(post)}>
+          <TouchableOpacity testID={testIDs.uploading.cancelBtn} style={styling.icon} onPress={() => postsCreateIdle(post)}>
             <TickIcon fill="#ffffff" />
           </TouchableOpacity>
         </View>
@@ -130,15 +133,15 @@ const styles = theme => StyleSheet.create({
 })
 
 Uploading.propTypes = {
+  t: PropTypes.any,
   theme: PropTypes.any,
   user: PropTypes.any,
   post: PropTypes.any,
   handleEditPress: PropTypes.any,
   postsArchiveRequest: PropTypes.any,
   postsFlagRequest: PropTypes.any,
-  t: PropTypes.any,
-  postsCreateRequest: PropTypes.any,
-  postsCreateIdle: PropTypes.any,
+  postsCreateRequest: PropTypes.func,
+  postsCreateIdle: PropTypes.func,
 }
 
 export default withTranslation()(withTheme(Uploading))
