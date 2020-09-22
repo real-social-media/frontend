@@ -1,8 +1,6 @@
 import { combineReducers } from 'redux'
 import { persistReducer } from 'redux-persist'
-
-import AsyncStorage from '@react-native-community/async-storage'
-import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
+import { STORAGE_PROVIDER } from 'services/Storage'
 
 import auth from 'store/ducks/auth/reducer'
 import signup from 'store/ducks/signup/reducer'
@@ -18,45 +16,73 @@ import ui from 'store/ducks/ui/reducer'
 import cache from 'store/ducks/cache/reducer'
 import entities from 'store/ducks/entities/reducer'
 import subscriptions from 'store/ducks/subscriptions/reducer'
+import { reducer as network } from 'react-native-offline'
 
 import 'store/ducks/posts/updates'
 import 'store/ducks/users/updates'
 import 'store/ducks/chat/updates'
 
 const postsPersistConfig = {
-  version: 2,
-  key: 'posts',
-  storage: AsyncStorage,
+  key: '/v2/posts',
+  storage: STORAGE_PROVIDER,
   whitelist: [
-    'postsFeedGet',
+    // 'postsFeedGet',
+    // 'postsGet',
+    // 'postsGetCache',
+    // 'postsGetTrendingPosts',
+    // 'postsPool',
+    
+    // 'postsCreateQueue',
+    // 'postsRecreateQueue',
   ],
 }
 
-const entitiesPersistConfig = {
-  version: 2,
-  key: 'entities',
-  storage: AsyncStorage,
-  stateReconciler: autoMergeLevel2,
+const usersPersistConfig = {
+  key: '/v2/users',
+  storage: STORAGE_PROVIDER,
   whitelist: [
-    'posts',
-    'images',
-    'comments',
+    // 'usersPool',
+  ],
+}
+
+const authPersistConfig = {
+  key: '/v2/auth',
+  storage: STORAGE_PROVIDER,
+  whitelist: [
+    // 'user',
+  ],
+}
+
+const signupPersistConfig = {
+  key: '/v2/signup',
+  storage: STORAGE_PROVIDER,
+  whitelist: [
+    // 'signupCognitoIdentity',
+  ],
+}
+
+const chatPersistConfig = {
+  key: '/v2/chat',
+  storage: STORAGE_PROVIDER,
+  whitelist: [
+    // 'chatGetChats',
   ],
 }
 
 export default combineReducers({
-  auth,
-  signup,
+  network,
+  auth: persistReducer(authPersistConfig, auth),
+  signup: persistReducer(signupPersistConfig, signup),
   theme,
   camera,
   albums,
-  chat,
+  chat: persistReducer(chatPersistConfig, chat),
   posts: persistReducer(postsPersistConfig, posts),
-  users,
+  users: persistReducer(usersPersistConfig, users),
   layout,
   translation,
   ui,
   cache,
-  entities: persistReducer(entitiesPersistConfig, entities),
+  entities,
   subscriptions,
 })
