@@ -1,3 +1,3 @@
 import path from 'ramda/src/path'
 
-export const selectEntities = path(['entities'])
+export const entities = path(['entities'])

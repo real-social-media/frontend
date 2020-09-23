@@ -3,7 +3,7 @@ import pathOr from 'ramda/src/pathOr'
 import path from 'ramda/src/path'
 import is from 'ramda/src/is'
 import * as normalizer from 'normalizer/schemas'
-import { selectEntities } from 'store/ducks/entities/selectors'
+import * as entitiesSelector from 'store/ducks/entities/selectors'
 
 const authUser = () => path(['auth', 'user'])
 const usersEditProfile = () => path(['users', 'usersEditProfile'])
@@ -11,7 +11,7 @@ const usersGetProfileSelf = () => path(['users', 'usersGetProfileSelf'])
 const usersDeleteAvatar = path(['users', 'usersDeleteAvatar'])
 
 export const authUserSelector = createSelector(
-  [authUser(), usersEditProfile(), usersGetProfileSelf(), usersDeleteAvatar, selectEntities],
+  [authUser(), usersEditProfile(), usersGetProfileSelf(), usersDeleteAvatar, entitiesSelector.entities],
   (authUser, usersEditProfile, usersGetProfileSelf, usersDeleteAvatar, entities) => {
     return normalizer.denormalizeUserGet(authUser, entities)
   },
