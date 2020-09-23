@@ -22,7 +22,7 @@ const PostsGrid = ({
   
   return (
     <Animatable.View style={styling.root} ref={ref}>
-      <GridComponent items={[{}, {}, {}, {}, {}, {}, {}, {}, {}]}>
+      <GridComponent items={[{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}]}>
         {() => (
           <GridItemComponent>
             <View style={styling.item} />

@@ -2,6 +2,7 @@ import { call, put, take, takeEvery } from 'redux-saga/effects'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as constants from 'store/ducks/subscriptions/constants'
 import { intervalEmitter } from 'store/ducks/subscriptions/saga/helpers'
+
 /**
  *
  */
@@ -21,4 +22,12 @@ function* subscriptionPollStart() {
   channel.close()
 }
 
-export default subscriptionPollStart
+function* _subscriptionPollStart() {
+  try {
+    yield subscriptionPollStart()
+  } catch (error) {
+    // ignore
+  }
+}
+
+export default _subscriptionPollStart

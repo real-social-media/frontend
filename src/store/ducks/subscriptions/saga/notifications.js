@@ -78,4 +78,12 @@ function* subscriptionNotificationStart() {
   channel.close()
 }
 
-export default subscriptionNotificationStart
+function* _subscriptionNotificationStart() {
+  try {
+    yield subscriptionNotificationStart()
+  } catch (error) {
+    // ignore
+  }
+}
+
+export default _subscriptionNotificationStart

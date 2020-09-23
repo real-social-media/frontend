@@ -39,4 +39,12 @@ function* chatMessageSubscription() {
   channel.close()
 }
 
-export default chatMessageSubscription
+function* _chatMessageSubscription() {
+  try {
+    yield chatMessageSubscription()
+  } catch (error) {
+    // ignore
+  }
+}
+
+export default _chatMessageSubscription

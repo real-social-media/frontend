@@ -879,9 +879,10 @@ const postsReportPostViewsIdle = (state) => update(state, {
  */
 const postsGetTrendingPostsRequest = (state, action) => update(state, {
   postsGetTrendingPosts: {
+    data: { $set: initialState.postsGetTrendingPosts.data },
     status: { $set: 'loading' },
     payload: { $set: action.payload },
-    meta: { $set: action.meta },
+    meta: { $set: initialState.postsGetTrendingPosts.meta },
   },
 })
 

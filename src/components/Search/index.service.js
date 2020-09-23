@@ -25,10 +25,21 @@ const SearchService = ({ children }) => {
   const feedRef = useRef(null)
   useScrollToTop(feedRef)
 
+  const [viewedStatus, handleViewedStatus] = useState(undefined)
+  const [verifiedStatus, handleVerifiedStatus] = useState(undefined)
+
   const usersSearchRequest = ({ searchToken }) => {
     dispatch(usersActions.usersFollowIdle({}))
     dispatch(usersActions.usersUnfollowIdle({}))
     dispatch(usersActions.usersSearchRequest({ searchToken: toLower(searchToken || '') }))
+  }
+
+  /**
+   * Trending Filters
+   */
+  const handleFilterChange = (filters) => {
+    handleViewedStatus(filters.viewedStatus)
+    handleVerifiedStatus(filters.verifiedStatus)
   }
 
   const usersFollowRequest = ({ userId }) =>
@@ -39,17 +50,17 @@ const SearchService = ({ children }) => {
   
   const usersAcceptFollowerUserRequest = ({ userId }) =>
     dispatch(usersActions.usersAcceptFollowerUserRequest({ userId }))
-
-  const postsGetTrendingPostsRequest = () =>
-    dispatch(postsActions.postsGetTrendingPostsRequest({ limit: 100 }))
   
   const postsGetTrendingPostsMoreRequest = (payload) =>
-    dispatch(postsActions.postsGetTrendingPostsMoreRequest(payload))
+    dispatch(postsActions.postsGetTrendingPostsMoreRequest({ ...payload, viewedStatus, isVerified: verifiedStatus }))
 
   useEffect(() => {
     dispatch(usersActions.usersGetTrendingUsersRequest({ limit: 30 }))
-    // dispatch(postsActions.postsGetTrendingPostsRequest({ limit: 30 }))
   }, [])
+
+  useEffect(() => {
+    dispatch(postsActions.postsGetTrendingPostsRequest({ viewedStatus, isVerified: verifiedStatus }))
+  }, [viewedStatus, verifiedStatus])
 
   /**
    * Following two states are tracking values of Search/Form -> searchToken input field
@@ -74,13 +85,17 @@ const SearchService = ({ children }) => {
     usersAcceptFollowerUser,
     usersAcceptFollowerUserRequest,
     usersGetTrendingUsers,
-    postsGetTrendingPostsRequest,
     postsGetTrendingPosts,
     postsGetTrendingPostsMoreRequest,
     formFocus,
     handleFormFocus,
     formChange,
     handleFormChange,
+    handleFilterChange,
+    trendingFilters: {
+      viewedStatus,
+      verifiedStatus,
+    },
   })
 }
 

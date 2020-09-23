@@ -250,9 +250,9 @@ export const reportPostViews = `
 `
 
 export const trendingPosts = `
-  query trendingPosts($viewedStatus: ViewedStatus, $limit: Int, $nextToken: String = null) {
-    trendingPosts(limit: $limit, nextToken: $nextToken) {
-      items(viewedStatus: $viewedStatus) {
+  query trendingPosts($viewedStatus: ViewedStatus, $isVerified: Boolean, $nextToken: String = null) {
+    trendingPosts(limit: 100, nextToken: $nextToken) {
+      items(viewedStatus: $viewedStatus, isVerified: $isVerified) {
         ...gridPostFragment
       }
       nextToken

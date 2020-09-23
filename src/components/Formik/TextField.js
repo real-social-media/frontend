@@ -11,67 +11,49 @@ import { withTheme } from 'react-native-paper'
 
 const TextField = ({
   theme,
-  field: {
-    value,
-    name,
-  },
   form,
+  field,
   placeholder,
-  multiline = false,
-  keyboardType = 'default',
-  textContentType = 'none',
-  onSubmitEditing,
-  disabled,
   hideError,
-  autoCompleteType = 'off',
-  secureTextEntry,
-  autoFocus = false,
-  maxLength,
   testID,
+  ...props
 }) => {
   const styling = styles
   
   const onFocus = () => {
-    form.setFieldTouched(name, true)
+    form.setFieldTouched(field.name, true)
+    props.handleFieldFocus && props.handleFieldFocus()
   }
+
   const onBlur = (event) => {
-    form.handleBlur(name)(event)
-    // form.setFieldTouched(name, false)
+    form.handleBlur(field.name)(event)
+    form.setFieldTouched(field.name, false)
+    props.handleFieldBlur && props.handleFieldBlur()
   }
+
   const onChangeText = (event) => {
-    form.handleChange(name)(event)
+    form.handleChange(field.name)(event)
   }
 
   return (
     <View style={styling.root}>
       <TextInput
+        {...props}
         style={styling.input}
-        name={name}
+        name={field.name}
         onChangeText={onChangeText}
         onBlur={onBlur}
         onFocus={onFocus}
-        value={value}
+        value={field.value}
         placeholder={placeholder}
         placeholderTextColor={theme.colors.placeholder}
-        autoCapitalize="none"
-        multiline={multiline}
-        keyboardType={keyboardType}
-        onSubmitEditing={onSubmitEditing}
-        mode="outlined"
-        dense={true}
         label={placeholder}
-        disabled={disabled}
-        autoCompleteType={autoCompleteType}
-        secureTextEntry={secureTextEntry}
-        returnKeyType="done"
-        textContentType={textContentType}
-        autoFocus={autoFocus}
-        maxLength={maxLength}
+        dense={true}
         testID={testID}
       />
 
       {!hideError ?
-        <ErrorMessage name={name} render={msg => <Text style={styling.error}>{msg}</Text>} />
+        <ErrorMessage name={field.name} render={msg => <Text style={styling.error}>{msg}</Text>} />
       : null}
     </View>
   )
@@ -107,11 +89,33 @@ TextField.propTypes = {
   disabled: PropTypes.any,
   hideError: PropTypes.any,
   autoCompleteType: PropTypes.any,
-  secureTextEntry: PropTypes.any,
-  textContentType: PropTypes.any,
-  autoFocus: PropTypes.any,
+  secureTextEntry: PropTypes.bool,
+  textContentType: PropTypes.string,
+  autoFocus: PropTypes.bool,
   maxLength: PropTypes.any,
   testID: PropTypes.any,
+  handleFieldFocus: PropTypes.func,
+  handleFieldBlur: PropTypes.func,
+  autoCapitalize: PropTypes.string,
+  mode: PropTypes.string,
+  returnKeyType: PropTypes.string,
+}
+
+TextField.defaultProps = {
+  autoCompleteType: 'off',
+  multiline: false,
+  keyboardType: 'default',
+  textContentType: 'none',
+  autoFocus: false,
+  onSubmitEditing: () => {},
+  secureTextEntry: false,
+  disabled: false,
+  maxLength: 255,
+  handleFieldFocus: () => {},
+  handleFieldBlur: () => {},
+  autoCapitalize: 'none',
+  mode: 'outlined',
+  returnKeyType: 'done',
 }
 
 export default withTheme(TextField)

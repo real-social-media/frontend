@@ -19,4 +19,12 @@ function* appSubscription() {
   yield put(chatActions.chatGetChatsRequest({}))
 }
 
-export default appSubscription
+function* _appSubscription() {
+  try {
+    yield appSubscription()
+  } catch (error) {
+    // ignore
+  }
+}
+
+export default _appSubscription

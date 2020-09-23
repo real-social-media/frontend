@@ -68,6 +68,17 @@ function* authSigninSubmit(req) {
     yield put(actions.authCheckRequest())
     yield put(actions.authSigninIdle())
   } 
+
+  const { failure } = yield race({
+    success: take(constants.AUTH_CHECK_SUCCESS),
+    failure: take(constants.AUTH_CHECK_FAILURE),
+  })
+
+  if (failure) {
+    yield put(actions.authSigninFailure({
+      message: path(['payload', 'message', 'text'], failure),
+    }))
+  }
 }
 
 /**

@@ -17,6 +17,7 @@ import posts from 'store/ducks/posts/saga'
 import postsCreate from 'store/ducks/posts/saga/postsCreate'
 import postsShare from 'store/ducks/posts/saga/postsShare'
 import postsReportPostViews from 'store/ducks/posts/saga/postsReportPostViews'
+import postsGetTrendingPosts from 'store/ducks/posts/saga/postsGetTrendingPosts'
 
 import * as Logger from 'services/Logger'
 import path from 'ramda/src/path'
@@ -51,6 +52,7 @@ export default function* rootSaga(persistor) {
     .concat(postsCreate())
     .concat(postsShare())
     .concat(postsReportPostViews())
+    .concat(postsGetTrendingPosts())
 
     .concat([
       takeEvery(action => /FAILURE$/.test(action.type), captureErrors),

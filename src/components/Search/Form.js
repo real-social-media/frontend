@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -12,8 +12,6 @@ import * as Yup from 'yup'
 import path from 'ramda/src/path'
 import useDebounce from 'react-use/lib/useDebounce'
 import CloseIcon from 'assets/svg/camera/Close'
-import { useIsFocused } from '@react-navigation/native'
-
 import { withTranslation } from 'react-i18next'
 
 const formSchema = Yup.object().shape({
@@ -25,43 +23,46 @@ const SearchForm = ({
   handleSubmit,
   handleFormFocus,
   handleFormChange,
-  getFieldMeta,
+  formFocus,
   handleReset,
   values,
 }) => {
   const styling = styles
-  
 
-  const formFocus = getFieldMeta('searchToken').touched
-  const formChange = path(['searchToken', 'length'])(values)
-  const isFocused = useIsFocused()
+  const formChangeState = path(['searchToken', 'length'])(values)
 
-  const close = () => {
+  const handleFieldFocus = () => {
+    handleFormFocus(true)
+  }
+  const handleFieldBlur = () => {
+    Keyboard.dismiss()
+  }
+  const handleFieldReset = () => {
+    handleFormFocus(false)
     Keyboard.dismiss()
     handleReset()
   }
 
-  useEffect(() => {
-    if (isFocused) return
-    close()
-  }, [isFocused])
-  useEffect(() => {
-    handleFormFocus(formFocus)
-  }, [formFocus])
-  useEffect(() => {
-    handleFormChange(formChange)
-  }, [formChange])
   useDebounce(() => {
-    if (formChange) handleSubmit()
-  }, 500, [formChange])
+    if (formChangeState) handleSubmit()
+    handleFormChange(formChangeState)
+  }, 500, [formChangeState])
 
   return (
     <View style={styling.root}>
       <View style={styling.input}>
-        <Field name="searchToken" component={TextField} placeholder={t('Search for username')} onSubmitEditing={handleSubmit} hideError />
+        <Field
+          handleFieldFocus={handleFieldFocus}
+          handleFieldBlur={handleFieldBlur}
+          name="searchToken"
+          component={TextField}
+          placeholder={t('Search for username')}
+          onSubmitEditing={handleSubmit}
+          hideError
+        />
       </View>
       {formFocus ?
-        <TouchableOpacity style={styling.icon} onPress={close}>
+        <TouchableOpacity style={styling.icon} onPress={handleFieldReset}>
           <CloseIcon fill="#fafafa" />
         </TouchableOpacity>
       : null}
@@ -98,7 +99,7 @@ SearchForm.propTypes = {
   t: PropTypes.any,
   handleFormFocus: PropTypes.any,
   handleFormChange: PropTypes.any,
-  getFieldMeta: PropTypes.any,
+  formFocus: PropTypes.any,
   handleReset: PropTypes.any,
   values: PropTypes.any,
 }

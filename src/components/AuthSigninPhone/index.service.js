@@ -31,7 +31,7 @@ const AuthSigninComponentService = ({ children }) => {
   }
 
   const formSubmitting = authSignin.status === 'loading' || authCheck.status === 'loading'
-  const formErrorMessage = authSignin.error.text || authCheck.error.text
+  const formErrorMessage = authSignin.error.text 
 
   const formInitialValues = {
     countryCode: '+1',

@@ -126,7 +126,7 @@ export const postsLikesGetSelector = (postId) => createDeepEqualSelector(
 /**
  *
  */
-const postsGetTrendingPosts = () => path(['posts', 'postsGetTrendingPosts'])
+export const postsGetTrendingPosts = () => path(['posts', 'postsGetTrendingPosts'])
 
 export const postsGetTrendingPostsSelector = () => createDeepEqualSelector(
   [postsGetTrendingPosts(), entitiesSelector.entities],

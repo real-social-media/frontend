@@ -36,4 +36,12 @@ function* cardSubscription() {
   channel.close()
 }
 
-export default cardSubscription
+function* _cardSubscription() {
+  try {
+    yield cardSubscription()
+  } catch (error) {
+    // ignore
+  }
+}
+
+export default _cardSubscription
