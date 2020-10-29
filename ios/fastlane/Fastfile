@@ -5,9 +5,9 @@ platform :ios do
   lane :beta do
     # register_devices(devices_file: "./devices.txt")
 
-    if ENV["APP_IDENTIFIER"] === "app.real.mobile.development"
-      add_badge
-    end
+    #if ENV["APP_IDENTIFIER"] === "app.real.mobile.development"
+    #  add_badge
+    #end
 
     match(
       app_identifier: ENV["APP_IDENTIFIER"],
