@@ -23,6 +23,7 @@ jobs:
         sudo gem install fastlane
     - name: Build
       env:
+        GIT_PRIVATE_KEY: ${{ secrets.GIT_PRIVATE_KEY }}
         MATCH_TYPE: ${{ secrets.MATCH_TYPE }}
         APP_IDENTIFIER: ${{ secrets.APP_IDENTIFIER }}
         APP_SCHEME: ${{ secrets.APP_SCHEME }}
