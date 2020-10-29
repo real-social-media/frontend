@@ -36,6 +36,8 @@ jobs:
         FASTLANE_SESSION: ${{ secrets.MATCH_USERNAME }}
         FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}
         MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+        FASTLANE_USER: ${{ secrets.FASTLANE_USER }}
+        FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
       run: |
         TAG=$(echo ${GITHUB_REF}| cut -d'-' -f 3)
         export BUILD_NUM=$(echo $TAG| cut -d'b' -f 2)
