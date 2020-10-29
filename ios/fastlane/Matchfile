@@ -1,6 +1,6 @@
 git_url("https://github.com/azimgd/REAL-CERTS.git")
 
-git_private_key ENV["GIT_PRIVATE_KEY"]
+git_basic_authorization ENV["GIT_PRIVATE_KEY"]
 
 storage_mode("git")
 
