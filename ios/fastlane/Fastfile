@@ -27,10 +27,6 @@ platform :ios do
       :PROVISIONING_PROFILE_SPECIFIER => ENV["APP_IDENTIFIER"],
       :DEVELOPMENT_TEAM => ENV["TEAM_ID"]
     }
-
-    enable_automatic_code_signing(
-      path: "REAL.xcodeproj"
-    )
     
     update_app_identifier(
       xcodeproj: "REAL.xcodeproj",
@@ -42,7 +38,6 @@ platform :ios do
 
     build_app(
       xcargs: settings_to_override,
-      export_xcargs: "-allowProvisioningUpdates",
       workspace: "REAL.xcworkspace",
       scheme: ENV["APP_SCHEME"],
       export_method: "app-store",
