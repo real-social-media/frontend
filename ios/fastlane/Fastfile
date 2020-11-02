@@ -28,9 +28,8 @@ platform :ios do
       :DEVELOPMENT_TEAM => ENV["TEAM_ID"]
     }
 
-    disable_automatic_code_signing(
-      path: "REAL.xcodeproj",
-      team_id: ENV["TEAM_ID"]
+    enable_automatic_code_signing(
+      path: "REAL.xcodeproj"
     )
     
     update_app_identifier(
