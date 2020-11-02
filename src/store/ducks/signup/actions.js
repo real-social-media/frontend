@@ -4,10 +4,10 @@ import * as constants from 'store/ducks/signup/constants'
 /**
  * 
  */
-export const signupUsernameIdle = createAction(constants.SIGNUP_USERNAME_IDLE)
-export const signupUsernameRequest = createAction(constants.SIGNUP_USERNAME_REQUEST)
-export const signupUsernameSuccess = createAction(constants.SIGNUP_USERNAME_SUCCESS)
-export const signupUsernameFailure = createAction(constants.SIGNUP_USERNAME_FAILURE)
+export const signupCheckIdle = createAction(constants.SIGNUP_CHECK_IDLE)
+export const signupCheckRequest = createAction(constants.SIGNUP_CHECK_REQUEST)
+export const signupCheckSuccess = createAction(constants.SIGNUP_CHECK_SUCCESS)
+export const signupCheckFailure = createAction(constants.SIGNUP_CHECK_FAILURE)
 
 /**
  * 
@@ -24,6 +24,14 @@ export const signupEmailIdle = createAction(constants.SIGNUP_EMAIL_IDLE)
 export const signupEmailRequest = createAction(constants.SIGNUP_EMAIL_REQUEST)
 export const signupEmailSuccess = createAction(constants.SIGNUP_EMAIL_SUCCESS)
 export const signupEmailFailure = createAction(constants.SIGNUP_EMAIL_FAILURE)
+
+/**
+ * 
+ */
+export const signupUsernameIdle = createAction(constants.SIGNUP_USERNAME_IDLE)
+export const signupUsernameRequest = createAction(constants.SIGNUP_USERNAME_REQUEST)
+export const signupUsernameSuccess = createAction(constants.SIGNUP_USERNAME_SUCCESS)
+export const signupUsernameFailure = createAction(constants.SIGNUP_USERNAME_FAILURE)
 
 /**
  * 
@@ -48,11 +56,3 @@ export const signupConfirmIdle = createAction(constants.SIGNUP_CONFIRM_IDLE)
 export const signupConfirmRequest = createAction(constants.SIGNUP_CONFIRM_REQUEST)
 export const signupConfirmSuccess = createAction(constants.SIGNUP_CONFIRM_SUCCESS)
 export const signupConfirmFailure = createAction(constants.SIGNUP_CONFIRM_FAILURE)
-
-/**
- * 
- */
-export const signupCognitoIdle = createAction(constants.SIGNUP_COGNITO_IDLE)
-export const signupCognitoRequest = createAction(constants.SIGNUP_COGNITO_REQUEST)
-export const signupCognitoSuccess = createAction(constants.SIGNUP_COGNITO_SUCCESS)
-export const signupCognitoFailure = createAction(constants.SIGNUP_COGNITO_FAILURE)

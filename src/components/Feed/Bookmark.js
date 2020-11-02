@@ -24,7 +24,7 @@ const Bookmark = ({
   const navigation = useNavigation()
 
   return (
-    <TouchableOpacity style={styling.root} onPress={navigationActions.navigateSearch(navigation)}>
+    <TouchableOpacity style={styling.root} onPress={() => navigationActions.navigateSearch(navigation)}>
       <View style={styling.text}>
         <Subheading>{t('You\'re All Caught Up')}</Subheading>
       </View>

@@ -1,8 +1,9 @@
-import { useEffect, useCallback } from 'react'
+import { useEffect, useCallback, useContext } from 'react'
 import * as signupActions from 'store/ducks/signup/actions'
 import * as navigationActions from 'navigation/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
+import { ThemeContext } from 'services/providers/Theme'
 import trim from 'ramda/src/trim'
 import compose from 'ramda/src/compose'
 import toLower from 'ramda/src/toLower'
@@ -14,11 +15,12 @@ import testIDs from './test-ids'
 const AuthUsernameComponentService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
+  const { theme } = useContext(ThemeContext)
 
   const signupUsername = useSelector(state => state.signup.signupUsername)
 
   const handleFormSubmit = (payload) => {
-    logEvent('SIGNUP_USERNAME_REQUEST')
+    logEvent('SIGNUP_CHECK_REQUEST')
     dispatch(signupActions.signupUsernameRequest(payload))
   }
 
@@ -26,8 +28,8 @@ const AuthUsernameComponentService = ({ children }) => {
    * Navigation state reset on back button press
    */
   const handleGoBack = useCallback(() => {
-    dispatch(signupActions.signupUsernameIdle({}))
-    navigationActions.navigateAuthHome(navigation)()
+    dispatch(signupActions.signupCheckIdle({}))
+    navigationActions.navigateAuthHome(navigation)
   }, [])
 
   useEffect(() => {
@@ -35,24 +37,10 @@ const AuthUsernameComponentService = ({ children }) => {
       headerLeft: () => pageHeaderLeft({ 
         testID: testIDs.header.backBtn, 
         onPress: handleGoBack, 
+        theme,
       }),
     })
   }, [])
-
-  /**
-   * Redirect to password selection once username is available
-   */
-  useEffect(() => {
-    if (
-      signupUsername.status !== 'success'
-    ) return
-
-    logEvent('SIGNUP_USERNAME_SUCCESS')
-    navigationActions.navigateAuthPassword(navigation)()
-  }, [
-    signupUsername.status,
-    signupUsername.payload.username,
-  ])
 
   const formSubmitLoading = signupUsername.status === 'loading'
   const formSubmitDisabled = signupUsername.status === 'loading'
@@ -66,7 +54,7 @@ const AuthUsernameComponentService = ({ children }) => {
     username: compose(trim, toLower, pathOr('', ['username']))(values),
   })
 
-  const handleErrorClose = () => dispatch(signupActions.signupUsernameIdle({}))
+  const handleErrorClose = () => dispatch(signupActions.signupCheckIdle({}))
 
   return children({
     formErrorMessage,

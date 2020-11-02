@@ -17,7 +17,6 @@ const user = {
   likesDisabled: false,
   commentsDisabled: false,
   sharingDisabled: false,
-  viewCountsHidden: false,
 }
 
 const setup = () => renderWithProviders(<PrivacyScreen />)
@@ -76,7 +75,6 @@ describe('Privacy screen', () => {
     })
 
     it('toggleFollowCountsHidden', () => testToggle('followCountsHidden'))
-    it('toggleViewCountsHidden', () => testToggle('viewCountsHidden'))
     it('toggleLikesDisabled', () => testToggle('likesDisabled'))
     it('toggleCommentsDisabled', () => testToggle('commentsDisabled'))
     it('toggleSharingDisabled', () => testToggle('sharingDisabled'))

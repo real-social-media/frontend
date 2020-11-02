@@ -47,7 +47,7 @@ const PostsGridThumbnail = ({
    * navigation is always the same for posts
    */
   const handleOnPress = useCallback(() => {
-    navigationActions.navigatePostMedia(navigation, { postId: post.postId, userId: post.postedBy.userId })()
+    navigationActions.navigatePostMedia(navigation, { postId: post.postId, userId: post.postedBy.userId })
   }, [post.postId])
 
   /**

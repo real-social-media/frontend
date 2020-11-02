@@ -1,19 +1,21 @@
 import React, { useContext } from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
-import { withTheme } from 'react-native-paper'
 
-import { ThemesContext } from 'navigation/context'
+import { AuthContext } from 'services/providers/Auth'
+import { ThemeContext } from 'services/providers/Theme'
 import * as navigationOptions from 'navigation/options'
 import * as navigationFragments from 'navigation/fragments'
 
 import FeedScreen from 'screens/FeedScreen'
 
-const AppNavigator = () => {
-  const { theme, themes } = useContext(ThemesContext)
-  const Stack = createStackNavigator()
-  const stackNavigatorCardProps = navigationOptions.stackNavigatorCardProps({ theme, themes })
-  const stackScreenDefaultProps = navigationOptions.stackScreenDefaultProps({ theme, themes })
-  const stackScreenPageProps = navigationOptions.stackScreenPageProps({ theme, themes })
+const Stack = createStackNavigator()
+
+const FeedNavigator = () => {
+  const { theme } = useContext(ThemeContext)
+  const { user } = useContext(AuthContext)
+  const stackNavigatorCardProps = navigationOptions.stackNavigatorCardProps({ theme })
+  const stackScreenDefaultProps = navigationOptions.stackScreenDefaultProps({ theme, user })
+  const stackScreenPageProps = navigationOptions.stackScreenPageProps({ theme })
 
   return (
     <Stack.Navigator {...stackNavigatorCardProps}>
@@ -31,4 +33,4 @@ const AppNavigator = () => {
   )
 }
 
-export default withTheme(AppNavigator)
+export default FeedNavigator

@@ -167,26 +167,15 @@ describe('Privacy service', () => {
     })
 
     it('enabled for post owner', () => {
-      falsyValues.forEach((viewCountsHidden) => {
-        const user = { userId, viewCountsHidden }
-        const post = { postedBy: { userId, viewCountsHidden }, viewedByCount: 1 }
+      const user = { userId }
+      const post = { postedBy: { userId }, viewedByCount: 1 }
 
-        expect(Privacy.postSeenByVisility(post, user)).toBe(true)
-      })
+      expect(Privacy.postSeenByVisility(post, user)).toBe(true)
     })
 
     it('disabled when viewedByCount is 0', () => {
-      falsyValues.forEach((viewCountsHidden) => {
-        const user = { userId, viewCountsHidden }
-        const post = { postedBy: { userId, viewCountsHidden }, viewedByCount: 0 }
-
-        expect(Privacy.postSeenByVisility(post, user)).toBe(false)
-      })
-    })
-
-    it('disabled in user mental health settings', () => {
-      const user = { userId, viewCountsHidden: true }
-      const post = { postedBy: { userId }, viewedByCount: 1 }
+      const user = { userId }
+      const post = { postedBy: { userId }, viewedByCount: 0 }
 
       expect(Privacy.postSeenByVisility(post, user)).toBe(false)
     })
@@ -248,42 +237,6 @@ describe('Privacy service', () => {
 
     it('disabled for text type post', () => {
       expect(Privacy.postVerificationVisibility({ ...post, postType: 'TEXT_ONLY' })).toBe(false)
-    })
-  })
-
-  describe('selfPostVerificationVisibility', () => {
-    let Privacy
-
-    const user = { userId: 1 }
-    const post = { postedBy: user }
-
-    beforeAll(() => {
-      jest.isolateModules(() => {
-        Privacy = require('services/Privacy').default
-        jest.spyOn(Privacy, 'postVerificationVisibility').mockReturnValue(true)
-      })
-    })
-
-    afterAll(() => {
-      Privacy.postVerificationVisibility.mockRestore()
-    })
-
-    it('disabled when postVerificationVisibility return false', () => {
-      Privacy.postVerificationVisibility.mockReturnValueOnce(false)
-      expect(Privacy.selfPostVerificationVisibility(post, user)).toBe(false)
-    })
-
-    it('enabled when postVerificationVisibility return true', () => {
-      Privacy.postVerificationVisibility.mockReturnValueOnce(true)
-      expect(Privacy.selfPostVerificationVisibility(post, user)).toBe(true)
-    })
-
-    it('disabled for nor post owner', () => {
-      expect(Privacy.selfPostVerificationVisibility(post, { userId: 2 })).toBe(false)
-    })
-
-    it('enabled for post owner', () => {
-      expect(Privacy.selfPostVerificationVisibility(post, user)).toBe(true)
     })
   })
 

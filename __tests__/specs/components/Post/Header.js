@@ -22,11 +22,13 @@ const post = {
   postedBy,
   originalPost: { postedBy: { userId: 2, username: 'username2' } },
   expiresAt: '2020-09-10T05:26:58.746Z',
+  isVerified: false,
 }
 const handlePostShare = jest.fn()
 const postsFlagRequest = jest.fn()
 const postsArchiveRequest = jest.fn()
 const postsDeleteRequest = jest.fn()
+const changeAvatarRequest = jest.fn()
 const postsRestoreArchivedRequest = jest.fn()
 const navigation = { navigate: jest.fn() }
 const requiredProps = {
@@ -36,6 +38,7 @@ const requiredProps = {
   postsFlagRequest,
   postsArchiveRequest,
   postsDeleteRequest,
+  changeAvatarRequest,
   postsRestoreArchivedRequest,
   navigation,
 }
@@ -50,6 +53,7 @@ describe('Post Header component', () => {
       postsFlagRequest.mockClear()
       postsArchiveRequest.mockClear()
       postsDeleteRequest.mockClear()
+      changeAvatarRequest.mockClear()
       postsRestoreArchivedRequest.mockClear()
       navigation.navigate.mockClear()
     })
@@ -70,7 +74,7 @@ describe('Post Header component', () => {
       expect(handlePostShare).toHaveBeenCalled()
 
       onPress(1)
-      expect(postsFlagRequest).toHaveBeenCalledWith({ postId })
+      expect(postsFlagRequest).toHaveBeenCalledWith({ postId, userId: user.userId })
     })
 
     it('user is an owner of a post', () => {
@@ -120,7 +124,25 @@ describe('Post Header component', () => {
       expect(cancelButtonIndex).toBe(1)
 
       onPress(0)
-      expect(postsRestoreArchivedRequest).toHaveBeenCalledWith({ postId: archived.postId })
+      expect(postsRestoreArchivedRequest).toHaveBeenCalledWith({ postId: archived.postId, userId: user.userId })
+    })
+
+    it('user is an owner of a verified post', () => {
+      PrivacyService.postShareVisibility.mockReturnValueOnce(false)
+      const user = { userId: post.postedBy.userId }
+      const verified = { ...post, isVerified: true }
+      const { getByTestId } = setup({ user, post: verified })
+
+      expect(getByTestId(testIDs.header.openDropDownMenu)).toBeTruthy()
+
+      expect(RNActionSheet).toHaveBeenCalled()
+      const { options, cancelButtonIndex, onPress } = RNActionSheet.mock.calls[0][0]
+
+      expect(options).toEqual(['Set as an avatar', 'Edit', 'Archive', 'Delete', 'Cancel'])
+      expect(cancelButtonIndex).toBe(4)
+
+      onPress(0)
+      expect(changeAvatarRequest).toHaveBeenCalledWith({ postId: verified.postId })
     })
 
     describe('Sharing button', () => {
@@ -230,7 +252,7 @@ describe('Post Header component', () => {
       expect($verificationStatus).toBeTruthy()
 
       fireEvent.press($verificationStatus)
-      expect(navigation.navigate).toHaveBeenCalledWith('Verification', { actionType: 'BACK', post })
+      expect(navigation.navigate).toHaveBeenCalledWith('Verification', { actionType: 'BACK' })
     })
   })
 })

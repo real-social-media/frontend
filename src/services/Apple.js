@@ -3,6 +3,7 @@ import appleAuth, {
   AppleAuthRequestScope,
   AppleAuthCredentialState,
 } from '@invertase/react-native-apple-authentication'
+import jwt from 'jwt-decode'
 
 class AppleCredentialsError extends Error {
   constructor(...args) {
@@ -31,12 +32,14 @@ export const signin = async () => {
     throw new AppleCredentialsError('Invalid apple signin credentials state')
   }
 
+  const payload = jwt(appleAuthRequestResponse.identityToken)
+
   return {
     token: appleAuthRequestResponse.identityToken,
     expires_at: generateTokenExpiry(),
     user: {
       id: appleAuthRequestResponse.user,
-      email: appleAuthRequestResponse.email,
+      email: payload.email,
     },
   }
 }
@@ -56,12 +59,14 @@ export const refresh = async () => {
     throw new AppleCredentialsError('Invalid apple signin credentials state')
   }
 
+  const payload = jwt(appleAuthRequestResponse.identityToken)
+
   return {
     token: appleAuthRequestResponse.identityToken,
     expires_at: generateTokenExpiry(),
     user: {
       id: appleAuthRequestResponse.user,
-      email: appleAuthRequestResponse.email,
+      email: payload.email,
     },
   }
 }

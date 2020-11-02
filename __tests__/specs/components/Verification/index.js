@@ -32,7 +32,7 @@ describe('Verification Screen', () => {
     getByText('Photo must have been taken using the iOS camera app')
 
     getByText(
-      'Unverified posts can’t be trending/discovered, used as profile pictures, or used in dating. They can only be seen by your followers',
+      'Verified posts will be boosted to the top of the explore page, and be more discoverable. Unverified posts can\'t be used in REAL Dating',
     )
   })
 

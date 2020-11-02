@@ -8,16 +8,30 @@ import useCamera from 'services/providers/Camera'
 import * as cameraActions from 'store/ducks/camera/actions'
 import AsyncStorage from '@react-native-community/async-storage'
 import testIDs from 'components/PostType/test-ids'
+import * as authSelector from 'store/ducks/auth/selectors'
+import { AuthProvider } from 'services/providers/Auth'
+import { testNavigate } from 'tests/utils/helpers'
 
-jest.mock('react-redux', () => ({ useDispatch: jest.fn() }))
+jest.spyOn(authSelector, 'authUserSelector').mockReturnValue({ userStatus: 'ACTIVE' })
+
+jest.mock('react-redux', () => ({ useDispatch: jest.fn(), useSelector: (cb) => cb() }))
 jest.mock('@react-navigation/native', () => ({ useNavigation: jest.fn() }))
 jest.mock('services/providers/Camera')
 
-const setup = () => renderWithProviders(<PostTypeScreen />)
+const dispatch = jest.fn()
+useDispatch.mockReturnValue(dispatch)
+
+const setup = () =>
+  renderWithProviders(
+    <AuthProvider>
+      <PostTypeScreen />
+    </AuthProvider>,
+  )
 
 describe('PostType screen', () => {
   beforeEach(() => {
     useCamera.mockReset()
+    dispatch.mockClear()
   })
 
   it('redirect to camera screen on Photo button tab', () => {
@@ -29,7 +43,19 @@ describe('PostType screen', () => {
 
     fireEvent.press(getByText('Photo'))
     expect(navigation.popToTop).toHaveBeenCalled()
-    expect(navigation.navigate).toHaveBeenCalledWith('Camera', undefined)
+    expect(navigation.navigate).toHaveBeenCalledWith('Camera', {})
+  })
+
+  it('Redirect anonymous user', () => {
+    authSelector.authUserSelector.mockReturnValueOnce({ userStatus: 'ANONYMOUS' })
+    const navigation = { popToTop: jest.fn(), navigate: jest.fn() }
+
+    useNavigation.mockReturnValueOnce(navigation)
+
+    const { getByText } = setup()
+
+    fireEvent.press(getByText('Photo'))
+    testNavigate(navigation, 'App.Root.ProfileUpgrade')
   })
 
   it('redirect to text post create form on Text button tab', () => {
@@ -41,7 +67,7 @@ describe('PostType screen', () => {
 
     fireEvent.press(getByText('Text'))
     expect(navigation.popToTop).toHaveBeenCalled()
-    expect(navigation.navigate).toHaveBeenCalledWith('Root', { params: { type: 'TEXT_ONLY' }, screen: 'PostCreate' })
+    testNavigate(navigation, 'PostCreate', { type: 'TEXT_ONLY' })
   })
 
   it('redirect to verification screen only first time when user create a post from gallery', async () => {
@@ -115,10 +141,8 @@ describe('PostType screen', () => {
   })
 
   it('should provide handleProcessedPhoto for useCamera hook', () => {
-    const dispatch = jest.fn()
     const navigation = { navigate: jest.fn() }
 
-    useDispatch.mockReturnValueOnce(dispatch)
     useNavigation.mockReturnValueOnce(navigation)
 
     setup()
@@ -130,10 +154,6 @@ describe('PostType screen', () => {
 
     handleProcessedPhoto(payload)
     expect(dispatch).toHaveBeenCalledWith(cameraActions.cameraCaptureRequest(payload))
-
-    expect(navigation.navigate).toHaveBeenCalledWith('Root', {
-      params: { photos: ['preview'], type: 'IMAGE' },
-      screen: 'PostCreate',
-    })
+    testNavigate(navigation, 'PostCreate', { photos: ['preview'], type: 'IMAGE' })
   })
 })

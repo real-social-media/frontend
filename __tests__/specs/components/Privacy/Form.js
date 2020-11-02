@@ -9,13 +9,11 @@ const user = {
   likesDisabled: false,
   commentsDisabled: false,
   sharingDisabled: false,
-  viewCountsHidden: false,
 }
 
 const requiredProps = {
   togglePrivacyStatus: () => {},
   toggleFollowCountsHidden: () => {},
-  toggleViewCountsHidden: () => {},
   toggleLikesDisabled: () => {},
   toggleCommentsDisabled: () => {},
   toggleSharingDisabled: () => {},
@@ -203,41 +201,6 @@ describe('PrivacyForm', () => {
       fireEvent.press($switch)
 
       expect(toggleSharingDisabled).toHaveBeenCalled()
-    })
-  })
-
-  describe('Followers can view total post views', () => {
-    const testID = testIDs.form.viewCountsHidden
-
-    it('title and desc', () => {
-      const { $option } = getEls(setup(user), testID)
-
-      expect($option.getByText('Views count')).toBeTruthy()
-      expect($option.getByText('Followers can view total post views')).toBeTruthy()
-    })
-
-    it('enable', () => {
-      const wrapper = setup({ ...user, viewCountsHidden: false })
-      const { $switch } = getEls(wrapper, testID)
-
-      expect($switch.props.value).toBe(true)
-    })
-
-    it('disable', () => {
-      const wrapper = setup({ ...user, viewCountsHidden: true })
-      const { $switch } = getEls(wrapper, testID)
-
-      expect($switch.props.value).toBe(false)
-    })
-
-    it('callback on change', () => {
-      const toggleViewCountsHidden = jest.fn()
-      const wrapper = setup(user, { toggleViewCountsHidden })
-      const { $switch } = getEls(wrapper, testID)
-
-      fireEvent.press($switch)
-
-      expect(toggleViewCountsHidden).toHaveBeenCalled()
     })
   })
 })

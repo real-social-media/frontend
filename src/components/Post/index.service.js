@@ -3,6 +3,7 @@ import * as postsActions from 'store/ducks/posts/actions'
 import { useNavigation } from '@react-navigation/native'
 import * as navigationActions from 'navigation/actions'
 import * as authSelector from 'store/ducks/auth/selectors'
+import * as usersActions from 'store/ducks/users/actions'
 
 const PostsService = ({ children }) => {
   const dispatch = useDispatch()
@@ -38,7 +39,10 @@ const PostsService = ({ children }) => {
     dispatch(postsActions.postsDeleteRequest(payload))
 
   const handleEditPress = (post) =>
-    navigationActions.navigatePostEdit(navigation, { post })()
+    navigationActions.navigatePostEdit(navigation, { post })
+
+  const changeAvatarRequest = (post) => 
+    dispatch(usersActions.usersChangeAvatarRequest(post))
 
   return children({
     user,
@@ -57,6 +61,7 @@ const PostsService = ({ children }) => {
     postsFlagRequest,
     postsDelete,
     postsDeleteRequest,
+    changeAvatarRequest,
   })
 }
 

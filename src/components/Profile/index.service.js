@@ -1,14 +1,17 @@
+import { useContext } from 'react'
 import { useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as usersActions from 'store/ducks/users/actions'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import path from 'ramda/src/path'
 import * as usersSelector from 'store/ducks/users/selectors'
+import { AuthContext } from 'services/providers/Auth'
 
 const ProfileService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const route = useRoute()
+  const { user } = useContext(AuthContext)
 
   const { userId } = route.params
 
@@ -55,10 +58,13 @@ const ProfileService = ({ children }) => {
   ])
 
   useEffect(() => {
+    if(!userId) return
+
     usersGetProfileRequest({ userId })
   }, [userId])
 
   return children({
+    user,
     profileRef,
     usersGetProfile,
     usersGetProfileRequest,

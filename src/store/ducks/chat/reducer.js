@@ -2,7 +2,7 @@ import { handleActions } from 'redux-actions'
 import update from 'immutability-helper'
 import * as constants from 'store/ducks/chat/constants'
 
-const initialState = {
+export const initialState = {
   chatGetChats: {
     data: [],
     status: 'idle',

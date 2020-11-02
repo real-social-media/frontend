@@ -8,8 +8,6 @@ import * as chatActions from 'store/ducks/chat/actions'
 import { checkInternetConnection } from 'react-native-offline'
 import * as subscriptionsActions from 'store/ducks/subscriptions/actions'
 
-jest.mock('react-native-offline', () => ({ checkInternetConnection: jest.fn() }))
-
 const AwsAPI = { graphql: jest.fn() }
 const subscription = { subscribe: jest.fn(), unsubscribe: jest.fn() }
 const unsubscribe = jest.fn()

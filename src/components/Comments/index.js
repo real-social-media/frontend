@@ -29,7 +29,7 @@ const Comments = ({
   postsCommentsGet,
   marginBottom,
   postsSingleGet,
-  onViewableItemsChangedRef,
+  onViewableItemsThumbnailsRef,
   viewabilityConfigRef,
   handleUserReply,
   commentsRef,
@@ -63,7 +63,7 @@ const Comments = ({
         }
         keyExtractor={item => item.commentId}
         data={pathOr([], ['data'])(postsCommentsGet).reverse()}
-        onViewableItemsChanged={onViewableItemsChangedRef.current}
+        onViewableItemsChanged={onViewableItemsThumbnailsRef.current}
         viewabilityConfig={viewabilityConfigRef.current}
         ListHeaderComponent={(
           <React.Fragment>
@@ -175,7 +175,7 @@ Comments.propTypes = {
   postsCommentsGet: PropTypes.any,
   marginBottom: PropTypes.any,
   postsSingleGet: PropTypes.any,
-  onViewableItemsChangedRef: PropTypes.any,
+  onViewableItemsThumbnailsRef: PropTypes.any,
   viewabilityConfigRef: PropTypes.any,
   handleUserReply: PropTypes.any,
   commentsRef: PropTypes.any,

@@ -25,7 +25,7 @@ const AlbumsGrid = ({
     <View style={styling.root}>
       <GridComponent items={path(['data'])(albumsGet)}>
         {(album, priorityIndex) => (
-          <GridItemComponent onPress={navigationActions.navigateAlbum(navigation, { album: album })}>
+          <GridItemComponent onPress={() => navigationActions.navigateAlbum(navigation, { album: album })}>
             <CacheComponent
               thread="albums"
               images={[

@@ -9,7 +9,7 @@ export const useViewable = () => {
   /**
    * Triggers when FlatList item is in view area and viewabilityConfig conditions are met
    */
-  const onViewableItemsChanged = ({ viewableItems }) => {
+  const onViewableItemsChanged = ({ viewableItems, viewType }) => {
     const postIds = viewableItems.map(viewable => path(['item', 'postId'])(viewable))
       .filter(item => item)
 
@@ -17,20 +17,28 @@ export const useViewable = () => {
       return
     }
 
-    dispatch(postsActions.postsReportPostViewsRequest({ postIds }))
+    dispatch(postsActions.postsReportPostViewsRequest({ postIds, viewType }))
   }
 
   /**
    * FlatList config to report post views, must be wrapped in useRef
    */
-  const onViewableItemsChangedRef = useRef(onViewableItemsChanged)
   const viewabilityConfigRef = useRef({
     viewAreaCoveragePercentThreshold: 30,
     waitForInteraction: false,
   })
 
+  const onViewableItemsThumbnailsRef = useRef(({ viewableItems }) => {
+    onViewableItemsChanged({ viewableItems, viewType: 'THUMBNAIL' })
+  })
+
+  const onViewableItemsFocusRef = useRef(({ viewableItems }) => {
+    onViewableItemsChanged({ viewableItems, viewType: 'FOCUS' })
+  })
+
   return ({
-    onViewableItemsChangedRef,
+    onViewableItemsThumbnailsRef,
+    onViewableItemsFocusRef,
     viewabilityConfigRef,
   })
 }

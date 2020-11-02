@@ -15,13 +15,13 @@ import testIDs from './test-ids'
 const formSchema = Yup.object().shape({
   username: Yup.string()
     .min(3)
-    .max(50)
+    .max(80)
     .email()
     .trim()
     .required(),
   password: Yup.string()
     .min(8)
-    .max(50)
+    .max(80)
     .trim()
     .required(),
 })
@@ -76,7 +76,9 @@ SigninForm.propTypes = {
 
 export default withTranslation()(({
   handleFormSubmit,
-  formSubmitting,
+  handleFormTransform,
+  formSubmitLoading,
+  formSubmitDisabled,
   formInitialValues,
   ...props
 }) => (
@@ -90,8 +92,13 @@ export default withTranslation()(({
       <SigninForm
         {...formikProps}
         {...props}
-        loading={formSubmitting}
-        disabled={formSubmitting}
+        loading={formSubmitLoading}
+        disabled={formSubmitDisabled}
+        handleSubmit={() => {
+          const nextValues = handleFormTransform(formikProps.values)
+          formikProps.setValues(nextValues)
+          handleFormSubmit(nextValues)
+        }}
       />
     )}
   </Formik>

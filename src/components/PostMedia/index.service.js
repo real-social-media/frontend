@@ -27,15 +27,17 @@ const PostMediaService = ({ children }) => {
     dispatch(postsActions.postsSingleGetRequest({ postId, userId: postUserId }))
 
   useEffect(() => {
+    if(!postId || !postUserId) return
+    
     dispatch(postsActions.postsSingleGetRequest({ postId, userId: postUserId }))
   }, [postId])
 
   useEffect(() => {
     if (postsDelete.status === 'loading') {
-      navigationActions.navigateBack(navigation)()
+      navigationActions.navigateBack(navigation)
     }
     if (postsArchive.status === 'loading') {
-      navigationActions.navigateBack(navigation)()
+      navigationActions.navigateBack(navigation)
     }
   }, [
     postsDelete.status,

@@ -7,12 +7,13 @@ import PermissionsServiceComponent from 'components/Permissions/index.service'
 class CameraScreen extends React.Component {
   render() {
     return (
-      <PermissionsServiceComponent>
+      <PermissionsServiceComponent camera library>
         {(permissionsProps) => (
-          <>
+          <React.Fragment>
             {!permissionsProps.cameraEnabled || !permissionsProps.libraryEnabled ?
               <PermissionsComponent
                 {...permissionsProps}
+                camera
               />
             :
               <CameraServiceComponent>
@@ -24,7 +25,7 @@ class CameraScreen extends React.Component {
                 )}
               </CameraServiceComponent>
             }
-          </>
+          </React.Fragment>
         )}
       </PermissionsServiceComponent>
     )

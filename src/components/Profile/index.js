@@ -32,6 +32,7 @@ const Profile = ({
   theme,
   profileRef,
 
+  user,
   usersBlock,
   usersGetProfile,
 
@@ -58,10 +59,14 @@ const Profile = ({
       return
     }
 
-    navigationActions.navigateStory(navigation, {
-      user: usersGetProfile.data,
-      usersGetFollowedUsersWithStories: { data: [usersGetProfile.data] },
-    })()
+    navigationActions.navigateStory(
+      navigation,
+      {
+        user: usersGetProfile.data,
+        usersGetFollowedUsersWithStories: { data: [usersGetProfile.data] },
+      },
+      { protected: true, user },
+    )()
   }
 
   const scroll = ScrollService({
@@ -75,7 +80,7 @@ const Profile = ({
   })
 
   const {
-    onViewableItemsChangedRef,
+    onViewableItemsThumbnailsRef,
     viewabilityConfigRef,
   } = useViewable()
 
@@ -169,7 +174,7 @@ const Profile = ({
         ListFooterComponentStyle={styling.activity}
         onEndReached={scroll.handleLoadMore}
         onEndReachedThreshold={0.5}
-        onViewableItemsChanged={onViewableItemsChangedRef.current}
+        onViewableItemsChanged={onViewableItemsThumbnailsRef.current}
         viewabilityConfig={viewabilityConfigRef.current}
       />
     </React.Fragment>
@@ -204,8 +209,8 @@ const styles = theme => StyleSheet.create({
 
 Profile.propTypes = {
   theme: PropTypes.any,
-  usersGetProfile: PropTypes.any,
   user: PropTypes.any,
+  usersGetProfile: PropTypes.any,
   usersBlock: PropTypes.any,
   usersBlockRequest: PropTypes.any,
   usersUnblock: PropTypes.any,

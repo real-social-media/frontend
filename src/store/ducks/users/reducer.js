@@ -121,6 +121,15 @@ export const initialState = {
     status: 'idle',
     error: {},
   },
+  usersSetUserDatingStatus: {
+    data: [],
+    status: 'idle',
+    error: {},
+    payload: {},
+  },
+  usersChangeAvatar: {
+    status: 'idle',
+  },
 
   usersGetFollowerUsersCache: {},
   usersGetFollowedUsersCache: {},
@@ -762,6 +771,27 @@ const usersDeleteAvatarIdle = (state) => update(state, {
 /**
  *
  */
+const usersChangeAvatarRequest = (state) => update(state, {
+  usersChangeAvatar: {
+    status: { $set: 'loading' },
+  },
+})
+
+const usersChangeAvatarSuccess = (state) => update(state, {
+  usersChangeAvatar: {
+    status: { $set: 'success' },
+  },
+})
+
+const usersChangeAvatarFailure = (state) => update(state, {
+  usersChangeAvatar: {
+    status: { $set: 'failure' },
+  },
+})
+
+/**
+ *
+ */
 const usersSetApnsTokenRequest = (state, action) => update(state, {
   usersSetApnsToken: {
     status: { $set: 'loading' },
@@ -787,6 +817,38 @@ const usersSetApnsTokenIdle = (state) => update(state, {
   usersSetApnsToken: {
     data: { $set: initialState.usersSetApnsToken.data },
     error: { $set: initialState.usersSetApnsToken.error },
+    status: { $set: 'idle' },
+  },
+})
+
+/**
+ *
+ */
+const usersSetUserDatingStatusRequest = (state, action) => update(state, {
+  usersSetUserDatingStatus: {
+    status: { $set: 'loading' },
+    payload: { $set: action.payload },
+  },
+})
+
+const usersSetUserDatingStatusSuccess = (state, action) => update(state, {
+  usersSetUserDatingStatus: {
+    data: { $set: action.payload.data },
+    status: { $set: 'success' },
+  },
+})
+
+const usersSetUserDatingStatusFailure = (state, action) => update(state, {
+  usersSetUserDatingStatus: {
+    status: { $set: 'failure' },
+    error: { $set: action.payload.message },
+  },
+})
+
+const usersSetUserDatingStatusIdle = (state) => update(state, {
+  usersSetUserDatingStatus: {
+    data: { $set: initialState.usersSetUserDatingStatus.data },
+    error: { $set: initialState.usersSetUserDatingStatus.error },
     status: { $set: 'idle' },
   },
 })
@@ -893,8 +955,12 @@ export default handleActions({
   [constants.USERS_DELETE_AVATAR_FAILURE]: usersDeleteAvatarFailure,
   [constants.USERS_DELETE_AVATAR_IDLE]: usersDeleteAvatarIdle,
 
-  /**
-   * Clear on logout
-   */
-  ['AUTH_SIGNOUT_REQUEST']: () => initialState,
+  [constants.USERS_SET_USER_DATING_STATUS_REQUEST]: usersSetUserDatingStatusRequest,
+  [constants.USERS_SET_USER_DATING_STATUS_SUCCESS]: usersSetUserDatingStatusSuccess,
+  [constants.USERS_SET_USER_DATING_STATUS_FAILURE]: usersSetUserDatingStatusFailure,
+  [constants.USERS_SET_USER_DATING_STATUS_IDLE]: usersSetUserDatingStatusIdle,
+
+  [constants.USERS_CHANGE_AVATAR_REQUEST]: usersChangeAvatarRequest,
+  [constants.USERS_CHANGE_AVATAR_SUCCESS]: usersChangeAvatarSuccess,
+  [constants.USERS_CHANGE_AVATAR_FAILURE]: usersChangeAvatarFailure,
 }, initialState)

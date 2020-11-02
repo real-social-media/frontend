@@ -39,7 +39,7 @@ const ProfileCounts = ({ t, usersGetProfile }) => {
         <TouchableOpacity
           testID={testIDs.counts.followers}
           style={styling.item}
-          onPress={navigationActions.navigateProfileFollower(navigation, { userId: usersGetProfile.data.userId })}
+          onPress={() => navigationActions.navigateProfileFollower(navigation, { userId: usersGetProfile.data.userId })}
         >
           <Headline style={styling.itemTitle}>{followersCount}</Headline>
           <Caption style={styling.itemText} numberOfLines={1}>
@@ -59,7 +59,7 @@ const ProfileCounts = ({ t, usersGetProfile }) => {
         <TouchableOpacity
           testID={testIDs.counts.followeds}
           style={styling.item}
-          onPress={navigationActions.navigateProfileFollowed(navigation, { userId: usersGetProfile.data.userId })}
+          onPress={() => navigationActions.navigateProfileFollowed(navigation, { userId: usersGetProfile.data.userId })}
         >
           <Headline style={styling.itemTitle}>{followedsCount}</Headline>
           <Caption style={styling.itemText} numberOfLines={1}>

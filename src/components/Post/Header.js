@@ -29,12 +29,14 @@ const Header = ({
   createActionSheetRef,
   actionSheetRef,
   navigation,
+  changeAvatarRequest,
 }) => {
   const styling = styles(theme)
 
   const handleOptionsPress = () => actionSheetRef && actionSheetRef.show()
   const archived = path(['postStatus'])(post) === 'ARCHIVED'
   const isUserPostOwner = path(['userId'])(user) === path(['postedBy', 'userId'])(post)
+  const isPostVerified = path(['isVerified'])(post) 
 
   const [repostVisiblity, verificationVisibility, expiryVisiblity] = useMemo(
     () => [
@@ -49,12 +51,16 @@ const Header = ({
   const onProfilePhotoPress = () => {
     const hasStories = path(['stories', 'items', 'length'])(post.postedBy)
     if (hasStories) {
-      navigationActions.navigateStory(navigation, {
-        user: post.postedBy,
-        usersGetFollowedUsersWithStories: { data: [post.postedBy] },
-      })()
+      navigationActions.navigateStory(
+        navigation,
+        {
+          user: post.postedBy,
+          usersGetFollowedUsersWithStories: { data: [post.postedBy] },
+        },
+        { protected: true, user },
+      )()
     } else {
-      navigationActions.navigateProfile(navigation, { userId: post.postedBy.userId })()
+      navigationActions.navigateProfile(navigation, { userId: post.postedBy.userId })
     }
   }
 
@@ -70,7 +76,7 @@ const Header = ({
       </TouchableOpacity>
 
       <View style={styling.headerText}>
-        <TouchableOpacity onPress={navigationActions.navigateProfile(navigation, { userId: path(['postedBy', 'userId'], post) })}>
+        <TouchableOpacity onPress={() => navigationActions.navigateProfile(navigation, { userId: path(['postedBy', 'userId'], post) })}>
           <Text style={styling.headerUsername}>{path(['postedBy', 'username'])(post)}</Text>
         </TouchableOpacity>
 
@@ -78,7 +84,7 @@ const Header = ({
           <TouchableOpacity
             testID={testIDs.header.repostBtn}
             style={styling.verification}
-            onPress={navigationActions.navigateProfile(navigation, { userId: path(['originalPost', 'postedBy', 'userId'], post) })}
+            onPress={() => navigationActions.navigateProfile(navigation, { userId: path(['originalPost', 'postedBy', 'userId'], post) })}
           >
             <Caption style={styling.headerStatus}>
               {t('Reposted from {{ username }}', { username: path(['originalPost', 'postedBy', 'username'], post) })}
@@ -97,7 +103,7 @@ const Header = ({
         {verificationVisibility ? (
           <TouchableOpacity
             testID={testIDs.header.verificationStatus}
-            onPress={navigationActions.navigateVerification(navigation, { actionType: 'BACK', post })}
+            onPress={navigationActions.navigateVerification(navigation, { actionType: 'BACK' })}
             style={styling.verification}
           >
             <Caption style={styling.verificationStatus}>{t('unverified')}</Caption>
@@ -131,8 +137,13 @@ const Header = ({
           actionSheetRef={createActionSheetRef}
           options={[
             {
+              name: t('Set as an avatar'),
+              onPress: () => changeAvatarRequest({ postId: post.postId }),
+              isVisible: isUserPostOwner && isPostVerified && !archived,
+            },
+            {
               name: t('Restore from Archived'),
-              onPress: () => postsRestoreArchivedRequest({ postId: post.postId }),
+              onPress: () => postsRestoreArchivedRequest({ postId: post.postId, userId: path(['userId'])(user) }),
               isVisible: isUserPostOwner && archived,
             },
             {
@@ -142,12 +153,12 @@ const Header = ({
             },
             {
               name: t('Report'),
-              onPress: () => postsFlagRequest({ postId: post.postId }),
+              onPress: () => postsFlagRequest({ postId: post.postId, userId: path(['userId'])(user) }),
               isVisible: !isUserPostOwner,
             },
             {
               name: t('Edit'),
-              onPress: () => navigationActions.navigatePostEdit(navigation, { post })(),
+              onPress: () => navigationActions.navigatePostEdit(navigation, { post }),
               isVisible: isUserPostOwner && !archived,
             },
             {
@@ -220,6 +231,7 @@ Header.propTypes = {
   createActionSheetRef: PropTypes.any,
   actionSheetRef: PropTypes.any,
   navigation: PropTypes.any,
+  changeAvatarRequest: PropTypes.func,
 }
 
 export default withTranslation()(withTheme(Header))

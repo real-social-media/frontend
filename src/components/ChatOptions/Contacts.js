@@ -38,7 +38,7 @@ const Contacts = ({
           <RowsItemComponent>
             <UserRowComponent
               avatar={
-                <TouchableOpacity onPress={navigationActions.navigateProfile(navigation, { userId: path(['userId'])(chat) })}>
+                <TouchableOpacity onPress={() => navigationActions.navigateProfile(navigation, { userId: path(['userId'])(chat) })}>
                   <Avatar
                     active={UserService.hasActiveStories(chat)}
                     thumbnailSource={{ uri: path(['photo', 'url64p'])(chat) }}
@@ -48,7 +48,7 @@ const Contacts = ({
                 </TouchableOpacity>
               }
               content={
-                <TouchableOpacity onPress={navigationActions.navigateProfile(navigation, { userId: path(['userId'])(chat) })} style={styling.user}>
+                <TouchableOpacity onPress={() => navigationActions.navigateProfile(navigation, { userId: path(['userId'])(chat) })} style={styling.user}>
                   <Text style={styling.username}>{path(['username'])(chat)}</Text>
                 </TouchableOpacity>
               }

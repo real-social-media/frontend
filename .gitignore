@@ -7,6 +7,7 @@ ios/REAL.app.*.zip
 translations/
 ios/fastlane/.env.production
 ios/fastlane/.env.development
+coverage
 
 # OSX
 #

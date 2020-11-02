@@ -6,6 +6,7 @@ import CropPicker from 'react-native-image-crop-picker'
 import { getScreenAspectRatio } from 'services/Dimensions'
 import mapSeries from 'async/mapSeries'
 import * as Logger from 'services/Logger'
+import * as postsSelector from 'store/ducks/posts/selectors'
 
 /**
  * We use it for prevent open keyboard after crop
@@ -53,7 +54,7 @@ export const formatCropCoordinates = (cropRect) => ({
 })
 
 export const useCameraState = () => {
-  const postsCreate = useSelector((state) => state.posts.postsCreate)
+  const postsCreate = useSelector(postsSelector.postsCreate)
   const [flashMode, handleFlashToggle] = useToggle(false)
   const [flipMode, handleFlipToggle] = useToggle(false)
   const [photoSize, setPhotoSize] = useState('4:3')

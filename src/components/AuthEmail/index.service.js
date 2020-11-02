@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react'
+import { useEffect, useCallback, useContext } from 'react'
 import * as signupActions from 'store/ducks/signup/actions'
 import * as navigationActions from 'navigation/actions'
 import { useDispatch, useSelector } from 'react-redux'
@@ -7,6 +7,7 @@ import trim from 'ramda/src/trim'
 import compose from 'ramda/src/compose'
 import toLower from 'ramda/src/toLower'
 import pathOr from 'ramda/src/pathOr'
+import { ThemeContext } from 'services/providers/Theme'
 import { logEvent } from 'services/Analytics'
 import { pageHeaderLeft } from 'navigation/options'
 import testIDs from './test-ids'
@@ -14,12 +15,11 @@ import testIDs from './test-ids'
 const AuthEmailComponentService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
+  const { theme } = useContext(ThemeContext)
 
-  const signupUsername = useSelector(state => state.signup.signupUsername)
+  const signupCheck = useSelector(state => state.signup.signupCheck)
   const signupEmail = useSelector(state => state.signup.signupEmail)
-  const signupPassword = useSelector(state => state.signup.signupPassword)
   const signupCreate = useSelector(state => state.signup.signupCreate)
-  const signupCognitoIdentity = useSelector(state => state.signup.signupCognitoIdentity)
 
   /**
    * Navigation state reset on back button press
@@ -28,7 +28,7 @@ const AuthEmailComponentService = ({ children }) => {
     dispatch(signupActions.signupEmailIdle({}))
     dispatch(signupActions.signupPhoneIdle({}))
     dispatch(signupActions.signupCreateIdle({}))
-    navigationActions.navigateAuthPassword(navigation)()
+    navigationActions.navigateAuthPassword(navigation)
   }, [])
 
   useEffect(() => {
@@ -39,6 +39,7 @@ const AuthEmailComponentService = ({ children }) => {
       headerLeft: () => pageHeaderLeft({ 
         testID: testIDs.header.backBtn, 
         onPress: handleGoBack, 
+        theme,
       }),
     })
   }, [])
@@ -51,62 +52,13 @@ const AuthEmailComponentService = ({ children }) => {
      */
     logEvent('SIGNUP_CREATE_REQUEST')
     const signupCreatePayload = {
-      username: signupUsername.payload.username,
+      username: signupCheck.payload.username,
       usernameType: 'email',
       phone: null,
       email: payload.email,
-      password: signupPassword.payload.password,
     }
     dispatch(signupActions.signupCreateRequest(signupCreatePayload))
   }
-
-  /**
-   * Create new user once email and password is received from previous steps
-   * 
-   * Previous steps include:
-   * - signupUsername -> AuthUsernameScreen
-   * - signupEmail -> AuthEmailScreen
-   * - signupPassword -> AuthPasswordScreen
-   */
-  useEffect(() => {
-    if (
-      !signupUsername.payload.username ||
-      !signupEmail.payload.email ||
-      !signupPassword.payload.password
-    ) return
-
-    if (
-      signupUsername.payload.username === signupCognitoIdentity.username &&
-      signupEmail.payload.email === signupCognitoIdentity.cognitoUsername &&
-      signupPassword.payload.password === signupCognitoIdentity.password
-    ) {
-      navigationActions.navigateAuthEmailConfirm(navigation)()
-      return
-    }
-  }, [
-    signupUsername.payload.username,
-    signupEmail.payload.email,
-    signupPassword.payload.password,
-
-    signupUsername.status,
-    signupEmail.status,
-    signupPassword.status,
-  ])
-
-  /**
-   * Redirect to verification confirmation once signup was successful
-   */
-  useEffect(() => {
-    if (
-      signupCreate.status !== 'success' ||
-      signupCreate.data.cognitoDelivery !== 'EMAIL'
-    ) return
-
-    logEvent('SIGNUP_CREATE_SUCCESS')
-    navigationActions.navigateAuthEmailConfirm(navigation)()
-  }, [
-    signupCreate.status,
-  ])
 
   const formSubmitLoading = signupCreate.status === 'loading'
   const formSubmitDisabled = signupCreate.status === 'loading'

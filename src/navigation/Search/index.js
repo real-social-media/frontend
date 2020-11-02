@@ -1,19 +1,21 @@
 import React, { useContext } from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
-import { withTheme } from 'react-native-paper'
 
-import { ThemesContext } from 'navigation/context'
+import { AuthContext } from 'services/providers/Auth'
+import { ThemeContext } from 'services/providers/Theme'
 import * as navigationOptions from 'navigation/options'
 import * as navigationFragments from 'navigation/fragments'
 
 import SearchScreen from 'screens/SearchScreen'
 
+const Stack = createStackNavigator()
+
 const SearchNavigator = () => {
-  const Stack = createStackNavigator()
-  const { theme, themes } = useContext(ThemesContext)
-  const stackNavigatorDefaultProps = navigationOptions.stackNavigatorDefaultProps({ theme, themes })
-  const stackScreenDefaultProps = navigationOptions.stackScreenDefaultProps({ theme, themes })
-  const stackScreenPageProps = navigationOptions.stackScreenPageProps({ theme, themes })
+  const { theme } = useContext(ThemeContext)
+  const { user } = useContext(AuthContext)
+  const stackNavigatorDefaultProps = navigationOptions.stackNavigatorDefaultProps({ theme })
+  const stackScreenDefaultProps = navigationOptions.stackScreenDefaultProps({ theme, user })
+  const stackScreenPageProps = navigationOptions.stackScreenPageProps({ theme })
 
   return (
     <Stack.Navigator {...stackNavigatorDefaultProps}>
@@ -31,4 +33,4 @@ const SearchNavigator = () => {
   )
 }
 
-export default withTheme(SearchNavigator)
+export default SearchNavigator

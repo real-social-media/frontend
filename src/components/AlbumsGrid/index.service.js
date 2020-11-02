@@ -19,6 +19,8 @@ const AlbumsGridService = ({ children }) => {
     dispatch(albumsActions.albumsGetMoreRequest({ userId, nextToken }))
 
   useEffect(() => {
+    if(!userId) return 
+    
     dispatch(albumsActions.albumsGetRequest({ userId }))
   }, [userId])
 

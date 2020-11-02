@@ -19,6 +19,8 @@ const PostsGridService = ({ children }) => {
     dispatch(postsActions.postsGetMoreRequest({ userId, nextToken }))
 
   useEffect(() => {
+    if(!userId) return
+
     dispatch(postsActions.postsGetRequest({ userId }))
   }, [userId])
 

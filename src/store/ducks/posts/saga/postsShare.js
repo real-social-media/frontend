@@ -1,5 +1,5 @@
 import { Image } from 'react-native'
-import { put, takeLatest, getContext } from 'redux-saga/effects'
+import { put, takeLatest, getContext, call } from 'redux-saga/effects'
 import path from 'ramda/src/path'
 import RNFetchBlob from 'rn-fetch-blob'
 import * as actions from 'store/ducks/posts/actions'
@@ -8,6 +8,7 @@ import * as constants from 'store/ducks/posts/constants'
 import CameraRoll from '@react-native-community/cameraroll'
 import Share from 'react-native-share'
 import Marker from 'react-native-image-marker'
+import usersCheckPermissions from 'store/ducks/users/saga/usersCheckPermissions'
 
 function* handlePostsShareRequest(payload) {
   function* handeImageWatermark(url, hasWatermark, post) {
@@ -163,6 +164,7 @@ function* postsShareRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
+    yield call(usersCheckPermissions)
     yield handlePostsShareRequest(req.payload)
     yield put(actions.postsShareSuccess({ data: {}, meta: {} }))
   } catch (error) {

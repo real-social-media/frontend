@@ -36,14 +36,14 @@ describe('Posts reducer', () => {
       })
     })
 
-    it('clear data on request', () => {
+    it('not clear data on request', () => {
       const state = applyActions([
         actions.postsGetTrendingPostsSuccess({ data, meta }), 
         actions.postsGetTrendingPostsRequest(),
       ], reducer)
 
       expect(selectPostsGetTrendingPosts(state)).toEqual({
-        data: [],
+        data,
         error: {},
         meta: {},
         payload: undefined,

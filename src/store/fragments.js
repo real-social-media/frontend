@@ -19,6 +19,23 @@ export const userFragment = `
   fragment rootUser on User {
     userId
     username
+
+    datingStatus
+    userStatus
+    dateOfBirth
+    gender
+    location {
+      latitude
+      longitude
+      accuracy
+    }
+    matchAgeRange {
+      min
+      max
+    }
+    matchGenders
+    matchLocationRadius
+
     photo {
       ...imageFragment
     }

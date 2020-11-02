@@ -83,6 +83,8 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>We need camera permissions to use Photo Uploading on Public or Private Feed which you can define in profile settings.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>REAL needs contacts permission to allow you to find &amp; invite friends</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We need location permissions to tag your Photo you upload.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>

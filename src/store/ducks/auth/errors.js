@@ -32,13 +32,13 @@ const messageCodes = {
   /**
    * 
    */
-  [constants.AUTH_SIGNIN_SUCCESS]: {
+  [constants.AUTH_SIGNIN_COGNITO_SUCCESS]: {
     GENERIC: {
       code: 'GENERIC',
       text: 'Successfully signed in',
     },
   },
-  [constants.AUTH_SIGNIN_FAILURE]: {
+  [constants.AUTH_SIGNIN_COGNITO_FAILURE]: {
     GENERIC: {
       code: 'GENERIC',
       text: 'Failed to signin',
@@ -61,13 +61,13 @@ const messageCodes = {
     },
   },
 
-  [constants.AUTH_GOOGLE_SUCCESS]: {
+  [constants.AUTH_SIGNIN_GOOGLE_SUCCESS]: {
     GENERIC: {
       code: 'GENERIC',
       text: 'Successfully signed with Google',
     },
   },
-  [constants.AUTH_GOOGLE_FAILURE]: {
+  [constants.AUTH_SIGNIN_GOOGLE_FAILURE]: {
     GENERIC: {
       code: 'GENERIC',
       text: 'Failed to sign with Google',
@@ -78,13 +78,13 @@ const messageCodes = {
     },
   },
 
-  [constants.AUTH_APPLE_SUCCESS]: {
+  [constants.AUTH_SIGNIN_APPLE_SUCCESS]: {
     GENERIC: {
       code: 'GENERIC',
       text: 'Successfully signed with Apple',
     },
   },
-  [constants.AUTH_APPLE_FAILURE]: {
+  [constants.AUTH_SIGNIN_APPLE_FAILURE]: {
     GENERIC: {
       code: 'GENERIC',
       text: 'Failed to sign with Apple',
@@ -148,6 +148,105 @@ const messageCodes = {
     },
   },
 
+  /**
+   * 
+   */
+  [constants.AUTH_SIGNIN_ANONYMOUS_SUCCESS]: {
+    GENERIC: {
+      code: 'GENERIC',
+      text: 'Successfully created anonymous user',
+    },
+  },
+  [constants.AUTH_SIGNIN_ANONYMOUS_FAILURE]: {
+    GENERIC: {
+      code: 'GENERIC',
+      text: 'Failed to create anonymous user',
+    },
+  },
+
+  /**
+   * 
+   */
+  [constants.AUTH_FLOW_SUCCESS]: {
+    GENERIC: {
+      code: 'GENERIC',
+      text: 'Auth flow completed',
+    },
+  },
+  [constants.AUTH_FLOW_FAILURE]: {
+    GENERIC: {
+      code: 'GENERIC',
+      text: 'Failed to complete auth flow',
+    },
+  },
+
+  /**
+   * 
+   */
+  [constants.AUTH_DATA_SUCCESS]: {
+    GENERIC: {
+      code: 'GENERIC',
+      text: 'Auth data is fetched',
+    },
+  },
+  [constants.AUTH_DATA_FAILURE]: {
+    GENERIC: {
+      code: 'GENERIC',
+      text: 'Failed to fetch auth data',
+    },
+    USER_DOES_NOT_EXIST: {
+      code: 'USER_DOES_NOT_EXIST',
+      text: 'User does not exist',
+    },
+  },
+
+  /**
+   * 
+   */
+  [constants.AUTH_TOKEN_SUCCESS]: {
+    GENERIC: {
+      code: 'GENERIC',
+      text: 'Auth token is fetched',
+    },
+  },
+  [constants.AUTH_TOKEN_FAILURE]: {
+    GENERIC: {
+      code: 'GENERIC',
+      text: 'Failed to fetch auth token',
+    },
+  },
+
+  /**
+   * 
+   */
+  [constants.AUTH_PREFETCH_SUCCESS]: {
+    GENERIC: {
+      code: 'GENERIC',
+      text: 'Auth prefetch is completed',
+    },
+  },
+  [constants.AUTH_PREFETCH_FAILURE]: {
+    GENERIC: {
+      code: 'GENERIC',
+      text: 'Failed to complete auth prefetch',
+    },
+  },
+
+  /**
+   * 
+   */
+  [constants.AUTH_RESET_SUCCESS]: {
+    GENERIC: {
+      code: 'GENERIC',
+      text: 'Cognito credentials have been reset',
+    },
+  },
+  [constants.AUTH_RESET_FAILURE]: {
+    GENERIC: {
+      code: 'GENERIC',
+      text: 'Cannot reset cognito credentials',
+    },
+  },
 }
 
 export const getMessagePayload = (key, status = 'GENERIC', nativeError = '') => {

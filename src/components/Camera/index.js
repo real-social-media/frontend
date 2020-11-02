@@ -54,7 +54,7 @@ const CameraComponent = ({
       <CameraTemplate
         header={(
           <CameraHeaderTemplate
-            handleClosePress={navigationActions.navigateHome(navigation)}
+            handleClosePress={() => navigationActions.navigateHome(navigation)}
           />
         )}
         content={(

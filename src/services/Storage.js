@@ -30,6 +30,18 @@ export const STORAGE_KEYS = {
   AUTH_APPLE: '@real:auth:apple',
   SETTINGS_PHOTO_VALIDATION: '@real:settings:photoValidation',
   VERIFICATION_SCREEN: '@real:uploads:verificationScreen',
+  APP_REDUCER: 'app',
+  POSTS_REDUCER: 'posts',
+  USERS_REDUCER: 'users',
+  AUTH_REDUCER: 'auth',
+  SIGNUP_REDUCER: 'signup',
+  CHAT_REDUCER: 'chat',
+  PURCHASES_REDUCER: 'purchases',
+  CONTACTS_REDUCER: 'contacts',
+}
+
+export const clearAll = async () => {
+  await Promise.all(Object.values(STORAGE_KEYS).map(removeItem))
 }
 
 export const STORAGE_PROVIDER = AsyncStorage
@@ -38,4 +50,5 @@ export default {
   setItem,
   getItem,
   removeItem,
+  clearAll,
 }

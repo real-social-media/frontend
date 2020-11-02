@@ -21,6 +21,8 @@ const PostEditService = ({ children }) => {
   const albumsGet = useSelector(albumsSelector.albumsGetSelector(user.userId))
 
   useEffect(() => {
+    if(!user.userId) return
+
     dispatch(albumsActions.albumsGetRequest({ userId: user.userId }))
   }, [])
 
@@ -31,13 +33,15 @@ const PostEditService = ({ children }) => {
     dispatch(postsActions.postsEditRequest({ ...payload, userId: postUserId }))
 
   useEffect(() => {
+    if(!postId || !postUserId) return
+    
     dispatch(postsActions.postsSingleGetRequest({ postId, userId: postUserId }))
   }, [postId])
 
   useEffect(() => {
     if (postsEdit.status === 'success') {
       dispatch(postsActions.postsEditIdle({}))
-      navigationActions.navigateBack(navigation)()
+      navigationActions.navigateBack(navigation)
     }
   }, [postsEdit.status])
 

@@ -8,13 +8,14 @@ import {
 const RowsItemTemplate = ({
   children,
   hasBorders,
+  testID,
 }) => {
   const styling = styles
   
   const rootStyle = hasBorders ? styling.rootBorder : styling.rootDefault
 
   return (
-    <View style={rootStyle}>
+    <View testID={testID} style={rootStyle}>
       <View style={styling.component}>
         {children}
       </View>
@@ -42,9 +43,11 @@ const styles = StyleSheet.create({
 })
 
 RowsItemTemplate.defaultProps = {
+  testID: null,
 }
 
 RowsItemTemplate.propTypes = {
+  testID: PropTypes.string,
   children: PropTypes.any,
   hasBorders: PropTypes.any,
 }

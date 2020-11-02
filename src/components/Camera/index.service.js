@@ -4,6 +4,7 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import * as cameraActions from 'store/ducks/camera/actions'
 import * as navigationActions from 'navigation/actions'
 import path from 'ramda/src/path'
+import { navigateToPath } from 'navigation/helpers'
 
 const CameraService = ({ children }) => {
   const dispatch = useDispatch()
@@ -17,13 +18,14 @@ const CameraService = ({ children }) => {
     dispatch(cameraActions.cameraCaptureRequest(payload))
     const nextRoute = path(['params', 'nextRoute'])(route)
     const nextPayload = ({ type: 'IMAGE', photos: [payload[0].preview] }) 
-    if (nextRoute) {
-      navigation.navigate(nextRoute, nextPayload)
-    } else {
-      navigationActions.navigatePostCreate(navigation, nextPayload)()
-    }
-  }
 
+    if (nextRoute) {
+      navigateToPath(nextRoute)(navigation, nextPayload)
+    } else {
+      navigationActions.navigatePostCreate(navigation, nextPayload)
+    } 
+  }
+ 
   const camera = useCamera({
     handleProcessedPhoto,
   })

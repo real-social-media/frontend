@@ -8,6 +8,7 @@ import { v4 as uuid } from 'uuid'
 import { ifIphoneX } from 'react-native-iphone-x-helper'
 import * as authSelector from 'store/ducks/auth/selectors'
 import * as postsSelector from 'store/ducks/posts/selectors'
+import useViewable from 'services/providers/Viewable'
 import trim from 'ramda/src/trim'
 import compose from 'ramda/src/compose'
 import pathOr from 'ramda/src/pathOr'
@@ -37,7 +38,7 @@ const CommentsService = ({ children }) => {
   useEffect(() => {
     dispatch(postsActions.postsSingleGetRequest({ postId, userId: postUserId }))
     dispatch(postsActions.postsCommentsGetRequest({ postId, userId: postUserId }))
-    dispatch(postsActions.postsReportPostViewsRequest({ postIds: [postId] }))
+    dispatch(postsActions.postsReportPostViewsRequest({ postIds: [postId], viewType: 'THUMBNAIL' }))
   }, [])
 
   useEffect(() => {
@@ -98,13 +99,12 @@ const CommentsService = ({ children }) => {
 
   const marginBottom = offset + ifIphoneX(40, 0)
   
-  const onViewableItemsChanged = () => {
-  }
+  
 
   /**
    * FlatList feed config ref, used for reporting scroll events
    */
-  const onViewableItemsChangedRef = useRef(onViewableItemsChanged)
+  const { onViewableItemsThumbnailsRef } = useViewable()
   const viewabilityConfigRef = useRef({
     viewAreaCoveragePercentThreshold: 5,
     waitForInteraction: false,
@@ -145,6 +145,9 @@ const CommentsService = ({ children }) => {
 
   const handleErrorClose = () => dispatch(postsActions.commentsAddIdle({}))
 
+
+  
+
   return children({
     user,
     commentsAdd,
@@ -154,7 +157,7 @@ const CommentsService = ({ children }) => {
     postsCommentsGet,
     postsSingleGet,
     marginBottom,
-    onViewableItemsChangedRef,
+    onViewableItemsThumbnailsRef,
     viewabilityConfigRef,
     handleUserReply,
     commentsRef,

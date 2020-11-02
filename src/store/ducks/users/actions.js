@@ -170,3 +170,26 @@ export const usersDeleteAvatarIdle = createAction(constants.USERS_DELETE_AVATAR_
 export const usersDeleteAvatarRequest = createAction(constants.USERS_DELETE_AVATAR_REQUEST)
 export const usersDeleteAvatarSuccess = createAction(constants.USERS_DELETE_AVATAR_SUCCESS)
 export const usersDeleteAvatarFailure = createAction(constants.USERS_DELETE_AVATAR_FAILURE)
+
+/**
+ * 
+ */
+export const usersChangeAvatarRequest = createAction(constants.USERS_CHANGE_AVATAR_REQUEST)
+export const usersChangeAvatarSuccess = createAction(constants.USERS_CHANGE_AVATAR_SUCCESS)
+export const usersChangeAvatarFailure = createAction(constants.USERS_CHANGE_AVATAR_FAILURE)
+
+/**
+ * 
+ */
+export const usersReportScreenViewsIdle = createAction(constants.USERS_REPORT_SCREEN_VIEWS_IDLE)
+export const usersReportScreenViewsRequest = createAction(constants.USERS_REPORT_SCREEN_VIEWS_REQUEST)
+export const usersReportScreenViewsSuccess = createAction(constants.USERS_REPORT_SCREEN_VIEWS_SUCCESS)
+export const usersReportScreenViewsFailure = createAction(constants.USERS_REPORT_SCREEN_VIEWS_FAILURE) 
+
+/**
+ * 
+ */
+export const usersSetUserDatingStatusIdle = createAction(constants.USERS_SET_USER_DATING_STATUS_IDLE)
+export const usersSetUserDatingStatusRequest = createAction(constants.USERS_SET_USER_DATING_STATUS_REQUEST)
+export const usersSetUserDatingStatusSuccess = createAction(constants.USERS_SET_USER_DATING_STATUS_SUCCESS)
+export const usersSetUserDatingStatusFailure = createAction(constants.USERS_SET_USER_DATING_STATUS_FAILURE) 

@@ -29,6 +29,8 @@ const PostsLikesService = ({ children }) => {
     dispatch(postsActions.postsLikesGetRequest(payload))
 
   useEffect(() => {
+    if(!postId || !userId) return 
+
     dispatch(postsActions.postsSingleGetRequest({ postId, userId }))
   }, [postId])
 

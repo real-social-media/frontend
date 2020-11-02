@@ -12,7 +12,6 @@ const AlbumService = ({ children }) => {
   const route = useRoute()
   const albumId = route.params.album.albumId
   const user = useSelector(authSelector.authUserSelector)
-  const themeFetch = useSelector(state => state.theme.themeFetch)
   const albumsDelete = useSelector(state => state.albums.albumsDelete)
   const albumsSingleGet = useSelector(albumsSelector.albumsSingleGetSelector(albumId))
   const albumsPostsGet = useSelector(albumsSelector.albumsPostsGetSelector(albumId))
@@ -34,13 +33,12 @@ const AlbumService = ({ children }) => {
     if (albumsDelete.status === 'success') {
       dispatch(albumsActions.albumsDeleteIdle({}))
       dispatch(albumsActions.albumsGetRequest({ userId: user.userId }))
-      navigationActions.navigateBack(navigation)()
+      navigationActions.navigateBack(navigation)
     }
   }, [albumsDelete.status])
 
   return children({
     user,
-    themeFetch,
     albumsSingleGet,
     albumsPostsGet,
     albumsPostsGetRequest,

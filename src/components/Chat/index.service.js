@@ -27,6 +27,8 @@ const ChatService = ({ children }) => {
     dispatch(usersActions.usersGetPendingFollowersRequest(payload))
 
   useEffect(() => {
+    if(!user.userId) return
+    
     usersGetPendingFollowersRequest({ userId: user.userId })
   }, [usersAcceptFollowerUser.status])
 

@@ -35,6 +35,8 @@ const ProfileFollowerService = ({ children }) => {
   }, [usersFollow.status, usersUnfollow.status])
 
   useEffect(() => {
+    if(!userId) return
+
     usersGetFollowerUsersRequest({ userId })
   }, [userId])
 

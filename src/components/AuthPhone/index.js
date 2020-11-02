@@ -53,7 +53,7 @@ const AuthPhone = ({
         </View>
       </View>
 
-      <AuthActionTemplate onPress={navigationActions.navigateAuthEmail(navigation)}>
+      <AuthActionTemplate onPress={() => navigationActions.navigateAuthEmail(navigation)}>
         {t('Signup with Email Address')}
       </AuthActionTemplate>
     </View>

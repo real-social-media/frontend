@@ -15,7 +15,6 @@ const Privacy = ({
   user,
   togglePrivacyStatus,
   toggleFollowCountsHidden,
-  toggleViewCountsHidden,
   toggleLikesDisabled,
   toggleCommentsDisabled,
   toggleSharingDisabled,
@@ -29,7 +28,6 @@ const Privacy = ({
           user={user}
           togglePrivacyStatus={togglePrivacyStatus}
           toggleFollowCountsHidden={toggleFollowCountsHidden}
-          toggleViewCountsHidden={toggleViewCountsHidden}
           toggleLikesDisabled={toggleLikesDisabled}
           toggleCommentsDisabled={toggleCommentsDisabled}
           toggleSharingDisabled={toggleSharingDisabled}
@@ -56,7 +54,6 @@ Privacy.propTypes = {
   user: PropTypes.any,
   togglePrivacyStatus: PropTypes.func,
   toggleFollowCountsHidden: PropTypes.func,
-  toggleViewCountsHidden: PropTypes.func,
   toggleLikesDisabled: PropTypes.func,
   toggleCommentsDisabled: PropTypes.func,
   toggleSharingDisabled: PropTypes.func,

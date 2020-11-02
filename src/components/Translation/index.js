@@ -10,7 +10,7 @@ import RowsComponent from 'templates/Rows'
 import RowsItemComponent from 'templates/RowsItem'
 import UserRowComponent from 'templates/UserRow'
 import ThemeRowActionComponent from 'templates/ThemeRowAction'
-import path from 'ramda/src/path'
+import translationsJson from 'assets/translations.json'
 
 import { withTheme } from 'react-native-paper'
 
@@ -18,14 +18,13 @@ const Translation = ({
   theme,
   user,
   usersEditProfileRequest,
-  translationFetch,
 }) => {
   const styling = styles(theme)
   
   return (
     <ScrollView>
       <View style={styling.root}>
-        <RowsComponent items={Object.keys(path(['data'])(translationFetch))}>
+        <RowsComponent items={Object.keys(translationsJson)}>
           {(translation) => (
             <RowsItemComponent>
               <UserRowComponent
@@ -65,7 +64,6 @@ const styles = theme => StyleSheet.create({
 Translation.propTypes = {
   theme: PropTypes.any,
   initialValues: PropTypes.any,
-  translationFetch: PropTypes.any,
   translationUpdate: PropTypes.any,
   translationUpdateRequest: PropTypes.any,
   user: PropTypes.any,

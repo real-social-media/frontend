@@ -11,7 +11,7 @@ const innerMerge = (state, action) => {
   }, state)
 }
 
-const initialState = {
+export const initialState = {
   albums: {
   },
   posts: {

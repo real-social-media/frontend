@@ -47,6 +47,8 @@ export const singleUserFragment = `
   fragment singleUserFragment on User {
     userId
     username
+    userStatus
+    datingStatus
     privacyStatus
     followedStatus
     followerStatus
@@ -70,6 +72,7 @@ export const singleUserFragment = `
     blockedStatus
     blockerStatus
     chatsWithUnviewedMessagesCount
+    subscriptionLevel
 
     photo {
       ...userImageFragment

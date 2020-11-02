@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux'
 import path from 'ramda/src/path'
 import * as navigationActions from 'navigation/actions'
 import * as usersActions from 'store/ducks/users/actions'
-import * as authActions from 'store/ducks/auth/actions'
 
 const VerificationService = ({ children }) => {
   const dispatch = useDispatch()
@@ -21,7 +20,7 @@ const VerificationService = ({ children }) => {
     }
   }, [showHeader])
 
-  const handleClose = navigationActions.navigateBack(navigation)
+  const handleClose = () => navigationActions.navigateBack(navigation)
 
   const handleBackAction = () => {
     dispatch(usersActions.usersEditProfileIdle({}))
@@ -30,7 +29,6 @@ const VerificationService = ({ children }) => {
 
   const handleHideAction = () => {
     dispatch(usersActions.usersEditProfileIdle({}))
-    dispatch(authActions.authCheckIdle({ nextRoute: 'Root' }))
   }
 
   const handleContinueAction = () => {

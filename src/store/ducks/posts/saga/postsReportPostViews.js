@@ -1,4 +1,4 @@
-import { all, put, fork, take, flush, getContext, actionChannel, delay } from 'redux-saga/effects'
+import { all, put, fork, take, flush, getContext, actionChannel, delay, call } from 'redux-saga/effects'
 import { buffers } from 'redux-saga'
 import path from 'ramda/src/path'
 import uniq from 'ramda/src/uniq'
@@ -18,19 +18,50 @@ function* handlePostsReportPostViewsRequest(payload) {
   yield put(entitiesActions.entitiesPostsMerge({ data }))
 }
 
-function* postsReportPostViewsRequest(req) {
+export function* postsReportPostViewsRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield queryService.apiRequest(queries.reportPostViews, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.reportPostViews, req.payload)
     const selector = path(['data', 'reportPostViews'])
     const meta = {}
 
-    yield handlePostsReportPostViewsRequest(req.payload)
+    if (req.payload.viewType === 'FOCUS') {
+      yield handlePostsReportPostViewsRequest(req.payload)
+    }
+
     yield put(actions.postsReportPostViewsSuccess({ data: selector(data), payload: req.payload, meta }))
   } catch (error) {
     yield put(actions.postsReportPostViewsFailure({ message: errorWrapper(error), payload: req.payload }))
   }
+}
+
+export function groupActionsByType(actions) {
+  const { focus, thumbnails } = actions.reduce(
+    (acc, action) => {
+      const { postIds, viewType } = action.payload
+
+      if (viewType === 'FOCUS') {
+        acc.focus.push(...postIds)
+      }
+
+      if (viewType === 'THUMBNAIL') {
+        acc.thumbnails.push(...postIds)
+      }
+
+      return acc
+    },
+    { focus: [], thumbnails: [] },
+  )
+
+  return [uniq(focus), uniq(thumbnails)]
+}
+
+export function packActions(grouped) {
+  return [
+    ...splitEvery(50, grouped[0]).map((postIds) => ({ postIds, viewType: 'FOCUS' })),
+    ...splitEvery(50, grouped[1]).map((postIds) => ({ postIds, viewType: 'THUMBNAIL' })),
+  ]
 }
 
 /**
@@ -45,31 +76,16 @@ function* watchPostsReportPostViewsRequest() {
      * get first received action, wait for 10secs while accumulating other actions
      */
     const firstAction = yield take(channel)
+
     yield delay(10000)
     const accumedActions = yield flush(channel)
-
-    /**
-     * concat actions array to pass into postsReportPostViewsRequest as a batch
-     */
-    const list = accumedActions.reduce((acc, item) => {
-      acc.payload.postIds = uniq(acc.payload.postIds.concat(item.payload.postIds))
-      return acc
-    }, firstAction)
-
-    const split = splitEvery(50, list.payload.postIds).map(postIds => ({
-      ...firstAction,
-      payload: {
-        postIds,
-      },
-    }))
+    const preparedActions = packActions(groupActionsByType([firstAction, ...accumedActions]))
 
     /**
      * report views in parallel without blocking the thread
      */
-    yield all(split.map(payload => fork(postsReportPostViewsRequest, payload)))
+    yield all(preparedActions.map((payload) => fork(postsReportPostViewsRequest, { payload })))
   }
 }
 
-export default () => [
-  fork(watchPostsReportPostViewsRequest),
-]
+export default () => [fork(watchPostsReportPostViewsRequest)]

@@ -83,7 +83,7 @@ const Action = ({ t, theme, user, post, postsOnymouslyLikeRequest, postsDislikeR
         <TouchableOpacity
           testID={testIDs.action.seenByBtn}
           style={styling.actionRight}
-          onPress={navigationActions.navigatePostViews(navigation, {
+          onPress={() => navigationActions.navigatePostViews(navigation, {
             postId: post.postId,
             userId: post.postedBy.userId,
           })}

@@ -22,11 +22,13 @@ export const useHeader = ({
   /**
    *
    */
+  const albumName = path(['name'])(album)
+  
   useEffect(() => {
-    navigation.setOptions({
-      title: path(['name'])(album),
-    })
-  }, [path(['name'])(album)])
+    if(!albumName) return 
+
+    navigation.setOptions({ title: albumName })
+  }, [albumName])
 
   /**
    *

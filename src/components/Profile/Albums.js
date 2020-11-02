@@ -32,7 +32,7 @@ const ProfileAlbums = ({
         horizontal
         keyExtractor={item => item.albumId}
         renderItem={({ item: album }) => (
-          <TouchableOpacity style={styling.column} onPress={navigationActions.navigateAlbum(navigation, { album: album })}>
+          <TouchableOpacity style={styling.column} onPress={() => navigationActions.navigateAlbum(navigation, { album: album })}>
             <Avatar
               size="medium"
               thumbnailSource={{ uri: path(['art', 'url64p'])(album) }}

@@ -18,7 +18,6 @@ const ProfileEdit = ({
   usersEditProfileRequest,
   togglePrivacyStatus,
   toggleFollowCountsHidden,
-  toggleViewCountsHidden,
   toggleLikesDisabled,
   toggleCommentsDisabled,
   toggleSharingDisabled,
@@ -40,7 +39,6 @@ const ProfileEdit = ({
                 user={user}
                 togglePrivacyStatus={togglePrivacyStatus}
                 toggleFollowCountsHidden={toggleFollowCountsHidden}
-                toggleViewCountsHidden={toggleViewCountsHidden}
                 toggleLikesDisabled={toggleLikesDisabled}
                 toggleCommentsDisabled={toggleCommentsDisabled}
                 toggleSharingDisabled={toggleSharingDisabled}
@@ -81,7 +79,6 @@ ProfileEdit.propTypes = {
   usersEditProfileRequest: PropTypes.any,
   togglePrivacyStatus: PropTypes.func,
   toggleFollowCountsHidden: PropTypes.func,
-  toggleViewCountsHidden: PropTypes.func,
   toggleLikesDisabled: PropTypes.func,
   toggleCommentsDisabled: PropTypes.func,
   toggleSharingDisabled: PropTypes.func,

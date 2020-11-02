@@ -8,43 +8,40 @@ import pathOr from 'ramda/src/pathOr'
 const AuthSigninComponentService = ({ children }) => {
   const dispatch = useDispatch()
 
-  const authSignin = useSelector(state => state.auth.authSignin)
-  const authCheck = useSelector(state => state.auth.authCheck)
+  const authSigninCognito = useSelector(state => state.auth.authSigninCognito)
+  const authFlow = useSelector(state => state.auth.authFlow)
+
+  const handleFormSubmit = (payload) => {
+    dispatch(authActions.authSigninCognitoRequest({
+      usernameType: 'email',
+      username: toLower(payload.username),
+      password: payload.password,
+    }))
+  }
+
+  const formSubmitLoading = authSigninCognito.status === 'loading' || authFlow.status === 'loading'
+  const formSubmitDisabled = authSigninCognito.status === 'loading' || authFlow.status === 'loading'
+  const formErrorMessage = authSigninCognito.error.text
+
+  const formInitialValues = {
+    username: pathOr('', ['payload', 'username'])(authSigninCognito),
+    password: pathOr('', ['payload', 'password'])(authSigninCognito),
+  }
 
   const handleFormTransform = (values) => ({
     username: compose(trim, toLower, pathOr('', ['username']))(values),
     password: values.password,
   })
 
-  const handleFormSubmit = (values, formApi) => {
-    const nextValues = handleFormTransform(values)
-    formApi.setValues(nextValues)
-
-    dispatch(authActions.authSigninSubmit({
-      usernameType: 'email',
-      username: toLower(nextValues.username),
-      password: nextValues.password,
-    }))
-  }
-
-  const formSubmitting = authSignin.status === 'loading' || authCheck.status === 'loading'
-  const formErrorMessage = authSignin.error.text
-
-  const formInitialValues = {
-    username: pathOr('', ['payload', 'username'])(authSignin),
-    password: pathOr('', ['payload', 'password'])(authSignin),
-  }
-
-  const handleErrorClose = () => {
-    dispatch(authActions.authSigninIdle())
-    dispatch(authActions.authCheckIdle())
-  }
+  const handleErrorClose = () => dispatch(authActions.authSigninCognitoIdle({}))
 
   return children({
     formErrorMessage,
     handleFormSubmit,
+    handleFormTransform,
     handleErrorClose,
-    formSubmitting,
+    formSubmitLoading,
+    formSubmitDisabled,
     formInitialValues,
   })
 }

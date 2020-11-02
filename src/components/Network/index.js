@@ -7,6 +7,7 @@ import {
 import { ifIphoneX } from 'react-native-iphone-x-helper'
 import { Text } from 'react-native-paper'
 import { withTranslation } from 'react-i18next'
+import { withNetworkService } from 'components/Network/index.service'
 
 const Network = ({
   t,
@@ -66,4 +67,4 @@ Network.defaultProps = {
   networkIsConnected: true,
 }
 
-export default withTranslation()(Network)
+export default withNetworkService(withTranslation()(Network))

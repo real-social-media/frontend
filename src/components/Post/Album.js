@@ -35,7 +35,7 @@ const PostAlbum = ({
     '#009688'
 
   return (
-    <TouchableWithoutFeedback onPress={navigationActions.navigateAlbum(navigation, { album: post.album })}>
+    <TouchableWithoutFeedback onPress={() => navigationActions.navigateAlbum(navigation, { album: post.album })}>
       <View style={styling.root}>
         <LinearGradient
           start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}

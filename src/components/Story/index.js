@@ -45,7 +45,7 @@ const StoryCarousel = ({
       }
 
       if (post.postType === 'IMAGE') {
-        navigationActions.navigatePostShare(navigation, { postId: post.postId, userId: post.postedBy.userId })()
+        navigationActions.navigatePostShare(navigation, { postId: post.postId, userId: post.postedBy.userId })
       }
     }
 
@@ -54,7 +54,7 @@ const StoryCarousel = ({
         postId: post.postId,
         userId: post.postedBy.userId,
         renderUri,
-      })()
+      })
     }
 
     if (!post) {

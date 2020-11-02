@@ -1,4 +1,4 @@
-import { put, takeLatest, getContext } from 'redux-saga/effects'
+import { put, takeLatest, getContext, call } from 'redux-saga/effects'
 import path from 'ramda/src/path'
 import compose from 'ramda/src/compose'
 import omit from 'ramda/src/omit'
@@ -8,6 +8,7 @@ import * as constants from 'store/ducks/posts/constants'
 import * as entitiesActions from 'store/ducks/entities/actions'
 import * as queryService from 'services/Query'
 import * as normalizer from 'normalizer/schemas'
+import usersCheckPermissions from 'store/ducks/users/saga/usersCheckPermissions'
 
 /**
  *
@@ -517,6 +518,7 @@ function* postsOnymouslyLikeRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
+    yield call(usersCheckPermissions)
     const data = yield queryService.apiRequest(queries.onymouslyLikePost, req.payload)
     const next = yield postsOnymouslyLikeRequestData(req, data)
     yield put(actions.postsOnymouslyLikeSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
@@ -553,6 +555,7 @@ function* postsDislikeRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
+    yield call(usersCheckPermissions)
     const data = yield queryService.apiRequest(queries.dislikePost, req.payload)
     const next = yield postsDislikeRequestData(req, data)
     yield put(actions.postsDislikeSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
@@ -626,6 +629,7 @@ function* commentsAddRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
+    yield call(usersCheckPermissions)
     const data = yield queryService.apiRequest(queries.addComment, req.payload)
     const next = yield commentsAddRequestData(req, data)
     yield put(actions.commentsAddSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
@@ -684,6 +688,29 @@ function* commentsFlagRequest(req) {
   }
 }
 
+/**
+ *
+ */
+
+function* postsDeleteSuccess(req) {
+  yield put(actions.postsDeleteIdle({}))
+  yield put(actions.postsGetRequest({ userId: req.payload.payload.userId }))
+}
+
+function* postsArchiveSuccess(req) {
+  yield put(actions.postsArchiveIdle({}))
+  yield put(actions.postsGetRequest({ userId: req.payload.payload.userId }))
+}
+
+function* postsRestoreArchivedSuccess(req) {
+  yield put(actions.postsRestoreArchivedIdle({}))
+  yield put(actions.postsGetRequest({ userId: req.payload.payload.userId }))
+}
+
+function* postsFlagSuccess() {
+  yield put(actions.postsFlagIdle({}))
+}
+
 export default () => [
   takeLatest(constants.POSTS_GET_REQUEST, postsGetRequest),
   takeLatest(constants.POSTS_GET_MORE_REQUEST, postsGetMoreRequest),
@@ -713,4 +740,9 @@ export default () => [
   takeLatest(constants.COMMENTS_ADD_REQUEST, commentsAddRequest),
   takeLatest(constants.COMMENTS_DELETE_REQUEST, commentsDeleteRequest),
   takeLatest(constants.COMMENTS_FLAG_REQUEST, commentsFlagRequest),
+
+  takeLatest(constants.POSTS_DELETE_SUCCESS, postsDeleteSuccess),
+  takeLatest(constants.POSTS_ARCHIVE_SUCCESS, postsArchiveSuccess),
+  takeLatest(constants.POSTS_RESTORE_ARCHIVED_SUCCESS, postsRestoreArchivedSuccess),
+  takeLatest(constants.POSTS_FLAG_SUCCESS, postsFlagSuccess),
 ]

@@ -879,7 +879,6 @@ const postsReportPostViewsIdle = (state) => update(state, {
  */
 const postsGetTrendingPostsRequest = (state, action) => update(state, {
   postsGetTrendingPosts: {
-    data: { $set: initialState.postsGetTrendingPosts.data },
     status: { $set: 'loading' },
     payload: { $set: action.payload },
     meta: { $set: initialState.postsGetTrendingPosts.meta },
@@ -897,13 +896,6 @@ const postsGetTrendingPostsSuccess = (state, action) => update(state, {
 const postsGetTrendingPostsFailure = (state) => update(state, {
   postsGetTrendingPosts: {
     status: { $set: 'failure' },
-  },
-})
-
-const postsGetTrendingPostsIdle = (state) => update(state, {
-  postsGetTrendingPosts: {
-    data: { $set: initialState.postsGetTrendingPosts.data },
-    status: { $set: 'idle' },
   },
 })
 
@@ -1153,7 +1145,6 @@ export default handleActions({
   [constants.POSTS_GET_TRENDING_POSTS_REQUEST]: postsGetTrendingPostsRequest,
   [constants.POSTS_GET_TRENDING_POSTS_SUCCESS]: postsGetTrendingPostsSuccess,
   [constants.POSTS_GET_TRENDING_POSTS_FAILURE]: postsGetTrendingPostsFailure,
-  [constants.POSTS_GET_TRENDING_POSTS_IDLE]: postsGetTrendingPostsIdle,
   [constants.POSTS_GET_TRENDING_POSTS_MORE_REQUEST]: postsGetTrendingPostsMoreRequest,
   [constants.POSTS_GET_TRENDING_POSTS_MORE_SUCCESS]: postsGetTrendingPostsMoreSuccess,
 
@@ -1176,9 +1167,4 @@ export default handleActions({
   [constants.COMMENTS_FLAG_SUCCESS]: commentsFlagSuccess,
   [constants.COMMENTS_FLAG_FAILURE]: commentsFlagFailure,
   [constants.COMMENTS_FLAG_IDLE]: commentsFlagIdle,
-
-  /**
-   * Clear on logout
-   */
-  ['AUTH_SIGNOUT_REQUEST']: () => initialState,
 }, initialState)

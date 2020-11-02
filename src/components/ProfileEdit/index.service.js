@@ -29,15 +29,6 @@ const ProfileEditService = ({ children }) => {
   ])
 
   useEffect(() => {
-    if (authSignout.status === 'success') {
-      dispatch(authActions.authCheckIdle({}))
-      dispatch(authActions.authSignoutIdle({}))
-    }
-  }, [
-    authSignout.status,
-  ])
-
-  useEffect(() => {
     if (usersEditProfile.status === 'success') {
       dispatch(usersActions.usersEditProfileIdle({}))
     }

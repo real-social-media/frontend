@@ -133,6 +133,9 @@ userSchema.define({
 	stories: {
 		items: [postSchema],
 	},
+	posts: {
+		items: [postSchema],
+	},
 })
 
 

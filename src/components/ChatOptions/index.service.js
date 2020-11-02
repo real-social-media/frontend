@@ -28,12 +28,12 @@ const ChatOptionsService = ({ children }) => {
   useEffect(() => {
     if (usersBlock.status === 'success') {
       dispatch(usersActions.usersBlockIdle({}))
-      navigationActions.navigateChat(navigation)()
+      navigationActions.navigateChat(navigation, {}, { protected: true, user })()
     }
 
     if (usersUnblock.status === 'success') {
       dispatch(usersActions.usersUnblockIdle({}))
-      navigationActions.navigateChat(navigation)()
+      navigationActions.navigateChat(navigation, {}, { protected: true, user })()
     }
   }, [
     usersBlock.status,

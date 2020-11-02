@@ -4,15 +4,17 @@ import path from 'ramda/src/path'
 import is from 'ramda/src/is'
 import * as normalizer from 'normalizer/schemas'
 import * as entitiesSelector from 'store/ducks/entities/selectors'
+import * as usersSelector from 'store/ducks/users/selectors'
+import themesJson from 'assets/themes.json'
 
 const authUser = () => path(['auth', 'user'])
+const authData = () => path(['auth', 'authData'])
 const usersEditProfile = () => path(['users', 'usersEditProfile'])
 const usersGetProfileSelf = () => path(['users', 'usersGetProfileSelf'])
-const usersDeleteAvatar = path(['users', 'usersDeleteAvatar'])
 
 export const authUserSelector = createSelector(
-  [authUser(), usersEditProfile(), usersGetProfileSelf(), usersDeleteAvatar, entitiesSelector.entities],
-  (authUser, usersEditProfile, usersGetProfileSelf, usersDeleteAvatar, entities) => {
+  [authUser(), authData(), usersEditProfile(), usersGetProfileSelf(), usersSelector.usersDeleteAvatar, usersSelector.usersChangeAvatar, entitiesSelector.entities],
+  (authUser, authData, usersEditProfile, usersGetProfileSelf, usersDeleteAvatar, usersChangeAvatar, entities) => {
     return normalizer.denormalizeUserGet(authUser, entities)
   },
 )
@@ -30,14 +32,10 @@ export const languageCodeSelector =
 export const themeCodeSelector = 
   state => pathOr('black.green', ['auth', 'user', 'themeCode'], state)
 
-export const themeFetchSelector =
-  state => pathOr([], ['theme', 'themeFetch', 'data'], state)
-
 export const themeSelector = createSelector(
   authUserSelector,
-  themeFetchSelector,
-  (authUser, themeFetch) => {
+  (authUser) => {
     const activeTheme = pathOr('black.green', ['themeCode'])(authUser)
-    return (themeFetch.find(theme => theme.key === activeTheme) || {}).theme
+    return (themesJson.find(theme => theme.key === activeTheme) || {}).theme
   },
 )

@@ -23,6 +23,7 @@ const PostMedia = ({
   postsFlag,
   postsFlagRequest,
   postsDeleteRequest,
+  changeAvatarRequest,
   postsOnymouslyLikeRequest,
   postsDislikeRequest,
   postsSingleGet,
@@ -39,7 +40,7 @@ const PostMedia = ({
   const data = postsSingleGet.data ? [postsSingleGet.data] : []
 
   const {
-    onViewableItemsChangedRef,
+    onViewableItemsFocusRef,
     viewabilityConfigRef,
   } = useViewable()
 
@@ -57,9 +58,9 @@ const PostMedia = ({
       <FlatList
         bounces={false}
         ref={feedRef}
-        keyExtractor={item => item.postId}
+        keyExtractor={ item => item.postId}
         data={data}
-        onViewableItemsChanged={onViewableItemsChangedRef.current}
+        onViewableItemsChanged={onViewableItemsFocusRef.current}
         viewabilityConfig={viewabilityConfigRef.current}
         renderItem={({ item: post, index }) => (
           <PostComponent
@@ -70,6 +71,7 @@ const PostMedia = ({
             postsRestoreArchivedRequest={postsRestoreArchivedRequest}
             postsFlagRequest={postsFlagRequest}
             postsDeleteRequest={postsDeleteRequest}
+            changeAvatarRequest={changeAvatarRequest}
             postsShareRequest={postsShareRequest}
             postsOnymouslyLikeRequest={postsOnymouslyLikeRequest}
             postsDislikeRequest={postsDislikeRequest}
@@ -111,6 +113,7 @@ PostMedia.propTypes = {
   postsFlag: PropTypes.any,
   postsFlagRequest: PropTypes.any,
   postsDeleteRequest: PropTypes.any,
+  changeAvatarRequest: PropTypes.func,
   postsOnymouslyLikeRequest: PropTypes.any,
   postsDislikeRequest: PropTypes.any,
   usersGetFollowedUsersWithStories: PropTypes.any,

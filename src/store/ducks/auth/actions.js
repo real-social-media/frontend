@@ -2,38 +2,76 @@ import { createAction } from 'redux-actions'
 import * as constants from 'store/ducks/auth/constants'
 
 /**
- * 
+ * New auth manager
  */
-export const authCheckIdle = createAction(constants.AUTH_CHECK_IDLE)
-export const authCheckRequest = createAction(constants.AUTH_CHECK_REQUEST)
-export const authCheckSuccess = createAction(constants.AUTH_CHECK_SUCCESS)
-export const authCheckFailure = createAction(constants.AUTH_CHECK_FAILURE)
-export const authCheckReset = createAction(constants.AUTH_CHECK_RESET)
+export const authFlowIdle = createAction(constants.AUTH_FLOW_IDLE)
+export const authFlowRequest = createAction(constants.AUTH_FLOW_REQUEST)
+export const authFlowSuccess = createAction(constants.AUTH_FLOW_SUCCESS)
+export const authFlowFailure = createAction(constants.AUTH_FLOW_FAILURE)
+
+/**
+ * Solely for cognito request
+ */
+export const authTokenIdle = createAction(constants.AUTH_TOKEN_IDLE)
+export const authTokenRequest = createAction(constants.AUTH_TOKEN_REQUEST)
+export const authTokenSuccess = createAction(constants.AUTH_TOKEN_SUCCESS)
+export const authTokenFailure = createAction(constants.AUTH_TOKEN_FAILURE)
+
+/**
+ * Clear cached credentials for amplify
+ */
+export const authResetIdle = createAction(constants.AUTH_RESET_IDLE)
+export const authResetRequest = createAction(constants.AUTH_RESET_REQUEST)
+export const authResetSuccess = createAction(constants.AUTH_RESET_SUCCESS)
+export const authResetFailure = createAction(constants.AUTH_RESET_FAILURE)
+
+/**
+ * Solely for cognito request
+ */
+export const authDataIdle = createAction(constants.AUTH_DATA_IDLE)
+export const authDataRequest = createAction(constants.AUTH_DATA_REQUEST)
+export const authDataSuccess = createAction(constants.AUTH_DATA_SUCCESS)
+export const authDataFailure = createAction(constants.AUTH_DATA_FAILURE)
+
+/**
+ * Application Initial data prefetch, should be moved into /ducks/app perhaps ?!
+ */
+export const authPrefetchIdle = createAction(constants.AUTH_PREFETCH_IDLE)
+export const authPrefetchRequest = createAction(constants.AUTH_PREFETCH_REQUEST)
+export const authPrefetchSuccess = createAction(constants.AUTH_PREFETCH_SUCCESS)
+export const authPrefetchFailure = createAction(constants.AUTH_PREFETCH_FAILURE)
 
 /**
  * 
  */
-export const authSigninSubmit = createAction(constants.AUTH_SIGNIN_SUBMIT)
-export const authSigninIdle = createAction(constants.AUTH_SIGNIN_IDLE)
-export const authSigninRequest = createAction(constants.AUTH_SIGNIN_REQUEST)
-export const authSigninSuccess = createAction(constants.AUTH_SIGNIN_SUCCESS)
-export const authSigninFailure = createAction(constants.AUTH_SIGNIN_FAILURE)
+export const authSigninCognitoIdle = createAction(constants.AUTH_SIGNIN_COGNITO_IDLE)
+export const authSigninCognitoRequest = createAction(constants.AUTH_SIGNIN_COGNITO_REQUEST)
+export const authSigninCognitoSuccess = createAction(constants.AUTH_SIGNIN_COGNITO_SUCCESS)
+export const authSigninCognitoFailure = createAction(constants.AUTH_SIGNIN_COGNITO_FAILURE)
 
 /**
  * 
  */
-export const authGoogleIdle = createAction(constants.AUTH_GOOGLE_IDLE)
-export const authGoogleRequest = createAction(constants.AUTH_GOOGLE_REQUEST)
-export const authGoogleSuccess = createAction(constants.AUTH_GOOGLE_SUCCESS)
-export const authGoogleFailure = createAction(constants.AUTH_GOOGLE_FAILURE)
+export const authSigninAnonymousIdle = createAction(constants.AUTH_SIGNIN_ANONYMOUS_IDLE)
+export const authSigninAnonymousRequest = createAction(constants.AUTH_SIGNIN_ANONYMOUS_REQUEST)
+export const authSigninAnonymousSuccess = createAction(constants.AUTH_SIGNIN_ANONYMOUS_SUCCESS)
+export const authSigninAnonymousFailure = createAction(constants.AUTH_SIGNIN_ANONYMOUS_FAILURE)
 
 /**
  * 
  */
-export const authAppleIdle = createAction(constants.AUTH_APPLE_IDLE)
-export const authAppleRequest = createAction(constants.AUTH_APPLE_REQUEST)
-export const authAppleSuccess = createAction(constants.AUTH_APPLE_SUCCESS)
-export const authAppleFailure = createAction(constants.AUTH_APPLE_FAILURE)
+export const authSigninGoogleIdle = createAction(constants.AUTH_SIGNIN_GOOGLE_IDLE)
+export const authSigninGoogleRequest = createAction(constants.AUTH_SIGNIN_GOOGLE_REQUEST)
+export const authSigninGoogleSuccess = createAction(constants.AUTH_SIGNIN_GOOGLE_SUCCESS)
+export const authSigninGoogleFailure = createAction(constants.AUTH_SIGNIN_GOOGLE_FAILURE)
+
+/**
+ * 
+ */
+export const authSigninAppleIdle = createAction(constants.AUTH_SIGNIN_APPLE_IDLE)
+export const authSigninAppleRequest = createAction(constants.AUTH_SIGNIN_APPLE_REQUEST)
+export const authSigninAppleSuccess = createAction(constants.AUTH_SIGNIN_APPLE_SUCCESS)
+export const authSigninAppleFailure = createAction(constants.AUTH_SIGNIN_APPLE_FAILURE)
 
 /**
  * 

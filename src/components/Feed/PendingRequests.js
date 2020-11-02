@@ -34,7 +34,7 @@ const PendingRequests = ({
 
       <View style={styling.status}>
         {usersGetPendingFollowers.data.length === 1 ?
-          <TouchableOpacity style={styling.content} onPress={navigationActions.navigateProfileRequests(navigation)}>
+          <TouchableOpacity style={styling.content} onPress={() => navigationActions.navigateProfileRequests(navigation)}>
             <Text style={styling.title}>{t('You have {{number}} new request', { number: usersGetPendingFollowers.data.length })}</Text>
             <View style={styling.caption}>
               <Caption style={styling.subtitle}>{t('Follower request from')} {usersGetPendingFollowers.data.map(user => user.username).join(', ')}</Caption>
@@ -43,7 +43,7 @@ const PendingRequests = ({
         : null}
 
         {usersGetPendingFollowers.data.length > 1 ?
-          <TouchableOpacity style={styling.content} onPress={navigationActions.navigateProfileRequests(navigation)}>
+          <TouchableOpacity style={styling.content} onPress={() => navigationActions.navigateProfileRequests(navigation)}>
             <Text style={styling.title}>{t('You have {{number}} new requests', { number: usersGetPendingFollowers.data.length })}</Text>
             <View style={styling.caption}>
               <Caption style={styling.subtitle}>{t('Follower requests from')} {usersGetPendingFollowers.data.map(user => user.username).join(', ')} {t('and others')}</Caption>

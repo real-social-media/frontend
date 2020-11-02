@@ -26,7 +26,7 @@ const FormAlbums = ({ t, theme, values, setFieldValue, albumsGet }) => {
         <TouchableOpacity
           testID={testIDs.albums.newAlbumBtn}
           style={[styling.album, styling.albumCreate]}
-          onPress={navigationActions.navigateAlbumCreate(navigation)}
+          onPress={() => navigationActions.navigateAlbumCreate(navigation)}
         >
           <Text>{t('New Album')}</Text>
         </TouchableOpacity>
@@ -50,7 +50,7 @@ const FormAlbums = ({ t, theme, values, setFieldValue, albumsGet }) => {
         })}
       </ScrollView>
 
-      <TouchableOpacity onPress={navigationActions.navigateAlbums(navigation)}>
+      <TouchableOpacity onPress={() => navigationActions.navigateAlbums(navigation)}>
         <Caption>
           {t('Choose an album from the list to group your posts')}, {t('or click here to browse all your albums')}
         </Caption>

@@ -1,12 +1,10 @@
 import React from 'react'
-import { renderWithProviders } from 'tests/utils'
-import ActionSheet from 'components/ActionSheet'
+import { renderWithProviders, fireEvent } from 'tests/utils'
 import SettingsComponent from 'components/Settings'
-import { prop } from 'ramda'
-import { isAvatarEmpty, confirm } from 'components/Settings/helpers'
+import { testNavigate } from 'tests/utils/helpers'
 
 jest.mock('components/ActionSheet', () => jest.fn().mockReturnValue(null))
-jest.mock('components/Settings/helpers', () => ({ isAvatarEmpty: jest.fn(), confirm: jest.fn() }))
+jest.mock('components/Alert', () => ({  confirm: jest.fn() }))
 jest.mock('templates/Avatar', () => () => null)
 jest.mock('templates/SettingsAvatar', () => () => null)
 
@@ -14,128 +12,65 @@ const navigation = { navigate: jest.fn() }
 const setup = (props) => renderWithProviders(<SettingsComponent navigation={navigation} {...props} />)
 
 describe('Settings component', () => {
-  describe('Profile photo actions menu', () => {
-    afterEach(() => {
-      ActionSheet.mockClear()
-      confirm.mockClear()
-      navigation.navigate.mockClear()
-    })
+  afterEach(() => {
+    navigation.navigate.mockClear()
+  })
 
-    it('menu options', () => {
-      setup()
+  it('Edit Profile', () => {
+    const { getByText } = setup()
 
-      expect(ActionSheet).toHaveBeenCalled()
-      const { options } = ActionSheet.mock.calls[0][0]
+    fireEvent.press(getByText('Edit Profile'))
 
-      expect(options.map(prop('name'))).toEqual([
-        'Take a Photo',
-        'Choose From Gallery',
-        'Choose From Existing',
-        'Delete Profile Photo',
-        'Cancel',
-      ])
-    })
+    testNavigate(navigation, 'App.Root.Home.Profile.ProfileEdit')
+  })
 
-    it('Take a Photo', () => {
-      const handleCameraSnap = jest.fn()
-      setup({ handleCameraSnap })
+  it('Change Profile Picture', () => {
+    const openUploadAvatarMenu = jest.fn()
+    const { getByText } = setup({ openUploadAvatarMenu })
 
-      const { options } = ActionSheet.mock.calls[0][0]
-      const { name, onPress } = options[0]
+    fireEvent.press(getByText('Change Profile Picture'))
 
-      expect(name).toBe('Take a Photo')
+    expect(openUploadAvatarMenu).toHaveBeenCalled()
+  })
 
-      onPress()
-      expect(confirm).toHaveBeenCalled()
+  it('Choose Theme', () => {
+    const { getByText } = setup()
 
-      const { onConfirm, ...props } = confirm.mock.calls[0][0]
-      expect(props).toEqual({
-        desc: 'Your photo will be uploaded as post',
-        title: 'Profile Photo Upload',
-      })
+    fireEvent.press(getByText('Choose Theme'))
 
-      onConfirm()
-      expect(handleCameraSnap).toHaveBeenCalled()
-    })
+    testNavigate(navigation, 'App.Root.Home.Profile.Theme')
+  })
 
-    it('Choose From Gallery', () => {
-      const handleLibrarySnap = jest.fn()
-      setup({ handleLibrarySnap })
+  it('Archived Photos', () => {
+    const { getByText } = setup()
 
-      const { options } = ActionSheet.mock.calls[0][0]
-      const { name, onPress } = options[1]
+    fireEvent.press(getByText('Archived Photos'))
 
-      expect(name).toBe('Choose From Gallery')
+    testNavigate(navigation, 'App.Root.Home.Profile.Archived')
+  })
 
-      onPress()
-      expect(confirm).toHaveBeenCalled()
+  it('Mental Health & Privacy Settings', () => {
+    const { getByText } = setup()
 
-      const { onConfirm, ...props } = confirm.mock.calls[0][0]
-      expect(props).toEqual({
-        desc: 'Your photo will be uploaded as post',
-        title: 'Profile Photo Upload',
-      })
+    fireEvent.press(getByText('Mental Health & Privacy Settings'))
 
-      onConfirm()
-      expect(handleLibrarySnap).toHaveBeenCalled()
-    })
+    testNavigate(navigation, 'App.Root.Home.Profile.Privacy')
+  })
 
-    it('Choose From Existing', () => {
-      setup()
+  it('Follow & Invite Friends', () => {
+    const { getByText } = setup()
 
-      const { options } = ActionSheet.mock.calls[0][0]
-      const { name, onPress } = options[2]
+    fireEvent.press(getByText('Follow & Invite Friends'))
 
-      expect(name).toBe('Choose From Existing')
+    testNavigate(navigation, 'App.Root.Home.Profile.InviteFriends')
+  })
 
-      onPress()
-      expect(navigation.navigate).toHaveBeenCalledWith('ProfilePhotoGrid')
-    })
+  it('Signout', () => {
+    const authSignoutRequest = jest.fn()
+    const { getByText } = setup({ authSignoutRequest })
 
-    it('Delete Profile Photo should not be visible when avatar empty', () => {
-      isAvatarEmpty.mockReturnValueOnce(true)
-      setup()
+    fireEvent.press(getByText('Signout'))
 
-      const { options } = ActionSheet.mock.calls[0][0]
-      const { name, isVisible } = options[3]
-
-      expect(name).toBe('Delete Profile Photo')
-      expect(isVisible).toBeFalsy()
-    })
-
-    it('Delete Profile Photo', () => {
-      isAvatarEmpty.mockReturnValueOnce(false)
-      const usersDeleteAvatarRequest = jest.fn()
-      setup({ usersDeleteAvatarRequest })
-
-      const { options } = ActionSheet.mock.calls[0][0]
-      const { name, onPress, isVisible, isDestructive } = options[3]
-
-      expect(name).toBe('Delete Profile Photo')
-      expect(isVisible).toBeTruthy()
-      expect(isDestructive).toBeTruthy()
-
-      onPress()
-      expect(confirm).toHaveBeenCalled()
-
-      const { onConfirm, ...props } = confirm.mock.calls[0][0]
-      expect(props).toEqual({
-        desc: 'Are you sure you want to delete the profile photo?',
-        title: 'Delete Profile Photo',
-      })
-
-      onConfirm()
-      expect(usersDeleteAvatarRequest).toHaveBeenCalled()
-    })
-
-    it('Cancel', () => {
-      setup()
-
-      const { options } = ActionSheet.mock.calls[0][0]
-      const { name, isCancel } = options[4]
-
-      expect(name).toBe('Cancel')
-      expect(isCancel).toBeTruthy()
-    })
+    expect(authSignoutRequest).toHaveBeenCalled()
   })
 })

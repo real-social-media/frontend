@@ -3,26 +3,6 @@ import Storage, { STORAGE_KEYS } from 'services/Storage'
 /**
  *
  */
-export const resetAppleSigninPersist = async () => {
-	await Storage.removeItem(STORAGE_KEYS.AUTH_APPLE)
-}
-
-export const saveAppleSigninPersist = async (payload) => {
-	await Storage.setItem(STORAGE_KEYS.AUTH_APPLE, JSON.stringify(payload))
-}
-
-export const getAppleSigninPersist = async () => {
-	try {
-		const response = await Storage.getItem(STORAGE_KEYS.AUTH_APPLE)
-		return JSON.parse(response)
-	} catch (error) {
-		return {}
-	}
-}
-
-/**
- *
- */
 export const resetAuthUserPersist = async () => {
 	await Storage.removeItem(STORAGE_KEYS.AUTH_USER)
 }

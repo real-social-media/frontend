@@ -7,8 +7,8 @@ import * as actions from 'store/ducks/posts/actions'
 import * as usersActions from 'store/ducks/users/actions'
 import { errorWrapper } from 'store/helpers'
 import * as queryService from 'services/Query'
+import { provideDelay } from 'tests/utils/helpers'
 
-const TIMEOUT_DELAY = 5000
 const processingPost = { postId: 1 }
 const userId = 2
 const getPost = call([queryService, 'apiRequest'], queries.getPost, processingPost)
@@ -48,12 +48,13 @@ describe('Create post saga', () => {
       })
 
       it('handle timeout and check post status manually', async () => {
-        const saga = expectSaga(sagas.checkPostsCreateProcessing, processingPost)
-          .provide([[getPost, { data: { post } }]])
-          .delay(TIMEOUT_DELAY + 100)
+        const saga = expectSaga(sagas.checkPostsCreateProcessing, processingPost).provide([
+          [getPost, { data: { post } }],
+          provideDelay(true),
+        ])
 
         await checkSuccess(saga).run(false)
-      }, 6000)
+      })
     })
 
     describe('Post with an error', () => {
@@ -75,17 +76,14 @@ describe('Create post saga', () => {
       it('handle timeout and check post status manually', async () => {
         const tests = failureCases.map(({ post, failureAction }) => {
           return expectSaga(sagas.checkPostsCreateProcessing, processingPost)
-            .provide([
-              [getPost, { data: { post } }],
-              [getContext('errorWrapper'), errorWrapper],
-            ])
-            .delay(TIMEOUT_DELAY + 1)
+            .provide([[getPost, { data: { post } }], [getContext('errorWrapper'), errorWrapper], provideDelay(true)])
+
             .put(failureAction)
             .run(false)
         })
 
         await Promise.all(tests)
-      }, 6000)
+      })
     })
 
     describe('Retry check post status 3 times', () => {
@@ -99,19 +97,14 @@ describe('Create post saga', () => {
 
         const tests = posts.map((post) => {
           return expectSaga(sagas.checkPostsCreateProcessing, processingPost)
-            .provide([
-              [getPost, { data: { post } }],
-              [getContext('errorWrapper'), errorWrapper],
-            ])
-
-            .delay(TIMEOUT_DELAY + 1)
+            .provide([[getPost, { data: { post } }], [getContext('errorWrapper'), errorWrapper], provideDelay(true)])
 
             .put(failureAction)
             .run(false)
         })
 
         await Promise.all(tests)
-      }, 20000)
+      })
     })
 
     describe('Keep handle socket events when received post is not equal processingPost', () => {

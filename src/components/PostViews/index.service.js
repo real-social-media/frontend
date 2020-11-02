@@ -32,6 +32,8 @@ const PostViewsService = ({ children }) => {
     dispatch(postsActions.postsViewsGetMoreRequest(payload))
 
   useEffect(() => {
+    if(!postId || !userId) return
+    
     dispatch(postsActions.postsSingleGetRequest({ postId, userId }))
   }, [postId])
 

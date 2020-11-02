@@ -59,7 +59,7 @@ const StoryService = ({ children }) => {
       storyRef.current.snapToNext()
     } else {
       resetStory()
-      navigationActions.navigateBack(navigation)()
+      navigationActions.navigateBack(navigation)
     }
   }
     
@@ -76,13 +76,13 @@ const StoryService = ({ children }) => {
       storyRef.current.snapToPrev()
     } else {
       resetStory()
-      navigationActions.navigateBack(navigation)()
+      navigationActions.navigateBack(navigation)
     }
   }
 
   const onCloseStory = () => {
     resetStory()
-    navigationActions.navigateBack(navigation)()
+    navigationActions.navigateBack(navigation)
   }
 
   /**

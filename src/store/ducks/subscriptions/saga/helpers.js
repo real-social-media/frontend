@@ -30,9 +30,10 @@ function* subscriptionStateHandler({ identifier }) {
    * - handshake error
    */
   function* errorHandler(error) {
-    yield put(subscriptionsActions.subscriptionsMainFailure({ data: identifier }))
+    const payload = tryCatch(JSON.stringify, () => null)(path(['error'])(error))
+    yield put(subscriptionsActions.subscriptionsMainFailure({ data: identifier, payload }))
     Logger.withScope((scope) => {
-      scope.setExtra('payload', tryCatch(JSON.stringify, () => null)(path(['error'])(error)))
+      scope.setExtra('payload', payload)
       Logger.captureMessage('SUBSCRIPTIONS_EMITTER_ERROR')
     })
   }

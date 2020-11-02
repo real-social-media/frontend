@@ -7,11 +7,13 @@ import {
   Image,
 } from 'react-native'
 import { Text } from 'react-native-paper'
+import { withTheme } from 'react-native-paper'
 
 const PhoneField = ({
+  theme,
   inputRef,
 }) => {
-  const styling = styles
+  const styling = styles(theme)
 
   return (
     <TouchableOpacity style={styling.root} onPress={inputRef.current.onPressFlag}>
@@ -28,13 +30,13 @@ const PhoneField = ({
   )
 }
 
-const styles = StyleSheet.create({
+const styles = theme => StyleSheet.create({
   root: {
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 2,
-    borderColor: '#eaeaea',
-    backgroundColor: '#eaeaea',
+    borderColor: theme.colors.backgroundSecondary,
+    backgroundColor: theme.colors.backgroundSecondary,
     borderRadius: 2,
     height: 40,
   },
@@ -55,7 +57,8 @@ const styles = StyleSheet.create({
 })
 
 PhoneField.propTypes = {
+  theme: PropTypes.any,
   inputRef: PropTypes.any,
 }
 
-export default PhoneField
+export default withTheme(PhoneField)

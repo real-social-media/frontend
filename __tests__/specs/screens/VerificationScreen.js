@@ -5,7 +5,6 @@ import { renderWithProviders, fireEvent } from 'tests/utils'
 import VerificationScreen from 'screens/VerificationScreen'
 import { VERIFICATION_TYPE } from 'components/Verification'
 import * as usersActions from 'store/ducks/users/actions'
-import * as authActions from 'store/ducks/auth/actions'
 
 jest.mock('react-redux', () => ({
   useDispatch: jest.fn(),
@@ -108,7 +107,6 @@ describe('Verification screen', () => {
       fireEvent.press(getByText('Hide and Proceed'))
 
       expect(dispatch).toHaveBeenCalledWith(usersActions.usersEditProfileIdle({}))
-      expect(dispatch).toHaveBeenCalledWith(authActions.authCheckIdle({ nextRoute: 'Root' }))
     })
   })
 

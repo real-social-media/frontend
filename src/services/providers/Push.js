@@ -1,4 +1,3 @@
-import { Linking } from 'react-native'
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as usersActions from 'store/ducks/users/actions'
@@ -6,7 +5,6 @@ import * as authSelector from 'store/ducks/auth/selectors'
 import path from 'ramda/src/path'
 import * as Logger from 'services/Logger'
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
-import * as navigationActions from 'navigation/actions'
 import * as LinkingService from 'services/Linking'
 import { useNavigation } from '@react-navigation/native'
 
@@ -28,7 +26,7 @@ export const usePushNotification = () => {
      * Navigate to related screen if action is recognized and supported
      */
     if (action) {
-      LinkingService.deeplinkNavigation(navigation, navigationActions, Linking)(action)
+      LinkingService.deeplinkNavigation(navigation)(action)
     } 
 
     /**

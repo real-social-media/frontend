@@ -48,16 +48,10 @@ const postShareVisibility = (post, user) => (
 /**
  * Visibility of seen by text, text will be visible if:
  * - Authenticated user owns the post
- * 
- * - Post has viewCountsHidden setting enabled
- * - Or Authenticated user has viewCountsHidden setting enabled 
- * 
  * - viewedByCount greater than 0
  */
 const postSeenByVisility = (post, user) => (
   path(['postedBy', 'userId'], post) === path(['userId'], user) &&
-  !path(['viewCountsHidden'], post) &&
-  !path(['viewCountsHidden'], user) &&
   post.viewedByCount > 0
 )
 
@@ -79,17 +73,6 @@ const postVerificationVisibility = (post) => (
   !PrivacyService.postRepostVisiblity(post) &&
   path(['isVerified'])(post) === false &&
   path(['postType'])(post) !== 'TEXT_ONLY'
-)
-
-/**
- * Visibility of post verification, modal will be visible if:
- * - Authenticated user is owner of a post
- * - Post is not text only
- * - Post has isVerified setting enabled 
- */
-const selfPostVerificationVisibility = (post, user) => (
-  user.userId === path(['postedBy', 'userId'])(post) &&
-  PrivacyService.postVerificationVisibility(post)
 )
 
 /**
@@ -156,7 +139,6 @@ const PrivacyService = {
   postSeenByVisility,
   postRepostVisiblity,
   postVerificationVisibility,
-  selfPostVerificationVisibility,
   postExpiryVisiblity,
   postLikedVisibility,
   userFollowingVisibility,

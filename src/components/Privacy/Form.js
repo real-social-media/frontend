@@ -15,7 +15,6 @@ const Privacy = ({
   user,
   togglePrivacyStatus,
   toggleFollowCountsHidden,
-  toggleViewCountsHidden,
   toggleLikesDisabled,
   toggleCommentsDisabled,
   toggleSharingDisabled,
@@ -61,13 +60,6 @@ const Privacy = ({
             onPress: toggleSharingDisabled,
             enabled: !user.sharingDisabled,
           },
-          {
-            testID: testIDs.form.viewCountsHidden,
-            label: t('Views count'),
-            caption: t('Followers can view total post views'),
-            onPress: toggleViewCountsHidden,
-            enabled: !user.viewCountsHidden,
-          },
         ]}
       >
         {(privacy) => (
@@ -107,11 +99,9 @@ Privacy.propTypes = {
     likesDisabled: PropTypes.bool,
     commentsDisabled: PropTypes.bool,
     sharingDisabled: PropTypes.bool,
-    viewCountsHidden: PropTypes.bool,
   }),
   togglePrivacyStatus: PropTypes.func.isRequired,
   toggleFollowCountsHidden: PropTypes.func.isRequired,
-  toggleViewCountsHidden: PropTypes.func.isRequired,
   toggleLikesDisabled: PropTypes.func.isRequired,
   toggleCommentsDisabled: PropTypes.func.isRequired,
   toggleSharingDisabled: PropTypes.func.isRequired,

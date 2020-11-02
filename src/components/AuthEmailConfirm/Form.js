@@ -35,11 +35,9 @@ const EmailConfirmForm = ({
         <Field testID={testIDs.form.confirmationCode} name="confirmationCode" component={TextField} placeholder={t('Confirmation Code')} keyboardType="number-pad" textContentType="oneTimeCode" autoCompleteType="off" autoFocus maxLength={6} />
       </View>
 
-      {loading ?
-        <View style={styling.input}>
-          <DefaultButton label={t('Next')} onPress={handleSubmit} loading={loading} disabled={loading} />
-        </View>
-      : null}
+      <View style={styling.input}>
+        <DefaultButton label={t('Next')} onPress={handleSubmit} loading={loading} disabled={loading} />
+      </View>
     </View>
   )
 }

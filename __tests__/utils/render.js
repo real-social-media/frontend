@@ -1,15 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { render } from '@testing-library/react-native'
-import { ThemesContext } from 'navigation/context'
+import { ThemeContext } from 'services/providers/Theme'
 import { Provider as PaperProvider } from 'react-native-paper'
 import theme from 'tests/mocks/theme.mock'
 
 const AllTheProviders = ({ children }) => {
   return (
-    <ThemesContext.Provider value={{ theme }}>
+    <ThemeContext.Provider value={{ theme }}>
       <PaperProvider theme={theme}>{children}</PaperProvider>
-    </ThemesContext.Provider>
+    </ThemeContext.Provider>
   )
 }
 

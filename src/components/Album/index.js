@@ -49,7 +49,7 @@ const Album = ({
   })
 
   const {
-    onViewableItemsChangedRef,
+    onViewableItemsThumbnailsRef,
     viewabilityConfigRef,
   } = useViewable()
 
@@ -83,7 +83,7 @@ const Album = ({
             refreshing={scroll.refreshing}
           />
         )}
-        onViewableItemsChanged={onViewableItemsChangedRef.current}
+        onViewableItemsChanged={onViewableItemsThumbnailsRef.current}
         viewabilityConfig={viewabilityConfigRef.current}
       />
 
@@ -94,7 +94,7 @@ const Album = ({
         destructiveButtonIndex={1}
         onPress={(index) => {
           if (index === 0) {
-            navigationActions.navigateAlbumEdit(navigation, { album: albumsSingleGet.data })()
+            navigationActions.navigateAlbumEdit(navigation, { album: albumsSingleGet.data })
           }
           if (index === 1) {
             albumsDeleteRequest({ albumId: albumsSingleGet.data.albumId })

@@ -1,8 +1,9 @@
-import { useEffect, useCallback } from 'react'
+import { useEffect, useCallback, useContext } from 'react'
 import * as authActions from 'store/ducks/auth/actions'
 import * as navigationActions from 'navigation/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
+import { ThemeContext } from 'services/providers/Theme'
 import trim from 'ramda/src/trim'
 import compose from 'ramda/src/compose'
 import replace from 'ramda/src/replace'
@@ -13,6 +14,7 @@ import { pageHeaderLeft } from 'navigation/options'
 const AuthForgotComponentService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
+  const { theme } = useContext(ThemeContext)
 
   const authForgot = useSelector(state => state.auth.authForgot)
 
@@ -28,29 +30,16 @@ const AuthForgotComponentService = ({ children }) => {
    */
   const handleGoBack = useCallback(() => {
     dispatch(authActions.authForgotIdle({}))
-    navigationActions.navigateAuthHome(navigation)()
+    navigationActions.navigateAuthHome(navigation)
   }, [])
 
   useEffect(() => {
     const tabNavigator = navigation.dangerouslyGetParent()
     if (!tabNavigator) return
     tabNavigator.setOptions({
-      headerLeft: (props) => pageHeaderLeft({ ...props, onPress: handleGoBack }),
+      headerLeft: (props) => pageHeaderLeft({ ...props, onPress: handleGoBack, theme }),
     })
   }, [])
-
-  /**
-   * Redirect to verification confirmation once reset was successful
-   */
-  useEffect(() => {
-    if (
-      authForgot.status !== 'success'
-    ) return
-
-    navigationActions.navigateAuthForgotConfirm(navigation)()
-  }, [
-    authForgot.status === 'success',
-  ])
 
   const formSubmitLoading = authForgot.status === 'loading'
   const formSubmitDisabled = authForgot.status === 'loading'

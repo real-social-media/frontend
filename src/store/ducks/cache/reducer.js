@@ -2,7 +2,7 @@ import { handleActions } from 'redux-actions'
 import update from 'immutability-helper'
 import * as constants from 'store/ducks/cache/constants'
 
-const initialState = {
+export const initialState = {
   cached: {},
   buffer: {},
   progress: {},

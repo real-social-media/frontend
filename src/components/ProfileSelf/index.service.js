@@ -26,6 +26,8 @@ const ProfileSelfService = ({ children }) => {
     dispatch(usersActions.usersGetProfileSelfRequest({ userId }))
 
   useEffect(() => {
+    if(!userId) return
+
     usersGetProfileSelfRequest({ userId })
   }, [userId])
 

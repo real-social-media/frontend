@@ -53,8 +53,8 @@ const AuthForgotEmail = ({
         </View>
       </View>
 
-      <AuthActionTemplate onPress={navigationActions.navigateAuthSigninEmail(navigation)}>
-        {t('Already Have an Account ? Log In')}
+      <AuthActionTemplate onPress={() => navigationActions.navigateAuthSigninEmail(navigation)}>
+        {t('Already Have an Account? Log In')}
       </AuthActionTemplate>
     </View>
   )

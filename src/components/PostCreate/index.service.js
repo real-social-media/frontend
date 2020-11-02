@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as authSelector from 'store/ducks/auth/selectors'
+import * as postsSelector from 'store/ducks/posts/selectors'
 import * as albumsSelector from 'store/ducks/albums/selectors'
 import * as albumsActions from 'store/ducks/albums/actions'
 import * as navigationActions from 'navigation/actions'
@@ -17,7 +18,7 @@ const PostCreateService = ({
   const route = useRoute()
 
   const user = useSelector(authSelector.authUserSelector)
-  const postsCreate = useSelector(state => state.posts.postsCreate)
+  const postsCreate = useSelector(postsSelector.postsCreate)
   const cameraCapture = useSelector(state => state.camera.cameraCapture)
   const albumsGet = useSelector(albumsSelector.albumsGetSelector(user.userId))
   const type = route.params.type
@@ -28,10 +29,10 @@ const PostCreateService = ({
    */
   const handlePostUploadStarted = (post) => {
     if (post.postType === 'TEXT_ONLY') {
-      navigationActions.navigateHome(navigation)()
+      navigationActions.navigateHome(navigation)
     }
     if (post.postType === 'IMAGE' && cameraCaptureLength === 1) {
-      navigationActions.navigateHome(navigation)()
+      navigationActions.navigateHome(navigation)
     }
   }
 
@@ -43,6 +44,8 @@ const PostCreateService = ({
   })
 
   useEffect(() => {
+    if(!user.userId) return
+    
     dispatch(albumsActions.albumsGetRequest({ userId: user.userId }))
   }, [])
 

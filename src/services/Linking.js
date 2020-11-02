@@ -1,82 +1,82 @@
 import UrlPattern from 'url-pattern'
+import { Linking } from 'react-native'
+import * as navigationActions from 'navigation/actions'
 
-export class MissingDeeplinkParamsError extends Error {
+class NotSupportedInAppCardError extends Error {
   constructor(...args) {
     super(...args)
-    this.code = 'MISSING_DEEP_LINK_PARAMS_ERROR'
+    this.code = 'NOT_SUPPORTED_IN_APP_CARD_ERROR'
   }
 }
 
 const options = { segmentValueCharset: ':a-zA-Z0-9_-' }
 
-const patterns = {
-  post: new UrlPattern('*/user/(:userId)/post/(:postId)((/):action)(/)((/):actionId)(/)', options),
-  profilePhoto: new UrlPattern('*/user/:userId/settings/photo(/)', options),
+const ACTIONS = {
+  POST: 'post',
+  PROFILE_PHOTO: 'profilePhoto',
+  INVITE_FRIENDS: 'inviteFriends',
+  SIGNUP: 'signup',
+  CHATS: 'chats',
+  COMMENTS: 'comments',
+  VIEWS: 'views',
+  LIKES: 'likes',
+}
+
+const PATTERNS = {
+  [ACTIONS.POST]: new UrlPattern('*/user/(:userId)/post/(:postId)((/):action)(/)((/):actionId)(/)', options),
+  [ACTIONS.PROFILE_PHOTO]: new UrlPattern('*/user/:userId/settings/photo(/)', options),
+  [ACTIONS.INVITE_FRIENDS]: new UrlPattern('*/user/:userId/settings/contacts(/)', options),
+  [ACTIONS.SIGNUP]: new UrlPattern('*/signup/:userId(/)', options),
+  [ACTIONS.CHATS]: new UrlPattern('*/chat(/)', options),
 }
 
 export const deeplinkPath = (action) => {
-  const [postMatch, profilePhotoMatch] = [
-    patterns.post.match(action), 
-    patterns.profilePhoto.match(action),
-  ]
+  for (const key of Object.keys(PATTERNS)) {
+    const pattern = PATTERNS[key]
+    const match = pattern.match(action)
 
-  if (profilePhotoMatch !== null) {
-    return { action: 'profilePhoto', ...profilePhotoMatch }
+    if (match !== null) {
+      return { action: key, ...match }
+    }
   }
 
-  if (action === 'https://real.app/chat/') {
-    return { action: 'chats' }
-  }
-
-  if (!postMatch || !postMatch.userId || !postMatch.postId) {
-    throw new MissingDeeplinkParamsError('Missing userId or postId parameters for post endpoint')
-  }
-
-  return postMatch
+  throw new NotSupportedInAppCardError('The in-app card is not supported')
 }
 
-export const deeplinkNavigation = (navigation, navigationActions, Linking) => (action) => {
+export const deeplinkNavigation = (navigation) => (action) => {
   try {
     const params = deeplinkPath(action)
 
-    /**
-     * Chats screen
-     */
-    if (params.action === 'chats') {
-      return navigationActions.navigateChat(navigation)()
-    } else if (params && params.action === 'comments') {
-
-    /**
-     * Comments screen
-     */
-      return navigationActions.navigateNestedComments(navigation, params)()
-    } else if (params && params.action === 'views') {
-
-    /**
-     * Views screen
-     */
-      return navigationActions.navigateNestedPostViews(navigation, params)()
-    } else if (params && params.action === 'likes') {
-
-    /**
-     * Likes screen
-     */
-      return navigationActions.navigateNestedPostLikes(navigation, params)()
-    } else if (params && !params.action) {
-
-    /**
-     * Post screen
-     */
-      return navigationActions.navigateNestedPost(navigation, params)()
-    } else if (params && params.action === 'profilePhoto') {
-
-      /**
-       * Profile Photo Upload
-       */
-      return navigationActions.navigateProfilePhoto(navigation, params)()
+    switch (params.action) {
+      case ACTIONS.CHATS:
+        navigationActions.navigateChat(navigation)()
+        break
+      case ACTIONS.COMMENTS:
+        navigationActions.navigateNestedComments(navigation, params)
+        break
+      case ACTIONS.VIEWS:
+        navigationActions.navigateNestedPostViews(navigation, params)
+        break
+      case ACTIONS.LIKES:
+        navigationActions.navigateNestedPostLikes(navigation, params)
+        break
+      case ACTIONS.POST:
+        navigationActions.navigateNestedPost(navigation, params)
+        break
+      case ACTIONS.PROFILE_PHOTO:
+        navigationActions.navigateProfilePhoto(navigation, params)
+        break
+      case ACTIONS.INVITE_FRIENDS:
+        navigationActions.navigateInviteFriends(navigation, params)
+        break
+      case ACTIONS.SIGNUP:
+        navigationActions.navigateAuthUsername(navigation, params)
+        break
+      default:
+        break
     }
   } catch (error) {
-    if (error.code === 'MISSING_DEEP_LINK_PARAMS_ERROR') {
+    if (error.code === 'NOT_SUPPORTED_IN_APP_CARD_ERROR') {
       return Linking.openURL(action)
     }
   }

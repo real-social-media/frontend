@@ -30,7 +30,7 @@ const Header = ({ t, post }) => {
   )
 
   const onProfilePhotoPress = () => {
-    navigationActions.navigateProfile(navigation, { userId: post.postedBy.userId })()
+    navigationActions.navigateProfile(navigation, { userId: post.postedBy.userId })
   }
 
   return (
@@ -45,7 +45,7 @@ const Header = ({ t, post }) => {
       </TouchableOpacity>
 
       <View style={styling.headerText}>
-        <TouchableOpacity onPress={navigationActions.navigateProfile(navigation, { userId: post.postedBy.userId })}>
+        <TouchableOpacity onPress={() => navigationActions.navigateProfile(navigation, { userId: post.postedBy.userId })}>
           <Text style={styling.headerUsername}>{path(['postedBy', 'username'])(post)}</Text>
         </TouchableOpacity>
 
@@ -53,7 +53,7 @@ const Header = ({ t, post }) => {
           <TouchableOpacity
             testID={testIDs.header.repostBtn}
             style={styling.verification}
-            onPress={navigationActions.navigateProfile(navigation, { userId: post.originalPost.postedBy.userId })}
+            onPress={() => navigationActions.navigateProfile(navigation, { userId: post.originalPost.postedBy.userId })}
           >
             <Caption style={styling.headerStatus}>
               {t('Reposted from {{ username }}', { username: repostedUsername })}
@@ -72,7 +72,7 @@ const Header = ({ t, post }) => {
         {verificationVisibility ? (
           <TouchableOpacity
             testID={testIDs.header.verificationStatus}
-            onPress={navigationActions.navigateVerification(navigation, { actionType: 'BACK', post })}
+            onPress={navigationActions.navigateVerification(navigation, { actionType: 'BACK' })}
             style={styling.verification}
           >
             <Caption style={styling.verificationStatus}>{t('unverified')}</Caption>

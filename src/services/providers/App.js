@@ -1,72 +1,49 @@
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import * as postsActions from 'store/ducks/posts/actions'
-import * as authSelector from 'store/ducks/auth/selectors'
-import * as Logger from 'services/Logger'
-import { usePushNotification } from 'services/providers/Push'
+import * as appActions from 'store/ducks/app/actions'
+import * as usersActions from 'store/ducks/users/actions'
+import LoadingComponent from 'components/Loading'
 
 /**
  * 
  */
 export const AppProvider = ({
   children,
+  onStateChangeRef,
+  routeNameRef,
+  navigationRef,
 }) => {
   const dispatch = useDispatch()
-  
-  const user = useSelector(authSelector.authUserSelector)
-  const postsDelete = useSelector(state => state.posts.postsDelete)
-  const postsArchive = useSelector(state => state.posts.postsArchive)
-  const postsRestoreArchived = useSelector(state => state.posts.postsRestoreArchived)
-  const postsFlag = useSelector(state => state.posts.postsFlag)
+  const appReady = useSelector(state => state.app.appReady)
+
+  const onStateChange = () => {
+    try {
+      const previousRouteName = routeNameRef.current
+      const currentRouteName = navigationRef.current.getCurrentRoute().name
+
+      if (previousRouteName !== currentRouteName) {
+        dispatch(usersActions.usersReportScreenViewsRequest({ screens: [currentRouteName] }))
+      }
+
+      // Save the current route name for later comparision
+      routeNameRef.current = currentRouteName
+    } catch (error) {
+      // ignore
+    }
+  }
+
+  onStateChangeRef.current = onStateChange
 
   /**
-   * Sentry specific logger to map partial user data to error log
+   * Constructor function to fetch: Translations, Themes and Auth data
    */
   useEffect(() => {
-    if (user && user.userId) {
-      Logger.setUser({
-        id: user.userId,
-        username: user.username,
-        email: user.email,
-      })
-    }
-  }, [user.userId])
+    dispatch(appActions.appReadyRequest())
+  }, [])
 
-  /**
-   * Push notifications event listeners initialization
-   * - handles permissions check
-   * - handles setting apns token
-   * - handles received push notifications
-   */
-  usePushNotification()
+  if (appReady.status !== 'success') {
+    return <LoadingComponent />
+  }
 
-  useEffect(() => {
-    if (postsDelete.status === 'success') {
-      dispatch(postsActions.postsDeleteIdle({}))
-      dispatch(postsActions.postsGetRequest({ userId: user.userId }))
-    }
-
-    if (postsArchive.status === 'success') {
-      dispatch(postsActions.postsArchiveIdle({}))
-      dispatch(postsActions.postsGetRequest({ userId: user.userId }))
-    }
-
-    if (postsRestoreArchived.status === 'success') {
-      dispatch(postsActions.postsRestoreArchivedIdle({}))
-      dispatch(postsActions.postsGetRequest({ userId: user.userId }))
-    }
-
-    if (postsFlag.status === 'success') {
-      dispatch(postsActions.postsFlagIdle({}))
-    }
-  }, [
-    postsDelete.status,
-    postsArchive.status,
-    postsRestoreArchived.status,
-    postsFlag.status,
-  ])
-
-  return children({
-    user,
-  })
+  return children
 }

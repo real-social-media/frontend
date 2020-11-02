@@ -1,31 +1,35 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import equals from 'ramda/src/equals'
 import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
 } from 'react-native'
 import path from 'ramda/src/path'
+import { Caption, useTheme } from 'react-native-paper'
+import { useNavigation } from '@react-navigation/native'
 import Avatar from 'templates/Avatar'
-import { Caption } from 'react-native-paper'
 import * as navigationActions from 'navigation/actions'
 import * as UserService from 'services/User'
 
-import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-
 const Stories = ({
-  theme,
   user,
   usersGetFollowedUsersWithStories,
 }) => {
-  const styling = styles(theme)
   const navigation = useNavigation()
-
-  const handleUserStoryPress = (user) => navigationActions.navigateStory(navigation, {
-    user,
-    usersGetFollowedUsersWithStories,
-  })
+  const theme = useTheme()
+  const styling = styles(theme)
+  
+  const handleUserStoryPress = (user) => 
+    navigationActions.navigateStory(
+      navigation,
+      {
+        user,
+        usersGetFollowedUsersWithStories,
+      },
+      { protected: true, user },
+    )
 
   return (
     <ScrollView
@@ -35,7 +39,7 @@ const Stories = ({
     >
       <TouchableOpacity
         key={user.userId}
-        onPress={navigationActions.navigateCamera(navigation)}
+        onPress={navigationActions.navigateCamera(navigation, {}, { protected: true, user })}
         style={styling.story}
       >
         <Avatar
@@ -45,7 +49,7 @@ const Stories = ({
           imageSource={{ uri: path(['photo', 'url480p'])(user) }}
           icon={true}
         />
-        <Caption style={styling.username}>{path(['username'])(user)}</Caption>
+        <Caption style={styling.username} numberOfLines={1}>{path(['username'])(user)}</Caption>
       </TouchableOpacity>
 
       {(usersGetFollowedUsersWithStories.data || []).map((user, key) => (
@@ -61,7 +65,7 @@ const Stories = ({
             imageSource={{ uri: path(['photo', 'url480p'])(user) }}
             themeCode={path(['themeCode'])(user)}
           />
-          <Caption style={styling.username}>{path(['username'])(user)}</Caption>
+          <Caption style={styling.username} numberOfLines={1}>{path(['username'])(user)}</Caption>
         </TouchableOpacity>
       ))}
     </ScrollView>
@@ -81,13 +85,13 @@ const styles = theme => StyleSheet.create({
   username: {
     marginTop: 6,
     color: theme.colors.text,
+    maxWidth: 70,
   },
 })
 
 Stories.propTypes = {
-  theme: PropTypes.any,
   user: PropTypes.any,
   usersGetFollowedUsersWithStories: PropTypes.any,
 }
 
-export default withTheme(Stories)
+export default React.memo(Stories, equals)

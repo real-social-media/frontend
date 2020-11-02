@@ -135,3 +135,8 @@ export const postsGetTrendingPostsSelector = () => createDeepEqualSelector(
     return assocPath(['data'], denormalized)(postsGetTrendingPosts)
   },
 )
+
+/**
+ *
+ */
+export const postsCreate = path(['posts', 'postsCreate'])
