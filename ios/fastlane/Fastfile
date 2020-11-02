@@ -27,7 +27,7 @@ platform :ios do
       :PROVISIONING_PROFILE_SPECIFIER => ENV["APP_IDENTIFIER"],
       :DEVELOPMENT_TEAM => ENV["TEAM_ID"]
     }
-
+    
     update_app_identifier(
       xcodeproj: "REAL.xcodeproj",
       plist_path: "REAL/Info.plist",
@@ -38,6 +38,7 @@ platform :ios do
 
     build_app(
       export_xcargs: "-allowProvisioningUpdates",
+      xcargs: settings_to_override,
       workspace: "REAL.xcworkspace",
       scheme: ENV["APP_SCHEME"],
       export_method: "app-store",
