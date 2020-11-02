@@ -17,10 +17,10 @@ platform :ios do
       keychain_password: ENV["MATCH_PASSWORD"]
     )
 
-    # get_push_certificate(
-    #   app_identifier: ENV["APP_IDENTIFIER"],
-    #   save_private_key: true
-    # )
+    get_push_certificate(
+      app_identifier: ENV["APP_IDENTIFIER"],
+      save_private_key: true
+    )
 
     settings_to_override = {
       :BUNDLE_IDENTIFIER => ENV["APP_IDENTIFIER"],
