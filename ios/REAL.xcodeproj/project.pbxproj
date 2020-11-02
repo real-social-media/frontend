@@ -831,7 +831,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = app.real.mobile.development;
 				PRODUCT_NAME = REAL;
-				PROVISIONING_PROFILE_SPECIFIER = "match Development app.real.mobile.development";
+				PROVISIONING_PROFILE_SPECIFIER = Automatic;
 				SWIFT_OBJC_BRIDGING_HEADER = "REAL-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -946,7 +946,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = app.real.mobile;
 				PRODUCT_NAME = REAL;
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = Automatic;
 				SWIFT_OBJC_BRIDGING_HEADER = "REAL-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
