@@ -37,6 +37,7 @@ platform :ios do
     increment_build_number(xcodeproj: "REAL.xcodeproj")
 
     build_app(
+      xcargs: settings_to_override,
       export_xcargs: "-allowProvisioningUpdates",
       workspace: "REAL.xcworkspace",
       scheme: ENV["APP_SCHEME"],
