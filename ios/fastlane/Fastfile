@@ -9,6 +9,8 @@ platform :ios do
     #  add_badge
     #end
 
+    setup_ci()
+    
     match(
       app_identifier: ENV["APP_IDENTIFIER"],
       type: ENV["MATCH_TYPE"],
