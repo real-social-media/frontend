@@ -44,7 +44,7 @@ platform :ios do
 
     disable_automatic_code_signing(code_sign_identity: 'iPhone Distribution')
     sync_code_signing
-    update_project_provisioning(provisioning_profile: File.expand_path("/Users/runner/Library/MobileDevice/Provisioning\ Profiles/ed29d5ff-808d-432d-8f6a-21f1b6e55742.mobileprovision))
+    update_project_provisioning(provisioning_profile: File.expand_path("/Users/runner/Library/MobileDevice/Provisioning\ Profiles/ed29d5ff-808d-432d-8f6a-21f1b6e55742.mobileprovision"))
     
     build_app(
       export_xcargs: "-allowProvisioningUpdates",
