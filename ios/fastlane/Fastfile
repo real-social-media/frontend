@@ -42,6 +42,10 @@ platform :ios do
 
     increment_build_number(xcodeproj: "REAL.xcodeproj")
 
+    disable_automatic_code_signing(code_sign_identity: 'iPhone Distribution')
+    sync_code_signing
+    update_project_provisioning(profile: 'app.real.mobile.development')
+    
     build_app(
       export_xcargs: "-allowProvisioningUpdates",
       xcargs: settings_to_override,
