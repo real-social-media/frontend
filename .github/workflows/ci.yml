@@ -31,6 +31,12 @@ jobs:
     - name: Install fastlane
       run: |
         sudo gem install fastlane
+    - name: Set up keychain
+      run: |
+        security create-keychain -p ${{ secrets.FASTLANE_PASSWORD }} build.keychain
+        security default-keychain -s build.keychain
+        security unlock-keychain -p ${{ secrets.FASTLANE_PASSWORD }} build.keychain
+        security set-key-partition-list -S apple-tool:,apple: -s -k actions build.keychain
     - name: Build
       env:
         GIT_PRIVATE_KEY: ${{ secrets.GIT_PRIVATE_KEY }}
