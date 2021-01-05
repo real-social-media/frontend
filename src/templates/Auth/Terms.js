@@ -21,9 +21,9 @@ const Header = ({
     <View style={styling.root}>
       <Text style={styling.text}>
         {t('By tapping to continue, you are indicating that you have read the ')}
-        <Text style={styling.link} onPress={() => Linking.openURL('https://real.app/real-terms-service-html-english.html').catch(() => {})}>{t('EULA')}</Text>
+        <Text style={styling.link} onPress={() => Linking.openURL('https://real.app/real-eula-html-english.html').catch(() => {})}>{t('EULA')}</Text>
         {t(' and agree to the ')}
-        <Text style={styling.link} onPress={() => Linking.openURL('https://real.app/real-eula-html-english.html').catch(() => {})}>{t('Terms of Service')}</Text>
+        <Text style={styling.link} onPress={() => Linking.openURL('https://real.app/real-terms-service-html-english.html').catch(() => {})}>{t('Terms of Service')}</Text>
       </Text>
 
       <Text style={styling.version}>
