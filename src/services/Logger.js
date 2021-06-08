@@ -2,11 +2,12 @@ import * as Sentry from '@sentry/react-native'
 import Config from 'react-native-config'
 import pick from 'ramda/src/pick'
 import { Platform } from 'react-native'
+import { getReadableVersion } from 'services/OTA'
 
 Sentry.init({
   environment: Config.ENVIRONMENT,
   dsn: Config.SENTRY_DSN,
-  release: `real:${Platform.OS}@${process.env.version}`,
+  release: `real:${Platform.OS}@${getReadableVersion()}`,
 })
 
 /**
