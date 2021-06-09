@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
 } from 'react-native'
 import TextCaption from 'components/Formik/TextCaption'
+import TextField from 'components/Formik/TextField'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
@@ -18,12 +19,14 @@ import CollapsableComponent from 'templates/Collapsable'
 import { Text, Caption, Switch } from 'react-native-paper'
 import dayjs from 'dayjs'
 import { useHeader } from 'components/PostEdit/header'
+import * as Validation from 'services/Validation'
 
 import { withTheme } from 'react-native-paper'
 import { withTranslation } from 'react-i18next'
 
 const formSchema = Yup.object().shape({
   text: Yup.string().nullable(),
+  payment: Validation.payment,
 })
 
 const getInitialLifetime = (expiresAt) => {
@@ -88,8 +91,8 @@ const PostEditForm = ({
 
       <CollapsableComponent
         style={styling.input}
-        title="Lifetime"
-        helper="Change post expiry, set expiry to 1 day to post story"
+        title={t('Lifetime')}
+        helper={t('Change post expiry, set expiry to 1 day to post story')}
         active
       >
         <FormLifetime
@@ -100,8 +103,8 @@ const PostEditForm = ({
 
       <CollapsableComponent
         style={styling.input}
-        title="Albums"
-        helper="Add this post to an album"
+        title={t('Albums')}
+        helper={t('Add this post to an album')}
       >
         <FormAlbums
           values={values}
@@ -112,8 +115,8 @@ const PostEditForm = ({
 
       <CollapsableComponent
         style={styling.input}
-        title="Privacy"
-        helper="Allow others to comment, like, and share your post"
+        title={t('Privacy')}
+        helper={t('Allow others to comment, like, and share your post')}
       >
         <RowsComponent items={[{
           label: t('Comments'),
@@ -154,6 +157,20 @@ const PostEditForm = ({
             </RowsItemComponent>
           )}
         </RowsComponent>
+      </CollapsableComponent>
+
+      <CollapsableComponent
+        style={styling.input}
+        title={t('Payment per view')}
+        helper={t('Auto by default')}
+        accessibilityLabel={t('Toggle Payment per view')}
+      >
+        <Field
+          {...Validation.getInputTypeProps('payment')}
+          name="payment"
+          component={TextField}
+          placeholder={t('$0-100 REAL coins')}
+        />
       </CollapsableComponent>
 
       <View style={styling.input}>
@@ -207,6 +224,7 @@ export default withTranslation()(withTheme(({
       uri: path(['image', 'url1080p'])(postsSingleGet.data),
       text: postsSingleGet.data.text,
       expiresAt: postsSingleGet.data.expiresAt,
+      payment: String(postsSingleGet.data.payment),
       commentsDisabled: postsSingleGet.data.commentsDisabled,
       likesDisabled: postsSingleGet.data.likesDisabled,
       sharingDisabled: postsSingleGet.data.sharingDisabled,

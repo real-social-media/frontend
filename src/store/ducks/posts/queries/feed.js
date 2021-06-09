@@ -149,6 +149,7 @@ export const feedPostFragment = `
     postType
     postedAt
     expiresAt
+    payment
     text
     imageUploadUrl
     isVerified

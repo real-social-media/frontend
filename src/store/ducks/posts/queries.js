@@ -68,7 +68,8 @@ export const addTextOnlyPost = `
     $commentsDisabled: Boolean,
     $likesDisabled: Boolean,
     $sharingDisabled: Boolean,
-    $verificationHidden: Boolean
+    $verificationHidden: Boolean,
+    $payment: Float,
   ) {
     addPost (
       postId: $postId,
@@ -80,6 +81,7 @@ export const addTextOnlyPost = `
       likesDisabled: $likesDisabled,
       sharingDisabled: $sharingDisabled,
       verificationHidden: $verificationHidden,
+      payment: $payment,
     ) {
       ...postFragment
     }
@@ -104,6 +106,7 @@ export const addPhotoPost = `
     $crop: CropInput,
     $verificationHidden: Boolean,
     $setAsUserPhoto: Boolean,
+    $payment: Float,
   ) {
     addPost (
       postId: $postId,
@@ -116,6 +119,7 @@ export const addPhotoPost = `
       sharingDisabled: $sharingDisabled,
       verificationHidden: $verificationHidden,
       setAsUserPhoto: $setAsUserPhoto,
+      payment: $payment,
       imageInput: {
         takenInReal: $takenInReal,
         imageFormat: $imageFormat,
@@ -165,6 +169,7 @@ export const editPost = `
     $likesDisabled: Boolean,
     $sharingDisabled: Boolean,
     $verificationHidden: Boolean,
+    $payment: Float,
   ) {
     editPost (
       postId: $postId,
@@ -173,6 +178,7 @@ export const editPost = `
       likesDisabled: $likesDisabled,
       sharingDisabled: $sharingDisabled,
       verificationHidden: $verificationHidden,
+      payment: $payment,
     ) {
       ...postFragment
     }

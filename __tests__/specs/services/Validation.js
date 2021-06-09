@@ -57,6 +57,17 @@ describe('Validation service', () => {
       expect(await Validation.height.isValid(85)).toBeFalsy()
     })
 
+    it('payment', async () => {
+      expect(await Validation.payment.isValid(undefined)).toBeTruthy()
+      expect(await Validation.payment.isValid('dsf')).toBeFalsy()
+      expect(await Validation.payment.isValid(-1)).toBeFalsy()
+      expect(await Validation.payment.isValid(0)).toBeTruthy()
+      expect(await Validation.payment.isValid(1)).toBeTruthy()
+      expect(await Validation.payment.isValid(1.2)).toBeTruthy()
+      expect(await Validation.payment.isValid(100)).toBeTruthy()
+      expect(await Validation.payment.isValid(101)).toBeFalsy()
+    })
+
     it('email', async () => {
       expect(await Validation.email.isValid(undefined)).toBeFalsy()
       expect(await Validation.email.isValid('')).toBeFalsy()
@@ -279,6 +290,14 @@ describe('Validation service', () => {
         keyboardType: 'email-address',
         textContentType: 'emailAddress',
         autoCompleteType: 'email',
+      })
+    })
+
+    it('payment', () => {
+      expect(Validation.getInputTypeProps('payment')).toEqual({
+        accessibilityLabel: 'payment',
+        keyboardType: 'decimal-pad',
+        autoCompleteType: 'off',
       })
     })
 
