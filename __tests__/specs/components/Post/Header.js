@@ -255,4 +255,34 @@ describe('Post Header component', () => {
       expect(navigation.navigate).toHaveBeenCalledWith('Verification', { actionType: 'BACK' })
     })
   })
+
+  describe('Advertisement post', () => {
+    describe('visible', () => {
+      it('adStatus ACTIVE', () => {
+        const { getByText } = setup({ post: { ...post, adStatus: 'ACTIVE' } })
+
+        expect(getByText('Advertisement')).toBeTruthy()
+      })
+    })
+
+    describe('hidden', () => {
+      it('adStatus NOT_AD', () => {
+        const { queryByText } = setup({ post: { ...post, adStatus: 'NOT_AD' } })
+
+        expect(queryByText('Advertisement')).toBeFalsy()
+      })
+
+      it('adStatus PENDING', () => {
+        const { queryByText } = setup({ post: { ...post, adStatus: 'PENDING' } })
+
+        expect(queryByText('Advertisement')).toBeFalsy()
+      })
+
+      it('adStatus INACTIVE', () => {
+        const { queryByText } = setup({ post: { ...post, adStatus: 'INACTIVE' } })
+
+        expect(queryByText('Advertisement')).toBeFalsy()
+      })
+    })
+  })
 })

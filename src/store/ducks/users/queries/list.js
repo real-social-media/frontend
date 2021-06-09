@@ -31,6 +31,7 @@ export const listUserFragment = `
     expiresAt
     text
     isVerified
+    adStatus
     likeStatus
     onymousLikeCount
     anonymousLikeCount
