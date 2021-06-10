@@ -1,21 +1,25 @@
-import { put, call, takeEvery } from 'redux-saga/effects'
+import { put, takeEvery, getContext, call } from 'redux-saga/effects'
 import * as actions from 'store/ducks/auth/actions'
 import * as constants from 'store/ducks/auth/constants'
-import authorize, { currentUserCredentials } from 'store/ducks/auth/saga/authorize'
+import authorize from 'store/ducks/auth/saga/authorize'
+
+/**
+ * The currentSession method will automatically refresh the accessToken
+ * and idToken if tokens are expired and a valid refreshToken presented.
+ */
+function* refreshTokens() {
+  const AwsAuth = yield getContext('AwsAuth')
+  yield AwsAuth.currentSession()
+}
 
 function* handleAuthFlowRequest() {
-  const currentCredentials = yield call(currentUserCredentials)
-
-  if (currentCredentials.authenticated) {
-    yield call(authorize)
-  } else {
-    throw new Error('Failed to authorize')
-  }
+  yield call(refreshTokens)
+  yield call(authorize)
 }
 
 function* authFlowRequest() {
   try {
-    yield handleAuthFlowRequest()
+    yield call(handleAuthFlowRequest)
     yield put(actions.authFlowSuccess())
   } catch (error) {
     yield put(actions.authFlowFailure(error))

@@ -6,7 +6,7 @@ import * as queryService from 'services/Query'
 import Config from 'react-native-config'
 import path from 'ramda/src/path'
 import { generateExpirationDate } from 'store/ducks/signup/saga/helpers'
-import authorize, { currentUserCredentials } from 'store/ducks/auth/saga/authorize'
+import authorize from 'store/ducks/auth/saga/authorize'
 
 export const COGNITO_PROVIDER = `cognito-idp.${Config.AWS_COGNITO_REGION}.amazonaws.com/${Config.AWS_COGNITO_USER_POOL_ID}`
 
@@ -19,7 +19,7 @@ function* createAnonymousUser() {
 
 export function* handleAnonymousSignin() {
   const AwsAuth = yield getContext('AwsAuth')
-  const credentials = yield call(currentUserCredentials)
+  const credentials = yield AwsAuth.currentUserCredentials()
 
   if (!credentials.authenticated) {
     const tokens = yield call(createAnonymousUser)
