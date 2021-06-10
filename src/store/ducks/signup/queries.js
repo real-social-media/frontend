@@ -2,15 +2,6 @@ import {
   userFragment,
 } from 'store/fragments'
 
-export const createGoogleUser = `
-  mutation createGoogleUser($username: String!, $fullName: String, $googleIdToken: String!) {
-    createGoogleUser(username: $username, fullName: $fullName, googleIdToken: $googleIdToken) {
-      ...userFragment
-    }
-  }
-  ${userFragment}
-`
-
 export const createAppleUser = `
   mutation createAppleUser($username: String!, $fullName: String, $appleIdToken: String!) {
     createAppleUser(username: $username, fullName: $fullName, appleIdToken: $appleIdToken) {
