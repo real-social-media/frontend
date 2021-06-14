@@ -1,6 +1,6 @@
 import React from 'react'
-import { renderWithProviders, fireEvent } from 'tests/utils'
-import Verification, { VERIFICATION_TYPE } from 'components/Verification'
+import { renderWithProviders, fireEvent, act } from 'tests/utils'
+import Verification, { VERIFICATION_TYPE, a11y } from 'components/Verification'
 import testIDs from 'components/Verification/test-ids'
 
 const setup = (props) => renderWithProviders(<Verification {...props} />)
@@ -150,6 +150,34 @@ describe('Verification Screen', () => {
 
       fireEvent.press(getByText('Continue'))
       expect(handleContinueAction).toHaveBeenCalled()
+    })
+  })
+
+  describe('toggle ELA image', () => {
+    it('ELA block hidden by default', () => {
+      const { queryByAccessibilityLabel } = setup()
+
+      expect(queryByAccessibilityLabel(a11y.openELABtn)).toBeFalsy()
+      expect(queryByAccessibilityLabel(a11y.ELAImage)).toBeFalsy()
+    })
+
+    it('toggle ELA image', async () => {
+      const urlELA = 'urlELA.jpg'
+      const { queryByAccessibilityLabel } = setup({ urlELA })
+      const $openELABtn = queryByAccessibilityLabel(a11y.openELABtn)
+      const $image = queryByAccessibilityLabel(a11y.ELAImage)
+      const $modal = queryByAccessibilityLabel(a11y.ELAModal)
+
+      expect($openELABtn).toBeTruthy()
+      expect($image).toBeTruthy()
+      expect($image).toHaveProp('source', { uri: urlELA })
+      expect($modal).toHaveProp('visible', false)
+
+      await act(async () => fireEvent.press($openELABtn))
+      expect($modal).toHaveProp('visible', true)
+
+      await act(async () => fireEvent.press(queryByAccessibilityLabel(a11y.closeELABtn)))
+      expect($modal).toHaveProp('visible', false)
     })
   })
 })

@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { TouchableOpacity, SafeAreaView, StyleSheet, View } from 'react-native'
+import useToggle from 'react-use/lib/useToggle'
+import { TouchableOpacity, SafeAreaView, StyleSheet, View, Image, Modal } from 'react-native'
 import { Text } from 'react-native-paper'
 import SpaceshipIcon from 'assets/svg/verification/Spaceship'
 import CameraIcon from 'assets/svg/verification/Camera'
@@ -21,6 +22,13 @@ export const VERIFICATION_TYPE = {
   BACK: 'BACK',
 }
 
+export const a11y = {
+  openELABtn: 'Open more details',
+  closeELABtn: 'Close more details',
+  ELAImage: 'ELA Image',
+  ELAModal: 'More details modal',
+}
+
 const Verification = ({
   t,
   theme,
@@ -29,8 +37,10 @@ const Verification = ({
   handleContinueAction,
   handleClose,
   actionType,
+  urlELA,
 }) => {
   const styling = styles(theme)
+  const [isELAopen, toggleELA] = useToggle(false)
 
   return (
     <View style={styling.root}>
@@ -46,6 +56,30 @@ const Verification = ({
             {t('You’re perfect! Verify future posts to get them trending faster!')}
           </Text>
         </View>
+
+        {urlELA && (
+          <>
+            <DefaultButton
+              onPress={toggleELA}
+              style={styling.openELABtn}
+              accessibilityLabel={a11y.openELABtn}
+              label={t('More Details')}
+              mode="outlined"
+              size="compact"
+            />
+            <Modal accessibilityLabel={a11y.ELAModal} presentationStyle="formSheet" animationType="slide" visible={isELAopen}>
+              <View style={styling.elaModal}>
+                <Image
+                  style={styling.elaImage}
+                  resizeMode="cover"
+                  accessibilityLabel={a11y.ELAImage}
+                  source={{ uri: urlELA }}
+                />
+                <DefaultButton accessibilityLabel={a11y.closeELABtn} onPress={toggleELA} label={t('Close')} />
+              </View>
+            </Modal>
+          </>
+        )}
 
         <View style={styling.subheading}>
           <View style={styling.subheadingIcon}>
@@ -220,16 +254,34 @@ const styles = (theme) =>
       marginBottom: 6,
       textAlign: 'center',
     },
+    openELABtn: {
+      marginHorizontal: 24,
+      marginBottom: 24,
+    },
+    elaModal: {
+      padding: 24,
+      flex: 1,
+    },
+    elaImage: {
+      width: '100%',
+      flex: 1,
+      marginBottom: 24,
+    },
   })
 
 Verification.propTypes = {
   theme: PropTypes.any,
   t: PropTypes.any,
+  urlELA: PropTypes.string,
   handleBackAction: PropTypes.func,
   handleHideAction: PropTypes.func,
   handleContinueAction: PropTypes.func,
   handleClose: PropTypes.func,
   actionType: PropTypes.oneOf(Object.values(VERIFICATION_TYPE)),
+}
+
+Verification.defaultProps = {
+  urlELA: null,
 }
 
 export default withTranslation()(withTheme(Verification))
