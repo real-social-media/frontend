@@ -50,7 +50,7 @@ export const homeHeaderLeft = ({ theme, navigation, user }) => () => (
 )
 
 export const homeHeaderTitle = ({ theme, navigation }) => () => {
-  const redirectToOrigin = () => parent.location.href = parent.location.origin
+  const redirectToOrigin = () => parent.postMessage('exit')
   const navigateHome = () => navigationActions.navigateHome(navigation)
   const handlePress = Platform.OS === 'web' ? redirectToOrigin : navigateHome
 
