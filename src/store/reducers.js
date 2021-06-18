@@ -13,6 +13,7 @@ import cache from 'store/ducks/cache/reducer'
 import entities from 'store/ducks/entities/reducer'
 import contacts from 'store/ducks/contacts/reducer'
 import dating from 'store/ducks/dating/reducer'
+import snackbars from 'store/ducks/snackbars/reducer'
 import promocodes from 'store/ducks/promocodes/reducer'
 import { reducer as network } from 'react-native-offline'
 import * as authConstants from 'store/ducks/auth/constants'
@@ -82,6 +83,12 @@ const contactsPersistConfig = {
   storage: STORAGE_PROVIDER,
 }
 
+const snackbarsPersistConfig = {
+  key: STORAGE_KEYS.SNACKBARS_REDUCER,
+  version: 3,
+  storage: STORAGE_PROVIDER,
+}
+
 const appReducer = combineReducers({
   network,
   auth: persistReducer(authPersistConfig, auth),
@@ -97,6 +104,7 @@ const appReducer = combineReducers({
   promocodes,
   cache,
   entities,
+  snackbars: persistReducer(snackbarsPersistConfig, snackbars),
 })
 
 const rootReducer = (state, action) => {

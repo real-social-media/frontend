@@ -37,6 +37,7 @@ export const STORAGE_KEYS = {
   CHAT_REDUCER: 'chat',
   PURCHASES_REDUCER: 'purchases',
   CONTACTS_REDUCER: 'contacts',
+  SNACKBARS_REDUCER: 'snackbars',
 }
 
 export const clearAll = async () => {

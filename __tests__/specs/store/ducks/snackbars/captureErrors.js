@@ -4,18 +4,18 @@ import { expectSaga } from 'redux-saga-test-plan'
 import { testAsRootSaga } from 'tests/utils/helpers'
 import { showMessage } from 'react-native-flash-message'
 import { createFailureAction } from 'store/errors'
-import Config from 'react-native-config'
 import snackbars from 'store/ducks/snackbars/saga'
 import * as authActions from 'store/ducks/auth/actions'
 import * as Logger from 'services/Logger'
-import { CancelRequestOnSignoutError, UserInNotActiveError, stringifyFailureAction } from 'store/errors'
+import { CancelRequestOnSignoutError, UserInNotActiveError } from 'store/errors'
 
 jest.spyOn(Alert, 'alert')
 jest.mock('react-native-flash-message', () => ({ showMessage: jest.fn() }))
-jest.mock('react-native-config', () => ({ ENVIRONMENT: 'production' }))
 
 const error = new Error('Error')
 const failureAction = createFailureAction('ACTION_FAILURE')
+
+const debugModeOn = { snackbars: { debugMode: true } }
 
 describe('Capture Errors', () => {
   afterEach(() => {
@@ -35,7 +35,11 @@ describe('Capture Errors', () => {
 
   describe('success', () => {
     it('default error message', async () => {
-      await expectSaga(testAsRootSaga(snackbars)).dispatch(failureAction(error)).silentRun()
+      await expectSaga(testAsRootSaga(snackbars))
+        .withState(debugModeOn)
+
+        .dispatch(failureAction(error))
+        .silentRun()
 
       testShowMessage({ message: 'Oops! Something went wrong', type: 'danger', icon: 'warning' })
     })
@@ -43,13 +47,19 @@ describe('Capture Errors', () => {
     it('capture exception', async () => {
       showMessage.mockRejectedValueOnce(error)
 
-      await expectSaga(testAsRootSaga(snackbars)).dispatch(failureAction(error)).silentRun()
+      await expectSaga(testAsRootSaga(snackbars))
+        .withState(debugModeOn)
+
+        .dispatch(failureAction(error))
+        .silentRun()
 
       expect(Logger.captureException).toHaveBeenCalledWith(error)
     })
 
     it('show specific user friendly error message', async () => {
       await expectSaga(testAsRootSaga(snackbars))
+        .withState(debugModeOn)
+
         .dispatch(authActions.authSigninCognitoFailure(error, { messageCode: 'USER_NOT_FOUND' }))
         .silentRun()
 
@@ -58,33 +68,12 @@ describe('Capture Errors', () => {
 
     it('show generic user friendly error message', async () => {
       await expectSaga(testAsRootSaga(snackbars))
+        .withState(debugModeOn)
+
         .dispatch(authActions.authSigninCognitoFailure(error, { messageCode: 'GENERIC' }))
         .silentRun()
 
       testShowMessage({ message: 'Failed to signin', type: 'danger', icon: 'warning' })
-    })
-  })
-
-  describe('debug mode', () => {
-    const action = failureAction(error)
-    const simulatePress = () => showMessage.mock.calls[0][0].onPress()
-
-    it('dev env', async () => {
-      Config.ENVIRONMENT = 'development'
-      await expectSaga(testAsRootSaga(snackbars)).dispatch(failureAction(error)).silentRun()
-
-      simulatePress()
-      expect(Config.ENVIRONMENT).toBe('development')
-      expect(Alert.alert).toHaveBeenCalledWith(stringifyFailureAction(action))
-      Config.ENVIRONMENT = 'production'
-    })
-
-    it('prod env', async () => {
-      expect(Config.ENVIRONMENT).toBe('production')
-      await expectSaga(testAsRootSaga(snackbars)).dispatch(failureAction(error)).silentRun()
-
-      simulatePress()
-      expect(Alert.alert).not.toHaveBeenCalled()
     })
   })
 
@@ -96,6 +85,16 @@ describe('Capture Errors', () => {
         .not.call(showMessage, { message, type: 'danger', icon: 'warning' })
         .dispatch({ type: 'ACTION_FAILURE', payload: { message: { text: message } } })
         .silentRun()
+    })
+
+    it('debug mode off', async () => {
+      await expectSaga(testAsRootSaga(snackbars))
+        .withState({ snackbars: { debugMode: false } })
+
+        .dispatch(failureAction(error))
+        .silentRun()
+
+      expect(showMessage).not.toHaveBeenCalled()
     })
 
     it('should not display CancelRequestOnSignoutError', async () => {

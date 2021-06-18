@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native'
-import { Text, Caption } from 'react-native-paper'
+import { Text, Caption, Switch } from 'react-native-paper'
 import RowsComponent from 'templates/Rows'
 import RowsItemComponent from 'templates/RowsItem'
 import UserRowComponent from 'templates/UserRow'
@@ -39,6 +39,8 @@ const Settings = ({
   appVersion,
   usersDelete,
   usersDeleteRequest,
+  debugMode,
+  toggleDebugMode,
 }) => {
   const styling = styles(theme)
   const isSubscribed = UserService.isUserSubscribed(user)
@@ -129,11 +131,15 @@ const Settings = ({
           </RowsItemComponent>
         )}
       </RowsComponent>
+      <RowsItemComponent hasBorders>
+        <UserRowComponent
+          onPress={toggleDebugMode}
+          content={<Text>{t('Debug logging')}</Text>}
+          action={<Switch value={debugMode} onValueChange={toggleDebugMode} />}
+        />
+      </RowsItemComponent>
       <Caption style={styling.helper}>{`v${appVersion}`}</Caption>
-      <ProfileDeleteComponent
-        usersDelete={usersDelete}
-        usersDeleteRequest={usersDeleteRequest}
-      />
+      <ProfileDeleteComponent usersDelete={usersDelete} usersDeleteRequest={usersDeleteRequest} />
     </ScrollView>
   )
 }
@@ -168,11 +174,14 @@ Settings.propTypes = {
   appVersion: PropTypes.string,
   usersDelete: PropTypes.any,
   usersDeleteRequest: PropTypes.func,
+  debugMode: PropTypes.bool,
+  toggleDebugMode: PropTypes.func,
 }
 
 Settings.defaultProps = {
   settingsErrorMessage: null,
   appVersion: '',
+  debugMode: false,
 }
 
 export default withTranslation()(withTheme(Settings))

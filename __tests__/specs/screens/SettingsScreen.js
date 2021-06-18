@@ -8,6 +8,7 @@ import codePush from 'react-native-code-push'
 import DeviceInfo from 'react-native-device-info'
 import * as usersActions from 'store/ducks/users/actions'
 import * as ReactRedux from 'react-redux'
+import * as snackbarsSelector from 'store/ducks/snackbars/selectors'
 
 const user = {
   userId: 'id123',
@@ -111,6 +112,18 @@ describe('SettingsScreen', () => {
       })
 
       expect(getByText('Delete Your Profile')).toBeDisabled()
+    })
+
+    it('toggle debug mode', async () => {
+      const { store, getByA11yRole } = setup()
+
+      expect(snackbarsSelector.debugMode(store.getState())).toBeFalsy()
+
+      await act(async () => fireEvent.press(getByA11yRole('switch')))
+      expect(snackbarsSelector.debugMode(store.getState())).toBeTruthy()
+
+      await act(async () => fireEvent.press(getByA11yRole('switch')))
+      expect(snackbarsSelector.debugMode(store.getState())).toBeFalsy()
     })
   })
 })
