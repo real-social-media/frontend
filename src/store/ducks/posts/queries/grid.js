@@ -40,15 +40,18 @@ export const gridPostFragment = `
   fragment gridPostFragment on Post {
     postId
     isVerified
+    adStatus
     postStatus
     postType
     postedAt
+    payment
     expiresAt
     text
     likesDisabled
     commentsDisabled
     sharingDisabled
     commentsUnviewedCount: commentsCount(viewedStatus: NOT_VIEWED)
+    viewedStatus
 
     image {
       ...imageFragment

@@ -9,6 +9,7 @@ import * as queryService from 'services/Query'
 import * as normalizer from 'normalizer/schemas'
 import usersCheckPermissions from 'store/ducks/users/saga/usersCheckPermissions'
 import { entitiesMerge } from 'store/ducks/entities/saga'
+import postsPay from 'store/ducks/posts/saga/postsPay'
 
 /**
  *
@@ -640,3 +641,4 @@ export default () => [
   takeLatest(constants.POSTS_RESTORE_ARCHIVED_SUCCESS, postsRestoreArchivedSuccess),
   takeLatest(constants.POSTS_FLAG_SUCCESS, postsFlagSuccess),
 ]
+.concat(postsPay())

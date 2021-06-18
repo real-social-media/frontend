@@ -17,7 +17,6 @@ import { withTheme } from 'react-native-paper'
 import { withTranslation } from 'react-i18next'
 import testIDs from './test-ids'
 
-
 const Header = ({
   t,
   theme,
@@ -39,6 +38,7 @@ const Header = ({
   const archived = path(['postStatus'])(post) === 'ARCHIVED'
   const isUserPostOwner = path(['userId'])(user) === path(['postedBy', 'userId'])(post)
   const isPostVerified = path(['isVerified'])(post)
+  const isAd = post?.adStatus === 'ACTIVE'
 
   const [repostVisiblity, verificationVisibility, expiryVisiblity] = useMemo(
     () => [
@@ -102,13 +102,15 @@ const Header = ({
           </View>
         ) : null}
 
-        {verificationVisibility ? (
+        {isAd ? (
+          <Caption style={styling.statusLabel}>{t('Advertisement')}</Caption>
+        ) : verificationVisibility ? (
           <TouchableOpacity
             testID={testIDs.header.verificationStatus}
             onPress={navigationActions.navigateVerification(navigation, { actionType: 'BACK', urlEla: post.image?.urlEla })}
             style={styling.verification}
           >
-            <Caption style={styling.verificationStatus}>{t('unauthenticated')}</Caption>
+            <Caption style={styling.statusLabel}>{t('unauthenticated')}</Caption>
           </TouchableOpacity>
         ) : null}
       </View>
@@ -208,7 +210,7 @@ const styles = (theme) =>
       color: '#676767',
       marginRight: 4,
     },
-    verificationStatus: {
+    statusLabel: {
       marginRight: 4,
     },
     verification: {

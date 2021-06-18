@@ -30,11 +30,15 @@ export const ERRORS = {
   height: 'Height must be selected',
   minHeight: 'Height must be greater than 0',
   maxHeight: 'Height must be less than 10\'',
+  minPayment: 'Payment must be greater than 0',
+  maxPayment: 'Payment must be less than 100\'',
   usernameReserve: 'Username is reserved',
 }
 
 export const MIN_HEIGHT = 1
 export const MAX_HEIGHT = 84
+export const MIN_PAYMENT = 0
+export const MAX_PAYMENT = 100
 
 /**
  * Validators
@@ -161,6 +165,11 @@ export const height = Yup.number()
   .max(MAX_HEIGHT, ERRORS.maxHeight)
   .required(ERRORS.height)
 
+export const payment = Yup.number()
+  .min(MIN_PAYMENT, ERRORS.minPayment)
+  .max(MAX_PAYMENT, ERRORS.maxPayment)
+  .nullable()
+
 export const promocode = Yup.string()
   .lowercase()
   .trim()
@@ -200,6 +209,12 @@ export const getInputTypeProps = (type) => {
         textContentType: 'oneTimeCode',
         autoCompleteType: 'off',
         maxLength: 6,
+      }
+    case 'payment':
+      return {
+        accessibilityLabel: 'payment',
+        keyboardType: 'decimal-pad',
+        autoCompleteType: 'off',
       }
     case 'promocode':
       return {

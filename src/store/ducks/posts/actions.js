@@ -181,3 +181,10 @@ export const commentsFlagIdle = createAction(constants.COMMENTS_FLAG_IDLE)
 export const commentsFlagRequest = createAction(constants.COMMENTS_FLAG_REQUEST)
 export const commentsFlagSuccess = createAction(constants.COMMENTS_FLAG_SUCCESS)
 export const commentsFlagFailure = createFailureAction(constants.COMMENTS_FLAG_FAILURE)
+
+/**
+ *
+ */
+export const postsPayRequest = createAction(constants.POSTS_PAY_REQUEST)
+export const postsPaySuccess = createAction(constants.POSTS_PAY_SUCCESS)
+export const postsPayFailure = createFailureAction(constants.POSTS_PAY_FAILURE)

@@ -174,5 +174,7 @@ module.exports = {
     // module implementations should be written in files using the extension
     // `.web.js`.
     extensions: ['.mjs', '.web.js', '.js', '.ios.js', '.android.js'],
+
+    fallback: { crypto: false },
   },
 }

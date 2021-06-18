@@ -8,7 +8,6 @@ import { handleAnonymousSignin } from 'store/ducks/auth/saga/authSigninAnonymous
 import * as navigationActions from 'navigation/actions'
 import * as NavigationService from 'services/Navigation'
 import authorize from 'store/ducks/auth/saga/authorize'
-import * as signupQueries from 'store/ducks/signup/queries'
 
 /**
  * Authenticate using google into identity pool
@@ -26,14 +25,6 @@ function* getGooglePayload() {
   }
 
   return userPayload
-}
-
-function* createGoogleUser(userPayload) {
-  yield call([queryService, 'apiRequest'], signupQueries.createGoogleUser, {
-    username: userPayload.email.split('@')[0],
-    fullName: userPayload.name,
-    googleIdToken: userPayload.token,
-  })
 }
 
 function* googleSignUpFlow(userPayload) {
@@ -54,13 +45,7 @@ function* googleSignInFlow(userPayload) {
   }
 
   yield call([AwsAuth, 'federatedSignIn'], 'google', credentials, userPayload)
-
-  try {
-    yield call(authorize)
-  } catch (error) {
-    yield call(createGoogleUser, userPayload)
-    yield call(authorize)
-  }
+  yield call(authorize)
 }
 
 /**

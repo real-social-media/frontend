@@ -162,6 +162,7 @@ export const postFragment = `
     anonymousLikeCount
     viewedByCount
     viewedStatus
+    payment
   }
 
   fragment postFragment on Post {

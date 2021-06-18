@@ -8,7 +8,7 @@ import { v4 as uuid } from 'uuid'
 import { ifIphoneX } from 'react-native-iphone-x-helper'
 import * as authSelector from 'store/ducks/auth/selectors'
 import * as postsSelector from 'store/ducks/posts/selectors'
-import useViewable from 'services/providers/Viewable'
+import useViewable, { unpaid } from 'services/providers/Viewable'
 import trim from 'ramda/src/trim'
 import compose from 'ramda/src/compose'
 import pathOr from 'ramda/src/pathOr'
@@ -52,8 +52,14 @@ const CommentsService = ({ children }) => {
   useEffect(() => {
     dispatch(postsActions.postsSingleGetRequest({ postId, userId: postUserId }))
     dispatch(postsActions.postsCommentsGetRequest({ postId, userId: postUserId }))
-    dispatch(postsActions.postsReportPostViewsRequest({ postIds: [postId], viewType: 'THUMBNAIL' }))
   }, [])
+
+  useEffect(() => {
+    if (postsSingleGet.status !== 'success') return
+    if (unpaid(postsSingleGet.data)) return
+
+    dispatch(postsActions.postsReportPostViewsRequest({ postIds: [postId], viewType: 'THUMBNAIL' }))
+  }, [postsSingleGet.status])
 
   useEffectWhenFocused(() => {
     if (commentsAdd.status === 'success') {

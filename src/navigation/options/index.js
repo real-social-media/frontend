@@ -1,5 +1,5 @@
 import React from 'react'
-import { TouchableOpacity, StyleSheet } from 'react-native'
+import { TouchableOpacity, StyleSheet, Platform } from 'react-native'
 import { HeaderStyleInterpolators, CardStyleInterpolators, TransitionPresets } from '@react-navigation/stack'
 
 import * as navigationActions from 'navigation/actions'
@@ -49,11 +49,17 @@ export const homeHeaderLeft = ({ theme, navigation, user }) => () => (
   </TouchableOpacity>
 )
 
-export const homeHeaderTitle = ({ theme, navigation }) => () => (
-  <TouchableOpacity style={styles.button} onPress={() => navigationActions.navigateHome(navigation)}>
-    <LogoIcon height="28" fill={path(['colors', 'primaryIcon'], theme)} />
-  </TouchableOpacity>
-)
+export const homeHeaderTitle = ({ theme, navigation }) => () => {
+  const redirectToOrigin = () => parent.postMessage('exit')
+  const navigateHome = () => navigationActions.navigateHome(navigation)
+  const handlePress = Platform.OS === 'web' ? redirectToOrigin : navigateHome
+
+  return (
+    <TouchableOpacity style={styles.button} onPress={handlePress}>
+      <LogoIcon height="28" fill={path(['colors', 'primaryIcon'], theme)} />
+    </TouchableOpacity>
+  )
+}
 
 export const homeHeaderRight = ({ theme, navigation, user }) => () => (
   <TouchableOpacity style={styles.chatButton} onPress={navigationActions.navigateChat(navigation, {}, { protected: true, user })}>

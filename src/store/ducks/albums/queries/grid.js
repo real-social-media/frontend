@@ -36,6 +36,7 @@ export const gridAlbumFragment = `
   fragment postAlbumFragment on Post {
     postId
     isVerified
+    adStatus
     likesDisabled
     commentsDisabled
     sharingDisabled
