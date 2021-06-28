@@ -1,5 +1,5 @@
 import { Alert } from 'react-native'
-import { call, select } from 'redux-saga/effects'
+import { call } from 'redux-saga/effects'
 import { showMessage } from 'react-native-flash-message'
 import pathOr from 'ramda/src/pathOr'
 import * as authConstants from 'store/ducks/auth/constants'
@@ -7,10 +7,10 @@ import * as usersConstants from 'store/ducks/users/constants'
 import * as cacheConstants from 'store/ducks/cache/constants'
 import * as postsConstants from 'store/ducks/posts/constants'
 import * as themesConstants from 'store/ducks/themes/constants'
-import * as snackbarsSelector from 'store/ducks/snackbars/selectors'
 import * as Logger from 'services/Logger'
 import { CancelRequestOnSignoutError, UserInNotActiveError, NetworkError, stringifyFailureAction } from 'store/errors'
 import messages from 'store/messages'
+import { confirm } from 'components/Alert'
 
 const DEFAULT_CODE = 'GENERIC'
 const DEFAULT_MESSAGE = 'Oops! Something went wrong'
@@ -46,7 +46,11 @@ async function filterError(action) {
 
 function* showError(action) {
   function handleErrorPress() {
-    Alert.alert(stringifyFailureAction(action))
+    confirm({
+      title: 'Show Debug Details',
+      desc: 'Please, make screenshot and use it to contact our support',
+      onConfirm: () => Alert.alert(stringifyFailureAction(action)),
+    })
   }
 
   yield call(showMessage, {
@@ -59,10 +63,9 @@ function* showError(action) {
 
 export default function* captureErrors(action) {
   try {
-    const debugMode = yield select(snackbarsSelector.debugMode)
     const skipError = yield call(filterError, action)
 
-    if (!debugMode || skipError) return
+    if (skipError) return
 
     yield call(showError, action)
   } catch (error) {
