@@ -4,8 +4,10 @@ import * as constants from 'store/ducks/auth/constants'
 import * as subscriptionsActions from 'store/ducks/subscriptions/actions'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as usersActions from 'store/ducks/users/actions'
+import * as authActions from 'store/ducks/auth/actions'
 import * as chatActions from 'store/ducks/chat/actions'
 import * as authSelector from 'store/ducks/auth/selectors'
+import * as UserService from 'services/User'
 
 function* handleAuthPrefetchCommon() {
   /**
@@ -27,9 +29,7 @@ function* handleAuthPrefetchCommon() {
 /**
  * Used sequential approach to load data in UI order
  */
-function* handleAuthPrefetchAuthenticated() {
-  const userId = yield select(authSelector.authUserIdSelector)
-
+function* handleAuthPrefetchAuthenticated(user) {
   /**
    * 1. Common
    */
@@ -52,24 +52,22 @@ function* handleAuthPrefetchAuthenticated() {
    * Data which is important to load but not belongs to home screen
    * Sequential approach wasn't used cuz some calls are expensive and not top priority
    */
-  yield put(usersActions.usersGetPendingFollowersRequest({ userId }))
+  yield put(usersActions.usersGetPendingFollowersRequest({ userId: user.userId }))
   yield put(chatActions.chatGetChatsRequest())
   yield put(postsActions.postsGetUnreadCommentsRequest())
-  yield put(usersActions.usersGetProfileSelfRequest())
+  yield put(authActions.authGetUserRequest())
 }
 
 /**
  * Used sequential approach to load data in UI order
  */
 function* handleAuthPrefetchRequest() {
-  const authenticationType = yield select(state => state.auth.authToken.meta.type)
+  const user = yield select(authSelector.authUser)
 
-  if (authenticationType === 'COGNITO_AUTHENTICATED') {
-    yield call(handleAuthPrefetchAuthenticated)
-  } else if (authenticationType === 'COGNITO_GUEST') {
-    yield call(handleAuthPrefetchCommon)
+  if (UserService.isUserActive(user)) {
+    yield call(handleAuthPrefetchAuthenticated, user)
   } else {
-    yield put(actions.authSignoutRequest())
+    yield call(handleAuthPrefetchCommon)
   }
 }
 

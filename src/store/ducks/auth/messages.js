@@ -107,40 +107,10 @@ export default {
   /**
    *
    */
-  [constants.AUTH_DATA_FAILURE]: {
-    GENERIC: {
-      code: 'GENERIC',
-      text: 'Failed to fetch auth data',
-    },
-  },
-
-  /**
-   *
-   */
-  [constants.AUTH_TOKEN_FAILURE]: {
-    GENERIC: {
-      code: 'GENERIC',
-      text: 'Failed to fetch auth token',
-    },
-  },
-
-  /**
-   *
-   */
   [constants.AUTH_PREFETCH_FAILURE]: {
     GENERIC: {
       code: 'GENERIC',
       text: 'Failed to complete auth prefetch',
-    },
-  },
-
-  /**
-   *
-   */
-  [constants.AUTH_RESET_FAILURE]: {
-    GENERIC: {
-      code: 'GENERIC',
-      text: 'Can\'t reset cognito credentials',
     },
   },
 }

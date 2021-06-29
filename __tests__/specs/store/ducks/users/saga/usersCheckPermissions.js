@@ -6,7 +6,7 @@ import usersCheckPermissions from 'store/ducks/users/saga/usersCheckPermissions'
 import { testNavigate } from 'tests/utils/helpers'
 import { UserInNotActiveError } from 'store/errors'
 
-jest.spyOn(authSelector, 'authUserSelector').mockReturnValue({ userStatus: 'ACTIVE' })
+jest.spyOn(authSelector, 'authUser').mockReturnValue({ userStatus: 'ACTIVE' })
 const navigation = { current: { navigate: jest.fn() } }
 const provideNavigation = [getContext('ReactNavigationRef'), navigation]
 
@@ -20,7 +20,7 @@ describe('usersCheckPermissions', () => {
   })
 
   it('throw an error for anonymous user', async () => {
-    authSelector.authUserSelector.mockReturnValueOnce({ userStatus: 'ANONYMOUS' })
+    authSelector.authUser.mockReturnValueOnce({ userStatus: 'ANONYMOUS' })
     const saga = sagaWithError(usersCheckPermissions).assertThrow(new UserInNotActiveError())
 
     await expectSaga(saga).provide([provideNavigation]).run()

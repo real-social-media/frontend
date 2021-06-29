@@ -16,7 +16,7 @@ export const AuthProvider = ({
   children,
 }) => {
   const dispatch = useDispatch()
-  const user = useSelector(authSelector.authUserSelector)
+  const user = useSelector(authSelector.authUser)
   const [swipeDisabled, setSwipeDisabled] = useState(false)
   const isUserActive = UserService.isUserActive(user)
   const swipeEnabled = isUserActive && !swipeDisabled

@@ -1,33 +1,24 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { View, StyleSheet } from 'react-native'
-import DefaultButton from 'components/Formik/Button/DefaultButton'
 import ProgressComponent from 'components/ProfilePhotoUpload/Progress'
 import PhotoComponent from 'components/ProfilePhotoUpload/Photo'
 import AuthHeaderTemplate from 'templates/Auth/Header'
 
 import { withTranslation } from 'react-i18next'
 
-const ProfilePhotoUpload = ({ t, handleClose, activeUpload, usersEditProfile }) => {
-  const styling = styles
-  const hasError = usersEditProfile.status === 'failure'
-
+const ProfilePhotoUpload = ({ t, activeUpload }) => {
   return (
-    <View style={styling.root}>
-      <View style={styling.component}>
+    <View style={styles.root}>
+      <View style={styles.component}>
         <AuthHeaderTemplate
           title={t('Add Profile Picture')}
           subtitle={t('Add an Unmodified Profile Picture. \n The only thing you have to change, \nis nothing at all!')}
         />
 
-        <View style={styling.content}>
+        <View style={styles.content}>
           <PhotoComponent activeUpload={activeUpload} />
-
-          {hasError ? (
-            <DefaultButton label={t('Try Again')} onPress={handleClose} />
-          ) : (
-            <ProgressComponent activeUpload={activeUpload} />
-          )}
+          <ProgressComponent activeUpload={activeUpload} />
         </View>
       </View>
     </View>

@@ -3,7 +3,6 @@ import { expectSaga } from 'redux-saga-test-plan'
 import * as actions from 'store/ducks/auth/actions'
 import authForgot from 'store/ducks/auth/saga/authForgot'
 import { testAsRootSaga, testNavigate } from 'tests/utils/helpers'
-import { logEvent } from 'services/Analytics'
 
 const AwsAuth = { forgotPassword: jest.fn(), forgotPasswordSubmit: jest.fn() }
 const navigation = { current: { navigate: jest.fn() } }
@@ -15,7 +14,6 @@ describe('authForgot', () => {
   afterEach(() => {
     AwsAuth.forgotPassword.mockClear()
     AwsAuth.forgotPasswordSubmit.mockClear()
-    logEvent.mockClear()
   })
 
   describe('success', () => {
@@ -36,7 +34,6 @@ describe('authForgot', () => {
 
       expect(AwsAuth.forgotPassword).toHaveBeenCalledWith(username)
       testNavigate(navigation.current, 'Auth.AuthForgotConfirm')
-      expect(logEvent).toHaveBeenCalledWith('authForgotSuccess')
     })
 
     it('email', async () => {
@@ -55,7 +52,6 @@ describe('authForgot', () => {
 
       expect(AwsAuth.forgotPassword).toHaveBeenCalledWith(email)
       testNavigate(navigation.current, 'Auth.AuthForgotConfirm')
-      expect(logEvent).toHaveBeenCalledWith('authForgotSuccess')
     })
   })
 
@@ -121,7 +117,6 @@ describe('authForgot', () => {
       )
 
       testNavigate(navigation.current, 'Auth.Signin.AuthSigninEmail')
-      expect(logEvent).toHaveBeenCalledWith('AUTH_FORGOT_CONFIRM_SUCCESS')
     })
 
     describe('failure', () => {

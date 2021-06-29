@@ -11,6 +11,7 @@ import AlbumComponent from 'components/Post/Album'
 import CommentComponent from 'components/Post/Comment'
 import DescriptionComponent from 'components/Post/Description'
 import HeaderComponent from 'components/Post/Header'
+import UnlockComponent from 'components/Post/Unlock'
 
 import ListItemComponent from 'templates/ListItem'
 import CacheComponent from 'components/Cache'
@@ -21,6 +22,7 @@ import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
+import { unpaid } from 'services/providers/Viewable'
 
 const PostComponent = ({
   theme,
@@ -82,39 +84,45 @@ const PostComponent = ({
         changeAvatarRequest={changeAvatarRequest}
       />
 
-      {post.postType === 'TEXT_ONLY' ?
-        <ViewShot ref={createTextPostRef} onCapture={onCapture}>
-          <TextOnlyComponent
-            text={post.text}
+      <View style={styling.inner}>
+        {post.postType === 'TEXT_ONLY' ?
+          <ViewShot ref={createTextPostRef} onCapture={onCapture}>
+            <TextOnlyComponent
+              text={post.text}
+            >
+              <TouchableOpacity style={styling.prev} onPress={handleScrollPrev} />
+              <TouchableOpacity style={styling.next} onPress={handleScrollNext} />
+            </TextOnlyComponent>
+          </ViewShot>
+        : null}
+
+        {post.postType === 'IMAGE' ?
+          <ListItemComponent
+            post={post}
+            feedRef={feedRef}
           >
+            <CacheComponent
+              thread="post"
+              images={[
+                [path(['image', 'url480p'])(post), true],
+                [path(['image', 'url4k'])(post), true],
+                [path(['image', 'url'])(post), false],
+              ]}
+              fallback={path(['image', 'url4k'])(post)}
+              priorityIndex={priorityIndex}
+              resizeMode="contain"
+              hideLabel={false}
+            />
+
             <TouchableOpacity style={styling.prev} onPress={handleScrollPrev} />
             <TouchableOpacity style={styling.next} onPress={handleScrollNext} />
-          </TextOnlyComponent>
-        </ViewShot>
-      : null}
+          </ListItemComponent>
+        : null}
 
-      {post.postType === 'IMAGE' ?
-        <ListItemComponent
-          post={post}
-          feedRef={feedRef}
-        >
-          <CacheComponent
-            thread="post"
-            images={[
-              [path(['image', 'url480p'])(post), true],
-              [path(['image', 'url4k'])(post), true],
-              [path(['image', 'url'])(post), false],
-            ]}
-            fallback={path(['image', 'url4k'])(post)}
-            priorityIndex={priorityIndex}
-            resizeMode="contain"
-            hideLabel={false}
-          />
-
-          <TouchableOpacity style={styling.prev} onPress={handleScrollPrev} />
-          <TouchableOpacity style={styling.next} onPress={handleScrollNext} />
-        </ListItemComponent>
-      : null}
+        {unpaid(post) ?
+          <UnlockComponent payment={post.payment} postId={post.postId} />
+        : null}
+      </View>
 
       {albumLength > 1 ?
         <AlbumComponent post={post} />
@@ -162,6 +170,9 @@ const styles = theme => StyleSheet.create({
     left: '50%',
     right: 0,
     bottom: 0,
+  },
+  inner: {
+    position: 'relative',
   },
 })
 

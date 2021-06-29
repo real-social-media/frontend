@@ -1,32 +1,36 @@
 import { createSelector } from 'reselect'
-import pathOr from 'ramda/src/pathOr'
-import path from 'ramda/src/path'
 import prop from 'ramda/src/prop'
+import assocPath from 'ramda/src/assocPath'
 import compose from 'ramda/src/compose'
 import is from 'ramda/src/is'
 import * as normalizer from 'normalizer/schemas'
-import * as entitiesSelector from 'store/ducks/entities/selectors'
-import * as usersSelector from 'store/ducks/users/selectors'
+import { entitiesSelector } from 'store/ducks/entities/selectors'
 
 const authRoot = prop('auth')
-const authUser = () => path(['auth', 'user'])
-const authData = () => path(['auth', 'authData'])
 export const authForgot = compose(prop('authForgot'), authRoot)
+export const authForgotConfirm = compose(prop('authForgotConfirm'), authRoot)
 export const authSigninCognito = compose(prop('authSigninCognito'), authRoot)
+export const authSigninGoogle = compose(prop('authSigninGoogle'), authRoot)
+export const authSigninApple = compose(prop('authSigninApple'), authRoot)
+export const authSigninAnonymous = compose(prop('authSigninAnonymous'), authRoot)
+export const authFlow = compose(prop('authFlow'), authRoot)
+
+/**
+ *
+ */
+export const authGetUser = compose(prop('authGetUser'), authRoot)
+export const authUserId = createSelector(authGetUser, authGetUser => {
+  const userId = prop('data', authGetUser)
+  return is(String, userId) && userId
+})
 
 export const authUserSelector = createSelector(
-  [authUser(), authData(), usersSelector.usersEditProfile, usersSelector.usersGetProfileSelf, usersSelector.usersDeleteAvatar, usersSelector.usersChangeAvatar, usersSelector.usersSetUserDatingStatus, entitiesSelector.entities],
-  (authUser, authData, usersEditProfile, usersGetProfileSelf, usersDeleteAvatar, usersChangeAvatar, usersSetUserDatingStatus, entities) => {
-    return normalizer.denormalizeUserGet(authUser, entities)
+  [ authGetUser, entitiesSelector],
+  ( authGetUser, entities) => {
+    const userId = authGetUser.data
+    const denormalized = normalizer.denormalizeUserGet(userId, entities)
+    return assocPath(['data'], denormalized)(authGetUser)
   },
 )
 
-export const authUserIdSelector = createSelector(
-  [authUser()],
-  (authUser) => {
-    return is(String, authUser) && authUser
-  },
-)
-
-export const languageCodeSelector =
-  state => pathOr('', ['auth', 'user', 'languageCode'], state)
+export const authUser = createSelector(authUserSelector, prop('data'))

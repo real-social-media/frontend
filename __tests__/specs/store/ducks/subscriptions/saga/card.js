@@ -5,14 +5,16 @@ import * as matchers from 'redux-saga-test-plan/matchers'
 import cardSubscription from 'store/ducks/subscriptions/saga/card'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as usersActions from 'store/ducks/users/actions'
+import * as authActions from 'store/ducks/auth/actions'
 import * as subscriptionsActions from 'store/ducks/subscriptions/actions'
 import { sleep } from 'tests/utils'
+import { makeAuthorizedState } from 'tests/utils/helpers'
 
 const AwsAPI = { graphql: jest.fn() }
 const subscription = { subscribe: jest.fn(), unsubscribe: jest.fn() }
 const unsubscribe = jest.fn()
 const userId = 'user-id'
-const store = { auth: { user: userId } }
+const store = makeAuthorizedState({ userId })
 
 subscription.subscribe.mockReturnValue({ _state: 'ready', unsubscribe })
 AwsAPI.graphql.mockReturnValue(subscription)
@@ -62,7 +64,7 @@ describe('cardSubscription', () => {
       const promise = createSaga(store)
         .put(usersActions.usersGetCardsRequest())
         .put(postsActions.postsGetUnreadCommentsRequest({ limit: 20 }))
-        .put(usersActions.usersGetProfileSelfRequest())
+        .put(authActions.authGetUserRequest())
         .put(usersActions.usersGetPendingFollowersRequest({ userId }))
 
         .dispatch(subscriptionsActions.subscriptionsMainRequest())
@@ -81,7 +83,7 @@ describe('cardSubscription', () => {
     const promise = createSaga(store)
       .not.put(usersActions.usersGetCardsRequest())
       .not.put(postsActions.postsGetUnreadCommentsRequest({ limit: 20 }))
-      .not.put(usersActions.usersGetProfileSelfRequest())
+      .not.put(authActions.authGetUserRequest())
       .not.put(usersActions.usersGetPendingFollowersRequest({ userId }))
 
       .dispatch(subscriptionsActions.subscriptionsMainRequest())

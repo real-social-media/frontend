@@ -4,19 +4,15 @@ import * as constants from 'store/ducks/signup/constants'
 import * as queries from 'store/ducks/signup/queries'
 import * as queryService from 'services/Query'
 import * as navigationActions from 'navigation/actions'
-import { logEvent } from 'services/Analytics'
 import * as NavigationService from 'services/Navigation'
 import path from 'ramda/src/path'
+import authorize from 'store/ducks/auth/saga/authorize'
 
 /**
  *
  */
 function* handleSignupUsernameRequest(payload) {
-  const data = yield queryService.apiRequest(queries.setUsername, { username: payload.username })
-  const nextRoute = path(['nextRoute'], payload)
-  const meta = { nextRoute }
-
-  return { data, meta }
+  yield call([queryService, 'apiRequest'], queries.setUsername, { username: payload.username })
 }
 
 /**
@@ -24,32 +20,31 @@ function* handleSignupUsernameRequest(payload) {
  */
 function* signupUsernameRequest(req) {
   try {
-    logEvent('SIGNUP_CHECK_REQUEST')
-    const { data, meta } = yield call(handleSignupUsernameRequest, req.payload)
-    yield put(actions.signupUsernameSuccess({
-      payload: req.payload,
-      meta,
-      data,
-    }))
+    yield call(handleSignupUsernameRequest, req.payload)
+
+    yield put(actions.signupUsernameSuccess(req.payload))
   } catch (error) {
     yield put(actions.signupUsernameFailure(error))
   }
 }
 
 function* signupUsernameSuccess(req) {
-  logEvent('SIGNUP_USERNAME_SUCCESS')
-
+  const nextRoute = path(['nextRoute'], req.payload)
   const navigation = yield NavigationService.getNavigation()
-  const nextRoute =  path(['payload', 'meta', 'nextRoute'], req)
 
   if (nextRoute === 'app') {
-    navigationActions.navigateResetToApp(navigation)
+    yield call(authorize)
   } else {
     navigationActions.navigateAuthPassword(navigation)
   }
 }
 
+function* signupUsernameSkip(req) {
+  yield call(signupUsernameSuccess, req)
+}
+
 export default () => [
   takeEvery(constants.SIGNUP_USERNAME_REQUEST, signupUsernameRequest),
   takeEvery(constants.SIGNUP_USERNAME_SUCCESS, signupUsernameSuccess),
+  takeEvery(constants.SIGNUP_USERNAME_SKIP, signupUsernameSkip),
 ]

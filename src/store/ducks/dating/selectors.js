@@ -1,14 +1,8 @@
-import { createSelectorCreator, defaultMemoize } from 'reselect'
 import path from 'ramda/src/path'
-import equals from 'ramda/src/equals'
 import assocPath from 'ramda/src/assocPath'
 import * as normalizer from 'normalizer/schemas'
-import * as entitiesSelector from 'store/ducks/entities/selectors'
-
-const createDeepEqualSelector = createSelectorCreator(
-  defaultMemoize,
-  equals,
-)
+import { entitiesSelector } from 'store/ducks/entities/selectors'
+import { createDeepEqualSelector } from 'store/helpers'
 
 /**
  *
@@ -16,7 +10,7 @@ const createDeepEqualSelector = createSelectorCreator(
 const datingMatchedUsers = () => path(['dating', 'datingMatchedUsers'])
 
 export const datingMatchedUsersSelector = () => createDeepEqualSelector(
-  [datingMatchedUsers(), entitiesSelector.entities],
+  [datingMatchedUsers(), entitiesSelector],
   (datingMatchedUsers, entities) => {
     const denormalized = normalizer.denormalizeUsersGet(datingMatchedUsers.data, entities)
     return assocPath(['data'], denormalized)(datingMatchedUsers)
@@ -29,7 +23,7 @@ export const datingMatchedUsersSelector = () => createDeepEqualSelector(
 const datingConfirmedUsers = () => path(['dating', 'datingConfirmedUsers'])
 
 export const datingConfirmedUsersSelector = () => createDeepEqualSelector(
-  [datingConfirmedUsers(), entitiesSelector.entities],
+  [datingConfirmedUsers(), entitiesSelector],
   (datingConfirmedUsers, entities) => {
     const denormalized = normalizer.denormalizeUsersGet(datingConfirmedUsers.data, entities)
     return assocPath(['data'], denormalized)(datingConfirmedUsers)

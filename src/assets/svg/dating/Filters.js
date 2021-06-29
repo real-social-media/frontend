@@ -4,7 +4,7 @@ import Svg, { G, Circle, Path } from 'react-native-svg'
 
 const Filters = ({ fill = '#333' }) => (
   <Svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-    <G fill="none" stroke={fill} stroke-linecap="square" stroke-miterlimit="10">
+    <G fill="none" stroke={fill} strokeLinecap="square" strokeMiterlimit="10">
       <Path d="m14.5 4.5h9" stroke={fill} />
       <Path d="m1.5 4.5h3" stroke={fill} />
       <Path d="m22.5 12.5h1" />

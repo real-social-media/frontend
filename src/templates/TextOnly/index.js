@@ -39,9 +39,14 @@ const styles = theme => StyleSheet.create({
   text: {
     fontSize: 28,
     textAlign: 'center',
+    position: 'relative',
   },
   gradient: {
-    ...StyleSheet.absoluteFill,
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
 })
 

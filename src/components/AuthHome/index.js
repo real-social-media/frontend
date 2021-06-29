@@ -38,14 +38,15 @@ const AuthHome = ({
         <CloseIcon fill={theme.colors.text} />
       </TouchableOpacity>
 
-      <HeaderRight
-        testID={testIDs.skipBtn}
-        onPress={authSigninAnonymousRequest}
-        containerStyle={styles.skipBtn}
-        style={isLoading ? styles.disabled : null}
-        disabled={isLoading}
-        title="Skip"
-      />
+      <View style={styles.skipBtn}>
+        <HeaderRight
+          testID={testIDs.skipBtn}
+          onPress={authSigninAnonymousRequest}
+          style={isLoading ? styles.disabled : null}
+          disabled={isLoading}
+          title="Skip"
+        />
+      </View>
 
       <View style={styles.component}>
         <AuthHeaderTemplate

@@ -1,7 +1,7 @@
 import * as Logger from 'services/Logger'
 import { call, put, take, fork } from 'redux-saga/effects'
 import path from 'ramda/src/path'
-import * as usersActions from 'store/ducks/users/actions'
+import * as authActions from 'store/ducks/auth/actions'
 import * as chatQueries from 'store/ducks/chat/queries'
 import * as chatActions from 'store/ducks/chat/actions'
 import * as constants from 'store/ducks/subscriptions/constants'
@@ -29,7 +29,7 @@ function* chatMessageSubscription() {
 
             yield put(chatActions.chatGetChatRequest({ chatId }))
             yield put(chatActions.chatGetChatsRequest())
-            yield put(usersActions.usersGetProfileSelfRequest())
+            yield put(authActions.authGetUserRequest())
           }, event)
         }
       })

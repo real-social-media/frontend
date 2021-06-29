@@ -21,7 +21,7 @@ const post = {
   postedBy: { userId: '2' },
   viewedByCount: 99,
 }
-const user = { userId: 22 }
+const user = { userId: '22' }
 const requiredProps = { post, user }
 
 const setup = (props) => renderWithProviders(<ActionComponent {...requiredProps} {...props} />)

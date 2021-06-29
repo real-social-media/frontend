@@ -1,22 +1,32 @@
-import { take, race, put, takeEvery } from 'redux-saga/effects'
+import { put, call, getContext, takeEvery } from 'redux-saga/effects'
 import * as actions from 'store/ducks/auth/actions'
 import * as constants from 'store/ducks/auth/constants'
+import * as queries from 'store/ducks/signup/queries'
+import * as queryService from 'services/Query'
+import Config from 'react-native-config'
+import path from 'ramda/src/path'
+import { generateExpirationDate } from 'store/ducks/signup/saga/helpers'
+import authorize from 'store/ducks/auth/saga/authorize'
 
-/**
- * Fetching cognito credentials/tokens
- */
-function* handleAuthSigninAnonymousRequest() {
-  yield put(actions.authFlowRequest({ allowAnonymous: true }))
-  const { flowSuccess, flowFailure } = yield race({
-    flowSuccess: take(constants.AUTH_FLOW_SUCCESS),
-    flowFailure: take(constants.AUTH_FLOW_FAILURE),
-  })
+export const COGNITO_PROVIDER = `cognito-idp.${Config.AWS_COGNITO_REGION}.amazonaws.com/${Config.AWS_COGNITO_USER_POOL_ID}`
 
-  if (flowFailure) {
-    throw new Error('Failed to obtain flow')
+function* createAnonymousUser() {
+  const response = yield call([queryService, 'apiRequest'], queries.createAnonymousUser)
+  const tokens = path(['data', 'createAnonymousUser'], response)
+
+  return tokens
+}
+
+export function* handleAnonymousSignin() {
+  const AwsAuth = yield getContext('AwsAuth')
+  const credentials = yield AwsAuth.currentUserCredentials()
+
+  if (!credentials.authenticated) {
+    const tokens = yield call(createAnonymousUser)
+    const payload = { token: tokens.IdToken, expires_at: generateExpirationDate() }
+
+    yield call([AwsAuth, 'federatedSignIn'], COGNITO_PROVIDER, payload, {})
   }
-
-  return flowSuccess
 }
 
 /**
@@ -24,8 +34,9 @@ function* handleAuthSigninAnonymousRequest() {
  */
 function* authSigninAnonymousRequest() {
   try {
-    const data = yield handleAuthSigninAnonymousRequest()
-    yield put(actions.authSigninAnonymousSuccess({ data }))
+    yield call(handleAnonymousSignin)
+    yield call(authorize)
+    yield put(actions.authSigninAnonymousSuccess())
   } catch (error) {
     if (error.message && error.message.includes('The user canceled the sign in request')) {
       yield put(actions.authSigninAnonymousFailure(error, { messageCode: 'CANCELED' }))
@@ -35,6 +46,4 @@ function* authSigninAnonymousRequest() {
   }
 }
 
-export default () => [
-  takeEvery(constants.AUTH_SIGNIN_ANONYMOUS_REQUEST, authSigninAnonymousRequest),
-]
+export default () => [takeEvery(constants.AUTH_SIGNIN_ANONYMOUS_REQUEST, authSigninAnonymousRequest)]

@@ -1,11 +1,11 @@
 import { useEffect } from 'react'
-import { Alert } from 'react-native'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as usersActions from 'store/ducks/users/actions'
-import useUpload, { useUploadState } from 'services/providers/Upload'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import path from 'ramda/src/path'
+import pathOr from 'ramda/src/pathOr'
+import last from 'ramda/src/last'
 import { pageHeaderLeft } from 'navigation/options'
 import * as usersSelector from 'store/ducks/users/selectors'
 import { useEffectWhenFocused } from 'services/hooks'
@@ -16,43 +16,24 @@ const ProfilePhotoUploadComponentService = ({ children }) => {
   const route = useRoute()
 
   const postsCreateQueue = useSelector((state) => state.posts.postsCreateQueue)
-  const usersEditProfile = useSelector(usersSelector.usersEditProfile)
+  const usersCreateAvatar = useSelector(usersSelector.usersCreateAvatar)
+  const cameraCapture = useSelector((state) => state.camera.cameraCapture)
 
-  const clearProfilePhotoUpload = () => {
-    dispatch(usersActions.usersEditProfileIdle())
+  const activePhoto = pathOr({}, ['data', 0])(cameraCapture)
+  const activeUpload = last(Object.values(postsCreateQueue))
+
+  const usersCreateAvatarIdle = () => {
+    dispatch(usersActions.usersCreateAvatarIdle())
 
     if (path(['payload', 'postId'])(activeUpload)) {
       dispatch(postsActions.postsCreateIdle(activeUpload))
     }
   }
 
-  /**
-   * Create a post first and then set photoPostId
-   */
-  const handleUploadSuccess = (postsCreate) => {
-    dispatch(usersActions.usersEditProfileRequest({ photoPostId: postsCreate.payload.postId }))
+  const handleClose = () => {
+    usersCreateAvatarIdle()
+    navigation.goBack()
   }
-
-  const handleUploadFailure = () => {
-    Alert.alert(
-      'Profile Picture Upload Failed',
-      'Please try again',
-      [
-        {
-          text: 'Got it',
-          onPress: handleClose,
-          style: 'cancel',
-        },
-      ],
-      { cancelable: true },
-    )
-  }
-
-  const { handlePostUpload } = useUpload({})
-  const { activeUpload, activePhoto } = useUploadState({
-    handleUploadSuccess,
-    handleUploadFailure,
-  })
 
   /**
    *
@@ -70,19 +51,26 @@ const ProfilePhotoUploadComponentService = ({ children }) => {
    * Profile photo change event listener
    * Once photo is uploaded usersEditProfile action must be dispatched with uploaded postId to set profile photo
    */
-  useEffectWhenFocused(() => {
-    if (usersEditProfile.status === 'success') {
-      const backRoute = path(['params', 'backRoute'], route)
+  const usersCreateAvatarSuccess = () => {
+    const backRoute = path(['params', 'backRoute'], route)
 
-      clearProfilePhotoUpload()
+    usersCreateAvatarIdle()
 
-      if (backRoute) {
-        navigation.navigate(backRoute)
-      } else {
-        navigation.goBack()
-      }
+    if (backRoute) {
+      navigation.navigate(backRoute)
+    } else {
+      navigation.goBack()
     }
-  }, [usersEditProfile.status])
+  }
+
+  useEffectWhenFocused(() => {
+    if (usersCreateAvatar.status === 'success') {
+      usersCreateAvatarSuccess()
+    }
+    if (usersCreateAvatar.status === 'failure') {
+      handleClose()
+    }
+  }, [usersCreateAvatar.status])
 
   /**
    * Intended for profile photo upload
@@ -91,27 +79,21 @@ const ProfilePhotoUploadComponentService = ({ children }) => {
   useEffect(() => {
     if (!activePhoto.uri) return
 
-    handlePostUpload({
-      images: [activePhoto.uri],
-      preview: [activePhoto.preview],
-      takenInReal: activePhoto.takenInReal,
-      imageFormat: activePhoto.imageFormat,
-      originalFormat: activePhoto.originalFormat,
-      originalMetadata: activePhoto.originalMetadata,
-      crop: activePhoto.crop,
-    })
+    dispatch(
+      usersActions.usersCreateAvatarRequest({
+        images: [activePhoto.uri],
+        preview: [activePhoto.preview],
+        takenInReal: activePhoto.takenInReal,
+        imageFormat: activePhoto.imageFormat,
+        originalFormat: activePhoto.originalFormat,
+        originalMetadata: activePhoto.originalMetadata,
+        crop: activePhoto.crop,
+      }),
+    )
   }, [activePhoto.uri])
 
-  const handleClose = () => {
-    clearProfilePhotoUpload()
-    navigation.goBack()
-  }
-
   return children({
-    usersEditProfile,
     activeUpload,
-    postsCreateQueue,
-    handleClose,
   })
 }
 

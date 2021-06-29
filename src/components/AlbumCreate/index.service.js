@@ -9,7 +9,7 @@ import { useEffectWhenFocused } from 'services/hooks'
 const AlbumCreateService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
-  const user = useSelector(authSelector.authUserSelector)
+  const user = useSelector(authSelector.authUser)
 
   const albumsCreate = useSelector((state) => state.albums.albumsCreate)
 

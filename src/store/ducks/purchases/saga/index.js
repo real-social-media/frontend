@@ -1,9 +1,9 @@
-import { takeEvery } from 'redux-saga/effects'
-import * as constants from 'store/ducks/purchases/constants'
 import purchaseRequest from 'store/ducks/purchases/saga/purchase'
-import retryPurchaseRequest from 'store/ducks/purchases/saga/retryPurchase'
+import purchaseRetryRequest from 'store/ducks/purchases/saga/retryPurchase'
+import subscriptionGet from 'store/ducks/purchases/saga/subscriptionGet'
 
-export default () => [
-  takeEvery(constants.PURCHASE_REQUEST, purchaseRequest),
-  takeEvery(constants.RETRY_PURCHASE_REQUEST, retryPurchaseRequest),
-]
+export default () =>
+  []
+    .concat(purchaseRequest())
+    .concat(purchaseRetryRequest())
+    .concat(subscriptionGet())

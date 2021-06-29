@@ -9,6 +9,7 @@ import * as queryService from 'services/Query'
 import * as normalizer from 'normalizer/schemas'
 import usersCheckPermissions from 'store/ducks/users/saga/usersCheckPermissions'
 import { entitiesMerge } from 'store/ducks/entities/saga'
+import postsPay from 'store/ducks/posts/saga/postsPay'
 
 /**
  *
@@ -22,7 +23,7 @@ function* postsGetRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizePostsGet(data)
-  yield entitiesMerge(normalized)
+  yield call(entitiesMerge, normalized)
 
   return {
     data: normalized.result,
@@ -33,7 +34,7 @@ function* postsGetRequestData(req, api) {
 
 function* postsGetRequest(req) {
   try {
-    const data = yield queryService.apiRequest(queries.getPosts, { ...req.payload, postStatus: 'COMPLETED' })
+    const data = yield call([queryService, 'apiRequest'], queries.getPosts, { ...req.payload, postStatus: 'COMPLETED' })
     const next = yield postsGetRequestData(req, data)
     yield put(actions.postsGetSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
@@ -43,7 +44,7 @@ function* postsGetRequest(req) {
 
 function* postsGetMoreRequest(req) {
   try {
-    const data = yield queryService.apiRequest(queries.getPosts, { ...req.payload, postStatus: 'COMPLETED' })
+    const data = yield call([queryService, 'apiRequest'], queries.getPosts, { ...req.payload, postStatus: 'COMPLETED' })
     const next = yield postsGetRequestData(req, data)
     yield put(actions.postsGetMoreSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
@@ -63,7 +64,7 @@ function* postsGetUnreadCommentsRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizePostsGet(data)
-  yield entitiesMerge(normalized)
+  yield call(entitiesMerge, normalized)
 
   return {
     data: normalized.result,
@@ -74,7 +75,7 @@ function* postsGetUnreadCommentsRequestData(req, api) {
 
 function* postsGetUnreadCommentsRequest(req) {
   try {
-    const data = yield queryService.apiRequest(queries.getPostsUnreadComments, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.getPostsUnreadComments, req.payload)
     const next = yield postsGetUnreadCommentsRequestData(req, data)
     yield put(actions.postsGetUnreadCommentsSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
@@ -94,7 +95,7 @@ function* postsViewsGetRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizeUsersGet(data)
-  yield entitiesMerge(normalized)
+  yield call(entitiesMerge, normalized)
 
   return {
     data: normalized.result,
@@ -107,7 +108,7 @@ function* postsViewsGetRequest(req) {
 
 
   try {
-    const data = yield queryService.apiRequest(queries.viewedBy, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.viewedBy, req.payload)
     const next = yield postsViewsGetRequestData(req, data)
     yield put(actions.postsViewsGetSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
@@ -117,7 +118,7 @@ function* postsViewsGetRequest(req) {
 
 function* postsViewsGetMoreRequest(req) {
   try {
-    const data = yield queryService.apiRequest(queries.viewedBy, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.viewedBy, req.payload)
     const next = yield postsViewsGetRequestData(req, data)
     yield put(actions.postsViewsGetMoreSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
@@ -137,7 +138,7 @@ function* postsLikesGetRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizeUsersGet(data)
-  yield entitiesMerge(normalized)
+  yield call(entitiesMerge, normalized)
 
   return {
     data: normalized.result,
@@ -148,7 +149,7 @@ function* postsLikesGetRequestData(req, api) {
 
 function* postsLikesGetRequest(req) {
   try {
-    const data = yield queryService.apiRequest(queries.onymouslyLikedBy, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.onymouslyLikedBy, req.payload)
     const next = yield postsLikesGetRequestData(req, data)
     yield put(actions.postsLikesGetSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
@@ -168,7 +169,7 @@ function* postsFeedGetRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizePostsGet(data)
-  yield entitiesMerge(normalized)
+  yield call(entitiesMerge, normalized)
 
   return {
     data: normalized.result,
@@ -179,7 +180,7 @@ function* postsFeedGetRequestData(req, api) {
 
 function* postsFeedGetRequest(req) {
   try {
-    const data = yield queryService.apiRequest(queries.getFeed, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.getFeed, req.payload)
     const next = yield postsFeedGetRequestData(req, data)
     yield put(actions.postsFeedGetSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
@@ -189,7 +190,7 @@ function* postsFeedGetRequest(req) {
 
 function* postsFeedGetMoreRequest(req) {
   try {
-    const data = yield queryService.apiRequest(queries.getFeed, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.getFeed, req.payload)
     const next = yield postsFeedGetRequestData(req, data)
     yield put(actions.postsFeedGetMoreSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
@@ -209,7 +210,7 @@ function* postsGetArchivedRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizePostsGet(data)
-  yield entitiesMerge(normalized)
+  yield call(entitiesMerge, normalized)
 
   return {
     data: normalized.result,
@@ -220,7 +221,7 @@ function* postsGetArchivedRequestData(req, api) {
 
 function* postsGetArchivedRequest(req) {
   try {
-    const data = yield queryService.apiRequest(queries.getPosts, { ...req.payload, postStatus: 'ARCHIVED' })
+    const data = yield call([queryService, 'apiRequest'], queries.getPosts, { ...req.payload, postStatus: 'ARCHIVED' })
     const next = yield postsGetArchivedRequestData(req, data)
     yield put(actions.postsGetArchivedSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
@@ -232,9 +233,9 @@ function* postsGetArchivedRequest(req) {
  *
  */
 function* handlePostsEditRequest(payload) {
-  yield queryService.apiRequest(queries.editPostExpiresAt, payload)
-  yield queryService.apiRequest(queries.editPostAlbum, payload)
-  return yield queryService.apiRequest(queries.editPost, payload)
+  yield call([queryService, 'apiRequest'], queries.editPostExpiresAt, payload)
+  yield call([queryService, 'apiRequest'], queries.editPostAlbum, payload)
+  return yield call([queryService, 'apiRequest'], queries.editPost, payload)
 }
 
 function* postsEditRequestData(req, api) {
@@ -245,7 +246,7 @@ function* postsEditRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizePostGet(data)
-  yield entitiesMerge(normalized)
+  yield call(entitiesMerge, normalized)
 
   return {
     data: normalized.result,
@@ -275,7 +276,7 @@ function* postsDeleteRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizePostGet(data)
-  yield entitiesMerge(normalized)
+  yield call(entitiesMerge, normalized)
 
   return {
     data: normalized.result,
@@ -286,7 +287,7 @@ function* postsDeleteRequestData(req, api) {
 
 function* postsDeleteRequest(req) {
   try {
-    const data = yield queryService.apiRequest(queries.deletePost, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.deletePost, req.payload)
     const next = yield postsDeleteRequestData(req, data)
 
     yield put(actions.postsDeleteSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
@@ -306,7 +307,7 @@ function* postsArchiveRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizePostGet(data)
-  yield entitiesMerge(normalized)
+  yield call(entitiesMerge, normalized)
 
   return {
     data: normalized.result,
@@ -317,7 +318,7 @@ function* postsArchiveRequestData(req, api) {
 
 function* postsArchiveRequest(req) {
   try {
-    const data = yield queryService.apiRequest(queries.archivePost, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.archivePost, req.payload)
     const next = yield postsArchiveRequestData(req, data)
     yield put(actions.postsArchiveSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
@@ -336,7 +337,7 @@ function* postsRestoreArchivedRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizePostGet(data)
-  yield entitiesMerge(normalized)
+  yield call(entitiesMerge, normalized)
 
   return {
     data: normalized.result,
@@ -347,7 +348,7 @@ function* postsRestoreArchivedRequestData(req, api) {
 
 function* postsRestoreArchivedRequest(req) {
   try {
-    const data = yield queryService.apiRequest(queries.restoreArchivedPost, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.restoreArchivedPost, req.payload)
     const next = yield postsRestoreArchivedRequestData(req, data)
     yield put(actions.postsRestoreArchivedSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
@@ -366,7 +367,7 @@ function* postsFlagRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizePostGet(data)
-  yield entitiesMerge(normalized)
+  yield call(entitiesMerge, normalized)
 
   return {
     data: normalized.result,
@@ -377,7 +378,7 @@ function* postsFlagRequestData(req, api) {
 
 function* postsFlagRequest(req) {
   try {
-    const data = yield queryService.apiRequest(queries.flagPost, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.flagPost, req.payload)
     const next = yield postsFlagRequestData(req, data)
     yield put(actions.postsFlagSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
@@ -396,7 +397,7 @@ function* postsSingleGetRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizePostGet(data)
-  yield entitiesMerge(normalized)
+  yield call(entitiesMerge, normalized)
 
   return {
     data: normalized.result,
@@ -407,7 +408,7 @@ function* postsSingleGetRequestData(req, api) {
 
 function* postsSingleGetRequest(req) {
   try {
-    const data = yield queryService.apiRequest(queries.getPost, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.getPost, req.payload)
     const next = yield postsSingleGetRequestData(req, data)
     yield put(actions.postsSingleGetSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
@@ -426,7 +427,7 @@ function* postsOnymouslyLikeRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizePostGet(data)
-  yield entitiesMerge(normalized)
+  yield call(entitiesMerge, normalized)
 
   return {
     data: normalized.result,
@@ -438,7 +439,7 @@ function* postsOnymouslyLikeRequestData(req, api) {
 function* postsOnymouslyLikeRequest(req) {
   try {
     yield call(usersCheckPermissions)
-    const data = yield queryService.apiRequest(queries.onymouslyLikePost, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.onymouslyLikePost, req.payload)
     const next = yield postsOnymouslyLikeRequestData(req, data)
     yield put(actions.postsOnymouslyLikeSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
@@ -457,7 +458,7 @@ function* postsDislikeRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizePostGet(data)
-  yield entitiesMerge(normalized)
+  yield call(entitiesMerge, normalized)
 
   return {
     data: normalized.result,
@@ -469,7 +470,7 @@ function* postsDislikeRequestData(req, api) {
 function* postsDislikeRequest(req) {
   try {
     yield call(usersCheckPermissions)
-    const data = yield queryService.apiRequest(queries.dislikePost, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.dislikePost, req.payload)
     const next = yield postsDislikeRequestData(req, data)
     yield put(actions.postsDislikeSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
@@ -489,7 +490,7 @@ function* postsCommentsGetRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizeCommentsGet(data)
-  yield entitiesMerge(normalized)
+  yield call(entitiesMerge, normalized)
 
   return {
     data: normalized.result,
@@ -500,7 +501,7 @@ function* postsCommentsGetRequestData(req, api) {
 
 function* postsCommentsGetRequest(req) {
   try {
-    const data = yield queryService.apiRequest(queries.comments, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.comments, req.payload)
     const next = yield postsCommentsGetRequestData(req, data)
     yield put(actions.postsCommentsGetSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
@@ -519,7 +520,7 @@ function* commentsAddRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizeCommentGet(data)
-  yield entitiesMerge(normalized)
+  yield call(entitiesMerge, normalized)
 
   return {
     data: normalized.result,
@@ -531,7 +532,7 @@ function* commentsAddRequestData(req, api) {
 function* commentsAddRequest(req) {
   try {
     yield call(usersCheckPermissions)
-    const data = yield queryService.apiRequest(queries.addComment, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.addComment, req.payload)
     const next = yield commentsAddRequestData(req, data)
     yield put(actions.commentsAddSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
@@ -550,7 +551,7 @@ function* commentsDeleteRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizeCommentGet(data)
-  yield entitiesMerge(normalized)
+  yield call(entitiesMerge, normalized)
 
   return {
     data: normalized.result,
@@ -561,7 +562,7 @@ function* commentsDeleteRequestData(req, api) {
 
 function* commentsDeleteRequest(req) {
   try {
-    const data = yield queryService.apiRequest(queries.deleteComment, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.deleteComment, req.payload)
     const next = yield commentsDeleteRequestData(req, data)
 
     yield put(actions.commentsDeleteSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
@@ -572,7 +573,7 @@ function* commentsDeleteRequest(req) {
 
 function* commentsFlagRequest(req) {
   try {
-    const data = yield queryService.apiRequest(queries.flagComment, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.flagComment, req.payload)
     const selector = path(['data', 'flagComment'])
     const meta = {}
 
@@ -640,3 +641,4 @@ export default () => [
   takeLatest(constants.POSTS_RESTORE_ARCHIVED_SUCCESS, postsRestoreArchivedSuccess),
   takeLatest(constants.POSTS_FLAG_SUCCESS, postsFlagSuccess),
 ]
+.concat(postsPay())

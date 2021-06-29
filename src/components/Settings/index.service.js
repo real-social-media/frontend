@@ -7,7 +7,6 @@ import * as authActions from 'store/ducks/auth/actions'
 import * as usersActions from 'store/ducks/users/actions'
 import UploadAvatar from 'components/UploadAvatar'
 import { useOTAVersion } from 'services/OTA'
-import { useEffectWhenFocused } from 'services/hooks'
 
 const SettingsService = ({ children }) => {
   const dispatch = useDispatch()
@@ -15,17 +14,11 @@ const SettingsService = ({ children }) => {
   const { appVersion } = useOTAVersion()
 
   const usersDelete = useSelector((state) => state.users.usersDelete)
-  const user = useSelector(authSelector.authUserSelector)
+  const user = useSelector(authSelector.authUser)
 
   const authSignoutRequest = () => dispatch(authActions.authSignoutRequest())
   const authForgotRequest = () => dispatch(authActions.authForgotRequest({ username: user.email }))
   const usersDeleteRequest = () => dispatch(usersActions.usersDeleteRequest())
-
-  useEffectWhenFocused(() => {
-    if (usersDelete.status === 'success') {
-      authSignoutRequest()
-    }
-  }, [usersDelete.status])
 
   return (
     <UploadAvatar backRoute="ProfileSelf">

@@ -1,10 +1,9 @@
-import React, { useContext } from 'react'
-import { TouchableOpacity, StyleSheet } from 'react-native'
+import React from 'react'
+import { TouchableOpacity, StyleSheet, Platform } from 'react-native'
 import { HeaderStyleInterpolators, CardStyleInterpolators, TransitionPresets } from '@react-navigation/stack'
-import ViewPagerAdapter from 'react-native-tab-view-viewpager-adapter'
 
-import { AuthContext } from 'services/providers/Auth'
 import * as navigationActions from 'navigation/actions'
+import pager from 'navigation/options/pager'
 import path from 'ramda/src/path'
 import Layout from 'constants/Layout'
 
@@ -50,7 +49,17 @@ export const homeHeaderLeft = ({ theme, navigation, user }) => () => (
   </TouchableOpacity>
 )
 
-export const homeHeaderTitle = ({ theme }) => () => <LogoIcon height="28" fill={path(['colors', 'primaryIcon'], theme)} />
+export const homeHeaderTitle = ({ theme, navigation }) => () => {
+  const redirectToOrigin = () => parent.postMessage('exit')
+  const navigateHome = () => navigationActions.navigateHome(navigation)
+  const handlePress = Platform.OS === 'web' ? redirectToOrigin : navigateHome
+
+  return (
+    <TouchableOpacity style={styles.button} onPress={handlePress}>
+      <LogoIcon height="28" fill={path(['colors', 'primaryIcon'], theme)} />
+    </TouchableOpacity>
+  )
+}
 
 export const homeHeaderRight = ({ theme, navigation, user }) => () => (
   <TouchableOpacity style={styles.chatButton} onPress={navigationActions.navigateChat(navigation, {}, { protected: true, user })}>
@@ -84,20 +93,11 @@ const HomeNavigationComponent = ({ navigation, theme, user, headerLeft = homeHea
     shadowColor: 'transparent',
   },
   headerLeft: headerLeft({ navigation, theme, user }),
-  headerTitle: homeHeaderTitle({ theme }),
+  headerTitle: homeHeaderTitle({ theme, navigation }),
   headerRight: homeHeaderRight({ navigation, theme, user }),
 })
 
-const AppViewPagerAdapter = (props) => {
-  const { swipeEnabled } = useContext(AuthContext)
-  const currentIndex = path(['navigationState', 'index'])(props)
-  const nextIndex = path(['navigationState', 'routes', currentIndex, 'state', 'index'])(props)
-  const hasNextScreen = !nextIndex || nextIndex === 0
 
-  return <ViewPagerAdapter {...props} swipeEnabled={swipeEnabled && hasNextScreen} />
-}
-
-const pager = (props) => <AppViewPagerAdapter {...props} />
 
 export const tabNavigatorDefaultProps = () => ({
   initialRouteName: 'Root',
@@ -245,6 +245,7 @@ export const stackScreenBlankProps = ({ theme }) => ({
  */
 export const stackScreenModalProps = ({
   options: {
+    mode: 'modal',
     gestureDirection: 'vertical',
     gestureResponseDistance: {
       horizontal: Layout.window.width,
@@ -256,6 +257,7 @@ export const stackScreenModalProps = ({
     },
     headerShown: false,
     cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+    stackPresentation: 'transparentModal',
   },
 })
 

@@ -37,6 +37,7 @@ const AvatarTemplate = ({
   ]
 
   const photoStyle = [
+    styling.photo,
     size !== 'micro' && active ? styling.photoActive : null,
     size !== 'micro' && active === false ? styling.photoInactive : null,
     size !== 'micro' && active === undefined ? styling.photoTransparent : null,
@@ -102,28 +103,20 @@ const styles = theme => StyleSheet.create({
     width: 100,
     height: 100,
   },
-  photoActive: {
+  photo: {
+    height: '100%',
     borderWidth: 2,
-    borderColor: theme.colors.navigation,
     borderRadius: 4,
     padding: 2,
+  },
+  photoActive: {
+    borderColor: theme.colors.navigation,
   },
   photoInactive: {
-    borderWidth: 2,
     borderColor: theme.colors.disabled,
-    borderRadius: 4,
-    padding: 2,
   },
   photoTransparent: {
-    borderWidth: 2,
     borderColor: 'transparent',
-    borderRadius: 4,
-    padding: 2,
-  },
-  photo: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 2,
   },
   iconWrapper: {
     position: 'absolute',

@@ -32,7 +32,7 @@ const DatingSettings = ({
   openUploadAvatarMenu,
 }) => {
   const styling = styles(theme)
-  const age = user.dateOfBirth ? `, ${dayjs().diff(user.dateOfBirth, 'year')}` : null
+  const age = user.dateOfBirth ? dayjs().diff(user.dateOfBirth, 'year') : null
   const isSubscribed = UserService.isUserSubscribed(user)
 
   return (
@@ -42,8 +42,7 @@ const DatingSettings = ({
           <CircleAvatar image={path(['photo', 'url480p'], user)} hasBorder />
         </TouchableOpacity>
         <Text style={styling.name} numberOfLines={1} ellipsizeMode="tail">
-          {user.displayName}
-          {age}
+          {`${user.displayName} ${age}`}
         </Text>
         <Text style={styling.bio} numberOfLines={3} ellipsizeMode="tail">
           {user.bio}

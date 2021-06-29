@@ -11,11 +11,14 @@ import { withTranslation } from 'react-i18next'
 import { AuthContext } from 'services/providers/Auth'
 import * as contactsConstants from 'store/ducks/contacts/constants'
 
+const navigateMembership = navigationActions.withAuthValidation(navigationActions.navigateMembership)
+
 const Placeholder = ({ t, theme }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
   const { user } = useContext(AuthContext)
   const handlePress = navigationActions.navigateInviteFriends(navigation, {}, { protected: true, user })
+  const handleMembershipPress = navigateMembership(navigation, {}, { protected: true, user })
 
   return (
     <View style={styling.root} accessibilityLabel="Empty State">
@@ -27,13 +30,13 @@ const Placeholder = ({ t, theme }) => {
 
         <Text style={styling.subtitle}>
           {t('Get FREE ')}
-          <Text style={styling.link} onPress={() => navigationActions.navigateMembership(navigation)}>
+          <Text style={styling.link} onPress={handleMembershipPress}>
             {t('REAL Diamond')}
           </Text>
           {t(' for life')}
         </Text>
         <Text style={styling.subtitle}>
-          {t(`by inviting ${contactsConstants.CONTACTS_INVITE_LIMIT} friends to REAL`)}
+          {t('by inviting {{count}} friends to REAL', { count: contactsConstants.CONTACTS_INVITE_LIMIT })}
         </Text>
       </View>
       <View style={styling.actions}>

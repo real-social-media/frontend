@@ -5,7 +5,7 @@ import * as UserService from 'services/User'
 import { UserInNotActiveError } from 'store/errors'
 
 function* usersCheckPermissions() {
-  const authUser = yield select(authSelector.authUserSelector)
+  const authUser = yield select(authSelector.authUser)
 
   if (!UserService.isUserActive(authUser)) {
     const ReactNavigationRef = yield getContext('ReactNavigationRef')

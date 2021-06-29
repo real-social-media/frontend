@@ -18,7 +18,9 @@ const params = {
   userId: 'id31234',
 }
 
-jest.spyOn(authSelector, 'authUserSelector').mockReturnValue(user)
+jest.spyOn(authSelector, 'authUser').mockReturnValue(user)
+jest.spyOn(authSelector, 'authUserId').mockReturnValue(user.userId)
+
 jest.spyOn(albumsSelector, 'albumsGetSelector')
 
 jest.spyOn(ReactRedux, 'useDispatch')

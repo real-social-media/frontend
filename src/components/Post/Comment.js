@@ -7,12 +7,10 @@ import {
 import { Text } from 'react-native-paper'
 import * as navigationActions from 'navigation/actions'
 import pathOr from 'ramda/src/pathOr'
-import reactStringReplace from 'react-string-replace'
-import path from 'ramda/src/path'
-
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
+import linkifyText from 'services/helpers/linkifyText'
 
 const Comment = ({
   t,
@@ -21,7 +19,6 @@ const Comment = ({
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
-  const regex = /(?:@)([A-Za-z0-9_](?:(?:[A-Za-z0-9_]|(?:\.(?!\.))){0,28}(?:[A-Za-z0-9_]))?)/g
 
   return (
     <TouchableOpacity onPress={navigationActions.navigateComments(navigation, { postId: post.postId, userId: post.postedBy.userId })} style={styling.root}>
@@ -40,17 +37,10 @@ const Comment = ({
             /**
              * Tagged @username occurrences with attached user object
              */
-            ...reactStringReplace(pathOr('', ['text'])(comment).trim(), regex, (match, i) => {
-              const tagged = (path(['textTaggedUsers'])(comment) || [])
-                .find(textTag => textTag.tag === `@${match}`)
-
-              if (tagged) {
-                return (
-                  <Text key={match + i} onPress={() => navigationActions.navigateProfile(navigation, { userId: tagged.user.userId })} style={styling.textUsername}>@{match}</Text>
-                )
-              }
-
-              return <Text style={styling.textDefault}>{`@${match}`}</Text>
+            ...linkifyText({
+              text: pathOr('', ['text'])(comment).trim(),
+              textTaggedUsers: pathOr([], ['textTaggedUsers'])(comment),
+              navigation,
             }),
           ]}
         </Text>
@@ -74,12 +64,6 @@ const styles = theme => StyleSheet.create({
   },
   author: {
     fontWeight: '700',
-  },
-  textDefault: {
-    color: theme.colors.text,
-  },
-  textUsername: {
-    color: theme.colors.primary,
   },
 })
 

@@ -7,7 +7,7 @@ import * as authSelector from 'store/ducks/auth/selectors'
 const ProfileArchivedService = ({ children }) => {
   const dispatch = useDispatch()
   const postsGetArchived = useSelector(postsSelector.postsGetArchivedSelector())
-  const user = useSelector(authSelector.authUserSelector)
+  const user = useSelector(authSelector.authUser)
 
   const postsGetArchivedRequest = () =>
     dispatch(postsActions.postsGetArchivedRequest({ userId: user.userId }))

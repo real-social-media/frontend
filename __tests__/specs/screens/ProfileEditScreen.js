@@ -21,7 +21,7 @@ const user = {
   phoneNumber: '12312312',
 }
 
-jest.spyOn(authSelector, 'authUserSelector').mockReturnValue(user)
+jest.spyOn(authSelector, 'authUser').mockReturnValue(user)
 
 const setup = () => renderWithStore(<ProfileEditScreen />)
 

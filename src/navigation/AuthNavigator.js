@@ -13,22 +13,21 @@ import AuthPasswordScreen from 'screens/AuthPasswordScreen'
 import AuthPhoneConfirmScreen from 'screens/AuthPhoneConfirmScreen'
 import AuthEmailConfirmScreen from 'screens/AuthEmailConfirmScreen'
 import VerificationScreen from 'screens/VerificationScreen'
-import CameraScreen from 'screens/CameraScreen'
 import AuthForgotConfirmScreen from 'screens/AuthForgotConfirmScreen'
+import DownloadAppScreen from 'screens/DownloadAppScreen'
 
 const Stack = createStackNavigator()
 
 const AuthNavigator = () => {
   const { theme } = useContext(ThemeContext)
   const stackScreenOnboardProps = navigationOptions.stackScreenOnboardProps({ theme })
-  const stackScreenBlankProps = navigationOptions.stackScreenBlankProps({ theme })
   const stackNavigatorDefaultProps = navigationOptions.stackNavigatorDefaultProps({ theme })
   const stackScreenAuthProps = navigationOptions.stackScreenAuthProps({ theme })
   const stackScreenAuthModalProps = navigationOptions.stackScreenAuthModalProps({ theme })
   const headerLeft = props => navigationOptions.pageHeaderLeft({ ...props, theme })
 
   return (
-    <Stack.Navigator {...stackNavigatorDefaultProps}>
+    <Stack.Navigator {...stackNavigatorDefaultProps} mode="modal">
       <Stack.Screen
         name="AuthHome"
         component={AuthHomeScreen}
@@ -56,7 +55,7 @@ const AuthNavigator = () => {
       <Stack.Screen
         name="AuthUsername"
         component={AuthUsernameScreen}
-        {...stackScreenAuthProps({ options: { title: 'Signup', headerLeft, gestureEnabled: true } })}
+        {...stackScreenAuthProps({ options: { title: 'Signup', headerLeft: null, gestureEnabled: true } })}
       />
 
       <Stack.Screen
@@ -84,15 +83,15 @@ const AuthNavigator = () => {
       />
 
       <Stack.Screen
-        name="AuthCamera"
-        component={CameraScreen}
-        {...stackScreenBlankProps}
-      />
-
-      <Stack.Screen
         name="AuthForgotConfirm"
         component={AuthForgotConfirmScreen}
         {...stackScreenAuthProps({ options: { title: 'Forgot Confirm', headerLeft, gestureEnabled: true } })}
+      />
+
+      <Stack.Screen
+        name="DownloadApp"
+        component={DownloadAppScreen}
+        {...navigationOptions.stackScreenModalProps}
       />
     </Stack.Navigator>
   )

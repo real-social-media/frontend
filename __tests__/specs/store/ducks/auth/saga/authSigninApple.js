@@ -1,196 +1,148 @@
-import { expectSaga } from 'redux-saga-test-plan'
 import { getContext } from 'redux-saga/effects'
-import authSigninApple from 'store/ducks/auth/saga/authSigninApple'
-import { testAsRootSaga } from 'tests/utils/helpers'
-import { federatedAppleSignin, validateUserExistance } from 'services/AWS'
+import { expectSaga } from 'redux-saga-test-plan'
 import * as actions from 'store/ducks/auth/actions'
+import { testAsRootSaga, testNavigate } from 'tests/utils/helpers'
 import * as queryService from 'services/Query'
 import * as queries from 'store/ducks/auth/queries'
+import authSigninApple from 'store/ducks/auth/saga/authSigninApple'
+import { federatedAppleSignin, validateUserExistance } from 'services/AWS'
+import { handleAnonymousSignin } from 'store/ducks/auth/saga/authSigninAnonymous'
 
-jest.mock('services/Query', () => ({ apiRequest: jest.fn() }))
+/**
+ * Mock Data
+ */
+const applePayload = {
+  user: {
+    id: 'id',
+    fullName: 'fullName',
+    email: 'email',
+  },
+  token: 'token',
+  expires_at: 'expires_at',
+}
+
+const userPayload = {
+  id: applePayload.user.id,
+  fullName: applePayload.user.fullName,
+  email: applePayload.user.email,
+  authProvider: 'APPLE',
+  token: applePayload.token,
+  expires_at: applePayload.expires_at,
+}
+
+const credentials = {
+  token: userPayload.token,
+  expires_at: userPayload.expires_at,
+}
+
+const error = new Error('Error')
+
+/**
+ * Mock Functions
+ */
+const AwsAuth = { federatedSignIn: jest.fn(), currentUserCredentials: jest.fn() }
+const navigation = { navigate: jest.fn(), reset: jest.fn() }
 
 jest.mock('services/AWS', () => ({
   federatedAppleSignin: jest.fn(),
   validateUserExistance: jest.fn(),
 }))
 
-const applePayload = {
-  token: 'token',
-  expires_at: 'expires_at',
-  user: { id: 'id', fullName: 'fullName', email: 'email' },
-}
+jest.mock('store/ducks/auth/saga/authSigninAnonymous', () => ({
+  handleAnonymousSignin: jest.fn(),
+}))
 
-const userPayload = {
-  id: 'id',
-  fullName: 'fullName',
-  email: 'email',
-  authProvider: 'APPLE',
-  token: 'token',
-  expires_at: 'expires_at',
-}
+jest.mock('services/Query', () => ({ apiRequest: jest.fn().mockResolvedValue(true) }))
 
-const AwsAuth = { federatedSignIn: jest.fn() }
-federatedAppleSignin.mockResolvedValue(applePayload)
-AwsAuth.federatedSignIn.mockResolvedValue(true)
-
-const mockApiRequest = (options) => {
-  queryService.apiRequest.mockImplementation((query) => {
-    if (query === queries.setFullname) {
-      return options.setFullname
-    } else if (query === queries.createAnonymousUser) {
-      return options.createAnonymousUser
-    } else if (query === queries.linkAppleLogin) {
-      return options.linkAppleLogin
-    } else {
-      return Promise.resolve(true)
-    }
-  })
-}
-
-const setupSaga = () => expectSaga(testAsRootSaga(authSigninApple)).provide([[getContext('AwsAuth'), AwsAuth]])
+/**
+ * Mock Context
+ */
+const context = [
+  [getContext('AwsAuth'), AwsAuth],
+  [getContext('ReactNavigationRef'), { current: navigation }],
+]
 
 describe('authSigninApple', () => {
+  beforeAll(() => {
+    federatedAppleSignin.mockResolvedValue(applePayload)
+    validateUserExistance.mockResolvedValue(false)
+  })
+
   afterEach(() => {
+    federatedAppleSignin.mockClear()
     validateUserExistance.mockClear()
-    queryService.apiRequest.mockReset()
+    handleAnonymousSignin.mockClear()
     AwsAuth.federatedSignIn.mockClear()
+    navigation.navigate.mockClear()
+    navigation.reset.mockClear()
   })
 
-  describe('sign up', () => {
-    const userExists = false
-
-    beforeAll(() => {
-      validateUserExistance.mockReset().mockResolvedValue(userExists)
-    })
-
-    describe('success', () => {
-      it('normal flow', async () => {
-        queryService.apiRequest.mockResolvedValue(true)
-
-        await setupSaga()
-          .call(federatedAppleSignin)
-          .call([queryService, 'apiRequest'], queries.createAnonymousUser)
-          .put(actions.authFlowRequest({ allowAnonymous: userExists, authProvider: 'APPLE', userExists }))
-          .put(actions.authSigninAppleSuccess())
-
-          .dispatch(actions.authSigninAppleRequest())
-          .dispatch(actions.authFlowSuccess())
-          .silentRun()
-
-        expect(AwsAuth.federatedSignIn).toHaveBeenCalledWith(
-          'appleid.apple.com',
-          { expires_at: 'expires_at', token: 'token' },
-          userPayload,
-        )
-      })
-
-      it('empty fullName', async () => {
-        mockApiRequest({
-          setFullname: Promise.reject(new Error('FullName cannot be empty')),
-          createAnonymousUser: Promise.resolve(true),
-          linkAppleLogin: Promise.resolve(true),
-        })
-
-        await setupSaga()
-          .put(actions.authSigninAppleSuccess())
-
-          .dispatch(actions.authSigninAppleRequest())
-          .dispatch(actions.authFlowSuccess())
-          .silentRun()
-      })
-    })
-
-    describe('failure', () => {
-      it('linkAppleLogin fail', async () => {
-        const nativeError = new Error('linkAppleLogin fail')
-
-        mockApiRequest({
-          setFullname: Promise.resolve(true),
-          createAnonymousUser: Promise.resolve(true),
-          linkAppleLogin: Promise.reject(nativeError),
-        })
-
-        await setupSaga()
-          .put(actions.authSigninAppleFailure(nativeError))
-
-          .dispatch(actions.authSigninAppleRequest())
-          .silentRun()
-      })
-
-      it('federatedAppleSignin fail', async () => {
-        const nativeError = new Error('federatedAppleSignin fail')
-
-        federatedAppleSignin.mockRejectedValueOnce(nativeError)
-        queryService.apiRequest.mockResolvedValue(true)
-
-        await setupSaga()
-          .put(actions.authSigninAppleFailure(nativeError))
-
-          .dispatch(actions.authSigninAppleRequest())
-          .silentRun()
-      })
-
-      it('AUTH_FLOW_FAILURE', async () => {
-        await setupSaga()
-          .put(actions.authSigninAppleFailure(new Error('Failed to obtain flow')))
-
-          .dispatch(actions.authSigninAppleRequest())
-          .dispatch(actions.authFlowFailure())
-          .silentRun()
-      })
-    })
-  })
-
-  describe('sign in', () => {
-    const userExists = true
-
-    beforeAll(() => {
-      validateUserExistance.mockReset().mockResolvedValue(userExists)
-    })
-
+  describe('sign in flow', () => {
     it('success', async () => {
-      await expectSaga(testAsRootSaga(authSigninApple))
-        .provide([[getContext('AwsAuth'), AwsAuth]])
+      validateUserExistance.mockResolvedValueOnce(true)
 
-        .call(federatedAppleSignin)
+      await expectSaga(testAsRootSaga(authSigninApple))
+        .provide(context)
+
         .call(validateUserExistance, userPayload)
-        .not.call([queryService, 'apiRequest'], queries.createAnonymousUser)
-        .put(actions.authFlowRequest({ allowAnonymous: userExists, authProvider: 'APPLE', userExists }))
+        .not.call(handleAnonymousSignin)
+        .not.call([queryService, 'apiRequest'], queries.linkAppleLogin, { appleIdToken: userPayload.token })
+        .not.call([queryService, 'apiRequest'], queries.setFullname, { fullName: userPayload.fullName })
+        .call([AwsAuth, 'federatedSignIn'], 'appleid.apple.com', credentials, userPayload)
+        .put(actions.authGetUserRequest())
+        .put(actions.authPrefetchRequest())
         .put(actions.authSigninAppleSuccess())
 
         .dispatch(actions.authSigninAppleRequest())
-        .dispatch(actions.authFlowSuccess())
+        .dispatch(actions.authGetUserSuccess())
         .silentRun()
 
-      expect(AwsAuth.federatedSignIn).toHaveBeenCalledWith(
-        'appleid.apple.com',
-        { expires_at: 'expires_at', token: 'token' },
-        userPayload,
-      )
+      expect(navigation.reset).toHaveBeenCalledWith({ index: 0, routes: [{ name: 'App' }] })
     })
 
-    describe('failure', () => {
-      it('federatedSignIn failed', async () => {
-        const nativeError = new Error('federatedSignIn failed')
-        AwsAuth.federatedSignIn.mockRejectedValueOnce(nativeError)
+    it('failure', async () => {
+      validateUserExistance.mockResolvedValueOnce(true)
+      AwsAuth.federatedSignIn.mockRejectedValueOnce(error)
 
-        await expectSaga(testAsRootSaga(authSigninApple))
-          .provide([[getContext('AwsAuth'), AwsAuth]])
+      await expectSaga(testAsRootSaga(authSigninApple))
+        .provide(context)
 
-          .put(actions.authSigninAppleFailure(nativeError))
+        .put(actions.authSigninAppleFailure(error))
 
-          .dispatch(actions.authSigninAppleRequest())
-          .silentRun()
-      })
+        .dispatch(actions.authSigninAppleRequest())
+        .silentRun()
+    })
+  })
 
-      it('AUTH_FLOW_FAILURE', async () => {
-        await setupSaga()
-          .put(actions.authSigninAppleFailure(new Error('Failed to obtain flow')))
+  describe('sign up flow', () => {
+    it('success', async () => {
+      await expectSaga(testAsRootSaga(authSigninApple))
+        .provide(context)
 
-          .dispatch(actions.authSigninAppleRequest())
-          .dispatch(actions.authFlowFailure())
-          .silentRun()
-      })
+        .call(validateUserExistance, userPayload)
+        .call(handleAnonymousSignin)
+        .call([queryService, 'apiRequest'], queries.linkAppleLogin, { appleIdToken: userPayload.token })
+        .call([queryService, 'apiRequest'], queries.setFullname, { fullName: userPayload.fullName })
+        .not.put(actions.authGetUserRequest())
+        .not.put(actions.authPrefetchRequest())
+        .put(actions.authSigninAppleSuccess())
+
+        .dispatch(actions.authSigninAppleRequest())
+        .silentRun()
+
+      testNavigate(navigation, 'Auth.AuthUsername', { nextRoute: 'app' })
+    })
+
+    it('failure', async () => {
+      handleAnonymousSignin.mockRejectedValueOnce(error)
+
+      await expectSaga(testAsRootSaga(authSigninApple))
+        .provide(context)
+
+        .put(actions.authSigninAppleFailure(error))
+
+        .dispatch(actions.authSigninAppleRequest())
+        .silentRun()
     })
   })
 })

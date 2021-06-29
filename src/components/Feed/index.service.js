@@ -13,7 +13,7 @@ const FeedService = ({ children }) => {
   const postsFeedGet = useSelector(postsSelector.postsFeedGetSelector())
   const postsCreate = useSelector(postsSelector.postsCreate)
   const postsGetTrendingPosts = useSelector(postsSelector.postsGetTrendingPostsSelector())
-  const userId = useSelector(authSelector.authUserIdSelector)
+  const userId = useSelector(authSelector.authUserId)
 
   const updateRelatedData = () => {
     dispatch(usersActions.usersGetCardsRequest())

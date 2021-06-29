@@ -11,7 +11,7 @@ import path from 'ramda/src/path'
 const useProfilePhoto = (props) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
-  const user = useSelector(authSelector.authUserSelector)
+  const user = useSelector(authSelector.authUser)
   const isAvatarEmpty = helpers.isAvatarEmpty(user)
   const avatarUrl = path(['photo', 'url480p'])(user)
   const backRoute = path(['backRoute'], props)

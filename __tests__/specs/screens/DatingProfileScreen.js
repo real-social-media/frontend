@@ -5,6 +5,7 @@ import { testNavigate } from 'tests/utils/helpers'
 import { useNavigation } from '@react-navigation/native'
 import * as authSelector from 'store/ducks/auth/selectors'
 import * as usersActions from 'store/ducks/users/actions'
+import * as authActions from 'store/ducks/auth/actions'
 import * as usersSelector from 'store/ducks/users/selectors'
 import * as ReactRedux from 'react-redux'
 import DatingCard from 'components/Dating/Card'
@@ -19,7 +20,7 @@ const user = {
   userStatus: 'ACTIVE',
 }
 
-jest.spyOn(authSelector, 'authUserSelector').mockReturnValue(user)
+jest.spyOn(authSelector, 'authUser').mockReturnValue(user)
 jest.mock('@react-navigation/native', () => ({
   useNavigation: jest.fn(),
   useFocusEffect: jest.fn(),
@@ -51,7 +52,7 @@ describe('DatingProfileScreen', () => {
     it('request data for authorized user', () => {
       setup()
 
-      expect(dispatch).toHaveBeenCalledWith(usersActions.usersGetProfileSelfRequest())
+      expect(dispatch).toHaveBeenCalledWith(authActions.authGetUserRequest())
       expect(dispatch).toHaveBeenCalledWith(
         usersActions.usersImagePostsGetRequest({ userId: user.userId, isVerified: true }),
       )
@@ -70,7 +71,7 @@ describe('DatingProfileScreen', () => {
     })
 
     it('open dating button', async () => {
-      authSelector.authUserSelector.mockReturnValue({ ...user, datingStatus: 'ENABLED' })
+      authSelector.authUser.mockReturnValue({ ...user, datingStatus: 'ENABLED' })
       const { queryByText } = setup()
 
       expect(queryByText('Start Dating')).toBeFalsy()
@@ -80,7 +81,7 @@ describe('DatingProfileScreen', () => {
       })
 
       testNavigate(navigation, 'Dating.Dating')
-      authSelector.authUserSelector.mockReturnValue(user)
+      authSelector.authUser.mockReturnValue(user)
     })
   })
 
@@ -127,7 +128,7 @@ describe('DatingProfileScreen', () => {
     })
 
     it('redirect to dating on success', async () => {
-      authSelector.authUserSelector.mockReturnValue({ ...user, datingStatus: 'ENABLED' })
+      authSelector.authUser.mockReturnValue({ ...user, datingStatus: 'ENABLED' })
       const { store } = setup()
 
       await act(async () => {
@@ -135,7 +136,7 @@ describe('DatingProfileScreen', () => {
       })
 
       testNavigate(navigation, 'Dating.Dating')
-      authSelector.authUserSelector.mockReturnValue(user)
+      authSelector.authUser.mockReturnValue(user)
     })
   })
 })

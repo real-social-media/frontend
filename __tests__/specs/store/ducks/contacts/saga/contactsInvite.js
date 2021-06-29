@@ -6,21 +6,23 @@ import * as authSelectors from 'store/ducks/auth/selectors'
 import * as actions from 'store/ducks/contacts/actions'
 import * as queries from 'store/ducks/contacts/queries'
 import * as queryService from 'services/Query'
+import * as LinkingService from 'services/Linking'
 
 jest.spyOn(Alert, 'alert')
 jest.spyOn(Linking, 'openURL')
 Linking.openURL.mockResolvedValue(true)
 
 jest.mock('services/Query', () => ({ apiRequest: jest.fn().mockResolvedValue(true) }))
-jest.mock('store/ducks/auth/selectors', () => ({ authUserSelector: jest.fn() }))
+jest.mock('store/ducks/auth/selectors', () => ({ authUser: jest.fn() }))
+jest.mock('react-native-config', () => ({ APPSTORE_ID: 'APPSTORE_ID', APPSTORE_NAME: 'APPSTORE_NAME' }))
 
-authSelectors.authUserSelector.mockReturnValue({ username: 'username' })
+authSelectors.authUser.mockReturnValue({ username: 'username' })
 
 const user = { contactId: 1 }
 const emailContact = { value: 'test@email.com', type: 'email' }
 const phoneContact = { value: '+12342343', type: 'phone' }
 const subject = 'Invite to REAL.app'
-const body = 'https://apps.apple.com/us/app/real-social-media/id1485194570?referralId=username&ls=1'
+const body = `${LinkingService.getStoreLink()}?referralId=username&ls=1`
 const emptyInvitedState = { contacts: { invited: { items: [] } } }
 
 describe('Contacts Invite saga', () => {

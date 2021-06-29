@@ -4,14 +4,16 @@ import { getContext } from 'redux-saga/effects'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import notificationSubscription from 'store/ducks/subscriptions/saga/notifications'
 import * as postsActions from 'store/ducks/posts/actions'
+import * as authActions from 'store/ducks/auth/actions'
 import * as usersActions from 'store/ducks/users/actions'
 import * as subscriptionsActions from 'store/ducks/subscriptions/actions'
 import { sleep } from 'tests/utils'
+import { makeAuthorizedState } from 'tests/utils/helpers'
 
 const AwsAPI = { graphql: jest.fn() }
 const subscription = { subscribe: jest.fn(), unsubscribe: jest.fn() }
 const unsubscribe = jest.fn()
-const store = { auth: { user: 'user-id' } }
+const store = makeAuthorizedState({ userId: '1' })
 
 subscription.subscribe.mockReturnValue({ _state: 'ready', unsubscribe })
 AwsAPI.graphql.mockReturnValue(subscription)
@@ -41,7 +43,7 @@ describe('notificationSubscription', () => {
 
     it('USER_CHATS_WITH_UNVIEWED_MESSAGES_COUNT_CHANGED', async () => {
       const promise = createSaga(store)
-        .put(usersActions.usersGetProfileSelfRequest())
+        .put(authActions.authGetUserRequest())
         .dispatch(subscriptionsActions.subscriptionsMainRequest())
         .silentRun()
 

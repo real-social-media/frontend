@@ -2,7 +2,24 @@ import React from 'react'
 import MembershipComponent from 'components/Membership'
 import { renderWithProviders, fireEvent } from 'tests/utils'
 
-const requiredProps = { purchasesRequest: { status: 'idle' }, retryPurchase: { status: 'idle' } }
+/**
+ * Mock Data
+ */
+const subscriptionGet = {
+  success: {
+    status: 'success',
+    data: {
+      localizedPrice: '$0.99',
+    },
+  },
+}
+
+const requiredProps = {
+  purchasesRequest: { status: 'idle' },
+  retryPurchase: { status: 'idle' },
+  subscriptionGet: { status: 'idle' },
+}
+
 const setup = (props) => renderWithProviders(<MembershipComponent {...requiredProps} {...props} />)
 
 describe('Membership component', () => {
@@ -35,32 +52,51 @@ describe('Membership component', () => {
     getByText('Chat with us 24/7, we are at your service')
   })
 
-  it('subscribe button', () => {
-    const requestSubscription = jest.fn()
-    const { getByText, queryByText } = setup({ requestSubscription })
-    const $button = getByText('Subscribe for $0.99 month')
+  describe('subscribe button', () => {
+    it('subscribe button', () => {
+      const requestSubscription = jest.fn()
+      const { getByText } = setup({ requestSubscription, subscriptionGet: subscriptionGet.success })
+      const $button = getByText('Subscribe for $0.99 month')
 
-    expect(queryByText('Start with a 1 month free trial')).toBeTruthy()
+      expect($button).toBeEnabled()
+      fireEvent.press($button)
+      expect(requestSubscription).toHaveBeenCalled()
+    })
 
-    expect($button).toBeEnabled()
-    fireEvent.press($button)
-    expect(requestSubscription).toHaveBeenCalled()
-  })
+    it('subscribe submitting state', () => {
+      const requestSubscription = jest.fn()
+      const { getByText } = setup({
+        requestSubscription,
+        purchasesRequest: { status: 'loading' },
+        subscriptionGet: subscriptionGet.success,
+      })
 
-  it('subscribe submitting state', () => {
-    const requestSubscription = jest.fn()
-    const { getByText } = setup({ requestSubscription, purchasesRequest: { status: 'loading' } })
-    const $button = getByText('Subscribe for $0.99 month')
+      const $button = getByText('Subscribe for $0.99 month')
 
-    expect($button).toBeDisabled()
+      expect($button).toBeDisabled()
+    })
+
+    it('price loading', () => {
+      const requestSubscription = jest.fn()
+      const { getByText } = setup({ requestSubscription, subscriptionGet: { status: 'loading' } })
+      const $button = getByText('Loading price')
+
+      expect($button).toBeDisabled()
+    })
+
+    it('price loading failure', () => {
+      const requestSubscription = jest.fn()
+      const { getByText } = setup({ requestSubscription, subscriptionGet: { status: 'failure' } })
+
+      getByText('Loading price failed')
+      getByText('Pull down to refresh')
+    })
   })
 
   it('unsubscribe button', () => {
     const manageSubscriptions = jest.fn()
-    const { getByText, queryByText } = setup({ manageSubscriptions, isSubscribed: true })
+    const { getByText } = setup({ manageSubscriptions, isSubscribed: true })
     const $button = getByText('Unsubscribe')
-
-    expect(queryByText('Start with a 1 month free trial')).not.toBeTruthy()
 
     fireEvent.press($button)
     expect(manageSubscriptions).toHaveBeenCalled()
@@ -68,7 +104,11 @@ describe('Membership component', () => {
 
   it('purchasesRequest failure', () => {
     const retryPurchaseRequest = jest.fn()
-    const { getByText, queryByText } = setup({ retryPurchaseRequest, purchasesRequest: { status: 'failure' } })
+    const { getByText, queryByText } = setup({
+      retryPurchaseRequest,
+      purchasesRequest: { status: 'failure' },
+      subscriptionGet: subscriptionGet.success,
+    })
     const $button = getByText('Retry Subscription')
 
     expect(queryByText('Unsubscribe')).toBeFalsy()
@@ -80,7 +120,11 @@ describe('Membership component', () => {
 
   it('retryPurchase failure', () => {
     const retryPurchaseRequest = jest.fn()
-    const { getByText, queryByText } = setup({ retryPurchaseRequest, retryPurchase: { status: 'failure' } })
+    const { getByText, queryByText } = setup({
+      retryPurchaseRequest,
+      retryPurchase: { status: 'failure' },
+      subscriptionGet: subscriptionGet.success,
+    })
     const $button = getByText('Retry Subscription')
 
     expect(queryByText('Unsubscribe')).toBeFalsy()

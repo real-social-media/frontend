@@ -4,7 +4,7 @@ import * as usersSelector from 'store/ducks/users/selectors'
 
 const StoriesService = ({ children }) => {
   const usersGetFollowedUsersWithStories = useSelector(usersSelector.usersGetFollowedUsersWithStoriesSelector())
-  const user = useSelector(authSelector.authUserSelector)
+  const user = useSelector(authSelector.authUser)
 
   return children({
     user,

@@ -57,19 +57,14 @@ const TextGrowing = ({
         label={placeholder}
         disabled={disabled}
         maxLength={255}
-        // returnKeyType="done"
-        // blurOnSubmit={true}
         scrollEnabled={true}
-        onContentSizeChange={e => setHeight(e.nativeEvent.contentSize.height + 12)}
+        onContentSizeChange={e => setHeight(e.nativeEvent.contentSize.height)}
       />
-      {/*<ErrorMessage name={name} render={msg => <Text style={styling.error}>{msg}</Text>} />*/}
     </View>
   )
 }
 
 const styles = theme => StyleSheet.create({
-  root: {
-  },
   input: {
     minHeight: 42,
     padding: 12,
@@ -80,10 +75,6 @@ const styles = theme => StyleSheet.create({
     borderWidth: 1,
     borderRadius: 2,
     borderColor: theme.colors.border,
-  },
-  error: {
-    textAlign: 'right',
-    fontSize: 11,
   },
 })
 

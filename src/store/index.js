@@ -69,12 +69,8 @@ const initializeStore = ({ navigationRef }) => {
   })
 
   const persistedReducer = persistReducer(persistConfig, rootReducer)
-
-  const store = createStore(
-    persistedReducer,
-    composeEnhancers(applyMiddleware(networkMiddleware, sagaMiddleware)),
-  )
-
+  const middlewares = applyMiddleware(networkMiddleware, sagaMiddleware)
+  const store = createStore(persistedReducer, composeEnhancers(middlewares))
   const persistor = persistStore(store)
 
   sagaMiddleware.run(rootSaga, persistor)

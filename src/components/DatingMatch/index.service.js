@@ -10,7 +10,7 @@ import pathOr from 'ramda/src/pathOr'
 const DatingMatchService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
-  const user = useSelector(authSelector.authUserSelector)
+  const user = useSelector(authSelector.authUser)
   const usersEditProfile = useSelector(usersSelector.usersEditProfile)
   const route = useRoute()
   const nextAction = pathOr(false, ['params', 'nextAction'], route)

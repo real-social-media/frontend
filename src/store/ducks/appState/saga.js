@@ -7,11 +7,11 @@ import * as authSelector from 'store/ducks/auth/selectors'
 
 function* appStateLaunched() {
   yield put(updatesActions.updatesCheckRequest())
-  yield put(authActions.authFlowRequest({ allowAnonymous: false }))
+  yield put(authActions.authFlowRequest())
 }
 
 function* appStateForeground() {
-  const userId = yield select(authSelector.authUserIdSelector)
+  const userId = yield select(authSelector.authUserId)
 
   yield put(updatesActions.updatesCheckRequest())
 

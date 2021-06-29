@@ -27,7 +27,7 @@ describe('AuthPasswordScreen', () => {
 
     testField(getByLabelText('password'), {
       name: 'password',
-      value: '',
+      value: undefined,
       ...Validation.getInputTypeProps('password'),
     })
   })
@@ -41,16 +41,6 @@ describe('AuthPasswordScreen', () => {
     expect(signupPasswordRequest).toHaveBeenCalledWith({ password })
 
     signupPasswordRequest.mockRestore()
-  })
-
-  it('initial values', async () => {
-    const { getByLabelText, store } = setup()
-
-    await act(async () => {
-      store.dispatch(signupActions.signupPasswordRequest({ password }))
-    })
-
-    expect(getByLabelText('password').props.value).toBe(password)
   })
 
   it('loading state', async () => {

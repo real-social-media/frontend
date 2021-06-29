@@ -11,7 +11,7 @@ const PromocodesService = ({ children }) => {
   const dispatch = useDispatch()
 
   const promoCodesRedeem = useSelector(selectors.promoCodesRedeem)
-  const user = useSelector(authSelector.authUserSelector)
+  const user = useSelector(authSelector.authUser)
   const isSubscribed = UserService.isUserSubscribed(user)
 
   const handleFormTransform = (values) => ({

@@ -1,7 +1,8 @@
 import { useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import * as postsActions from 'store/ducks/posts/actions'
-import path from 'ramda/src/path'
+
+export const unpaid = (post) => post.payment > 0.00001 && post.viewedStatus !== 'VIEWED'
 
 export const useViewable = () => {
   const dispatch = useDispatch()
@@ -10,8 +11,14 @@ export const useViewable = () => {
    * Triggers when FlatList item is in view area and viewabilityConfig conditions are met
    */
   const onViewableItemsChanged = ({ viewableItems, viewType }) => {
-    const postIds = viewableItems.map(viewable => path(['item', 'postId'])(viewable))
-      .filter(item => item)
+    const postIds = viewableItems.reduce((acc, { item: post }) => {
+
+      if (unpaid(post)) {
+        return acc
+      } else {
+        return [...acc, post.postId]
+      }
+    }, [])
 
     if (!Array.isArray(postIds) || !postIds.length) {
       return
@@ -36,11 +43,11 @@ export const useViewable = () => {
     onViewableItemsChanged({ viewableItems, viewType: 'FOCUS' })
   })
 
-  return ({
+  return {
     onViewableItemsThumbnailsRef,
     onViewableItemsFocusRef,
     viewabilityConfigRef,
-  })
+  }
 }
 
 export default useViewable

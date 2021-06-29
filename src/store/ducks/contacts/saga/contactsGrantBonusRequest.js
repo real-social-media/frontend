@@ -2,6 +2,7 @@ import find from 'ramda/src/find'
 import pathOr from 'ramda/src/pathOr'
 import { put, call, select, takeEvery } from 'redux-saga/effects'
 import * as usersConstants from 'store/ducks/users/constants'
+import * as authActions from 'store/ducks/auth/actions'
 import * as usersActions from 'store/ducks/users/actions'
 import * as constants from 'store/ducks/contacts/constants'
 import * as selectors from 'store/ducks/contacts/selectors'
@@ -15,7 +16,7 @@ import * as LinkingService from 'services/Linking'
 
 function* contactsCheckBonusRequest() {
   try {
-    const user = yield select(authSelector.authUserSelector)
+    const user = yield select(authSelector.authUser)
     const { invited } = yield select(selectors.contactsInvite)
 
     if (!UserService.isUserAuthorized(user)) return
@@ -39,7 +40,7 @@ function* contactsGrantBonusRequest(req) {
 }
 
 function* contactsGrantBonusSuccess() {
-  yield put(usersActions.usersGetProfileSelfRequest())
+  yield put(authActions.authGetUserRequest())
 }
 
 function* handleGrantBonusCard(req) {

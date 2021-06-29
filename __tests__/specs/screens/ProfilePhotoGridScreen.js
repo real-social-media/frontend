@@ -26,7 +26,7 @@ jest.mock('@react-navigation/native', () => ({
 const navigation = { navigate: jest.fn(), setOptions: jest.fn(), goBack: jest.fn() }
 useNavigation.mockReturnValue(navigation)
 
-jest.spyOn(authSelector, 'authUserSelector').mockReturnValue(user)
+jest.spyOn(authSelector, 'authUser').mockReturnValue(user)
 
 describe('ProfilePhotoGridScreen', () => {
   afterEach(() => {

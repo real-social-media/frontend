@@ -9,8 +9,8 @@ import { useEffectWhenFocused } from 'services/hooks'
 const AlbumsGridService = ({ children }) => {
   const dispatch = useDispatch()
   const route = useRoute()
-  const authUser = useSelector(authSelector.authUserSelector)
-  const userId = pathOr(authUser.userId, ['params', 'userId'], route)
+  const authUserId = useSelector(authSelector.authUserId)
+  const userId = pathOr(authUserId, ['params', 'userId'], route)
   const albumsGet = useSelector(albumsSelector.albumsGetSelector(userId))
 
   const albumsGetRequest = ({ nextToken }) =>

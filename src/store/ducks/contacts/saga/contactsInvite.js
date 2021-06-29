@@ -1,8 +1,9 @@
 import { Linking } from 'react-native'
 import { put, call, select } from 'redux-saga/effects'
-import { authUserSelector } from 'store/ducks/auth/selectors'
+import * as authSelector from 'store/ducks/auth/selectors'
 import * as actions from 'store/ducks/contacts/actions'
 import path from 'ramda/src/path'
+import * as LinkingService from 'services/Linking'
 
 const getContactId = path(['payload', 'user', 'contactId'])
 
@@ -10,9 +11,9 @@ function* contactsInviteRequest(req) {
   const contactId = getContactId(req)
 
   try {
-    const authUser = yield select(authUserSelector)
+    const authUser = yield select(authSelector.authUser)
     const subject = 'Invite to REAL.app'
-    const body = `https://apps.apple.com/us/app/real-social-media/id1485194570?referralId=${authUser.username}&ls=1`
+    const body = `${LinkingService.getStoreLink()}?referralId=${authUser.username}&ls=1`
     const { contact } = req.payload
 
     if (contact.type === 'email') {

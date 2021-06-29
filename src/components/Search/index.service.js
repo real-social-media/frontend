@@ -12,13 +12,10 @@ import SearchFeedContext from 'components/Search/Context'
 const SearchService = ({ children }) => {
   const dispatch = useDispatch()
   const { feedRef, formFocus, handleFormFocus } = useContext(SearchFeedContext)
-  const user = useSelector(authSelector.authUserSelector)
+  const user = useSelector(authSelector.authUser)
   const usersSearch = useSelector(usersSelector.usersSearchSelector())
-  const usersFollow = useSelector(state => state.users.usersFollow)
-  const usersUnfollow = useSelector(state => state.users.usersUnfollow)
   const usersGetTrendingUsers = useSelector(usersSelector.usersGetTrendingUsersSelector())
   const postsGetTrendingPosts = useSelector(postsSelector.postsGetTrendingPostsSelector())
-  const usersAcceptFollowerUser = useSelector(state => state.users.usersAcceptFollowerUser)
 
   /**
    * FlatList feed ref, used for scroll to top on tab bar press
@@ -36,15 +33,6 @@ const SearchService = ({ children }) => {
    */
   const postsGetTrendingPostsRequest = () =>
     dispatch(postsActions.postsGetTrendingPostsRequest())
-
-  const usersFollowRequest = ({ userId }) =>
-    dispatch(usersActions.usersFollowRequest({ userId }))
-
-  const usersUnfollowRequest = ({ userId }) =>
-    dispatch(usersActions.usersUnfollowRequest({ userId }))
-
-  const usersAcceptFollowerUserRequest = ({ userId }) =>
-    dispatch(usersActions.usersAcceptFollowerUserRequest({ userId }))
 
   const postsGetTrendingPostsMoreRequest = (payload) =>
     dispatch(postsActions.postsGetTrendingPostsMoreRequest({ ...payload }))
@@ -67,12 +55,6 @@ const SearchService = ({ children }) => {
     user,
     usersSearch,
     usersSearchRequest,
-    usersFollow,
-    usersFollowRequest,
-    usersUnfollow,
-    usersUnfollowRequest,
-    usersAcceptFollowerUser,
-    usersAcceptFollowerUserRequest,
     usersGetTrendingUsers,
     postsGetTrendingPosts,
     postsGetTrendingPostsMoreRequest,

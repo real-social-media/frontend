@@ -2,7 +2,7 @@ import { expectSaga } from 'redux-saga-test-plan'
 import { testAsRootSaga } from 'tests/utils/helpers'
 import * as actions from 'store/ducks/promocodes/actions'
 import * as queries from 'store/ducks/promocodes/queries'
-import * as usersActions from 'store/ducks/users/actions'
+import * as authActions from 'store/ducks/auth/actions'
 import promocodes from 'store/ducks/promocodes/saga'
 import * as queryService from 'services/Query'
 
@@ -19,7 +19,7 @@ describe('Promocodes saga', () => {
     await expectSaga(testAsRootSaga(promocodes))
       .call(queryService.apiRequest, queries.redeemPromotion, { code })
       .put(actions.promoCodesRedeemSuccess())
-      .put(usersActions.usersGetProfileSelfRequest())
+      .put(authActions.authGetUserRequest())
 
       .dispatch(actions.promoCodesRedeemRequest({ code }))
       .silentRun()
@@ -32,7 +32,7 @@ describe('Promocodes saga', () => {
     await expectSaga(testAsRootSaga(promocodes))
       .put(actions.promoCodesRedeemFailure(error))
       .not.put(actions.promoCodesRedeemSuccess())
-      .not.put(usersActions.usersGetProfileSelfRequest())
+      .not.put(authActions.authGetUserRequest())
 
       .dispatch(actions.promoCodesRedeemRequest({ code }))
       .silentRun()

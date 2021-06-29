@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import {
   View,
@@ -17,7 +17,6 @@ const FeedCards = ({
 }) => {
   const theme = useTheme()
   const styling = styles(theme)
-  const cardsRef = useRef(null)
 
   if (!cards.length) {
     return null
@@ -26,7 +25,6 @@ const FeedCards = ({
   return (
     <View style={styling.root}>
       <Carousel
-        ref={cardsRef}
         data={cards}
         renderItem={Card({
           borderColor: theme.colors.border,
@@ -64,3 +62,5 @@ const styles = theme => StyleSheet.create({
 })
 
 export default React.memo(FeedCards, equals)
+
+

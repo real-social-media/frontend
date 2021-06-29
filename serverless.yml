@@ -1,0 +1,129 @@
+# Welcome to Serverless!
+#
+# For full config options, check the docs:
+# docs.serverless.com
+
+service: real-social-web
+frameworkVersion: '>=2.0.0 <3.0.0'
+
+provider:
+  name: aws
+  stackName: real-social-${self:provider.stage}-web
+  stage: ${opt:stage, 'dev'}
+  logRetentionInDays: 7
+
+plugins:
+  - serverless-plugin-git-variables
+  - serverless-pseudo-parameters
+  - serverless-s3-deploy
+  - serverless-cloudfront-invalidate
+
+custom:
+  assets:
+    auto: true
+    targets:
+      - bucket: !Ref WebsiteBucket
+        files:
+          - source: ./build/
+            globs:
+              - '**'
+
+  cloudfrontInvalidate:
+    - distributionIdKey: CloudFrontWebsiteDistributionId
+      items:
+        - /index.html
+
+resources:
+  Resources:
+    WebsiteBucket:
+      Type: AWS::S3::Bucket
+      DeletionPolicy: Retain
+      Properties:
+        AccessControl: Private
+        BucketName: ${self:provider.stackName}-#{AWS::AccountId}
+        PublicAccessBlockConfiguration:
+          BlockPublicAcls: true
+          BlockPublicPolicy: true
+          IgnorePublicAcls: true
+          RestrictPublicBuckets: true
+        BucketEncryption:
+          ServerSideEncryptionConfiguration:
+            - ServerSideEncryptionByDefault:
+                SSEAlgorithm: AES256
+
+    WebsiteBucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket:
+          Ref: WebsiteBucket
+        PolicyDocument:
+          Statement:
+            - Action:
+                - 's3:GetObject'
+              Effect: Allow
+              Resource: !Join [/, [!GetAtt WebsiteBucket.Arn, '*']]
+              Principal:
+                CanonicalUser: !GetAtt WebsiteCloudFrontOriginAccessIdentity.S3CanonicalUserId
+
+    WebsiteCloudFrontDistribution:
+      Type: AWS::CloudFront::Distribution
+      Properties:
+        DistributionConfig:
+          CustomErrorResponses:
+            - ErrorCode: 404
+              ErrorCachingMinTTL: 300
+              ResponseCode: 200
+              ResponsePagePath: /index.html
+            - ErrorCode: 403
+              ErrorCachingMinTTL: 300
+              ResponseCode: 200
+              ResponsePagePath: /index.html
+          ViewerCertificate:
+            CloudFrontDefaultCertificate: true
+          DefaultCacheBehavior:
+            AllowedMethods:
+              - GET
+              - HEAD
+              - OPTIONS
+            Compress: true
+            ForwardedValues:
+              QueryString: false
+              Cookies:
+                Forward: none
+            TargetOriginId: WebsiteCloudFrontDistributionOriginId
+            ViewerProtocolPolicy: redirect-to-https
+          DefaultRootObject: index.html
+          Enabled: true
+          Origins:
+            - DomainName: !GetAtt WebsiteBucket.DomainName
+              Id: WebsiteCloudFrontDistributionOriginId
+              S3OriginConfig:
+                OriginAccessIdentity:
+                  !Join [/, [origin-access-identity, cloudfront, Ref: WebsiteCloudFrontOriginAccessIdentity]]
+
+    WebsiteCloudFrontOriginAccessIdentity:
+      Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
+      Properties:
+        CloudFrontOriginAccessIdentityConfig:
+          Comment: 'Origin Access Identity for Cloud Front formation of Website bucket'
+
+  Outputs:
+    CloudFrontWebsiteDistributionId:
+      Value:
+        Ref: WebsiteCloudFrontDistribution
+
+    CloudFrontWebsiteDomainName:
+      Value: !GetAtt WebsiteCloudFrontDistribution.DomainName
+
+    GitBranch:
+      Value: ${git:branch}
+
+    GitDescribe:
+      Value: ${git:describeLight}
+
+    GitIsDirty:
+      Value: ${git:isDirty}
+
+    S3WebsiteBucketName:
+      Value:
+        Ref: WebsiteBucket

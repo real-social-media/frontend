@@ -53,17 +53,29 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   component: {
-    ...StyleSheet.absoluteFill,
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
     width: '100%',
     height: '100%',
   },
   nested: {
-    ...StyleSheet.absoluteFill,
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
     width: '100%',
     height: '100%',
   },
   gradient: {
-    ...StyleSheet.absoluteFill,
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
 })
 

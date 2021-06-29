@@ -14,8 +14,8 @@ import * as promocodes from 'store/ducks/promocodes/reducer'
 import rootReducer from 'store/reducers'
 import * as entitiesActions from 'store/ducks/entities/actions'
 import * as authActions from 'store/ducks/auth/actions'
-import { applyActions } from 'tests/utils/helpers'
-import Storage  from 'services/Storage'
+import { applyActions, mockDate } from 'tests/utils/helpers'
+import Storage from 'services/Storage'
 
 jest.spyOn(Storage, 'clearAll')
 
@@ -48,6 +48,16 @@ const entitiesMergeActions = [
 ]
 
 describe('rootReducer', () => {
+  let dateMock
+
+  beforeAll(() => {
+    dateMock = mockDate('2020-02-14')
+  })
+
+  afterAll(() => {
+    dateMock.mockFn.mockRestore()
+  })
+
   afterEach(() => {
     Storage.clearAll.mockClear()
   })
@@ -58,15 +68,16 @@ describe('rootReducer', () => {
 
   it('applyActions', () => {
     const state = applyActions(entitiesMergeActions, rootReducer)
+    const updatedAt = 1581638400000
 
     expect(state.entities).toEqual({
-      albums: data,
-      posts: data,
-      comments: data,
-      users: data,
-      images: data,
-      chats: data,
-      messages: data,
+      albums: { ...data, updatedAt },
+      posts: { ...data, updatedAt },
+      comments: { ...data, updatedAt },
+      users: { ...data, updatedAt },
+      images: { ...data, updatedAt },
+      chats: { ...data, updatedAt },
+      messages: { ...data, updatedAt },
     })
   })
 

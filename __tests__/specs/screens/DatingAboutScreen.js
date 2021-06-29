@@ -30,7 +30,7 @@ useNavigation.mockReturnValue(navigation)
 
 jest.spyOn(RNPermissions, 'request').mockResolvedValue(true)
 jest.spyOn(RNPermissions, 'check').mockResolvedValue(RNPermissions.RESULTS.GRANTED)
-jest.spyOn(authSelector, 'authUserSelector').mockReturnValue(user)
+jest.spyOn(authSelector, 'authUser').mockReturnValue(user)
 
 describe('DatingAboutScreen', () => {
   afterEach(() => {
@@ -70,7 +70,7 @@ describe('DatingAboutScreen', () => {
     })
 
     it('default values', async () => {
-      authSelector.authUserSelector.mockReturnValue({})
+      authSelector.authUser.mockReturnValue({})
       const { getByAccessibilityLabel } = setup()
 
       await act(async () => {
@@ -85,7 +85,7 @@ describe('DatingAboutScreen', () => {
       testField(getByAccessibilityLabel('height'), { value: '5\'0"' })
       testField(getByAccessibilityLabel('displayName'), { value: undefined })
 
-      authSelector.authUserSelector.mockReturnValue(user)
+      authSelector.authUser.mockReturnValue(user)
     })
 
     it('values from profile', async () => {

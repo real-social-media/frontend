@@ -10,13 +10,11 @@ const RowsItemTemplate = ({
   hasBorders,
   testID,
 }) => {
-  const styling = styles
-
-  const rootStyle = hasBorders ? styling.rootBorder : styling.rootDefault
+  const rootStyle = hasBorders ? styles.rootBorder : styles.rootDefault
 
   return (
     <View testID={testID} style={rootStyle}>
-      <View style={styling.component}>
+      <View style={styles.component}>
         {children}
       </View>
     </View>

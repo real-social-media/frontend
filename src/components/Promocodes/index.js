@@ -5,7 +5,7 @@ import color from 'color'
 import { Text, withTheme } from 'react-native-paper'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 import FormComponent from 'components/Promocodes/Form'
-import CouponIcon from 'assets/svg/settings/Coupon'
+import CouponIcon from 'assets/svg/promocodes/Coupon'
 import { withTranslation } from 'react-i18next'
 import * as navigationActions from 'navigation/actions'
 
@@ -16,7 +16,7 @@ const Promocodes = ({ t, theme, navigation, handleFormSubmit, formSubmitLoading,
     <View style={styling.root}>
       <View style={styling.heading}>
         <View style={styling.info}>
-          <CouponIcon size={48} fill={theme.colors.text} />
+          <CouponIcon fill={theme.colors.text} />
         </View>
         <Text style={styling.headingTitle}>{t('Promocodes')}</Text>
         {isSubscribed ? (

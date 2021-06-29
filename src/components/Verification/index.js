@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { TouchableOpacity, SafeAreaView, StyleSheet, View } from 'react-native'
+import useToggle from 'react-use/lib/useToggle'
+import { ScrollView, SafeAreaView, StyleSheet, View, Image, Modal } from 'react-native'
 import { Text } from 'react-native-paper'
 import SpaceshipIcon from 'assets/svg/verification/Spaceship'
 import CameraIcon from 'assets/svg/verification/Camera'
@@ -12,7 +13,6 @@ import DefaultButton from 'components/Formik/Button/DefaultButton'
 
 import { withTheme } from 'react-native-paper'
 import { withTranslation } from 'react-i18next'
-import testIDs from './test-ids'
 
 export const VERIFICATION_TYPE = {
   HOME: 'HOME',
@@ -21,22 +21,20 @@ export const VERIFICATION_TYPE = {
   BACK: 'BACK',
 }
 
-const Verification = ({
-  t,
-  theme,
-  handleBackAction,
-  handleHideAction,
-  handleContinueAction,
-  handleClose,
-  actionType,
-}) => {
+export const a11y = {
+  openELABtn: 'Open more details',
+  closeELABtn: 'Close more details',
+  ELAImage: 'ELA Image',
+  ELAModal: 'More details modal',
+}
+
+const Verification = ({ t, theme, handleBackAction, handleHideAction, handleContinueAction, actionType, urlEla }) => {
   const styling = styles(theme)
+  const [isELAopen, toggleELA] = useToggle(false)
 
   return (
-    <View style={styling.root}>
-      <TouchableOpacity testID={testIDs.backdrop} style={styling.backdrop} onPress={handleClose} />
-
-      <SafeAreaView style={styling.component}>
+    <ScrollView style={styling.root}>
+      <SafeAreaView>
         <View style={styling.heading}>
           <View style={styling.info}>
             <SpaceshipIcon fill={theme.colors.text} />
@@ -46,6 +44,35 @@ const Verification = ({
             {t('You’re perfect! Verify future posts to get them trending faster!')}
           </Text>
         </View>
+
+        {urlEla && (
+          <>
+            <DefaultButton
+              onPress={toggleELA}
+              style={styling.openELABtn}
+              accessibilityLabel={a11y.openELABtn}
+              label={t('More Details')}
+              mode="outlined"
+              size="compact"
+            />
+            <Modal
+              accessibilityLabel={a11y.ELAModal}
+              presentationStyle="formSheet"
+              animationType="slide"
+              visible={isELAopen}
+            >
+              <View style={styling.elaModal}>
+                <Image
+                  style={styling.elaImage}
+                  resizeMode="cover"
+                  accessibilityLabel={a11y.ELAImage}
+                  source={{ uri: urlEla }}
+                />
+                <DefaultButton accessibilityLabel={a11y.closeELABtn} onPress={toggleELA} label={t('Close')} />
+              </View>
+            </Modal>
+          </>
+        )}
 
         <View style={styling.subheading}>
           <View style={styling.subheadingIcon}>
@@ -132,7 +159,7 @@ const Verification = ({
           </View>
         ) : null}
       </SafeAreaView>
-    </View>
+    </ScrollView>
   )
 }
 
@@ -140,16 +167,8 @@ const styles = (theme) =>
   StyleSheet.create({
     root: {
       flex: 1,
-      justifyContent: 'flex-end',
+      paddingBottom: 24,
     },
-    backdrop: {
-      ...StyleSheet.absoluteFill,
-    },
-    component: {
-      borderRadius: 24,
-      backgroundColor: theme.colors.backgroundSecondary,
-    },
-
     info: {
       alignItems: 'center',
       paddingBottom: 12,
@@ -215,16 +234,34 @@ const styles = (theme) =>
       marginBottom: 6,
       textAlign: 'center',
     },
+    openELABtn: {
+      marginHorizontal: 24,
+      marginBottom: 24,
+    },
+    elaModal: {
+      padding: 24,
+      flex: 1,
+    },
+    elaImage: {
+      width: '100%',
+      flex: 1,
+      marginBottom: 24,
+    },
   })
 
 Verification.propTypes = {
   theme: PropTypes.any,
   t: PropTypes.any,
+  urlEla: PropTypes.string,
   handleBackAction: PropTypes.func,
   handleHideAction: PropTypes.func,
   handleContinueAction: PropTypes.func,
   handleClose: PropTypes.func,
   actionType: PropTypes.oneOf(Object.values(VERIFICATION_TYPE)),
+}
+
+Verification.defaultProps = {
+  urlEla: null,
 }
 
 export default withTranslation()(withTheme(Verification))

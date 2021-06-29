@@ -8,9 +8,15 @@ import * as constants from 'store/ducks/users/constants'
 import * as queryService from 'services/Query'
 import * as normalizer from 'normalizer/schemas'
 import usersCheckPermissions from 'store/ducks/users/saga/usersCheckPermissions'
-import usersImagePostsGetRequest from 'store/ducks/users/saga/usersImagePostsGetRequest'
-import usersGetProfileSelfRequest from 'store/ducks/users/saga/usersGetProfileSelfRequest'
-import usersSetUserDatingStatusRequest from 'store/ducks/users/saga/usersSetUserDatingStatus'
+import usersImagePostsGet from 'store/ducks/users/saga/usersImagePostsGet'
+import usersSetUserDatingStatus from 'store/ducks/users/saga/usersSetUserDatingStatus'
+import usersAcceptFollowerUser from 'store/ducks/users/saga/usersAcceptFollowerUser'
+import usersDeclineFollowerUser from 'store/ducks/users/saga/usersDeclineFollowerUser'
+import usersFollow from 'store/ducks/users/saga/usersFollow'
+import usersUnfollow from 'store/ducks/users/saga/usersUnfollow'
+import usersDelete from 'store/ducks/users/saga/usersDelete'
+import usersChangeAvatar from 'store/ducks/users/saga/usersChangeAvatar'
+import usersCreateAvatar from 'store/ducks/users/saga/usersCreateAvatar'
 import * as LinkingService from 'services/Linking'
 import { entitiesMerge } from 'store/ducks/entities/saga'
 
@@ -26,7 +32,7 @@ function* usersSearchRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizeUsersGet(data)
-  yield entitiesMerge(normalized)
+  yield call(entitiesMerge, normalized)
 
   return {
     data: normalized.result,
@@ -37,41 +43,11 @@ function* usersSearchRequestData(req, api) {
 
 function* usersSearchRequest(req) {
   try {
-    const data = yield queryService.apiRequest(queries.searchUsers, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.searchUsers, req.payload)
     const next = yield usersSearchRequestData(req, data)
     yield put(actions.usersSearchSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
     yield put(actions.usersSearchFailure(error, req.payload))
-  }
-}
-
-/**
- *
- */
-function* usersDeleteRequestData(req, api) {
-  const dataSelector = path(['data', 'deleteUser'])
-
-  const data = dataSelector(api)
-  const meta = {}
-  const payload = req.payload
-
-  const normalized = normalizer.normalizeUserGet(data)
-  yield entitiesMerge(normalized)
-
-  return {
-    data: normalized.result,
-    meta,
-    payload,
-  }
-}
-
-function* usersDeleteRequest(req) {
-  try {
-    const data = yield queryService.apiRequest(queries.deleteUser, req.payload)
-    const next = yield usersDeleteRequestData(req, data)
-    yield put(actions.usersDeleteSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
-  } catch (error) {
-    yield put(actions.usersDeleteFailure(error, req.payload))
   }
 }
 
@@ -87,7 +63,7 @@ function* usersGetFollowerUsersRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizeUsersGet(data)
-  yield entitiesMerge(normalized)
+  yield call(entitiesMerge, normalized)
 
   return {
     data: normalized.result,
@@ -98,7 +74,7 @@ function* usersGetFollowerUsersRequestData(req, api) {
 
 function* usersGetFollowerUsersRequest(req) {
   try {
-    const data = yield queryService.apiRequest(queries.getFollowerUsers, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.getFollowerUsers, req.payload)
     const next = yield usersGetFollowerUsersRequestData(req, data)
     yield put(actions.usersGetFollowerUsersSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
@@ -118,7 +94,7 @@ function* usersGetFollowedUsersRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizeUsersGet(data)
-  yield entitiesMerge(normalized)
+  yield call(entitiesMerge, normalized)
 
   return {
     data: normalized.result,
@@ -129,7 +105,7 @@ function* usersGetFollowedUsersRequestData(req, api) {
 
 function* usersGetFollowedUsersRequest(req) {
   try {
-    const data = yield queryService.apiRequest(queries.getFollowedUsers, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.getFollowedUsers, req.payload)
     const next = yield usersGetFollowedUsersRequestData(req, data)
     yield put(actions.usersGetFollowedUsersSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
@@ -149,7 +125,7 @@ function* usersGetPendingFollowersRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizeUsersGet(data)
-  yield entitiesMerge(normalized)
+  yield call(entitiesMerge, normalized)
 
   return {
     data: normalized.result,
@@ -160,7 +136,7 @@ function* usersGetPendingFollowersRequestData(req, api) {
 
 function* usersGetPendingFollowersRequest(req) {
   try {
-    const data = yield queryService.apiRequest(queries.getFollowerUsers, { ...req.payload, followStatus: 'REQUESTED' })
+    const data = yield call([queryService, 'apiRequest'], queries.getFollowerUsers, { ...req.payload, followStatus: 'REQUESTED' })
     const next = yield usersGetPendingFollowersRequestData(req, data)
     yield put(actions.usersGetPendingFollowersSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
@@ -180,7 +156,7 @@ function* usersGetFollowedUsersWithStoriesRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizeUsersGet(data)
-  yield entitiesMerge(normalized)
+  yield call(entitiesMerge, normalized)
 
   return {
     data: normalized.result,
@@ -191,71 +167,11 @@ function* usersGetFollowedUsersWithStoriesRequestData(req, api) {
 
 function* usersGetFollowedUsersWithStoriesRequest(req) {
   try {
-    const data = yield queryService.apiRequest(queries.getFollowedUsersWithStories, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.getFollowedUsersWithStories, req.payload)
     const next = yield usersGetFollowedUsersWithStoriesRequestData(req, data)
     yield put(actions.usersGetFollowedUsersWithStoriesSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
     yield put(actions.usersGetFollowedUsersWithStoriesFailure(error, req.payload))
-  }
-}
-
-/**
- *
- */
-function* usersAcceptFollowerUserRequestData(req, api) {
-  const dataSelector = path(['data', 'acceptFollowerUser'])
-
-  const data = dataSelector(api)
-  const meta = {}
-  const payload = req.payload
-
-  const normalized = normalizer.normalizeUserGet(data)
-  yield entitiesMerge(normalized)
-
-  return {
-    data: normalized.result,
-    meta,
-    payload,
-  }
-}
-
-function* usersAcceptFollowerUserRequest(req) {
-  try {
-    const data = yield queryService.apiRequest(queries.acceptFollowerUser, req.payload)
-    const next = yield usersAcceptFollowerUserRequestData(req, data)
-    yield put(actions.usersAcceptFollowerUserSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
-  } catch (error) {
-    yield put(actions.usersAcceptFollowerUserFailure(error, req.payload))
-  }
-}
-
-/**
- *
- */
-function* usersDeclineFollowerUserRequestData(req, api) {
-  const dataSelector = path(['data', 'denyFollowerUser'])
-
-  const data = dataSelector(api)
-  const meta = {}
-  const payload = req.payload
-
-  const normalized = normalizer.normalizeUserGet(data)
-  yield entitiesMerge(normalized)
-
-  return {
-    data: normalized.result,
-    meta,
-    payload,
-  }
-}
-
-function* usersDeclineFollowerUserRequest(req) {
-  try {
-    const data = yield queryService.apiRequest(queries.denyFollowerUser, req.payload)
-    const next = yield usersDeclineFollowerUserRequestData(req, data)
-    yield put(actions.usersDeclineFollowerUserSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
-  } catch (error) {
-    yield put(actions.usersDeclineFollowerUserFailure(error, req.payload))
   }
 }
 
@@ -270,7 +186,7 @@ function* usersGetProfileRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizeUserGet(data)
-  yield entitiesMerge(normalized)
+  yield call(entitiesMerge, normalized)
 
   return {
     data: normalized.result,
@@ -281,7 +197,7 @@ function* usersGetProfileRequestData(req, api) {
 
 function* usersGetProfileRequest(req) {
   try {
-    const data = yield queryService.apiRequest(queries.user, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.user, req.payload)
     const next = yield usersGetProfileRequestData(req, data)
     yield put(actions.usersGetProfileSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
@@ -301,7 +217,7 @@ function* usersEditProfileRequestData(req, api) {
 
   const normalized = normalizer.normalizeUserGet(data)
 
-  yield entitiesMerge(normalized)
+  yield call(entitiesMerge, normalized)
 
   return {
     data: normalized.result,
@@ -312,7 +228,7 @@ function* usersEditProfileRequestData(req, api) {
 
 function* usersEditProfileRequest(req) {
   try {
-    const data = yield queryService.apiRequest(queries.setUserDetails, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.setUserDetails, req.payload)
     const next = yield usersEditProfileRequestData(req, data)
     yield put(actions.usersEditProfileSuccess({ data: next.data, payload: next.payload }, next.meta))
   } catch (error) {
@@ -332,89 +248,12 @@ function* usersEditProfileRequest(req) {
 function* usersDeleteProfilePhoto() {
   try {
     const req = { payload: { photoPostId: '' } }
-    const data = yield queryService.apiRequest(queries.setUserDetails, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.setUserDetails, req.payload)
 
     yield usersEditProfileRequestData(req, data)
     yield put(actions.usersDeleteAvatarSuccess())
   } catch (error) {
     yield put(actions.usersDeleteAvatarFailure(error))
-  }
-}
-
-/**
- *
- */
-function* usersChangeAvatarRequest(req) {
-  try {
-    const photoPostId = req.payload.postId
-    const data = yield call([queryService, 'apiRequest'], queries.setUserDetails, { photoPostId })
-
-    yield usersEditProfileRequestData(req, data)
-    yield put(actions.usersChangeAvatarSuccess())
-  } catch (error) {
-    yield put(actions.usersChangeAvatarFailure(error))
-  }
-}
-
-/**
- *
- */
-function* usersFollowRequestData(req, api) {
-  const dataSelector = path(['data', 'followUser'])
-
-  const data = dataSelector(api)
-  const meta = {}
-  const payload = req.payload
-
-  const normalized = normalizer.normalizeUserGet(data)
-  yield entitiesMerge(normalized)
-
-  return {
-    data: normalized.result,
-    meta,
-    payload,
-  }
-}
-
-function* usersFollowRequest(req) {
-  try {
-    yield call(usersCheckPermissions)
-    const data = yield queryService.apiRequest(queries.followUser, req.payload)
-    const next = yield usersFollowRequestData(req, data)
-    yield put(actions.usersFollowSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
-  } catch (error) {
-    yield put(actions.usersFollowFailure(error, req.payload))
-  }
-}
-
-/**
- *
- */
-function* usersUnfollowRequestData(req, api) {
-  const dataSelector = path(['data', 'unfollowUser'])
-
-  const data = dataSelector(api)
-  const meta = {}
-  const payload = req.payload
-
-  const normalized = normalizer.normalizeUserGet(data)
-  yield entitiesMerge(normalized)
-
-  return {
-    data: normalized.result,
-    meta,
-    payload,
-  }
-}
-
-function* usersUnfollowRequest(req) {
-  try {
-    yield call(usersCheckPermissions)
-    const data = yield queryService.apiRequest(queries.unfollowUser, req.payload)
-    const next = yield usersUnfollowRequestData(req, data)
-    yield put(actions.usersUnfollowSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
-  } catch (error) {
-    yield put(actions.usersUnfollowFailure(error, req.payload))
   }
 }
 
@@ -429,7 +268,7 @@ function* usersBlockRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizeUserGet(data)
-  yield entitiesMerge(normalized)
+  yield call(entitiesMerge, normalized)
 
   return {
     data: normalized.result,
@@ -441,7 +280,7 @@ function* usersBlockRequestData(req, api) {
 function* usersBlockRequest(req) {
   try {
     yield call(usersCheckPermissions)
-    const data = yield queryService.apiRequest(queries.blockUser, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.blockUser, req.payload)
     const next = yield usersBlockRequestData(req, data)
     yield put(actions.usersBlockSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
@@ -460,7 +299,7 @@ function* usersUnblockRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizeUserGet(data)
-  yield entitiesMerge(normalized)
+  yield call(entitiesMerge, normalized)
 
   return {
     data: normalized.result,
@@ -472,7 +311,7 @@ function* usersUnblockRequestData(req, api) {
 function* usersUnblockRequest(req) {
   try {
     yield call(usersCheckPermissions)
-    const data = yield queryService.apiRequest(queries.unblockUser, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.unblockUser, req.payload)
     const next = yield usersUnblockRequestData(req, data)
     yield put(actions.usersUnblockSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
@@ -492,7 +331,7 @@ function* usersGetTrendingUsersRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizeUsersGet(data)
-  yield entitiesMerge(normalized)
+  yield call(entitiesMerge, normalized)
 
   return {
     data: normalized.result,
@@ -503,7 +342,7 @@ function* usersGetTrendingUsersRequestData(req, api) {
 
 function* usersGetTrendingUsersRequest(req) {
   try {
-    const data = yield queryService.apiRequest(queries.trendingUsers, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.trendingUsers, req.payload)
     const next = yield usersGetTrendingUsersRequestData(req, data)
     yield put(actions.usersGetTrendingUsersSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
@@ -516,7 +355,7 @@ function* usersGetTrendingUsersRequest(req) {
  */
 function* usersGetCardsRequest(req) {
   try {
-    const data = yield queryService.apiRequest(queries.getCards, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.getCards, req.payload)
     const selector = path(['data', 'self', 'cards', 'items'])
     const metaSelector = compose(omit(['items']), path(['data', 'self', 'cards']))
 
@@ -535,7 +374,7 @@ function* usersGetCardsRequest(req) {
  */
 function* usersDeleteCardRequest(req) {
   try {
-    const data = yield queryService.apiRequest(queries.deleteCard, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.deleteCard, req.payload)
     const selector = path(['data', 'deleteCard'])
 
     yield put(actions.usersDeleteCardSuccess({ payload: req.payload, data: selector(data), meta: {} }))
@@ -544,25 +383,14 @@ function* usersDeleteCardRequest(req) {
   }
 }
 
-/**
- *
- */
-function* usersSetApnsTokenRequest(req) {
-  try {
-    const data = yield queryService.apiRequest(queries.setUserAPNSToken, req.payload)
 
-    yield put(actions.usersSetApnsTokenSuccess({ payload: req.payload, data, meta: {} }))
-  } catch (error) {
-    yield put(actions.usersSetApnsTokenFailure(error, req.payload))
-  }
-}
 
 /**
  *
  */
 function* usersReportScreenViewsRequest(req) {
   try {
-    const data = yield queryService.apiRequest(queries.reportScreenViews, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.reportScreenViews, req.payload)
 
     yield put(actions.usersReportScreenViewsSuccess({ payload: req.payload, data, meta: {} }))
   } catch (error) {
@@ -572,27 +400,26 @@ function* usersReportScreenViewsRequest(req) {
 
 export default () => [
   takeLatest(constants.USERS_SEARCH_REQUEST, usersSearchRequest),
-  takeLatest(constants.USERS_DELETE_REQUEST, usersDeleteRequest),
   takeLatest(constants.USERS_GET_FOLLOWED_USERS_WITH_STORIES_REQUEST, usersGetFollowedUsersWithStoriesRequest),
   takeLatest(constants.USERS_GET_FOLLOWER_USERS_REQUEST, usersGetFollowerUsersRequest),
   takeLatest(constants.USERS_GET_FOLLOWED_USERS_REQUEST, usersGetFollowedUsersRequest),
   takeLatest(constants.USERS_GET_PENDING_FOLLOWERS_REQUEST, usersGetPendingFollowersRequest),
-  takeLatest(constants.USERS_ACCEPT_FOLLOWER_USER_REQUEST, usersAcceptFollowerUserRequest),
-  takeLatest(constants.USERS_DECLINE_FOLLOWER_USER_REQUEST, usersDeclineFollowerUserRequest),
-  takeLatest(constants.USERS_FOLLOW_REQUEST, usersFollowRequest),
-  takeLatest(constants.USERS_UNFOLLOW_REQUEST, usersUnfollowRequest),
   takeLatest(constants.USERS_BLOCK_REQUEST, usersBlockRequest),
   takeLatest(constants.USERS_UNBLOCK_REQUEST, usersUnblockRequest),
   takeLatest(constants.USERS_GET_PROFILE_REQUEST, usersGetProfileRequest),
-  takeLatest(constants.USERS_GET_PROFILE_SELF_REQUEST, usersGetProfileSelfRequest),
   takeLatest(constants.USERS_EDIT_PROFILE_REQUEST, usersEditProfileRequest),
-  takeLatest(constants.USERS_IMAGE_POSTS_GET_REQUEST, usersImagePostsGetRequest),
   takeLatest(constants.USERS_GET_TRENDING_USERS_REQUEST, usersGetTrendingUsersRequest),
   takeLatest(constants.USERS_GET_CARDS_REQUEST, usersGetCardsRequest),
   takeLatest(constants.USERS_DELETE_CARD_REQUEST, usersDeleteCardRequest),
-  takeLatest(constants.USERS_SET_APNS_TOKEN_REQUEST, usersSetApnsTokenRequest),
   takeLatest(constants.USERS_DELETE_AVATAR_REQUEST, usersDeleteProfilePhoto),
   takeLatest(constants.USERS_REPORT_SCREEN_VIEWS_REQUEST, usersReportScreenViewsRequest),
-  takeLatest(constants.USERS_CHANGE_AVATAR_REQUEST, usersChangeAvatarRequest),
-  takeLatest(constants.USERS_SET_USER_DATING_STATUS_REQUEST, usersSetUserDatingStatusRequest),
 ]
+.concat(usersAcceptFollowerUser())
+.concat(usersDeclineFollowerUser())
+.concat(usersSetUserDatingStatus())
+.concat(usersFollow())
+.concat(usersUnfollow())
+.concat(usersImagePostsGet())
+.concat(usersDelete())
+.concat(usersChangeAvatar())
+.concat(usersCreateAvatar())

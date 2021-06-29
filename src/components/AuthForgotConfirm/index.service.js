@@ -9,7 +9,7 @@ const AuthForgotConfirmComponentService = ({ children }) => {
   const dispatch = useDispatch()
   const route = useRoute()
   const authForgot = useSelector(authSelectors.authForgot)
-  const authForgotConfirm = useSelector((state) => state.auth.authForgotConfirm)
+  const authForgotConfirm = useSelector(authSelectors.authForgotConfirm)
 
   const handleFormTransform = (values) => ({
     username: Validation.getUsername(values),

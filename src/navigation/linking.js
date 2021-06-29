@@ -1,5 +1,5 @@
 export default {
-  prefixes: ['real.app://', 'https://real.app/'],
+  prefixes: ['real.app://', 'https://real.app/', 'https://real.app/apps/social/', 'https://*.cloudfront.net/'],
   config: {
     screens: {
       Auth: {

@@ -153,7 +153,6 @@ export const initialState = {
   },
 
   postsCreateQueue: {},
-  postsRecreateQueue: {},
   postsGetCache: {},
   postsCommentsGetCache: {},
   postsViewsGetCache: {},
@@ -663,6 +662,7 @@ const postsCreateRequest = (state, action) => update(state, {
 const postsCreateSuccess = (state, action) => update(state, {
   postsCreate: {
     data: { $set: action.payload.data },
+    payload: { $set: action.payload.payload },
     status: { $set: 'success' },
   },
 

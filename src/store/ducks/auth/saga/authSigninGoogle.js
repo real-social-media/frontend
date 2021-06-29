@@ -1,12 +1,13 @@
-import { put, call, take, race, getContext, takeEvery } from 'redux-saga/effects'
-import {
-  federatedGoogleSignin,
-  validateUserExistance,
-} from 'services/AWS'
+import { put, call, getContext, takeEvery } from 'redux-saga/effects'
+import { federatedGoogleSignin, validateUserExistance } from 'services/AWS'
 import * as actions from 'store/ducks/auth/actions'
 import * as constants from 'store/ducks/auth/constants'
 import * as queries from 'store/ducks/auth/queries'
 import * as queryService from 'services/Query'
+import { handleAnonymousSignin } from 'store/ducks/auth/saga/authSigninAnonymous'
+import * as navigationActions from 'navigation/actions'
+import * as NavigationService from 'services/Navigation'
+import authorize from 'store/ducks/auth/saga/authorize'
 
 /**
  * Authenticate using google into identity pool
@@ -26,30 +27,25 @@ function* getGooglePayload() {
   return userPayload
 }
 
-/**
- *
- */
-function* googleAuthenticateExisting(userPayload) {
-  const AwsAuth = yield getContext('AwsAuth')
+function* googleSignUpFlow(userPayload) {
+  const navigation = yield NavigationService.getNavigation()
 
-  return yield AwsAuth.federatedSignIn('google', {
-    token: userPayload.token,
-    expires_at: userPayload.expires_at,
-  }, userPayload)
+  yield call(handleAnonymousSignin)
+  yield call([queryService, 'apiRequest'], queries.linkGoogleLogin, { googleIdToken: userPayload.token })
+  yield call([queryService, 'apiRequest'], queries.setFullname, { fullName: userPayload.name })
+
+  navigationActions.navigateAuthUsername(navigation, { nextRoute: 'app' })
 }
 
-/**
- *
- */
-function* createAnonymousUser(userPayload) {
-  try {
-    yield call([queryService, 'apiRequest'], queries.createAnonymousUser)
-  } catch (error) {
-    // ignore
-  } finally {
-    yield call([queryService, 'apiRequest'], queries.linkGoogleLogin, { googleIdToken: userPayload.token })
-    yield call([queryService, 'apiRequest'], queries.setFullname, { fullName: userPayload.name })
+function* googleSignInFlow(userPayload) {
+  const AwsAuth = yield getContext('AwsAuth')
+  const credentials = {
+    token: userPayload.token,
+    expires_at: userPayload.expires_at,
   }
+
+  yield call([AwsAuth, 'federatedSignIn'], 'google', credentials, userPayload)
+  yield call(authorize)
 }
 
 /**
@@ -60,16 +56,10 @@ function* handleAuthSigninGoogleRequest() {
   const userExists = yield call(validateUserExistance, userPayload)
 
   if (!userExists) {
-    yield call(createAnonymousUser, userPayload)
+    yield call(googleSignUpFlow, userPayload)
+  } else {
+    yield call(googleSignInFlow, userPayload)
   }
-
-  yield call(googleAuthenticateExisting, userPayload)
-  yield put(actions.authFlowRequest({ allowAnonymous: userExists, authProvider: 'GOOGLE', userExists }))
-
-  yield race({
-    flowSuccess: take(constants.AUTH_FLOW_SUCCESS),
-    flowFailure: take(constants.AUTH_FLOW_FAILURE),
-  })
 }
 
 /**
@@ -78,7 +68,6 @@ function* handleAuthSigninGoogleRequest() {
 function* authSigninGoogleRequest(req) {
   try {
     yield handleAuthSigninGoogleRequest(req.payload)
-
     yield put(actions.authSigninGoogleSuccess())
   } catch (error) {
     if (error.message && error.message.includes('The user canceled the sign in request')) {
@@ -89,6 +78,4 @@ function* authSigninGoogleRequest(req) {
   }
 }
 
-export default () => [
-  takeEvery(constants.AUTH_SIGNIN_GOOGLE_REQUEST, authSigninGoogleRequest),
-]
+export default () => [takeEvery(constants.AUTH_SIGNIN_GOOGLE_REQUEST, authSigninGoogleRequest)]

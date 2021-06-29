@@ -6,7 +6,7 @@ import {
   ScrollView,
   RefreshControl,
 } from 'react-native'
-import ResultComponent from 'components/Search/Result'
+import UsersList from 'components/UsersList'
 import { Caption } from 'react-native-paper'
 
 import PreviewServiceComponent from 'components/Preview/index.service'
@@ -20,12 +20,6 @@ const PostLikes = ({
   t,
   theme,
   postsLikesGet,
-  usersFollow,
-  usersFollowRequest,
-  usersUnfollow,
-  usersUnfollowRequest,
-  usersAcceptFollowerUser,
-  usersAcceptFollowerUserRequest,
 }) => {
   const styling = styles(theme)
 
@@ -50,15 +44,7 @@ const PostLikes = ({
           )}
         </PreviewServiceComponent>
 
-        <ResultComponent
-          usersSearch={postsLikesGet}
-          usersFollow={usersFollow}
-          usersFollowRequest={usersFollowRequest}
-          usersUnfollow={usersUnfollow}
-          usersUnfollowRequest={usersUnfollowRequest}
-          usersAcceptFollowerUser={usersAcceptFollowerUser}
-          usersAcceptFollowerUserRequest={usersAcceptFollowerUserRequest}
-        />
+        <UsersList usersSearch={postsLikesGet} />
 
         <View style={styling.info}>
           <Caption>{t('Only you can see who liked your post')}</Caption>
@@ -82,16 +68,9 @@ const styles = theme => StyleSheet.create({
 })
 
 PostLikes.propTypes = {
+  t: PropTypes.any,
   theme: PropTypes.any,
   postsLikesGet: PropTypes.any,
-  usersFollow: PropTypes.any,
-  usersFollowRequest: PropTypes.any,
-  usersUnfollow: PropTypes.any,
-  usersUnfollowRequest: PropTypes.any,
-  t: PropTypes.any,
-  usersAcceptFollowerUser: PropTypes.any,
-  usersAcceptFollowerUserRequest: PropTypes.any,
-  postsSingleGet: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(PostLikes))

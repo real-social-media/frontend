@@ -1,12 +1,13 @@
-import { put, call, take, race, getContext, takeEvery } from 'redux-saga/effects'
-import {
-  federatedAppleSignin,
-  validateUserExistance,
-} from 'services/AWS'
+import { put, call, getContext, takeEvery } from 'redux-saga/effects'
+import { federatedAppleSignin, validateUserExistance } from 'services/AWS'
 import * as actions from 'store/ducks/auth/actions'
 import * as constants from 'store/ducks/auth/constants'
 import * as queries from 'store/ducks/auth/queries'
 import * as queryService from 'services/Query'
+import { handleAnonymousSignin } from 'store/ducks/auth/saga/authSigninAnonymous'
+import * as navigationActions from 'navigation/actions'
+import * as NavigationService from 'services/Navigation'
+import authorize from 'store/ducks/auth/saga/authorize'
 
 function* getApplePayload() {
   const apple = yield call(federatedAppleSignin)
@@ -26,35 +27,25 @@ function* getApplePayload() {
 /**
  *
  */
-function* appleAuthenticateExisting(userPayload) {
-  const AwsAuth = yield getContext('AwsAuth')
+function* appleSignUpFlow(userPayload) {
+  const navigation = yield NavigationService.getNavigation()
 
-  return yield AwsAuth.federatedSignIn('appleid.apple.com', {
+  yield call(handleAnonymousSignin)
+  yield call([queryService, 'apiRequest'], queries.linkAppleLogin, { appleIdToken: userPayload.token })
+  yield call([queryService, 'apiRequest'], queries.setFullname, { fullName: userPayload.fullName })
+
+  navigationActions.navigateAuthUsername(navigation, { nextRoute: 'app' })
+}
+
+function* appleSignInFlow(userPayload) {
+  const AwsAuth = yield getContext('AwsAuth')
+  const credentials = {
     token: userPayload.token,
     expires_at: userPayload.expires_at,
-  }, userPayload)
-}
-
-function* setFullname(fullName) {
-  try {
-    yield call([queryService, 'apiRequest'], queries.setFullname, { fullName })
-  } catch (error) {
-    // ignore
   }
-}
 
-/**
- *
- */
-function* createAnonymousUser(userPayload) {
-  try {
-    yield call([queryService, 'apiRequest'], queries.createAnonymousUser)
-  } catch (error) {
-    // ignore
-  } finally {
-    yield call([queryService, 'apiRequest'], queries.linkAppleLogin, { appleIdToken: userPayload.token })
-    yield call(setFullname, userPayload.fullName)
-  }
+  yield call([AwsAuth, 'federatedSignIn'], 'appleid.apple.com', credentials, userPayload)
+  yield call(authorize)
 }
 
 function* handleAuthAppleRequest() {
@@ -62,28 +53,18 @@ function* handleAuthAppleRequest() {
   const userExists = yield call(validateUserExistance, userPayload)
 
   if (!userExists) {
-    yield call(createAnonymousUser, userPayload)
-  }
-
-  yield call(appleAuthenticateExisting, userPayload)
-  yield put(actions.authFlowRequest({ allowAnonymous: userExists, authProvider: 'APPLE', userExists }))
-
-  const { flowFailure } = yield race({
-    flowSuccess: take(constants.AUTH_FLOW_SUCCESS),
-    flowFailure: take(constants.AUTH_FLOW_FAILURE),
-  })
-
-  if (flowFailure) {
-    throw new Error('Failed to obtain flow')
+    yield call(appleSignUpFlow, userPayload)
+  } else {
+    yield call(appleSignInFlow, userPayload)
   }
 }
 
 /**
  *
  */
-function* authSigninAppleRequest(req) {
+function* authSigninAppleRequest() {
   try {
-    yield handleAuthAppleRequest(req.payload)
+    yield handleAuthAppleRequest()
     yield put(actions.authSigninAppleSuccess())
   } catch (error) {
     if (error.message && error.message.includes('The user canceled the sign in request')) {
@@ -94,6 +75,4 @@ function* authSigninAppleRequest(req) {
   }
 }
 
-export default () => [
-  takeEvery(constants.AUTH_SIGNIN_APPLE_REQUEST, authSigninAppleRequest),
-]
+export default () => [takeEvery(constants.AUTH_SIGNIN_APPLE_REQUEST, authSigninAppleRequest)]

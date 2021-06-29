@@ -7,7 +7,6 @@ import parsePhoneNumber from 'libphonenumber-js/min'
 import * as actions from 'store/ducks/contacts/actions'
 import { testAsRootSaga } from 'tests/utils/helpers'
 import * as queryService from 'services/Query'
-import * as queries from 'store/ducks/contacts/queries'
 
 jest.mock('services/Query', () => ({ apiRequest: jest.fn().mockResolvedValue(true) }))
 Contacts.getAll.mockRejectedValue(new Error('Get All Error'))
@@ -91,41 +90,6 @@ const normalizedItems = [
   },
 ]
 
-const mixedContacts = [
-  {
-    contactId: 3,
-    fullName: 'givenName1 familyName1',
-    emails: ['test1@email.com', 'test2@email.com'],
-    phones: ['+19999999', '+2999999', '(888) 555-5512', '999-999', '7', ''],
-    thumbnailPath: 'thumbnailPath',
-    user: { userId: 2 },
-  },
-  {
-    contactId: 1,
-    fullName: 'givenName1 middleName1 familyName1',
-    emails: ['test1@email.com', 'test2@email.com'],
-    phones: ['+19999999', '+2999999', '(888) 555-5512', '999-999', '7', ''],
-    thumbnailPath: 'thumbnailPath',
-    user: { userId: 1 },
-  },
-  {
-    contactId: 2,
-    fullName: 'middleName1 familyName1',
-    emails: ['test1@email.com', 'test2@email.com'],
-    phones: ['+19999999', '+2999999', '(888) 555-5512', '999-999', '7', ''],
-    thumbnailPath: 'thumbnailPath',
-    user: undefined,
-  },
-  {
-    contactId: 4,
-    fullName: 'Anonymous',
-    emails: ['test1@email.com', 'test2@email.com'],
-    phones: ['+19999999', '+2999999', '(888) 555-5512', '999-999', '7', ''],
-    thumbnailPath: 'thumbnailPath',
-    user: undefined,
-  },
-]
-
 describe('Contacts saga', () => {
   afterEach(() => {
     queryService.apiRequest.mockClear()
@@ -198,38 +162,6 @@ describe('Contacts saga', () => {
 
       .call(check, PERMISSIONS.IOS.CONTACTS)
       .put(actions.contactsGetFailure(new Error('Get All Error')))
-
-      .dispatch(actions.contactsGetRequest())
-      .silentRun()
-  })
-
-  it('mixed contacts with users', () => {
-    Contacts.getAll.mockResolvedValueOnce(items)
-
-    queryService.apiRequest.mockResolvedValueOnce({
-      data: {
-        findContacts: [
-          { contactId: normalizedItems[0].contactId, user: { userId: 1 } },
-          { contactId: normalizedItems[2].contactId, user: { userId: 2 } },
-        ],
-      },
-    })
-
-    const context = [[matchers.call.fn(check), RESULTS.GRANTED]]
-
-    return expectSaga(testAsRootSaga(contacts))
-      .provide(context)
-
-      .call(check, PERMISSIONS.IOS.CONTACTS)
-      .call([queryService, 'apiRequest'], queries.findContacts, {
-        contacts: [
-          { contactId: 1, emails: ['test1@email.com', 'test2@email.com'], phones: ['+18885555512'] },
-          { contactId: 2, emails: ['test1@email.com', 'test2@email.com'], phones: ['+18885555512'] },
-          { contactId: 3, emails: ['test1@email.com', 'test2@email.com'], phones: ['+18885555512'] },
-          { contactId: 4, emails: ['test1@email.com', 'test2@email.com'], phones: ['+18885555512'] },
-        ],
-      })
-      .put(actions.contactsGetSuccess({ data: mixedContacts }))
 
       .dispatch(actions.contactsGetRequest())
       .silentRun()

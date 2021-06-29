@@ -1,5 +1,5 @@
 import Storage, { STORAGE_PROVIDER, STORAGE_KEYS } from 'services/Storage'
-import AsyncStorage from '@react-native-community/async-storage'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as Logger from 'services/Logger'
 
 const value = 123

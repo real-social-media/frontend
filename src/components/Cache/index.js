@@ -93,7 +93,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   progress: {
-    ...StyleSheet.absoluteFill,
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 10,

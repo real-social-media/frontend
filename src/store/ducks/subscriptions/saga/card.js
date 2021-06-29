@@ -1,5 +1,6 @@
 import * as Logger from 'services/Logger'
 import { call, put, take, fork } from 'redux-saga/effects'
+import * as authActions from 'store/ducks/auth/actions'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as usersActions from 'store/ducks/users/actions'
 import * as usersQueries from 'store/ducks/users/queries'
@@ -15,7 +16,7 @@ export function* handleEvent({ eventData, userId }) {
 
   yield put(usersActions.usersGetCardsRequest())
   yield put(postsActions.postsGetUnreadCommentsRequest({ limit: 20 }))
-  yield put(usersActions.usersGetProfileSelfRequest())
+  yield put(authActions.authGetUserRequest())
   yield put(usersActions.usersGetPendingFollowersRequest({ userId }))
 }
 

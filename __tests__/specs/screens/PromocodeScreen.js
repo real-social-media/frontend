@@ -14,7 +14,7 @@ const navigation = { navigate: jest.fn() }
 jest.mock('@react-navigation/native', () => ({ useNavigation: jest.fn(), useRoute: jest.fn() }))
 useNavigation.mockReturnValue(navigation)
 
-jest.spyOn(authSelector, 'authUserSelector').mockReturnValue(user)
+jest.spyOn(authSelector, 'authUser').mockReturnValue(user)
 
 const setup = () => renderWithStore(<PromocodeScreen />)
 
@@ -70,13 +70,13 @@ describe('PromocodeScreen', () => {
   })
 
   it('diamond user', () => {
-    authSelector.authUserSelector.mockReturnValue({ subscriptionLevel: 'DIAMOND' })
+    authSelector.authUser.mockReturnValue({ subscriptionLevel: 'DIAMOND' })
     const { getByText, queryByText } = setup()
 
     expect(getByText('Promocodes')).toBeTruthy()
     expect(getByText('Redeem your promocode')).toBeTruthy()
     expect(queryByText('Follow & Invite Friends')).toBeFalsy()
     expect(queryByText('Redeem promocode to get \n REAL Diamond FREE for life!')).toBeFalsy()
-    authSelector.authUserSelector.mockReturnValue({ subscriptionLevel: undefined })
+    authSelector.authUser.mockReturnValue({ subscriptionLevel: undefined })
   })
 })

@@ -11,7 +11,7 @@ import { AuthProvider } from 'services/providers/Auth'
 import { testNavigate } from 'tests/utils/helpers'
 
 jest
-  .spyOn(authSelector, 'authUserSelector')
+  .spyOn(authSelector, 'authUser')
   .mockReturnValue({ userStatus: 'ACTIVE', photo: { url: 'placeholder-photos/' } })
 
 jest.mock('components/ProfilePhotoUpload/Photo', () => jest.fn().mockReturnValue(null))
@@ -67,7 +67,7 @@ describe('Profile Picture screen', () => {
   })
 
   it('Redirect anonymous user', () => {
-    authSelector.authUserSelector.mockReturnValue({ userStatus: 'ANONYMOUS', photo: { url: 'placeholder-photos/' } })
+    authSelector.authUser.mockReturnValue({ userStatus: 'ANONYMOUS', photo: { url: 'placeholder-photos/' } })
     const { getByText } = setup()
 
     fireEvent.press(getByText('Take a Photo'))
@@ -75,7 +75,7 @@ describe('Profile Picture screen', () => {
 
     confirm.mock.calls[0][0].onConfirm()
     testNavigate(navigation, 'App.Root.ProfileUpgrade')
-    authSelector.authUserSelector.mockReturnValue({ userStatus: 'ACTIVE', photo: { url: 'placeholder-photos/' } })
+    authSelector.authUser.mockReturnValue({ userStatus: 'ACTIVE', photo: { url: 'placeholder-photos/' } })
   })
 
   it('Choose From Gallery', () => {

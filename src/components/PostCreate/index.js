@@ -1,14 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import {
   View,
   StyleSheet,
-  ScrollView,
 } from 'react-native'
 import PostCreateForm from 'components/PostCreate/Form'
 import FormLifetime from 'components/PostCreate/FormLifetime'
 import FormAlbums from 'components/PostCreate/FormAlbums'
-
 import { withTheme } from 'react-native-paper'
 
 const PostCreateComponent = ({
@@ -27,7 +26,7 @@ const PostCreateComponent = ({
 
   return (
     <View style={styling.root}>
-      <ScrollView keyboardShouldPersistTaps="never">
+      <KeyboardAwareScrollView keyboardShouldPersistTaps="never">
         {type === 'TEXT_ONLY' ? (
           <View style={styling.form}>
             <PostCreateForm
@@ -62,7 +61,7 @@ const PostCreateComponent = ({
             />
           </View>
         ) : null}
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </View>
   )
 }

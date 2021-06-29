@@ -7,7 +7,7 @@ const AuthSigninComponentService = ({ children }) => {
   const dispatch = useDispatch()
 
   const authSigninCognito = useSelector(authSelectors.authSigninCognito)
-  const authFlow = useSelector(state => state.auth.authFlow)
+  const authFlow = useSelector(authSelectors.authFlow)
 
   const handleFormTransform = (values) => ({
     email: Validation.getEmail(values),

@@ -19,8 +19,8 @@ const ProfileService = ({ children }) => {
   const usersGetProfile = useSelector(usersSelector.usersGetProfileSelector(userId))
   const usersBlock = useSelector(state => state.users.usersBlock)
   const usersUnblock = useSelector(state => state.users.usersUnblock)
-  const usersFollow = useSelector(state => state.users.usersFollow)
-  const usersUnfollow = useSelector(state => state.users.usersUnfollow)
+  const usersFollow = useSelector(usersSelector.usersFollow)
+  const usersUnfollow = useSelector(usersSelector.usersUnfollow)
 
   const profileRef = useRef(null)
 

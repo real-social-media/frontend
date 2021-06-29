@@ -6,10 +6,9 @@ import {
   Linking,
 } from 'react-native'
 import { Text } from 'react-native-paper'
-import DeviceInfo from 'react-native-device-info'
-
 import { withTheme } from 'react-native-paper'
 import { withTranslation } from 'react-i18next'
+import { getReadableVersion } from 'services/OTA'
 
 const Header = ({
   t,
@@ -27,7 +26,7 @@ const Header = ({
       </Text>
 
       <Text style={styling.version}>
-        v{DeviceInfo.getReadableVersion()}
+        v{getReadableVersion()}
       </Text>
     </View>
   )

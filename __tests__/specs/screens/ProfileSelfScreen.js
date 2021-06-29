@@ -6,16 +6,16 @@ import * as ReactRedux from 'react-redux'
 import * as albumsActions from 'store/ducks/albums/actions'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as authSelector from 'store/ducks/auth/selectors'
-import * as usersActions from 'store/ducks/users/actions'
-import * as usersSelector from 'store/ducks/users/selectors'
+import * as authActions from 'store/ducks/auth/actions'
 
 const user = {
   userId: 'id123',
   username: 'username',
 }
 
-jest.spyOn(usersSelector, 'usersGetProfileSelfSelector').mockReturnValue({ data: user })
-jest.spyOn(authSelector, 'authUserSelector').mockReturnValue(user)
+jest.spyOn(authSelector, 'authUserSelector').mockReturnValue({ data: user })
+jest.spyOn(authSelector, 'authUser').mockReturnValue(user)
+jest.spyOn(authSelector, 'authUserId').mockReturnValue(user.userId)
 jest.spyOn(ReactRedux, 'useDispatch')
 
 const dispatch = jest.fn()
@@ -47,26 +47,28 @@ describe('ProfileSelfScreen', () => {
     it('request data for authorized user', () => {
       setup()
 
-      expect(dispatch).toHaveBeenCalledWith(usersActions.usersGetProfileSelfRequest())
+      expect(dispatch).toHaveBeenCalledWith(authActions.authGetUserRequest())
       expect(dispatch).toHaveBeenCalledWith(albumsActions.albumsGetRequest({ userId: 'id123' }))
       expect(dispatch).toHaveBeenCalledWith(postsActions.postsGetRequest({ userId: 'id123' }))
     })
 
     it('request data for user from route params', () => {
-      const params = { userId: 23 }
+      const params = { userId: '23' }
       useRoute.mockReturnValue({ params })
       setup()
 
-      expect(dispatch).toHaveBeenCalledWith(usersActions.usersGetProfileSelfRequest())
+      expect(dispatch).toHaveBeenCalledWith(authActions.authGetUserRequest())
       expect(dispatch).toHaveBeenCalledWith(albumsActions.albumsGetRequest(params))
       expect(dispatch).toHaveBeenCalledWith(postsActions.postsGetRequest(params))
     })
 
     it('not load albums and posts for not authorized user', () => {
       authSelector.authUserSelector.mockReturnValue({})
+      authSelector.authUserId.mockReturnValue(false)
+
       setup()
 
-      expect(dispatch).toHaveBeenCalledWith(usersActions.usersGetProfileSelfRequest())
+      expect(dispatch).toHaveBeenCalledWith(authActions.authGetUserRequest())
       expect(dispatch).toHaveBeenCalledTimes(1)
     })
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { SafeAreaView, StyleSheet, ScrollView, View } from 'react-native'
+import { SafeAreaView, StyleSheet, ScrollView, View, RefreshControl } from 'react-native'
 import color from 'color'
 import { Text, withTheme } from 'react-native-paper'
 import DiamondHeaderIcon from 'assets/svg/membership/Diamond'
@@ -24,6 +24,8 @@ const Membership = ({
   navigateInviteFriends,
   requestSubscription,
   manageSubscriptions,
+  subscriptionGet,
+  subscriptionGetRequest,
   isSubscribed,
   purchasesRequest,
   retryPurchase,
@@ -45,7 +47,7 @@ const Membership = ({
         loading={retryPurchase.status === 'loading'}
         disabled={retryPurchase.status === 'loading'}
       />
-      <Text onPress={handleContactUs} style={styling.contactUsLabel}>
+      <Text onPress={handleContactUs} style={styling.text}>
         {t('Or contact us')}
       </Text>
     </>
@@ -60,22 +62,45 @@ const Membership = ({
     />
   )
 
-  const renderSubscribe = () => (
-    <>
-      <Text style={styling.descriptionText}>{t('Start with a 1 month free trial')}</Text>
+  const renderSubscribe = () => {
+    if (subscriptionGet.status === 'failure') {
+      return (
+        <View>
+          <DefaultButton labelStyle={styling.labelStyle} label={t('Loading price failed')} icon={AppleIcon} disabled />
+          <Text style={styling.failedPriceLabel}>{t('Pull down to refresh')}</Text>
+        </View>
+      )
+    }
+
+    if (subscriptionGet.status !== 'success') {
+      return (
+        <DefaultButton labelStyle={styling.labelStyle} label={t('Loading price')} icon={AppleIcon} loading disabled />
+      )
+    }
+
+    return (
       <DefaultButton
         labelStyle={styling.labelStyle}
-        label={t('Subscribe for $0.99 month')}
+        label={t('Subscribe for {{localizedPrice}} month', subscriptionGet.data)}
         icon={AppleIcon}
         onPress={requestSubscription}
         loading={purchasesRequest.status === 'loading'}
         disabled={purchasesRequest.status === 'loading'}
       />
-    </>
-  )
+    )
+  }
 
   return (
-    <ScrollView style={styling.root}>
+    <ScrollView
+      style={styling.root}
+      refreshControl={
+        <RefreshControl
+          tintColor={theme.colors.border}
+          onRefresh={subscriptionGetRequest}
+          refreshing={subscriptionGet.status === 'loading'}
+        />
+      }
+    >
       <SafeAreaView style={styling.component}>
         <View style={styling.heading}>
           <View style={styling.info}>
@@ -106,8 +131,20 @@ const Membership = ({
             <ThemesIcon fill={theme.colors.text} />
           </View>
           <View style={styling.subheadingContent}>
-            <Text style={[styling.subheadingTitle, styling.link]} onPress={navigateTheme}>{t('Profile Themes')}</Text>
+            <Text style={[styling.subheadingTitle, styling.link]} onPress={navigateTheme}>
+              {t('Profile Themes')}
+            </Text>
             <Text style={styling.subheadingSubtitle}>{t('Change the look and feel of your profile')}</Text>
+          </View>
+        </View>
+
+        <View style={styling.subheading}>
+          <View style={styling.subheadingIcon}>
+            <MusicIcon fill={theme.colors.text} />
+          </View>
+          <View style={styling.subheadingContent}>
+            <Text style={styling.subheadingTitle}>{t('Profile Music (coming soon)')}</Text>
+            <Text style={styling.subheadingSubtitle}>{t('Have a song play when people visit your profile')}</Text>
           </View>
         </View>
 
@@ -133,21 +170,21 @@ const Membership = ({
 
         <View style={styling.subheading}>
           <View style={styling.subheadingIcon}>
-            <ProfileIcon fill={theme.colors.text} />
+            <StickerIcon fill={theme.colors.text} />
           </View>
           <View style={styling.subheadingContent}>
-            <Text style={styling.subheadingTitle}>{t('Profile Trending Boost')}</Text>
-            <Text style={styling.subheadingSubtitle}>{t('Your posts are more likely to become trending')}</Text>
+            <Text style={styling.subheadingTitle}>{t('Emotes (coming soon)')}</Text>
+            <Text style={styling.subheadingSubtitle}>{t('React to posts with new emoticons each month')}</Text>
           </View>
         </View>
 
         <View style={styling.subheading}>
           <View style={styling.subheadingIcon}>
-            <MusicIcon fill={theme.colors.text} />
+            <ProfileIcon fill={theme.colors.text} />
           </View>
           <View style={styling.subheadingContent}>
-            <Text style={styling.subheadingTitle}>{t('Profile Music (coming soon)')}</Text>
-            <Text style={styling.subheadingSubtitle}>{t('Have a song play when people visit your profile')}</Text>
+            <Text style={styling.subheadingTitle}>{t('Profile Trending Boost')}</Text>
+            <Text style={styling.subheadingSubtitle}>{t('Your posts are more likely to become trending')}</Text>
           </View>
         </View>
 
@@ -161,16 +198,6 @@ const Membership = ({
           </View>
         </View>
 
-        <View style={styling.subheading}>
-          <View style={styling.subheadingIcon}>
-            <StickerIcon fill={theme.colors.text} />
-          </View>
-          <View style={styling.subheadingContent}>
-            <Text style={styling.subheadingTitle}>{t('Emotes (coming soon)')}</Text>
-            <Text style={styling.subheadingSubtitle}>{t('React to posts with new emoticons each month')}</Text>
-          </View>
-        </View>
-
         <View style={[styling.subheading, styling.lastChild]}>
           <View style={styling.subheadingIcon}>
             <SupportIcon fill={theme.colors.text} />
@@ -181,7 +208,7 @@ const Membership = ({
           </View>
         </View>
 
-        {isSubscribed === false &&
+        {isSubscribed === false && (
           <View style={styling.action}>
             <DefaultButton
               labelStyle={styling.labelStyle}
@@ -190,7 +217,7 @@ const Membership = ({
               mode="outlined"
             />
           </View>
-        }
+        )}
 
         <AuthTermsTemplate />
       </SafeAreaView>
@@ -266,16 +293,16 @@ const styles = (theme) =>
       borderBottomColor: theme.colors.border,
       borderBottomWidth: 1,
     },
-    descriptionText: {
-      fontSize: 12,
+    text: {
+      fontSize: 14,
       fontWeight: '300',
       paddingBottom: 6,
       textAlign: 'center',
     },
-    contactUsLabel: {
+    failedPriceLabel: {
       fontSize: 14,
       fontWeight: '300',
-      paddingBottom: 6,
+      paddingVertical: 6,
       textAlign: 'center',
     },
     unsubscribeBtnLabel: {
@@ -309,6 +336,13 @@ Membership.propTypes = {
   retryPurchase: PropTypes.shape({
     status: PropTypes.string,
   }),
+  subscriptionGet: PropTypes.shape({
+    status: PropTypes.string,
+    data: PropTypes.shape({
+      localizedPrice: PropTypes.string,
+    }),
+  }),
+  subscriptionGetRequest: PropTypes.func,
   navigateInviteFriends: PropTypes.func,
   navigatePayouts: PropTypes.func,
   navigateTheme: PropTypes.func,

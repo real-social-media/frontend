@@ -70,7 +70,7 @@ const styles = theme => StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: theme.colors.backgroundPrimary,
-    flexWrap: 'wrap',
+
   },
   info: {
     padding: theme.spacing.base,

@@ -2,6 +2,7 @@ import { Linking } from 'react-native'
 import { getContext } from 'redux-saga/effects'
 import { expectSaga } from 'redux-saga-test-plan'
 import { testAsRootSaga, testNavigate, makeAuthorizedState } from 'tests/utils/helpers'
+import * as authActions from 'store/ducks/auth/actions'
 import * as usersActions from 'store/ducks/users/actions'
 import * as actions from 'store/ducks/contacts/actions'
 import * as queries from 'store/ducks/contacts/queries'
@@ -50,7 +51,7 @@ describe('Contacts Grand bonus saga', () => {
           .withState(makeAuthorizedState(user, state))
 
           .call(queryService.apiRequest, queries.grantUserSubscriptionBonus, { grantCode: 'FREE_FOR_LIFE' })
-          .put(usersActions.usersGetProfileSelfRequest())
+          .put(authActions.authGetUserRequest())
 
           .dispatch(actions.contactsInviteSuccess())
           .silentRun()
@@ -61,7 +62,7 @@ describe('Contacts Grand bonus saga', () => {
           .withState(makeAuthorizedState(user, state))
 
           .call(queryService.apiRequest, queries.grantUserSubscriptionBonus, { grantCode: 'FREE_FOR_LIFE' })
-          .put(usersActions.usersGetProfileSelfRequest())
+          .put(authActions.authGetUserRequest())
 
           .dispatch(actions.contactsFollowSuccess())
           .silentRun()
@@ -72,7 +73,7 @@ describe('Contacts Grand bonus saga', () => {
           .withState(makeAuthorizedState(user, state))
 
           .call(queryService.apiRequest, queries.grantUserSubscriptionBonus, { grantCode: 'FREE_FOR_LIFE' })
-          .put(usersActions.usersGetProfileSelfRequest())
+          .put(authActions.authGetUserRequest())
 
           .dispatch(actions.contactsCheckBonusRequest())
           .silentRun()
@@ -87,7 +88,7 @@ describe('Contacts Grand bonus saga', () => {
           .withState(makeAuthorizedState(user, state))
 
           .call(queryService.apiRequest, queries.grantUserSubscriptionBonus, { grantCode: 'FREE_FOR_LIFE' })
-          .not.put(usersActions.usersGetProfileSelfRequest())
+          .not.put(authActions.authGetUserRequest())
 
           .dispatch(actions.contactsInviteSuccess())
           .silentRun()
@@ -100,7 +101,7 @@ describe('Contacts Grand bonus saga', () => {
           .withState(makeAuthorizedState(user, { contacts: { contactsInvite: { invited: { 1: true } } } }))
 
           .not.call(queryService.apiRequest, queries.grantUserSubscriptionBonus, { grantCode: 'FREE_FOR_LIFE' })
-          .not.put(usersActions.usersGetProfileSelfRequest())
+          .not.put(authActions.authGetUserRequest())
 
           .dispatch(actions.contactsInviteSuccess())
           .silentRun()
@@ -113,7 +114,7 @@ describe('Contacts Grand bonus saga', () => {
           .withState(state)
 
           .not.call(queryService.apiRequest, queries.grantUserSubscriptionBonus, { grantCode: 'FREE_FOR_LIFE' })
-          .not.put(usersActions.usersGetProfileSelfRequest())
+          .not.put(authActions.authGetUserRequest())
 
           .dispatch(actions.contactsCheckBonusRequest())
           .silentRun()
@@ -126,7 +127,7 @@ describe('Contacts Grand bonus saga', () => {
           .withState(makeAuthorizedState(diamondUser, state))
 
           .not.call(queryService.apiRequest, queries.grantUserSubscriptionBonus, { grantCode: 'FREE_FOR_LIFE' })
-          .not.put(usersActions.usersGetProfileSelfRequest())
+          .not.put(authActions.authGetUserRequest())
 
           .dispatch(actions.contactsCheckBonusRequest())
           .silentRun()

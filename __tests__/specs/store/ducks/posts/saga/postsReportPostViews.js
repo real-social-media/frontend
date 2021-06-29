@@ -9,13 +9,14 @@ import * as actions from 'store/ducks/posts/actions'
 import * as queries from 'store/ducks/posts/queries'
 import * as entitiesActions from 'store/ducks/entities/actions'
 import * as queryService from 'services/Query'
+import { makeAuthorizedState } from 'tests/utils/helpers'
 
 jest.mock('services/Query', () => ({ apiRequest: jest.fn() }))
 
 const reportPostViews = [1, 2, 3]
 const payload = { postIds: [1, 5], viewType: 'THUMBNAIL' }
 const user = { userId: 'us-east-1:f554ea33-7315-4e60-8e85-c86ad0ee6f0e' }
-const authorizedState = { auth: { user: user.userId }, entities: { users: { [user.userId]: user } } }
+const authorizedState = makeAuthorizedState(user)
 
 queryService.apiRequest.mockResolvedValue({ data: { reportPostViews } })
 

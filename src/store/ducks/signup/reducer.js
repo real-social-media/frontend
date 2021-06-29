@@ -4,41 +4,32 @@ import * as constants from 'store/ducks/signup/constants'
 
 export const initialState = {
   signupUsername: {
-    data: [],
     status: 'idle',
-    payload: {},
   },
   signupPassword: {
-    data: [],
     status: 'idle',
-    payload: {},
   },
   signupCreate: {
     status: 'idle',
     payload: {},
   },
   signupConfirm: {
-    data: [],
     status: 'idle',
-    payload: {},
   },
 }
 
 /**
  *
  */
-const signupUsernameRequest = (state, action) => update(state, {
+const signupUsernameRequest = (state) => update(state, {
   signupUsername: {
     status: { $set: 'loading' },
-    payload: { $set: action.payload },
   },
 })
 
-const signupUsernameSuccess = (state, action) => update(state, {
+const signupUsernameSuccess = (state) => update(state, {
   signupUsername: {
-    data: { $set: action.payload.data },
     status: { $set: 'success' },
-    payload: { $set: action.payload.payload },
   },
 })
 
@@ -50,26 +41,22 @@ const signupUsernameFailure = (state) => update(state, {
 
 const signupUsernameIdle = (state) => update(state, {
   signupUsername: {
-    status: { $set: 'idle' },
-    payload: { $set: initialState.signupUsername.payload },
+    $set: initialState.signupUsername,
   },
 })
 
 /**
  *
  */
-const signupPasswordRequest = (state, action) => update(state, {
+const signupPasswordRequest = (state) => update(state, {
   signupPassword: {
     status: { $set: 'loading' },
-    payload: { $set: action.payload },
   },
 })
 
-const signupPasswordSuccess = (state, action) => update(state, {
+const signupPasswordSuccess = (state) => update(state, {
   signupPassword: {
-    data: { $set: action.payload.data },
     status: { $set: 'success' },
-    payload: { $set: action.payload.payload },
   },
 })
 
@@ -112,18 +99,15 @@ const signupCreateIdle = (state) => update(state, {
 /**
  *
  */
-const signupConfirmRequest = (state, action) => update(state, {
+const signupConfirmRequest = (state) => update(state, {
   signupConfirm: {
     status: { $set: 'loading' },
-    payload: { $set: action.payload },
   },
 })
 
-const signupConfirmSuccess = (state, action) => update(state, {
+const signupConfirmSuccess = (state) => update(state, {
   signupConfirm: {
-    data: { $set: action.payload.data },
     status: { $set: 'success' },
-    payload: { $set: action.payload.payload },
   },
 })
 
@@ -136,7 +120,6 @@ const signupConfirmFailure = (state) => update(state, {
 const signupConfirmIdle = (state) => update(state, {
   signupConfirm: {
     status: { $set: 'idle' },
-    payload: { $set: initialState.signupConfirm.payload },
   },
 })
 

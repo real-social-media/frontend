@@ -14,7 +14,7 @@ const ChatOptionsService = ({ children }) => {
 
   const chatId = route.params.chatId
 
-  const user = useSelector(authSelector.authUserSelector)
+  const user = useSelector(authSelector.authUser)
   const chatGetChat = useSelector(chatSelector.chatGetChatSelector(chatId))
   const usersBlock = useSelector(state => state.users.usersBlock)
   const usersUnblock = useSelector(state => state.users.usersUnblock)

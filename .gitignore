@@ -86,3 +86,9 @@ ios/vendor/
 # Sentry
 android/sentry.properties
 ios/sentry.properties
+
+# package directories
+jspm_packages
+
+# Serverless directories
+.serverless

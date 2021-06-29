@@ -45,7 +45,7 @@ useNavigation.mockReturnValue(navigation)
 
 jest.spyOn(RNPermissions, 'request').mockResolvedValue(true)
 jest.spyOn(RNPermissions, 'check').mockResolvedValue(RNPermissions.RESULTS.GRANTED)
-jest.spyOn(authSelector, 'authUserSelector').mockReturnValue(user)
+jest.spyOn(authSelector, 'authUser').mockReturnValue(user)
 
 describe('DatingSettingsScreen', () => {
   afterEach(() => {
@@ -67,7 +67,7 @@ describe('DatingSettingsScreen', () => {
       const { getByText } = setup()
 
       expect(getByText(user.bio)).toBeTruthy()
-      expect(getByText(`${user.displayName}, 30`)).toBeTruthy()
+      expect(getByText(`${user.displayName} 31`)).toBeTruthy()
     })
   })
 
@@ -106,13 +106,13 @@ describe('DatingSettingsScreen', () => {
 
     it('Manage Diamond', () => {
       const diamondUser = { ...user, subscriptionLevel: 'DIAMOND' }
-      authSelector.authUserSelector.mockReturnValue(diamondUser)
+      authSelector.authUser.mockReturnValue(diamondUser)
       const { getByText } = setup()
 
       fireEvent.press(getByText('Manage Diamond'))
 
       testNavigate(navigation, 'Membership')
-      authSelector.authUserSelector.mockReturnValue(user)
+      authSelector.authUser.mockReturnValue(user)
     })
 
     it('Change Profile Picture', () => {

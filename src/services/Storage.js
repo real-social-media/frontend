@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-community/async-storage'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as Logger from 'services/Logger'
 
 export const setItem = async (name, value) => {
@@ -26,7 +26,6 @@ export const removeItem = async (name) => {
 }
 
 export const STORAGE_KEYS = {
-  AUTH_USER: '@real:auth:user',
   AUTH_APPLE: '@real:auth:apple',
   SETTINGS_PHOTO_VALIDATION: '@real:settings:photoValidation',
   VERIFICATION_SCREEN: '@real:uploads:verificationScreen',

@@ -1,9 +1,11 @@
 import { expectSaga } from 'redux-saga-test-plan'
-import { testEntitiesMerge, testAsRootSaga } from 'tests/utils/helpers'
+import { testAsRootSaga } from 'tests/utils/helpers'
+import * as normalizer from 'normalizer/schemas'
 import posts from 'store/ducks/posts/saga'
 import * as queries from 'store/ducks/posts/queries'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as queryService from 'services/Query'
+import { entitiesMerge } from 'store/ducks/entities/saga'
 
 jest.mock('store/ducks/users/saga/usersCheckPermissions', () => jest.fn())
 jest.mock('services/Query', () => ({ apiRequest: jest.fn().mockResolvedValue(true) }))
@@ -19,11 +21,11 @@ describe('Posts sagas', () => {
     it('success', async () => {
       const payload = { userId: 'id123' }
       const response = { data: { user: { posts: { items: [{ postId: 1 }] } } } }
-      const entities = { posts: { 1: { postId: 1 } } }
 
       queryService.apiRequest.mockResolvedValueOnce(response)
 
-      await testEntitiesMerge(saga(), entities)
+      await saga()
+        .call(entitiesMerge, normalizer.normalizePostsGet(response.data.user.posts.items))
         .put(postsActions.postsGetSuccess({ data: [1], payload, meta: {} }))
 
         .dispatch(postsActions.postsGetRequest(payload))
@@ -37,11 +39,11 @@ describe('Posts sagas', () => {
     it('success', async () => {
       const payload = { userId: 'id123' }
       const response = { data: { user: { posts: { items: [{ postId: 1 }] } } } }
-      const entities = { posts: { 1: { postId: 1 } } }
 
       queryService.apiRequest.mockResolvedValueOnce(response)
 
-      await testEntitiesMerge(saga(), entities)
+      await saga()
+        .call(entitiesMerge, normalizer.normalizePostsGet(response.data.user.posts.items))
         .put(postsActions.postsGetMoreSuccess({ data: [1], payload, meta: {} }))
 
         .dispatch(postsActions.postsGetMoreRequest(payload))
@@ -55,11 +57,11 @@ describe('Posts sagas', () => {
     it('success', async () => {
       const payload = { userId: 'id123' }
       const response = { data: { self: { postsWithUnviewedComments: { items: [{ postId: 1 }] } } } }
-      const entities = { posts: { 1: { postId: 1 } } }
 
       queryService.apiRequest.mockResolvedValueOnce(response)
 
-      await testEntitiesMerge(saga(), entities)
+      await saga()
+        .call(entitiesMerge, normalizer.normalizePostsGet(response.data.self.postsWithUnviewedComments.items))
         .put(postsActions.postsGetUnreadCommentsSuccess({ data: [1], payload, meta: {} }))
 
         .dispatch(postsActions.postsGetUnreadCommentsRequest(payload))
@@ -73,11 +75,11 @@ describe('Posts sagas', () => {
     it('success', async () => {
       const payload = { userId: 'id123' }
       const response = { data: { post: { viewedBy: { items: [{ userId: 1 }] } } } }
-      const entities = { users: { 1: { userId: 1 } } }
 
       queryService.apiRequest.mockResolvedValueOnce(response)
 
-      await testEntitiesMerge(saga(), entities)
+      await saga()
+        .call(entitiesMerge, normalizer.normalizeUsersGet(response.data.post.viewedBy.items))
         .put(postsActions.postsViewsGetSuccess({ data: [1], payload, meta: {} }))
 
         .dispatch(postsActions.postsViewsGetRequest(payload))
@@ -91,11 +93,11 @@ describe('Posts sagas', () => {
     it('success', async () => {
       const payload = { userId: 'id123' }
       const response = { data: { post: { viewedBy: { items: [{ userId: 1 }] } } } }
-      const entities = { users: { 1: { userId: 1 } } }
 
       queryService.apiRequest.mockResolvedValueOnce(response)
 
-      await testEntitiesMerge(saga(), entities)
+      await saga()
+        .call(entitiesMerge, normalizer.normalizeUsersGet(response.data.post.viewedBy.items))
         .put(postsActions.postsViewsGetMoreSuccess({ data: [1], payload, meta: {} }))
 
         .dispatch(postsActions.postsViewsGetMoreRequest(payload))
@@ -109,11 +111,11 @@ describe('Posts sagas', () => {
     it('success', async () => {
       const payload = { userId: 'id123' }
       const response = { data: { post: { onymouslyLikedBy: { items: [{ userId: 1 }] } } } }
-      const entities = { users: { 1: { userId: 1 } } }
 
       queryService.apiRequest.mockResolvedValueOnce(response)
 
-      await testEntitiesMerge(saga(), entities)
+      await saga()
+        .call(entitiesMerge, normalizer.normalizeUsersGet(response.data.post.onymouslyLikedBy.items))
         .put(postsActions.postsLikesGetSuccess({ data: [1], payload, meta: {} }))
 
         .dispatch(postsActions.postsLikesGetRequest(payload))
@@ -127,11 +129,11 @@ describe('Posts sagas', () => {
     it('success', async () => {
       const payload = { userId: 'id123' }
       const response = { data: { self: { feed: { items: [{ postId: 1 }] } } } }
-      const entities = { posts: { 1: { postId: 1 } } }
 
       queryService.apiRequest.mockResolvedValueOnce(response)
 
-      await testEntitiesMerge(saga(), entities)
+      await saga()
+        .call(entitiesMerge, normalizer.normalizePostsGet(response.data.self.feed.items))
         .put(postsActions.postsFeedGetSuccess({ data: [1], payload, meta: {} }))
 
         .dispatch(postsActions.postsFeedGetRequest(payload))
@@ -145,11 +147,11 @@ describe('Posts sagas', () => {
     it('success', async () => {
       const payload = { userId: 'id123' }
       const response = { data: { self: { feed: { items: [{ postId: 1 }] } } } }
-      const entities = { posts: { 1: { postId: 1 } } }
 
       queryService.apiRequest.mockResolvedValueOnce(response)
 
-      await testEntitiesMerge(saga(), entities)
+      await saga()
+        .call(entitiesMerge, normalizer.normalizePostsGet(response.data.self.feed.items))
         .put(postsActions.postsFeedGetMoreSuccess({ data: [1], payload, meta: {} }))
 
         .dispatch(postsActions.postsFeedGetMoreRequest(payload))
@@ -163,11 +165,11 @@ describe('Posts sagas', () => {
     it('success', async () => {
       const payload = { userId: 'id123' }
       const response = { data: { user: { posts: { items: [{ postId: 1 }] } } } }
-      const entities = { posts: { 1: { postId: 1 } } }
 
       queryService.apiRequest.mockResolvedValueOnce(response)
 
-      await testEntitiesMerge(saga(), entities)
+      await saga()
+        .call(entitiesMerge, normalizer.normalizePostsGet(response.data.user.posts.items))
         .put(postsActions.postsGetArchivedSuccess({ data: [1], payload, meta: {} }))
 
         .dispatch(postsActions.postsGetArchivedRequest(payload))
@@ -181,11 +183,11 @@ describe('Posts sagas', () => {
     it('success', async () => {
       const payload = { postId: 'id123' }
       const response = { data: { editPost: { postId: 1 } } }
-      const entities = { posts: { 1: { postId: 1 } } }
 
       queryService.apiRequest.mockResolvedValue(response)
 
-      await testEntitiesMerge(saga(), entities)
+      await saga()
+        .call(entitiesMerge, normalizer.normalizePostGet(response.data.editPost))
         .put(postsActions.postsEditSuccess({ data: 1, payload, meta: {} }))
 
         .dispatch(postsActions.postsEditRequest(payload))
@@ -203,12 +205,12 @@ describe('Posts sagas', () => {
     it('success', async () => {
       const payload = { postId: 'id123', userId: 'id434' }
       const response = { data: { deletePost: { postId: 1 } } }
-      const entities = { posts: { 1: { postId: 1 } } }
 
       queryService.apiRequest.mockResolvedValueOnce(response)
       queryService.apiRequest.mockResolvedValueOnce({ data: { user: { posts: { items: [{ postId: 1 }] } } } })
 
-      await testEntitiesMerge(saga(), entities)
+      await saga()
+        .call(entitiesMerge, normalizer.normalizePostsGet(response.data))
         .put(postsActions.postsDeleteSuccess({ data: 1, payload, meta: {} }))
         .put(postsActions.postsDeleteIdle({}))
         .put(postsActions.postsGetRequest({ userId: 'id434' }))
@@ -225,12 +227,12 @@ describe('Posts sagas', () => {
     it('success', async () => {
       const payload = { postId: 'id123', userId: 'id434' }
       const response = { data: { archivePost: { postId: 1 } } }
-      const entities = { posts: { 1: { postId: 1 } } }
 
       queryService.apiRequest.mockResolvedValueOnce(response)
       queryService.apiRequest.mockResolvedValueOnce({ data: { user: { posts: { items: [{ postId: 1 }] } } } })
 
-      await testEntitiesMerge(saga(), entities)
+      await saga()
+        .call(entitiesMerge, normalizer.normalizePostsGet(response.data))
         .put(postsActions.postsArchiveSuccess({ data: 1, payload, meta: {} }))
         .put(postsActions.postsArchiveIdle({}))
         .put(postsActions.postsGetRequest({ userId: 'id434' }))
@@ -247,12 +249,12 @@ describe('Posts sagas', () => {
     it('success', async () => {
       const payload = { postId: 'id123', userId: 'id434' }
       const response = { data: { restoreArchivedPost: { postId: 1 } } }
-      const entities = { posts: { 1: { postId: 1 } } }
 
       queryService.apiRequest.mockResolvedValueOnce(response)
       queryService.apiRequest.mockResolvedValueOnce({ data: { user: { posts: { items: [{ postId: 1 }] } } } })
 
-      await testEntitiesMerge(saga(), entities)
+      await saga()
+        .call(entitiesMerge, normalizer.normalizePostsGet(response.data))
         .put(postsActions.postsRestoreArchivedSuccess({ data: 1, payload, meta: {} }))
         .put(postsActions.postsRestoreArchivedIdle({}))
         .put(postsActions.postsGetRequest({ userId: 'id434' }))
@@ -269,11 +271,11 @@ describe('Posts sagas', () => {
     it('success', async () => {
       const payload = { postId: 'id123', userId: 'id434' }
       const response = { data: { flagPost: { postId: 1 } } }
-      const entities = { posts: { 1: { postId: 1 } } }
 
       queryService.apiRequest.mockResolvedValueOnce(response)
 
-      await testEntitiesMerge(saga(), entities)
+      await saga()
+        .call(entitiesMerge, normalizer.normalizePostGet(response.data.flagPost))
         .put(postsActions.postsFlagSuccess({ data: 1, payload, meta: {} }))
         .put(postsActions.postsFlagIdle({}))
 
@@ -288,11 +290,11 @@ describe('Posts sagas', () => {
     it('success', async () => {
       const payload = { postId: 'id123', userId: 'id434' }
       const response = { data: { post: { postId: 1 } } }
-      const entities = { posts: { 1: { postId: 1 } } }
 
       queryService.apiRequest.mockResolvedValueOnce(response)
 
-      await testEntitiesMerge(saga(), entities)
+      await saga()
+        .call(entitiesMerge, normalizer.normalizePostGet(response.data.post))
         .put(postsActions.postsSingleGetSuccess({ data: 1, payload, meta: {} }))
 
         .dispatch(postsActions.postsSingleGetRequest(payload))
@@ -306,11 +308,11 @@ describe('Posts sagas', () => {
     it('success', async () => {
       const payload = { postId: 'id123' }
       const response = { data: { onymouslyLikePost: { postId: 1 } } }
-      const entities = { posts: { 1: { postId: 1 } } }
 
       queryService.apiRequest.mockResolvedValueOnce(response)
 
-      await testEntitiesMerge(saga(), entities)
+      await saga()
+        .call(entitiesMerge, normalizer.normalizePostGet(response.data.onymouslyLikePost))
         .put(postsActions.postsOnymouslyLikeSuccess({ data: 1, payload, meta: {} }))
 
         .dispatch(postsActions.postsOnymouslyLikeRequest(payload))
@@ -324,11 +326,11 @@ describe('Posts sagas', () => {
     it('success', async () => {
       const payload = { postId: 'id123' }
       const response = { data: { dislikePost: { postId: 1 } } }
-      const entities = { posts: { 1: { postId: 1 } } }
 
       queryService.apiRequest.mockResolvedValueOnce(response)
 
-      await testEntitiesMerge(saga(), entities)
+      await saga()
+        .call(entitiesMerge, normalizer.normalizePostGet(response.data.dislikePost))
         .put(postsActions.postsDislikeSuccess({ data: 1, payload, meta: {} }))
 
         .dispatch(postsActions.postsDislikeRequest(payload))
@@ -342,11 +344,11 @@ describe('Posts sagas', () => {
     it('success', async () => {
       const payload = { postId: 'id123' }
       const response = { data: { post: { comments: { items: [{ commentId: 1 }] } } } }
-      const entities = { comments: { 1: { commentId: 1 } } }
 
       queryService.apiRequest.mockResolvedValueOnce(response)
 
-      await testEntitiesMerge(saga(), entities)
+      await saga()
+        .call(entitiesMerge, normalizer.normalizeCommentsGet(response.data.post.comments.items))
         .put(postsActions.postsCommentsGetSuccess({ data: [1], payload, meta: {} }))
 
         .dispatch(postsActions.postsCommentsGetRequest(payload))
@@ -363,7 +365,8 @@ describe('Posts sagas', () => {
 
       queryService.apiRequest.mockResolvedValueOnce(response)
 
-      await testEntitiesMerge(saga(), {})
+      await saga()
+        .call(entitiesMerge, normalizer.normalizeCommentGet(response.data.addComment))
         .put(postsActions.commentsAddSuccess({ data: [1], payload, meta: {} }))
 
         .dispatch(postsActions.commentsAddRequest(payload))
@@ -380,7 +383,8 @@ describe('Posts sagas', () => {
 
       queryService.apiRequest.mockResolvedValue(response)
 
-      await testEntitiesMerge(saga(), {})
+      await saga()
+        .call(entitiesMerge, normalizer.normalizeCommentGet(response.data.deleteComment))
         .put(postsActions.commentsDeleteSuccess({ data: [1], payload, meta: {} }))
 
         .dispatch(postsActions.commentsDeleteRequest(payload))

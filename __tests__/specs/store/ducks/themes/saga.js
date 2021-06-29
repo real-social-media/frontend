@@ -1,7 +1,7 @@
 import { expectSaga } from 'redux-saga-test-plan'
 import { getContext } from 'redux-saga/effects'
 import { testAsRootSaga, testNavigate, makeAuthorizedState } from 'tests/utils/helpers'
-import * as usersActions from 'store/ducks/users/actions'
+import * as authActions from 'store/ducks/auth/actions'
 import * as actions from 'store/ducks/themes/actions'
 import * as queries from 'store/ducks/themes/queries'
 import themes from 'store/ducks/themes/saga'
@@ -18,7 +18,7 @@ describe('Themes saga', () => {
 
   describe('themesCheckDefaultRequest', () => {
     it('open modal when themeCode empty', async () => {
-      const user = { userId: 1, themeCode: null }
+      const user = { userId: '1', themeCode: null }
 
       await expectSaga(testAsRootSaga(themes))
         .provide([[getContext('ReactNavigationRef'), { current: navigation }]])
@@ -33,7 +33,7 @@ describe('Themes saga', () => {
     })
 
     it('do not open modal if themeCode is not empty', async () => {
-      const user = { userId: 1, themeCode: 'themeCode' }
+      const user = { userId: '1', themeCode: 'themeCode' }
 
       await expectSaga(testAsRootSaga(themes))
         .provide([[getContext('ReactNavigationRef'), { current: navigation }]])
@@ -48,7 +48,7 @@ describe('Themes saga', () => {
     })
 
     it('failure', async () => {
-      const user = { userId: 1, themeCode: null }
+      const user = { userId: '1', themeCode: null }
       const error = new Error('error')
 
       navigation.navigate.mockImplementationOnce(() => {
@@ -74,7 +74,7 @@ describe('Themes saga', () => {
         .provide([[getContext('ReactNavigationRef'), { current: navigation }]])
 
         .call(queryService.apiRequest, queries.setThemeCode, { themeCode })
-        .put(usersActions.usersGetProfileSelfRequest())
+        .put(authActions.authGetUserRequest())
         .put(actions.themesEditSuccess())
 
         .dispatch(actions.themesEditRequest({ themeCode }))

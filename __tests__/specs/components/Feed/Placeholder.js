@@ -6,7 +6,7 @@ import Placeholder from 'components/Feed/Placeholder'
 import { AuthProvider } from 'services/providers/Auth'
 import * as authSelector from 'store/ducks/auth/selectors'
 
-jest.spyOn(authSelector, 'authUserSelector').mockReturnValue({ userStatus: 'ACTIVE' })
+jest.spyOn(authSelector, 'authUser').mockReturnValue({ userStatus: 'ACTIVE' })
 
 jest.mock('@react-navigation/native', () => ({ useNavigation: jest.fn() }))
 const navigation = { navigate: jest.fn() }
@@ -40,12 +40,12 @@ describe('Feed Placeholder', () => {
   })
 
   it('navigate anonymous user to ProfileUpgrade', () => {
-    authSelector.authUserSelector.mockReturnValue({ userStatus: 'ANONYMOUS' })
+    authSelector.authUser.mockReturnValue({ userStatus: 'ANONYMOUS' })
     const { getByText } = setup()
 
     fireEvent.press(getByText('Follow & Invite Friends'))
     testNavigate(navigation, 'App.Root.ProfileUpgrade')
-    authSelector.authUserSelector.mockReturnValue({ userStatus: 'ACTIVE' })
+    authSelector.authUser.mockReturnValue({ userStatus: 'ACTIVE' })
   })
 
   it('navigate user to invite friends screen', () => {

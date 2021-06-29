@@ -1,4 +1,4 @@
-import { put, takeLatest } from 'redux-saga/effects'
+import { put, takeLatest, call } from 'redux-saga/effects'
 import * as actions from 'store/ducks/albums/actions'
 import * as queries from 'store/ducks/albums/queries'
 import * as constants from 'store/ducks/albums/constants'
@@ -21,7 +21,7 @@ function* albumsGetRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizeAlbumsGet(data)
-  yield entitiesMerge(normalized)
+  yield call(entitiesMerge, normalized)
 
   return {
     data: normalized.result,
@@ -51,7 +51,7 @@ function* albumsSingleGetRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizeAlbumGet(data)
-  yield entitiesMerge(normalized)
+  yield call(entitiesMerge, normalized)
 
   return {
     data: normalized.result,
@@ -82,7 +82,7 @@ function* albumsPostsGetRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizePostsGet(data)
-  yield entitiesMerge(normalized)
+  yield call(entitiesMerge, normalized)
 
   return {
     data: normalized.result,
@@ -122,7 +122,7 @@ function* albumsCreateRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizeAlbumGet(data)
-  yield entitiesMerge(normalized)
+  yield call(entitiesMerge, normalized)
 
   return {
     data: normalized.result,
@@ -152,7 +152,7 @@ function* albumsEditRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizeAlbumGet(data)
-  yield entitiesMerge(normalized)
+  yield call(entitiesMerge, normalized)
 
   return {
     data: normalized.result,
@@ -182,7 +182,7 @@ function* albumsDeleteRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizeAlbumGet(data)
-  yield entitiesMerge(normalized)
+  yield call(entitiesMerge, normalized)
 
   return {
     data: normalized.result,

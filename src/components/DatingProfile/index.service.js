@@ -1,5 +1,6 @@
 import { useEffect, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import * as authActions from 'store/ducks/auth/actions'
 import * as authSelector from 'store/ducks/auth/selectors'
 import * as usersActions from 'store/ducks/users/actions'
 import * as usersSelector from 'store/ducks/users/selectors'
@@ -10,7 +11,7 @@ import { useEffectWhenFocused } from 'services/hooks'
 const DatingProfileService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
-  const user = useSelector(authSelector.authUserSelector)
+  const user = useSelector(authSelector.authUser)
   const usersSetUserDatingStatus = useSelector(usersSelector.usersSetUserDatingStatus)
   const usersImagePostsGet = useSelector(usersSelector.usersImagePostsGetSelector())
 
@@ -25,7 +26,7 @@ const DatingProfileService = ({ children }) => {
   }, [usersSetUserDatingStatus.status])
 
   useEffect(() => {
-    dispatch(usersActions.usersGetProfileSelfRequest())
+    dispatch(authActions.authGetUserRequest())
     dispatch(usersActions.usersImagePostsGetRequest({ userId: user.userId, isVerified: true }))
   }, [])
 

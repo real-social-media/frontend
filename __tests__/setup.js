@@ -6,6 +6,7 @@ import 'tests/mocks/react-native-permissions'
 import 'tests/mocks/react-native-contacts'
 import 'tests/mocks/react-native-localize'
 import 'tests/mocks/react-native-offline'
+import 'tests/mocks/node-forge'
 import 'tests/mocks/logger'
 import 'tests/mocks/Analytics'
 

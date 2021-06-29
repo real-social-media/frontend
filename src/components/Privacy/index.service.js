@@ -6,7 +6,7 @@ import { useEffectWhenFocused } from 'services/hooks'
 
 const PrivacyService = ({ children }) => {
   const dispatch = useDispatch()
-  const user = useSelector(authSelector.authUserSelector)
+  const user = useSelector(authSelector.authUser)
   const usersEditProfile = useSelector(usersSelector.usersEditProfile)
 
   const togglePrivacyStatus = () =>

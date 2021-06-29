@@ -42,10 +42,7 @@ describe('Purchases reducer', () => {
     })
 
     it('clear error on request', () => {
-      const state = applyActions([
-        actions.purchaseFailure(error),
-        actions.purchaseRequest(),
-      ], reducer)
+      const state = applyActions([actions.purchaseFailure(error), actions.purchaseRequest()], reducer)
 
       expect(selectors.purchasesRequest(state)).toEqual({
         status: 'loading',
@@ -79,11 +76,10 @@ describe('Purchases reducer', () => {
     })
 
     it('clear error on request', () => {
-      const state = applyActions([
-        actions.purchaseFailure(error),
-        actions.retryPurchaseFailure(error),
-        actions.retryPurchaseRequest(),
-      ], reducer)
+      const state = applyActions(
+        [actions.purchaseFailure(error), actions.retryPurchaseFailure(error), actions.retryPurchaseRequest()],
+        reducer,
+      )
 
       expect(selectors.retryPurchase(state)).toEqual({
         status: 'loading',
@@ -91,6 +87,45 @@ describe('Purchases reducer', () => {
 
       expect(selectors.purchasesRequest(state)).toEqual({
         status: 'idle',
+      })
+    })
+  })
+
+  describe('subscriptionGet', () => {
+    it('initial state', () => {
+      const state = reducer(undefined, { type: 'MOCK_ACTION' })
+
+      expect(selectors.subscriptionGet(state)).toEqual({
+        status: 'idle',
+        data: {},
+      })
+    })
+
+    it('request', () => {
+      const state = reducer(undefined, actions.subscriptionGetRequest())
+
+      expect(selectors.subscriptionGet(state)).toEqual({
+        status: 'loading',
+        data: {},
+      })
+    })
+
+    it('success', () => {
+      const data = { a: 1, b: 2 }
+      const state = reducer(undefined, actions.subscriptionGetSuccess(data))
+
+      expect(selectors.subscriptionGet(state)).toEqual({
+        status: 'success',
+        data,
+      })
+    })
+
+    it('failure', () => {
+      const state = reducer(undefined, actions.subscriptionGetFailure(error))
+
+      expect(selectors.subscriptionGet(state)).toEqual({
+        status: 'failure',
+        data: {},
       })
     })
   })

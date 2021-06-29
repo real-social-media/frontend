@@ -1,7 +1,13 @@
+import { Platform } from 'react-native'
 import { navigateToPath, pushToPath } from 'navigation/helpers'
 import * as UserService from 'services/User'
 
-const withAuthValidation = (callback) => {
+const isWeb = Platform.OS === 'web'
+
+const mockPathForWeb = path => isWeb ? 'DownloadApp' : path
+export const mockForWeb = (callback, navigation) => isWeb ? () => navigateDownloadApp(navigation) : callback
+
+export const withAuthValidation = (callback) => {
   return (navigation, params = {}, meta = {}) => {
     return () => {
       if (!meta.protected) {
@@ -65,24 +71,24 @@ export const navigateProfileRequests = navigateToPath('App.Chat.ProfileRequests'
 /**
  * Dating
  */
-export const navigateDating = withDatingValidation(navigateToPath('Dating.Dating'))
-export const navigateDatingAbout = withAuthValidation(navigateToPath('DatingAbout'))
-export const navigateDatingMatch = withAuthValidation(navigateToPath('DatingMatch'))
-export const navigateDatingProfile = withAuthValidation(navigateToPath('DatingProfile'))
-export const navigateDatingSettings = withAuthValidation(navigateToPath('DatingSettings'))
-export const navigateDatingWizard = navigateToPath('Dating.DatingWizard')
+export const navigateDating = withDatingValidation(navigateToPath(mockPathForWeb('Dating.Dating')))
+export const navigateDatingAbout = withAuthValidation(navigateToPath(mockPathForWeb('DatingAbout')))
+export const navigateDatingMatch = withAuthValidation(navigateToPath(mockPathForWeb('DatingMatch')))
+export const navigateDatingProfile = withAuthValidation(navigateToPath(mockPathForWeb('DatingProfile')))
+export const navigateDatingSettings = withAuthValidation(navigateToPath(mockPathForWeb('DatingSettings')))
+export const navigateDatingWizard = navigateToPath(mockPathForWeb('Dating.DatingWizard'))
 
 /**
  * Profile
  */
 export const navigateProfileSelf = withAuthValidation(navigateToPath('App.Root.Home.Profile.ProfileSelf'))
 export const navigateSettings = withAuthValidation(navigateToPath('App.Root.Home.Profile.Settings'))
-export const navigateProfilePhotoUpload = withAuthValidation(navigateToPath('App.Root.Home.Profile.ProfilePhotoUpload'))
-export const navigateProfilePhoto = navigateToPath('App.Root.Home.Profile.ProfilePhoto')
+export const navigateProfilePhotoUpload = withAuthValidation(navigateToPath(mockPathForWeb('App.Root.Home.Profile.ProfilePhotoUpload')))
+export const navigateProfilePhoto = navigateToPath(mockPathForWeb('App.Root.Home.Profile.ProfilePhoto'))
 export const navigateProfilePhotoGrid = navigateToPath('App.Root.Home.Profile.ProfilePhotoGrid')
 export const navigateProfileEdit = navigateToPath('App.Root.Home.Profile.ProfileEdit')
-export const navigateInviteFriends = withAuthValidation(navigateToPath('InviteFriends'))
-export const navigateInviteFriendsSuccess = navigateToPath('InviteFriendsSuccess')
+export const navigateInviteFriends = withAuthValidation(navigateToPath(mockPathForWeb('InviteFriends')))
+export const navigateInviteFriendsSuccess = navigateToPath(mockPathForWeb('InviteFriendsSuccess'))
 export const navigateTheme = navigateToPath('Theme')
 export const navigatePrivacy = navigateToPath('App.Root.Home.Profile.Privacy')
 export const navigateMembership = navigateToPath('Membership')
@@ -123,7 +129,7 @@ export const navigateAuthForgotPhone = navigateToPath('Auth.Forgot.AuthForgotPho
  * Root
  */
 export const navigateProfileUpgrade = navigateToPath('App.Root.ProfileUpgrade')
-export const navigatePostType = withAuthValidation(navigateToPath('PostType'))
+export const navigatePostType = withAuthValidation(navigateToPath(mockPathForWeb('App.Root.PostType')))
 export const navigateStory = withAuthValidation(pushToPath('Story'))
 export const navigateVerification = withAuthValidation(navigateToPath('Verification'))
 export const navigateComments = withAuthValidation(pushToPath('Comments'))
@@ -134,6 +140,8 @@ export const navigateComments = withAuthValidation(pushToPath('Comments'))
 export const navigateSearch = navigateToPath('App.Root.Home.Search')
 export const navigatePostsFilters = navigateToPath('PostsFilters')
 
+
+
 /**
  * Other
  */
@@ -141,9 +149,10 @@ export const navigateBack = (navigation) => navigation.goBack()
 export const navigateApp = navigateToPath('App')
 export const navigateResetToApp = (navigation) => navigation.reset({ index: 0, routes: [{ name: 'App' }] })
 export const navigateHome = navigateToPath('App.Root.Home.Feed.Feed')
-export const navigateCamera = withAuthValidation(navigateToPath('Camera'))
+export const navigateCamera = withAuthValidation(navigateToPath(mockPathForWeb('Camera')))
 export const navigatePayout = withAuthValidation(navigateToPath('Payout'))
 export const navigatePayouts = withAuthValidation(navigateToPath('Payouts'))
 export const navigatePromocodes = withAuthValidation(navigateToPath('Promocodes'))
 export const navigateReset = (navigation) => navigation.reset({ index: 0, routes: [{ name: 'Auth' }] })
 export const navigateThemeDefault = navigateToPath('ThemeDefault')
+export const navigateDownloadApp = navigateToPath('DownloadApp')

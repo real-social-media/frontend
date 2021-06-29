@@ -6,24 +6,14 @@ import { useEffectWhenFocused } from 'services/hooks'
 
 const ProfileFollowerService = ({ children }) => {
   const dispatch = useDispatch()
-  const user = useSelector(authSelector.authUserSelector)
+  const user = useSelector(authSelector.authUser)
   const userId = user.userId
   const usersGetPendingFollowers = useSelector(usersSelector.usersGetPendingFollowersSelector())
-  const usersFollow = useSelector(state => state.users.usersFollow)
-  const usersUnfollow = useSelector(state => state.users.usersUnfollow)
-  const usersAcceptFollowerUser = useSelector(state => state.users.usersAcceptFollowerUser)
+  const usersFollow = useSelector(usersSelector.usersFollow)
+  const usersUnfollow = useSelector(usersSelector.usersUnfollow)
 
   const usersGetPendingFollowersRequest = (payload) =>
     dispatch(usersActions.usersGetPendingFollowersRequest(payload))
-
-  const usersFollowRequest = ({ userId }) =>
-    dispatch(usersActions.usersFollowRequest({ userId }))
-
-  const usersUnfollowRequest = ({ userId }) =>
-    dispatch(usersActions.usersUnfollowRequest({ userId }))
-
-  const usersAcceptFollowerUserRequest = ({ userId }) =>
-    dispatch(usersActions.usersAcceptFollowerUserRequest({ userId }))
 
   useEffectWhenFocused(() => {
     if (usersFollow.status === 'success') {
@@ -41,13 +31,8 @@ const ProfileFollowerService = ({ children }) => {
 
   return children({
     usersGetPendingFollowers,
-    usersFollow,
-    usersFollowRequest,
-    usersUnfollow,
-    usersUnfollowRequest,
-    usersAcceptFollowerUser,
-    usersAcceptFollowerUserRequest,
   })
 }
 
 export default ProfileFollowerService
+

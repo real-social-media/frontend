@@ -1,4 +1,4 @@
-import { put, takeLatest } from 'redux-saga/effects'
+import { put, takeLatest, call } from 'redux-saga/effects'
 import path from 'ramda/src/path'
 import compose from 'ramda/src/compose'
 import omit from 'ramda/src/omit'
@@ -21,7 +21,7 @@ function* datingMatchedUsersRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizeUsersGet(data)
-  yield entitiesMerge(normalized)
+  yield call(entitiesMerge, normalized)
 
   return {
     data: normalized.result,
@@ -32,7 +32,7 @@ function* datingMatchedUsersRequestData(req, api) {
 
 function* datingMatchedUsersRequest(req) {
   try {
-    const data = yield queryService.apiRequest(queries.matchedUsers, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.matchedUsers, req.payload)
     const next = yield datingMatchedUsersRequestData(req, data)
     yield put(actions.datingMatchedUsersSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {

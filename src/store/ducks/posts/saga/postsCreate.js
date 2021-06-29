@@ -1,277 +1,125 @@
 import { graphqlOperation } from '@aws-amplify/api'
-import { call, put, takeEvery, all, getContext, select, take, spawn, delay, race, retry } from 'redux-saga/effects'
-import { eventChannel, END } from 'redux-saga'
+import { call, put, takeEvery, getContext, select } from 'redux-saga/effects'
 import path from 'ramda/src/path'
-import pathEq from 'ramda/src/pathEq'
-import compose from 'ramda/src/compose'
-import toLower from 'ramda/src/toLower'
-import replace from 'ramda/src/replace'
+import RNFS from 'react-native-fs'
+import { v4 as uuid } from 'uuid'
+import dayjs from 'dayjs'
 import * as actions from 'store/ducks/posts/actions'
 import * as queries from 'store/ducks/posts/queries'
 import * as constants from 'store/ducks/posts/constants'
-import * as subscriptionsActions from 'store/ducks/subscriptions/actions'
-import * as subscriptionsConstants from 'store/ducks/subscriptions/constants'
+import * as cameraActions from 'store/ducks/camera/actions'
+import * as authSelector from 'store/ducks/auth/selectors'
 import * as usersActions from 'store/ducks/users/actions'
-import * as queryService from 'services/Query'
-import dayjs from 'dayjs'
-import { v4 as uuid } from 'uuid'
-import RNFS from 'react-native-fs'
-import * as Logger from 'services/Logger'
-import filePath from 'path'
+import postsUploadRequest from 'store/ducks/posts/saga/postsUpload'
 
-function initPostsCreateUploadChannel({ image, uploadUrl, payload }) {
-  const getName = (image) => {
-    return compose(
-      replace('.heic', ''),
-      replace('.jpg', ''),
-      toLower,
-      filePath.basename,
-    )(image)
-  }
+/**
+ *
+ */
+const postUploadDefaultValues = (post) => ({
+  postId: post.postId || uuid(),
+  mediaId: post.mediaId || uuid(),
+  createdAt: post.createdAt || dayjs().toJSON(),
+  attempt: post.attempt || 0,
+  albumId: post.albumId || null,
+  postType: post.postType || 'IMAGE',
+  text: post.text || '',
+  images: post.images || [],
+  preview: post.preview || [],
+  lifetime: post.lifetime || '',
+  commentsDisabled: post.commentsDisabled || false,
+  likesDisabled: post.likesDisabled || false,
+  sharingDisabled: post.sharingDisabled || false,
+  verificationHidden: post.verificationHidden || false,
+  takenInReal: post.takenInReal || false,
+  payment: parseFloat(post.payment),
+  originalFormat: post.originalFormat || 'jpg',
+  originalMetadata: post.originalMetadata || '',
+  imageFormat: post.imageFormat || 'JPEG',
+  crop: post.crop || null,
+})
 
-  const getFilename = (image) => {
-    return compose(
-      toLower,
-      filePath.basename,
-    )(image)
-  }
+/**
+ *
+ */
+function* waitForPostCompleted({ postId }) {
+  const AwsAPI = yield getContext('AwsAPI')
+  let response
 
-  const getFilepath = (image) => {
-    return image
-  }
-
-  const getFiletype = () => {
-    if (toLower(payload.imageFormat) === 'heic') {
-      return 'image/heic'
-    }
-    return 'image/jpeg'
-  }
-
-  const files = [{
-    name: getName(image),
-    filename: getFilename(image),
-    filepath: getFilepath(image),
-    filetype: getFiletype(image),
-  }]
-
-  const handleRequest = (emitter) => (response) => {
-    const jobId = response.jobId
-    emitter({ status: 'retry', progress: 0, jobId })
-  }
-
-  const handleProgress = (emitter) => (response) => {
-    const jobId = response.jobId
-    const progress = parseInt(response.totalBytesSent / response.totalBytesExpectedToSend * 100, 10)
-
-    if (progress % 10 === 0) {
-      const nextProgress = progress === 100 ? 99 : progress
-      emitter({ status: 'progress', progress: nextProgress, jobId })
-    }
-  }
-
-  const handleSuccess = (emitter) => (response) => {
-    const jobId = response.jobId
-    emitter({ status: 'success', progress: 99, jobId })
-    emitter(END)
-  }
-
-  const handleFailure = (emitter) => () => {
-    emitter({ status: 'failure', progress: 0 })
-    emitter(END)
-  }
-
-  const initUpload = () => (begin, progress) =>
-    RNFS.uploadFiles({
-      binaryStreamOnly: true,
-      toUrl: uploadUrl,
-      files: files,
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/octet-stream',
-      },
-      begin,
-      progress,
+  do {
+    yield call(async function sleep() {
+      return new Promise((r) => setTimeout(r, 3000))
     })
 
-  /**
-   *
-   */
-  return eventChannel((emitter) => {
-    const uploader = initUpload(emitter)(
-      handleRequest(emitter),
-      handleProgress(emitter),
-    )
+    response = yield AwsAPI.graphql(graphqlOperation(queries.getPost, { postId }))
+  } while (['PENDING', 'PROCESSING'].includes(response.data.post.postStatus))
 
-    const next = (response) => {
-      if (response.statusCode === 200) {
-        handleSuccess(emitter)(response)
-      } else {
-        handleFailure(emitter)(response)
-      }
-    }
-
-    const fail = (error) => {
-      handleFailure(emitter)(error)
-    }
-
-    uploader.promise
-      .then(next)
-      .catch(fail)
-
-    return () => {
-      RNFS.stopUpload(uploader.jobId)
-    }
-  })
+  return response.data.post
 }
 
-function* handlePostsCreateRequest(payload) {
+/**
+ *
+ */
+function* handleTextOnlyPost(values) {
   const AwsAPI = yield getContext('AwsAPI')
 
-  const data = yield (function* getPost() {
-    try {
-      const post = yield AwsAPI.graphql(graphqlOperation(queries.getPost, payload))
-      if (!post.data.post) {
-        throw new Error('Post must be created')
-      }
-      return post.data.post
-    } catch (error) {
-      const post = yield AwsAPI.graphql(graphqlOperation(queries.addPhotoPost, payload))
-      return post.data.addPost
-    }
-  })()
-
-  return {
-    userId: data.postedBy.userId,
-    imageUrl: data.imageUploadUrl,
-    image: path(['images', 0])(payload),
-  }
+  yield AwsAPI.graphql(graphqlOperation(queries.addTextOnlyPost, values))
 }
 
 /**
  *
  */
-function* handleTextOnlyPost(req) {
+function* createImagePost(values) {
   const AwsAPI = yield getContext('AwsAPI')
 
-  try {
-    yield AwsAPI.graphql(graphqlOperation(queries.addTextOnlyPost, req.payload))
-  } catch (error) {
-    yield put(actions.postsCreateFailure(error, req.payload))
+  function* postExists({ postId }) {
+    const post = yield AwsAPI.graphql(graphqlOperation(queries.getPost, { postId }))
+
+    if (!post.data.post) {
+      throw new Error('Post must be created')
+    }
+
+    return post.data.post
   }
-}
 
-/**
- *
- */
-function* handlePostsCreateSuccess(post) {
-  const userId = path(['postedBy', 'userId'], post)
+  function* postCreate(values) {
+    const post = yield AwsAPI.graphql(graphqlOperation(queries.addPhotoPost, values))
 
-  yield put(actions.postsCreateSuccess({ data: {}, payload: post, meta: {} }))
-  yield put(actions.postsGetRequest({ userId }))
-  yield put(usersActions.usersImagePostsGetRequest({ userId, isVerified: true }))
-  yield put(actions.postsFeedGetRequest({ limit: 20 }))
-}
-
-function* handlePostsCreateFailure(error, post) {
-  yield put(actions.postsCreateFailure(error, post))
-}
-
-/**
- *
- */
-export function* checkPostsCreateProcessing(processingPost) {
-  const TIMEOUT_DELAY = 5000
-  const matchPostId = pathEq(['payload', 'postId'], processingPost.postId)
-
-  function* checkRequest() {
-    const response = yield call([queryService, 'apiRequest'], queries.getPost, processingPost)
-    const post = path(['data', 'post'], response)
-    const postStatus = path(['postStatus'], post)
-
-    if (['PENDING', 'PROCESSING'].includes(postStatus)) {
-      throw new Error('Post has not been processed')
-    }
-
-    if (['ERROR', 'ARCHIVED', 'DELETING'].includes(postStatus)) {
-      const error = new Error('Post shouldn`t have ERROR, ARCHIVED or DELETING status')
-      yield* handlePostsCreateFailure(error, post)
-    }
-
-    if (['COMPLETED'].includes(postStatus)) {
-      yield* handlePostsCreateSuccess(post)
-    }
+    return post.data.addPost
   }
 
   try {
-    const { completed, error, timeout } = yield race({
-      completed: take(subscriptionsConstants.SUBSCRIPTIONS_POST_COMPLETED),
-      error: take(subscriptionsConstants.SUBSCRIPTIONS_POST_ERROR),
-      timeout: delay(TIMEOUT_DELAY),
-    })
-
-    if (matchPostId(completed) || matchPostId(error) || timeout) {
-      yield retry(3, TIMEOUT_DELAY, checkRequest)
-    } else {
-      yield spawn(checkPostsCreateProcessing, processingPost)
-    }
+    return yield call(postExists, values)
   } catch (error) {
-    yield* handlePostsCreateFailure(error, processingPost)
+    return yield call(postCreate, values)
   }
 }
 
-/**
- *
- */
-function* handleImagePost(req) {
-  try {
-    const data = yield handlePostsCreateRequest(req.payload)
+function* handleImagePost(values) {
+  const post = yield call(createImagePost, values)
 
-    const channel = yield call(initPostsCreateUploadChannel, {
-      uploadUrl: data.imageUrl,
-      image: data.image,
-      payload: req.payload,
-    })
-
-    yield takeEvery(channel, function *(upload) {
-      const meta = (nextProgress) => ({
-        attempt: upload.attempt || req.payload.attempt,
-        progress: nextProgress || parseInt(upload.progress, 10),
-        error: upload.error,
-        jobId: upload.jobId,
-      })
-
-      if (upload.status === 'progress') {
-        yield put(actions.postsCreateProgress({ data: {}, payload: req.payload, meta: meta() }))
-      }
-
-      if (upload.status === 'success') {
-        yield put(actions.postsCreateProgress({ data: {}, payload: req.payload, meta: meta(99) }))
-        yield spawn(checkPostsCreateProcessing, req.payload)
-      }
-
-      if (upload.status === 'failure') {
-        const error = new Error('Posts Create Failure')
-        yield put(actions.postsCreateFailure(error, req.payload))
-      }
-    })
-  } catch (error) {
-    yield put(actions.postsCreateFailure(error, req.payload))
-  }
+  yield call(postsUploadRequest, post.imageUploadUrl, values)
+  yield call(waitForPostCompleted, post)
 }
 
-/**
- *
- */
 function* postsCreateRequest(req) {
-  yield put(subscriptionsActions.subscriptionsMainRequest())
-  yield put(subscriptionsActions.subscriptionsPollRequest())
+  const values = postUploadDefaultValues(req.payload)
 
-  if (req.payload.postType === 'TEXT_ONLY') {
-    return yield handleTextOnlyPost(req)
-  }
+  try {
+    if (values.postType !== 'TEXT_ONLY' && values.images.length) {
+      yield put(cameraActions.cameraCaptureIdle({ payload: { uri: values.images[0] } }))
+    }
 
-  if (req.payload.postType === 'IMAGE') {
-    return yield handleImagePost(req)
+    if (values.postType === 'TEXT_ONLY') {
+      yield call(handleTextOnlyPost, values)
+    } else if (values.postType === 'IMAGE') {
+      yield call(handleImagePost, values)
+    } else {
+      throw new Error('Unsupported post type')
+    }
+
+    yield put(actions.postsCreateSuccess({ data: {}, payload: values, meta: {} }, req.meta))
+  } catch (error) {
+    yield put(actions.postsCreateFailure(error, values))
   }
 }
 
@@ -287,82 +135,20 @@ function* postsCreateIdle(req) {
 }
 
 /**
- *
+ * Refresh feeds
  */
-function* postsCreateSchedulerRequest() {
-  try {
-    const data = yield select(state => state.posts.postsCreateQueue)
+function* postsCreateSuccess(req) {
+  if (!path(['meta', 'avatar'], req)) {
+    const userId = yield select(authSelector.authUserId)
 
-    const failedPosts = Object.values(data)
-      .filter(post => path(['status'])(post) === 'failure')
-
-    const loadingPosts = Object.values(data)
-      .filter(post => path(['status'])(post) === 'loading')
-      .filter(post => dayjs(dayjs()).diff(path(['payload', 'createdAt'])(post), 'minute') > 5)
-
-    const idlePosts = Object.values(data)
-      .filter(post => path(['status'])(post) === 'idle')
-
-    const successPosts = Object.values(data)
-      .filter(post => path(['status'])(post) === 'success')
-
-    function* removePost(post) {
-      yield put(actions.postsCreateIdle({
-        payload: path(['payload'])(post),
-      }))
-      return post
-    }
-
-    function* createPost(post) {
-      const postId = uuid()
-      const mediaId = uuid()
-      yield put(actions.postsCreateRequest({
-        ...path(['payload'])(post),
-        createdAt: dayjs().toJSON(),
-        postId,
-        mediaId,
-      }))
-      return post
-    }
-
-    function* recreatePost(post) {
-      yield removePost(post)
-      yield createPost(post)
-    }
-
-    /**
-     * Cleanup
-     */
-    yield all(
-      successPosts.map((post) => call(removePost, post)),
-    )
-
-    yield all(
-      idlePosts.map((post) => call(removePost, post)),
-    )
-
-    /**
-     * Retry
-     */
-    yield all(
-      loadingPosts
-      .map((post) => call(recreatePost, post)),
-    )
-
-    yield all(
-      failedPosts
-      .map((post) => call(recreatePost, post)),
-    )
-  } catch (error) {
-    Logger.withScope(scope => {
-      scope.setExtra('message', error.message)
-      Logger.captureMessage('POSTS_CREATE_SCHEDULER_REQUEST')
-    })
+    yield put(actions.postsGetRequest({ userId }))
+    yield put(usersActions.usersImagePostsGetRequest({ userId, isVerified: true }))
+    yield put(actions.postsFeedGetRequest({ limit: 20 }))
   }
 }
 
 export default () => [
   takeEvery(constants.POSTS_CREATE_REQUEST, postsCreateRequest),
   takeEvery(constants.POSTS_CREATE_IDLE, postsCreateIdle),
-  takeEvery(constants.POSTS_CREATE_SCHEDULER_REQUEST, postsCreateSchedulerRequest),
+  takeEvery(constants.POSTS_CREATE_SUCCESS, postsCreateSuccess),
 ]

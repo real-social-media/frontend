@@ -12,7 +12,7 @@ const AlbumService = ({ children }) => {
   const navigation = useNavigation()
   const route = useRoute()
   const albumId = route.params.album.albumId
-  const user = useSelector(authSelector.authUserSelector)
+  const user = useSelector(authSelector.authUser)
   const albumsDelete = useSelector(state => state.albums.albumsDelete)
   const albumsSingleGet = useSelector(albumsSelector.albumsSingleGetSelector(albumId))
   const albumsPostsGet = useSelector(albumsSelector.albumsPostsGetSelector(albumId))

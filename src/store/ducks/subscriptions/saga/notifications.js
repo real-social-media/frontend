@@ -2,6 +2,7 @@ import * as Logger from 'services/Logger'
 import { call, put, take, select, fork } from 'redux-saga/effects'
 import path from 'ramda/src/path'
 import * as postsActions from 'store/ducks/posts/actions'
+import * as authActions from 'store/ducks/auth/actions'
 import * as usersActions from 'store/ducks/users/actions'
 import * as usersQueries from 'store/ducks/users/queries'
 import * as subscriptionsActions from 'store/ducks/subscriptions/actions'
@@ -17,7 +18,7 @@ function* handleEvent({ eventData }) {
    * Fires when one of the user's followeds changes their first story
    */
   if (type === 'USER_CHATS_WITH_UNVIEWED_MESSAGES_COUNT_CHANGED') {
-    return yield put(usersActions.usersGetProfileSelfRequest())
+    return yield put(authActions.authGetUserRequest())
   }
 
   /**

@@ -9,9 +9,7 @@ export const initialState = {
     payload: {},
   },
   usersDelete: {
-    data: [],
     status: 'idle',
-    payload: {},
   },
   usersGetFollowedUsersWithStories: {
     data: [],
@@ -34,17 +32,18 @@ export const initialState = {
     payload: {},
   },
   usersFollow: {
-    data: {},
     status: 'idle',
     payload: {},
   },
   usersAcceptFollowerUser: {
-    data: {},
+    status: 'idle',
+    payload: {},
+  },
+  usersDeclineFollowerUser: {
     status: 'idle',
     payload: {},
   },
   usersUnfollow: {
-    data: {},
     status: 'idle',
     payload: {},
   },
@@ -62,10 +61,6 @@ export const initialState = {
     data: {},
     status: 'idle',
     payload: {},
-  },
-  usersGetProfileSelf: {
-    data: {},
-    status: 'idle',
   },
   usersEditProfile: {
     data: {},
@@ -92,11 +87,6 @@ export const initialState = {
     status: 'idle',
     payload: {},
   },
-  usersSetApnsToken: {
-    data: [],
-    status: 'idle',
-    payload: {},
-  },
   usersDeleteAvatar: {
     status: 'idle',
   },
@@ -108,7 +98,9 @@ export const initialState = {
   usersChangeAvatar: {
     status: 'idle',
   },
-
+  usersCreateAvatar: {
+    status: 'idle',
+  },
   usersGetFollowerUsersCache: {},
   usersGetFollowedUsersCache: {},
 }
@@ -146,16 +138,14 @@ const usersSearchIdle = (state) => update(state, {
 /**
  *
  */
-const usersDeleteRequest = (state, action) => update(state, {
+const usersDeleteRequest = (state) => update(state, {
   usersDelete: {
     status: { $set: 'loading' },
-    payload: { $set: action.payload },
   },
 })
 
-const usersDeleteSuccess = (state, action) => update(state, {
+const usersDeleteSuccess = (state) => update(state, {
   usersDelete: {
-    data: { $set: action.payload.data },
     status: { $set: 'success' },
   },
 })
@@ -168,7 +158,6 @@ const usersDeleteFailure = (state) => update(state, {
 
 const usersDeleteIdle = (state) => update(state, {
   usersDelete: {
-    data: { $set: initialState.usersDelete.data },
     status: { $set: 'idle' },
   },
 })
@@ -329,9 +318,8 @@ const usersFollowRequest = (state, action) => update(state, {
   },
 })
 
-const usersFollowSuccess = (state, action) => update(state, {
+const usersFollowSuccess = (state) => update(state, {
   usersFollow: {
-    data: { $set: action.payload.data },
     status: { $set: 'success' },
   },
 })
@@ -344,8 +332,7 @@ const usersFollowFailure = (state) => update(state, {
 
 const usersFollowIdle = (state) => update(state, {
   usersFollow: {
-    data: { $set: initialState.usersFollow.data },
-    status: { $set: 'idle' },
+    $set: initialState.usersFollow,
   },
 })
 
@@ -359,9 +346,8 @@ const usersUnfollowRequest = (state, action) => update(state, {
   },
 })
 
-const usersUnfollowSuccess = (state, action) => update(state, {
+const usersUnfollowSuccess = (state) => update(state, {
   usersUnfollow: {
-    data: { $set: action.payload.data },
     status: { $set: 'success' },
   },
 })
@@ -374,8 +360,7 @@ const usersUnfollowFailure = (state) => update(state, {
 
 const usersUnfollowIdle = (state) => update(state, {
   usersUnfollow: {
-    data: { $set: initialState.usersUnfollow.data },
-    status: { $set: 'idle' },
+    $set: initialState.usersUnfollow,
   },
 })
 
@@ -389,9 +374,8 @@ const usersAcceptFollowerUserRequest = (state, action) => update(state, {
   },
 })
 
-const usersAcceptFollowerUserSuccess = (state, action) => update(state, {
+const usersAcceptFollowerUserSuccess = (state) => update(state, {
   usersAcceptFollowerUser: {
-    data: { $set: action.payload.data },
     status: { $set: 'success' },
   },
 })
@@ -404,8 +388,35 @@ const usersAcceptFollowerUserFailure = (state) => update(state, {
 
 const usersAcceptFollowerUserIdle = (state) => update(state, {
   usersAcceptFollowerUser: {
-    data: { $set: initialState.usersAcceptFollowerUser.data },
-    status: { $set: 'idle' },
+    $set: initialState.usersAcceptFollowerUser,
+  },
+})
+
+/**
+ *
+ */
+const usersDeclineFollowerUserRequest = (state, action) => update(state, {
+  usersDeclineFollowerUser: {
+    status: { $set: 'loading' },
+    payload: { $set: action.payload },
+  },
+})
+
+const usersDeclineFollowerUserSuccess = (state) => update(state, {
+  usersDeclineFollowerUser: {
+    status: { $set: 'success' },
+  },
+})
+
+const usersDeclineFollowerUserFailure = (state) => update(state, {
+  usersDeclineFollowerUser: {
+    status: { $set: 'failure' },
+  },
+})
+
+const usersDeclineFollowerUserIdle = (state) => update(state, {
+  usersDeclineFollowerUser: {
+    $set: initialState.usersDeclineFollowerUser,
   },
 })
 
@@ -495,35 +506,6 @@ const usersGetProfileFailure = (state) => update(state, {
 const usersGetProfileIdle = (state) => update(state, {
   usersGetProfile: {
     data: { $set: initialState.usersGetProfile.data },
-    status: { $set: 'idle' },
-  },
-})
-
-/**
- *
- */
-const usersGetProfileSelfRequest = (state) => update(state, {
-  usersGetProfileSelf: {
-    status: { $set: 'loading' },
-  },
-})
-
-const usersGetProfileSelfSuccess = (state, action) => update(state, {
-  usersGetProfileSelf: {
-    data: { $set: action.payload.data },
-    status: { $set: 'success' },
-  },
-})
-
-const usersGetProfileSelfFailure = (state) => update(state, {
-  usersGetProfileSelf: {
-    status: { $set: 'failure' },
-  },
-})
-
-const usersGetProfileSelfIdle = (state) => update(state, {
-  usersGetProfileSelf: {
-    data: { $set: initialState.usersGetProfileSelf.data },
     status: { $set: 'idle' },
   },
 })
@@ -739,31 +721,26 @@ const usersChangeAvatarIdle = (state) => update(state, {
 /**
  *
  */
-const usersSetApnsTokenRequest = (state, action) => update(state, {
-  usersSetApnsToken: {
+const usersCreateAvatarRequest = (state) => update(state, {
+  usersCreateAvatar: {
     status: { $set: 'loading' },
-    payload: { $set: action.payload },
   },
 })
 
-const usersSetApnsTokenSuccess = (state, action) => update(state, {
-  usersSetApnsToken: {
-    data: { $set: action.payload.data },
+const usersCreateAvatarSuccess = (state) => update(state, {
+  usersCreateAvatar: {
     status: { $set: 'success' },
   },
 })
 
-const usersSetApnsTokenFailure = (state) => update(state, {
-  usersSetApnsToken: {
+const usersCreateAvatarFailure = (state) => update(state, {
+  usersCreateAvatar: {
     status: { $set: 'failure' },
   },
 })
 
-const usersSetApnsTokenIdle = (state) => update(state, {
-  usersSetApnsToken: {
-    data: { $set: initialState.usersSetApnsToken.data },
-    status: { $set: 'idle' },
-  },
+const usersCreateAvatarIdle = (state) => update(state, {
+  usersCreateAvatar: { $set: initialState.usersCreateAvatar },
 })
 
 /**
@@ -847,6 +824,11 @@ export default handleActions({
   [constants.USERS_ACCEPT_FOLLOWER_USER_FAILURE]: usersAcceptFollowerUserFailure,
   [constants.USERS_ACCEPT_FOLLOWER_USER_IDLE]: usersAcceptFollowerUserIdle,
 
+  [constants.USERS_DECLINE_FOLLOWER_USER_REQUEST]: usersDeclineFollowerUserRequest,
+  [constants.USERS_DECLINE_FOLLOWER_USER_SUCCESS]: usersDeclineFollowerUserSuccess,
+  [constants.USERS_DECLINE_FOLLOWER_USER_FAILURE]: usersDeclineFollowerUserFailure,
+  [constants.USERS_DECLINE_FOLLOWER_USER_IDLE]: usersDeclineFollowerUserIdle,
+
   [constants.USERS_BLOCK_REQUEST]: usersBlockRequest,
   [constants.USERS_BLOCK_SUCCESS]: usersBlockSuccess,
   [constants.USERS_BLOCK_FAILURE]: usersBlockFailure,
@@ -861,11 +843,6 @@ export default handleActions({
   [constants.USERS_GET_PROFILE_SUCCESS]: usersGetProfileSuccess,
   [constants.USERS_GET_PROFILE_FAILURE]: usersGetProfileFailure,
   [constants.USERS_GET_PROFILE_IDLE]: usersGetProfileIdle,
-
-  [constants.USERS_GET_PROFILE_SELF_REQUEST]: usersGetProfileSelfRequest,
-  [constants.USERS_GET_PROFILE_SELF_SUCCESS]: usersGetProfileSelfSuccess,
-  [constants.USERS_GET_PROFILE_SELF_FAILURE]: usersGetProfileSelfFailure,
-  [constants.USERS_GET_PROFILE_SELF_IDLE]: usersGetProfileSelfIdle,
 
   [constants.USERS_EDIT_PROFILE_REQUEST]: usersEditProfileRequest,
   [constants.USERS_EDIT_PROFILE_SUCCESS]: usersEditProfileSuccess,
@@ -888,11 +865,6 @@ export default handleActions({
   [constants.USERS_DELETE_CARD_FAILURE]: usersDeleteCardFailure,
   [constants.USERS_DELETE_CARD_IDLE]: usersDeleteCardIdle,
 
-  [constants.USERS_SET_APNS_TOKEN_REQUEST]: usersSetApnsTokenRequest,
-  [constants.USERS_SET_APNS_TOKEN_SUCCESS]: usersSetApnsTokenSuccess,
-  [constants.USERS_SET_APNS_TOKEN_FAILURE]: usersSetApnsTokenFailure,
-  [constants.USERS_SET_APNS_TOKEN_IDLE]: usersSetApnsTokenIdle,
-
   [constants.USERS_DELETE_AVATAR_REQUEST]: usersDeleteAvatarRequest,
   [constants.USERS_DELETE_AVATAR_SUCCESS]: usersDeleteAvatarSuccess,
   [constants.USERS_DELETE_AVATAR_FAILURE]: usersDeleteAvatarFailure,
@@ -907,4 +879,9 @@ export default handleActions({
   [constants.USERS_CHANGE_AVATAR_SUCCESS]: usersChangeAvatarSuccess,
   [constants.USERS_CHANGE_AVATAR_FAILURE]: usersChangeAvatarFailure,
   [constants.USERS_CHANGE_AVATAR_IDLE]: usersChangeAvatarIdle,
+
+  [constants.USERS_CREATE_AVATAR_REQUEST]: usersCreateAvatarRequest,
+  [constants.USERS_CREATE_AVATAR_SUCCESS]: usersCreateAvatarSuccess,
+  [constants.USERS_CREATE_AVATAR_FAILURE]: usersCreateAvatarFailure,
+  [constants.USERS_CREATE_AVATAR_IDLE]: usersCreateAvatarIdle,
 }, initialState)

@@ -1,7 +1,6 @@
 import React from 'react'
-import { renderWithProviders, fireEvent } from 'tests/utils'
-import Verification, { VERIFICATION_TYPE } from 'components/Verification'
-import testIDs from 'components/Verification/test-ids'
+import { renderWithProviders, fireEvent, act } from 'tests/utils'
+import Verification, { VERIFICATION_TYPE, a11y } from 'components/Verification'
 
 const setup = (props) => renderWithProviders(<Verification {...props} />)
 
@@ -31,16 +30,6 @@ describe('Verification Screen', () => {
 
     getByText('You’re perfect the way you are.')
     getByText('On REAL, you’re more likely to go viral by being yourself!')
-  })
-
-  it('should close popup on backdrop tab', () => {
-    const handleClose = jest.fn()
-    const { getByTestId } = setup({ handleClose })
-
-    expect(handleClose).not.toHaveBeenCalled()
-
-    fireEvent.press(getByTestId(testIDs.backdrop))
-    expect(handleClose).toHaveBeenCalled()
   })
 
   describe('actionType: BACK', () => {
@@ -150,6 +139,34 @@ describe('Verification Screen', () => {
 
       fireEvent.press(getByText('Continue'))
       expect(handleContinueAction).toHaveBeenCalled()
+    })
+  })
+
+  describe('toggle ELA image', () => {
+    it('ELA block hidden by default', () => {
+      const { queryByAccessibilityLabel } = setup()
+
+      expect(queryByAccessibilityLabel(a11y.openELABtn)).toBeFalsy()
+      expect(queryByAccessibilityLabel(a11y.ELAImage)).toBeFalsy()
+    })
+
+    it('toggle ELA image', async () => {
+      const urlEla = 'urlEla.jpg'
+      const { queryByAccessibilityLabel } = setup({ urlEla })
+      const $openELABtn = queryByAccessibilityLabel(a11y.openELABtn)
+      const $image = queryByAccessibilityLabel(a11y.ELAImage)
+      const $modal = queryByAccessibilityLabel(a11y.ELAModal)
+
+      expect($openELABtn).toBeTruthy()
+      expect($image).toBeTruthy()
+      expect($image).toHaveProp('source', { uri: urlEla })
+      expect($modal).toHaveProp('visible', false)
+
+      await act(async () => fireEvent.press($openELABtn))
+      expect($modal).toHaveProp('visible', true)
+
+      await act(async () => fireEvent.press(queryByAccessibilityLabel(a11y.closeELABtn)))
+      expect($modal).toHaveProp('visible', false)
     })
   })
 })

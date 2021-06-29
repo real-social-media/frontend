@@ -14,7 +14,7 @@ const PostEditService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const route = useRoute()
-  const user = useSelector(authSelector.authUserSelector)
+  const user = useSelector(authSelector.authUser)
   const postId = path(['params', 'post', 'postId'])(route)
   const postUserId = path(['params', 'post', 'postedBy', 'userId'])(route)
   const postsSingleGet = useSelector(postsSelector.postsSingleGetSelector(postId))

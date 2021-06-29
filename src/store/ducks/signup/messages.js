@@ -13,9 +13,13 @@ export default {
       code: 'USER_CONFIRMATION_DELIVERY',
       text: 'Failed to deliver confirmation code',
     },
+    USER_ALREADY_EXISTS: {
+      code: 'USER_ALREADY_EXISTS',
+      text: 'User already exists, please sign in or reset your password',
+    },
     USER_EXISTS: {
       code: 'USER_EXISTS',
-      text: 'User already signed up but did not confirm email address or phone number',
+      text: 'User already exists, please sign in or reset your password',
     },
     INVALID_PASSWORD: {
       code: 'INVALID_PASSWORD',

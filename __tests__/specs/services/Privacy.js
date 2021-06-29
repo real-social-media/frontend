@@ -5,7 +5,7 @@ const falsyValues = [false, null, undefined, '', 0]
 describe('Privacy service', () => {
   describe('postShareVisibility', () => {
     const username = 'username'
-    const user = { username, userId: 11 }
+    const user = { username, userId: '11' }
 
     it('enabled on post and post owner level', () => {
       falsyValues.forEach((sharingDisabled) => {
@@ -159,8 +159,8 @@ describe('Privacy service', () => {
     const userId = 1
 
     it('disable for not owner', () => {
-      const user = { userId: 1 }
-      const post = { postedBy: { userId: 2 }, viewedByCount: 1 }
+      const user = { userId: '1' }
+      const post = { postedBy: { userId: '2' }, viewedByCount: 1 }
 
       expect(user.userId).not.toBe(post.postedBy.userId)
       expect(Privacy.postSeenByVisility(post, user)).toBe(false)
@@ -241,7 +241,7 @@ describe('Privacy service', () => {
   })
 
   describe('postLikedVisibility', () => {
-    const user = { userId: 1 }
+    const user = { userId: '1' }
     const post = {
       likesDisabled: false,
       postedBy: { ...user, likesDisabled: false },
@@ -257,7 +257,7 @@ describe('Privacy service', () => {
     })
 
     it('disabled for not post owner', () => {
-      expect(Privacy.postLikedVisibility(post, { userId: 2 })).toBe(false)
+      expect(Privacy.postLikedVisibility(post, { userId: '2' })).toBe(false)
     })
 
     it('enabled for post owner', () => {

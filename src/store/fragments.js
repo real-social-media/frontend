@@ -5,6 +5,7 @@ export const imageFragment = `
     url480p
     url1080p
     url4k
+    urlEla
     width
     height
     colors {
@@ -161,6 +162,7 @@ export const postFragment = `
     anonymousLikeCount
     viewedByCount
     viewedStatus
+    payment
   }
 
   fragment postFragment on Post {

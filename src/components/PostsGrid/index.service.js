@@ -9,8 +9,8 @@ import pathOr from 'ramda/src/pathOr'
 const PostsGridService = ({ children }) => {
   const dispatch = useDispatch()
   const route = useRoute()
-  const authUser = useSelector(authSelector.authUserSelector)
-  const userId = pathOr(authUser.userId, ['params', 'userId'], route)
+  const authUserId = useSelector(authSelector.authUserId)
+  const userId = pathOr(authUserId, ['params', 'userId'], route)
   const postsGet = useSelector(postsSelector.postsGetSelector(userId))
 
   const postsGetRequest = ({ userId, nextToken }) => {

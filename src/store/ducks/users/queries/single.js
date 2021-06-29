@@ -5,6 +5,7 @@ export const singleUserFragment = `
     url480p
     url1080p
     url4k
+    urlEla
     width
     height
     colors {
@@ -31,6 +32,7 @@ export const singleUserFragment = `
     expiresAt
     text
     isVerified
+    adStatus
     likeStatus
     onymousLikeCount
     anonymousLikeCount

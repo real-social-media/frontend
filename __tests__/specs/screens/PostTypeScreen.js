@@ -6,13 +6,13 @@ import PostTypeScreen from 'screens/PostTypeScreen'
 import { VERIFICATION_TYPE } from 'components/Verification'
 import useLibrary from 'services/providers/Camera/useLibrary'
 import * as cameraActions from 'store/ducks/camera/actions'
-import AsyncStorage from '@react-native-community/async-storage'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import testIDs from 'components/PostType/test-ids'
 import * as authSelector from 'store/ducks/auth/selectors'
 import { AuthProvider } from 'services/providers/Auth'
 import { testNavigate } from 'tests/utils/helpers'
 
-jest.spyOn(authSelector, 'authUserSelector').mockReturnValue({ userStatus: 'ACTIVE' })
+jest.spyOn(authSelector, 'authUser').mockReturnValue({ userStatus: 'ACTIVE' })
 jest.mock('react-redux', () => ({ useDispatch: jest.fn(), useSelector: (cb) => cb() }))
 jest.mock('@react-navigation/native', () => ({ useNavigation: jest.fn() }))
 jest.mock('services/providers/Camera/useLibrary')
@@ -47,7 +47,7 @@ describe('PostType screen', () => {
   })
 
   it('Redirect anonymous user', () => {
-    authSelector.authUserSelector.mockReturnValueOnce({ userStatus: 'ANONYMOUS' })
+    authSelector.authUser.mockReturnValueOnce({ userStatus: 'ANONYMOUS' })
 
     const { getByText } = setup()
 

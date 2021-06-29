@@ -26,7 +26,7 @@ const AuthPasswordComponentService = ({ children }) => {
 
   const formSubmitLoading = signupPassword.status === 'loading'
   const formSubmitDisabled = signupPassword.status === 'loading'
-  const formInitialValues = handleFormTransform(signupPassword.payload)
+  const formInitialValues = {}
 
   return children({
     handleFormSubmit,

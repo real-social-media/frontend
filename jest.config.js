@@ -9,4 +9,5 @@ module.exports = {
   moduleNameMapper: {
     'tests/(.*)': '<rootDir>/__tests__/$1',
   },
+  transformIgnorePatterns: ['node_modules/(?!(jest-)?react-native|@react-native-community|@react-native-picker)'],
 }

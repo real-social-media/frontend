@@ -13,6 +13,7 @@ import VerificationScreen from 'screens/VerificationScreen'
 import ProfileUpgradeScreen from 'screens/ProfileUpgradeScreen'
 import PostsFiltersScreen from 'screens/PostsFiltersScreen'
 import ThemeDefaultScreen from 'screens/ThemeDefaultScreen'
+import DownloadAppScreen from 'screens/DownloadAppScreen'
 
 const Stack = createStackNavigator()
 
@@ -25,12 +26,13 @@ const RootNavigator = () => {
   const stackScreenCardProps = navigationOptions.stackScreenCardProps({ theme })
   const stackScreenModalProps = navigationOptions.stackScreenModalProps
 
+
   useEffect(() => {
     dispatch(themesActions.themesCheckDefaultRequest())
   }, [])
 
   return (
-    <Stack.Navigator {...stackNavigatorDefaultProps}>
+    <Stack.Navigator {...stackNavigatorDefaultProps} mode="modal">
       <Stack.Screen
         name="Home"
         component={TabNavigator}
@@ -62,9 +64,15 @@ const RootNavigator = () => {
       />
 
       <Stack.Screen
+        name="DownloadApp"
+        component={DownloadAppScreen}
+        {...stackScreenModalProps}
+      />
+
+      <Stack.Screen
         name="Verification"
         component={VerificationScreen}
-        {...stackScreenModalProps}
+        {...stackScreenPageProps({ options: { title: 'Trending Tips' } })}
       />
 
       <Stack.Screen

@@ -32,7 +32,6 @@ const postsPersistConfig = {
     // 'postsGetTrendingPosts',
     // 'postsPool',
     // 'postsCreateQueue',
-    // 'postsRecreateQueue',
   ],
 }
 

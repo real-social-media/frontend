@@ -3,16 +3,17 @@ import { expectSaga } from 'redux-saga-test-plan'
 import { getContext } from 'redux-saga/effects'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import chatMessageSubscription from 'store/ducks/subscriptions/saga/chat'
-import * as usersActions from 'store/ducks/users/actions'
+import * as authActions from 'store/ducks/auth/actions'
 import * as chatActions from 'store/ducks/chat/actions'
 import * as subscriptionsActions from 'store/ducks/subscriptions/actions'
 import { sleep } from 'tests/utils'
+import { makeAuthorizedState } from 'tests/utils/helpers'
 
 const AwsAPI = { graphql: jest.fn() }
 const subscription = { subscribe: jest.fn(), unsubscribe: jest.fn() }
 const unsubscribe = jest.fn()
 const userId = 'user-id'
-const store = { auth: { user: userId } }
+const store = makeAuthorizedState({ userId })
 const chatId = 'chatId'
 
 subscription.subscribe.mockReturnValue({ _state: 'ready', unsubscribe })
@@ -62,7 +63,7 @@ describe('chatMessageSubscription', () => {
       const promise = createSaga(store)
         .put(chatActions.chatGetChatRequest({ chatId }))
         .put(chatActions.chatGetChatsRequest())
-        .put(usersActions.usersGetProfileSelfRequest())
+        .put(authActions.authGetUserRequest())
 
         .dispatch(subscriptionsActions.subscriptionsMainRequest())
         .silentRun()

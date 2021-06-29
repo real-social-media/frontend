@@ -1,0 +1,1647 @@
+[
+  {
+    "label": "Afghanistan",
+    "flag": "🇦🇫",
+    "value": "AF",
+    "dialCode": "+93",
+    "mask": "999 999 9999"
+  },
+  {
+    "label": "Åland Islands",
+    "flag": "🇦🇽",
+    "value": "AX",
+    "dialCode": "+358",
+    "mask": "999 9999999"
+  },
+  {
+    "label": "Albania",
+    "flag": "🇦🇱",
+    "value": "AL",
+    "dialCode": "+355",
+    "mask": "999 999 9999"
+  },
+  {
+    "label": "Algeria",
+    "flag": "🇩🇿",
+    "value": "DZ",
+    "dialCode": "+213",
+    "mask": "9999 99 99 99"
+  },
+  {
+    "label": "American Samoa",
+    "flag": "🇦🇸",
+    "value": "AS",
+    "dialCode": "+1684",
+    "mask": "(999) 999-9999"
+  },
+  {
+    "label": "Andorra",
+    "flag": "🇦🇩",
+    "value": "AD",
+    "dialCode": "+376",
+    "mask": "999 999"
+  },
+  {
+    "label": "Angola",
+    "flag": "🇦🇴",
+    "value": "AO",
+    "dialCode": "+244",
+    "mask": "999 999 999"
+  },
+  {
+    "label": "Anguilla",
+    "flag": "🇦🇮",
+    "value": "AI",
+    "dialCode": "+1264",
+    "mask": "(999) 999-9999"
+  },
+  {
+    "label": "Antigua and Barbuda",
+    "flag": "🇦🇬",
+    "value": "AG",
+    "dialCode": "+1268",
+    "mask": "(999) 999-9999"
+  },
+  {
+    "label": "Argentina",
+    "flag": "🇦🇷",
+    "value": "AR",
+    "dialCode": "+54",
+    "mask": "999 99-9999-9999"
+  },
+  {
+    "label": "Armenia",
+    "flag": "🇦🇲",
+    "value": "AM",
+    "dialCode": "+374",
+    "mask": "999 999999"
+  },
+  {
+    "label": "Aruba",
+    "flag": "🇦🇼",
+    "value": "AW",
+    "dialCode": "+297",
+    "mask": "999 9999"
+  },
+  {
+    "label": "Australia",
+    "flag": "🇦🇺",
+    "value": "AU",
+    "dialCode": "+61",
+    "mask": "9999 999 999"
+  },
+  {
+    "label": "Austria",
+    "flag": "🇦🇹",
+    "value": "AT",
+    "dialCode": "+43",
+    "mask": "9999 999999"
+  },
+  {
+    "label": "Azerbaijan",
+    "flag": "🇦🇿",
+    "value": "AZ",
+    "dialCode": "+994",
+    "mask": "999 999 99 99"
+  },
+  {
+    "label": "Bahamas",
+    "flag": "🇧🇸",
+    "value": "BS",
+    "dialCode": "+1242",
+    "mask": "(999) 999-999"
+  },
+  {
+    "label": "Bahrain",
+    "flag": "🇧🇭",
+    "value": "BH",
+    "dialCode": "+973",
+    "mask": "9999 9999"
+  },
+  {
+    "label": "Bangladesh",
+    "flag": "🇧🇩",
+    "value": "BD",
+    "dialCode": "+880",
+    "mask": "99999-999999"
+  },
+  {
+    "label": "Barbados",
+    "flag": "🇧🇧",
+    "value": "BB",
+    "dialCode": "+1246",
+    "mask": "(999) 999-9999"
+  },
+  {
+    "label": "Belarus",
+    "flag": "🇧🇾",
+    "value": "BY",
+    "dialCode": "+375",
+    "mask": "9 999 999-99-99"
+  },
+  {
+    "label": "Belgium",
+    "flag": "🇧🇪",
+    "value": "BE",
+    "dialCode": "+32",
+    "mask": "9999 99 99 99"
+  },
+  {
+    "label": "Belize",
+    "flag": "🇧🇿",
+    "value": "BZ",
+    "dialCode": "+501",
+    "mask": "999-9999"
+  },
+  {
+    "label": "Benin",
+    "flag": "🇧🇯",
+    "value": "BJ",
+    "dialCode": "+229",
+    "mask": "99 99 99 99"
+  },
+  {
+    "label": "Bermuda",
+    "flag": "🇧🇲",
+    "value": "BM",
+    "dialCode": "+1441",
+    "mask": "(999) 999-9999"
+  },
+  {
+    "label": "Bhutan",
+    "flag": "🇧🇹",
+    "value": "BT",
+    "dialCode": "+975",
+    "mask": "99 99 99 99"
+  },
+  {
+    "label": "Bolivia, Plurinational State of bolivia",
+    "flag": "🇧🇴",
+    "value": "BO",
+    "dialCode": "+591",
+    "mask": "99999999"
+  },
+  {
+    "label": "Bosnia and Herzegovina",
+    "flag": "🇧🇦",
+    "value": "BA",
+    "dialCode": "+387",
+    "mask": "999 999 999"
+  },
+  {
+    "label": "Botswana",
+    "flag": "🇧🇼",
+    "value": "BW",
+    "dialCode": "+267",
+    "mask": "99 999 999"
+  },
+  {
+    "label": "Bouvet Island",
+    "flag": "🇧🇻",
+    "value": "BV",
+    "dialCode": "+47",
+    "mask": "(99) 99999-9999"
+  },
+  {
+    "label": "Brazil",
+    "flag": "🇧🇷",
+    "value": "BR",
+    "dialCode": "+55",
+    "mask": "(99) 99999 9999"
+  },
+  {
+    "label": "British Indian Ocean Territory",
+    "flag": "🇮🇴",
+    "value": "IO",
+    "dialCode": "+246",
+    "mask": "(999) 999-9999"
+  },
+  {
+    "label": "Brunei Darussalam",
+    "flag": "🇧🇳",
+    "value": "BN",
+    "dialCode": "+673",
+    "mask": "999 9999"
+  },
+  {
+    "label": "Bulgaria",
+    "flag": "🇧🇬",
+    "value": "BG",
+    "dialCode": "+359",
+    "mask": "999 999 999"
+  },
+  {
+    "label": "Burkina Faso",
+    "flag": "🇧🇫",
+    "value": "BF",
+    "dialCode": "+226",
+    "mask": "99 99 99 99"
+  },
+  {
+    "label": "Burundi",
+    "flag": "🇧🇮",
+    "value": "BI",
+    "dialCode": "+257",
+    "mask": "99 99 99 99"
+  },
+  {
+    "label": "Cambodia",
+    "flag": "🇰🇭",
+    "value": "KH",
+    "dialCode": "+855",
+    "mask": "999 999 999"
+  },
+  {
+    "label": "Cameroon",
+    "flag": "🇨🇲",
+    "value": "CM",
+    "dialCode": "+237",
+    "mask": "9 99 99 99 99"
+  },
+  {
+    "label": "Canada",
+    "flag": "🇨🇦",
+    "value": "CA",
+    "dialCode": "+1",
+    "mask": "(999) 999-9999"
+  },
+  {
+    "label": "Cape Verde",
+    "flag": "🇨🇻",
+    "value": "CV",
+    "dialCode": "+238",
+    "mask": "999 99 99"
+  },
+  {
+    "label": "Cayman Islands",
+    "flag": "🇰🇾",
+    "value": "KY",
+    "dialCode": "+345",
+    "mask": "999 9999"
+  },
+  {
+    "label": "Central African Republic",
+    "flag": "🇨🇫",
+    "value": "CF",
+    "dialCode": "+236",
+    "mask": "99 99 99 99"
+  },
+  {
+    "label": "Chad",
+    "flag": "🇹🇩",
+    "value": "TD",
+    "dialCode": "+235",
+    "mask": "99 99 99 99"
+  },
+  {
+    "label": "Chile",
+    "flag": "🇨🇱",
+    "value": "CL",
+    "dialCode": "+56",
+    "mask": "(9) 9999 9999"
+  },
+  {
+    "label": "China",
+    "flag": "🇨🇳",
+    "value": "CN",
+    "dialCode": "+86",
+    "mask": "999 9999 9999"
+  },
+  {
+    "label": "Christmas Island",
+    "flag": "🇨🇽",
+    "value": "CX",
+    "dialCode": "+61",
+    "mask": "9999 999 999"
+  },
+  {
+    "label": "Cocos (Keeling) Islands",
+    "flag": "🇨🇨",
+    "value": "CC",
+    "dialCode": "+61",
+    "mask": "9999 999 999"
+  },
+  {
+    "label": "Colombia",
+    "flag": "🇨🇴",
+    "value": "CO",
+    "dialCode": "+57",
+    "mask": "999 9999999"
+  },
+  {
+    "label": "Comoros",
+    "flag": "🇰🇲",
+    "value": "KM",
+    "dialCode": "+269",
+    "mask": "999 99 99"
+  },
+  {
+    "label": "Congo",
+    "flag": "🇨🇬",
+    "value": "CG",
+    "dialCode": "+242",
+    "mask": "9999 999 999"
+  },
+  {
+    "label": "Congo, The Democratic Republic of the Congo",
+    "flag": "🇨🇩",
+    "value": "CD",
+    "dialCode": "+243",
+    "mask": "99 999 9999"
+  },
+  {
+    "label": "Cook Islands",
+    "flag": "🇨🇰",
+    "value": "CK",
+    "dialCode": "+682",
+    "mask": "99 999"
+  },
+  {
+    "label": "Costa Rica",
+    "flag": "🇨🇷",
+    "value": "CR",
+    "dialCode": "+506",
+    "mask": "9999 9999"
+  },
+  {
+    "label": "Cote d'Ivoire",
+    "flag": "🇨🇮",
+    "value": "CI",
+    "dialCode": "+225",
+    "mask": "99 99 99 99"
+  },
+  {
+    "label": "Croatia",
+    "flag": "🇭🇷",
+    "value": "HR",
+    "dialCode": "+385",
+    "mask": "999 999 9999"
+  },
+  {
+    "label": "Cuba",
+    "flag": "🇨🇺",
+    "value": "CU",
+    "dialCode": "+53",
+    "mask": "99 9999999"
+  },
+  {
+    "label": "Cyprus",
+    "flag": "🇨🇾",
+    "value": "CY",
+    "dialCode": "+357",
+    "mask": "99 999999"
+  },
+  {
+    "label": "Czech Republic",
+    "flag": "🇨🇿",
+    "value": "CZ",
+    "dialCode": "+420",
+    "mask": "999 999 999"
+  },
+  {
+    "label": "Denmark",
+    "flag": "🇩🇰",
+    "value": "DK",
+    "dialCode": "+45",
+    "mask": "99 99 99 99"
+  },
+  {
+    "label": "Djibouti",
+    "flag": "🇩🇯",
+    "value": "DJ",
+    "dialCode": "+253",
+    "mask": "99 99 99 99"
+  },
+  {
+    "label": "Dominica",
+    "flag": "🇩🇲",
+    "value": "DM",
+    "dialCode": "+1767",
+    "mask": "(999) 999-9999"
+  },
+  {
+    "label": "Ecuador",
+    "flag": "🇪🇨",
+    "value": "EC",
+    "dialCode": "+593",
+    "mask": "999 999 9999"
+  },
+  {
+    "label": "Egypt",
+    "flag": "🇪🇬",
+    "value": "EG",
+    "dialCode": "+20",
+    "mask": "9999 999 9999"
+  },
+  {
+    "label": "El Salvador",
+    "flag": "🇸🇻",
+    "value": "SV",
+    "dialCode": "+503",
+    "mask": "9999 9999"
+  },
+  {
+    "label": "Equatorial Guinea",
+    "flag": "🇬🇶",
+    "value": "GQ",
+    "dialCode": "+240",
+    "mask": "999 999 999"
+  },
+  {
+    "label": "Eritrea",
+    "flag": "🇪🇷",
+    "value": "ER",
+    "dialCode": "+291",
+    "mask": "99 999 999"
+  },
+  {
+    "label": "Estonia",
+    "flag": "🇪🇪",
+    "value": "EE",
+    "dialCode": "+372",
+    "mask": "9999 9999"
+  },
+  {
+    "label": "Ethiopia",
+    "flag": "🇪🇹",
+    "value": "ET",
+    "dialCode": "+251",
+    "mask": "999 999 9999"
+  },
+  {
+    "label": "Falkland Islands (Malvinas)",
+    "flag": "🇫🇰",
+    "value": "FK",
+    "dialCode": "+500",
+    "mask": "99999"
+  },
+  {
+    "label": "Faroe Islands",
+    "flag": "🇫🇴",
+    "value": "FO",
+    "dialCode": "+298",
+    "mask": "999999"
+  },
+  {
+    "label": "Fiji",
+    "flag": "🇫🇯",
+    "value": "FJ",
+    "dialCode": "+679",
+    "mask": "999 9999"
+  },
+  {
+    "label": "Finland",
+    "flag": "🇫🇮",
+    "value": "FI",
+    "dialCode": "+358",
+    "mask": "999 9999999"
+  },
+  {
+    "label": "France",
+    "flag": "🇫🇷",
+    "value": "FR",
+    "dialCode": "+33",
+    "mask": "99 99 99 99 99"
+  },
+  {
+    "label": "French Guiana",
+    "flag": "🇬🇫",
+    "value": "GF",
+    "dialCode": "+594",
+    "mask": "9999 99 99 99"
+  },
+  {
+    "label": "French Polynesia",
+    "flag": "🇵🇫",
+    "value": "PF",
+    "dialCode": "+689",
+    "mask": "99 99 99 99"
+  },
+  {
+    "label": "Gabon",
+    "flag": "🇬🇦",
+    "value": "GA",
+    "dialCode": "+241",
+    "mask": "99 99 99 99"
+  },
+  {
+    "label": "Gambia",
+    "flag": "🇬🇲",
+    "value": "GM",
+    "dialCode": "+220",
+    "mask": "999 9999"
+  },
+  {
+    "label": "Georgia",
+    "flag": "🇬🇪",
+    "value": "GE",
+    "dialCode": "+995",
+    "mask": "999 99 99 99"
+  },
+  {
+    "label": "Germany",
+    "flag": "🇩🇪",
+    "value": "DE",
+    "dialCode": "+49",
+    "mask": "99999 9999999"
+  },
+  {
+    "label": "Ghana",
+    "flag": "🇬🇭",
+    "value": "GH",
+    "dialCode": "+233",
+    "mask": "999 999 9999"
+  },
+  {
+    "label": "Gibraltar",
+    "flag": "🇬🇮",
+    "value": "GI",
+    "dialCode": "+350",
+    "mask": "99999999"
+  },
+  {
+    "label": "Greece",
+    "flag": "🇬🇷",
+    "value": "GR",
+    "dialCode": "+30",
+    "mask": "999 999 9999"
+  },
+  {
+    "label": "Greenland",
+    "flag": "🇬🇱",
+    "value": "GL",
+    "dialCode": "+299",
+    "mask": "99 99 99"
+  },
+  {
+    "label": "Grenada",
+    "flag": "🇬🇩",
+    "value": "GD",
+    "dialCode": "+1473",
+    "mask": "(999) 999-9999"
+  },
+  {
+    "label": "Guadeloupe",
+    "flag": "🇬🇵",
+    "value": "GP",
+    "dialCode": "+590",
+    "mask": "9999 99 99 99"
+  },
+  {
+    "label": "Guam",
+    "flag": "🇬🇺",
+    "value": "GU",
+    "dialCode": "+1671",
+    "mask": "(999) 999-9999"
+  },
+  {
+    "label": "Guatemala",
+    "flag": "🇬🇹",
+    "value": "GT",
+    "dialCode": "+502",
+    "mask": "9999 9999"
+  },
+  {
+    "label": "Guernsey",
+    "flag": "🇬🇬",
+    "value": "GG",
+    "dialCode": "+44",
+    "mask": "99999 999999"
+  },
+  {
+    "label": "Guinea",
+    "flag": "🇬🇳",
+    "value": "GN",
+    "dialCode": "+224",
+    "mask": "999 99 99 99"
+  },
+  {
+    "label": "Guinea-Bissau",
+    "flag": "🇬🇼",
+    "value": "GW",
+    "dialCode": "+245",
+    "mask": "999 999 999"
+  },
+  {
+    "label": "Guyana",
+    "flag": "🇬🇾",
+    "value": "GY",
+    "dialCode": "+592",
+    "mask": "999 9999"
+  },
+  {
+    "label": "Haiti",
+    "flag": "🇭🇹",
+    "value": "HT",
+    "dialCode": "+509",
+    "mask": "99 99 9999"
+  },
+  {
+    "label": "Honduras",
+    "flag": "🇭🇳",
+    "value": "HN",
+    "dialCode": "+504",
+    "mask": "9999-9999"
+  },
+  {
+    "label": "Hong Kong",
+    "flag": "🇭🇰",
+    "value": "HK",
+    "dialCode": "+852",
+    "mask": "9999 9999"
+  },
+  {
+    "label": "Hungary",
+    "flag": "🇭🇺",
+    "value": "HU",
+    "dialCode": "+36",
+    "mask": "(99) 999 9999"
+  },
+  {
+    "label": "Iceland",
+    "flag": "🇮🇸",
+    "value": "IS",
+    "dialCode": "+354",
+    "mask": "999 9999"
+  },
+  {
+    "label": "India",
+    "flag": "🇮🇳",
+    "value": "IN",
+    "dialCode": "+91",
+    "mask": "99999 99999"
+  },
+  {
+    "label": "Indonesia",
+    "flag": "🇮🇩",
+    "value": "ID",
+    "dialCode": "+62",
+    "mask": "9999-999-999"
+  },
+  {
+    "label": "Iran, Islamic Republic of Persian Gulf",
+    "flag": "🇮🇷",
+    "value": "IR",
+    "dialCode": "+98",
+    "mask": "9999 999 9999"
+  },
+  {
+    "label": "Iraq",
+    "flag": "🇮🇶",
+    "value": "IQ",
+    "dialCode": "+964",
+    "mask": "9999 999 9999"
+  },
+  {
+    "label": "Ireland",
+    "flag": "🇮🇪",
+    "value": "IE",
+    "dialCode": "+353",
+    "mask": "999 999 9999"
+  },
+  {
+    "label": "Isle of Man",
+    "flag": "🇮🇲",
+    "value": "IM",
+    "dialCode": "+44",
+    "mask": "99999 999999"
+  },
+  {
+    "label": "Israel",
+    "flag": "🇮🇱",
+    "value": "IL",
+    "dialCode": "+972",
+    "mask": "999-999-9999"
+  },
+  {
+    "label": "Italy",
+    "flag": "🇮🇹",
+    "value": "IT",
+    "dialCode": "+39",
+    "mask": "999 999 9999"
+  },
+  {
+    "label": "Jamaica",
+    "flag": "🇯🇲",
+    "value": "JM",
+    "dialCode": "+1876",
+    "mask": "(999) 999-9999"
+  },
+  {
+    "label": "Japan",
+    "flag": "🇯🇵",
+    "value": "JP",
+    "dialCode": "+81",
+    "mask": "999-9999-9999"
+  },
+  {
+    "label": "Jersey",
+    "flag": "🇯🇪",
+    "value": "JE",
+    "dialCode": "+44",
+    "mask": "99999 999999"
+  },
+  {
+    "label": "Jordan",
+    "flag": "🇯🇴",
+    "value": "JO",
+    "dialCode": "+962",
+    "mask": "99 9999 9999"
+  },
+  {
+    "label": "Kazakhstan",
+    "flag": "🇰🇿",
+    "value": "KZ",
+    "dialCode": "+7",
+    "mask": "9 (999) 999 9999"
+  },
+  {
+    "label": "Kenya",
+    "flag": "🇰🇪",
+    "value": "KE",
+    "dialCode": "+254",
+    "mask": "9999 999999"
+  },
+  {
+    "label": "Kiribati",
+    "flag": "🇰🇮",
+    "value": "KI",
+    "dialCode": "+686",
+    "mask": "99999999"
+  },
+  {
+    "label": "Korea, Democratic People's Republic of Korea",
+    "flag": "🇰🇵",
+    "value": "KP",
+    "dialCode": "+850",
+    "mask": "(9) 99999"
+  },
+  {
+    "label": "Korea, Republic of South Korea",
+    "flag": "🇰🇷",
+    "value": "KR",
+    "dialCode": "+82",
+    "mask": "999-9999-9999"
+  },
+  {
+    "label": "Kosovo",
+    "flag": "🇽🇰",
+    "value": "XK",
+    "dialCode": "+383",
+    "mask": "999 999 999"
+  },
+  {
+    "label": "Kuwait",
+    "flag": "🇰🇼",
+    "value": "KW",
+    "dialCode": "+965",
+    "mask": "999 99999"
+  },
+  {
+    "label": "Kyrgyzstan",
+    "flag": "🇰🇬",
+    "value": "KG",
+    "dialCode": "+996",
+    "mask": "9999 999 999"
+  },
+  {
+    "label": "Laos",
+    "flag": "🇱🇦",
+    "value": "LA",
+    "dialCode": "+856",
+    "mask": "999 99 999 999"
+  },
+  {
+    "label": "Latvia",
+    "flag": "🇱🇻",
+    "value": "LV",
+    "dialCode": "+371",
+    "mask": "99 999 999"
+  },
+  {
+    "label": "Lebanon",
+    "flag": "🇱🇧",
+    "value": "LB",
+    "dialCode": "+961",
+    "mask": "99 999 999"
+  },
+  {
+    "label": "Lesotho",
+    "flag": "🇱🇸",
+    "value": "LS",
+    "dialCode": "+266",
+    "mask": "9999 9999"
+  },
+  {
+    "label": "Liberia",
+    "flag": "🇱🇷",
+    "value": "LR",
+    "dialCode": "+231",
+    "mask": "999 999 9999"
+  },
+  {
+    "label": "Libyan Arab Jamahiriya",
+    "flag": "🇱🇾",
+    "value": "LY",
+    "dialCode": "+218",
+    "mask": "999-9999999"
+  },
+  {
+    "label": "Liechtenstein",
+    "flag": "🇱🇮",
+    "value": "LI",
+    "dialCode": "+423",
+    "mask": "999 999 999"
+  },
+  {
+    "label": "Lithuania",
+    "flag": "🇱🇹",
+    "value": "LT",
+    "dialCode": "+370",
+    "mask": "(9-999) 9999"
+  },
+  {
+    "label": "Luxembourg",
+    "flag": "🇱🇺",
+    "value": "LU",
+    "dialCode": "+352",
+    "mask": "999 999 999"
+  },
+  {
+    "label": "Macao",
+    "flag": "🇲🇴",
+    "value": "MO",
+    "dialCode": "+853",
+    "mask": "9999 9999"
+  },
+  {
+    "label": "Macedonia",
+    "flag": "🇲🇰",
+    "value": "MK",
+    "dialCode": "+389",
+    "mask": "999 999 999"
+  },
+  {
+    "label": "Madagascar",
+    "flag": "🇲🇬",
+    "value": "MG",
+    "dialCode": "+261",
+    "mask": "999 99 999 99"
+  },
+  {
+    "label": "Malawi",
+    "flag": "🇲🇼",
+    "value": "MW",
+    "dialCode": "+265",
+    "mask": "9999 99 99 99"
+  },
+  {
+    "label": "Malaysia",
+    "flag": "🇲🇾",
+    "value": "MY",
+    "dialCode": "+60",
+    "mask": "999-999 9999"
+  },
+  {
+    "label": "Maldives",
+    "flag": "🇲🇻",
+    "value": "MV",
+    "dialCode": "+960",
+    "mask": "999-9999"
+  },
+  {
+    "label": "Mali",
+    "flag": "🇲🇱",
+    "value": "ML",
+    "dialCode": "+223",
+    "mask": "99 99 99 99"
+  },
+  {
+    "label": "Malta",
+    "flag": "🇲🇹",
+    "value": "MT",
+    "dialCode": "+356",
+    "mask": "9999 9999"
+  },
+  {
+    "label": "Marshall Islands",
+    "flag": "🇲🇭",
+    "value": "MH",
+    "dialCode": "+692",
+    "mask": "999-9999"
+  },
+  {
+    "label": "Martinique",
+    "flag": "🇲🇶",
+    "value": "MQ",
+    "dialCode": "+596",
+    "mask": "9999 99 99 99"
+  },
+  {
+    "label": "Mauritania",
+    "flag": "🇲🇷",
+    "value": "MR",
+    "dialCode": "+222",
+    "mask": "99 99 99 99"
+  },
+  {
+    "label": "Mauritius",
+    "flag": "🇲🇺",
+    "value": "MU",
+    "dialCode": "+230",
+    "mask": "9999 9999"
+  },
+  {
+    "label": "Mayotte",
+    "flag": "🇾🇹",
+    "value": "YT",
+    "dialCode": "+262",
+    "mask": "9999 99 99 99"
+  },
+  {
+    "label": "Mexico",
+    "flag": "🇲🇽",
+    "value": "MX",
+    "dialCode": "+52",
+    "mask": "999 999 999 9999"
+  },
+  {
+    "label": "Micronesia, Federated States of Micronesia",
+    "flag": "🇫🇲",
+    "value": "FM",
+    "dialCode": "+691",
+    "mask": "999 9999"
+  },
+  {
+    "label": "Moldova",
+    "flag": "🇲🇩",
+    "value": "MD",
+    "dialCode": "+373",
+    "mask": "9999 99 999"
+  },
+  {
+    "label": "Monaco",
+    "flag": "🇲🇨",
+    "value": "MC",
+    "dialCode": "+377",
+    "mask": "99 99 99 99 99"
+  },
+  {
+    "label": "Mongolia",
+    "flag": "🇲🇳",
+    "value": "MN",
+    "dialCode": "+976",
+    "mask": "9999 9999"
+  },
+  {
+    "label": "Montenegro",
+    "flag": "🇲🇪",
+    "value": "ME",
+    "dialCode": "+382",
+    "mask": "999 999 999"
+  },
+  {
+    "label": "Montserrat",
+    "flag": "🇲🇸",
+    "value": "MS",
+    "dialCode": "+1664",
+    "mask": "(999) 999-9999"
+  },
+  {
+    "label": "Morocco",
+    "flag": "🇲🇦",
+    "value": "MA",
+    "dialCode": "+212",
+    "mask": "9999-999999"
+  },
+  {
+    "label": "Mozambique",
+    "flag": "🇲🇿",
+    "value": "MZ",
+    "dialCode": "+258",
+    "mask": "99 999 9999"
+  },
+  {
+    "label": "Myanmar",
+    "flag": "🇲🇲",
+    "value": "MM",
+    "dialCode": "+95",
+    "mask": "99 999 9999"
+  },
+  {
+    "label": "Namibia",
+    "flag": "🇳🇦",
+    "value": "NA",
+    "dialCode": "+264",
+    "mask": "999 999 99999"
+  },
+  {
+    "label": "Nauru",
+    "flag": "🇳🇷",
+    "value": "NR",
+    "dialCode": "+674",
+    "mask": "999 9999"
+  },
+  {
+    "label": "Nepal",
+    "flag": "🇳🇵",
+    "value": "NP",
+    "dialCode": "+977",
+    "mask": "999-9999999"
+  },
+  {
+    "label": "Netherlands",
+    "flag": "🇳🇱",
+    "value": "NL",
+    "dialCode": "+31",
+    "mask": "99"
+  },
+  {
+    "label": "New Caledonia",
+    "flag": "🇳🇨",
+    "value": "NC",
+    "dialCode": "+687",
+    "mask": "99.99.99"
+  },
+  {
+    "label": "New Zealand",
+    "flag": "🇳🇿",
+    "value": "NZ",
+    "dialCode": "+64",
+    "mask": "999 999 9999"
+  },
+  {
+    "label": "Nicaragua",
+    "flag": "🇳🇮",
+    "value": "NI",
+    "dialCode": "+505",
+    "mask": "9999 9999"
+  },
+  {
+    "label": "Niger",
+    "flag": "🇳🇪",
+    "value": "NE",
+    "dialCode": "+227",
+    "mask": "99 99 99 99"
+  },
+  {
+    "label": "Nigeria",
+    "flag": "🇳🇬",
+    "value": "NG",
+    "dialCode": "+234",
+    "mask": "9999 999 9999"
+  },
+  {
+    "label": "Niue",
+    "flag": "🇳🇺",
+    "value": "NU",
+    "dialCode": "+683",
+    "mask": "999 9999"
+  },
+  {
+    "label": "Norfolk Island",
+    "flag": "🇳🇫",
+    "value": "NF",
+    "dialCode": "+672",
+    "mask": "9 99999"
+  },
+  {
+    "label": "Northern Mariana Islands",
+    "flag": "🇲🇵",
+    "value": "MP",
+    "dialCode": "+1670",
+    "mask": "(999) 999-9999"
+  },
+  {
+    "label": "Norway",
+    "flag": "🇳🇴",
+    "value": "NO",
+    "dialCode": "+47",
+    "mask": "999 99 999"
+  },
+  {
+    "label": "Oman",
+    "flag": "🇴🇲",
+    "value": "OM",
+    "dialCode": "+968",
+    "mask": "9999 9999"
+  },
+  {
+    "label": "Pakistan",
+    "flag": "🇵🇰",
+    "value": "PK",
+    "dialCode": "+92",
+    "mask": "9999 9999999"
+  },
+  {
+    "label": "Palau",
+    "flag": "🇵🇼",
+    "value": "PW",
+    "dialCode": "+680",
+    "mask": "999 9999"
+  },
+  {
+    "label": "Palestinian Territory, Occupied",
+    "flag": "🇵🇸",
+    "value": "PS",
+    "dialCode": "+970",
+    "mask": "9999 999 999"
+  },
+  {
+    "label": "Panama",
+    "flag": "🇵🇦",
+    "value": "PA",
+    "dialCode": "+507",
+    "mask": "9999-9999"
+  },
+  {
+    "label": "Papua New Guinea",
+    "flag": "🇵🇬",
+    "value": "PG",
+    "dialCode": "+675",
+    "mask": "9999 9999"
+  },
+  {
+    "label": "Paraguay",
+    "flag": "🇵🇾",
+    "value": "PY",
+    "dialCode": "+595",
+    "mask": "9999 999999"
+  },
+  {
+    "label": "Peru",
+    "flag": "🇵🇪",
+    "value": "PE",
+    "dialCode": "+51",
+    "mask": "999 999 999"
+  },
+  {
+    "label": "Philippines",
+    "flag": "🇵🇭",
+    "value": "PH",
+    "dialCode": "+63",
+    "mask": "9999 999 9999"
+  },
+  {
+    "label": "Poland",
+    "flag": "🇵🇱",
+    "value": "PL",
+    "dialCode": "+48",
+    "mask": "999 999 999"
+  },
+  {
+    "label": "Portugal",
+    "flag": "🇵🇹",
+    "value": "PT",
+    "dialCode": "+351",
+    "mask": "999 999 999"
+  },
+  {
+    "label": "Puerto Rico",
+    "flag": "🇵🇷",
+    "value": "PR",
+    "dialCode": "+1939",
+    "mask": "(999) 999-9999"
+  },
+  {
+    "label": "Qatar",
+    "flag": "🇶🇦",
+    "value": "QA",
+    "dialCode": "+974",
+    "mask": "9999 9999"
+  },
+  {
+    "label": "Romania",
+    "flag": "🇷🇴",
+    "value": "RO",
+    "dialCode": "+40",
+    "mask": "9999 999 999"
+  },
+  {
+    "label": "Russia",
+    "flag": "🇷🇺",
+    "value": "RU",
+    "dialCode": "+7",
+    "mask": "9 (999) 999-99-99"
+  },
+  {
+    "label": "Rwanda",
+    "flag": "🇷🇼",
+    "value": "RW",
+    "dialCode": "+250",
+    "mask": "9999 999 999"
+  },
+  {
+    "label": "Saint Barthelemy",
+    "flag": "🇧🇱",
+    "value": "BL",
+    "dialCode": "+590",
+    "mask": "9999 99 99 99"
+  },
+  {
+    "label": "Saint Helena, Ascension and Tristan Da Cunha",
+    "flag": "🇸🇭",
+    "value": "SH",
+    "dialCode": "+290",
+    "mask": "99999"
+  },
+  {
+    "label": "Saint Kitts and Nevis",
+    "flag": "🇰🇳",
+    "value": "KN",
+    "dialCode": "+1869",
+    "mask": "(999) 999-9999"
+  },
+  {
+    "label": "Saint Lucia",
+    "flag": "🇱🇨",
+    "value": "LC",
+    "dialCode": "+1758",
+    "mask": "(999) 999-9999"
+  },
+  {
+    "label": "Saint Martin",
+    "flag": "🇲🇫",
+    "value": "MF",
+    "dialCode": "+590",
+    "mask": "9999 99 99 99"
+  },
+  {
+    "label": "Saint Pierre and Miquelon",
+    "flag": "🇵🇲",
+    "value": "PM",
+    "dialCode": "+508",
+    "mask": "999 99 99"
+  },
+  {
+    "label": "Saint Vincent and the Grenadines",
+    "flag": "🇻🇨",
+    "value": "VC",
+    "dialCode": "+1784",
+    "mask": "(999) 999-9999"
+  },
+  {
+    "label": "Samoa",
+    "flag": "🇼🇸",
+    "value": "WS",
+    "dialCode": "+685",
+    "mask": "99 99999"
+  },
+  {
+    "label": "San Marino",
+    "flag": "🇸🇲",
+    "value": "SM",
+    "dialCode": "+378",
+    "mask": "99 99 99 99"
+  },
+  {
+    "label": "Sao Tome and Principe",
+    "flag": "🇸🇹",
+    "value": "ST",
+    "dialCode": "+239",
+    "mask": "999 9999"
+  },
+  {
+    "label": "Saudi Arabia",
+    "flag": "🇸🇦",
+    "value": "SA",
+    "dialCode": "+966",
+    "mask": "999 999 9999"
+  },
+  {
+    "label": "Senegal",
+    "flag": "🇸🇳",
+    "value": "SN",
+    "dialCode": "+221",
+    "mask": "99 999 99 99"
+  },
+  {
+    "label": "Serbia",
+    "flag": "🇷🇸",
+    "value": "RS",
+    "dialCode": "+381",
+    "mask": "999 9999999"
+  },
+  {
+    "label": "Seychelles",
+    "flag": "🇸🇨",
+    "value": "SC",
+    "dialCode": "+248",
+    "mask": "9 999 999"
+  },
+  {
+    "label": "Sierra Leone",
+    "flag": "🇸🇱",
+    "value": "SL",
+    "dialCode": "+232",
+    "mask": "(999) 999999"
+  },
+  {
+    "label": "Singapore",
+    "flag": "🇸🇬",
+    "value": "SG",
+    "dialCode": "+65",
+    "mask": "9999 9999"
+  },
+  {
+    "label": "Slovakia",
+    "flag": "🇸🇰",
+    "value": "SK",
+    "dialCode": "+421",
+    "mask": "9999 999 999"
+  },
+  {
+    "label": "Slovenia",
+    "flag": "🇸🇮",
+    "value": "SI",
+    "dialCode": "+386",
+    "mask": "999 999 999"
+  },
+  {
+    "label": "Solomon Islands",
+    "flag": "🇸🇧",
+    "value": "SB",
+    "dialCode": "+677",
+    "mask": "99 99999"
+  },
+  {
+    "label": "Somalia",
+    "flag": "🇸🇴",
+    "value": "SO",
+    "dialCode": "+252",
+    "mask": "9 9999999"
+  },
+  {
+    "label": "South Africa",
+    "flag": "🇿🇦",
+    "value": "ZA",
+    "dialCode": "+27",
+    "mask": "999 999 9999"
+  },
+  {
+    "label": "South Sudan",
+    "flag": "🇸🇸",
+    "value": "SS",
+    "dialCode": "+211",
+    "mask": "9999 999 999"
+  },
+  {
+    "label": "Spain",
+    "flag": "🇪🇸",
+    "value": "ES",
+    "dialCode": "+34",
+    "mask": "999 99 99 99"
+  },
+  {
+    "label": "Sri Lanka",
+    "flag": "🇱🇰",
+    "value": "LK",
+    "dialCode": "+94",
+    "mask": "999 999 9999"
+  },
+  {
+    "label": "Sudan",
+    "flag": "🇸🇩",
+    "value": "SD",
+    "dialCode": "+249",
+    "mask": "999 999 9999"
+  },
+  {
+    "label": "Suriname",
+    "flag": "🇸🇷",
+    "value": "SR",
+    "dialCode": "+597",
+    "mask": "999-9999"
+  },
+  {
+    "label": "Svalbard and Jan Mayen",
+    "flag": "🇸🇯",
+    "value": "SJ",
+    "dialCode": "+47",
+    "mask": "999 99 999"
+  },
+  {
+    "label": "Swaziland",
+    "flag": "🇸🇿",
+    "value": "SZ",
+    "dialCode": "+268",
+    "mask": "9999 9999"
+  },
+  {
+    "label": "Sweden",
+    "flag": "🇸🇪",
+    "value": "SE",
+    "dialCode": "+46",
+    "mask": "999-999 99 99"
+  },
+  {
+    "label": "Switzerland",
+    "flag": "🇨🇭",
+    "value": "CH",
+    "dialCode": "+41",
+    "mask": "999 999 99 99"
+  },
+  {
+    "label": "Syrian Arab Republic",
+    "flag": "🇸🇾",
+    "value": "SY",
+    "dialCode": "+963",
+    "mask": "9999 999 999"
+  },
+  {
+    "label": "Taiwan",
+    "flag": "🇹🇼",
+    "value": "TW",
+    "dialCode": "+886",
+    "mask": "9999 999 999"
+  },
+  {
+    "label": "Tajikistan",
+    "flag": "🇹🇯",
+    "value": "TJ",
+    "dialCode": "+992",
+    "mask": "999 99 9999"
+  },
+  {
+    "label": "Tanzania, United Republic of Tanzania",
+    "flag": "🇹🇿",
+    "value": "TZ",
+    "dialCode": "+255",
+    "mask": "9999 999 999"
+  },
+  {
+    "label": "Thailand",
+    "flag": "🇹🇭",
+    "value": "TH",
+    "dialCode": "+66",
+    "mask": "999 999 9999"
+  },
+  {
+    "label": "Timor-Leste",
+    "flag": "🇹🇱",
+    "value": "TL",
+    "dialCode": "+670",
+    "mask": "9999 9999"
+  },
+  {
+    "label": "Togo",
+    "flag": "🇹🇬",
+    "value": "TG",
+    "dialCode": "+228",
+    "mask": "99 99 99 99"
+  },
+  {
+    "label": "Tokelau",
+    "flag": "🇹🇰",
+    "value": "TK",
+    "dialCode": "+690",
+    "mask": "9999"
+  },
+  {
+    "label": "Tonga",
+    "flag": "🇹🇴",
+    "value": "TO",
+    "dialCode": "+676",
+    "mask": "999 9999"
+  },
+  {
+    "label": "Trinidad and Tobago",
+    "flag": "🇹🇹",
+    "value": "TT",
+    "dialCode": "+1868",
+    "mask": "(999) 999-9999"
+  },
+  {
+    "label": "Tunisia",
+    "flag": "🇹🇳",
+    "value": "TN",
+    "dialCode": "+216",
+    "mask": "99 999 999"
+  },
+  {
+    "label": "Turkey",
+    "flag": "🇹🇷",
+    "value": "TR",
+    "dialCode": "+90",
+    "mask": "(999) 999 9999"
+  },
+  {
+    "label": "Turkmenistan",
+    "flag": "🇹🇲",
+    "value": "TM",
+    "dialCode": "+993",
+    "mask": "9 99 999999"
+  },
+  {
+    "label": "Turks and Caicos Islands",
+    "flag": "🇹🇨",
+    "value": "TC",
+    "dialCode": "+1649",
+    "mask": "(999) 999-9999"
+  },
+  {
+    "label": "Tuvalu",
+    "flag": "🇹🇻",
+    "value": "TV",
+    "dialCode": "+688",
+    "mask": "999999"
+  },
+  {
+    "label": "Uganda",
+    "flag": "🇺🇬",
+    "value": "UG",
+    "dialCode": "+256",
+    "mask": "9999 999999"
+  },
+  {
+    "label": "Ukraine",
+    "flag": "🇺🇦",
+    "value": "UA",
+    "dialCode": "+380",
+    "mask": "999 999 9999"
+  },
+  {
+    "label": "United Arab Emirates",
+    "flag": "🇦🇪",
+    "value": "AE",
+    "dialCode": "+971",
+    "mask": "999 999 9999"
+  },
+  {
+    "label": "United Kingdom",
+    "flag": "🇬🇧",
+    "value": "GB",
+    "dialCode": "+44",
+    "mask": "99999 999999"
+  },
+  {
+    "label": "United States",
+    "flag": "🇺🇸",
+    "value": "US",
+    "dialCode": "+1",
+    "mask": "(999) 999-9999"
+  },
+  {
+    "label": "Uruguay",
+    "flag": "🇺🇾",
+    "value": "UY",
+    "dialCode": "+598",
+    "mask": "999 999 999"
+  },
+  {
+    "label": "Uzbekistan",
+    "flag": "🇺🇿",
+    "value": "UZ",
+    "dialCode": "+998",
+    "mask": "9 99 999 99 99"
+  },
+  {
+    "label": "Vanuatu",
+    "flag": "🇻🇺",
+    "value": "VU",
+    "dialCode": "+678",
+    "mask": "999 9999"
+  },
+  {
+    "label": "Venezuela, Bolivarian Republic of Venezuela",
+    "flag": "🇻🇪",
+    "value": "VE",
+    "dialCode": "+58",
+    "mask": "9999-9999999"
+  },
+  {
+    "label": "Vietnam",
+    "flag": "🇻🇳",
+    "value": "VN",
+    "dialCode": "+84",
+    "mask": "999 999 99 99"
+  },
+  {
+    "label": "Wallis and Futuna",
+    "flag": "🇼🇫",
+    "value": "WF",
+    "dialCode": "+681",
+    "mask": "99 99 99"
+  },
+  {
+    "label": "Yemen",
+    "flag": "🇾🇪",
+    "value": "YE",
+    "dialCode": "+967",
+    "mask": "999 999 999"
+  },
+  {
+    "label": "Zambia",
+    "flag": "🇿🇲",
+    "value": "ZM",
+    "dialCode": "+260",
+    "mask": "999 9999999"
+  },
+  {
+    "label": "Zimbabwe",
+    "flag": "🇿🇼",
+    "value": "ZW",
+    "dialCode": "+263",
+    "mask": "999 999 9999"
+  }
+]

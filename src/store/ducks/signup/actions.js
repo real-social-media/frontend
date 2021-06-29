@@ -10,6 +10,7 @@ export const signupUsernameIdle = createAction(constants.SIGNUP_USERNAME_IDLE)
 export const signupUsernameRequest = createAction(constants.SIGNUP_USERNAME_REQUEST)
 export const signupUsernameSuccess = createAction(constants.SIGNUP_USERNAME_SUCCESS)
 export const signupUsernameFailure = createFailureAction(constants.SIGNUP_USERNAME_FAILURE)
+export const signupUsernameSkip = createFailureAction(constants.SIGNUP_USERNAME_SKIP)
 
 /**
  *

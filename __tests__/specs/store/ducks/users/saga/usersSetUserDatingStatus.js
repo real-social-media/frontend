@@ -1,15 +1,17 @@
 /* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "testGqlError", "expectSaga"] }] */
 import { expectSaga } from 'redux-saga-test-plan'
-import usersSetUserDatingStatusRequest from 'store/ducks/users/saga/usersSetUserDatingStatus'
+import users from 'store/ducks/users/saga'
 import * as usersActions from 'store/ducks/users/actions'
 import * as queryService from 'services/Query'
 import * as queries from 'store/ducks/users/queries'
-import { testEntitiesMerge } from 'tests/utils/helpers'
+import { entitiesMerge } from 'store/ducks/entities/saga'
+import {  testAsRootSaga } from 'tests/utils/helpers'
 import { GraphQLError } from 'store/errors'
+import * as normalizer from 'normalizer/schemas'
 
 jest.mock('services/Query', () => ({ apiRequest: jest.fn().mockResolvedValue(true) }))
 
-const payload = { userId: 1 }
+const payload = { userId: '1' }
 const action = usersActions.usersSetUserDatingStatusRequest(payload)
 
 describe('usersSetUserDatingStatusRequest', () => {
@@ -18,17 +20,16 @@ describe('usersSetUserDatingStatusRequest', () => {
   })
 
   it('success', async () => {
-    const user = { userId: 1 }
+    const user = { userId: '1' }
     const response = { data: { setUserDatingStatus: user } }
-    const entities = { users: { 1: user } }
 
     queryService.apiRequest.mockResolvedValueOnce(response)
 
-    const saga = expectSaga(usersSetUserDatingStatusRequest, action)
+    await expectSaga(testAsRootSaga(users))
+      .call(entitiesMerge, normalizer.normalizeUserGet(response.data.setUserDatingStatus))
+      .put(usersActions.usersSetUserDatingStatusSuccess({ data: '1', payload }))
 
-    await testEntitiesMerge(saga, entities)
-      .put(usersActions.usersSetUserDatingStatusSuccess({ data: 1, payload }))
-
+      .dispatch(action)
       .silentRun()
 
     expect(queryService.apiRequest).toHaveBeenCalledWith(queries.setUserDatingStatus, payload)
@@ -38,9 +39,11 @@ describe('usersSetUserDatingStatusRequest', () => {
     const error = new Error('Error')
     queryService.apiRequest.mockRejectedValueOnce(error)
 
-    await expectSaga(usersSetUserDatingStatusRequest, action)
+    await expectSaga(testAsRootSaga(users))
       .put(usersActions.usersSetUserDatingStatusFailure(error))
-      .run()
+
+      .dispatch(action)
+      .silentRun()
   })
 
   describe('show specific error message', () => {
@@ -49,14 +52,16 @@ describe('usersSetUserDatingStatusRequest', () => {
 
       queryService.apiRequest.mockRejectedValueOnce(gqlError)
 
-      await expectSaga(usersSetUserDatingStatusRequest, action)
+      await expectSaga(testAsRootSaga(users))
         .put({
           type: 'USERS_SET_USER_DATING_STATUS_FAILURE',
           payload: gqlError,
           error: true,
           meta: { messageCode },
         })
-        .run()
+
+        .dispatch(action)
+        .silentRun()
     }
 
     it('GENERIC by default', async () => {
@@ -64,14 +69,16 @@ describe('usersSetUserDatingStatusRequest', () => {
 
       queryService.apiRequest.mockRejectedValueOnce(gqlError)
 
-      await expectSaga(usersSetUserDatingStatusRequest, action)
+      await expectSaga(testAsRootSaga(users))
         .put({
           type: 'USERS_SET_USER_DATING_STATUS_FAILURE',
           payload: gqlError,
           error: true,
           meta: { messageCode: 'GENERIC' },
         })
-        .run()
+
+        .dispatch(action)
+        .silentRun()
     })
 
     it('MISSING_DISPLAY_NAME', async () => {

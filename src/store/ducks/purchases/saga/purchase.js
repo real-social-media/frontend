@@ -1,10 +1,11 @@
 /* eslint-disable no-useless-catch */
 import * as RNIap from 'react-native-iap'
 import propOr from 'ramda/src/propOr'
-import { put, call, race, delay, take } from 'redux-saga/effects'
 import { eventChannel } from 'redux-saga'
+import { put, call, race, delay, take, takeEvery } from 'redux-saga/effects'
+import * as constants from 'store/ducks/purchases/constants'
 import * as actions from 'store/ducks/purchases/actions'
-import * as usersActions from 'store/ducks/users/actions'
+import * as authActions from 'store/ducks/auth/actions'
 import * as queries from 'store/ducks/purchases/queries'
 import * as queryService from 'services/Query'
 
@@ -45,7 +46,6 @@ export function* purchaseRequest(productId) {
   try {
     channel = yield call(purchaseEmitter)
 
-    yield call([RNIap, 'getSubscriptions'], [productId])
     yield call([RNIap, 'requestSubscription'], productId, finishTransactionAutomatically)
 
     const { timeout, response } = yield race({
@@ -76,11 +76,11 @@ function* purchase(req) {
     const { productId } = req.payload
     yield call(purchaseRequest, productId)
     yield put(actions.purchaseSuccess())
-    yield put(usersActions.usersGetProfileSelfRequest())
+    yield put(authActions.authGetUserRequest())
   } catch (error) {
     const messageCode = propOr('GENERIC', 'code', error)
     yield put(actions.purchaseFailure(error, { messageCode }))
   }
 }
 
-export default purchase
+export default () => [takeEvery(constants.PURCHASE_REQUEST, purchase)]

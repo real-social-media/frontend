@@ -8,7 +8,7 @@ import { useEffectWhenFocused } from 'services/hooks'
 const AlbumEditService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
-  const user = useSelector(authSelector.authUserSelector)
+  const user = useSelector(authSelector.authUser)
   const albumsEdit = useSelector(state => state.albums.albumsEdit)
 
   const albumsEditRequest = (payload) =>

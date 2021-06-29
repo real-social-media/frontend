@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as postsActions from 'store/ducks/posts/actions'
-import * as usersActions from 'store/ducks/users/actions'
 import * as postsSelector from 'store/ducks/posts/selectors'
+import * as usersSelector from 'store/ducks/users/selectors'
 import { useRoute } from '@react-navigation/native'
 import { useEffectWhenFocused } from 'services/hooks'
 
@@ -12,19 +12,8 @@ const PostsLikesService = ({ children }) => {
   const postId = route.params.postId
   const userId = route.params.userId
   const postsLikesGet = useSelector(postsSelector.postsLikesGetSelector(postId))
-  const postsSingleGet = useSelector(postsSelector.postsSingleGetSelector(postId))
-  const usersFollow = useSelector(state => state.users.usersFollow)
-  const usersUnfollow = useSelector(state => state.users.usersUnfollow)
-  const usersAcceptFollowerUser = useSelector(state => state.users.usersAcceptFollowerUser)
-
-  const usersFollowRequest = ({ userId }) =>
-    dispatch(usersActions.usersFollowRequest({ userId }))
-
-  const usersUnfollowRequest = ({ userId }) =>
-    dispatch(usersActions.usersUnfollowRequest({ userId }))
-
-  const usersAcceptFollowerUserRequest = ({ userId }) =>
-    dispatch(usersActions.usersAcceptFollowerUserRequest({ userId }))
+  const usersFollow = useSelector(usersSelector.usersFollow)
+  const usersUnfollow = useSelector(usersSelector.usersUnfollow)
 
   const postsLikesGetRequest = (payload) =>
     dispatch(postsActions.postsLikesGetRequest(payload))
@@ -36,12 +25,10 @@ const PostsLikesService = ({ children }) => {
   }, [postId])
 
   useEffectWhenFocused(() => {
-    if (usersFollow.status === 'success') {
-      postsLikesGetRequest({ postId })
-    }
-    if (usersUnfollow.status === 'success') {
-      postsLikesGetRequest({ postId })
-    }
+    if (usersFollow.status !== 'success') return
+    if (usersUnfollow.status !== 'success') return
+
+    postsLikesGetRequest({ postId })
   }, [usersFollow.status, usersUnfollow.status])
 
   useEffect(() => {
@@ -50,14 +37,6 @@ const PostsLikesService = ({ children }) => {
 
   return children({
     postsLikesGet,
-    postsLikesGetRequest,
-    usersFollow,
-    usersUnfollow,
-    usersAcceptFollowerUser,
-    usersFollowRequest,
-    usersUnfollowRequest,
-    usersAcceptFollowerUserRequest,
-    postsSingleGet,
   })
 }
 

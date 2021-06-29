@@ -1,55 +1,41 @@
-import { put, call, take, race, takeEvery, getContext } from 'redux-saga/effects'
+import { put, call, takeEvery, getContext } from 'redux-saga/effects'
 import * as actions from 'store/ducks/signup/actions'
 import * as constants from 'store/ducks/signup/constants'
 import * as queries from 'store/ducks/signup/queries'
-import * as authActions from 'store/ducks/auth/actions'
-import * as authConstants from 'store/ducks/auth/constants'
 import * as queryService from 'services/Query'
 import * as navigationActions from 'navigation/actions'
 import { logEvent } from 'services/Analytics'
+import { handleAnonymousSignin } from 'store/ducks/auth/saga/authSigninAnonymous'
 
-/**
- *
- */
-function* queryBasedOnSignupType(payload) {
-  if (payload.usernameType === 'email') {
-    yield queryService.apiRequest(queries.startChangeUserEmail, { email: payload.email })
-  } else if (payload.usernameType === 'phone') {
-    const phoneNumber = `${payload.countryCode}${payload.phone}`
-    yield queryService.apiRequest(queries.startChangeUserPhoneNumber, { phoneNumber })
-  } else {
-    throw new Error('Unsupported usernameType')
-  }
+function* startChangeUserEmail({ email }) {
+  const ReactNavigationRef = yield getContext('ReactNavigationRef')
+
+  yield call([queryService, 'apiRequest'], queries.startChangeUserEmail, { email })
+
+  navigationActions.navigateAuthEmailConfirm(ReactNavigationRef.current)
+  yield call(logEvent, 'SIGNUP_EMAIL_SUCCESS')
+}
+
+function* startChangeUserPhoneNumber({ countryCode, phone }) {
+  const ReactNavigationRef = yield getContext('ReactNavigationRef')
+
+  const phoneNumber = `${countryCode}${phone}`
+  yield call([queryService, 'apiRequest'], queries.startChangeUserPhoneNumber, { phoneNumber })
+
+  navigationActions.navigateAuthPhoneConfirm(ReactNavigationRef.current)
+  yield call(logEvent, 'SIGNUP_PHONE_SUCCESS')
 }
 
 function* handleSignupCreateRequest(payload) {
-  /**
-   * Fetching cognito credentials/tokens
-   */
-  yield put(authActions.authTokenRequest({ allowAnonymous: true }))
-  const { tokenFailure } = yield race({
-    tokenSuccess: take(authConstants.AUTH_TOKEN_SUCCESS),
-    tokenFailure: take(authConstants.AUTH_TOKEN_FAILURE),
-  })
+  yield call(handleAnonymousSignin)
 
-  if (tokenFailure) {
-    throw new Error('Failed to obtain token')
+  if (payload.usernameType === 'email') {
+    yield call(startChangeUserEmail, payload)
+  } else if (payload.usernameType === 'phone') {
+    yield call(startChangeUserPhoneNumber, payload)
+  } else {
+    throw new Error('Unsupported usernameType')
   }
-
-  /**
-   * Fetching user data from api
-   */
-  yield put(authActions.authDataRequest({ allowAnonymous: true }))
-  const { dataFailure } = yield race({
-    dataSuccess: take(authConstants.AUTH_DATA_SUCCESS),
-    dataFailure: take(authConstants.AUTH_DATA_FAILURE),
-  })
-
-  if (dataFailure) {
-    throw new Error('Failed to fetch data')
-  }
-
-  yield call(queryBasedOnSignupType, payload)
 }
 
 /**
@@ -57,10 +43,8 @@ function* handleSignupCreateRequest(payload) {
  */
 function* signupCreateRequest(req) {
   try {
-    logEvent('SIGNUP_CREATE_REQUEST')
-
-    yield handleSignupCreateRequest(req.payload)
-    yield put(actions.signupCreateSuccess({ usernameType: req.payload.usernameType }))
+    yield call(handleSignupCreateRequest, req.payload)
+    yield put(actions.signupCreateSuccess())
   } catch (error) {
     if (error.message === 'USER_CONFIRMATION_DELIVERY') {
       yield put(actions.signupCreateFailure(error, { messageCode: 'USER_CONFIRMATION_DELIVERY' }))
@@ -76,22 +60,4 @@ function* signupCreateRequest(req) {
   }
 }
 
-function* signupCreateSuccess(req) {
-  logEvent('SIGNUP_CREATE_SUCCESS')
-  const ReactNavigationRef = yield getContext('ReactNavigationRef')
-
-  if (req.payload.usernameType === 'phone') {
-    logEvent('SIGNUP_PHONE_SUCCESS')
-    navigationActions.navigateAuthPhoneConfirm(ReactNavigationRef.current)
-  }
-
-  if (req.payload.usernameType === 'email') {
-    logEvent('SIGNUP_EMAIL_SUCCESS')
-    navigationActions.navigateAuthEmailConfirm(ReactNavigationRef.current)
-  }
-}
-
-export default () => [
-  takeEvery(constants.SIGNUP_CREATE_REQUEST, signupCreateRequest),
-  takeEvery(constants.SIGNUP_CREATE_SUCCESS, signupCreateSuccess),
-]
+export default () => [takeEvery(constants.SIGNUP_CREATE_REQUEST, signupCreateRequest)]

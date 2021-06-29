@@ -4,25 +4,24 @@ import * as constants from 'store/ducks/signup/constants'
 import * as queries from 'store/ducks/signup/queries'
 import * as queryService from 'services/Query'
 import * as navigationActions from 'navigation/actions'
-import { logEvent } from 'services/Analytics'
 import { Keyboard } from 'react-native'
 import propOr from 'ramda/src/propOr'
 
 /**
  *
  */
-function* queryBasedOnSignupType(payload) {
+function* handleSignupConfirmRequest(payload) {
   if (payload.usernameType === 'email') {
-    yield queryService.apiRequest(queries.finishChangeUserEmail, { verificationCode: payload.confirmationCode })
+    yield call([queryService, 'apiRequest'], queries.finishChangeUserEmail, {
+      verificationCode: payload.confirmationCode,
+    })
   } else if (payload.usernameType === 'phone') {
-    yield queryService.apiRequest(queries.finishChangeUserPhoneNumber, { verificationCode: payload.confirmationCode })
+    yield call([queryService, 'apiRequest'], queries.finishChangeUserPhoneNumber, {
+      verificationCode: payload.confirmationCode,
+    })
   } else {
     throw new Error('Unsupported usernameType')
   }
-}
-
-function* handleSignupConfirmRequest(payload) {
-  yield call(queryBasedOnSignupType, payload)
 }
 
 /**
@@ -30,14 +29,13 @@ function* handleSignupConfirmRequest(payload) {
  */
 function* signupConfirmRequest(req) {
   try {
-    logEvent('SIGNUP_CONFIRM_REQUEST')
-    const data = yield handleSignupConfirmRequest(req.payload)
-    yield put(actions.signupConfirmSuccess({ payload: req.payload, data }))
+    yield handleSignupConfirmRequest(req.payload)
+    yield put(actions.signupConfirmSuccess())
   } catch (error) {
     const messageCode = propOr('GENERIC', error.code, {
-      'AliasExistsException': 'ALIAS_EXISTS',
-      'ExpiredCodeException': 'CODE_EXPIRED',
-      'CodeMismatchException': 'CODE_MISMATCH',
+      AliasExistsException: 'ALIAS_EXISTS',
+      ExpiredCodeException: 'CODE_EXPIRED',
+      CodeMismatchException: 'CODE_MISMATCH',
     })
 
     yield put(actions.signupConfirmFailure(error, { messageCode }))
@@ -47,11 +45,10 @@ function* signupConfirmRequest(req) {
 function* signupConfirmSuccess() {
   const ReactNavigationRef = yield getContext('ReactNavigationRef')
   navigationActions.navigateAuthUsername(ReactNavigationRef.current)
-  logEvent('SIGNUP_CONFIRM_SUCCESS')
 
-  yield put(actions.signupCreateIdle({}))
-  yield put(actions.signupConfirmIdle({}))
-  yield put(actions.signupPasswordIdle({}))
+  yield put(actions.signupCreateIdle())
+  yield put(actions.signupConfirmIdle())
+  yield put(actions.signupPasswordIdle())
 
   Keyboard.dismiss()
 }

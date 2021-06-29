@@ -1,5 +1,6 @@
 import { expectSaga } from 'redux-saga-test-plan'
 import { getContext } from 'redux-saga/effects'
+import { makeAuthorizedState } from 'tests/utils/helpers'
 import navigationSubscription from 'store/ducks/subscriptions/saga/navigation'
 import * as usersActions from 'store/ducks/users/actions'
 import * as Logger from 'services/Logger'
@@ -11,7 +12,7 @@ const provideNavigation = [getContext('ReactNavigationRef'), { current: navigati
 const applyOnChange = (navigation) => navigation.addListener.mock.calls[0][1]()
 const route = { name: 'ROUTE' }
 const user = { userId: 'us-east-1:f554ea33-7315-4e60-8e85-c86ad0ee6f0e' }
-const authorizedState = { auth: { user: user.userId }, entities: { users: { [user.userId]: user } } }
+const authorizedState = makeAuthorizedState(user)
 
 describe('navigationSubscription', () => {
   afterEach(() => {

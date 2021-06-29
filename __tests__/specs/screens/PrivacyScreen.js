@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { renderWithProviders, fireEvent, within } from 'tests/utils'
 import PrivacyScreen from 'screens/PrivacyScreen'
 import * as usersActions from 'store/ducks/users/actions'
-import { authUserSelector } from 'store/ducks/auth/selectors'
+import { authUser } from 'store/ducks/auth/selectors'
 import testIDs from 'components/Privacy/test-ids'
 
 jest.mock('react-redux', () => ({
@@ -62,7 +62,7 @@ describe('Privacy screen', () => {
   it('should select authorized user', () => {
     setup()
 
-    expect(useSelector).toHaveBeenCalledWith(authUserSelector)
+    expect(useSelector).toHaveBeenCalledWith(authUser)
     expect(useSelector()).toEqual(user)
   })
 

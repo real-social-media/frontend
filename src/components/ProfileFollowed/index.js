@@ -6,20 +6,13 @@ import {
   ScrollView,
   RefreshControl,
 } from 'react-native'
-import ResultComponent from 'components/Search/Result'
-
+import UsersList from 'components/UsersList'
 import { withTheme } from 'react-native-paper'
 
 const ProfileFollowed = ({
   theme,
   usersGetFollowedUsers,
   usersGetFollowedUsersRequest,
-  usersFollow,
-  usersFollowRequest,
-  usersUnfollow,
-  usersUnfollowRequest,
-  usersAcceptFollowerUser,
-  usersAcceptFollowerUserRequest,
 }) => {
   const styling = styles(theme)
 
@@ -34,16 +27,7 @@ const ProfileFollowed = ({
           />
         }
       >
-        <ResultComponent
-          usersSearch={usersGetFollowedUsers}
-          usersFollow={usersFollow}
-          usersFollowRequest={usersFollowRequest}
-          usersUnfollow={usersUnfollow}
-          usersUnfollowRequest={usersUnfollowRequest}
-          usersAcceptFollowerUser={usersAcceptFollowerUser}
-          usersAcceptFollowerUserRequest={usersAcceptFollowerUserRequest}
-          loading={usersGetFollowedUsers.status === 'loading'}
-        />
+        <UsersList usersSearch={usersGetFollowedUsers} />
       </ScrollView>
     </View>
   )
@@ -60,12 +44,7 @@ ProfileFollowed.propTypes = {
   theme: PropTypes.any,
   usersGetFollowedUsers: PropTypes.any,
   usersGetFollowedUsersRequest: PropTypes.any,
-  usersFollow: PropTypes.any,
-  usersFollowRequest: PropTypes.any,
-  usersUnfollow: PropTypes.any,
-  usersUnfollowRequest: PropTypes.any,
-  usersAcceptFollowerUser: PropTypes.any,
-  usersAcceptFollowerUserRequest: PropTypes.any,
 }
 
 export default withTheme(ProfileFollowed)
+

@@ -4,52 +4,57 @@ import { testAsRootSaga } from 'tests/utils/helpers'
 import * as actions from 'store/ducks/auth/actions'
 import authSigninCognito from 'store/ducks/auth/saga/authSigninCognito'
 
+/**
+ * Mock Data
+ */
 const username = 'username'
 const password = 'password'
-const AwsAuth = { signIn: jest.fn() }
 
-AwsAuth.signIn.mockResolvedValue(true)
+/**
+ * Mock Functions
+ */
+const AwsAuth = { signIn: jest.fn().mockResolvedValue(true), currentUserCredentials: jest.fn() }
+const navigation = { navigate: jest.fn(), reset: jest.fn() }
+
+/**
+ * Mock Context
+ */
+const context = [
+  [getContext('AwsAuth'), AwsAuth],
+  [getContext('ReactNavigationRef'), { current: navigation }],
+]
 
 describe('authSigninCognito', () => {
   afterEach(() => {
     AwsAuth.signIn.mockClear()
+    navigation.navigate.mockClear()
+    navigation.reset.mockClear()
   })
 
   it('success', async () => {
     await expectSaga(testAsRootSaga(authSigninCognito))
-      .provide([[getContext('AwsAuth'), AwsAuth]])
-      .put(actions.authFlowRequest({ allowAnonymous: false }))
+      .provide(context)
+      .call([AwsAuth, 'signIn'], username, password)
       .put(actions.authSigninCognitoSuccess())
 
       .dispatch(actions.authSigninCognitoRequest({ username, password }))
-      .dispatch(actions.authFlowSuccess())
+      .dispatch(actions.authGetUserSuccess())
       .silentRun()
 
     expect(AwsAuth.signIn).toHaveBeenCalledWith(username, password)
   })
 
   describe('failure', () => {
-    it('AUTH_FLOW_FAILURE', async () => {
-      await expectSaga(testAsRootSaga(authSigninCognito))
-        .provide([[getContext('AwsAuth'), AwsAuth]])
-        .put(actions.authSigninCognitoFailure(new Error('Failed to obtain flow'), { messageCode: 'GENERIC' }))
-
-        .dispatch(actions.authSigninCognitoRequest({ username, password }))
-        .dispatch(actions.authFlowFailure())
-        .silentRun()
-    })
-
     it('USER_NOT_CONFIRMED', async () => {
       const error = new Error('Error')
       error.code = 'UserNotConfirmedException'
       AwsAuth.signIn.mockRejectedValueOnce(error)
 
       await expectSaga(testAsRootSaga(authSigninCognito))
-        .provide([[getContext('AwsAuth'), AwsAuth]])
+        .provide(context)
         .put(actions.authSigninCognitoFailure(error, { messageCode: 'USER_NOT_CONFIRMED' }))
 
         .dispatch(actions.authSigninCognitoRequest({ username, password }))
-        .dispatch(actions.authFlowSuccess())
         .silentRun()
     })
 
@@ -59,11 +64,10 @@ describe('authSigninCognito', () => {
       AwsAuth.signIn.mockRejectedValueOnce(error)
 
       await expectSaga(testAsRootSaga(authSigninCognito))
-        .provide([[getContext('AwsAuth'), AwsAuth]])
+        .provide(context)
         .put(actions.authSigninCognitoFailure(error, { messageCode: 'USER_NOT_FOUND' }))
 
         .dispatch(actions.authSigninCognitoRequest({ username, password }))
-        .dispatch(actions.authFlowSuccess())
         .silentRun()
     })
 
@@ -73,11 +77,10 @@ describe('authSigninCognito', () => {
       AwsAuth.signIn.mockRejectedValueOnce(error)
 
       await expectSaga(testAsRootSaga(authSigninCognito))
-        .provide([[getContext('AwsAuth'), AwsAuth]])
+        .provide(context)
         .put(actions.authSigninCognitoFailure(error, { messageCode: 'USER_NOT_AUTHORIZED' }))
 
         .dispatch(actions.authSigninCognitoRequest({ username, password }))
-        .dispatch(actions.authFlowSuccess())
         .silentRun()
     })
 
@@ -87,11 +90,10 @@ describe('authSigninCognito', () => {
       AwsAuth.signIn.mockRejectedValueOnce(error)
 
       await expectSaga(testAsRootSaga(authSigninCognito))
-        .provide([[getContext('AwsAuth'), AwsAuth]])
+        .provide(context)
         .put(actions.authSigninCognitoFailure(error, { messageCode: 'INVALID_PARAMETER' }))
 
         .dispatch(actions.authSigninCognitoRequest({ username, password }))
-        .dispatch(actions.authFlowSuccess())
         .silentRun()
     })
   })

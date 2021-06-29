@@ -7,7 +7,7 @@ import {
   RefreshControl,
   ActivityIndicator,
 } from 'react-native'
-import ResultComponent from 'components/Search/Result'
+import UsersList from 'components/UsersList'
 import ScrollService from 'services/Scroll'
 import { Caption } from 'react-native-paper'
 import path from 'ramda/src/path'
@@ -25,12 +25,6 @@ const PostViews = ({
   postsViewsGet,
   postsViewsGetRequest,
   postsViewsGetMoreRequest,
-  usersFollow,
-  usersFollowRequest,
-  usersUnfollow,
-  usersUnfollowRequest,
-  usersAcceptFollowerUser,
-  usersAcceptFollowerUserRequest,
   postsSingleGet,
 }) => {
   const styling = styles(theme)
@@ -63,15 +57,7 @@ const PostViews = ({
           )}
         </PreviewServiceComponent>
 
-        <ResultComponent
-          usersSearch={postsViewsGet}
-          usersFollow={usersFollow}
-          usersFollowRequest={usersFollowRequest}
-          usersUnfollow={usersUnfollow}
-          usersUnfollowRequest={usersUnfollowRequest}
-          usersAcceptFollowerUser={usersAcceptFollowerUser}
-          usersAcceptFollowerUserRequest={usersAcceptFollowerUserRequest}
-        />
+        <UsersList usersSearch={postsViewsGet} />
 
         <View style={styling.info}>
           <Caption>{t('Only you can see who viewed your post')}</Caption>
@@ -104,17 +90,11 @@ const styles = theme => StyleSheet.create({
 })
 
 PostViews.propTypes = {
+  t: PropTypes.any,
   theme: PropTypes.any,
   postsViewsGet: PropTypes.any,
   postsViewsGetRequest: PropTypes.any,
   postsViewsGetMoreRequest: PropTypes.any,
-  usersFollow: PropTypes.any,
-  usersFollowRequest: PropTypes.any,
-  usersUnfollow: PropTypes.any,
-  usersUnfollowRequest: PropTypes.any,
-  t: PropTypes.any,
-  usersAcceptFollowerUser: PropTypes.any,
-  usersAcceptFollowerUserRequest: PropTypes.any,
   postsSingleGet: PropTypes.any,
 }
 

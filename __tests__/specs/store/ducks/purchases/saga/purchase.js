@@ -5,7 +5,7 @@ import { throwError } from 'redux-saga-test-plan/providers'
 import { testAsRootSaga, provideDelay } from 'tests/utils/helpers'
 import purchases from 'store/ducks/purchases/saga'
 import * as actions from 'store/ducks/purchases/actions'
-import * as usersActions from 'store/ducks/users/actions'
+import * as authActions from 'store/ducks/auth/actions'
 import * as constants from 'store/ducks/purchases/constants'
 import * as queries from 'store/ducks/purchases/queries'
 import * as queryService from 'services/Query'
@@ -69,7 +69,6 @@ describe('Purchases saga', () => {
     const promise = expectSaga(testAsRootSaga(purchases))
       .provide([provideDelay(true)])
 
-      .call([RNIap, 'getSubscriptions'], [premium.productId])
       .call([RNIap, 'requestSubscription'], premium.productId, false)
       .put(actions.purchaseFailure(new Error('Purchase Request Timeout'), { messageCode: 'GENERIC' }))
 
@@ -86,7 +85,6 @@ describe('Purchases saga', () => {
   it('error from listener', () => {
     const error = new Error('Listener error')
     const promise = expectSaga(testAsRootSaga(purchases))
-      .call([RNIap, 'getSubscriptions'], [premium.productId])
       .call([RNIap, 'requestSubscription'], premium.productId, false)
       .put(actions.purchaseFailure(error, { messageCode: 'GENERIC' }))
 
@@ -105,12 +103,11 @@ describe('Purchases saga', () => {
     const promise = expectSaga(testAsRootSaga(purchases))
       .provide([[matchers.call.fn(queryService.apiRequest), Promise.resolve()]])
 
-      .call([RNIap, 'getSubscriptions'], [premium.productId])
       .call([RNIap, 'requestSubscription'], premium.productId, false)
       .call(queryService.apiRequest, queries.addAppStoreReceipt, { receiptData: purchase.transactionReceipt })
       .call([RNIap, 'finishTransactionIOS'], purchase.transactionId)
       .put(actions.purchaseSuccess())
-      .put(usersActions.usersGetProfileSelfRequest())
+      .put(authActions.authGetUserRequest())
 
       .dispatch(actions.purchaseRequest(premium))
       .silentRun()

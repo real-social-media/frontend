@@ -9,6 +9,10 @@ export const initialState = {
   retryPurchase: {
     status: 'idle',
   },
+  subscriptionGet: {
+    status: 'idle',
+    data: {},
+  },
 }
 
 /**
@@ -61,6 +65,32 @@ const retryPurchaseFailure = (state) =>
     },
   })
 
+/**
+ *
+ */
+const subscriptionGetRequest = (state) =>
+  update(state, {
+    subscriptionGet: {
+      status: { $set: 'loading' },
+      data: { $set: initialState.subscriptionGet.data },
+    },
+  })
+
+const subscriptionGetSuccess = (state, action) =>
+  update(state, {
+    subscriptionGet: {
+      status: { $set: 'success' },
+      data: { $set: action.payload },
+    },
+  })
+
+const subscriptionGetFailure = (state) =>
+  update(state, {
+    subscriptionGet: {
+      status: { $set: 'failure' },
+    },
+  })
+
 export default handleActions(
   {
     [constants.PURCHASE_REQUEST]: purchasesRequest,
@@ -70,6 +100,10 @@ export default handleActions(
     [constants.RETRY_PURCHASE_REQUEST]: retryPurchaseRequest,
     [constants.RETRY_PURCHASE_SUCCESS]: retryPurchaseSuccess,
     [constants.RETRY_PURCHASE_FAILURE]: retryPurchaseFailure,
+
+    [constants.SUBSCRIPTION_GET_REQUEST]: subscriptionGetRequest,
+    [constants.SUBSCRIPTION_GET_SUCCESS]: subscriptionGetSuccess,
+    [constants.SUBSCRIPTION_GET_FAILURE]: subscriptionGetFailure,
   },
   initialState,
 )

@@ -5,6 +5,7 @@ export const gridAlbumFragment = `
     url480p
     url1080p
     url4k
+    urlEla
     width
     height
     colors {
@@ -35,6 +36,7 @@ export const gridAlbumFragment = `
   fragment postAlbumFragment on Post {
     postId
     isVerified
+    adStatus
     likesDisabled
     commentsDisabled
     sharingDisabled

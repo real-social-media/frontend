@@ -1,5 +1,5 @@
 import { put, call, takeEvery } from 'redux-saga/effects'
-import * as usersActions from 'store/ducks/users/actions'
+import * as authActions from 'store/ducks/auth/actions'
 import * as constants from 'store/ducks/promocodes/constants'
 import * as actions from 'store/ducks/promocodes/actions'
 import * as queries from 'store/ducks/promocodes/queries'
@@ -15,7 +15,7 @@ function* promoCodesRedeemRequest(req) {
 }
 
 function* promoCodesRedeemSuccess() {
-  yield put(usersActions.usersGetProfileSelfRequest())
+  yield put(authActions.authGetUserRequest())
 }
 
 export default () => [

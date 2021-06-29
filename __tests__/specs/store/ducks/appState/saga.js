@@ -1,5 +1,5 @@
 import { expectSaga } from 'redux-saga-test-plan'
-import { testAsRootSaga } from 'tests/utils/helpers'
+import { testAsRootSaga, makeAuthorizedState } from 'tests/utils/helpers'
 import * as actions from 'store/ducks/appState/actions'
 import * as authActions from 'store/ducks/auth/actions'
 import * as subscriptionsActions from 'store/ducks/subscriptions/actions'
@@ -10,7 +10,7 @@ describe('App state', () => {
   it('on launched', async () => {
     await expectSaga(testAsRootSaga(appState))
       .put(updatesActions.updatesCheckRequest())
-      .put(authActions.authFlowRequest({ allowAnonymous: false }))
+      .put(authActions.authFlowRequest())
 
       .dispatch(actions.appStateLaunched())
       .silentRun()
@@ -37,10 +37,9 @@ describe('App state', () => {
 
     it('authorized', async () => {
       const user = { userId: '1', username: 'username' }
-      const authorizedState = { auth: { user: user.userId }, entities: { users: { [user.userId]: user } } }
 
       await expectSaga(testAsRootSaga(appState))
-        .withState(authorizedState)
+        .withState(makeAuthorizedState(user))
         .put(updatesActions.updatesCheckRequest())
         .put(authActions.authPrefetchRequest())
 

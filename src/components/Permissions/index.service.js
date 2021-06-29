@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
-import { PERMISSIONS, RESULTS, check, request } from 'react-native-permissions'
+import { PERMISSIONS, RESULTS, check, request, openSettings } from 'react-native-permissions'
 import useAppState from 'services/AppState'
-import { openSettings } from 'react-native-permissions'
 import { useNavigation, useFocusEffect } from '@react-navigation/native'
 
 const Permissions = ({ children, camera, library, location }) => {

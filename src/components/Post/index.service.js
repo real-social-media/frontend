@@ -5,7 +5,7 @@ import * as usersActions from 'store/ducks/users/actions'
 
 const PostsService = ({ children }) => {
   const dispatch = useDispatch()
-  const user = useSelector(authSelector.authUserSelector)
+  const user = useSelector(authSelector.authUser)
   const postsAnonymouslyLike = useSelector(state => state.posts.postsAnonymouslyLike)
   const postsFlag = useSelector(state => state.posts.postsFlag)
 

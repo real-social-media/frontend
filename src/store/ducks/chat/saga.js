@@ -1,4 +1,4 @@
-import { put, takeLatest } from 'redux-saga/effects'
+import { put, takeLatest, call } from 'redux-saga/effects'
 import path from 'ramda/src/path'
 import compose from 'ramda/src/compose'
 import omit from 'ramda/src/omit'
@@ -21,7 +21,7 @@ function* chatGetChatsRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizeChatsGet(data)
-  yield entitiesMerge(normalized)
+  yield call(entitiesMerge, normalized)
 
   return {
     data: normalized.result,
@@ -32,7 +32,7 @@ function* chatGetChatsRequestData(req, api) {
 
 function* chatGetChatsRequest(req) {
   try {
-    const data = yield queryService.apiRequest(queries.chats, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.chats, req.payload)
     const next = yield chatGetChatsRequestData(req, data)
     yield put(actions.chatGetChatsSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
@@ -51,7 +51,7 @@ function* chatGetChatRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizeChatGet(data)
-  yield entitiesMerge(normalized)
+  yield call(entitiesMerge, normalized)
 
   return {
     data: normalized.result,
@@ -62,7 +62,7 @@ function* chatGetChatRequestData(req, api) {
 
 function* chatGetChatRequest(req) {
   try {
-    const data = yield queryService.apiRequest(queries.chat, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.chat, req.payload)
     const next = yield chatGetChatRequestData(req, data)
     yield put(actions.chatGetChatSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
@@ -81,7 +81,7 @@ function* chatCreateDirectRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizeChatGet(data)
-  yield entitiesMerge(normalized)
+  yield call(entitiesMerge, normalized)
 
   return {
     data: normalized.result,
@@ -92,7 +92,7 @@ function* chatCreateDirectRequestData(req, api) {
 
 function* chatCreateDirectRequest(req) {
   try {
-    const data = yield queryService.apiRequest(queries.createDirectChat, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.createDirectChat, req.payload)
     const next = yield chatCreateDirectRequestData(req, data)
     yield put(actions.chatCreateDirectSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
@@ -105,7 +105,7 @@ function* chatCreateDirectRequest(req) {
  */
 function* chatAddMessageRequest(req) {
   try {
-    const data = yield queryService.apiRequest(queries.addChatMessage, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.addChatMessage, req.payload)
     const dataSelector = path(['data', 'addChatMessage'])
 
     yield put(actions.chatAddMessageSuccess({ data: dataSelector(data), payload: req.payload, meta: data }))
@@ -119,7 +119,7 @@ function* chatAddMessageRequest(req) {
  */
 function* chatReportViewRequest(req) {
   try {
-    const data = yield queryService.apiRequest(queries.reportChatViews, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.reportChatViews, req.payload)
     const dataSelector = path(['data', 'reportChatViews'])
 
     yield put(actions.chatReportViewSuccess({ data: dataSelector(data), payload: req.payload, meta: data }))
@@ -133,7 +133,7 @@ function* chatReportViewRequest(req) {
  */
 function* chatFlagMessageRequest(req) {
   try {
-    const data = yield queryService.apiRequest(queries.flagChatMessage, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.flagChatMessage, req.payload)
     const dataSelector = path(['data', 'flagChatMessage'])
 
     yield put(actions.chatFlagMessageSuccess({ data: dataSelector(data), payload: req.payload, meta: data }))
@@ -147,7 +147,7 @@ function* chatFlagMessageRequest(req) {
  */
 function* chatDeleteMessageRequest(req) {
   try {
-    const data = yield queryService.apiRequest(queries.deleteChatMessage, req.payload)
+    const data = yield call([queryService, 'apiRequest'], queries.deleteChatMessage, req.payload)
     const dataSelector = path(['data', 'deleteChatMessage'])
 
     yield put(actions.chatDeleteMessageSuccess({ data: dataSelector(data), payload: req.payload, meta: data }))

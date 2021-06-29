@@ -1,11 +1,5 @@
-import { createSelectorCreator, defaultMemoize } from 'reselect'
 import path from 'ramda/src/path'
-import equals from 'ramda/src/equals'
-
-const createDeepEqualSelector = createSelectorCreator(
-  defaultMemoize,
-  equals,
-)
+import { createDeepEqualSelector } from 'store/helpers'
 
 /**
  *

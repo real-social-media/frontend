@@ -9,21 +9,11 @@ const ProfileFollowerService = ({ children }) => {
   const route = useRoute()
   const userId = route.params.userId
   const usersGetFollowerUsers = useSelector(usersSelector.usersGetFollowerUsersSelector(userId))
-  const usersFollow = useSelector(state => state.users.usersFollow)
-  const usersUnfollow = useSelector(state => state.users.usersUnfollow)
-  const usersAcceptFollowerUser = useSelector(state => state.users.usersAcceptFollowerUser)
+  const usersFollow = useSelector(usersSelector.usersFollow)
+  const usersUnfollow = useSelector(usersSelector.usersUnfollow)
 
   const usersGetFollowerUsersRequest = () =>
     dispatch(usersActions.usersGetFollowerUsersRequest({ userId }))
-
-  const usersFollowRequest = ({ userId }) =>
-    dispatch(usersActions.usersFollowRequest({ userId }))
-
-  const usersUnfollowRequest = ({ userId }) =>
-    dispatch(usersActions.usersUnfollowRequest({ userId }))
-
-  const usersAcceptFollowerUserRequest = ({ userId }) =>
-    dispatch(usersActions.usersAcceptFollowerUserRequest({ userId }))
 
   useEffectWhenFocused(() => {
     if (usersFollow.status === 'success') {
@@ -37,18 +27,12 @@ const ProfileFollowerService = ({ children }) => {
   useEffectWhenFocused(() => {
     if(!userId) return
 
-    usersGetFollowerUsersRequest({ userId })
+    usersGetFollowerUsersRequest()
   }, [userId])
 
   return children({
     usersGetFollowerUsers,
     usersGetFollowerUsersRequest,
-    usersFollow,
-    usersFollowRequest,
-    usersUnfollow,
-    usersUnfollowRequest,
-    usersAcceptFollowerUser,
-    usersAcceptFollowerUserRequest,
   })
 }
 

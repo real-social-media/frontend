@@ -1,9 +1,11 @@
 import { expectSaga } from 'redux-saga-test-plan'
-import { testEntitiesMerge, testAsRootSaga } from 'tests/utils/helpers'
+import { testAsRootSaga } from 'tests/utils/helpers'
 import chat from 'store/ducks/chat/saga'
 import * as queries from 'store/ducks/chat/queries'
 import * as chatActions from 'store/ducks/chat/actions'
 import * as queryService from 'services/Query'
+import { entitiesMerge } from 'store/ducks/entities/saga'
+import * as normalizer from 'normalizer/schemas'
 
 jest.mock('services/Query', () => ({ apiRequest: jest.fn().mockResolvedValue(true) }))
 
@@ -18,11 +20,11 @@ describe('Chat sagas', () => {
     it('success', async () => {
       const payload = { userId: 'id123' }
       const response = { data: { self: { chats: { items: [{ chatId: 1 }] } } } }
-      const entities = { chats: { 1: { chatId: 1 } } }
 
       queryService.apiRequest.mockResolvedValueOnce(response)
 
-      await testEntitiesMerge(saga(), entities)
+      await saga()
+        .call(entitiesMerge, normalizer.normalizeChatsGet(response.data.self.chats.items))
         .put(chatActions.chatGetChatsSuccess({ data: [1], payload, meta: {} }))
 
         .dispatch(chatActions.chatGetChatsRequest(payload))
@@ -36,11 +38,11 @@ describe('Chat sagas', () => {
     it('success', async () => {
       const payload = { userId: 'id123' }
       const response = { data: { chat: { chatId: 1 } } }
-      const entities = { chats: { 1: { chatId: 1 } } }
 
       queryService.apiRequest.mockResolvedValueOnce(response)
 
-      await testEntitiesMerge(saga(), entities)
+      await saga()
+        .call(entitiesMerge, normalizer.normalizeChatGet(response.data.chat))
         .put(chatActions.chatGetChatSuccess({ data: 1, payload, meta: {} }))
 
         .dispatch(chatActions.chatGetChatRequest(payload))
@@ -54,11 +56,11 @@ describe('Chat sagas', () => {
     it('success', async () => {
       const payload = { userId: 'id123' }
       const response = { data: { createDirectChat: { chatId: 1 } } }
-      const entities = { chats: { 1: { chatId: 1 } } }
 
       queryService.apiRequest.mockResolvedValueOnce(response)
 
-      await testEntitiesMerge(saga(), entities)
+      await saga()
+        .call(entitiesMerge, normalizer.normalizeChatGet(response.data.createDirectChat))
         .put(chatActions.chatCreateDirectSuccess({ data: 1, payload, meta: {} }))
 
         .dispatch(chatActions.chatCreateDirectRequest(payload))

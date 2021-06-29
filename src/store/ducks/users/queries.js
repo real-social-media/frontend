@@ -246,14 +246,6 @@ export const deleteCard = `
   ${cardFragment}
 `
 
-export const setUserAPNSToken = `
-  mutation setUserAPNSToken($token: String!) {
-    setUserAPNSToken(token: $token) {
-      userId
-    }
-  }
-`
-
 export const onCardNotification = `
   subscription onCardNotification ($userId: ID!) {
     onCardNotification (userId: $userId) {

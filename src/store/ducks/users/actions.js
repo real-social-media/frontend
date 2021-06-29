@@ -1,10 +1,7 @@
-import identity from 'ramda/src/identity'
 import { createAction } from 'redux-actions'
 import { createFailureAction } from 'store/errors'
-
+import { createActionWithMeta } from 'store/helpers'
 import * as constants from 'store/ducks/users/constants'
-
-const createActionWithMeta = type => createAction(type, identity, (payload, meta) => meta)
 
 /**
  *
@@ -114,14 +111,6 @@ export const usersGetProfileFailure = createFailureAction(constants.USERS_GET_PR
 /**
  *
  */
-export const usersGetProfileSelfIdle = createAction(constants.USERS_GET_PROFILE_SELF_IDLE)
-export const usersGetProfileSelfRequest = createAction(constants.USERS_GET_PROFILE_SELF_REQUEST)
-export const usersGetProfileSelfSuccess = createAction(constants.USERS_GET_PROFILE_SELF_SUCCESS)
-export const usersGetProfileSelfFailure = createFailureAction(constants.USERS_GET_PROFILE_SELF_FAILURE)
-
-/**
- *
- */
 export const usersEditProfileIdle = createAction(constants.USERS_EDIT_PROFILE_IDLE)
 export const usersEditProfileRequest = createActionWithMeta(constants.USERS_EDIT_PROFILE_REQUEST)
 export const usersEditProfileSuccess = createActionWithMeta(constants.USERS_EDIT_PROFILE_SUCCESS)
@@ -163,14 +152,6 @@ export const usersDeleteCardFailure = createFailureAction(constants.USERS_DELETE
 /**
  *
  */
-export const usersSetApnsTokenIdle = createAction(constants.USERS_SET_APNS_TOKEN_IDLE)
-export const usersSetApnsTokenRequest = createAction(constants.USERS_SET_APNS_TOKEN_REQUEST)
-export const usersSetApnsTokenSuccess = createAction(constants.USERS_SET_APNS_TOKEN_SUCCESS)
-export const usersSetApnsTokenFailure = createFailureAction(constants.USERS_SET_APNS_TOKEN_FAILURE)
-
-/**
- *
- */
 export const usersDeleteAvatarIdle = createAction(constants.USERS_DELETE_AVATAR_IDLE)
 export const usersDeleteAvatarRequest = createAction(constants.USERS_DELETE_AVATAR_REQUEST)
 export const usersDeleteAvatarSuccess = createAction(constants.USERS_DELETE_AVATAR_SUCCESS)
@@ -183,6 +164,14 @@ export const usersChangeAvatarIdle = createAction(constants.USERS_CHANGE_AVATAR_
 export const usersChangeAvatarRequest = createAction(constants.USERS_CHANGE_AVATAR_REQUEST)
 export const usersChangeAvatarSuccess = createAction(constants.USERS_CHANGE_AVATAR_SUCCESS)
 export const usersChangeAvatarFailure = createFailureAction(constants.USERS_CHANGE_AVATAR_FAILURE)
+
+/**
+ *
+ */
+export const usersCreateAvatarIdle = createAction(constants.USERS_CREATE_AVATAR_IDLE)
+export const usersCreateAvatarRequest = createAction(constants.USERS_CREATE_AVATAR_REQUEST)
+export const usersCreateAvatarSuccess = createAction(constants.USERS_CREATE_AVATAR_SUCCESS)
+export const usersCreateAvatarFailure = createFailureAction(constants.USERS_CREATE_AVATAR_FAILURE)
 
 /**
  *

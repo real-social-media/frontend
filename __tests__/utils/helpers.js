@@ -1,6 +1,5 @@
 import { all, call } from 'redux-saga/effects'
 import { createPath } from 'navigation/helpers'
-import * as entitiesActions from 'store/ducks/entities/actions'
 
 export const applyActions = (actions, reducer) => {
   let state
@@ -43,23 +42,17 @@ export const testNavigate = (navigation, pathString, params) => {
   expect(navigation.navigate).toHaveBeenCalledWith(path.screen, path.params)
 }
 
+export const testPushAction = (navigation, pathString, params) => {
+  const path = createPath(pathString.split('.'), params)
+  expect(navigation.push).toHaveBeenCalledWith(path.screen, path.params)
+}
+
 export const testField = (field, props) => {
   expect(field).toBeTruthy()
 
   Object.keys(props).forEach((key) => {
     expect(field.props[key]).toEqual(props[key])
   })
-}
-
-export const testEntitiesMerge = (saga, entities = {}) => {
-  return saga
-    .put(entitiesActions.entitiesAlbumsMerge({ data: entities.albums || {} }))
-    .put(entitiesActions.entitiesPostsMerge({ data: entities.posts || {} }))
-    .put(entitiesActions.entitiesUsersMerge({ data: entities.users || {} }))
-    .put(entitiesActions.entitiesCommentsMerge({ data: entities.comments || {} }))
-    .put(entitiesActions.entitiesImagesMerge({ data: entities.images || {} }))
-    .put(entitiesActions.entitiesMessagesMerge({ data: entities.messages || {} }))
-    .put(entitiesActions.entitiesChatsMerge({ data: entities.chats || {} }))
 }
 
 export function testReducer(reducer, initialState) {
@@ -81,7 +74,14 @@ export function testReducer(reducer, initialState) {
 }
 
 export const makeAuthorizedState = (user, state = {}) => ({
-  auth: { user: user.userId },
+  auth: { authGetUser: { data: user.userId } },
   entities: { users: { [user.userId]: user } },
   ...state,
 })
+
+export const mockDate = (date) => {
+  const value = Date.parse(date)
+  const mockFn = jest.spyOn(global.Date, 'now').mockImplementation(() => value)
+
+  return { value, mockFn }
+}

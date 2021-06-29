@@ -33,7 +33,7 @@ function* navigationSubscription() {
   try {
     while (true) {
       const route = yield take(channel)
-      const userId = yield select(authSelector.authUserIdSelector)
+      const userId = yield select(authSelector.authUserId)
 
       if (userId) {
         yield put(usersActions.usersReportScreenViewsRequest({ screens: [route.name] }))

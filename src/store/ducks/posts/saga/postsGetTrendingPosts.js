@@ -42,7 +42,7 @@ export function* postsGetTrendingPostsRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizePostsGet(data)
-  yield entitiesMerge(normalized)
+  yield call(entitiesMerge, normalized)
 
   return {
     data: normalized.result,

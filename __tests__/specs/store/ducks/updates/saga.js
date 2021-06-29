@@ -5,12 +5,12 @@ import Config from 'react-native-config'
 import * as Logger from 'services/Logger'
 import * as queryService from 'services/Query'
 import { testAsRootSaga } from 'tests/utils/helpers'
-import updates from 'store/ducks/updates/saga'
+import updates, { isNewerThan } from 'store/ducks/updates/saga'
 import * as updatesActions from 'store/ducks/updates/actions'
 
 jest.mock('services/Query', () => ({ httpRequest: jest.fn() }))
 jest.mock('react-native-device-info', () => ({ getBundleId: jest.fn(), getVersion: jest.fn() }))
-jest.mock('react-native-config', () => ({ ENVIRONMENT: 'production' }))
+jest.mock('react-native-config', () => ({ ENVIRONMENT: 'production', APPSTORE_ID: 'APPSTORE_ID', APPSTORE_NAME: 'APPSTORE_NAME' }))
 jest.spyOn(Alert, 'alert')
 jest.spyOn(Linking, 'openURL')
 
@@ -30,6 +30,42 @@ describe('Updates saga', () => {
     Linking.openURL.mockClear()
   })
 
+  it('isNewerThan', () => {
+    expect(isNewerThan('1', '2')).toBeFalsy()
+    expect(isNewerThan('2', '1')).toBeTruthy()
+    expect(isNewerThan('10', '11')).toBeFalsy()
+    expect(isNewerThan('11', '10')).toBeTruthy()
+    expect(isNewerThan('10', '10')).toBeFalsy()
+
+    expect(isNewerThan('1.0', '1.1')).toBeFalsy()
+    expect(isNewerThan('1.9', '1.10')).toBeFalsy()
+    expect(isNewerThan('1.1', '1.0')).toBeTruthy()
+    expect(isNewerThan('1.10', '1.9')).toBeTruthy()
+
+    expect(isNewerThan('2.0', '1.0')).toBeTruthy()
+    expect(isNewerThan('1.0', '2.0')).toBeFalsy()
+    expect(isNewerThan('2.0', '2.0')).toBeFalsy()
+
+    expect(isNewerThan('1.9.0', '1.10.0')).toBeFalsy()
+    expect(isNewerThan('1.10.0', '1.9.0')).toBeTruthy()
+    expect(isNewerThan('1.1.0', '1.2.0')).toBeFalsy()
+    expect(isNewerThan('1.2.0', '1.1.0')).toBeTruthy()
+    expect(isNewerThan('1.2.0', '1.2.0')).toBeFalsy()
+
+    expect(isNewerThan('1.0.9', '1.0.10')).toBeFalsy()
+    expect(isNewerThan('1.0.10', '1.0.9')).toBeTruthy()
+    expect(isNewerThan('1.0.1', '1.0.2')).toBeFalsy()
+    expect(isNewerThan('1.0.2', '1.0.1')).toBeTruthy()
+    expect(isNewerThan('1.0.2', '1.0.2')).toBeFalsy()
+
+    expect(isNewerThan('1.0.0', '1.0.0.1')).toBeFalsy()
+    expect(isNewerThan('1.0.0.1', '1.0.0')).toBeTruthy()
+
+    expect(isNewerThan('', '')).toBeFalsy()
+    expect(isNewerThan('1', '')).toBeTruthy()
+    expect(isNewerThan('', '1')).toBeFalsy()
+  })
+
   it('show update alert', async () => {
     await setupSaga()
 
@@ -44,7 +80,7 @@ describe('Updates saga', () => {
     expect(updateBtn.style).toBe('cancel')
 
     updateBtn.onPress()
-    expect(Linking.openURL).toHaveBeenCalledWith('itms-apps://itunes.apple.com/app/id1485194570')
+    expect(Linking.openURL).toHaveBeenCalledWith('itms-apps://itunes.apple.com/app/idAPPSTORE_ID')
   })
 
   describe('should not show alert when', () => {

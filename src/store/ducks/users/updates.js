@@ -1,5 +1,6 @@
 import update, { extend } from 'immutability-helper'
 import path from 'ramda/src/path'
+import prop from 'ramda/src/prop'
 import pathOr from 'ramda/src/pathOr'
 import map from 'ramda/src/map'
 import set from 'ramda/src/set'
@@ -20,7 +21,7 @@ extend('$usersResourceCacheSetSuccess', ({ payload, resourceKey, initialState },
 
   return update(nextState, {
     [resourceKey]: {
-      data: { $set: pathOr([], ['data'])(payload).map(user => user.userId) },
+      data: { $set: pathOr([], ['data'])(payload).map(user => prop('userId', user)) },
       status: { $set: 'success' },
       payload: { $set: payload.payload || {} },
       meta: { $set: payload.meta || {} },
@@ -32,7 +33,7 @@ extend('$usersResourceCacheSetSuccess', ({ payload, resourceKey, initialState },
  *
  */
 extend('$usersResourceSetSuccess', ({ payload }, original) => {
-  return update(original, { $set: pathOr([], ['data'])(payload).map(user => user.userId) })
+  return update(original, { $set: pathOr([], ['data'])(payload).map(user => prop('userId', user)) })
 })
 
 /**
@@ -41,7 +42,7 @@ extend('$usersResourceSetSuccess', ({ payload }, original) => {
  */
 extend('$usersResourcePoolHash', ({ payload }, original) => {
   return update(original, {
-    $set: pathOr([], ['data'])(payload).map(user => user.userId),
+    $set: pathOr([], ['data'])(payload).map(user => prop('userId', user)),
   })
 })
 

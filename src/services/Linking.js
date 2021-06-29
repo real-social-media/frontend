@@ -1,8 +1,17 @@
 import UrlPattern from 'url-pattern'
-import { Linking } from 'react-native'
+import Config from 'react-native-config'
+import { Linking, Platform } from 'react-native'
 import * as navigationActions from 'navigation/actions'
 import * as Logger from 'services/Logger'
 import { NotSupportedInAppCardError } from 'store/errors'
+
+export const getStoreLink = () => {
+  if (Platform.OS === 'ios') {
+    return `itms-apps://itunes.apple.com/app/id${Config.APPSTORE_ID}`
+  } else {
+    return `https://apps.apple.com/us/app/${Config.APPSTORE_NAME}/id${Config.APPSTORE_ID}`
+  }
+}
 
 const options = { segmentValueCharset: ':a-zA-Z0-9_-' }
 
@@ -16,6 +25,7 @@ const ACTIONS = {
   VIEWS: 'views',
   LIKES: 'likes',
   DIAMOND: 'diamond',
+  NEW_FOLLOWERS: 'newFollowers',
 }
 
 const PATTERNS = {
@@ -23,6 +33,7 @@ const PATTERNS = {
   [ACTIONS.PROFILE_PHOTO]: new UrlPattern('*/user/:userId/settings/photo(/)', options),
   [ACTIONS.INVITE_FRIENDS]: new UrlPattern('*/user/:userId/settings/contacts(/)', options),
   [ACTIONS.SIGNUP]: new UrlPattern('*/signup/:userId(/)', options),
+  [ACTIONS.NEW_FOLLOWERS]: new UrlPattern('*/user/:userId/new_followers(/)', options),
   [ACTIONS.CHATS]: new UrlPattern('*/chat(/)', options),
   [ACTIONS.DIAMOND]: new UrlPattern('*/diamond(/)', options),
 }
@@ -77,10 +88,13 @@ export const deeplinkNavigation = (navigation) => (action) => {
         navigationActions.navigateInviteFriends(navigation, params)()
         break
       case ACTIONS.SIGNUP:
-        navigationActions.navigateSignup(navigation, params)
+        navigationActions.navigateProfileUpgrade(navigation, params)
         break
       case ACTIONS.DIAMOND:
         navigationActions.navigateInviteFriendsSuccess(navigation)
+        break
+      case ACTIONS.NEW_FOLLOWERS:
+        navigationActions.navigateProfileFollower(navigation, params)
         break
       default:
         break

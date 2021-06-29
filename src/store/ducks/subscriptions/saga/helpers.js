@@ -40,7 +40,7 @@ export function intervalEmitter({ frequency }) {
 
 export function* createChannel({ query }) {
   const AwsAPI = yield getContext('AwsAPI')
-  const userId = yield select(authSelector.authUserIdSelector)
+  const userId = yield select(authSelector.authUserId)
 
   if (!userId) {
     throw new Error('required userId param was not passed')

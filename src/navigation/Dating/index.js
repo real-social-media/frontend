@@ -43,7 +43,7 @@ const DatingNavigator = ({ navigation }) => {
         name="Dating"
         component={DatingScreen}
         {...stackScreenPageProps({ options: {
-          headerTitle: navigationOptions.homeHeaderTitle({ theme }),
+          headerTitle: navigationOptions.homeHeaderTitle({ theme, navigation }),
           headerLeft: datingHeaderLeft({ navigation, theme }),
           headerRight: navigationOptions.homeHeaderRight({ navigation, theme, user }),
         } })}

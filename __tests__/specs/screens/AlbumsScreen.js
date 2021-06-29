@@ -13,6 +13,8 @@ const user = {
 }
 
 jest.spyOn(authSelector, 'authUserSelector').mockReturnValue(user)
+jest.spyOn(authSelector, 'authUserId').mockReturnValue(user.userId)
+
 jest.spyOn(albumsSelector, 'albumsGetSelector')
 
 jest.spyOn(ReactRedux, 'useDispatch')
@@ -53,7 +55,7 @@ describe('AlbumsScreen', () => {
     })
 
     it('request data for user from route params', () => {
-      const params = { userId: 23 }
+      const params = { userId: '23' }
       useRoute.mockReturnValue({ params })
       setup()
 
@@ -61,7 +63,9 @@ describe('AlbumsScreen', () => {
     })
 
     it('not load data for not authorized user', () => {
-      authSelector.authUserSelector.mockReturnValue({})
+      authSelector.authUserId.mockReturnValue(null)
+      authSelector.authUserSelector.mockReturnValue(null)
+
       setup()
 
       expect(dispatch).not.toHaveBeenCalled()

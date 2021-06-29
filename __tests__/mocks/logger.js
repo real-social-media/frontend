@@ -3,4 +3,5 @@ jest.mock('services/Logger', () => ({
   captureMessage: jest.fn(),
   setUser: jest.fn(),
   withScope: jest.fn(),
+  clearScope: jest.fn(),
 }))

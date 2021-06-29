@@ -55,6 +55,8 @@
 	<string>$(FACEBOOK_APP_ID)</string>
 	<key>FacebookDisplayName</key>
 	<string>REAL</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSApplicationCategoryType</key>
 	<string>REAL/Info.plist</string>
 	<key>LSApplicationQueriesSchemes</key>

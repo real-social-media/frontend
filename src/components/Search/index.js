@@ -10,7 +10,7 @@ import {
 } from 'react-native'
 import HeaderComponent from 'components/Search/Header'
 import FormComponent from 'components/Search/Form'
-import ResultComponent from 'components/Search/Result'
+import UsersList from 'components/UsersList'
 import PostsGridThumbnailComponent from 'components/PostsGrid/Thumbnail'
 import { Subheading } from 'react-native-paper'
 import path from 'ramda/src/path'
@@ -35,12 +35,6 @@ const SearchComponent = ({
   feedRef,
   usersSearchRequest,
   usersSearch,
-  usersFollow,
-  usersFollowRequest,
-  usersUnfollow,
-  usersUnfollowRequest,
-  usersAcceptFollowerUser,
-  usersAcceptFollowerUserRequest,
   usersGetTrendingUsers,
   postsGetTrendingPosts,
   postsGetTrendingPostsMoreRequest,
@@ -56,7 +50,6 @@ const SearchComponent = ({
     resource: postsGetTrendingPosts,
     loadInit: postsGetTrendingPostsRequest,
     loadMore: postsGetTrendingPostsMoreRequest,
-
   })
 
   const {
@@ -119,15 +112,7 @@ const SearchComponent = ({
             }
           >
             <Subheading style={styling.subheading}>{t('Search Result')}</Subheading>
-            <ResultComponent
-              usersSearch={usersSearch}
-              usersFollow={usersFollow}
-              usersFollowRequest={usersFollowRequest}
-              usersUnfollow={usersUnfollow}
-              usersUnfollowRequest={usersUnfollowRequest}
-              usersAcceptFollowerUser={usersAcceptFollowerUser}
-              usersAcceptFollowerUserRequest={usersAcceptFollowerUserRequest}
-            />
+            <UsersList usersSearch={usersSearch} />
           </ScrollView>
         </View>
       ) : null}
@@ -142,15 +127,7 @@ const SearchComponent = ({
             }
           >
             <Subheading style={styling.subheading}>{t('Trending Users')}</Subheading>
-            <ResultComponent
-              usersSearch={usersGetTrendingUsers}
-              usersFollow={usersFollow}
-              usersFollowRequest={usersFollowRequest}
-              usersUnfollow={usersUnfollow}
-              usersUnfollowRequest={usersUnfollowRequest}
-              usersAcceptFollowerUser={usersAcceptFollowerUser}
-              usersAcceptFollowerUserRequest={usersAcceptFollowerUserRequest}
-            />
+            <UsersList usersSearch={usersGetTrendingUsers} />
           </ScrollView>
         </View>
       ) : null}
@@ -175,7 +152,10 @@ const styles = theme => StyleSheet.create({
     paddingBottom: theme.spacing.base / 2,
   },
   overlay: {
-    ...StyleSheet.absoluteFill,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
     top: 64,
     zIndex: 1,
     backgroundColor: theme.colors.backgroundPrimary,
@@ -183,17 +163,11 @@ const styles = theme => StyleSheet.create({
 })
 
 SearchComponent.propTypes = {
+  t: PropTypes.any,
   theme: PropTypes.any,
   usersSearchRequest: PropTypes.any,
   usersSearch: PropTypes.any,
-  usersFollow: PropTypes.any,
-  usersFollowRequest: PropTypes.any,
-  usersUnfollow: PropTypes.any,
-  usersUnfollowRequest: PropTypes.any,
-  t: PropTypes.any,
   feedRef: PropTypes.any,
-  usersAcceptFollowerUser: PropTypes.any,
-  usersAcceptFollowerUserRequest: PropTypes.any,
   usersGetTrendingUsers: PropTypes.any,
   postsGetTrendingPosts: PropTypes.any,
   postsGetTrendingPostsMoreRequest: PropTypes.any,

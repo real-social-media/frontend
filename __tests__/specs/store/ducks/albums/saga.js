@@ -1,9 +1,10 @@
 import { expectSaga } from 'redux-saga-test-plan'
-import { testEntitiesMerge, testAsRootSaga } from 'tests/utils/helpers'
+import { testAsRootSaga } from 'tests/utils/helpers'
 import albums from 'store/ducks/albums/saga'
 import * as queries from 'store/ducks/albums/queries'
 import * as albumsActions from 'store/ducks/albums/actions'
 import * as queryService from 'services/Query'
+import { entitiesMerge } from 'store/ducks/entities/saga'
 
 jest.mock('services/Query', () => ({ apiRequest: jest.fn().mockResolvedValue(true) }))
 
@@ -22,7 +23,8 @@ describe('Albums sagas', () => {
 
       queryService.apiRequest.mockResolvedValueOnce(response)
 
-      await testEntitiesMerge(saga(), entities)
+      await saga()
+        .call(entitiesMerge, { entities, result: [1] })
         .put(albumsActions.albumsGetSuccess({ data: [1], payload, meta: {} }))
 
         .dispatch(albumsActions.albumsGetRequest(payload))
@@ -40,7 +42,8 @@ describe('Albums sagas', () => {
 
       queryService.apiRequest.mockResolvedValueOnce(response)
 
-      await testEntitiesMerge(saga(), entities)
+      await saga()
+        .call(entitiesMerge, { entities, result: 1 })
         .put(albumsActions.albumsSingleGetSuccess({ data: 1, payload, meta: {} }))
 
         .dispatch(albumsActions.albumsSingleGetRequest(payload))
@@ -58,7 +61,8 @@ describe('Albums sagas', () => {
 
       queryService.apiRequest.mockResolvedValueOnce(response)
 
-      await testEntitiesMerge(saga(), entities)
+      await saga()
+        .call(entitiesMerge, { entities, result: [1] })
         .put(albumsActions.albumsPostsGetSuccess({ data: [1], payload, meta: {} }))
 
         .dispatch(albumsActions.albumsPostsGetRequest(payload))
@@ -76,7 +80,8 @@ describe('Albums sagas', () => {
 
       queryService.apiRequest.mockResolvedValueOnce(response)
 
-      await testEntitiesMerge(saga(), entities)
+      await saga()
+        .call(entitiesMerge, { entities, result: [1] })
         .put(albumsActions.albumsPostsGetMoreSuccess({ data: [1], payload, meta: {} }))
 
         .dispatch(albumsActions.albumsPostsGetMoreRequest(payload))
@@ -94,7 +99,8 @@ describe('Albums sagas', () => {
 
       queryService.apiRequest.mockResolvedValueOnce(response)
 
-      await testEntitiesMerge(saga(), entities)
+      await saga()
+        .call(entitiesMerge, { entities, result: 1 })
         .put(albumsActions.albumsCreateSuccess({ data: 1, payload, meta: {} }))
 
         .dispatch(albumsActions.albumsCreateRequest(payload))
@@ -112,7 +118,8 @@ describe('Albums sagas', () => {
 
       queryService.apiRequest.mockResolvedValueOnce(response)
 
-      await testEntitiesMerge(saga(), entities)
+      await saga()
+        .call(entitiesMerge, { entities, result: 1 })
         .put(albumsActions.albumsEditSuccess({ data: 1, payload, meta: {} }))
 
         .dispatch(albumsActions.albumsEditRequest(payload))
@@ -130,7 +137,8 @@ describe('Albums sagas', () => {
 
       queryService.apiRequest.mockResolvedValueOnce(response)
 
-      await testEntitiesMerge(saga(), entities)
+      await saga()
+        .call(entitiesMerge, { entities, result: 1 })
         .put(albumsActions.albumsDeleteSuccess({ data: 1, payload, meta: {} }))
 
         .dispatch(albumsActions.albumsDeleteRequest(payload))
