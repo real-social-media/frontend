@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -10,6 +10,8 @@ import { Subheading } from 'react-native-paper'
 import Avatar from 'templates/Avatar'
 import path from 'ramda/src/path'
 import * as navigationActions from 'navigation/actions'
+import { useSelector } from 'react-redux'
+import * as postsSelector from 'store/ducks/posts/selectors'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -18,10 +20,12 @@ import { withTranslation } from 'react-i18next'
 const Bookmark = ({
   t,
   theme,
-  postsGetTrendingPosts,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
+
+  const postsGetTrendingPostsSelector = useCallback(postsSelector.postsGetTrendingPostsSelector(), [])
+  const postsGetTrendingPosts = useSelector(postsGetTrendingPostsSelector)
 
   return (
     <TouchableOpacity accessibilityLabel="Explore Page Banner" style={styling.root} onPress={() => navigationActions.navigateSearch(navigation)}>
@@ -30,7 +34,7 @@ const Bookmark = ({
       </View>
 
       <ScrollView style={styling.posts} horizontal>
-        {(path(['data'])(postsGetTrendingPosts) || []).filter(item => item.postType !== 'TEXT_ONLY').map((post, key) => (
+        {(path(['data'])(postsGetTrendingPosts) || []).filter(item => item.postType !== 'TEXT_ONLY').slice(0, 12).map((post, key) => (
           <Avatar
             key={key}
             thumbnailSource={{ uri: path(['image', 'url64p'])(post) }}

@@ -67,8 +67,13 @@ const PostComponent = ({
 
   return (
     <View style={styling.root}>
-      <TouchableOpacity style={styling.prev} onPress={handleScrollPrev} />
-      <TouchableOpacity style={styling.next} onPress={handleScrollNext} />
+      {handleScrollPrev ?
+        <TouchableOpacity style={styling.prev} onPress={handleScrollPrev} />
+      : null}
+
+      {handleScrollNext ?
+        <TouchableOpacity style={styling.next} onPress={handleScrollNext} />
+      : null}
 
       <HeaderComponent
         user={user}
