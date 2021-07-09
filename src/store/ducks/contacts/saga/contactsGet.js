@@ -1,3 +1,4 @@
+import { Platform } from 'react-native'
 import prop from 'ramda/src/prop'
 import sort from 'ramda/src/sort'
 import path from 'ramda/src/path'
@@ -79,10 +80,14 @@ function* findContacts() {
 
 function* checkContactsPermission() {
   const permission = yield call(function* () {
-    const status = yield call(check, PERMISSIONS.IOS.CONTACTS)
+    const status = Platform.OS == 'ios' ?
+      yield call(check, PERMISSIONS.IOS.CONTACTS)
+      : yield call(check, PERMISSIONS.ANDROID.READ_CONTACTS)
 
     if (status === RESULTS.DENIED) {
-      return yield call(request, PERMISSIONS.IOS.CONTACTS)
+      return Platform.OS == 'ios' ?
+        yield call(request, PERMISSIONS.IOS.CONTACTS)
+        : yield call(request, PERMISSIONS.ANDROID.READ_CONTACTS)
     } else {
       return status
     }

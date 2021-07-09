@@ -1,5 +1,6 @@
 import RNFS from 'react-native-fs'
 import qs from 'query-string'
+import { Platform } from 'react-native'
 
 /**
  *
@@ -32,7 +33,7 @@ export const generateSignature = (source) => {
 
   const isRemote = getIsRemote(source)
   const partial = getPartial(source)
-  const path = isRemote ? `${RNFS.CachesDirectoryPath}/REAL${partial}` : source
+  const path = isRemote ? `${Platform.OS == 'ios' ? RNFS.CachesDirectoryPath : RNFS.ExternalCachesDirectoryPath}/REAL${partial}` : source
   const pathFolder = path.substring(0, path.lastIndexOf('/'))
 
   return {

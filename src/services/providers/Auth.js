@@ -6,6 +6,7 @@ import * as appActions from 'store/ducks/appState/actions'
 import * as authSelector from 'store/ducks/auth/selectors'
 import useAppState from 'services/AppState'
 import * as UserService from 'services/User'
+import { Platform } from 'react-native'
 
 export const AuthContext = React.createContext({})
 
@@ -25,7 +26,10 @@ export const AuthProvider = ({
    * Application version check handler, which forces users to update
    * the app if new build is available
    */
-  useAppState({
+  /**
+   * We doesn't handle background and foreground app states on Android
+  */
+  Platform.OS === 'ios' && useAppState({
     onForeground: () => {
       dispatch(appActions.appStateForeground())
     },

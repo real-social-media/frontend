@@ -1,4 +1,4 @@
-package com.real;
+package app.real.mobile;
 
 import com.facebook.react.ReactActivity;
 

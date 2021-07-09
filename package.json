@@ -5,6 +5,7 @@
   "scripts": {
     "postinstall": "patch-package",
     "start": "react-native start",
+    "android:dev": "react-native run-android --variant=developmentdebug",
     "ios:dev": "ENVFILE=.env.development react-native run-ios --simulator='iPhone 12' --scheme REAL.development -- --reset-cache",
     "web:dev": "ENVFILE=.env.development webpack serve --mode development --env development --config webpack.config.js",
     "web:build:prod": "ENVFILE=.env.production webpack --mode production --env production --config webpack.config.js",
@@ -15,7 +16,8 @@
     "lint:editorconfig": "editorconfig-checker",
     "translations-scan": "i18next-scanner --config i18next-scanner.config.engine.js src/**/*.js",
     "tests:unit": "jest",
-    "tests:e2e": "detox build && detox test",
+    "tests:e2e": "detox build --configuration ios && detox test --configuration ios",
+    "tests:e2e:android": "detox build --configuration android.emu.development.debug && detox test --configuration android.emu.development.debug",
     "validate": "npm run lint:editorconfig && npm run lint && npm run tests:unit"
   },
   "dependencies": {
@@ -145,9 +147,9 @@
     "babel-plugin-optional-require": "^0.3.1",
     "babel-plugin-react-native-web": "^0.16.2",
     "babel-plugin-transform-builtin-extend": "^1.1.2",
+    "detox": "^18.18.1",
     "babel-plugin-transform-require-extensions": "^2.0.1",
     "copy-webpack-plugin": "^8.1.1",
-    "detox": "^17.4.4",
     "dotenv": "^8.2.0",
     "eslint": "^7.27.0",
     "eslint-config-prettier": "^6.11.0",

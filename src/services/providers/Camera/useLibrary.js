@@ -1,7 +1,7 @@
 import CropPicker from 'react-native-image-crop-picker'
 import mapSeries from 'async/mapSeries'
 import { autoKeyboardClose, cropperOptions, requestPayload, handleError } from 'services/providers/Camera/helpers'
-
+import { Platform } from 'react-native'
 /**
  * Asset format definition is required for createPost graphql query
  */
@@ -38,14 +38,25 @@ const mapCropperResponse = async (selected, processor) => {
  * which only works by applying a patch from patches/react-native-image-crop-picker
  */
 const formatPickerResponse = (selectedPhoto) => {
-  const extension = selectedPhoto.fileSource.split('?')[0].split('#')[0].split('.').pop()
+
+  const extension = Platform.OS === 'ios' ?
+    selectedPhoto.fileSource.split('?')[0].split('#')[0].split('.').pop()
+    : selectedPhoto.path.split('?')[0].split('#')[0].split('.').pop()
+
   const format = generateAssetFormat(extension)
+
+  const filename = Platform.OS === 'ios' ?
+    selectedPhoto.filename
+    : selectedPhoto.path.split('?')[0].split('#')[0].split('/').pop()
 
   return {
     format,
     extension,
-    path: selectedPhoto.fileSource,
-    filename: selectedPhoto.filename,
+    path: Platform.select({
+      ios: selectedPhoto.fileSource,
+      android: selectedPhoto.path,
+    }) ,
+    filename,
   }
 }
 

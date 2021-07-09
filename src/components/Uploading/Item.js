@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, View, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, TouchableOpacity, Platform } from 'react-native'
 import { Text, Caption } from 'react-native-paper'
 import path from 'ramda/src/path'
 import TickIcon from 'assets/svg/post/Tick'
@@ -14,7 +14,10 @@ import { withTranslation } from 'react-i18next'
 import testIDs from 'components/Uploading/test-ids'
 import UploadingItemPreview from 'components/Uploading/ItemPreview'
 
-const getPreviewURI = path(['payload', 'preview', '0'])
+const getPreviewURI = (post) => Platform.select({
+  ios: path(['payload', 'preview', '0'], post),
+  android: `file://${path(['payload', 'preview', '0'], post)}`,
+})
 
 const UploadingItem = ({ t, theme, post, postsCreateRequest, postsCreateIdle }) => {
   const styling = styles(theme)

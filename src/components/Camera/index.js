@@ -5,6 +5,7 @@ import {
   View,
   StyleSheet,
   Animated,
+  Platform,
 } from 'react-native'
 import CameraTemplate from 'templates/Camera'
 import CameraHeaderTemplate from 'templates/Camera/Header'
@@ -60,7 +61,7 @@ const CameraComponent = ({
         content={(
           <View style={styling.cameraWrapper}>
             <Animated.View style={[{ top: 0, height: topHeight }, styling.overflow]}>
-              <BlurView style={styling.blur} />
+              <BlurView style={styling.blur}/>
             </Animated.View>
             <Animated.View style={[{ bottom: 0, height: bottomHeight }, styling.overflow]}>
               <BlurView style={styling.blur} />
@@ -126,6 +127,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 0,
     right: 0,
+    ...Platform.select({
+      android: {
+        overflow: 'hidden',
+      },
+    }),
   },
   blur: {
     width: '100%',

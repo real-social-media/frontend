@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import useToggle from 'react-use/lib/useToggle'
 import * as postsSelector from 'store/ducks/posts/selectors'
 import { autoKeyboardClose, cropperOptions, requestPayload, handleError } from 'services/providers/Camera/helpers'
-
+import { Platform } from 'react-native'
 /**
  * react-native-camera request object
  */
@@ -46,13 +46,14 @@ const useCamera = ({ handleProcessedPhoto = () => {} }) => {
      */
     try {
       if (!cameraRef.current) return
-      cameraRef.current.pausePreview()
+      Platform.OS == 'ios' && cameraRef.current.pausePreview()
       const snappedPhoto = await cameraRef.current.takePictureAsync(cameraOptions())
       const croppedPhoto = await CropPicker.openCropper(cropperOptions(cameraState, snappedPhoto))
       const payload = await requestPayload('camera')(cameraState, snappedPhoto, croppedPhoto)
       handleProcessedPhoto([payload])
-      cameraRef.current.resumePreview()
+      Platform.OS == 'ios' && cameraRef.current.resumePreview()
       autoKeyboardClose()
+
     } catch (error) {
       handleError(error)
     }

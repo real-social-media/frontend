@@ -8,6 +8,7 @@ import path from 'ramda/src/path'
 import compose from 'ramda/src/compose'
 import useAsyncRetry from 'react-use/lib/useAsyncRetry'
 import usePreviousDistinct from 'react-use/lib/usePreviousDistinct'
+import { Platform } from 'react-native'
 
 const CacheService = ({
   children,
@@ -28,7 +29,8 @@ const CacheService = ({
   const [counter, setCounter] = useState(0)
 
   const signature = compose(helpers.generateSignature, path([counter, 0]))(images)
-  const cached = useSelector(cacheSelector.cachedSelector(signature.partial))
+  const cachedState = useSelector(cacheSelector.cachedSelector(signature.partial))
+  const cached = cachedState ? (Platform.OS == 'android' ? 'file://' + cachedState : cachedState) : cachedState
   const progress = useSelector(cacheSelector.progressSelector(signature.partial))
   const failed = useSelector(cacheSelector.failedSelector(signature.partial))
   const previousCached = usePreviousDistinct(cached)

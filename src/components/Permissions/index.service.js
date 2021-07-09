@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Platform } from 'react-native'
 import { PERMISSIONS, RESULTS, check, request, openSettings } from 'react-native-permissions'
 import useAppState from 'services/AppState'
 import { useNavigation, useFocusEffect } from '@react-navigation/native'
@@ -27,43 +28,67 @@ const Permissions = ({ children, camera, library, location }) => {
   const [locationEnabled, setLocationEnabled] = useState(true)
 
   const checkCamera = async () => {
-    const result = await check(PERMISSIONS.IOS.CAMERA) === RESULTS.GRANTED
+    const result = Platform.select({
+      ios: await check(PERMISSIONS.IOS.CAMERA) === RESULTS.GRANTED,
+      android: await check(PERMISSIONS.ANDROID.CAMERA) === RESULTS.GRANTED,
+    })
     setCameraEnabled(result)
   }
 
   const checkLibrary = async () => {
-    const result = await check(PERMISSIONS.IOS.PHOTO_LIBRARY) === RESULTS.GRANTED
+    const result = Platform.select({
+      ios: await check(PERMISSIONS.IOS.PHOTO_LIBRARY) === RESULTS.GRANTED,
+      android: await check(PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE) === RESULTS.GRANTED,
+    })
     setLibraryEnabled(result)
   }
 
   const checkLocation = async () => {
-    const result = await check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE) === RESULTS.GRANTED
+    const result = Platform.select({
+      ios: await check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE) === RESULTS.GRANTED,
+      android: await check(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION) === RESULTS.GRANTED,
+    })
     setLocationEnabled(result)
   }
 
   const requestCamera = async () => {
-    const result = await check(PERMISSIONS.IOS.CAMERA)
-
+    const result = Platform.select({
+      ios: await check(PERMISSIONS.IOS.CAMERA),
+      android: await check(PERMISSIONS.ANDROID.CAMERA),
+    })
     if (result === RESULTS.DENIED) {
-      await request(PERMISSIONS.IOS.CAMERA)
+      Platform.OS == 'ios' ?
+        await request(PERMISSIONS.IOS.CAMERA)
+        : await request(PERMISSIONS.ANDROID.CAMERA)
+
       await checkCamera()
     }
   }
 
   const requestLibrary = async () => {
-    const result = await check(PERMISSIONS.IOS.PHOTO_LIBRARY)
-
+    const result = Platform.select({
+      ios: await check(PERMISSIONS.IOS.PHOTO_LIBRARY),
+      android: await check(PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE),
+    })
     if (result === RESULTS.DENIED) {
-      await request(PERMISSIONS.IOS.PHOTO_LIBRARY)
+      Platform.OS == 'ios' ?
+        await request(PERMISSIONS.IOS.PHOTO_LIBRARY)
+        : await request(PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE)
       await checkLibrary()
     }
   }
 
   const requestLocation = async () => {
-    const result = await check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE)
+    const result = Platform.select({
+      ios: await check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE),
+      android: await check(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION),
+    })
 
     if (result === RESULTS.DENIED) {
-      await request(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE)
+      Platform.OS == 'ios' ?
+        await request(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE)
+        : await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION)
+
       await checkLocation()
     }
   }
