@@ -1,4 +1,4 @@
-import { useState, useEffect, useReducer } from 'react'
+import { useState, useEffect, useReducer, useCallback } from 'react'
 import useDebouncedValue from 'services/hooks/useDebouncedValue'
 
 const initialState = {
@@ -30,6 +30,7 @@ function useAutocomplete(api) {
   const [search, handleSearch] = useState('')
   const [state, dispatch] = useReducer(reducer, initialState)
   const query = useDebouncedValue(search, 300)
+  const clear = useCallback(() => handleSearch(''), [dispatch])
 
   useEffect(() => {
     async function autocomplete() {
@@ -50,7 +51,7 @@ function useAutocomplete(api) {
     }
   }, [query])
 
-  return { search, handleSearch, state }
+  return { search, handleSearch, state, clear }
 }
 
 export default useAutocomplete

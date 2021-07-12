@@ -68,4 +68,19 @@ describe('useAutocomplete hook', () => {
 
     expect(result.current.state).toEqual({ status: 'idle', data: [] })
   })
+
+  it('clear state callback', async () => {
+    const { result, waitForNextUpdate } = setup()
+
+    act(() => result.current.handleSearch('query'))
+    act(() => jest.runAllTimers())
+    await waitForNextUpdate()
+
+    expect(result.current.state).toEqual({ status: 'success', data })
+
+    act(() => result.current.clear())
+    act(() => jest.runAllTimers())
+
+    expect(result.current.state).toEqual({ status: 'idle', data: [] })
+  })
 })
