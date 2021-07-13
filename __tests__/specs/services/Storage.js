@@ -1,4 +1,4 @@
-import Storage, { STORAGE_PROVIDER, STORAGE_KEYS } from 'services/Storage'
+import Storage, { STORAGE_PROVIDER, STORAGE_KEYS, BLACKLIST } from 'services/Storage'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as Logger from 'services/Logger'
 
@@ -67,7 +67,7 @@ describe('Storage service', () => {
     AsyncStorage.removeItem.mockResolvedValue(true)
     await Storage.clearAll()
 
-    const keys = Object.values(STORAGE_KEYS)
+    const keys = Object.values(STORAGE_KEYS).filter(item => !BLACKLIST.includes(item))
 
     keys.forEach((key, index) => {
       expect(AsyncStorage.removeItem).toHaveBeenNthCalledWith(index + 1, key)

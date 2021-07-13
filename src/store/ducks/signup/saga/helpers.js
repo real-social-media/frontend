@@ -1,3 +1,3 @@
-export function generateExpirationDate() {
-  return new Date().getTime() + 50 * 60 * 1000
+export function generateExpirationDate(seconds = 3000) {
+  return new Date().getTime() + seconds * 1000
 }

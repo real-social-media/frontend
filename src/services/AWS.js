@@ -3,6 +3,7 @@ import Auth from '@aws-amplify/auth'
 import Config from 'react-native-config'
 import * as Google from 'services/Google'
 import * as Apple from 'services/Apple'
+import * as Cognito from 'services/Cognito'
 import DeviceInfo from 'react-native-device-info'
 import { getReadableVersion } from 'services/OTA'
 
@@ -26,7 +27,7 @@ export const amplifyConfig = () => {
       refreshHandlers: {
         'google': Google.refresh,
         'appleid.apple.com': Apple.refresh,
-        // [`cognito-idp.${Config.AWS_COGNITO_REGION}.amazonaws.com/${Config.AWS_COGNITO_USER_POOL_ID}`]: console.log,
+        [`cognito-idp.${Config.AWS_COGNITO_REGION}.amazonaws.com/${Config.AWS_COGNITO_USER_POOL_ID}`]: Cognito.refresh,
       },
     },
     API: {
