@@ -42,7 +42,6 @@ const entitiesMergeActions = [
   entitiesActions.entitiesPostsMerge({ data }),
   entitiesActions.entitiesCommentsMerge({ data }),
   entitiesActions.entitiesUsersMerge({ data }),
-  entitiesActions.entitiesImagesMerge({ data }),
   entitiesActions.entitiesChatsMerge({ data }),
   entitiesActions.entitiesMessagesMerge({ data }),
 ]
@@ -75,7 +74,6 @@ describe('rootReducer', () => {
       posts: { ...data, updatedAt },
       comments: { ...data, updatedAt },
       users: { ...data, updatedAt },
-      images: { ...data, updatedAt },
       chats: { ...data, updatedAt },
       messages: { ...data, updatedAt },
     })
