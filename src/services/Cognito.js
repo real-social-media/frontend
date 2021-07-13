@@ -53,8 +53,6 @@ export const refresh = async () => {
   const identityId = getUsernameFromAccessToken(credentials.AccessToken).username
   const tokens = await authRefresh(identityId, credentials.RefreshToken)
 
-  console.log(321)
-
   return {
     token: tokens.IdToken,
     expires_at: tokens.ExpiresIn,
