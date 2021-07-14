@@ -27,6 +27,7 @@ export const removeItem = async (name) => {
 
 export const STORAGE_KEYS = {
   AUTH_APPLE: '@real:auth:apple',
+  AUTH_COGNITO: '@real:auth:cognito',
   SETTINGS_PHOTO_VALIDATION: '@real:settings:photoValidation',
   VERIFICATION_SCREEN: '@real:uploads:verificationScreen',
   APP_REDUCER: 'app',
@@ -39,8 +40,14 @@ export const STORAGE_KEYS = {
   CONTACTS_REDUCER: 'contacts',
 }
 
+export const BLACKLIST = [STORAGE_KEYS.AUTH_COGNITO]
+
 export const clearAll = async () => {
-  await Promise.all(Object.values(STORAGE_KEYS).map(removeItem))
+  await Promise.all(
+    Object.values(STORAGE_KEYS)
+      .filter(item => !BLACKLIST.includes(item))
+      .map(removeItem),
+  )
 }
 
 export const STORAGE_PROVIDER = AsyncStorage

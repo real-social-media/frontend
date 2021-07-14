@@ -7,6 +7,13 @@ import Config from 'react-native-config'
 import path from 'ramda/src/path'
 import { generateExpirationDate } from 'store/ducks/signup/saga/helpers'
 import authorize from 'store/ducks/auth/saga/authorize'
+import Storage, { STORAGE_KEYS } from 'services/Storage'
+
+export const persistCognitoCredentials = async (credentials) => {
+  if (!credentials || !credentials.RefreshToken) return
+  const parsed = JSON.stringify(credentials)
+  await Storage.setItem(STORAGE_KEYS.AUTH_COGNITO, parsed)
+}
 
 export const COGNITO_PROVIDER = `cognito-idp.${Config.AWS_COGNITO_REGION}.amazonaws.com/${Config.AWS_COGNITO_USER_POOL_ID}`
 
@@ -23,7 +30,8 @@ export function* handleAnonymousSignin() {
 
   if (!credentials.authenticated) {
     const tokens = yield call(createAnonymousUser)
-    const payload = { token: tokens.IdToken, expires_at: generateExpirationDate() }
+    const payload = { token: tokens.IdToken, expires_at: generateExpirationDate(tokens.ExpiresIn) }
+    yield call(persistCognitoCredentials, tokens)
 
     yield call([AwsAuth, 'federatedSignIn'], COGNITO_PROVIDER, payload, {})
   }
