@@ -11,3 +11,9 @@ import 'tests/mocks/logger'
 import 'tests/mocks/Analytics'
 
 jest.mock('react-native/Libraries/Animated/src/NativeAnimatedHelper')
+
+jest.mock('react-native/Libraries/Utilities/Platform', () => {
+  const Platform = jest.requireActual('react-native/Libraries/Utilities/Platform')
+  Platform.constants.reactNativeVersion = { major: 0, minor: '0.63.3', patch: 0 }
+  return Platform
+})
