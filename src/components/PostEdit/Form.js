@@ -19,10 +19,16 @@ import CollapsableComponent from 'templates/Collapsable'
 import { Text, Caption, Switch } from 'react-native-paper'
 import dayjs from 'dayjs'
 import { useHeader } from 'components/PostEdit/header'
+import FormKeywords from 'components/PostCreate/FormKeywords'
 import * as Validation from 'services/Validation'
 
 import { withTheme } from 'react-native-paper'
 import { withTranslation } from 'react-i18next'
+
+export const a11y = {
+  payment:'Toggle Payment per view',
+  keywords: 'Toggle Search Terms',
+}
 
 const formSchema = Yup.object().shape({
   text: Yup.string().nullable(),
@@ -58,6 +64,7 @@ const PostEditForm = ({
   albumsGet,
 }) => {
   const styling = styles(theme)
+
   const image = {
     url4k: values.uri,
     url64p: values.uri,
@@ -163,13 +170,25 @@ const PostEditForm = ({
         style={styling.input}
         title={t('Payment per view')}
         helper={t('Auto by default')}
-        accessibilityLabel={t('Toggle Payment per view')}
+        accessibilityLabel={a11y.payment}
       >
         <Field
           {...Validation.getInputTypeProps('payment')}
           name="payment"
           component={TextField}
           placeholder={t('$0-100 REAL coins')}
+        />
+      </CollapsableComponent>
+
+      <CollapsableComponent
+        style={styling.input}
+        title={t('Search Terms')}
+        helper={t('Add tags for search optimization')}
+        accessibilityLabel={a11y.keywords}
+      >
+        <FormKeywords
+          values={values}
+          setFieldValue={setFieldValue}
         />
       </CollapsableComponent>
 
@@ -230,6 +249,7 @@ export default withTranslation()(withTheme(({
       sharingDisabled: postsSingleGet.data.sharingDisabled,
       lifetime: getInitialLifetime(postsSingleGet.data.expiresAt),
       albumId: path(['album', 'albumId'])(postsSingleGet.data),
+      keywords: postsSingleGet.data.keywords,
     }}
     validationSchema={formSchema}
     onSubmit={postsEditRequest}
