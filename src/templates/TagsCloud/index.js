@@ -8,11 +8,11 @@ export const a11y = {
   deleteBtn: 'Delete Button',
 }
 
-const TagsCloud = ({ theme, options, onPress }) => {
+const TagsCloud = ({ accessibilityLabel, theme, options, onPress }) => {
   const styling = styles(theme)
 
   return (
-    <View style={styling.root}>
+    <View accessibilityLabel={accessibilityLabel} style={styling.root}>
       {options.map((option) => (
         <View key={option} style={styling.option} accessibilityLabel={a11y.option}>
           <Text style={styling.label}>#{option}</Text>
@@ -27,6 +27,7 @@ const TagsCloud = ({ theme, options, onPress }) => {
 
 TagsCloud.propTypes = {
   theme: PropTypes.any.isRequired,
+  accessibilityLabel: PropTypes.string,
   options: PropTypes.arrayOf(PropTypes.string),
   onPress: PropTypes.func,
 }
@@ -34,6 +35,7 @@ TagsCloud.propTypes = {
 TagsCloud.defaultProps = {
   options: [],
   onPress: () => {},
+  accessibilityLabel: null,
 }
 
 const styles = (theme) =>
