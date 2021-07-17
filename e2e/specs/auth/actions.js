@@ -19,7 +19,7 @@ export async function openSignInForm() {
 }
 
 export async function submitSignInForm(credentials) {
-  await typeText(AuthSigninEmail.form.username, credentials.email)
+  await typeText(AuthSigninEmail.form.email, credentials.email)
   await typeText(AuthSigninEmail.form.password, credentials.password)
   await tap(AuthSigninEmail.form.submitBtn)
 }

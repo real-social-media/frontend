@@ -13,7 +13,7 @@ import {
 
 async function getFields() {
   return {
-    email: element(by.id(AuthSigninEmail.form.username)),
+    email: element(by.id(AuthSigninEmail.form.email)),
     password: element(by.id(AuthSigninEmail.form.password)),
   }
 }
@@ -129,7 +129,7 @@ describe('Feature: Sign in', () => {
     })
 
     it('Then submit sign in form with right credentials', async () => {
-      await typeText(AuthSigninEmail.form.username, credentials.email)
+      await typeText(AuthSigninEmail.form.email, credentials.email)
       await typeText(AuthSigninEmail.form.password, credentials.password)
       await tap(AuthSigninEmail.form.submitBtn)
       await waitForElement(FeedScreen.root)
